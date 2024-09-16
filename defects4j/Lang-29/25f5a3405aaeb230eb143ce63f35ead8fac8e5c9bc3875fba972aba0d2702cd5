@@ -1,0 +1,7 @@
+{
+    "generation": "static int toJavaVersionInt(String version) {\n    if (version == null || version.isEmpty()) {\n        return 0;\n    }\n    // Extract version numbers\n    String[] components = version.split(\"\\\\D+\");\n    if (components.length == 0 || components[0].isEmpty()) {\n        return 0;\n    }\n    \n    try {\n        // Parse the major version\n        int major = Integer.parseInt(components[0]);\n        if (major == 1) {\n            // Java 1.x versions\n            int minor = components.length > 1 ? Integer.parseInt(components[1]) : 0;\n            int patch = components.length > 2 ? Integer.parseInt(components[2]) : 0;\n            return 100 + minor * 10 + patch;\n        } else {\n            // Java 9 and later\n            int minor = components.length > 1 ? Integer.parseInt(components[1]) : 0;\n            return major * 10 + minor;\n        }\n    } catch (NumberFormatException e) {\n        return 0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

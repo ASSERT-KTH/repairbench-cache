@@ -1,0 +1,7 @@
+{
+    "generation": "// Example of fixing the caching mechanism and superclass reference resolution\npublic class TypeFactory {\n\n    private final Map<Class<?>, JavaType> _typeCache = new ConcurrentHashMap<>();\n\n    public JavaType constructType(Class<?> clazz) {\n        // Check cache first\n        JavaType type = _typeCache.get(clazz);\n        if (type == null) {\n            // Construct with identified superclass handling\n            type = _constructType(clazz, null);\n            _typeCache.put(clazz, type);\n        }\n        return type;\n    }\n\n    private JavaType _constructType(Class<?> clazz, ObjectMapper mapper) {\n        // Construct type considering superclass for recursive types\n        if (clazz.getSuperclass() != null) {\n            JavaType superClass = constructType(clazz.getSuperclass());\n\n            if (superClass != null && superClass.isReferenceType()) {\n                superClass = new ResolvedRecursiveType(clazz, superClass);\n            }\n\n            return new SimpleType(clazz, superClass);\n        }\n        return new SimpleType(clazz);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

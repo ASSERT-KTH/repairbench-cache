@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    if (hasInlineDisplayStyle()) {\n        return false;\n    }\n    return tag.formatAsBlock() || out.outline();\n}\n\nprivate boolean hasInlineDisplayStyle() {\n    String style = attr(\"style\");\n    if (style == null || style.isEmpty()) {\n        return false;\n    }\n    // Parse the style attribute to check for 'display:inline'\n    String[] declarations = style.split(\";\");\n    for (String declaration : declarations) {\n        String[] parts = declaration.split(\":\");\n        if (parts.length == 2) {\n            String property = parts[0].trim().toLowerCase();\n            String value = parts[1].trim().toLowerCase();\n            if (property.equals(\"display\") && value.equals(\"inline\")) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

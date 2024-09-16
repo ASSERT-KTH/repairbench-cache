@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    char last = 0;\n    boolean inQuotes = false;\n    char quoteChar = 0;\n\n    do {\n        if (isEmpty()) break;\n        Character c = consume();\n        \n        // Toggle quotation state\n        if ((c == '\"' || c == '\\'') && last != ESC) {\n            if (inQuotes && c == quoteChar) {\n                inQuotes = false;\n                quoteChar = 0;\n            } else if (!inQuotes) {\n                inQuotes = true;\n                quoteChar = c;\n            }\n        }\n        \n        if (!inQuotes && (last == 0 || last != ESC)) {\n            if (c.equals(open)) {\n                depth++;\n                if (start == -1)\n                    start = pos - 1;\n            } else if (c.equals(close)) {\n                depth--;\n            }\n        }\n\n        if (depth > 0 && last != 0)\n            end = pos; // include the outer match pair in the return\n\n        last = c;\n    } while (depth > 0 || inQuotes); // Continue until depth is balanced and not inside quotes\n\n    return (end >= 0) ? queue.substring(start, end) : \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

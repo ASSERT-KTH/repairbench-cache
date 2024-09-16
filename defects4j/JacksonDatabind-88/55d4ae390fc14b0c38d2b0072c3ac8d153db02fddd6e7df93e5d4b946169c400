@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _typeFromId(String id, DatabindContext ctxt) throws IOException\n{\n    TypeFactory tf = ctxt.getTypeFactory();\n    JavaType baseType = _baseType;\n\n    if (id.indexOf('<') > 0) {\n        // Handle type with generics\n        JavaType t = tf.constructFromCanonical(id);\n        if (!t.isTypeOrSuperTypeOf(baseType.getRawClass())) {\n            throw new IllegalArgumentException(\"Invalid type id '\"+id+\"' (for id type 'Id.class'): not subtype of base type\");\n        }\n        return t;\n    }\n    \n    Class<?> cls;\n    try {\n        cls = tf.findClass(id);\n    } catch (ClassNotFoundException e) {\n        if (ctxt instanceof DeserializationContext) {\n            DeserializationContext dctxt = (DeserializationContext) ctxt;\n            return dctxt.handleUnknownTypeId(baseType, id, this, \"no such class found\");\n        }\n        return null;\n    } catch (Exception e) {\n        throw new IllegalArgumentException(\"Invalid type id '\"+id+\"' (for id type 'Id.class'): \"+e.getMessage(), e);\n    }\n\n    if (!baseType.getRawClass().isAssignableFrom(cls)) {\n        throw new IllegalArgumentException(\"Invalid type id '\"+id+\"' (for id type 'Id.class'): not subtype of base type\");\n    }\n\n    return tf.constructSpecializedType(baseType, cls);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

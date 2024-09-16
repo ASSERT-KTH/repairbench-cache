@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n\n    // Ensure that there's a sub-class relationship\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName() + \" not sub-type of \"\n                + _class.getName());\n    }\n\n    // Correctly re-resolve the bindings for the subclass\n    TypeBindings newBindings = _bindings;\n    if (_bindings != null && !_bindings.isEmpty()) {\n        newBindings = _bindings.withUnboundVariable(subclass);\n    }\n\n    return new SimpleType(subclass, newBindings, _superClass, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonTypeInfo;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;\nimport com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;\n\nimport java.io.IOException;\n\npublic class TestTypeFactoryWithRecursiveTypes {\n    static class Base {\n        public int base = 1;\n    }\n\n    static class Sub extends Base {\n        public int sub = 2;\n    }\n\n    private ObjectMapper objectMapper() {\n        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()\n            .allowIfSubType(Object.class)\n            .build();\n        return new ObjectMapper().activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

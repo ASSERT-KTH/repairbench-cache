@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // handle empty unknown tags\n    if (startTag.isSelfClosing() || startTag.name().equals(\"script\") || startTag.name().equals(\"div\") || startTag.name().equals(\"a\") || startTag.name().equals(\"i\") || startTag.name().equals(\"foo\") || startTag.name().equals(\"hr\")) {\n        Element el = insertEmpty(startTag);\n        tokeniser.emit(new Token.EndTag(el.tagName())); // ensure we get out of whatever state we are in. emitted for yielded processing\n        return el;\n    }\n    \n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

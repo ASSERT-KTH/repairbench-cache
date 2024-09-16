@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType getSuperClass() {\n    // Check if the super class is already resolved or not\n    if (_superClass == null && _class.getSuperclass() != null) {\n        _superClass = _typeFactory.constructType(_class.getSuperclass(), _bindings);\n    }\n    \n    // Ensure that the super class reference is a resolved recursive type if applicable\n    JavaType resolvedSuperClass = _superClass;\n    if (resolvedSuperClass instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType recursiveType = (ResolvedRecursiveType) resolvedSuperClass;\n        if (!recursiveType.hasSelfReference()) {\n            recursiveType.setSelfReference(this);\n        }\n    }\n    return resolvedSuperClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

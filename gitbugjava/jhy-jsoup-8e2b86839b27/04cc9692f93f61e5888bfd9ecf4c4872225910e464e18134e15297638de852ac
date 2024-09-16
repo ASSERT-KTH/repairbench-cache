@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    String style = this.attributes().get(\"style\");\n    if (style != null) {\n        // Simple parsing to check if 'display' is set\n        String[] declarations = style.split(\";\");\n        for (String decl : declarations) {\n            String[] kv = decl.trim().split(\":\");\n            if (kv.length == 2) {\n                String key = kv[0].trim();\n                String value = kv[1].trim();\n                if (key.equalsIgnoreCase(\"display\")) {\n                    if (\"inline\".equalsIgnoreCase(value)) {\n                        // If display is 'inline', do not format as block\n                        return false;\n                    } else if (\"block\".equalsIgnoreCase(value)) {\n                        // If display is 'block', format as block\n                        return true;\n                    }\n                }\n            }\n        }\n    }\n    // Original logic\n    return tag.formatAsBlock() || (parent() != null && parent().tag().formatAsBlock()) || out.outline();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

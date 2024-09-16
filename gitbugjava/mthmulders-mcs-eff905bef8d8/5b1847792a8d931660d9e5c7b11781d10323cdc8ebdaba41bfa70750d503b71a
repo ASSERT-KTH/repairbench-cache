@@ -1,0 +1,7 @@
+{
+    "generation": "private void printRow(final Help.TextTable table, final SearchResponse.Response.Doc doc) {\n    // Create StringBuilder to form GAV string\n    StringBuilder gav = new StringBuilder();\n\n    // Append parts of the GAV if they're not null\n    if (doc.groupId() != null) {\n        gav.append(doc.groupId());\n        gav.append(':');\n    }\n    if (doc.artifactId() != null) {\n        gav.append(doc.artifactId());\n    }\n    if (doc.version() != null) {\n        gav.append(':');\n        gav.append(doc.version());\n    }\n\n    // Format the lastUpdated timestamp\n    var lastUpdated = DATE_TIME_FORMATTER.format(\n            Instant.ofEpochMilli(doc.timestamp()).atZone(ZoneId.systemDefault())\n    );\n\n    // Add the GAV and lastUpdated to the table row\n    table.addRowValues(gav.toString(), lastUpdated);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

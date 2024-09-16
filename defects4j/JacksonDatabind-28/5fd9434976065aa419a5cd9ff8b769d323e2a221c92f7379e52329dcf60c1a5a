@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            // Check for START_OBJECT token and move to the first token inside the object\n            if (p.getCurrentToken() == JsonToken.START_OBJECT) {\n                p.nextToken();\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // Handle empty Object case where END_OBJECT is the token\n            if (p.getCurrentToken() == JsonToken.END_OBJECT) {\n                return ctxt.getNodeFactory().objectNode();\n            }\n            // Handle non-empty Object where FIELD_NAME is the token\n            if (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            throw ctxt.mappingException(ObjectNode.class);\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

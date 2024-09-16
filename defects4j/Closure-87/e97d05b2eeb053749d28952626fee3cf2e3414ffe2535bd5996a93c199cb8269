@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the node is a block with a single statement that is\n   *     an expression.\n   */\n  private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // Additional check to ensure the expression is not an EXPR_RESULT\n      // when the return value is used vs. when their return value is in\n      // an EXPR_RESULT. See:\n      // http://code.google.com/p/closure-compiler/issues/detail?id=291\n      if (maybeExpr.getType() != Token.EXPR_RESULT) {\n        return NodeUtil.isExpressionNode(maybeExpr);\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

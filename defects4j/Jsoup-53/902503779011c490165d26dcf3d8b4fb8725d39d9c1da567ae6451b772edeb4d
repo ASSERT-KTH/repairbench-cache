@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    char last = 0;\n    StringBuilder sb = new StringBuilder();\n\n    while (!isEmpty()) {\n        Character c = consume();\n        sb.append(c);\n\n        if (last != ESC && (last != '\\'' && last != '\\\"')) {\n            if (c.equals(open)) {\n                depth++;\n                if (start == -1) \n                    start = pos - 1; // adjust, as pos is incremented after consume\n            } else if (c.equals(close)) {\n                depth--;\n            }\n        }\n\n        if (depth == 0 && start != -1) {\n            return sb.substring(0, sb.length() - 1); // return, excluding the outer closing bracket\n        }\n\n        last = c;\n    }\n    return \"\"; // return empty if no balanced string was found\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

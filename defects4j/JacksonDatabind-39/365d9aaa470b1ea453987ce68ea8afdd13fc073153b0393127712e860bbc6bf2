@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonToken currentToken = p.getCurrentToken();\n    // Check if the current token is the start of an object\n    if (currentToken == JsonToken.START_OBJECT) {\n        while ((currentToken = p.nextToken()) != JsonToken.END_OBJECT) {\n            if (currentToken == JsonToken.FIELD_NAME) {\n                String fieldName = p.getCurrentName();\n                // Move to the value of the field\n                currentToken = p.nextToken();\n                // Skip children (if the value is nested)\n                p.skipChildren();\n            } else {\n                p.skipChildren();\n            }\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

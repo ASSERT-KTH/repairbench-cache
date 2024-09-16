@@ -1,0 +1,7 @@
+{
+    "generation": "private void decodeStatus(Position position, ByteBuf buf) {\n    int status = buf.readUnsignedByte();\n    position.set(Position.KEY_STATUS, status);\n\n    position.set(Position.KEY_IGNITION, BitUtil.check(status, 0));\n\n    if (BitUtil.check(status, 5)) {\n        position.set(Position.KEY_ALARM, Position.ALARM_SOS);\n    } else if (BitUtil.check(status, 2)) {\n        position.set(Position.KEY_ALARM, Position.ALARM_VIBRATION);\n    } else if (BitUtil.check(status, 6)) {\n        position.set(Position.KEY_ALARM, Position.ALARM_POWER_CUT);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

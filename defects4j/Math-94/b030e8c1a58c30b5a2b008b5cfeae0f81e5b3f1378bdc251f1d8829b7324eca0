@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n    // u and v are non-zero, make them positive\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n        u >>= 1;\n        v >>= 1;\n        k++; // cast out twos.\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least one is odd.\n    while ((u & 1) == 0) {  // u is even\n        u >>= 1;\n    }\n    while ((v & 1) == 0) {  // v is even\n        v >>= 1;\n    }\n    \n    // B3/B4. Reduce until v is zero\n    while (v != 0) {\n        if (v < u) { // swap u and v\n            int temp = v;\n            v = u;\n            u = temp;\n        }\n        v = (v - u);\n        v >>= 1;\n        while ((v & 1) == 0 && v != 0) {  // ensure v is odd\n            v >>= 1;\n        }\n    }\n\n    return u << k; // gcd is u * 2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

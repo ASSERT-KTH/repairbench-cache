@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if ((n.isCall() && NodeUtil.functionCallHasSideEffects(n)) ||\n            (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) ||\n            n.isDelprop() ||\n            n.isInc() ||\n            n.isDec()) {\n          return true;\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

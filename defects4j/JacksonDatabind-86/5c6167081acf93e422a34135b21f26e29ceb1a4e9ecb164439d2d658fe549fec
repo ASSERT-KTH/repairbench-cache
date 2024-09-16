@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType refine(Class<?> rawType, TypeBindings bindings,\n        JavaType superClass, JavaType[] superInterfaces) {\n    // Check if this is a recursive type by seeing if it is self-referential\n    if (this instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType resolvedType = (ResolvedRecursiveType) this;\n        if (!resolvedType.hasBindings()) {\n            resolvedType.setBindings(bindings);\n        }\n    }\n    // Attempt to refine the current type\n    JavaType refinedType = super.refine(rawType, bindings, superClass, superInterfaces);\n    if (refinedType == null) {\n        return this;\n    }\n    return refinedType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

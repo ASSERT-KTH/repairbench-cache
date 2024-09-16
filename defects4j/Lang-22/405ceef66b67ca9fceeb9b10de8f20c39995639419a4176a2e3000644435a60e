@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    if (u == 0) return Math.abs(v);\n    if (v == 0) return Math.abs(u);\n\n    // keep u and v negative to avoid overflow issues\n    if (u > 0) u = -u;\n    if (v > 0) v = -v;\n\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n\n    int t = u;\n    \n    do {\n        while ((t & 1) == 0) t /= 2;\n        \n        if (t > 0)\n            u = -t;\n        else\n            v = t;\n        \n        t = (v - u) / 2;\n    } while (t != 0);\n    \n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

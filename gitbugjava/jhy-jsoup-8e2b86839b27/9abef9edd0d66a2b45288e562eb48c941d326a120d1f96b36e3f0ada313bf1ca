@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    boolean formatAsBlock = tag.formatAsBlock();\n\n    // Check for inline styles that affect formatting\n    String style = attr(\"style\");\n    if (style != null && style.toLowerCase().contains(\"display:inline\")) {\n        formatAsBlock = false;\n    }\n\n    boolean parentFormatAsBlock = parent() != null && parent().tag().formatAsBlock();\n    if (parentFormatAsBlock) {\n        String parentStyle = parent().attr(\"style\");\n        if (parentStyle != null && parentStyle.toLowerCase().contains(\"display:inline\")) {\n            parentFormatAsBlock = false;\n        }\n    }\n\n    return formatAsBlock || parentFormatAsBlock || out.outline();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

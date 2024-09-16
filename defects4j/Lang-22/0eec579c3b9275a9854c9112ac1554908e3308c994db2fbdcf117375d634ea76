@@ -1,0 +1,7 @@
+{
+    "generation": "    private static int greatestCommonDivisor(int u, int v) {\n        if (u == 0 || v == 0) {\n            throw new ArithmeticException(\"Cannot calculate GCD of zero\");\n        }\n        \n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n            u >>>= 1;\n            v >>>= 1;\n            k++; // cast out twos.\n        }\n        \n        // B2. Initialize: u and v have been divided by 2^k and at least one is odd.\n        while ((u & 1) == 0) u >>>= 1; // make u odd\n\n        while (v != 0) {\n            while ((v & 1) == 0) v >>>= 1; // make v odd\n\n            // Swap so that u <= v\n            if (u > v) {\n                int temp = u;\n                u = v;\n                v = temp;\n            }\n\n            v = v - u; // v is now even, u is unchanged\n        }\n\n        return u << k; // gcd is u * 2^k\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

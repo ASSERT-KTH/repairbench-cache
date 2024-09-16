@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public void clear() {\n        // NOTE: Clear modifies the collection this map is based on,\n        //       but we have no guarantee that our prefix is still valid\n        //       after modification.  For example, calling clear will\n        //       cause this to be thrown:\n        //\n        //       PatriciaTrie<String, String> trie = new PatriciaTrie<String, String>();\n        //       trie.put(\"Anna\", \"Anna\");\n        //       trie.put(\"Anael\", \"Anael\");\n        //       SortedMap<String, String> map = trie.prefixMap(\"An\");\n        //       map.clear();\n        //       trie.put(\"Bob\", \"Bob\");\n        //       trie.keySet().iterator().next();\n        //\n        //       The prefixMap and the iterator in the above example\n        //       share the same PrefixNode.  The iterator is reset to\n        //       the root, since that is the safe thing to do, but the\n        //       prefixMap is not notified.  If the prefixMap is used,\n        //       this will result in an IllegalArgumentException.\n        //\n        //       Since there is no way to determine if the parent trie\n        //       has been modified, we simply clear this map and make\n        //       it invalid.\n        _prefix = null;\n        _root = null;\n        _original = null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

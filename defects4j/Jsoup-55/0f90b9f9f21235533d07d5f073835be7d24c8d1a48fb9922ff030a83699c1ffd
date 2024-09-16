@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            // Check if the last read character was '/' to handle self-closing correctly\n            if (t.isSelfClosingFlagAcknowledged()) {\n                t.tagPending.selfClosing = true;\n            }\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/':\n            // Set a flag to indicate self-closing if the next character is '>'\n            t.acknowledgeSelfClosingFlag();\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

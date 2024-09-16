@@ -1,0 +1,7 @@
+{
+    "generation": "private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {\n  Node nameNode = n.getFirstChild();\n  Node parent = n.getParent();\n  NameInformation ns = createNameInformation(t, nameNode);\n  if (ns != null) {\n    if (parent.isFor() && !NodeUtil.isForIn(parent)) {\n      if (parent.getFirstChild().getNext() != n) {\n        recordDepScope(recordNode, ns);\n      } else {\n        recordDepScope(nameNode, ns);\n      }\n    } else if (!isCallAssignment(n)) {\n      // Check if the assignment is a standalone call,\n      // in which case, avoid associating lhs with rhs.\n      recordDepScope(recordNode, ns);\n    } else {\n      // If the assignment is a call, directly record using the nameNode\n      recordDepScope(nameNode, ns);\n    }\n  }\n}\n\nprivate boolean isCallAssignment(Node assignmentNode) {\n  // Check if the node is an assignment with a call as its RHS\n  Node rhs = assignmentNode.getLastChild();\n  return rhs != null && rhs.isCall();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

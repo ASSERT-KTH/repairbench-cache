@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.HashMap;\nimport java.util.Map;\n\nimport com.fasterxml.jackson.databind.JavaType;\nimport com.fasterxml.jackson.databind.type.TypeBindings;\nimport com.fasterxml.jackson.databind.type.TypeFactory;\nimport com.fasterxml.jackson.databind.type.TypeModifier;\n\npublic class RecursiveTypeModifier extends TypeModifier\n{\n    @Override\n    public JavaType modifyType(JavaType type, JavaType contextType, TypeBindings bindings, TypeFactory typeFactory)\n    {\n        if (type.isTypeOrSubTypeOf(Base.class)) {\n            Map<String, JavaType> typeArgs = new HashMap<String, JavaType>();\n            typeArgs.put(\"T\", type);\n            return typeFactory.constructParametricType(Base.class, typeArgs);\n        }\n        return type;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

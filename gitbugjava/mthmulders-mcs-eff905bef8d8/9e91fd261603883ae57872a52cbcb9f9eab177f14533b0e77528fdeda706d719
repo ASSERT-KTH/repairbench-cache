@@ -1,0 +1,7 @@
+{
+    "generation": "private void printRow(final Help.TextTable table, final SearchResponse.Response.Doc doc) {\n    var lastUpdated = doc.timestamp() != null ? DATE_TIME_FORMATTER.format(\n            Instant.ofEpochMilli(doc.timestamp()).atZone(ZoneId.systemDefault())\n    ) : \"N/A\";\n\n    StringBuilder gav = new StringBuilder();\n    if (doc.groupId() != null) {\n        gav.append(doc.groupId());\n    }\n    if (doc.artifactId() != null) {\n        if (gav.length() > 0) gav.append(\":\");\n        gav.append(doc.artifactId());\n    }\n    if (doc.version() != null) {\n        if (gav.length() > 0) gav.append(\":\");\n        gav.append(doc.version());\n    }\n\n    table.addRowValues(doc.id(), lastUpdated, gav.toString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

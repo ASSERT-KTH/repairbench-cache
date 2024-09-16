@@ -1,0 +1,7 @@
+{
+    "generation": "static int toJavaVersionInt(String version) {\n    if (version == null || version.isEmpty()) {\n        return 0;\n    }\n\n    // Remove any non-numeric prefixes\n    int start = 0;\n    while (start < version.length() && !Character.isDigit(version.charAt(start))) {\n        start++;\n    }\n\n    // Parse the version components\n    String[] parts = version.substring(start).split(\"\\\\.\");\n    int major = parts.length > 0 ? parseInt(parts[0]) * 100 : 0;\n    int minor = parts.length > 1 ? parseInt(parts[1]) * 10 : 0;\n    int patch = parts.length > 2 ? parseInt(parts[2]) : 0;\n\n    return major + minor + patch;\n}\n\nprivate static int parseInt(String part) {\n    try {\n        return Integer.parseInt(part);\n    } catch (NumberFormatException e) {\n        return 0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

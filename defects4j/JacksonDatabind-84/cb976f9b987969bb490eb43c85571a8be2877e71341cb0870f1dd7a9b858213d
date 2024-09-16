@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonProperty;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.type.TypeFactory;\n\nclass Base {\n    @JsonProperty(\"base\")\n    private int base = 1;\n\n    public int getBase() {\n        return base;\n    }\n\n    public void setBase(int base) {\n        this.base = base;\n    }\n}\n\nclass Sub extends Base {\n    @JsonProperty(\"sub\")\n    private int sub = 2;\n\n    public int getSub() {\n        return sub;\n    }\n\n    public void setSub(int sub) {\n        this.sub = sub;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) throws IOException {\n        TypeFactory tf = TypeFactory.defaultInstance();\n        tf.constructType(Base.class);\n        tf.constructType(Sub.class);\n\n        Sub sub = new Sub();\n        ObjectMapper objectMapper = new ObjectMapper();\n        String serialized = objectMapper.writeValueAsString(sub);\n        System.out.println(serialized); // Should output: {\"base\":1,\"sub\":2}\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

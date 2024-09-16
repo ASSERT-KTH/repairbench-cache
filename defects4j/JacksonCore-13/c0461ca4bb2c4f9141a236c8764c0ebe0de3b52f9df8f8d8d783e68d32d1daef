@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _testFieldNameQuotingEnabled(JsonFactory f, boolean useBytes,\n            boolean useQuote, String exp) throws IOException\n    {\n        ByteArrayOutputStream bytes = new ByteArrayOutputStream();\n        JsonGenerator g;\n        if (useBytes) {\n            g = useQuote ? f.createGenerator(bytes, JsonEncoding.UTF8)\n                : f.createGenerator(bytes, JsonEncoding.UTF8)\n                .disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        } else {\n            g = useQuote ? f.createGenerator(new OutputStreamWriter(bytes, \"UTF-8\"))\n                : f.createGenerator(new OutputStreamWriter(bytes, \"UTF-8\"))\n                .disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        }\n        g.writeStartObject();\n        g.writeFieldName(\"foo\");\n        g.writeNumber(1);\n        g.writeEndObject();\n        g.close();\n        assertEquals(exp, bytes.toString(\"UTF-8\"));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

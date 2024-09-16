@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        if (n == null) {\n          return false;\n        }\n\n        // Check for side effects of function calls\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        // Check for side effects of new object constructions\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n        // Check for 'in' expressions which can have side effects\n        if (n.isIn()) {\n          return true;\n        }\n\n        // Recursively check child nodes, ignoring new CFG nodes\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

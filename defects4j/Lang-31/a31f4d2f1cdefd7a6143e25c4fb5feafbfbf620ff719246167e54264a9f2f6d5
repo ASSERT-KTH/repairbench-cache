@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (cs == null || searchChars == null) {\n        return false;\n    }\n    int csLength = cs.length();\n    int searchLength = searchChars.length;\n    int csOffset = 0;\n    \n    while (csOffset < csLength) {\n        final int codePoint = Character.codePointAt(cs, csOffset);\n        for (int j = 0; j < searchLength; j++) {\n            if (codePoint == searchChars[j] ||\n                (Character.isSupplementaryCodePoint(codePoint) && j + 1 < searchLength\n                    && codePoint == Character.toCodePoint(searchChars[j], searchChars[j + 1]))) {\n                return true;\n            }\n        }\n        csOffset += Character.charCount(codePoint);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

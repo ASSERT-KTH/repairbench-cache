@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addMethodMixIns(Class<?> targetClass, AnnotatedMethodMap methods,\n        Class<?> mixInCls, AnnotatedMethodMap mixIns)\n{\n    List<Class<?>> parents = new ArrayList<Class<?>>();\n    parents.add(mixInCls);\n    ClassUtil.findSuperTypes(mixInCls, targetClass, parents);\n\n    for (Class<?> mixin : parents) {\n        for (Method m : mixin.getDeclaredMethods()) {\n            if (!_isIncludableMemberMethod(m)) {\n                continue;\n            }\n\n            // Locate the corresponding method in the target class\n            Method targetMethod;\n            try {\n                targetMethod = targetClass.getDeclaredMethod(m.getName(), m.getParameterTypes());\n            } catch (NoSuchMethodException e) {\n                targetMethod = null;\n            }\n\n            AnnotatedMethod am = methods.find(targetMethod);\n\n            if (am != null) {\n                _addMixUnders(m, am);\n            } else {\n                // When not found, add the mixin method if it doesn't already exist\n                if (mixIns.find(m) == null) {\n                    mixIns.add(_constructMethod(m));\n                }\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  public static Try<Done> registerCallContext(\n      final ActorRef<CallContextProviderMessage> callContextProvider,\n      final String callContext,\n      final AriCommand ariCommand) {\n\n    if (!ariCommand.extractCommandType().isCreationCommand()) {\n      return Try.success(Done.done());\n    }\n\n    return ariCommand\n        .extractResourceRelations()\n        .find(AriResourceRelation::isCreated)\n        .map(\n            createdResource -> {\n              callContextProvider.tell(\n                  new RegisterCallContext(\n                      createdResource.getResource().getId(), callContext));\n              return Try.success(Done.done());\n            })\n        .orElse(Try.success(Done.done()));\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  private void removeUnreferencedFunctionArgs(Scope fnScope) {\n    Node function = fnScope.getRootNode();\n\n    Preconditions.checkState(function.isFunction());\n    if (NodeUtil.isGetOrSetKey(function.getParent())) {\n      return;\n    }\n\n    Node argList = getFunctionArgList(function);\n    \n    // Check if we can modify the callers based on the optimization mode\n    boolean modifyCallers = modifyCallSites \n        && callSiteOptimizer.canModifyCallers(function);\n\n    // In any case, remove unreferenced args from the end of the function declaration\n    Node lastArg;\n    while ((lastArg = argList.getLastChild()) != null) {\n      Var var = fnScope.getVar(lastArg.getString());\n      if (!referenced.contains(var)) {\n        argList.removeChild(lastArg);\n        compiler.reportCodeChange();\n      } else {\n        break;\n      }\n    }\n\n    // If allowed, try to further optimize call sites\n    if (modifyCallers) {\n      callSiteOptimizer.optimize(fnScope, referenced);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n        for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n            Object candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).getCandidate();\n            if (candidate != null) {\n                field.setAccessible(true);\n                try {\n                    field.set(fieldInstance, candidate);\n                } catch (IllegalAccessException e) {\n                    throw new RuntimeException(\"Failed to inject mock\", e);\n                }\n                return; // Exit after injecting mock to ensure it is only injected once in the best matching type\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @SuppressWarnings(\"unchecked\")\n    public static <T> T[] addAll(T[] array1, T... array2) {\n        if (array1 == null && array2 == null) {\n            return null;\n        }\n        if (array1 == null) {\n            return clone(array2);\n        }\n        if (array2 == null) {\n            return clone(array1);\n        }\n        \n        // Determine common supertype\n        Class<?> type1 = array1.getClass().getComponentType();\n        Class<?> type2 = array2.getClass().getComponentType();\n        Class<?> commonType = type1.isAssignableFrom(type2) ? type1 : type2;\n\n        // Create a new array with the common supertype\n        T[] joinedArray = (T[]) Array.newInstance(commonType, array1.length + array2.length);\n        \n        // Copy elements from both arrays\n        System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n        \n        return joinedArray;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

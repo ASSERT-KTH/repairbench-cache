@@ -1,0 +1,7 @@
+{
+    "generation": "    private static int greatestCommonDivisor(int u, int v) {\n        // Handle edge cases where u or v are zero\n        if (u == 0) return Math.abs(v);\n        if (v == 0) return Math.abs(u);\n        \n        // Get absolute values as gcd is always positive\n        u = Math.abs(u);\n        v = Math.abs(v);\n        \n        // Edge case: either operand is abs 1, return 1:\n        if (u <= 1 || v <= 1) {\n            return 1;\n        }\n\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n            u /= 2;\n            v /= 2;\n            k++; // cast out twos.\n        }\n\n        // B2. Initialize: u and v have been divided by 2^k and at least\n        //     one is odd.\n        while ((u & 1) == 0) {\n            u /= 2; // u is even\n        }\n        // From here on, u is always odd.\n\n        do {\n            while ((v & 1) == 0) { // remove all factors of 2 in v\n                v /= 2;\n            }\n            // Now u and v are both odd. Swap if necessary so u <= v,\n            // then set v = v - u (which is even).\n            if (u > v) {\n                int temp = u;\n                u = v;\n                v = temp;\n            }\n            v -= u; // Here v >= u\n        } while (v != 0);\n\n        // u is now the gcd, return it multiplied by the factor 2^k\n        return u << k;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

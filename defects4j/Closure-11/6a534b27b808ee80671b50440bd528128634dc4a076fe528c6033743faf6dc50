@@ -1,0 +1,7 @@
+{
+    "generation": "  private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n    Node property = n.getLastChild();\n    Node objNode = n.getFirstChild();\n    JSType childType = getJSType(objNode);\n\n    if (childType == null || childType.isDict()) {\n      report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", childType == null ? \"null\" : \"dict\");\n    } else if (n.getJSType() != null && parent.isAssign()) {\n      return;\n    } else if (validator.expectNotNullOrUndefined(t, n, childType,\n        \"No properties on this expression\", getNativeType(OBJECT_TYPE))) {\n      if (!childType.hasProperty(property.getString())) {\n        report(t, property, TypeValidator.UNKNOWN_PROPERTY, property.getString());\n      } else {\n        checkPropertyAccess(childType, property.getString(), t, n);\n      }\n    }\n    ensureTyped(t, n);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

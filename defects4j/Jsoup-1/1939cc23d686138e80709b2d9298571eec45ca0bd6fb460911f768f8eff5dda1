@@ -1,0 +1,7 @@
+{
+    "generation": "    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        TextNode previousTextNode = null;\n        \n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank()) {\n                    if (previousTextNode != null) {\n                        previousTextNode.append(tn.getWholeText());\n                        tn.remove(); // Remove the current node as its text has been appended\n                    } else {\n                        previousTextNode = tn;\n                    }\n                }\n            } else {\n                if (previousTextNode != null && !previousTextNode.isBlank()) {\n                    toMove.add(previousTextNode);\n                    previousTextNode = null;\n                }\n                toMove.add(node);\n            }\n        }\n        \n        if (previousTextNode != null && !previousTextNode.isBlank()) {\n            toMove.add(previousTextNode);\n        }\n        \n        element.empty(); // clear the current children of the element\n        for (Node node: toMove) {\n            element.appendChild(node);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

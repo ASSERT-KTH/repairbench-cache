@@ -1,0 +1,7 @@
+{
+    "generation": "private void traverse(Node node) {\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    Set<Node> visitedNodes = new HashSet<>();\n    LinkedList<Node> stack = new LinkedList<>();\n    stack.push(node);\n\n    while (!stack.isEmpty()) {\n      Node currentNode = stack.pop();\n\n      // Skip nodes that are already visited unless we need to retraverse\n      if (!visitedNodes.add(currentNode) && !shouldRetraverse(currentNode)) {\n        continue;\n      }\n\n      Node child = currentNode.getFirstChild();\n      while (child != null) {\n        stack.push(child);\n        child = child.getNext();\n      }\n\n      visit(currentNode);\n      visitedNodes.add(currentNode);\n\n      Preconditions.checkState(visitedNodes.size() < 10000, \"too many iterations\");\n    }\n\n    exitNode(node);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

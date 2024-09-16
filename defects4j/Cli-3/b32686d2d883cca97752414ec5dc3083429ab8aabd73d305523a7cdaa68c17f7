@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Create a number from a String. If a . is present, it creates a \n     *    Double, otherwise a Long. </p>\n     *\n     * @param str the value\n     * @return the number represented by <code>str</code>, if <code>str</code>\n     * is not a number, null is returned.\n     */\n    public static Number createNumber(String str) {\n        try {\n            // First, try to parse as a Double directly to account for floating-point values\n            Double numberAsDouble = Double.valueOf(str);\n            if (numberAsDouble.isInfinite() || numberAsDouble.isNaN()) {\n                return null;\n            }\n            // If the Double value happens to be a whole number, return it as a Long if it's within the Long range.\n            if (numberAsDouble == numberAsDouble.longValue() && numberAsDouble <= Long.MAX_VALUE && numberAsDouble >= Long.MIN_VALUE) {\n                return numberAsDouble.longValue();\n            }\n            return numberAsDouble;\n        } catch (NumberFormatException nfe) {\n            // Print the exception message and return null if parsing fails\n            System.err.println(nfe.getMessage());\n            return null;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

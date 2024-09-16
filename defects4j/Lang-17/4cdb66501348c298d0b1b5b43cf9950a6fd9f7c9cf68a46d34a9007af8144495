@@ -1,0 +1,7 @@
+{
+    "generation": "    public final void translate(CharSequence input, Writer out) throws IOException {\n        if (out == null) {\n            throw new IllegalArgumentException(\"The Writer must not be null\");\n        }\n        if (input == null) {\n            return;\n        }\n        int pos = 0;\n        int len = input.length(); // Changed from codePointCount to length\n        while (pos < len) {\n            int consumed = translate(input, pos, out);\n            if (consumed == 0) {\n                int cp = Character.codePointAt(input, pos);\n                if (Character.isSupplementaryCodePoint(cp)) {\n                    char[] c = Character.toChars(cp);\n                    out.write(c, 0, c.length);\n                    pos += c.length;\n                } else {\n                    out.write(cp);\n                    pos++;\n                }\n            } else {\n                // contract with translators is that they have to understand codepoints \n                // and they just took care of a surrogate pair\n                int codePoints = Character.codePointCount(input, pos, pos + consumed);\n                pos += codePoints; // Changed from character count to codePoint count\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.Connection;\nimport org.jsoup.nodes.Element;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class FormElement {\n    /**\n     * Get the list of key-value pairs that are associated with this form.\n     * @return list of key-value pairs\n     */\n    public List<Connection.KeyVal> formData() {\n        ArrayList<Connection.KeyVal> data = new ArrayList<>();\n\n        // iterate the form control elements and accumulate their values\n        for (Element el : select(\"input[type=text], input[type=password], input[type=hidden], input[type=radio]:checked, input[type=checkbox]:checked, select, textarea\")) {\n            if (el.hasAttr(\"name\")) {\n                String name = el.attr(\"name\");\n                String value = el.attr(\"value\");\n                if (name.length() > 0) {\n                    data.add(new Connection.KeyVal(name, value));\n                }\n            }\n        }\n\n        for (Element el : select(\"input[type=radio], input[type=checkbox]\")) {\n            if (el.hasAttr(\"name\") && el.hasAttr(\"value\")) {\n                String name = el.attr(\"name\");\n                String value = el.attr(\"value\");\n                if (name.length() > 0 && !value.isEmpty()) {\n                    data.add(new Connection.KeyVal(name, value));\n                }\n            }\n        }\n        return data;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

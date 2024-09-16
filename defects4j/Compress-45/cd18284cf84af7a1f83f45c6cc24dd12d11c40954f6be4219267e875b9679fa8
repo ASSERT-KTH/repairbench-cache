@@ -1,0 +1,7 @@
+{
+    "generation": "    public static int formatLongOctalOrBinaryBytes(\n        final long value, final byte[] buf, final int offset, final int length) {\n\n        final long maxAsOctalChar = length == TarConstants.UIDLEN ? TarConstants.MAXID : TarConstants.MAXSIZE;\n\n        final boolean negative = value < 0;\n        if (!negative && value <= maxAsOctalChar) { // OK to store as octal chars\n            return formatLongOctalBytes(value, buf, offset, length);\n        }\n\n        if (length < 9) {\n            if (!negative && (value >> (3 * (length - 1))) != 0) {\n                throw new IllegalArgumentException(\"Value \" + value + \" is too large for \" + length + \" byte field.\");\n            }\n            formatLongBinary(value, buf, offset, length, negative);\n        } else {\n            formatBigIntegerBinary(value, buf, offset, length, negative);\n        }\n\n        buf[offset] = (byte) (negative ? 0xff : 0x80);\n        return offset + length;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

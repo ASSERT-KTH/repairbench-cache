@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.IOException;\n\nimport com.fasterxml.jackson.core.*;\n\npublic class TestJsonGeneratorFeatures extends com.fasterxml.jackson.core.BaseTest\n{\n    /*\n    /**********************************************************\n    /* Helper methods\n    /**********************************************************\n     */\n\n    private void _testFieldNameQuotingEnabled(JsonFactory f, boolean useBytes,\n            boolean useQuoting, String exp) throws IOException\n    {\n        JsonGenerator g = useBytes ? f.createGenerator(ObjectCodec.nopCodec(), _bytes(100))\n                : f.createGenerator(ObjectCodec.nopCodec(), _writer(100));\n        if (useQuoting) {\n            g.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        } else {\n            g.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        }\n        g.writeStartObject();\n        g.writeNumberField(\"foo\", 1);\n        g.writeEndObject();\n        g.close();\n\n        String json = useBytes ? _asString(_bytes(g)) : _asString(_writer(g));\n        assertEquals(exp, json);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

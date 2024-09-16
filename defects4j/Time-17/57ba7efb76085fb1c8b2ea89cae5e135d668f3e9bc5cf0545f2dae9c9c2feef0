@@ -1,0 +1,7 @@
+{
+    "generation": "    public long adjustOffset(long instant, boolean earlierOrLater) {\n        // evaluate 3 hours before and after to determine if an overlap occurs\n        long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n        long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n        if (instantBefore == instantAfter) {\n            return instant; // not an overlap (less than is a gap, equal is the normal case)\n        }\n        \n        // find the range of instants that have duplicate local times\n        long local = convertUTCToLocal(instant);\n        \n        // Determine which offset to apply based on the earlierOrLater flag\n        long earlierOffsetInstant = convertLocalToUTC(local, false, instantBefore);\n        long laterOffsetInstant = convertLocalToUTC(local, false, instantAfter);\n        \n        if (earlierOrLater) {\n            return laterOffsetInstant > instant ? laterOffsetInstant : earlierOffsetInstant;\n        } else {\n            return earlierOffsetInstant < instant ? earlierOffsetInstant : laterOffsetInstant;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

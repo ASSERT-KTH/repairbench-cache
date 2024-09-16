@@ -1,0 +1,7 @@
+{
+    "generation": "    protected RealPointValuePair getSolution() {\n        double[] coefficients = new double[getOriginalNumDecisionVariables()];\n        Integer basicRow;\n        double mostNegative = Double.POSITIVE_INFINITY;\n        \n        // Find the most negative entry if not restricting to non-negative\n        if (!restrictToNonNegative) {\n            for (int i = 0; i < coefficients.length; i++) {\n                basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n                if (basicRow != null) {\n                    double entry = getEntry(basicRow, getRhsOffset());\n                    if (entry < mostNegative) {\n                        mostNegative = entry;\n                    }\n                }\n            }\n            if (mostNegative == Double.POSITIVE_INFINITY) {\n                mostNegative = 0;\n            }\n        }\n        \n        for (int i = 0; i < coefficients.length; i++) {\n            basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n            if (basicRow != null) {\n                coefficients[i] = getEntry(basicRow, getRhsOffset());\n            } else {\n                coefficients[i] = 0;\n            }\n            coefficients[i] -= (restrictToNonNegative ? 0 : mostNegative);\n        }\n        \n        return new RealPointValuePair(coefficients, f.getValue(coefficients));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

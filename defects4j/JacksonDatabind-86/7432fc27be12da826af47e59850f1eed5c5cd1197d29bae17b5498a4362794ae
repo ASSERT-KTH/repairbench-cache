@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonTypeInfo;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.type.TypeFactory;\n\n// Assume Base and Sub classes already defined\npublic class Base {\n    public int base = 1;\n}\n\npublic class Sub extends Base {\n    public int sub = 2;\n}\n\npublic void initializeTypeHandling() {\n    ObjectMapper objectMapper = new ObjectMapper();\n    // Enable default typing to handle recursive types when serializing/deserializing\n    objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE, JsonTypeInfo.As.PROPERTY);\n\n    TypeFactory tf = objectMapper.getTypeFactory();\n    // Construct types in the correct order\n    tf.constructType(Base.class);\n    tf.constructType(Sub.class);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

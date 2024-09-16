@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonProperty;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.SerializationFeature;\n\nclass Base {\n    @JsonProperty(\"base\")\n    public int baseValue = 1;  // A property in the base class\n}\n\nclass Sub extends Base {\n    @JsonProperty(\"sub\")\n    public int subValue = 2;  // A property in the subclass\n}\n\npublic static void main(String[] args) throws Exception {\n    Sub sub = new Sub();\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);\n    String serialized = mapper.writeValueAsString(sub);\n    System.out.println(serialized);  // This should output: {\"base\":1,\"sub\":2}\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

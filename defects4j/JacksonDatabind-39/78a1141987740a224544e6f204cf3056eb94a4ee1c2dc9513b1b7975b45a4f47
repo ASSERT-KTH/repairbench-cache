@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    JsonNode node = p.getCodec().readTree(p);\n    // Assume that \"item\" or \"item2\" are the fields that may contain an unknown subtype\n    if (node.has(\"item\")) {\n        // Process the \"item\" field if needed\n        JsonNode itemNode = node.get(\"item\");\n        if (itemNode.has(\"type\") && \"xevent\".equals(itemNode.get(\"type\").asText())) {\n            // Known issue with unrecognized type, skip this field\n            return null;\n        }\n    }\n\n    if (node.has(\"item2\")) {\n        // Process the \"item2\" field and correctly handle the subtype\n        JsonNode item2Node = node.get(\"item2\");\n        // You may need additional logic here to instantiate the correct subtype based on \"type\"\n    }\n\n    // Fallback; allow handling of other fields\n    return p.getCodec().treeToValue(node, CallRecord.class);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

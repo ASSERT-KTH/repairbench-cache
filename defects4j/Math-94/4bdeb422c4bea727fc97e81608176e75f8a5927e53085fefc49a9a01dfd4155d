@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n    \n    if (u == Integer.MIN_VALUE || v == Integer.MIN_VALUE) {\n        throw new ArithmeticException(\"overflow: gcd is undefined for Integer.MIN_VALUE\");\n    }\n\n    // make u and v positive\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) { // while u and v are both even...\n        u >>= 1;\n        v >>= 1;\n        k++; // cast out twos.\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least one is odd.\n    while ((u & 1) == 0) {\n        u >>= 1; // divide u by 2 until odd\n    }\n    while ((v & 1) == 0) {\n        v >>= 1; // divide v by 2 until odd\n    }\n\n    // Handle special case when u is now 0\n    if (u == 0) {\n        return v * (1 << k);\n    }\n    if (v == 0) {\n        return u * (1 << k);\n    }\n\n    // u and v now both odd, implement gcd loop\n    do {\n        // ensure u <= v\n        if (u > v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n\n        // v = (v-u) / 2\n        v = (v - u) >> 1;\n\n    } while (v != 0);\n\n    return u * (1 << k); // gcd is u*2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "package com.fasterxml.jackson.databind.type;\n\nimport java.util.*;\n\nimport com.fasterxml.jackson.databind.*;\n\npublic class RecursiveTypeTest\n    extends BaseMapTest\n{\n    /*\n    /**********************************************************\n    /* Sample recursive types\n    /**********************************************************\n     */\n\n    static class Base {\n        public int value = 1;\n    }\n\n    static class Sub extends Base {\n        public int sub = 2;\n    }\n\n    /*\n    /**********************************************************\n    /* Unit tests\n    /**********************************************************\n     */\n\n    // for [databind#1647]\n    public void testSuperClassWithReferencedJavaType() {\n        TypeFactory tf = objectMapper().getTypeFactory();\n        tf.constructType(Base.class); // must be constructed before sub to set the cache correctly\n        JavaType subType = tf.constructType(Sub.class);\n        // baseTypeFromSub should be a ResolvedRecursiveType in this test\n        JavaType baseTypeFromSub = subType.getSuperClass();\n        assertNotNull(baseTypeFromSub.getSuperClass());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n    case Token.EXPR_RESULT: // Added case for expressions like goog.foo;\n      if (n.getFirstChild() != null && n.getFirstChild().isGetProp()) {\n        handlePropertyJSDoc(n.getFirstChild());\n      }\n      break;\n  }\n}\n\nprivate void handlePropertyJSDoc(Node getPropNode) {\n  JSDocInfo info = getPropNode.getJSDocInfo();\n  if (info != null && info.hasType()) {\n    String qualifiedName = getPropNode.getQualifiedName();\n    Var var = scope.getVar(qualifiedName);\n    if (var != null) {\n      var.setType(var.getType().toMaybeObjectType().getPropertyType(qualifiedName));\n    } else {\n      ObjectType objType = getPropNode.getFirstChild().getJSType().toMaybeObjectType();\n      if (objType != null) {\n        objType.defineDeclaredProperty(getPropNode.getLastChild().getString(), info.getType().evaluate(t.getTypedScope(), scope), getPropNode);\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

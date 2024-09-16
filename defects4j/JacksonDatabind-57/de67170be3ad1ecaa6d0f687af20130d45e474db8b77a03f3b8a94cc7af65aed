@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            // Ensure the byte segment passed is valid within the range\n            if (offset < 0 || length < 0 || offset + length > src.length) {\n                throw new IllegalArgumentException(\"Invalid offset or length for readValues\");\n            }\n            return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n        }\n        JsonParser parser = _parserFactory.createParser(src, offset, length);\n        return _bindAndReadValues(_considerFilter(parser, true));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

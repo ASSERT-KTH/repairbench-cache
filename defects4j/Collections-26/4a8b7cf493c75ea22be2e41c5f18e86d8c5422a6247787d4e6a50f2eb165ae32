@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Recalculate the hash code after deserialization. The hash code of some\n     * keys might have change (hash codes based on the system hash code are\n     * only stable for the same process).\n     * @return the instance with recalculated hash code\n     */\n    private Object readResolve() {\n        calculateHashCode(keys);\n        this.hashCode = calculateHashCode(keys);\n        return this;\n    }\n\n    /**\n     * Calculates the hash code for the given keys.\n     * \n     * @param keys the keys for which the hash code is to be calculated.\n     * @return the calculated hash code.\n     */\n    private int calculateHashCode(Object[] keys) {\n        int hash = 0;\n        if (keys != null) {\n            for (Object key : keys) {\n                hash ^= (key != null ? key.hashCode() : 0);\n            }\n        }\n        return hash;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

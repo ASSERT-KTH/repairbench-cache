@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.core.JsonFactory;\nimport com.fasterxml.jackson.core.JsonGenerator;\nimport java.io.IOException;\nimport java.io.StringWriter;\n\npublic String generateJson(JsonFactory factory, boolean useQuotes) throws IOException {\n    StringWriter writer = new StringWriter();\n    JsonGenerator generator = factory.createGenerator(writer);\n    \n    if (useQuotes) {\n        generator.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        generator.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n    \n    generator.writeStartObject();\n    generator.writeNumberField(\"foo\", 1);\n    generator.writeEndObject();\n    generator.close();\n    \n    return writer.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

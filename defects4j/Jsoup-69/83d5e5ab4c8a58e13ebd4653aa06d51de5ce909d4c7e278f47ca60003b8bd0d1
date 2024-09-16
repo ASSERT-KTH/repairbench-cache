@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements) {\n        if (el.tag().isFormSubmittable()) {\n            if (!el.hasAttr(\"disabled\")) { // Ensure element is not disabled\n                String name = el.attr(\"name\");\n                if (name.length() > 0) {\n                    String type = el.attr(\"type\");\n                    if (\"select\".equals(el.tagName())) {\n                        Elements options = el.select(\"option[selected]\");\n                        for (Element option : options) {\n                            data.add(HttpConnection.KeyVal.create(name, option.val()));\n                        }\n                    } else if (!(\"input\".equals(el.tagName()) && (type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\")) && !el.hasAttr(\"checked\"))) {\n                        data.add(HttpConnection.KeyVal.create(name, el.val()));\n                    }\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

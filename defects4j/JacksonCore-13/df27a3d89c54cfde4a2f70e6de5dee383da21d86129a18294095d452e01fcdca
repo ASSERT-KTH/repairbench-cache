@@ -1,0 +1,7 @@
+{
+    "generation": "public String writeJsonField(JsonFactory jsonFactory, boolean prettyPrint, Map<String, Object> data) throws IOException {\n    StringWriter writer = new StringWriter();\n    JsonGenerator jsonGenerator = jsonFactory.createGenerator(writer);\n    if (prettyPrint) {\n        jsonGenerator.useDefaultPrettyPrinter();\n    }\n    \n    jsonGenerator.writeStartObject();\n    for (Map.Entry<String, Object> entry : data.entrySet()) {\n        String fieldName = entry.getKey();\n        Object value = entry.getValue();\n        \n        // Determine if field name quoting is needed\n        if (jsonGenerator.isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n            jsonGenerator.writeFieldName(fieldName);\n        } else {\n            jsonGenerator.writeRaw(fieldName);\n            jsonGenerator.writeRaw(':');\n        }\n        \n        // Assuming value is a known type, for simplicity\n        if (value instanceof String) {\n            jsonGenerator.writeString((String) value);\n        } else if (value instanceof Integer) {\n            jsonGenerator.writeNumber((Integer) value);\n        }\n        // Handle other types as necessary\n    }\n    jsonGenerator.writeEndObject();\n    jsonGenerator.close();\n    \n    return writer.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

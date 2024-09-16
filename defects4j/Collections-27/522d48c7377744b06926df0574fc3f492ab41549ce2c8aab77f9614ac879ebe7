@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.*;\n\npublic class SerializationUtils {\n\n    private static final Set<Class<?>> ALLOWED_CLASSES = Set.of(\n        ArrayList.class,\n        HashMap.class,\n        // other allowed classes\n    );\n\n    public static Object deserialize(byte[] data) throws IOException, ClassNotFoundException {\n        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data)) {\n            @Override\n            protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {\n                Class<?> clazz = super.resolveClass(desc);\n                if (!ALLOWED_CLASSES.contains(clazz)) {\n                    throw new UnsupportedOperationException(\"Deserialization of this class is not permitted: \" + clazz.getName());\n                }\n                return clazz;\n            }\n        }) {\n            return ois.readObject();\n        }\n    }\n\n    // Serialization method (if needed for completeness, unchanged)\n    public static byte[] serialize(Object obj) throws IOException {\n        ByteArrayOutputStream bos = new ByteArrayOutputStream();\n        try (ObjectOutputStream out = new ObjectOutputStream(bos)) {\n            out.writeObject(obj);\n            out.flush();\n            return bos.toByteArray();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // Handle zero cases immediately\n    if (u == 0) return Math.abs(v);\n    if (v == 0) return Math.abs(u);\n\n    // From Commons Math:\n    // if either operand is abs 1, return 1:\n    if (Math.abs(u) <= 1 || Math.abs(v) <= 1) {\n        return 1;\n    }\n\n    // Keep u and v negative to handle MIN_VALUE\n    if (u > 0) {\n        u = -u; \n    }\n    if (v > 0) {\n        v = -v;\n    }\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n        u /= 2;\n        v /= 2;\n        k++; // cast out twos.\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least\n    // one is odd.\n    int t = ((u & 1) == 1) ? v : -(u / 2); // Initial t adjustment\n\n    do {\n        while ((t & 1) == 0) { // B4/B3: cast out twos from t.\n            t /= 2; // cast out twos\n        }\n        \n        // B5 [reset max(u, v)]\n        if (t > 0) {\n            u = -t; // If t is positive, assign -t to u (t replaces u).\n        } else {\n            v = t; // If t is negative, assign t to v (t replaces v).\n        }\n\n        // B6/B3. |u| larger: t positive (replace u)\n        // |v| larger: t negative (replace v)\n        t = (v - u) / 2;\n    } while (t != 0);\n\n    return -u * (1 << k); // gcd is u*2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

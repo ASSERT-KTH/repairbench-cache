@@ -1,0 +1,7 @@
+{
+    "generation": "public String html() {\n    StringBuilder accum = new StringBuilder();\n    NodeTraversor.traverse(new NodeVisitor() {\n        public void head(Node node, int depth) {\n            if (node instanceof Element) {\n                Element element = (Element) node;\n                accum.append(\"<\").append(element.tagName());\n                for (Attribute attribute : element.attributes()) {\n                    accum.append(\" \").append(attribute.getKey());\n                    if (!attribute.getValue().isEmpty()) {\n                        accum.append(\"=\\\"\").append(attribute.getValue()).append(\"\\\"\");\n                    }\n                }\n                accum.append(\">\");\n            } else if (node instanceof TextNode) {\n                TextNode textNode = (TextNode) node;\n                accum.append(textNode.getWholeText());\n            }\n        }\n        \n        public void tail(Node node, int depth) {\n            if (node instanceof Element) {\n                Element element = (Element) node;\n                accum.append(\"</\").append(element.tagName()).append(\">\");\n            }\n        }\n    }, this);\n    return accum.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

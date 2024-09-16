@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.core.JsonParser;\nimport com.fasterxml.jackson.databind.DeserializationContext;\nimport com.fasterxml.jackson.databind.JsonDeserializer;\n\nimport java.io.IOException;\n\npublic class EmptyToNullCoercionDeserializer<T> extends JsonDeserializer<T> {\n    private final Class<T> primitiveClass;\n    private final T defaultValue;\n\n    public EmptyToNullCoercionDeserializer(Class<T> primitiveClass, T defaultValue) {\n        this.primitiveClass = primitiveClass;\n        this.defaultValue = defaultValue;\n    }\n\n    @Override\n    public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n        String text = p.getText();\n        if (text == null || text.isEmpty()) {\n            return defaultValue;\n        }\n        // delegate to default deserialization for non-empty values\n        return ctxt.readValue(p, primitiveClass);\n    }\n}\n\n// Usage:\n\n// Register the custom deserializers\nObjectMapper mapper = new ObjectMapper();\nSimpleModule module = new SimpleModule()\n    .addDeserializer(int.class, new EmptyToNullCoercionDeserializer<>(int.class, 0))\n    .addDeserializer(long.class, new EmptyToNullCoercionDeserializer<>(long.class, 0L))\n    .addDeserializer(double.class, new EmptyToNullCoercionDeserializer<>(double.class, 0.0))\n    .addDeserializer(float.class, new EmptyToNullCoercionDeserializer<>(float.class, 0.0f));\n\nmapper.registerModule(module);\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

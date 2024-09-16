@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public final void serialize(JsonGenerator gen, SerializerProvider ctxt) throws IOException\n    {\n        if (_value == null) {\n            ctxt.defaultSerializeNull(gen);\n        } else if (_value instanceof JsonSerializable) {\n            ((JsonSerializable) _value).serialize(gen, ctxt);\n        } else {\n            Object attribute = ctxt.getAttribute(\"myAttr\");\n            if (attribute instanceof String) {\n                gen.writeStartObject();\n                gen.writeStringField(\"aStr\", \"The value is: \" + attribute + \"!\");\n                gen.writeEndObject();\n            } else {\n                gen.writeObject(_value); // Fallback if attribute is not present or not a String\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

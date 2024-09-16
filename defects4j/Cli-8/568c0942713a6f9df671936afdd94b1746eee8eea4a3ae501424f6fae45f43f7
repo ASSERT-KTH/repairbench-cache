@@ -1,0 +1,7 @@
+{
+    "generation": "    protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                             int nextLineTabStop, String text)\n    {\n        int offset = 0;\n        while (offset < text.length())\n        {\n            int pos = findWrapPos(text, width, offset);\n            if (pos == -1)\n            {\n                sb.append(rtrim(text.substring(offset)));\n                break;\n            }\n            sb.append(rtrim(text.substring(offset, pos))).append(defaultNewLine);\n            offset = pos;\n\n            // all following lines must be padded with nextLineTabStop space characters\n            final String padding = createPadding(nextLineTabStop);\n            while (offset < text.length() && Character.isWhitespace(text.charAt(offset))) {\n                offset++;\n            }\n            sb.append(padding);\n        }\n        return sb;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

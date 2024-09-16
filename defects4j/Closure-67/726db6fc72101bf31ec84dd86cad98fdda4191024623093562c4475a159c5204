@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP\n      ) {\n    boolean isChainedProperty =\n        n.getFirstChild().getType() == Token.GETPROP;\n\n    if (isChainedProperty) {\n      Node prototypeNode = n.getFirstChild().getNext();\n\n      // Fix: Check for chained assignment with embedded array access\n      if (prototypeNode.getType() == Token.STRING &&\n          prototypeNode.getString().equals(\"prototype\")) {\n\n        Node propertyNode = prototypeNode.getNext();\n\n        if (propertyNode != null && propertyNode.getType() == Token.STRING) {\n          return true;\n        }\n      }\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty()) {\n        throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n    }\n    \n    // Ensure there is a valid stream for the current entry even if it's an \"empty\" entry\n    for (InputStream stream : deferredBlockStreams) {\n        if (stream.available() > 0) {\n            return stream;\n        }\n    }\n    \n    // If all streams have been exhausted, it means current entry is empty\n    final InputStream currentStream = deferredBlockStreams.get(deferredBlockStreams.size() - 1);\n    return currentStream;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

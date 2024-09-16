@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/': // Modified to handle the case where a slash could start before an attribute name\n            t.tagPending.selfClosing = true;\n            t.transition(SelfClosingStartTag); // Transition to an appropriate state to handle attributes after a self-closing tag\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

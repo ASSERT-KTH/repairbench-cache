@@ -1,0 +1,7 @@
+{
+    "generation": "private VariableLiveness isVariableReadBeforeKill(\n      Node n, String variable) {\n    if (NodeUtil.isName(n) && variable.equals(n.getString())) {\n      if (NodeUtil.isLhs(n, n.getParent())) {\n        Node parent = n.getParent();\n        if (parent.isAssign() && parent.getFirstChild() == n) {\n          // The RHS of the assignment could potentially use the variable\n          VariableLiveness rightState = isVariableReadBeforeKill(parent.getLastChild(), variable);\n          if (rightState == VariableLiveness.READ) {\n            return VariableLiveness.READ;\n          }\n        }\n        return VariableLiveness.KILL;\n      } else {\n        return VariableLiveness.READ;\n      }\n    }\n\n    // Expressions are evaluated left-right, depth first.\n    for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n      if (!ControlFlowGraph.isEnteringNewCfgNode(child)) { // Not a FUNCTION\n        VariableLiveness state = isVariableReadBeforeKill(child, variable);\n        if (state != VariableLiveness.MAYBE_LIVE) {\n          return state;\n        }\n      }\n    }\n    return VariableLiveness.MAYBE_LIVE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a)\n{\n    String name = null;\n\n    JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n    if (jg != null) {\n        name = jg.value();\n    } else {\n        JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n        if (pann != null) {\n            name = pann.value();\n        }\n        if (name == null || name.isEmpty()) { // Fix: check if name is null or empty\n            JsonUnwrapped unw = _findAnnotation(a, JsonUnwrapped.class); // Check for JsonUnwrapped annotation\n            if (unw != null && unw.enabled()) {\n                return PropertyName.USE_DEFAULT; // Use default if JsonUnwrapped is present and enabled\n            }\n        }\n        /* Updated: Removed else if block where empty string was assigned. \n         * This allows the possibility of returning null if no relevant annotation found\n         */\n    }\n    return (name == null || name.isEmpty()) ? null : PropertyName.construct(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

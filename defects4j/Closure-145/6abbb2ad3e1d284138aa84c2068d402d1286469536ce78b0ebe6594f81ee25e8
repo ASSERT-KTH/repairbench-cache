@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the Node is a DO or FUNCTION (with or without\n   * labels), but only if it is the only child under its parent,\n   * or is directly within a labeled statement.\n   */\n  private boolean isOneExactlyFunctionOrDo(Node n) {\n      Node parent = n.getParent();\n      if (parent == null) {\n          return false;\n      }\n\n      // Check if this node is the only child in its parent or directly under a label\n      if (parent.getType() == Token.BLOCK || parent.getType() == Token.LABEL) {\n          if (parent.getChildCount() == 1) {\n              return (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n          }\n      } else if (parent.getType() == Token.LABEL) {\n          return (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n      }\n\n      return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

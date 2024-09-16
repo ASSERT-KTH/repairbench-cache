@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns true if this transaction is a Soroban transaction.\n *\n * @return true if this transaction is a Soroban transaction.\n */\npublic boolean isSorobanTransaction() {\n    TransactionEnvelope envelope = this.toEnvelopeXdr(AccountConverter.enableMuxed());\n    if (envelope == null || envelope.getDiscriminant() != EnvelopeType.ENVELOPE_TYPE_TX) {\n        return false;\n    }\n    TransactionV1Envelope v1Envelope = envelope.getV1();\n    if (v1Envelope == null) {\n        return false;\n    }\n    Transaction tx = v1Envelope.getTx();\n    if (tx == null) {\n        return false;\n    }\n    Transaction.TransactionExt ext = tx.getExt();\n    return ext != null && ext.getDiscriminant() == 3 && ext.getSorobanData() != null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

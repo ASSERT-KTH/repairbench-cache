@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0 && v == 0) {\n        return 0; // undefined case, considered as 0\n    }\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n\n    // Use the binary GCD algorithm\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    // B1. Find initial power of 2\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0) {\n        u >>= 1;\n        v >>= 1;\n        k++;\n    }\n\n    // B2. Initialize u\n    while ((u & 1) == 0) {\n        u >>= 1;\n    }\n\n    // B3/B4. Reduce both numbers\n    do {\n        while ((v & 1) == 0) { // Reduce v to an odd number\n            v >>= 1;\n        }\n\n        // B5. Replace larger number by the absolute difference\n        if (u > v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n\n        v -= u;\n\n    } while (v != 0);\n\n    // gcd is u * 2^k\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

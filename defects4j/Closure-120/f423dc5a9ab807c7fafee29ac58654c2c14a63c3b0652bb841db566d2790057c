@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * @return Whether the variable is only assigned a value once for its\n     *     lifetime.\n     */\n    boolean isAssignedOnceInLifetime() {\n      Reference ref = getOneAndOnlyAssignment();\n      if (ref == null) {\n        return false;\n      }\n\n      // Make sure this assignment is not in a loop and not after its declaration.\n      boolean assignmentFound = false;\n      for (BasicBlock block = ref.getBasicBlock();\n           block != null; block = block.getParent()) {\n        if (block.isFunction) {\n          break;\n        } else if (block.isLoop) {\n          return false;\n        }\n\n        // Check if assignment occurs after its declaration within the same block\n        if (!assignmentFound && block.contains(ref)) {\n          assignmentFound = true;\n          if (!block.isDeclaredBefore(ref)) {\n            return false;\n          }\n        }\n      }\n\n      return assignmentFound;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

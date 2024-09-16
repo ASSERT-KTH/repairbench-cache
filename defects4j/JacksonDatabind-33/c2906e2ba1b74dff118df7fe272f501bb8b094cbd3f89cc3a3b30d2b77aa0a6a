@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a)\n{\n    String name = null;\n\n    JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n    if (jg != null) {\n        name = jg.value();\n    } else {\n        JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n        if (pann != null) {\n            name = pann.value();\n        }\n    }\n\n    // Check for unwrapping behavior: If JsonUnwrapped is present, ignore name resolution\n    JsonUnwrapped unwrapped = _findAnnotation(a, JsonUnwrapped.class);\n    if (unwrapped != null && unwrapped.enabled()) {\n        return PropertyName.USE_DEFAULT;\n    }\n\n    if (name == null && (_hasAnnotation(a, JsonSerialize.class)\n            || _hasAnnotation(a, JsonView.class)\n            || _hasAnnotation(a, JsonRawValue.class))) {\n        name = \"\";\n    } else if (name == null) {\n        return null;\n    }\n    \n    return PropertyName.construct(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

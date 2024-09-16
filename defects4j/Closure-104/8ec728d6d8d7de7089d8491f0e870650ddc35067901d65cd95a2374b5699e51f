@@ -1,0 +1,7 @@
+{
+    "generation": "  JSType meet(JSType that) {\n    UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n    for (JSType alternate : alternates) {\n      if (alternate.isSubtype(that)) {\n        builder.addAlternate(alternate);\n      }\n    }\n\n    if (that instanceof UnionType) {\n      for (JSType otherAlternate : ((UnionType) that).alternates) {\n        if (otherAlternate.isSubtype(this)) {\n          builder.addAlternate(otherAlternate);\n        }\n      }\n    } else if (that.isSubtype(this)) {\n      builder.addAlternate(that);\n    }\n    JSType result = builder.build();\n    if (result != null) {\n      return result;\n    } else {\n      // If we get here, either one of the union types is empty\n      // (e.g. !this.isObject() || !that.isObject()) or their\n      // object types don't overlap (e.g.\n      // this = Function, that = String). Return the bottom type.\n      return getNativeType(JSTypeNative.NO_TYPE);\n    }\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

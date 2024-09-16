@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * {@inheritDoc}\n */\n@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    // TODO: Protect from ArrayIndexOutOfBounds\n    if (index + 1 < input.length() && input.charAt(index) == '&' && input.charAt(index + 1) == '#') {\n        int start = index + 2;\n        boolean isHex = false;\n\n        if (start < input.length() && (input.charAt(start) == 'x' || input.charAt(start) == 'X')) {\n            start++;\n            isHex = true;\n        }\n\n        int end = start;\n        while (end < input.length() && input.charAt(end) != ';') {\n            end++;\n        }\n\n        if (end >= input.length() || input.charAt(end) != ';') {\n            return 0; // Return if there is no valid ending semicolon\n        }\n\n        int entityValue;\n        try {\n            if (isHex) {\n                entityValue = Integer.parseInt(input.subSequence(start, end).toString(), 16);\n            } else {\n                entityValue = Integer.parseInt(input.subSequence(start, end).toString(), 10);\n            }\n        } catch (NumberFormatException nfe) {\n            return 0;\n        }\n\n        out.write(Character.toChars(entityValue)); // Use Character.toChars to handle supplementary characters\n        return 2 + (end - start) + (isHex ? 1 : 0) + 1;\n    }\n    return 0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}
