@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> cls, Object exp) throws Exception {\n    final String JSON = \"''\";\n    Object result;\n\n    // First: default settings, should fail\n    try {\n        result = objectMapper.readValue(JSON, cls);\n        fail(\"Should not have passed\");\n    } catch (JsonProcessingException e) {\n        verifyException(e, \"not allowed for\");\n    }\n\n    // and then with coercion enabled\n    objectMapper = objectMapperBuilder()\n        .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)\n        .build()\n        .readerFor(cls);\n\n    result = objectMapper.readValue(JSON);\n    if (exp == null) {\n        Assert.assertNull(result);\n    } else {\n        Assert.assertEquals(exp, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
