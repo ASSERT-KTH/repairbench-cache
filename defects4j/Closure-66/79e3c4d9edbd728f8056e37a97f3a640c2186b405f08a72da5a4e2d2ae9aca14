@@ -1,0 +1,7 @@
+{
+    "generation": "  public void visit(NodeTraversal t, Node n, Node parent) {\n    //... (other code remains the same)\n\n    case Token.OBJECTLIT:\n      // If this is an enum, then give that type to the objectlit as well.\n      if (parent.getJSType() instanceof EnumType) {\n        ensureTyped(t, n, parent.getJSType());\n      } else {\n        // Assume an object literal with only primitive values has a type that\n        // matches those values. This makes things like {TRUE: 1, FALSE: 0} fully\n        // typed.\n        boolean isFullyTyped = true;\n        for (Node child = n.getFirstChild(); child!= null; child = child.getNext()) {\n          Node value = child.getFirstChild();\n          JSType valueType = getJSType(value);\n          if (!valueType.isNumber() &&!valueType.isString() &&!valueType.isBoolean()) {\n            isFullyTyped = false;\n            break;\n          }\n        }\n        if (isFullyTyped) {\n          ensureTyped(t, n);\n        } else {\n          ensureTyped(t, n);\n        }\n      }\n      for (Node key : n.children()) {\n        visitObjLitKey(t, key, n);\n      }\n      break;\n\n    //... (other code remains the same)\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

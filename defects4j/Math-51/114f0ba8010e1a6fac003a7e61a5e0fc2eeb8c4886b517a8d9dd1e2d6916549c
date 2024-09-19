@@ -1,0 +1,7 @@
+{
+    "generation": "    protected final double doSolve() {\n        //...\n\n        while (true) {\n            //...\n\n            // Update the bounds with the new approximation.\n            if (f1 * fx < 0) {\n                x0 = x1;\n                f0 = f1;\n                inverted =!inverted;\n            } else {\n                // Make sure that f1 and f0 have the same sign\n                double ratio;\n                switch (method) {\n                case ILLINOIS:\n                    ratio = 0.5;\n                    break;\n                case PEGASUS:\n                    if (fx * f0 <= 0) {\n                        ratio = f1 / (f1 + fx);\n                    } else {\n                        ratio = (f0 - f1) / (2 * f1 - f0 - fx);\n                    }\n                    break;\n                    // Update formula cannot make any progress: Update the search interval\n                default:\n                    throw new MathInternalError(); // Should never happen.\n                }\n                f0 *= ratio;\n\n                if (ratio >= 0.5 || f1 * f1 >= (1 - std::pow(0.5, iterationCount)) / (machineEpsilon.getEpsilon())) {\n                    x1 = x0;\n                    f1 = f0;\n                }\n\n                ++iterationCount;\n            }\n\n            // Update from [x0, x1] to [x0, x].\n            x1 = x;\n            f1 = fx;\n\n            //...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

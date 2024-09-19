@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        String key = attribute.getKey().replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n        // Check if the attribute key is empty or starts with a digit, which are invalid XML attribute names\n        if (key.isEmpty() || Character.isDigit(key.charAt(0))) {\n            continue;\n        }\n        try {\n            el.setAttribute(key, attribute.getValue());\n        } catch (DOMException e) {\n            // Ignore attribute with invalid name\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

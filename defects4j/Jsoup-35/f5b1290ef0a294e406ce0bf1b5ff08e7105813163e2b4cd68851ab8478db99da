@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        //...\n        case EndTag:\n            Token.EndTag endTag = t.asEndTag();\n            String name = endTag.name();\n            //...\n            if (StringUtil.in(name, \"a\")) {\n                tb.processEndTag(name);\n            }\n            //...\n    }\n    return true;\n}\n\n// Add the following method to HtmlTreeBuilder class\nvoid processEndTag(String name) {\n    //...\n    if (StringUtil.in(name, \"a\")) {\n        Element current = getCurrentElement();\n        Element toClose = null;\n        while (current!= null) {\n            if (current.tagName().equals(name)) {\n                toClose = current;\n                break;\n            }\n            current = current.parent();\n        }\n        if (toClose!= null) {\n            // close all the intermediate tags\n            while (!currentElement().equals(toClose)) {\n                tb.popStackToClose(currentElement().tagName());\n            }\n            tb.popStackToClose(name);\n        }\n    }\n    //...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

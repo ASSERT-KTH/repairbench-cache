@@ -1,0 +1,7 @@
+{
+    "generation": "public String getDescription() {\n    if (_desc == null) {\n        StringBuilder sb = new StringBuilder();\n\n        if (_from == null) { \n            sb.append(\"UNKNOWN\");\n        } else {\n            Class<?> cls = (_from instanceof Class<?>)? (Class<?>)_from : _from.getClass();\n            String pkgName = com.fasterxml.jackson.databind.util.ClassUtil.getPackageName(cls);\n            if (pkgName!= null) {\n                sb.append(pkgName);\n                sb.append('.');\n            }\n            // Include the enclosing class name if the class is an inner class\n            String simpleName = cls.getSimpleName();\n            String enclosingName = getEnclosingName(cls);\n            if (enclosingName!= null) {\n                sb.append(enclosingName);\n                sb.append('$');\n            }\n            sb.append(simpleName);\n        }\n        sb.append('[');\n        if (_fieldName!= null) {\n            sb.append('\"');\n            sb.append(_fieldName);\n            sb.append('\"');\n        } else if (_index >= 0) {\n            sb.append(_index);\n        } else {\n            sb.append('?');\n        }\n        sb.append(']');\n        _desc = sb.toString();\n    }\n    return _desc;\n}\n\nprivate String getEnclosingName(Class<?> cls) {\n    if (cls.getEnclosingClass()!= null) {\n        return cls.getEnclosingClass().getName();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

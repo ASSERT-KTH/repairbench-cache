@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and store it in\n * numUseWithinUseCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName) &&\n         !(parent.isAssign() && parent.getFirstChild() == n) &&\n          // Check if the parent node is a hook or a conditional expression\n         !(parent.isHook() || parent.isConditional()) ||\n          // If it is a hook or a conditional expression, check if the variable is assigned inside it\n          (parent.isHook() || parent.isConditional()) &&!isAssignedInsideHookOrConditional(parent, n)) {\n        numUsesWithinCfgNode++;\n      }\n    }\n\n    // Helper function to check if the variable is assigned inside a hook or a conditional expression\n    private boolean isAssignedInsideHookOrConditional(Node parent, Node n) {\n      for (Node child = parent.getFirstChild(); child!= null; child = child.getNext()) {\n        if (child.isAssign() && child.getFirstChild() == n) {\n          return true;\n        }\n      }\n      return false;\n    }\n\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

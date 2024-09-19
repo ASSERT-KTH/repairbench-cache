@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void clear() {\n    // Traverse the trie and remove entries that match the prefix\n    Stack<TrieEntry<K, V>> stack = new Stack<>();\n    stack.push(root);\n    while (!stack.isEmpty()) {\n        TrieEntry<K, V> entry = stack.pop();\n        if (entry.isEndOfKey() && key.startsWith(prefix)) {\n            // Remove the entry from the trie\n            entry.setValue(null);\n            entry.setEndOfKey(false);\n        }\n        for (TrieEntry<K, V> child : entry.getChildren()) {\n            stack.push(child);\n        }\n    }\n    // Clear the map view\n    this.map.clear();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

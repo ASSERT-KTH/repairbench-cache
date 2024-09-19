@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Set the name of the entry.\n     * @param name the name to use\n     */\n    protected void setName(String name) {\n        // Some Zip-Files created on Windows-platform may contain\n        // a leading '/' if archived on drive root directory, as\n        // seen by WinZip.\n        name = name.replace('\\\\', '/');\n        \n        // The upper trick doesn't take effect, if the path didn't end with a slash/backslash!\n        if (!name.isEmpty() &&!name.endsWith(\"/\")) {\n            // This may incorrectly assume name is a Windows directory...\n            // Maybe correct heuristic would be that ZIP names ending with non empty string plus \"\\\" and with this \"\\\" being just last, not part of non ZIP separator path will likely \n            // match case (Windows) above or simply being non correct on most platforms. So don't consider that heuristic \n            name = name.replaceAll(\"[^/]+[/]+$\", \"\");\n        }\n\n        // Ensure name only ends in a '/' if the last character of\n        // the original was '/' - this handles '/' after last\n        // separator but not '/' due to dropping a trailing '' on DOS\n        this.name = name.endsWith(\"/\") || (name.length() == 0 &&!originalName.endsWith(\"/\")) \n                       ? name\n                        : name + '/';\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

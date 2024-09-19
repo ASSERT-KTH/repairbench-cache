@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void clear() {\n    if (this.key == null) {\n        super.clear();\n    } else {\n        SortedMap<K, V> map = this.temporaryMap.subMap(this.fromKey, this.toKey);\n        // Create a new temporary map and remove the elements one by one from the original map\n        SortedMap<K, V> newTemporaryMap = new TreeMap<>();\n        while (!map.isEmpty()) {\n            Map.Entry<K, V> entry = map.entrySet().iterator().next();\n            newTemporaryMap.put(entry.getKey(), entry.getValue());\n            this.map.remove(entry.getKey());\n        }\n        this.temporaryMap = newTemporaryMap;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

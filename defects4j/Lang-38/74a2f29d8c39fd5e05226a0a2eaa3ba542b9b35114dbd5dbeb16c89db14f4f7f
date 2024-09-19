@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Formats a <code>Calendar</code> object into the\n     * supplied <code>StringBuffer</code>.</p>\n     * \n     * @param calendar  the calendar to format\n     * @param buf  the buffer to format into\n     * @return the specified string buffer\n     */\n    public StringBuffer format(Calendar calendar, StringBuffer buf) {\n        Calendar cal;\n        if (mTimeZoneForced) {\n            cal = (Calendar) calendar.clone();\n            if (!cal.getTimeZone().equals(mTimeZone)) {\n                cal.setTimeZone(mTimeZone);\n                cal.getTime();\n                long offsetDiff = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET);\n                offsetDiff -= mTimeZone.getRawOffset() + mTimeZone.getDSTSavings();\n                cal.add(Calendar.MILLISECOND, -offsetDiff);\n            }\n        } else {\n            cal = calendar;\n        }\n        return applyRules(cal, buf);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public void clear() {\n    prefixMap.clear();\n    modCount++;\n    // Remove the keys from the key set\n    keySet.clear();\n    // Update the map so it knows we have cleared the view\n    updateMap();\n}\n\n// Assuming the prefixMap has an implementation like the one below\nprivate void updateMap() {\n    // Force a map update if our internal map reference is out of date\n    if (mapModCount!= keyMap.modCount) {\n        // Clear our mapping of keys to children nodes\n        prefixMapNodes.clear();\n        // Find all nodes matching the key prefix\n        key = keyMap.getKey(prefix); // Make sure to create a new prefix array on key change\n        lastKey = null; // prefix map keySet/entrySet iteration has been affected by map changes\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "//-----------------------------------------------------------------------\npublic int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    // month is largest field and being added to, such as month-day\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            if (i == 1 && values[i] > 28) {  // If the day of month is more than 28, \n                                            // then it might be last day of month \n                                            // so add value first then set the day \n                                            // to get correct result.\n                instant = partial.getFieldType(0).getField(iChronology).add(instant, values[0], valueToAdd);\n                instant = partial.getFieldType(1).getField(iChronology).set(instant, 1);\n                instant = iChronology.dayOfMonth().set(instant, iChronology.dayOfMonth().getMaximumValue(instant));\n            } else {\n                instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n            }\n        }\n        if (values[1] <= 28) {\n            instant = add(instant, valueToAdd);\n        }\n        return iChronology.get(partial, instant);\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

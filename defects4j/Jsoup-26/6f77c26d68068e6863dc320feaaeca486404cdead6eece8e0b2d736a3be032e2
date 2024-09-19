@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Creates a new, clean document, from the original dirty document, containing only elements allowed by the whitelist.\n * The original document is not modified. Only elements from the dirt document's <code>body</code> are used.\n * If the dirty document has a frameset, the returned document will have an empty body.\n * @param dirtyDocument Untrusted base document to clean.\n * @return cleaned document.\n */\npublic Document clean(Document dirtyDocument) {\n    Validate.notNull(dirtyDocument);\n\n    Document clean = Document.createShell(dirtyDocument.baseUri());\n    if (dirtyDocument.body().children().anyMatch(node -> node.tagName().equals(\"frameset\"))) {\n        // framesets are not allowed, return a clean document with an empty body\n        return clean;\n    } else {\n        copySafeNodes(dirtyDocument.body(), clean.body());\n    }\n\n    return clean;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

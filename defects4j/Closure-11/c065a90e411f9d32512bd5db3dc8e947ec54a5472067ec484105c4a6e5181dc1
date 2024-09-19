@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  // Lots of types can appear on the left, a call to a void function can\n  // never be on the left. getPropertyType will decide what is acceptable\n  // and what isn't.\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  validator.expectNotNullOrUndefined(\n      t, objNode, childType, \"No properties on this expression\", getNativeType(OBJECT_TYPE));\n\n  JSType propertyType =\n      getTypeFromType(t, property.getString(), childType.toString(), parent, n.getToken());\n\n  if (isPropertyDefinition(objNode.getToken(), parent.getToken())) {\n    updatePropertyTypeDeclaration(t, property.getString(), propertyType, childType);\n  }\n\n  t.setType(n, propertyType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

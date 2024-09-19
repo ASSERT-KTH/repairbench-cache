@@ -1,0 +1,7 @@
+{
+    "generation": "// Assuming the buggy function is the deserialize function in the MultiValueMap class\n\nprivate Object deserialize(byte[] bytes) throws Exception {\n    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));\n    try {\n        Object result = ois.readObject();\n        // Check if the deserialized object is an instance of the expected class\n        if (!(result instanceof MultiValueMap)) {\n            throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n        return result;\n    } finally {\n        ois.close();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

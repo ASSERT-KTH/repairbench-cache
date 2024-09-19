@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<String, V> prefixMap(final String prefix) {\n    if (prefix == null) {\n        throw new NullPointerException(\"prefix\");\n    }\n\n    return new PrefixMap<V>(prefix);\n}\n\n// Inner class implementing SortedMap interface\nprivate class PrefixMap<V> extends AbstractSortedMap<String, V> {\n\n    private final String prefix;\n\n    public PrefixMap(final String prefix) {\n        this.prefix = prefix;\n    }\n\n    // implement other methods...\n\n    @Override\n    public void clear() {\n        if (prefix == null || prefix.isEmpty()) {\n            throw new UnsupportedOperationException(\"Cannot clear the whole trie using prefixMap\");\n        }\n        // clear all entries from the trie with the given prefix\n        // iterate over entries and remove those with matching prefix\n        for (Iterator<Map.Entry<String, V>> it = PatriciaTrie.this.entrySet().iterator(); it.hasNext();) {\n            Map.Entry<String, V> entry = it.next();\n            if (entry.getKey().startsWith(prefix)) {\n                it.remove();\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

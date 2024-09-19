@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token\n */\nprivate boolean isShortOption(String token)\n{\n    // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n    // Don't remove the leading '-' if there is an '=' in the token\n    if (token.contains(\"=\")) {\n        return token.startsWith(\"-\") && options.hasShortOption(token.substring(1, 2));\n    } else {\n        String withoutLeadingMinus = token.startsWith(\"-\")? token.substring(1) : token;\n        return token.startsWith(\"-\") && (withoutLeadingMinus.length() == 1 ||!withoutLeadingMinus.matches(\"[0-9a-zA-Z-]{1}\\\\d.*\"));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

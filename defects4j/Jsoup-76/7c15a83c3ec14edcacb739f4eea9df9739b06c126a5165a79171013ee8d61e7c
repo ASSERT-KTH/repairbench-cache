@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // existing code...\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.normalName();\n            // existing code...\n\n            if (name.equals(\"pre\")) {\n                if (tb.inButtonScope(\"p\")) {\n                    tb.processEndTag(\"p\");\n                }\n                tb.insert(startTag);\n                // todo: If the next token is a U+000A LINE FEED (LF) character token, then ignore that token and move on to the next one. (Newlines at the start of pre elements are ignored as an authoring convenience.)\n                tb.expectNextTokenIsNewline(); // NEW LINE ADDED\n                tb.tokeniser.transition(TokeniserState.Pcdata);\n                tb.markInsertionMode();\n                tb.framesetOk(false);\n                tb.transition(Text);\n            }\n            // existing code...\n\n            break;\n        // existing code...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

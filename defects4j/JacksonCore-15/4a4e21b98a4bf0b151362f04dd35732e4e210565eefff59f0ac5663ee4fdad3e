@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonToken nextToken() throws IOException {\n    //... (unchanged code)\n\n    // Additional check for _allowMultipleMatches when returning a token\n    if (!_allowMultipleMatches && _exposedContext == null) {\n        JsonToken firstToken = _currToken;\n        while ((firstToken!= null) && firstToken.isStructStart()) {\n            firstToken = delegate.nextToken();\n        }\n        if (firstToken == JsonToken.END_ARRAY || firstToken == JsonToken.END_OBJECT) {\n            delegate.nextToken();\n        } else if (firstToken.isScalarValue()) {\n            TokenFilter f = _headContext.checkValue(_itemFilter);\n            if ((f == TokenFilter.INCLUDE_ALL)\n                    || ((f!= null) && f.includeValue(delegate))) {\n                // Okay, got the one included value, move forward.\n                delegate.nextToken();\n                // And try to position parser so we see FIELD_NAME or END_XXX;\n                // in both cases, we should return to parent context (after child)\n                JsonToken lastToken = delegate.getCurrentToken();\n                while ((lastToken!= null) && (lastToken!= JsonToken.END_ARRAY && lastToken!= JsonToken.END_OBJECT)) {\n                    lastToken = delegate.nextToken();\n                }\n            }\n        } else {\n            _updateTokenRead(_currToken);\n        }\n    }\n\n    return _currToken;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

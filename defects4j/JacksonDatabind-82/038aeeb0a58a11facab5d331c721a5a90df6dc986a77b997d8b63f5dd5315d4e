@@ -1,0 +1,7 @@
+{
+    "generation": "protected void addBeanProps(DeserializationContext ctxt,\n        BeanDescription beanDesc, BeanDeserializerBuilder builder)\n    throws JsonMappingException\n{\n    //... (unchanged code)\n\n    // Implicit ones via @JsonIgnore and equivalent?\n    if (anySetterMethod == null && anySetterField == null) {\n        Collection<String> ignored2 = beanDesc.getIgnoredPropertyNames();\n        if (ignored2!= null) {\n            for (String propName : ignored2) {\n                // allow ignoral of similarly named JSON property, but do not force;\n                // latter means NOT adding this to 'ignored':\n                builder.addIgnorable(propName);\n                // Fix: Do not ignore setter if only getter is ignored\n                BeanPropertyDefinition propDef = beanDesc.findProperty(propName);\n                if (propDef!= null && propDef.hasSetter() &&!propDef.hasGetter()) {\n                    builder.removeIgnorable(propName);\n                }\n            }\n        }\n    }\n\n    //... (unchanged code)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

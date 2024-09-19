@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"resource\")\nprotected Object deserializeUsingPropertyBasedWithUnwrapped(JsonParser p, DeserializationContext ctxt)\n    throws IOException\n{\n    final PropertyBasedCreator creator = _propertyBasedCreator;\n    PropertyValueBuffer buffer = creator.startBuilding(p, ctxt, _objectIdReader);\n\n    TokenBuffer tokens = new TokenBuffer(p, ctxt);\n    tokens.writeStartObject();\n\n    JsonToken t = p.getCurrentToken();\n    for (; t == JsonToken.FIELD_NAME; t = p.nextToken()) {\n        String propName = p.getCurrentName();\n        p.nextToken(); // to point to value\n        // creator property?\n        SettableBeanProperty creatorProp = creator.findCreatorProperty(propName);\n        if (creatorProp!= null) {\n            // Last creator property to set?\n            if (buffer.assignParameter(creatorProp,\n                    _deserializeWithErrorWrapping(p, ctxt, creatorProp))) {\n                // Skip one more token since there can be other tokens in buffer\n                if (p.nextToken()!= JsonToken.END_OBJECT) {\n                    t = JsonToken.FIELD_NAME;\n                    // don't break since there might be more stuff after the last creator\n                } else {\n                    p.clearCurrentToken(); // no more content here...\n                    break;\n                }\n            }\n            continue;\n        }\n        //... (rest of code unchanged)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

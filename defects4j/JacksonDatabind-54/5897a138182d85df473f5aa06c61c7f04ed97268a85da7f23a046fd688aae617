@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @param contentTypeSer Optional explicit type information serializer\n *    to use for contained values (only used for properties that are\n *    of container type)\n */\n@SuppressWarnings(\"deprecation\")\nprotected BeanPropertyWriter buildWriter(SerializerProvider prov,\n        BeanPropertyDefinition propDef, JavaType declaredType, JsonSerializer<?> ser,\n        TypeSerializer typeSer, TypeSerializer contentTypeSer,\n        AnnotatedMember am, boolean defaultUseStaticTyping)\n    throws JsonMappingException\n{\n    //... (unchanged code omitted)\n\n    // 12-Jul-2016, tatu: [databind#1256] Need to make sure we consider type refinement\n    JavaType actualType = (serializationType == null)? declaredType : serializationType;\n    \n    switch (inclusion) {\n    //... (unchanged code omitted)\n\n    case NON_ABSENT: // new with 2.6, to support Guava/JDK8 Optionals\n        // always suppress nulls\n        suppressNulls = true;\n        // and for referential types, also \"empty\", which in their case means \"absent\"\n        if (actualType.isReferenceType()) {\n            valueToSuppress = BeanPropertyWriter.MARKER_FOR_EMPTY;\n        }\n        break;\n\n    //... (unchanged code omitted)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

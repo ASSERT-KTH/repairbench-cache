@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    if (context == null) {\n        return _unknownType();\n    } else {\n        JavaType actualType = context.findType(name);\n        if (actualType!= null) {\n            return actualType;\n        }\n    }\n\n    // Resolve from upper bounds (can have multiple; retain that info)\n    Type[] bounds = type.getBounds();\n    JavaType[] types = new JavaType[bounds.length];\n    for (int i = 0; i < bounds.length; ++i) {\n        // First check the simple class name: since bounds may have resolved variable itself, or use\n        // more limited constructs.\n        JavaType tmp = context.findType(bounds[i]);\n        if (tmp == null) {\n            context._addPlaceholder(name);\n            tmp = _constructType(bounds[i], context);\n        }\n        types[i] = tmp;\n    }\n\n    return TypeBindings._anyListOf((type instanceof TypeVariable? bounds.length == 2 && \"java.util.AbstractMap\".equals(type.getDeclaringClass().getName()) && name.equals(\"V\") : true)? 2 : 0, types);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

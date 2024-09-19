@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) { \n        String data = comment.getData();\n        if (data.length() > 4 && data.startsWith(\"<?\")) { // More specific prefix for XML declarations\n            String decl = data.trim();\n            if (decl.endsWith(\"?>\")) { // Ensure the declaration has a closing '?>' tag\n                Document doc = Jsoup.parse(decl.substring(2, decl.length() -2), baseUri, Parser.xmlParser());\n                Element el = doc.child(0);\n                if (el!= null) {\n                    insert = new XmlDeclaration(settings.normalizeTag(el.tagName()), false);\n                    insert.attributes().addAll(el.attributes());\n                }\n            }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

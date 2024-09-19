@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    Elements elements = getElementsWithTag(\"input, select, textarea\");\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements) {\n        if (el.attr(\"disabled\").equals(\"disabled\") || el.parent().tag().equals(\"#root\"))\n            continue;\n\n        if (el.is(\"select\")) {\n            elements.addAll(el.children().tag(\"option\").select(Selectors.checkedOption));\n            continue;\n        }\n\n        if (el.is(\"input\") && el.hasAttr(\"type\") && el.attr(\"type\").toLowerCase().equals(\"radio\") ||\n                el.attr(\"type\").toLowerCase().equals(\"checkbox\")) {\n            if (!el.boolAttr(\"checked\"))\n                continue;\n        }\n\n        String key = el.hasAttr(\"name\")? el.attr(\"name\") : \"\";\n        String value = el.is(\"select\") || el.attr(\"type\").equals(\"password\") || el.attr(\"type\").equals(\"button\") ||\n                el.tag().getName().equals(\"textarea\")? el.ownText() : el.attr(\"value\");\n\n        if (!key.isEmpty() && key.equals(value) && (el.attr(\"type\").equals(\"image\") || el.attr(\"type\").equals(\"submit\"))) continue;\n\n        data.add(new Connection.KeyVal(key, value));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

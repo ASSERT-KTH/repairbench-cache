@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Encodes {@code value}.\n *\n * @param value a finite value. May not be {@link Double#isNaN() NaNs} or\n *     {@link Double#isInfinite() infinities}.\n * @return this writer.\n */\npublic JsonWriter value(double value) throws IOException {\n    writeDeferredName();\n    if (Double.isNaN(value) || Double.isInfinite(value)) {\n        if (!lenient) {\n            throw new IllegalArgumentException(\"Numeric values must be finite, but was \" + value);\n        } else {\n            String toString;\n            if (Double.isNaN(value)) {\n                toString = \"NaN\";\n            } else {\n                toString = (value == Double.NEGATIVE_INFINITY)? \"-Infinity\" : \"Infinity\";\n            }\n            beforeValue();\n            out.append(toString);\n            return this;\n        }\n    }\n    beforeValue();\n    out.append(Double.toString(value));\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

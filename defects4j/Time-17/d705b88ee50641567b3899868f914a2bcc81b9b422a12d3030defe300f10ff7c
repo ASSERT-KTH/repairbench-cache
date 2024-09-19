@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Adjusts the offset to be the earlier or later one during an overlap.\n     * \n     * @param instant  the instant to adjust\n     * @param earlierOrLater  false for earlier, true for later\n     * @return the adjusted instant millis\n     */\n    public long adjustOffset(long instant, boolean earlierOrLater) {\n        long local = convertUTCToLocal(instant);\n        long nextTransition = getNextTransition(instant);\n\n        if (nextTransition!= instant) {\n            if (earlierOrLater) {\n                // looking for later, and 'instant' is the later time, so we can leave 'instant' alone, since it already points\n                // to the expected one\n                return instant;\n            } else {\n                // looking for the earlier, which will mean it's at 'local'\n                return convertLocalToUTC(local, false);\n            }\n        } else {\n            long next = convertLocalToUTC(local, false);\n            return convertLocalToUTC(local, false, earlierOrLater? next : next + getStandardOffset(instant));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method called to figure out settable properties for the\n     * bean deserializer to use.\n     *<p>\n     * Note: designed to be overridable, and effort is made to keep interface\n     * similar between versions.\n     */\n    protected void addBeanProps(DeserializationContext ctxt,\n            BeanDescription beanDesc, BeanDeserializerBuilder builder)\n        throws JsonMappingException\n    {\n        //... (unchanged until here)\n\n        // Implicit ones via @JsonIgnore and equivalent?\n        if (anySetterMethod == null && anySetterField == null) {\n            Collection<String> ignored2 = beanDesc.getIgnoredPropertyNames();\n            if (ignored2!= null) {\n                for (String propName : ignored2) {\n                    // Only add ignored property if both getter and setter are ignored\n                    if (beanDesc.findProperty(propName).findGetter()!= null) {\n                        builder.addIgnorable(propName);\n                    }\n                }\n            }\n        }\n\n        //... (unchanged from here)\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

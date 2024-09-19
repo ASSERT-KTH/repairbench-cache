@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Encodes binary data using the base64 algorithm into 76 character blocks separated by CRLF.\n *\n * @param binaryData\n *            binary data to encode\n * @return String containing Base64 characters.\n * @since 1.4\n */\npublic static String encodeBase64String(byte[] binaryData) {\n    byte[] base64Data = encodeBase64(binaryData, true);\n    // Remove CRLF padding characters\n    int paddingSize = getPaddingSize(base64Data);\n    String base64String = StringUtils.newStringUtf8(base64Data, 0, base64Data.length - paddingSize);\n    return base64String;\n}\n\n// Assuming the presence of getPaddingSize method\n// Returns the size of CRLF padding (0 or 2 bytes)\nprivate static int getPaddingSize(byte[] base64Data) {\n    int size = base64Data.length;\n    return base64Data[size - 1] == '\\n' && base64Data[size - 2] == '\\r'? 2 : 0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    // Use the year of the instant to be modified to find the correct\n    // leap year or non leap year for the parsed February.\n    int year = instant.getYear();\n\n    // Reuse the current offset. The parsed instant can overwrite it.\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        0L, instant.getChronology(), iLocale, iPivotYear, year);\n    int newPos = parser.parseInto(bucket, text, position);\n    if (newPos < 0) {\n        // the instant may have been set, so return its initial state\n        long initialMilli = instant.getMillis();\n        Chronology chrono = instant.getChronology();\n        DateTimeZone iZone = instant.getZone();\n        // Restore.\n        instant.setMillis(initialMilli);\n        instant.setChronology(chrono);\n        instant.setZone(iZone);\n    } else {\n        instant.setMillis(bucket.computeMillis(true, text));\n        DateTimeZone parsedZone = bucket.getZone()!= null? bucket.getZone() : (bucket.getOffsetInteger()!= null? DateTimeZone.forOffsetMillis(bucket.getOffsetInteger()) : null);\n        instant.setChronology(instant.getChronology().withZone(parsedZone));\n        instant.setZone(parsedZone);\n    }\n\n    return newPos;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

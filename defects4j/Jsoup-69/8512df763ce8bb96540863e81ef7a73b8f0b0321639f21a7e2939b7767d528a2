@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements elements = select(\"input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=image]):not([type=reset]):not([type=button]), select, textarea\");\n    for (Element element : elements) {\n        if (!element.tag().getName().equals(\"select\") && element.attr(\"name\").isEmpty())\n            continue;\n        if (element.tag().getName().equals(\"select\") &&!element.attr(\"name\").isEmpty())\n            data.add(Connection.KeyVal.create(element.attr(\"name\"), element.children().stream()\n                   .filter(Element::hasAttr)\n                   .filter(child -> child.attr(\"selected\").equals(\"selected\"))\n                   .findFirst()\n                   .map(child -> child.attr(\"value\"))\n                   .orElse(\"\")));\n        else if (!element.attr(\"disabled\").equals(\"disabled\"))\n            data.add(Connection.KeyVal.create(element.attr(\"name\"), element.val()));\n    }\n    // Only add submit buttons' data when the submit button itself is clicked.\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

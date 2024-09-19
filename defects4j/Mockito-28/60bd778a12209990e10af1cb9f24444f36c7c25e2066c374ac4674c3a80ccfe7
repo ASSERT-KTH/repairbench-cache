@@ -1,0 +1,7 @@
+{
+    "generation": "    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n        for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n            mockCandidateFilter.filterCandidate(mocks.stream()\n                   .filter(mock -> field.getType().isAssignableFrom(mock.getClass()))\n                   .sorted((mock1, mock2) -> {\n                        if (field.getType().equals(mock1.getClass()) &&!field.getType().equals(mock2.getClass())) {\n                            return -1;\n                        } else if (!field.getType().equals(mock1.getClass()) && field.getType().equals(mock2.getClass())) {\n                            return 1;\n                        } else {\n                            return 0;\n                        }\n                    })\n                   .findFirst()\n                   .orElse(null), field, fieldInstance)\n                   .thenInject();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

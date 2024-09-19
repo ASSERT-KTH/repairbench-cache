@@ -1,0 +1,7 @@
+{
+    "generation": "public int parseInto(DateTimeParserBucket bucket, String text, int position) {\n    String str = text.substring(position);\n    for (String id : ALL_IDS) {\n        if (str.startsWith(id)) {\n            bucket.setZone(DateTimeZone.forID(id));\n            return position + id.length();\n        }\n    }\n    // Check if the text matches a zone ID with an underscore\n    for (String id : ALL_IDS) {\n        if (id.contains(\"_\")) {\n            String[] parts = id.split(\"_\");\n            if (str.startsWith(parts[0]) && str.length() > parts[0].length() + 1 && str.substring(parts[0].length()).startsWith(\"_\" + parts[1])) {\n                bucket.setZone(DateTimeZone.forID(id));\n                return position + id.length();\n            }\n        }\n    }\n    return ~position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

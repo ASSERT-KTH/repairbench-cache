@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // 29-Jan-2016, tatu: Simple skipping for all other tokens, but FIELD_NAME bit\n    //    special unfortunately\n    while (p.getCurrentToken()!= JsonToken.END_OBJECT) {\n        String fieldName = p.getCurrentName();\n        p.nextToken();\n        if (\"type\".equals(fieldName)) {\n            // Skip type field, we don't recognize the type\n            p.skipChildren();\n        } else {\n            // Skip other fields as well, to avoid UnrecognizedPropertyException\n            p.skipChildren();\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

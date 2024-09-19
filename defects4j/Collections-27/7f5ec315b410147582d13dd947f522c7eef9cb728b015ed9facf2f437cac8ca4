@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    valueListClass = (Class<? extends List>) in.readObject();\n    \n    // Check if valueListClass is a subtype of List\n    if (!List.class.isAssignableFrom(valueListClass)) {\n        throw new UnsupportedOperationException(\"Cannot deserialize MultiValueMap with clazz \" + valueListClass.getName() + \" because it does not implement the List interface\");\n    }\n    \n    if (CollectionUtils.isLazy(valueListClass)) {\n        throw new UnsupportedOperationException(\"Cannot deserialize MultiValueMap with lazy clazz\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

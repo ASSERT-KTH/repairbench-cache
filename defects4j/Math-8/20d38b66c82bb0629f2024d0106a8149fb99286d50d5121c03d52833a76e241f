@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n * positive.\n */\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                sampleSize);\n    }\n\n    // Get the common superclass of all singleton values\n    Class<?> superClass = null;\n    for (T singleton : singletons) {\n        if (superClass == null) {\n            superClass = singleton.getClass();\n        } else {\n            superClass = getCommonSuperclass(superClass, singleton.getClass());\n        }\n    }\n\n    // Create an array of the common superclass type\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(superClass, sampleSize);\n\n    for (int i = 0; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n\n    return out;\n}\n\n// Helper method to get the common superclass of two classes\nprivate Class<?> getCommonSuperclass(Class<?> class1, Class<?> class2) {\n    Class<?> superClass = class1.getSuperclass();\n    while (!superClass.isAssignableFrom(class2)) {\n        superClass = superClass.getSuperclass();\n    }\n    return superClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> scope) {\n  setResolvedTypeInternal(this);\n\n  call = (ArrowType) safeResolve(call, t, scope);\n  prototype = (FunctionPrototypeType) safeResolve(prototype, t, scope);\n\n  // If typeOfThis is not an object, it will be caught further upstream.\n  // If typeOfThis is a UnionType, and any alternative is not an ObjectType,\n  // that is also correct, so cast to whatever type it is supposed to be.\n  JSType resolvedTypeOfThis = safeResolve(typeOfThis, t, scope);\n  if (!(resolvedTypeOfThis instanceof ObjectType)\n      && resolvedTypeOfThis instanceof UnionType) {\n    resolvedTypeOfThis = ObjectType.fromUnion(safeResolve(typeOfThis, t, scope).toMaybeUnionType()).or(typeOfThis);\n  }\n  typeOfThis = resolvedTypeOfThis;\n\n  boolean changed = false;\n  ImmutableList.Builder<ObjectType> resolvedInterfaces =\n      ImmutableList.builder();\n  for (ObjectType iface : implementedInterfaces) {\n    ObjectType resolvedIface = (ObjectType) iface.resolve(t, scope);\n    resolvedInterfaces.add(resolvedIface);\n    changed |= (resolvedIface!= iface);\n  }\n  if (changed) {\n    implementedInterfaces = resolvedInterfaces.build();\n  }\n\n  if (subTypes!= null) {\n    for (int i = 0; i < subTypes.size(); i++) {\n      subTypes.set(i, (FunctionType) subTypes.get(i).resolve(t, scope));\n    }\n  }\n\n  return super.resolveInternal(t, scope);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

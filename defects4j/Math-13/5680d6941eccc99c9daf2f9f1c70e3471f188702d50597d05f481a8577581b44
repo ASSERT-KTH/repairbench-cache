@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // To mitigate the potential for memory errors, make a copy of the original matrix.\n    final RealMatrix copy = m.copy();\n    \n    final EigenDecomposition dec = new EigenDecomposition(copy);\n    \n    // Try to handle the out of memory exception gracefully by trying to\n    // run the garbage collector\n    try {\n        return dec.getSquareRoot();\n    } catch (OutOfMemoryError oome) {\n        // Attempt to handle the exception\n        copy = null;  // Clear any potentially held memory to help recovery\n        // Try and garbage collect aggressively to handle OOM situations\n        for (int i = 0; i < 5; i++) { \n            System.gc(); \n        }\n        \n        // Handle if even trying to clear and force recovery doesn't help - may be impossible \n        throw new MemoryError(oome);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

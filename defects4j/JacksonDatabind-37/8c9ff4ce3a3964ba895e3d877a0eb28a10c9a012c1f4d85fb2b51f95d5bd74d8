@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Should we check that there is a sub-class relationship?\n    // 15-Jan-2016, tatu: Almost yes, but there are some complications with\n    //    placeholder values, so no.\n    // However, we still need to re-resolve super class and interfaces\n    JavaType superClass = _superClass;\n    if (superClass!= null) {\n        superClass = superClass.narrowBy(subclass);\n    }\n    JavaType[] superInterfaces = _superInterfaces;\n    if (superInterfaces!= null) {\n        int len = superInterfaces.length;\n        JavaType[] newInterfaces = new JavaType[len];\n        for (int i = 0; i < len; ++i) {\n            newInterfaces[i] = superInterfaces[i].narrowBy(subclass);\n        }\n        superInterfaces = newInterfaces;\n    }\n    return new SimpleType(subclass, _bindings, superClass, superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

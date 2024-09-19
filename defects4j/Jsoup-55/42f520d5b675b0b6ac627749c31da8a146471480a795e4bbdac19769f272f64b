@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/':\n            // If the next character is one of [> \\ufeff] then ignore any characters before it\n            boolean reconsume = false;\n            char next = r.consume();\n            if (next == '>' || next == '\\ufeff') reconsume = true;\n            r.unconsume(next); // Revert consume\n            if (!reconsume) {\n                t.tagPending.appendAttributeName(Character.toString(c));\n                // We fall through to case default, but we unmark as reconsume by not adding a break for the next case\n                t.transition(BeforeAttributeName); \n            } else  break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            if (Character.isLetter(c)) {\n                t.pendingAttributeName.append(c);\n                t.transition(AttributeName); // AttributeName handles the switch for attributes\n            }\n            else {\n                t.unconsume(c);\n                break;\n            }\n    }\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

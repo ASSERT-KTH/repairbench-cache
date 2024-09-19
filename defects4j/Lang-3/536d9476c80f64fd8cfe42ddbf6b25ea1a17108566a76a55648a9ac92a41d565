@@ -1,0 +1,7 @@
+{
+    "generation": "public static Number createNumber(final String str) throws NumberFormatException {\n    //...\n\n    if (expPos > -1 && expPos < str.length() - 1) {\n        exp = str.substring(expPos + 1, str.length());\n    } else {\n        exp = null;\n    }\n    if (dec == null && exp == null) { // no decimal point and no exponent\n        //...\n    }\n\n    //Must be a Float, Double, BigDecimal\n    final boolean allZeros = isAllZeros(mant) && isAllZeros(exp);\n    if (dec!= null) {\n        try {\n            final Float f = createFloat(str);\n            final double df = f.doubleValue();\n            if (!(f.isInfinite() || (df == 0.0F &&!allZeros) || numDecimals > Float.toString(df).split(\"\\\\.\").length > 1? Float.toString(df).split(\"\\\\.\")[1].length() : 0)) {\n                return f;\n            }\n        } catch (final NumberFormatException nfe) { // NOPMD\n            // ignore the bad number\n        }\n        try {\n            final Double d = createDouble(str);\n            if (!(d.isInfinite() || (d.doubleValue() == 0.0D &&!allZeros) || numDecimals > Double.toString(d).split(\"\\\\.\").length > 1? Double.toString(d).split(\"\\\\.\")[1].length() : 0)) {\n                return d;\n            }\n        } catch (final NumberFormatException nfe) { // NOPMD\n            // ignore the bad number\n        }\n    }\n\n    return createBigDecimal(str);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        \n        long[] minInst = getOffsetInRange(durationField.getUnitMillis(), \n                                         partial.getFieldType(fieldIndex).getField(iChronology).getMinimumValue(), \n                                         partial, values, instant);\n        long[] maxInst = getOffsetInRange(durationField.getUnitMillis(), \n                                         partial.getFieldType(fieldIndex).getField(iChronology).getMaximumValue(), \n                                         partial, values, instant);\n        \n        instant = add(instant, valueToAdd);\n        if (instant < minInst[0]) {\n            return iChronology.get(partial, minInst[1]);\n        } else if (instant >= maxInst[0]) {\n            return iChronology.get(partial, maxInst[1]);\n        } else {\n            return iChronology.get(partial, instant);\n        }\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

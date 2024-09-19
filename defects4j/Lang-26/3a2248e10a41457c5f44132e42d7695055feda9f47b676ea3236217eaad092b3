@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Formats a <code>Date</code> object.</p>\n     * \n     * @param date  the date to format\n     * @return the formatted string\n     */\n    public String format(Date date) {\n        Calendar c = new GregorianCalendar(mTimeZone);\n        c.setTime(date);\n        \n        // We need to check if we're looking at the first week of the year, \n        // and adjust accordingly since Calendar.WEEK_OF_YEAR will return 1, not 52/53 like ISO 8601 wants.\n        if (c.get(Calendar.WEEK_OF_YEAR) == 1) {\n            c.add(Calendar.DATE, -7);\n            int lastYear = c.get(Calendar.YEAR);\n            c.add(Calendar.DATE, 7);\n            c.set(Calendar.YEAR, lastYear);\n        }\n        \n        return applyRules(c, new StringBuffer(mMaxLengthEstimate)).toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

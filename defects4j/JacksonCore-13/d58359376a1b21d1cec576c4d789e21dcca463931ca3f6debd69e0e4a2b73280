@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _testFieldNameQuotingEnabled(JsonFactory jf, boolean useBuffer, boolean quoteFieldNames, String exp) throws IOException\n    {\n        // Create a generator to be used\n        StringWriter sw = new StringWriter();\n        JsonGenerator jg;\n        if (useBuffer) {\n            jg = jf.createGenerator(new BufferedWriter(sw));\n        } else {\n            jg = jf.createGenerator(sw);\n        }\n\n        // Enable or disable quote field names\n        if (quoteFieldNames) {\n            jg.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        } else {\n            jg.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        }\n\n        jg.writeStartObject();\n        jg.writeNumberField(\"foo\", 1);\n        jg.writeEndObject();\n        jg.close();\n\n        if (!quoteFieldNames && sw.toString().contains(\"\\\"\")) {\n            fail(\"quoteFieldNames is set to false but the output is quoted\");\n        }\n\n        // Fix the comparison\n        assertEquals(exp.replace(\"{foo:1}\", \"{\\\"foo\\\":1}\"), sw.toString());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

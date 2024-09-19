@@ -1,0 +1,7 @@
+{
+    "generation": "    @SuppressWarnings(\"unchecked\")\n    public static <T> T[] addAll(T[] array1, T... array2) {\n        if (array1 == null) {\n            return clone(array2);\n        } else if (array2 == null) {\n            return clone(array1);\n        }\n        final Class<?> type1 = array1.getClass().getComponentType();\n        final Class<?> type2 = array2.getClass().getComponentType();\n        final Class<?> commonType = getCommonSuperclass(type1, type2);\n        T[] joinedArray = (T[]) Array.newInstance(commonType, array1.length + array2.length);\n        System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n        return joinedArray;\n    }\n\n    private static Class<?> getCommonSuperclass(Class<?> class1, Class<?> class2) {\n        Class<?> superclass = class1.getSuperclass();\n        while (superclass!= null) {\n            if (superclass.isAssignableFrom(class2)) {\n                return superclass;\n            }\n            superclass = superclass.getSuperclass();\n        }\n        throw new IllegalArgumentException(\"Cannot find common superclass of \" + class1 + \" and \" + class2);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

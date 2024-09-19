@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the Node is a DO or FUNCTION (with or without\n   * labels).\n   */\n  private boolean isOneExactlyFunctionOrDo(Node n) {\n      // For labels with block children, we need to ensure that a\n      // labeled FUNCTION or DO isn't generated when extraneous BLOCKs \n      // are skipped. \n      // Either an empty statement or a block with more than one child,\n      // it isn't a FUNCTION or DO. \n      // The added check for parent.isIf() ensures that if we're inside\n      // an if statement without curly braces, we correctly classify \n      // any single child of the IF that's a DO or FUNCTION as not \n      // needing curly braces.\n      return n.getParent().isIf()\n         ? false \n          : (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

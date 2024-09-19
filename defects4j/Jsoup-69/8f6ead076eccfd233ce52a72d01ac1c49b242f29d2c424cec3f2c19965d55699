@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    Elements els = select(\"input[name], textarea[name], select[name]\");\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : els) {\n        if (el.tagName().equals(\"input\") && el.attr(\"type\").toLowerCase().equals(\"submit\")) {\n            // Skip submit buttons, don't include them in form data\n            continue;\n        }\n        String key = el.attr(\"name\");\n        String value = el.attr(\"value\");\n        if (el.tagName().equals(\"textarea\"))\n            value = el.data();\n        else if (el.tagName().equals(\"select\"))\n            value = el.select(\"option[selected]\").attr(\"value\");\n\n        data.add(Connection.KeyVal.create(key, value));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

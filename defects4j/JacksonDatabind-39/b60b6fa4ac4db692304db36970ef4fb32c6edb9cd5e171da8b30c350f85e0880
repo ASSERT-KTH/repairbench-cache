@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Need to explicitly handle FIELD_NAME as 'skipChildren()' won't handle it properly\n    while (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n        String fieldName = p.getCurrentName();\n        p.nextToken(); // skip value\n        if (\"type\".equals(fieldName)) {\n            continue;\n        }\n        if (ctxt.isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)) {\n            ctxt.reportUnknownProperty(p, this, p.getCurrentName());\n        } else {\n            p.skipChildren();\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

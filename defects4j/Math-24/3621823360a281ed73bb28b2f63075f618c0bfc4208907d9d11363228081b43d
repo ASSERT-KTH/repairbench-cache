@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    @Override\n    protected UnivariatePointValuePair doOptimize() {\n        //...\n\n        UnivariatePointValuePair previous = null;\n        UnivariatePointValuePair current = new UnivariatePointValuePair(x, isMinim? fx : -fx);\n        UnivariatePointValuePair best = current;\n\n        int iter = 0;\n        while (true) {\n            //...\n\n            // User-defined convergence checker.\n            previous = current;\n            current = new UnivariatePointValuePair(u, isMinim? fu : -fu);\n\n            if ((isMinim && current.getValue() < best.getValue()) ||\n                (!isMinim && current.getValue() > best.getValue())) {\n                best = current;\n            }\n\n            if (checker!= null) {\n                if (checker.converged(iter, previous, current)) {\n                    return best;\n                }\n            }\n\n            //...\n\n            if (fu <= fx) {\n                //...\n            } else {\n                //...\n            }\n\n            if ((isMinim && fx <= best.getValue()) ||\n                (!isMinim && fx >= best.getValue())) {\n                best = new UnivariatePointValuePair(x, isMinim? fx : -fx);\n            }\n        }\n        //...\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

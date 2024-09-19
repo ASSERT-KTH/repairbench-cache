@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n * \n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = jp.getCurrentToken();\n    if (t == JsonToken.FIELD_NAME) {\n        // 28-Oct-2014, tatu: As per #592, need to fake START_OBJECT\n        copyCurrentStructure(jp);\n        _first = TokenBuffer.JObject(_objectCodec, _hasNativeIds, _hasNativeTypeIds);\n        if (_hasNativeTypeIds) {\n            _objectId = null;\n            _typeId = null;\n        }\n    } else {\n        copyCurrentStructure(jp);\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
