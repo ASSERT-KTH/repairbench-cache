@@ -1,0 +1,7 @@
+{
+    "generation": "private List<Position> decodeBinaryE(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    List<Position> positions = new LinkedList<>();\n\n    int index = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) ',');\n    if (index == -1) {\n        return null; // invalid data format\n    }\n    buf.skipBytes(index + 1);\n\n    String imei = buf.readSlice(15).toString(StandardCharsets.US_ASCII);\n    buf.skipBytes(3);\n\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    //... rest of your method remains the same",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

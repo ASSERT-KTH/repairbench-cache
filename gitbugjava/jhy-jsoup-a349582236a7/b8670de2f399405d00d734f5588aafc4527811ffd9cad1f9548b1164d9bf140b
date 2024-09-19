@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlineable(Document.OutputSettings out) {\n    return tag().isInline()\n        && (parent() == null || parent().isBlock())\n        &&!(previousSibling() instanceof TextNode) // Exclude empty text nodes\n        &&!out.outline()\n        &&!ancestorWithSameTagName(); // Don't allow nested A elements\n}\n\n// Check if there is an ancestor element with the same tag name\nprivate boolean ancestorWithSameTagName() {\n    Element element = this.parent();\n    while (element!= null) {\n        if (element.tag() == tag()) {\n            return true;\n        }\n        element = element.parent();\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

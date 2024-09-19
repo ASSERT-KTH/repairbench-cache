@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeExtended(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    //... existing code...\n\n    if (parser.matches()) {\n        position.setValid(true);\n        position.setLatitude(parser.nextCoordinate(Parser.CoordinateFormat.HEM_DEG));\n        position.setLongitude(parser.nextCoordinate(Parser.CoordinateFormat.HEM_DEG));\n        position.setCourse(parser.nextDouble());\n        position.setSpeed(parser.nextDouble());\n        position.setTime(parser.nextDateTime(Parser.DateTimeFormat.YMD_HMS));\n\n        // Fix: also set the fix time to the position\n        position.setFixTime(position.getTime());\n    } else {\n        getLastLocation(position, null);\n        position.set(Position.KEY_RESULT, data);\n    }\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

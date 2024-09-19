@@ -1,0 +1,7 @@
+{
+    "generation": "private void decodeStatus(Position position, ByteBuf buf) {\n    position.set(Position.KEY_BATTERY_LEVEL, BitUtil.to(buf.readUnsignedByte(), 6));\n    position.set(Position.KEY_RSSI, buf.readUnsignedByte());\n    if (variant == Variant.NAVISAT) {\n        position.set(Position.KEY_CHARGE, buf.readUnsignedByte() > 0);\n    } else {\n        int alarm = buf.readUnsignedByte();\n        if ((alarm & 0xf0) == 0xf0) {\n            alarm = alarm & 0x0f;\n        } else if ((alarm & 0xf0) == 0x90) {\n            alarm += 10;\n        }\n        position.set(Position.KEY_ALARM, decodeAlarm(alarm));\n    }\n    if (variant == Variant.STECOM) {\n        buf.readUnsignedByte();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

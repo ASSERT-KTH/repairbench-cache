@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n    ByteBuf buf = (ByteBuf) msg;\n    if (buf.readableBytes() < 2) {\n        return null;\n    }\n    int protocolNumber = buf.getUnsigned Short(buf.readerIndex());\n    buf.skipBytes(2); // skip protocol number\n\n    // Find protocol\n    Protocol protocol = null;\n    for (Protocol p : getServer().getProtocols()) {\n        if (p.getProtocolNumber() == protocolNumber) {\n            protocol = p;\n            break;\n        }\n    }\n    if (protocol == null) {\n        return null;\n    }\n\n    // Redirect message to the appropriate protocol\n    return protocol.getDeviceSessionManager().decodeDevice(channel, remoteAddress, buf);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

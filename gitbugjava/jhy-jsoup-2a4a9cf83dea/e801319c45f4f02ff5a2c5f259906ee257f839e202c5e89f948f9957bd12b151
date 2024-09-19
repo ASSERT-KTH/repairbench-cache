@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // evaluate from last to first\n    for (int i = evaluators.size() -1; i >= 0; --i) {\n        if (element == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        // restrict to current element's children when moving up the selector\n        if (element.parent()!= null) {\n            element = element.parent();\n        } else {\n            // if current element is root, we can't move up\n            return i == 0;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

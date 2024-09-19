@@ -1,0 +1,7 @@
+{
+    "generation": "private List<WifiAccessPoint> readWifiAccessPoints(Tokenizer tokenizer) {\n    List<WifiAccessPoint> wifiAccessPoints = new ArrayList<>();\n\n    try {\n        int count = Integer.parseInt(tokenizer.nextToken());\n        for (int i = 0; i < count; i++) {\n            tokenizer.next(); // wifi name\n\n            String macAddress = tokenizer.nextToken();\n            macAddress = macAddress.length() == 12? fromHex(macAddress) : macAddress;\n\n            short signalStrength = Short.parseShort(tokenizer.nextToken()); // changed to Short\n\n            wifiAccessPoints.add(WifiAccessPoint.from(macAddress, signalStrength));\n        }\n    } catch (NumberFormatException e) {\n        // Handle exception accordingly\n    }\n\n    return wifiAccessPoints;\n}\n\n// Helper function to parse a hex string into MAC address format\nprivate static String fromHex(String hex) {\n    StringBuilder result = new StringBuilder();\n    for (int i = 0; i < 12; i += 2) {\n        result.append(hex.substring(i, i + 2)).append(\":\");\n    }\n    return result.toString().substring(0, result.length() - 1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

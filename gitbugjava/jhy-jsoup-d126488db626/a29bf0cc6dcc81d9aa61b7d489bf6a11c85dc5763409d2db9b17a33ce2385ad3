@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    while (!tq.isEmpty()) {\n        if (tq.matches(\"(\"))\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        else if (tq.matches(\"[\"))\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        else if (tq.matchesAny(Combinators))\n            if (sq.length() > 0) {\n                // Check if there is a combinator without an element before it, which would indicate a broken subquery\n                // e.g. \">,strong\" instead of \"p>strong,>strong\"\n                break;\n            } else if (!tq.isEmpty() &&!tq.peek().isLetter()) {\n                // Allow combinators directly followed by a pseudo element\n                sq.append(tq.consume());\n            } else {\n                // Do not include the combinator without a preceding element\n                tq.consume();\n            }\n        else\n            sq.append(tq.consume());\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

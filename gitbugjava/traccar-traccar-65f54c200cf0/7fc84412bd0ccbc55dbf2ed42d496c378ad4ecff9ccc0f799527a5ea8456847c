@@ -1,0 +1,7 @@
+{
+    "generation": "    private void decodeLocation(Position position, ByteBuf buf, int codec, String model) {\n\n        //...\n\n        // Read X byte data\n        if (codec == CODEC_8_EXT) {\n            int cnt = buf.readUnsignedShort();\n            for (int j = 0; j < cnt; j++) {\n                int id = buf.readUnsignedShort();\n                int length = buf.readUnsignedShort();\n                if (id == 256) {\n                    position.set(Position.KEY_VIN,\n                            buf.readSlice(length).toString(StandardCharsets.US_ASCII));\n                } else if (id == 281) {\n                    position.set(Position.KEY_DTCS,\n                            buf.readSlice(length).toString(StandardCharsets.US_ASCII).replace(',', ' '));\n                } else if (id == 385) {\n                    // Fix here\n                    buf.skipBytes(length);\n                } else {\n                    position.set(Position.PREFIX_IO + id, ByteBufUtil.hexDump(buf.readSlice(length)));\n                }\n            }\n        }\n\n        //...\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        final URI uri = new URI(u.getProtocol(), u.getUserInfo(), u.getHost(), u.getPort(), urlEncode(u.getPath()), u.getQuery(), u.getRef());\n        return uri.toURL();\n    } catch (URISyntaxException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}\n\nprivate static String urlEncode(String urlStr) {\n    try {\n        return URLEncoder.encode(urlStr, StandardCharsets.UTF_8.toString());\n    } catch (UnsupportedEncodingException e) {\n        return urlStr; // unable to encode, return as is\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

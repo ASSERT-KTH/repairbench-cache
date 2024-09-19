@@ -1,0 +1,7 @@
+{
+    "generation": "if (buf.readUnsignedByte() == 2) {\n    position.set(Position.KEY_ARCHIVE, true);\n}\n\nposition.set(Position.KEY_DTCS, buf.readSlice(5).toString(StandardCharsets.US_ASCII));\n\ndouble longitude = buf.readInt() / 10000000.0;\nif (longitude > 180 || longitude < -180) {\n    longitude = 0; // Set to 0 if out of range\n}\n\ndouble latitude = buf.readInt() / 10000000.0;\nif (latitude > 90 || latitude < -90) {\n    latitude = 0; // Set to 0 if out of range\n}\n\nposition.setValid(true);\nposition.setLongitude(longitude);\nposition.setLatitude(latitude);",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

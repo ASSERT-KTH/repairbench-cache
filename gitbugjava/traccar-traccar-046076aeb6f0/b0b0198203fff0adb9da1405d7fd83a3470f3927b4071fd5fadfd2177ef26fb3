@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    //...\n\n    // Decode extended alarm\n    boolean extendedAlarm = dataLength > 7;\n    if (extendedAlarm) {\n        if (dataLength > 10) {\n            buf.readUnsignedMedium();\n        }\n        buf.readUnsignedByte();\n    }\n\n    //...\n\n    if (extendedAlarm) {\n        // Make sure to reset reader index if we reach this point\n        if (buf.readerIndex() + 2 > buf.writerIndex()) {\n            buf.resetReaderIndex();\n        }\n    }\n    //...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

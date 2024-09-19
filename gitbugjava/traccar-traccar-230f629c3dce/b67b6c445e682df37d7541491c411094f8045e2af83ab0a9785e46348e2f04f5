@@ -1,0 +1,7 @@
+{
+    "generation": "...\nPosition position = new Position(getProtocolName());\nposition.setDeviceId(deviceSession.getDeviceId());\n\nbuf.readUnsignedByte(); // records left\nint count = buf.readUnsignedByte();\nfor (int i = 0; i < count; i++) {\n\n    position.setTime(new Date(buf.readUnsignedInt() * 1000));\n    buf.readUnsignedByte(); // timestamp extension\n\n...\n    double longitude = buf.readInt() / 10000000.0;\n    position.setValid(true);\n    \n    // Added longitude verification\n    if (Math.abs(longitude) < 180) {\n    position.setLongitude(longitude);\n    } else position.setValid(false);\n\n    // Added latitude verification\n    double latitude = buf.readInt() / 10000000.0;\nif (Math.abs(latitude) < 90) position.setLatitude(latitude);\n            else position.setValid(false);\n   ...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

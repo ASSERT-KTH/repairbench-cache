@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n        int length = buf.readUnsignedByte();\n        if (buf.readableBytes() < length) {\n            return null;\n        }\n        int dataLength = length - 5;\n        int type = buf.readUnsignedByte();\n        int imeiLength = getImeiLength(type);\n\n        Position position = new Position(getProtocolName());\n        DeviceSession deviceSession = null;\n        if (type!= MSG_LOGIN) {\n            deviceSession = getDeviceSession(channel, remoteAddress);\n            if (deviceSession == null) {\n                return null;\n            }\n            position.setDeviceId(deviceSession.getDeviceId());\n        }\n\n        switch (type) {\n            case MSG_LOGIN:\n                // Do something\n                break;\n\n            // Add other case statements as necessary\n            default:\n                break;\n        }\n\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

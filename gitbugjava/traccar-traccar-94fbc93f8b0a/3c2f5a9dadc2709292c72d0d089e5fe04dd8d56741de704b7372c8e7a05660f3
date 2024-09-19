@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            //...\n            case \"CN\":\n                int combinedMobileCodes = (int) (buf.readUnsignedInt() % 100000); // cccnn\n                cellTower.setMobileCountryCode(combinedMobileCodes / 100);\n                cellTower.setMobileNetworkCode(combinedMobileCodes % 100);\n                break;\n            //...\n            case \"GQ\":\n                cellTower.setSignalStrength((int) buf.readUnsignedByte());\n                break;\n            //...\n            default:\n                break;\n        }\n    }\n\n    if (cellTower.getMobileCountryCode()!= null\n        && cellTower.getMobileNetworkCode()!= null\n        && cellTower.getCellId()!= null && cellTower.getCellId()!= 0\n        && cellTower.getLocationAreaCode()!= null) {\n        position.setNetwork(new Network(cellTower));\n    } else if (cellTower.getSignalStrength()!= null) {\n        position.set(Position.KEY_RSSI, cellTower.getSignalStrength());\n    }\n\n    // Add bounds checking for longitude\n    if (position.getLongitude() < -180 || position.getLongitude() > 180) {\n        position.setLongitude((position.getLongitude() + 180) % 360 - 180);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

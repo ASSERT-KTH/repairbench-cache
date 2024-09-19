@@ -1,0 +1,7 @@
+{
+    "generation": "private void decodeFragment(Position position, String fragment) {\n\n    int dataIndex = fragment.indexOf(':');\n    int index = 0;\n    String[] values;\n    if (fragment.length() == dataIndex + 1) {\n        values = new String[0];\n    } else {\n        values = fragment.substring(dataIndex + 1).split(\";\");\n    }\n\n    switch (fragment.substring(0, dataIndex)) {\n        //...\n        case \"GSM\":\n            index += 1; // registration status\n            index += 1; // signal strength\n            if (index < values.length &&!values[index].isEmpty()) {\n                position.setNetwork(new Network(CellTower.from(\n                        Integer.parseInt(values[index++]), Integer.parseInt(values[index++]),\n                        Integer.parseInt(values[index++], 16), Integer.parseInt(values[index++], 16),\n                        Integer.parseInt(values[index++]))));\n            }\n            break;\n        //...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decode4(\n        Channel channel, SocketAddress remoteAddress, String[] values) throws ParseException {\n    //...\n    if (type.equals(\"ALT\")) {\n        index = 9;\n    } else if (type.equals(\"SA200STT\") && index + 5 == values.length) {\n        Date date = new SimpleDateFormat(\"yyyyMMddHH:mm:ss\")\n               .parse(values[1] + values[index - 2] + values[index - 1]);\n        position.setTime(new Date(date.getTime() / 1000 * 1000));\n        channel.writeAndFlush(channelSession.encodeResponse(\n                \"{\"\n                + \"\\\"seq_no\\\": \" + new Date().getTime()\n                + \",\\\"data_message_id\\\": \\\"\" + type.replaceFirst(\"^ST\", \"\")\n                    + values[0]\n                + \"\\\",\\\"last_pos\\\": {\"\n                        + \"\\\"time\\\":\\\"\" + new SimpleDateFormat(\"yyyMMddHH:mm:ssS\")\n                           .format(channelSession.getLastPos().getTime().getTime())\n                        + \"T\" + \"\\\"}\" \n                + \", \\\"position\\\": {\\\"coords\\\": {\\\"latitude\\\" : \" + values[index-3]\n                        + \", \\\"longitude\\\" :\" + values[index -2] + \"}}, \\\"$config\\\": {}}\"\n\n            ));\n        index  = values.length +4;\n\n    } else {        \n        index +=8;\n    }\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

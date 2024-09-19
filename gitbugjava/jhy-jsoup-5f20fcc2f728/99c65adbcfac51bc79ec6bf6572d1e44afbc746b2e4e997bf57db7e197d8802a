@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n    Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n    @param tags tag names to allow\n    @return this (for chaining)\n    @throws ValidationException if TagName is not supported; typically means lower-case normalization\n*/\npublic Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        try{\n            tagNames.add(TagName.valueOf(tagName.replace(\"NOSCRIPT\",\"#\").toUpperCase()));\n        }\n        catch(IllegalArgumentException throwme){\n            throw   new ValidationException(\"Tag is neither an officially-supported standard TAGNAME, a standard javac identifier TAGNAME,\"\n                + \"or TAG-HIDDEN-from-view; \"\n                +  \"as opposed to one being removed during pre-clean\");\n                        }\n        }\n        Validate.notEmpty(tagNames,true,\"empty Whitelist would lead to false negative exploit, allowing XSS or CSRF and enabling attack success.\");\n\treturn this;\n    }\n       ```",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

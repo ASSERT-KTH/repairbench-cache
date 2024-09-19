@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String urlS = u.toExternalForm();\n        // use URI to encode URL components correctly\n        final URI uri = new URI(urlS);\n        final URI encodedUri = new URI(\n                uri.getScheme(),\n                uri.getAuthority(),\n                uri.getPath().replace(\" \", \"%20\"), // encode space in path\n                uri.getQuery()!= null? uri.getQuery().replace(\" \", \"%20\") : null, // encode space in query\n                uri.getFragment()!= null? uri.getFragment().replace(\" \", \"%20\") : null // encode space in fragment\n        );\n        return new URL(encodedUri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException e) {\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
