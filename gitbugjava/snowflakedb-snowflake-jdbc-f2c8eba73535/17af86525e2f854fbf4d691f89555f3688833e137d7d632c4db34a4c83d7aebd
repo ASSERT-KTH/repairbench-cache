@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isNonRetryableHTTPCode(CloseableHttpResponse response, boolean retryHTTP403) {\n    if (response == null) {\n        return false;\n    }\n\n    int statusCode = response.getStatusLine().getStatusCode();\n\n    // Check if the status code is non-retryable\n    boolean isNonRetryable = (statusCode < 500 || statusCode >= 600) && // service unavailable or gateway timeout\n                             statusCode != 408 && // request timeout\n                             (statusCode != 403 || !retryHTTP403) && // no retry on HTTP 403 if retryHTTP403 is false\n                             statusCode != 429; // no retry on HTTP 429\n\n    return isNonRetryable;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

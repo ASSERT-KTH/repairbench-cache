@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline())\n            return false;\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirstWithSiblingBrOrPcdata(out)\n            && !out.outline();\n    }\n\n    private boolean isEffectivelyFirstWithSiblingBrOrPcdata(Document.OutputSettings out) {\n        Element parent = parent();\n        if (parent == null) return false;\n\n        int sibIdx = siblingIndex() - 1;\n        while (sibIdx >= 0 && !parent.child(sibIdx).tag().isInline() && parent.child(sibIdx).tag() != Tag.valueOf(\"br\"))\n            sibIdx--;\n\n        return sibIdx < 0;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
