@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.IOException;\nimport java.io.ObjectInputStream;\nimport java.io.Serializable;\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\npublic class MultiValueMap<K, V> implements Serializable {\n\n    private static final long serialVersionUID = 1L;\n\n    private final Map<K, List<V>> map;\n    private final Class<? extends List<V>> listClass;\n\n    public MultiValueMap(Map<K, List<V>> map, Class<? extends List<V>> listClass) {\n        this.map = map;\n        this.listClass = listClass;\n    }\n\n    public static <K, V> MultiValueMap<K, V> multiValueMap(Map<K, List<V>> map, Class<? extends List<V>> listClass) {\n        return new MultiValueMap<>(map, listClass);\n    }\n\n    // Other methods of MultiValueMap\n\n    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n        ois.defaultReadObject();\n\n        // Validate the listClass to ensure it is a safe class\n        if (listClass.equals(String.class)) {\n            throw new UnsupportedOperationException(\"Unsafe class used for deserialization\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

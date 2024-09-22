@@ -1,0 +1,7 @@
+{
+    "generation": "\tpublic static boolean containsAny(CharSequence cs, char[] searchChars) {\n\t\tif (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n\t\t\treturn false;\n\t\t}\n\t\tint csLength = cs.length();\n\t\tint searchLength = searchChars.length;\n\t\tfor (int i = 0; i < csLength; i++) {\n\t\t\tchar ch = cs.charAt(i);\n\t\t\t// Check if the current character is a high surrogate\n\t\t\tif (Character.isHighSurrogate(ch)) {\n\t\t\t\t// If it is a high surrogate, check the next character to form a supplementary character\n\t\t\t\tif (i + 1 < csLength) {\n\t\t\t\t\tchar nextCh = cs.charAt(i + 1);\n\t\t\t\t\tif (Character.isLowSurrogate(nextCh)) {\n\t\t\t\t\t\tint codePoint = Character.toCodePoint(ch, nextCh);\n\t\t\t\t\t\tfor (int j = 0; j < searchLength; j++) {\n\t\t\t\t\t\t\tif (searchChars[j] == ch || searchChars[j] == nextCh) {\n\t\t\t\t\t\t\t\treturn true;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\ti++; // Skip the next character as it is part of the supplementary character\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\t// If it is not a surrogate, just check the character\n\t\t\t\tfor (int j = 0; j < searchLength; j++) {\n\t\t\t\t\tif (searchChars[j] == ch) {\n\t\t\t\t\t\treturn true;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn false;\n\t}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

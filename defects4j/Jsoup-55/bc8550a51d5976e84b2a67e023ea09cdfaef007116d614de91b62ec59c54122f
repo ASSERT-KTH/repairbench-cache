@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            if (c == '/') {\n                // Ignore '/' if it's the last character before the attribute name\n                // This helps in cases like <img /onerror='doMyJob'/>\n                t.transition(BeforeAttributeName);\n            } else {\n                t.error(this);\n                t.transition(BeforeAttributeName);\n            }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

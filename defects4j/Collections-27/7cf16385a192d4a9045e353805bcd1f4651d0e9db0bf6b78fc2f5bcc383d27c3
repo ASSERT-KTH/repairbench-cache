@@ -1,0 +1,7 @@
+{
+    "generation": "public class MultiValueMap<K, V> extends AbstractMapDecorator<K, Object> implements MultiMap<K, V>, Serializable {\n    private static final long serialVersionUID = -715258849940822137L;\n\n    private final Class<?> collectionClass;\n\n    public MultiValueMap(Map<K, Object> map, Class<?> collectionClass) {\n        super(map);\n        if (collectionClass == null) {\n            throw new IllegalArgumentException(\"The collection class must not be null\");\n        }\n        this.collectionClass = collectionClass;\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    public static <K, V> MultiValueMap<K, V> multiValueMap(Map<K, Object> map, Class<?> collectionClass) {\n        return new MultiValueMap<>(map, collectionClass);\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (!isSafeCollectionClass()) {\n            throw new UnsupportedOperationException(\"Unsafe collection class used during deserialization\");\n        }\n        // Rest of the deserialization code\n    }\n\n    private boolean isSafeCollectionClass() {\n        return collectionClass.equals(ArrayList.class) || collectionClass.equals(HashSet.class);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

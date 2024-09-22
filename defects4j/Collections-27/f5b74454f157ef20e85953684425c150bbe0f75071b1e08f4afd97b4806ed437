@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.collections4.map.MultiValueMap;\nimport java.io.Serializable;\nimport java.util.ArrayList;\nimport java.util.HashMap;\n\npublic class FixedMultiValueMap<K, V> extends MultiValueMap<K, V> {\n\n    public FixedMultiValueMap(HashMap<K, ArrayList<V>> map, Class<? extends ArrayList<V>> listClass) {\n        super(map, listClass);\n    }\n\n    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (!ArrayList.class.isAssignableFrom(listClass)) {\n            throw new UnsupportedOperationException(\"Unsafe class not supported for deserialization\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

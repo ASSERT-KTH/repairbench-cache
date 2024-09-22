@@ -1,0 +1,7 @@
+{
+    "generation": "public class MultiValueMap<K, V> extends AbstractMap<K, Object> implements Serializable {\n    private final Map<K, Collection<V>> map;\n    private final Class<? extends Collection<V>> collectionClass;\n\n    public MultiValueMap(Map<K, Collection<V>> map, Class<? extends Collection<V>> collectionClass) {\n        this.map = map;\n        this.collectionClass = collectionClass;\n    }\n\n    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n        ois.defaultReadObject();\n        map = (Map<K, Collection<V>>) ois.readObject();\n        collectionClass = (Class<? extends Collection<V>>) ois.readObject();\n\n        if (!isValidCollectionClass(collectionClass)) {\n            throw new UnsupportedOperationException(\"Unsafe class type for collection: \" + collectionClass.getName());\n        }\n    }\n\n    private boolean isValidCollectionClass(Class<? extends Collection<V>> clazz) {\n        return ArrayList.class.isAssignableFrom(clazz) || LinkedList.class.isAssignableFrom(clazz);\n    }\n\n    // Other methods of MultiValueMap\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

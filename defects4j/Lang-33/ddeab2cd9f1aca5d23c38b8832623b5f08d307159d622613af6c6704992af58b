@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n\n        // Handle the special case for 'for each' loop\n        if (loopNode.isForEach()) {\n            // Transform the loop node to a valid AST node for 'for each'\n            return newNode(\n                Token.FOR,\n                newNode(Token.NAME, \"var\"),\n                transform(loopNode.getIterator()),\n                transform(loopNode.getIteratedObject()),\n                transformBlock(loopNode.getBody()));\n        }\n\n        // Return the bare minimum to put the AST in a valid state for regular 'for in' loop.\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

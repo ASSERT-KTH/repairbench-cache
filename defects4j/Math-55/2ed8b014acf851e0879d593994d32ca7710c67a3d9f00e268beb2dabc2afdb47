@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Normalize the vectors to avoid precision loss\n    double normV1 = v1.getNorm();\n    double normV2 = v2.getNorm();\n    \n    if (normV1 == 0 || normV2 == 0) {\n        throw new IllegalArgumentException(\"Vectors cannot be zero vectors.\");\n    }\n    \n    Vector3D normalizedV1 = new Vector3D(v1.x / normV1, v1.y / normV1, v1.z / normV1);\n    Vector3D normalizedV2 = new Vector3D(v2.x / normV2, v2.y / normV2, v2.z / normV2);\n    \n    // Compute cross product of normalized vectors\n    double cpx = normalizedV1.y * normalizedV2.z - normalizedV1.z * normalizedV2.y;\n    double cpy = normalizedV1.z * normalizedV2.x - normalizedV1.x * normalizedV2.z;\n    double cpz = normalizedV1.x * normalizedV2.y - normalizedV1.y * normalizedV2.x;\n    \n    // Scale back to the original magnitudes\n    double normCrossProduct = normV1 * normV2 * Math.sqrt(cpx * cpx + cpy * cpy + cpz * cpz);\n    \n    return new Vector3D(cpx * normCrossProduct, cpy * normCrossProduct, cpz * normCrossProduct);\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

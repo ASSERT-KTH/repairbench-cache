@@ -1,0 +1,7 @@
+{
+    "generation": "public void escape(Writer writer, String str) throws IOException {\n    int len = str.length();\n    for (int i = 0; i < len; i++) {\n        char c = str.charAt(i);\n        // Check if the character is a high surrogate (part of a surrogate pair)\n        if (Character.isHighSurrogate(c)) {\n            // If it is a high surrogate, check if there is a next character and if it is a low surrogate\n            if (i + 1 < len && Character.isLowSurrogate(str.charAt(i + 1))) {\n                // Get the code point from the surrogate pair\n                int codePoint = Character.toCodePoint(c, str.charAt(i + 1));\n                // Write the escaped code point\n                writer.write(\"&#\");\n                writer.write(Integer.toString(codePoint, 10));\n                writer.write(';');\n                // Skip the next character as it has been processed with the current character\n                i++;\n                continue;\n            }\n        }\n        String entityName = this.entityName(c);\n        if (entityName == null) {\n            if (c > 0x7F) {\n                writer.write(\"&#\");\n                writer.write(Integer.toString(c, 10));\n                writer.write(';');\n            } else {\n                writer.write(c);\n            }\n        } else {\n            writer.write('&');\n            writer.write(entityName);\n            writer.write(';');\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

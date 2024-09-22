@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    int csLength = cs.length();\n    int searchLength = searchChars.length;\n    for (int i = 0, j = 0; i < csLength; i++, j = 0) {\n        char ch = cs.charAt(i);\n        while (j < searchLength) {\n            if (searchChars[j] == ch) {\n                if (Character.isHighSurrogate(ch)) {\n                    // Check if the next character forms a valid surrogate pair\n                    if (i + 1 < csLength && Character.isLowSurrogate(cs.charAt(i + 1))) {\n                        // Check if the next character in searchChars forms a valid surrogate pair\n                        if (j + 1 < searchLength && Character.isLowSurrogate(searchChars[j + 1])) {\n                            if (searchChars[j + 1] == cs.charAt(i + 1)) {\n                                return true;\n                            }\n                        }\n                    }\n                } else {\n                    return true;\n                }\n            }\n            j++;\n        }\n        // Skip the next character if it was part of a surrogate pair\n        if (Character.isHighSurrogate(ch) && i + 1 < csLength && Character.isLowSurrogate(cs.charAt(i + 1))) {\n            i++;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

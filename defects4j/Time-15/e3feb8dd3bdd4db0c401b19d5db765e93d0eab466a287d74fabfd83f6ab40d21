@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Multiply two values throwing an exception if overflow occurs.\n * \n * @param val1  the first value\n * @param val2  the second value\n * @return the new total\n * @throws ArithmeticException if the value is too big or too small\n * @since 1.2\n */\npublic static long safeMultiply(long val1, int val2) {\n    // Handle specific edge cases first\n    switch (val2) {\n        case -1:\n            // Special case for -1 to avoid overflow\n            if (val1 == Long.MIN_VALUE) {\n                throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n            }\n            return -val1;\n        case 0:\n            return 0L;\n        case 1:\n            return val1;\n    }\n    // General case with overflow check\n    long total = val1 * val2;\n    if (val2 != 0 && total / val2 != val1) {\n        throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n    }\n    return total;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

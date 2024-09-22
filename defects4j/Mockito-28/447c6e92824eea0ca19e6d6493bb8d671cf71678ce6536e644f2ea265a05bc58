@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    List<Field> fields = new ArrayList<>(Arrays.asList(awaitingInjectionClazz.getDeclaredFields()));\n    fields.sort(Comparator.comparing(Field::getType));\n\n    for (Field field : fields) {\n        Optional<?> candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (candidate.isPresent()) {\n            inject(field, fieldInstance, candidate.get());\n            mocks.remove(candidate.get());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

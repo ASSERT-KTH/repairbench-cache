@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> primitiveType, Object expectedValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    String emptyValue = \"\";\n    \n    // Convert primitive type to its wrapper type\n    Class<?> wrapperType = primitiveType.isPrimitive() ? java.lang.reflect.Array.get(java.lang.reflect.Array.newInstance(primitiveType, 1), 0).getClass() : primitiveType;\n    \n    try {\n        Object result = mapper.readValue(emptyValue, mapper.constructType(wrapperType));\n        if (expectedValue == null) {\n            assertNull(result);\n        } else {\n            assertEquals(expectedValue, result);\n        }\n    } catch (JsonMappingException e) {\n        // If expectedValue is null, this should be the case for primitives\n        if (expectedValue != null) {\n            fail(\"Should not have thrown exception: \" + e.getMessage());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

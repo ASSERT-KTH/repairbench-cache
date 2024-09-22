@@ -1,0 +1,7 @@
+{
+    "generation": "package org.apache.commons.collections4.map;\n\nimport java.io.Serializable;\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\npublic class MultiValueMap<K, V> extends AbstractMapDecorator<K, Object> implements Serializable {\n\n    private static final long serialVersionUID = 1L;\n    private final Class<? extends List<V>> listClass;\n\n    protected MultiValueMap(Map<K, Object> map, Class<? extends List<V>> listClass) {\n        super(map);\n        this.listClass = listClass;\n    }\n\n    public static <K, V> MultiValueMap<K, V> multiValueMap(Map<K, Object> map, Class<? extends List<V>> listClass) {\n        return new MultiValueMap<>(map, listClass);\n    }\n\n    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        // Validate the listClass during deserialization\n        if (listClass != ArrayList.class && listClass != null) {\n            throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n    }\n\n    // Other methods in the class...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

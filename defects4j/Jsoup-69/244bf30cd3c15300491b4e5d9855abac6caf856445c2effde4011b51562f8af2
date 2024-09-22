@@ -1,0 +1,7 @@
+{
+    "generation": "public class FormElement extends Element {\n    // Other methods and fields...\n\n    public List<Connection.KeyVal> formData() {\n        ArrayList<Connection.KeyVal> data = new ArrayList<>();\n        Elements inputs = select(\"input[name],textarea[name],select[name],button[name]\");\n        for (Element el : inputs) {\n            if (el.attr(\"name\").length() == 0 || el.hasAttr(\"disabled\")) continue;\n            if (el.tagName().equals(\"input\")) {\n                String type = el.attr(\"type\");\n                if (type.equalsIgnoreCase(\"radio\") || type.equalsIgnoreCase(\"checkbox\")) {\n                    if (!el.hasAttr(\"checked\")) continue; // Skip unchecked radio and checkboxes\n                }\n            }\n            String name = el.attr(\"name\");\n            String value = el.val().length() > 0 ? el.val() : \"\";\n            data.add(Connection.KeyVal.create(name, value));\n        }\n        return data;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

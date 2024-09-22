@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Method that can be called on backends that support passing opaque datatypes of\n * non-JSON formats\n *\n * @since 2.8\n */\npublic void writeEmbeddedObject(Object object) throws IOException {\n    if (object == null) {\n        // If the object is null, write \"null\" as appropriate in JSON\n        _writeNull();\n    } else if (object instanceof byte[]) {\n        // If the object is a byte array, encode it as Base64 and write it\n        _writeBinary((byte[]) object);\n    } else {\n        // If the object is not supported, throw an exception\n        throw new JsonGenerationException(\"No native support for writing embedded objects of type \" + object.getClass().getName(),\n                this);\n    }\n}\n\n// Placeholder methods to be implemented in the actual class\nprivate void _writeNull() throws IOException {\n    // Implement the logic to write \"null\" in JSON\n}\n\nprivate void _writeBinary(byte[] data) throws IOException {\n    // Implement the logic to write the byte array as Base64 encoded data in JSON\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

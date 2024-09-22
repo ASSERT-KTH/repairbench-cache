@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public Complex reciprocal() {\n        if (isNaN) {\n            return NaN;\n        }\n\n        if (real == 0.0 && imaginary == 0.0) {\n            return INF;\n        }\n\n        if (isInfinite) {\n            return ZERO;\n        }\n\n        if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n            double q = real / imaginary;\n            double denom = real * q + imaginary;\n            if (denom == 0.0) {\n                return NaN; // To handle division by zero\n            }\n            double scale = 1. / denom;\n            return createComplex(scale * q, -scale);\n        } else {\n            double q = imaginary / real;\n            double denom = imaginary * q + real;\n            if (denom == 0.0) {\n                return NaN; // To handle division by zero\n            }\n            double scale = 1. / denom;\n            return createComplex(scale, -scale * q);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

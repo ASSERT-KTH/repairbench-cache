@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n  * Returns the percentage of values that are equal to v\n * (as a proportion between 0 and 1).\n * <p>\n * Returns <code>Double.NaN</code> if no values have been added.</p>\n *\n * @param v the value to lookup\n * @return the proportion of values equal to v\n * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0\n */\n@Deprecated\npublic double getPct(Object v) {\n    if (v == null) {\n        throw new NullPointerException(\"Value to lookup cannot be null\");\n    }\n    return getCumPct((Comparable<?>) v) - getCumPct((Comparable<?>) v, true);\n}\n\nprivate double getCumPct(Comparable<?> value, boolean excludeCurrent) {\n    double cumulativePct = 0.0;\n    for (Map.Entry<Comparable<?>, Long> entry : freqTable.entrySet()) {\n        if (entry.getKey().equals(value)) {\n            if (!excludeCurrent) {\n                cumulativePct += (double) entry.getValue() / (double) sumFreq;\n            }\n            break;\n        }\n        cumulativePct += (double) entry.getValue() / (double) sumFreq;\n    }\n    return cumulativePct;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

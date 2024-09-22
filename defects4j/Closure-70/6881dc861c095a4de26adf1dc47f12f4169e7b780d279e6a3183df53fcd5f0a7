@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  if (functionType != null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters != null) {\n      Node jsDocParameter = jsDocParameters.getFirstChild();\n      int jsDocParameterCount = jsDocParameters.getChildCount();\n      int astParameterCount = astParameters.getChildCount();\n\n      for (Node astParameter : astParameters.children()) {\n        if (jsDocParameter != null && jsDocParameterCount > 0) {\n          defineSlot(astParameter, functionNode,\n              jsDocParameter.getJSType(), true);\n          jsDocParameter = jsDocParameter.getNext();\n          jsDocParameterCount--;\n        } else {\n          defineSlot(astParameter, functionNode, null, true);\n        }\n      }\n    }\n  }\n} // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

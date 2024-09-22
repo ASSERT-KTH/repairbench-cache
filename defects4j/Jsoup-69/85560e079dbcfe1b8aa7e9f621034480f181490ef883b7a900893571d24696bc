@@ -1,0 +1,7 @@
+{
+    "generation": "public class FormElement extends Element {\n    private List<Connection.KeyVal> formData;\n    \n    // Existing constructor and other methods...\n\n    public List<Connection.KeyVal> formData() {\n        if (formData == null) {\n            formData = new ArrayList<>();\n            Elements inputs = elements(this);\n            for (Element el : inputs) {\n                if (el.hasAttr(\"name\")) {\n                    formData.add(Connection.KeyVal.create(el.attr(\"name\"), el.attr(\"value\")));\n                }\n            }\n        }\n        return formData;\n    }\n\n    @Override\n    public Element remove() {\n        super.remove();\n        // Clear the form data cache to force it to be rebuilt if needed\n        formData = null;\n        return this;\n    }\n\n    @Override\n    public Element removeChild(Element child) {\n        super.removeChild(child);\n        // Clear the form data cache to force it to be rebuilt if needed\n        formData = null;\n        return this;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

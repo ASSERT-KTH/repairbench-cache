@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double density(final double[] vals) throws DimensionMismatchException {\n    final int dim = getDimension();\n    if (vals.length != dim) {\n        throw new DimensionMismatchException(vals.length, dim);\n    }\n\n    double constantTerm = FastMath.pow(2 * FastMath.PI, -dim / 2) * FastMath.pow(covarianceMatrixDeterminant, -0.5);\n    double exponentTerm = getExponentTerm(vals);\n\n    // Correct the exponent term for the univariate case\n    if (dim == 1) {\n        double x = vals[0];\n        double mean = getMeans()[0];\n        double sigma = FastMath.sqrt(getCovariances()[0][0]);\n        exponentTerm = FastMath.exp(-0.5 * FastMath.pow((x - mean) / sigma, 2));\n    }\n\n    return constantTerm * exponentTerm;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

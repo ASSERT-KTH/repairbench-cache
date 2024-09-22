@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        try {\n            URL base = new URL(baseUri);\n            \n            // Handle the case where the relative URL starts with '?'\n            if (relUrl.startsWith(\"?\")) {\n                return base.getProtocol() + \"://\" + base.getHost() + (base.getPort() != -1 ? \":\" + base.getPort() : \"\") + base.getPath() + relUrl;\n            }\n            \n            // Otherwise, use the standard URL constructor\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

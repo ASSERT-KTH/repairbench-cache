@@ -1,0 +1,7 @@
+{
+    "generation": "public class MultiValueMap<K, V> extends AbstractMapDecorator<K, Object> implements Serializable, MultiValuedMap<K, V> {\n\n    private static final long serialVersionUID = 4384615456444252104L;\n\n    private final Class<? extends Collection<V>> collectionClass;\n\n    public static <K, V> MultiValueMap<K, V> multiValueMap(Map<K, Object> map, Class<? extends Collection<V>> collectionClass) {\n        return new MultiValueMap<>(map, collectionClass);\n    }\n\n    protected MultiValueMap(Map<K, Object> map, Class<? extends Collection<V>> collectionClass) {\n        super(map);\n        this.collectionClass = collectionClass;\n        if (!Serializable.class.isAssignableFrom(collectionClass)) {\n            throw new UnsupportedOperationException(\"The collection class must be Serializable\");\n        }\n    }\n\n    // Other methods of the MultiValueMap class\n\n    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {\n        stream.defaultReadObject();\n        if (!Serializable.class.isAssignableFrom(collectionClass)) {\n            throw new UnsupportedOperationException(\"The collection class must be Serializable\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class. \n     * \n     * @param field\n     * @return\n     */\n    public Class getGenericType(Field field) {        \n        Type generic = field.getGenericType();\n        if (generic != null && generic instanceof ParameterizedType) {\n            Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n            if (actual instanceof Class) {\n                return (Class) actual;\n            } else if (actual instanceof ParameterizedType) {\n                // If the actual type is a ParameterizedType, we return the raw type (class).\n                return (Class) ((ParameterizedType) actual).getRawType();\n            }\n            // In case of nested generics or other types, we don't go deep.\n        }\n        \n        return Object.class;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

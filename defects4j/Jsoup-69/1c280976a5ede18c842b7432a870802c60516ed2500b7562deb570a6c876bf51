@@ -1,0 +1,7 @@
+{
+    "generation": "package org.jsoup.nodes;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.jsoup.Connection;\n\npublic class FormElement extends Element {\n    // Existing code...\n\n    public List<Connection.KeyVal> formData() {\n        ArrayList<Connection.KeyVal> data = new ArrayList<>();\n        Elements inputs = select(\"input[name]\");\n        for (Element el : inputs) {\n            String name = el.attr(\"name\");\n            String value = el.attr(\"value\");\n            if (value == null)\n                value = \"\";\n            data.add(HttpConnection.KeyVal.create(name, value));\n        }\n        return data;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

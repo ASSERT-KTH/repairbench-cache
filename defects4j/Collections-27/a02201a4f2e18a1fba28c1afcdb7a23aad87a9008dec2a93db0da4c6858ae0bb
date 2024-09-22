@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.IOException;\nimport java.io.ObjectInputStream;\nimport java.util.HashMap;\nimport java.util.List;\n\npublic class MultiValueMap<K, V> extends AbstractMap<K, List<V>> {\n    private final Map<K, List<V>> map;\n    private final Class<? extends List> listClass;\n\n    public MultiValueMap(Map<K, List<V>> map, Class<? extends List> listClass) {\n        this.map = map;\n        this.listClass = listClass;\n    }\n\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (!List.class.isAssignableFrom(listClass)) {\n            throw new UnsupportedOperationException(\"Unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n    }\n\n    // Other methods and functionality of MultiValueMap\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

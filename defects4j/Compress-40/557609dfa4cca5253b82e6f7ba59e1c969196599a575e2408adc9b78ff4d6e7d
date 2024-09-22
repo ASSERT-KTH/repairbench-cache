@@ -1,0 +1,7 @@
+{
+    "generation": "private void traverse(Node node) {\n  // The goal here is to avoid retraversing\n  // the entire AST to catch newly created opportunities.\n  // So we track whether a \"unit of code\" has changed,\n  // and revisit immediately.\n  if (!shouldVisit(node)) {\n    return;\n  }\n\n  int visits = 0;\n  boolean hasChildrenChanged = false;\n\n  do {\n    // Traverse the children only if they haven't changed since the last visit\n    if (!hasChildrenChanged) {\n      Node c = node.getFirstChild();\n      while (c != null) {\n        traverse(c);\n        Node next = c.getNext();\n        c = next;\n      }\n    }\n\n    visit(node);\n    visits++;\n\n    // Check if any children have been modified and need to be re-traversed\n    hasChildrenChanged = shouldRetraverse(node);\n\n    Preconditions.checkState(visits < 10000, \"too many iterations\");\n  } while (hasChildrenChanged);\n\n  exitNode(node);\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

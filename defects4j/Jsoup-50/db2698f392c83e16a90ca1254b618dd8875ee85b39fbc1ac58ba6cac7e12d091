@@ -1,0 +1,7 @@
+{
+    "generation": "static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {\n    String docData;\n    Document doc = null;\n    String detectedCharset = null;\n\n    // Detect BOM and set the appropriate character encoding\n    byte[] bom = new byte[4];\n    byteData.get(bom, 0, bom.length);\n    byteData.rewind();\n\n    if (bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF) {\n        detectedCharset = \"UTF-8\";\n    } else if (bom[0] == (byte) 0xFE && bom[1] == (byte) 0xFF) {\n        detectedCharset = \"UTF-16BE\";\n    } else if (bom[0] == (byte) 0xFF && bom[1] == (byte) 0xFE) {\n        detectedCharset = \"UTF-16LE\";\n    } else if (bom[0] == (byte) 0x00 && bom[1] == (byte) 0x00 && bom[2] == (byte) 0xFE && bom[3] == (byte) 0xFF) {\n        detectedCharset = \"UTF-32BE\";\n    } else if (bom[0] == (byte) 0xFF && bom[1] == (byte) 0xFE && bom[2] == (byte) 0x00 && bom[3] == (byte) 0x00) {\n        detectedCharset = \"UTF-32LE\";\n    } else {\n        // No BOM detected, use the provided charsetName or default charset\n        detectedCharset = charsetName != null ? charsetName : defaultCharset;\n    }\n\n    // Decode the byteData using the detected charset\n    docData = Charset.forName(detectedCharset).decode(byteData).toString();\n\n    // Parse the document\n    doc = parser.parseInput(docData, baseUri);\n    doc.outputSettings().charset(detectedCharset);\n\n    return doc;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Resolve the referenced type within the enclosing scope.\n   */\n  @Override\n  JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // Using a Set to track resolved types to prevent infinite recursion\n    Set<JSType> resolvedTypes = new HashSet<>();\n\n    resolveInternalWithTracking(t, enclosing, resolvedTypes);\n\n    if (registry.isLastGeneration()) {\n      return getReferencedType();\n    } else {\n      return this;\n    }\n  }\n\n  private void resolveInternalWithTracking(ErrorReporter t, StaticScope<JSType> enclosing, Set<JSType> resolvedTypes) {\n    if (resolvedTypes.contains(this)) {\n      // Prevent infinite recursion by checking if the type has already been resolved\n      return;\n    }\n\n    resolvedTypes.add(this);\n\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (detectImplicitPrototypeCycle()) {\n      handleTypeCycle(t);\n    }\n\n    if (resolved) {\n      super.resolveInternal(t, enclosing);\n      finishPropertyContinuations();\n    } else {\n      resolveViaProperties(t, enclosing);\n      if (detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n      }\n\n      super.resolveInternal(t, enclosing);\n      if (isResolved()) {\n        finishPropertyContinuations();\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  Map<String, JSType> propertiesToAdd = new HashMap<>();\n\n  // Add properties from this record type\n  for (String property : properties.keySet()) {\n    propertiesToAdd.put(property, getPropertyType(property));\n  }\n\n  // Add properties from the other record type\n  for (String property : that.toMaybeRecordType().getProperties()) {\n    if (!propertiesToAdd.containsKey(property)) {\n      propertiesToAdd.put(property, that.toMaybeRecordType().getPropertyType(property));\n    } else {\n      JSType thisPropertyType = propertiesToAdd.get(property);\n      JSType thatPropertyType = that.toMaybeRecordType().getPropertyType(property);\n      if (!thisPropertyType.isEquivalentTo(thatPropertyType)) {\n        propertiesToAdd.put(property, registry.createUnionType(thisPropertyType, thatPropertyType));\n      }\n    }\n  }\n\n  // Build the new record type\n  for (Map.Entry<String, JSType> entry : propertiesToAdd.entrySet()) {\n    builder.addProperty(entry.getKey(), entry.getValue(), getPropertyNode(entry.getKey()));\n  }\n\n  return builder.build();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

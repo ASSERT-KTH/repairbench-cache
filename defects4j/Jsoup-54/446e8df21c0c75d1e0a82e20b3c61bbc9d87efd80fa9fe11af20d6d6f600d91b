@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        String key = attribute.getKey();\n        // XML attribute names must match the pattern ^[:_A-Za-z][-._:A-Za-z0-9]*\n        if (key.matches(\"^[:_A-Za-z][-._:A-Za-z0-9]*\")) {\n            el.setAttribute(key, attribute.getValue());\n        } else {\n            // Handle invalid XML attribute names by replacing invalid characters\n            key = key.replaceAll(\"[^:_A-Za-z0-9]\", \"\");\n            if (!key.isEmpty()) {\n                el.setAttribute(key, attribute.getValue());\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

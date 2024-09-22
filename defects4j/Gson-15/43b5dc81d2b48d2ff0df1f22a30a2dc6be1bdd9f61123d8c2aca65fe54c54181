@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Encodes {@code value}.\n   *\n   * @param value a finite value. May not be {@link Double#isNaN() NaNs} or\n   *     {@link Double#isInfinite() infinities} unless lenient parsing is enabled.\n   * @return this writer.\n   */\n  public JsonWriter value(double value) throws IOException {\n    writeDeferredName();\n    if (!isLenient() && (Double.isNaN(value) || Double.isInfinite(value))) {\n      throw new IllegalArgumentException(\"Numeric values must be finite, but was \" + value);\n    }\n    beforeValue();\n    if (Double.isNaN(value)) {\n      out.append(\"NaN\");\n    } else if (Double.isInfinite(value)) {\n      out.append(value > 0 ? \"Infinity\" : \"-Infinity\");\n    } else {\n      out.append(Double.toString(value));\n    }\n    return this;\n  }\n\n  // Assuming `isLenient` is a method that checks if lenient parsing is enabled.\n  private boolean isLenient() {\n    // Implementation of isLenient method goes here\n    // This method should return true if lenient parsing is enabled and false otherwise.\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
