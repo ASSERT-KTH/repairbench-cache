@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    buf.readUnsignedShortLE(); // length\n\n    buf.skipBytes(3); // identification header\n    buf.readUnsignedIntLE(); // index\n\n    DeviceSession deviceSession = getDeviceSession(\n            channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n    if (deviceSession == null) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedByte(); // session status\n    buf.skipBytes(4); // reserved\n\n    int dateTime = buf.readUnsignedIntLE(); // date and time\n    int year = (dateTime >> 26) & 0x3F;\n    int month = (dateTime >> 22) & 0x0F;\n    int day = (dateTime >> 17) & 0x1F;\n    int hour = (dateTime >> 12) & 0x1F;\n    int minute = (dateTime >> 6) & 0x3F;\n    int second = dateTime & 0x3F;\n\n    // Adjust year to 4-digit format\n    year += 2000; // Assuming the year is in the 21st century\n\n    position.setTime(new Date(year - 1900, month - 1, day, hour, minute, second));\n\n    buf.skipBytes(23); // coordinates block\n\n    buf.skipBytes(3); // data tag header\n    decodeMinimalDataSet(position, buf);\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
