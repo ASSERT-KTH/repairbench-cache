@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Generate a random sample from the distribution.\n     *\n     * @param sampleSize the number of random values to generate.\n     * @return an array representing the random sample.\n     * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n     * positive.\n     */\n    public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n        if (sampleSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                    sampleSize);\n        }\n\n        // Create an array of the correct type\n        final T[] out = (T[]) java.lang.reflect.Array.newInstance(getType(), sampleSize);\n\n        for (int i = 0; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n\n        return out;\n    }\n\n    // Helper method to get the correct type for the array\n    private Class<T> getType() {\n        // This method should be implemented to return the correct type of T\n        // For example, if T is a generic type parameter, you might need to use a type token or other mechanism\n        // to determine the actual type at runtime.\n        // Here, we assume that T is a known type and can be obtained from the class of the first singleton.\n        return (Class<T>) singletons.get(0).getClass();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

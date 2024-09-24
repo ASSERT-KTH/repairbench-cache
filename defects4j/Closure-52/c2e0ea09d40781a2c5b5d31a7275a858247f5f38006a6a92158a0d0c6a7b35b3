@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    // Check for empty string\n    if (s.isEmpty()) {\n        return false;\n    }\n\n    // Check for hexadecimal numbers\n    if (s.length() > 2 && s.startsWith(\"0x\")) {\n        for (int index = 2; index < s.length(); index++) {\n            char c = s.charAt(index);\n            if (!Character.isDigit(c) && (c < 'A' || c > 'F') && (c < 'a' || c > 'f')) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    // Check for octal numbers\n    if (s.length() > 1 && s.startsWith(\"0\") && Character.isDigit(s.charAt(1))) {\n        for (int index = 1; index < s.length(); index++) {\n            char c = s.charAt(index);\n            if (c < '0' || c > '7') {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    // Check for floating-point numbers\n    boolean hasDecimalPoint = false;\n    boolean hasDigit = false;\n    for (int index = 0; index < s.length(); index++) {\n        char c = s.charAt(index);\n        if (c == '.') {\n            if (hasDecimalPoint) {\n                return false; // Multiple decimal points\n            }\n            hasDecimalPoint = true;\n        } else if (c < '0' || c > '9') {\n            return false;\n        } else {\n            hasDigit = true;\n        }\n    }\n\n    return hasDigit;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> cls, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);\n    mapper.configure(DeserializationFeature.COERCE_EMPTY_STRINGS_TO_NULL, true);\n\n    String emptyJson = \"{\\\"value\\\": \\\"\\\"}\";\n    JsonNode node = mapper.readTree(emptyJson);\n    Object result = mapper.treeToValue(node.get(\"value\"), cls);\n\n    if (cls.isPrimitive()) {\n        // For primitives, Jackson should use the default value if the input is null\n        assertEquals(defaultValue, result);\n    } else {\n        // For non-primitives, Jackson should return null\n        assertNull(result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

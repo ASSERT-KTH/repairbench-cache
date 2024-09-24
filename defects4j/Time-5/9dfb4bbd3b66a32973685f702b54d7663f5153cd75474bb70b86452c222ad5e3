@@ -1,0 +1,7 @@
+{
+    "generation": "public Period normalizedStandard(PeriodType type) {\n    type = DateTimeUtils.getPeriodType(type);\n    long millis = 0;\n    millis += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));\n    millis += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));\n    millis += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));\n    millis += (((long) getDays()) * ((long) DateTimeConstants.MILLIS_PER_DAY));\n    millis += (((long) getWeeks()) * ((long) DateTimeConstants.MILLIS_PER_WEEK));\n    Period result = new Period(millis, type, ISOChronology.getInstanceUTC());\n\n    int years = getYears();\n    int months = getMonths();\n    if (years != 0 || months != 0) {\n        months = FieldUtils.safeAdd(years * 12, months);\n        int normalizedYears = months / 12;\n        months = months % 12;\n        if (normalizedYears != 0) {\n            result = result.withYears(normalizedYears);\n        }\n        if (months != 0) {\n            result = result.withMonths(months);\n        }\n    }\n\n    // Normalize the result according to the specified PeriodType\n    result = result.normalizedStandard();\n\n    // Ensure the result matches the specified PeriodType\n    if (!type.equals(PeriodType.standard())) {\n        result = result.withPeriodType(type);\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

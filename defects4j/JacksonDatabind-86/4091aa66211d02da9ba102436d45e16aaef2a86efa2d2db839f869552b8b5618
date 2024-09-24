@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> rawType) {\n    if (rawType == null) {\n        return null;\n    }\n\n    // Check if the type is already cached\n    JavaType cached = _typeCache.get(rawType);\n    if (cached != null) {\n        return cached;\n    }\n\n    // Construct the type\n    JavaType type = _constructType(rawType);\n\n    // Special handling for recursive types\n    if (type instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType resolvedType = (ResolvedRecursiveType) type;\n        _typeCache.put(rawType, resolvedType);\n        // Ensure that the base type is also resolved and cached\n        JavaType baseType = resolvedType.getSuperClass();\n        if (baseType instanceof ResolvedRecursiveType) {\n            _typeCache.put(baseType.getRawClass(), (ResolvedRecursiveType) baseType);\n        }\n    } else {\n        _typeCache.put(rawType, type);\n    }\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

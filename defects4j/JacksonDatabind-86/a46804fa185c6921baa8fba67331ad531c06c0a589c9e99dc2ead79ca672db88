@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    // ... other methods and fields\n\n    public JavaType constructType(Class<?> rawType) {\n        // Check if the type is already cached\n        JavaType cachedType = _cache.get(rawType);\n        if (cachedType != null) {\n            return cachedType;\n        }\n\n        // Construct the type\n        JavaType type = _constructType(rawType);\n\n        // Cache the type\n        _cache.put(rawType, type);\n\n        // Ensure that the superclass is correctly resolved\n        if (type instanceof ResolvedRecursiveType) {\n            ResolvedRecursiveType resolvedType = (ResolvedRecursiveType) type;\n            if (resolvedType.getSuperClass() == null) {\n                Class<?> superClass = rawType.getSuperclass();\n                if (superClass != null) {\n                    JavaType superType = constructType(superClass);\n                    resolvedType.setSuperClass(superType);\n                }\n            }\n        }\n\n        return type;\n    }\n\n    // ... other methods\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

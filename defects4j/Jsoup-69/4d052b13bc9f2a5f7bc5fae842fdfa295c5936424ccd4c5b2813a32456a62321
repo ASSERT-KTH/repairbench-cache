@@ -1,0 +1,7 @@
+{
+    "generation": "public class FormElement extends Element {\n    // Other methods and constructors...\n\n    public List<Connection.KeyVal> formData() {\n        List<Connection.KeyVal> data = new ArrayList<>();\n        Elements inputs = select(\"input, select, textarea\");\n        for (Element input : inputs) {\n            String name = input.attr(\"name\");\n            if (name.isEmpty()) {\n                continue; // Skip elements without a name attribute\n            }\n            String value = input.val();\n            if (value == null) {\n                value = \"\"; // Treat null values as empty strings\n            }\n            data.add(Connection.KeyVal.create(name, value));\n        }\n        return data;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

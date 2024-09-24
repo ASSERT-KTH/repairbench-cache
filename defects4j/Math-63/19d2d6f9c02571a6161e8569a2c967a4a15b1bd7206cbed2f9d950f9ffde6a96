@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns true iff they are equal as defined by\n     * {@link #equals(double,double,int) equals(x, y, 1)}.\n     *\n     * @param x first value\n     * @param y second value\n     * @return {@code true} if the values are equal.\n     */\n    public static boolean equals(double x, double y) {\n        return equals(x, y, 1);\n    }\n\n    /**\n     * Returns true iff they are equal as defined by the given precision.\n     *\n     * @param x first value\n     * @param y second value\n     * @param maxUlps the maximum number of ulps by which the values can differ\n     * @return {@code true} if the values are equal.\n     */\n    public static boolean equals(double x, double y, int maxUlps) {\n        if (Double.isNaN(x) && Double.isNaN(y)) {\n            return true;\n        }\n        if (Double.isInfinite(x) && Double.isInfinite(y)) {\n            return x == y;\n        }\n        long xBits = Double.doubleToLongBits(x);\n        long yBits = Double.doubleToLongBits(y);\n        long diff = Math.abs(xBits - yBits);\n        return diff <= maxUlps;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

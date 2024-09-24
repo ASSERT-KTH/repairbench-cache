@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> rawType) {\n    if (rawType == null) {\n        return null;\n    }\n    if (rawType == Object.class) {\n        return TypeFactory.unknownType();\n    }\n    if (rawType.isArray()) {\n        return _fromClass(null, rawType, rawType.getComponentType(), null);\n    }\n    if (ClassUtil.isConcrete(rawType)) {\n        return _fromClass(null, rawType, null, null);\n    }\n    // Check if the type is already cached\n    JavaType cached = _typeCache.get(rawType);\n    if (cached != null) {\n        return cached;\n    }\n    // Construct the type and cache it\n    JavaType result = _constructType(rawType);\n    _typeCache.put(rawType, result);\n    return result;\n}\n\nprivate JavaType _constructType(Class<?> rawType) {\n    if (ClassUtil.isConcrete(rawType)) {\n        return _fromClass(null, rawType, null, null);\n    }\n    if (rawType.isInterface()) {\n        return _fromClass(null, rawType, Object.class, null);\n    }\n    // Handle recursive types\n    Class<?> superClass = rawType.getSuperclass();\n    JavaType superType = (superClass != null) ? constructType(superClass) : null;\n    return _fromClass(null, rawType, superType, null);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

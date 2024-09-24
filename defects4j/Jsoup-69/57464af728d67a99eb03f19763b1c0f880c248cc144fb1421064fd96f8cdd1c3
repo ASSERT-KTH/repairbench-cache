@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : this.select(\"input, select, textarea\")) {\n        if (input.parentNode() == null) {\n            continue; // Skip elements that have been removed from the DOM\n        }\n        String name = input.attr(\"name\");\n        if (name.isEmpty()) {\n            continue; // Skip elements without a name attribute\n        }\n        String value = input.val();\n        if (input.tag().getName().equals(\"select\")) {\n            SelectElement select = (SelectElement) input;\n            value = select.val();\n        }\n        data.add(Connection.keyVal(name, value));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

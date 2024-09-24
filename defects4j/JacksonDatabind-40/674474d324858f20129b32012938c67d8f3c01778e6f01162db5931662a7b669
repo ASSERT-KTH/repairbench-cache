@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> clazz, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);\n    mapper.enable(DeserializationFeature.READ_EMPTY_STRING_AS_NULL);\n\n    String emptyJson = \"{\\\"value\\\": \\\"\\\"}\";\n    JsonNode node = mapper.readTree(emptyJson);\n    JsonNode valueNode = node.get(\"value\");\n\n    if (clazz.isPrimitive()) {\n        if (valueNode.isNull() || valueNode.asText().isEmpty()) {\n            if (clazz == int.class) {\n                assertEquals(defaultValue, mapper.treeToValue(node, int.class));\n            } else if (clazz == long.class) {\n                assertEquals(defaultValue, mapper.treeToValue(node, long.class));\n            } else if (clazz == double.class) {\n                assertEquals(defaultValue, mapper.treeToValue(node, double.class));\n            } else if (clazz == float.class) {\n                assertEquals(defaultValue, mapper.treeToValue(node, float.class));\n            } else {\n                fail(\"Unsupported primitive type: \" + clazz);\n            }\n        } else {\n            fail(\"Value node should be null or empty string\");\n        }\n    } else {\n        fail(\"This test is for primitives only\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

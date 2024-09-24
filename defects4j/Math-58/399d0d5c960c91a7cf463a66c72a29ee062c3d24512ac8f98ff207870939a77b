@@ -1,0 +1,7 @@
+{
+    "generation": "public double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n\n    // Create a constrained optimizer that ensures the parameters are within valid ranges\n    final LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();\n    final Gaussian.Parametric gaussian = new Gaussian.Parametric();\n\n    // Define the constraints for the parameters: amplitude, mean, and sigma\n    final double[] lowerBounds = {0.0, -Double.MAX_VALUE, 0.0};\n    final double[] upperBounds = {Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE};\n\n    // Perform the fit with the constrained optimizer\n    return optimizer.optimize(\n        new MaxEval(1000),\n        new LeastSquaresProblem(new EuclideanDistanceCostFunction(gaussian), getObservations(), guess),\n        new SimpleBounds(lowerBounds, upperBounds)\n    ).getPoint().toArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

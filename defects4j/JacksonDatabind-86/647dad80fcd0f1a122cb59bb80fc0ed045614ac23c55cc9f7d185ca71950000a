@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    // Other methods and fields...\n\n    public JavaType constructType(Class<?> cls) {\n        if (cls == null) {\n            return null;\n        }\n\n        // Check if the type is already cached\n        JavaType cachedType = _typeCache.get(cls);\n        if (cachedType != null) {\n            return cachedType;\n        }\n\n        // Construct the type\n        JavaType constructedType = _constructType(cls);\n\n        // Cache the constructed type\n        _typeCache.put(cls, constructedType);\n\n        return constructedType;\n    }\n\n    private JavaType _constructType(Class<?> cls) {\n        if (cls.getSuperclass() != null) {\n            JavaType superClassType = constructType(cls.getSuperclass());\n            if (superClassType instanceof ResolvedRecursiveType) {\n                // Ensure the base class type is properly resolved and cached\n                ResolvedRecursiveType resolvedSuperClassType = (ResolvedRecursiveType) superClassType;\n                resolvedSuperClassType.resolveBindings(new TypeBindings());\n            }\n        }\n\n        // Construct the type for the given class\n        return _typeFactory.constructType(cls);\n    }\n\n    // Other methods and fields...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

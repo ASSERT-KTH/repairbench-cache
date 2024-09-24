@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // Compute the norm of v1 and v2\n    double normV1 = v1.getNorm();\n    double normV2 = v2.getNorm();\n\n    // Rescale v1 and v2 if their norms are not of the same order of magnitude\n    double scale = 1.0;\n    if (normV1 > 0 && normV2 > 0 && (normV1 / normV2 > 1e3 || normV2 / normV1 > 1e3)) {\n        scale = Math.sqrt(normV1 / normV2);\n        v1 = v1.scalarMultiply(1 / scale);\n        v2 = v2.scalarMultiply(scale);\n    }\n\n    // Compute rho as an 8-bit approximation of v1.v2 / v2.v2\n    double rho = (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z) / (v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);\n    double rho8Bits = ((int) (rho * 256)) / 256.0;\n\n    // Compute v3 = v1 - rho * v2\n    Vector3D v3 = new Vector3D(1, v1, -rho8Bits, v2);\n\n    // Compute the cross product from v3 and v2\n    return new Vector3D(v3.y * v2.z - v3.z * v2.y, v3.z * v2.x - v3.x * v2.z, v3.x * v2.y - v3.y * v2.x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

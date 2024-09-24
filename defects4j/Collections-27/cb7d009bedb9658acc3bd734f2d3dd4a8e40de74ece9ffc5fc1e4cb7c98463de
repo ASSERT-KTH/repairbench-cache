@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<?> keyType = (Class<?>) in.readObject();\n    Class<?> valueType = (Class<?>) in.readObject();\n    \n    if (!List.class.isAssignableFrom(valueType)) {\n        throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n    }\n    \n    this.map = (Map<K, Collection<V>>) in.readObject();\n    this.factory = (Factory<Collection<V>>) () -> createCollection(valueType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

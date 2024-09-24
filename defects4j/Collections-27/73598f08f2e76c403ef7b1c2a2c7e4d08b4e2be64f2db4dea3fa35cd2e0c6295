@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<?> collectionType = (Class<?>) in.readObject();\n    if (collectionType == null || !List.class.isAssignableFrom(collectionType)) {\n        throw new UnsupportedOperationException(\"Unsafe collection type: \" + collectionType);\n    }\n    // Initialize the collection type\n    this.collectionType = collectionType;\n    // Rebuild the map with the deserialized entries\n    int size = in.readInt();\n    for (int i = 0; i < size; i++) {\n        Object key = in.readObject();\n        int listSize = in.readInt();\n        Collection<Object> collection = createCollection();\n        for (int j = 0; j < listSize; j++) {\n            collection.add(in.readObject());\n        }\n        put(key, collection);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

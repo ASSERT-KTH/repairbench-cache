@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    if (s.isEmpty()) {\n        return false;\n    }\n\n    try {\n        // Attempt to parse the string as a double to handle floating-point numbers\n        Double.parseDouble(s);\n        return true;\n    } catch (NumberFormatException e) {\n        // If parsing as a double fails, check for other valid number formats\n        if (s.charAt(0) == '0' && s.length() > 1) {\n            // Handle octal and hexadecimal numbers\n            if (s.charAt(1) == 'x' || s.charAt(1) == 'X') {\n                try {\n                    Integer.parseInt(s.substring(2), 16);\n                    return true;\n                } catch (NumberFormatException ex) {\n                    return false;\n                }\n            } else {\n                try {\n                    Integer.parseInt(s.substring(1), 8);\n                    return true;\n                } catch (NumberFormatException ex) {\n                    return false;\n                }\n            }\n        }\n        return false;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

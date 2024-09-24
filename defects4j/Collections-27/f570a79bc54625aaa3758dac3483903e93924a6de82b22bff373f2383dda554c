@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<? extends Collection> valueCollectionType = (Class<? extends Collection>) in.readObject();\n    if (valueCollectionType == null || !isValidCollectionType(valueCollectionType)) {\n        throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n    }\n    // Initialize the map with the valid collection type\n    map = new HashMap<>();\n    valueCollectionClass = valueCollectionType;\n}\n\nprivate boolean isValidCollectionType(Class<? extends Collection> collectionType) {\n    // List of safe collection types\n    return ArrayList.class.isAssignableFrom(collectionType) ||\n           LinkedList.class.isAssignableFrom(collectionType) ||\n           HashSet.class.isAssignableFrom(collectionType) ||\n           LinkedHashSet.class.isAssignableFrom(collectionType) ||\n           TreeSet.class.isAssignableFrom(collectionType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

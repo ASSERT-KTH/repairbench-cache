@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    if (len == 0) {\n        return false;\n    }\n\n    // Check for hexadecimal numbers\n    if (len > 2 && s.startsWith(\"0x\")) {\n        for (int index = 2; index < len; index++) {\n            char c = s.charAt(index);\n            if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    // Check for decimal numbers\n    boolean hasDot = false;\n    for (int index = 0; index < len; index++) {\n        char c = s.charAt(index);\n        if (c == '.') {\n            if (hasDot) {\n                return false; // Only one dot allowed\n            }\n            hasDot = true;\n        } else if (c < '0' || c > '9') {\n            return false;\n        }\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        URL base;\n        try {\n            base = new URL(baseUri);\n        } catch (MalformedURLException e) {\n            // the base is unsuitable, but the attribute may be abs on its own, so try that\n            try {\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            } catch (MalformedURLException ex) {\n                return \"\";\n            }\n        }\n\n        // workaround: java resolves '//path/file + ?foo' to '//path/?foo', not '//path/file?foo' as desired\n        URL abs;\n        try {\n            abs = new URL(base, relUrl);\n        } catch (MalformedURLException e) {\n            // if the URL construction fails, try to handle relative queries manually\n            if (relUrl.startsWith(\"?\")) {\n                String path = base.getPath();\n                if (path.isEmpty()) {\n                    path = \"/\";\n                }\n                String query = relUrl.substring(1);\n                abs = new URL(base.getProtocol(), base.getHost(), base.getPort(), path + \"?\" + query);\n            } else {\n                abs = new URL(base, relUrl);\n            }\n        }\n        return abs.toExternalForm();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

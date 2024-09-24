@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K prefix) {\n    final TrieNode<K, V> node = findNode(prefix);\n    if (node == null) {\n        return Collections.emptySortedMap();\n    }\n\n    final NavigableMap<K, V> subMap = new TreeMap<>();\n    addSubMap(node, prefix, subMap);\n\n    return new TreeMap<>(subMap);\n}\n\nprivate void addSubMap(final TrieNode<K, V> node, final K prefix, final NavigableMap<K, V> subMap) {\n    if (node.getValue() != null) {\n        subMap.put(prefix, node.getValue());\n    }\n    for (final Map.Entry<Character, TrieNode<K, V>> entry : node.getChildren().entrySet()) {\n        final K newPrefix = mergePrefix(prefix, entry.getKey());\n        addSubMap(entry.getValue(), newPrefix, subMap);\n    }\n}\n\nprivate K mergePrefix(final K prefix, final char key) {\n    if (prefix instanceof String) {\n        return (K) ((String) prefix + key);\n    }\n    // Handle other types of keys if necessary\n    throw new UnsupportedOperationException(\"Unsupported key type: \" + prefix.getClass());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

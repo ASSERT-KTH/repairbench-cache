@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        // Ensure the interval is valid\n        if (min > max) {\n            throw new IllegalArgumentException(\"Invalid interval: min must be less than or equal to max\");\n        }\n\n        // Ensure the function has different signs at the interval endpoints\n        double fMin = f.value(min);\n        double fMax = f.value(max);\n        if (fMin * fMax >= 0) {\n            throw new IllegalArgumentException(\"Function values at interval endpoints must have different signs\");\n        }\n\n        // Initialize the bisection process\n        double a = min;\n        double b = max;\n        double c = initial;\n\n        int iterations = 0;\n        while (iterations < getMaxIterations()) {\n            c = (a + b) / 2.0;\n            double fC = f.value(c);\n\n            if (fC == 0 || (b - a) / 2.0 < getAbsoluteAccuracy()) {\n                return c;\n            }\n\n            if (fMin * fC < 0) {\n                b = c;\n                fMax = fC;\n            } else {\n                a = c;\n                fMin = fC;\n            }\n\n            iterations++;\n        }\n\n        throw new MaxIterationsExceededException(getMaxIterations());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

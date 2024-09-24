@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> targetClass, Object expectedValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.COERCE_EMPTY_STRINGS_TO_NULL);\n\n    String emptyJson = \"{\\\"value\\\":\\\"\\\"}\";\n    JsonNode node = mapper.readTree(emptyJson);\n    Object result = mapper.treeToValue(node.get(\"value\"), targetClass);\n\n    if (targetClass.isPrimitive()) {\n        assertEquals(expectedValue, result);\n    } else {\n        assertNull(result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

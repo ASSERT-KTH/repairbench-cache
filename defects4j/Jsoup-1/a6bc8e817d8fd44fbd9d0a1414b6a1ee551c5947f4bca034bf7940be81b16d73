@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node: element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    for (Node node: toMove) {\n        element.removeChild(node);\n        if (element.childNodes.size() == 0 || !(element.childNode(element.childNodes.size() - 1) instanceof TextNode)) {\n            body().appendChild(new TextNode(\" \", \"\"));\n        }\n        body().prependChild(node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

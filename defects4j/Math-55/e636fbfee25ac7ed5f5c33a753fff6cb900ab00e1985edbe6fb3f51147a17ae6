@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // Compute the norms of the vectors\n    double normV1 = v1.getNorm();\n    double normV2 = v2.getNorm();\n\n    // Rescale both vectors to have similar magnitudes\n    double scale = FastMath.max(normV1, normV2);\n    if (scale == 0.0) {\n        // If both vectors are zero, the cross product is zero\n        return new Vector3D(0.0, 0.0, 0.0);\n    }\n\n    Vector3D scaledV1 = new Vector3D(1.0 / scale, v1);\n    Vector3D scaledV2 = new Vector3D(1.0 / scale, v2);\n\n    // Compute the 8-bit approximation of rho = v1.v2 / v2.v2\n    double dotProductV1V2 = scaledV1.dotProduct(scaledV2);\n    double dotProductV2V2 = scaledV2.getNormSquare();\n    double rho = dotProductV1V2 / dotProductV2V2;\n\n    // Compute v3 = v1 - rho * v2\n    Vector3D v3 = scaledV1.subtract(new Vector3D(rho, scaledV2));\n\n    // Compute the cross product from v3 and v2\n    double x = v3.getY() * scaledV2.getZ() - v3.getZ() * scaledV2.getY();\n    double y = v3.getZ() * scaledV2.getX() - v3.getX() * scaledV2.getZ();\n    double z = v3.getX() * scaledV2.getY() - v3.getY() * scaledV2.getX();\n\n    // Scale the result back to the original magnitude\n    return new Vector3D(scale * scale, x, y, z);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double density(final double[] vals) throws DimensionMismatchException {\n        final int dim = getDimension();\n        if (vals.length != dim) {\n            throw new DimensionMismatchException(vals.length, dim);\n        }\n\n        final double[] mean = getMean();\n        final RealMatrix invCovarianceMatrix = getCovarianceMatrix().inverse();\n        final double[] diff = new double[dim];\n        for (int i = 0; i < dim; i++) {\n            diff[i] = vals[i] - mean[i];\n        }\n\n        final RealVector diffVector = new ArrayRealVector(diff);\n        final double exponentTerm = -0.5 * diffVector.transpose().multiply(invCovarianceMatrix).multiply(diffVector).getEntry(0);\n\n        return FastMath.pow(2 * FastMath.PI, -dim / 2.0) *\n            FastMath.pow(covarianceMatrixDeterminant, -0.5) *\n            FastMath.exp(exponentTerm);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

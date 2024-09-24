@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> paramClass) {\n    if (paramClass == null) {\n        return null;\n    }\n    if (paramClass == Object.class) {\n        return _typeCache.get(Object.class);\n    }\n    JavaType rawType = _fromClass(paramClass);\n    if (paramClass.isInterface() || paramClass.isArray() || paramClass.isPrimitive()) {\n        return rawType;\n    }\n    if (paramClass.getSuperclass() != null) {\n        JavaType superType = constructType(paramClass.getSuperclass());\n        if (superType != null) {\n            rawType = new ResolvedRecursiveType(paramClass, superType, rawType.getBindings());\n        }\n    }\n    _typeCache.put(paramClass, rawType);\n    return rawType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
