@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeExtended(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n        deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedShort(); // length\n    int type = buf.readUnsignedByte();\n\n    if (type == MSG_STRING_INFO) {\n        return decodeStringInfo(buf, position, deviceSession);\n    } else if (type == MSG_INFO) {\n        return decodeInfo(buf, position, deviceSession);\n    } else if (type == MSG_X1_PHOTO_DATA) {\n        return decodePhotoData(buf, position, deviceSession);\n    } else if (type == MSG_AZ735_GPS || type == MSG_AZ735_ALARM) {\n        return decodeAz735(buf, position, deviceSession, type);\n    } else if (type == MSG_OBD) {\n        return decodeObd(buf, position, deviceSession);\n    } else if (type == MSG_GPS_MODULAR) {\n        return decodeGpsModular(buf, position);\n    } else if (type == MSG_MULTIMEDIA) {\n        return decodeMultimedia(buf, position, deviceSession);\n    } else if (type == MSG_SERIAL) {\n        return decodeSerial(buf, position, deviceSession);\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

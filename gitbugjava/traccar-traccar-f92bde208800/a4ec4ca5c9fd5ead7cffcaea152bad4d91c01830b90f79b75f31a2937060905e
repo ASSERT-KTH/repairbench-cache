@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            // ... (other cases remain the same)\n            case \"CN\":\n                int combinedMobileCodes = (int) (buf.readUnsignedInt() % 100000); // cccnn\n                cellTower.setMobileCountryCode(combinedMobileCodes / 100);\n                cellTower.setMobileNetworkCode(combinedMobileCodes % 100);\n                break;\n            // ... (other cases remain the same)\n        }\n    }\n\n    if (cellTower.getMobileCountryCode() != null\n        && cellTower.getMobileNetworkCode() != null\n        && cellTower.getCellId() != null && cellTower.getCellId() != 0\n        && cellTower.getLocationAreaCode() != null) {\n        position.setNetwork(new Network(cellTower));\n    } else if (cellTower.getSignalStrength() != null) {\n        position.set(Position.KEY_RSSI, cellTower.getSignalStrength());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

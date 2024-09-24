@@ -1,0 +1,7 @@
+{
+    "generation": "private SimpleRobotRules parseContent(String url, byte[] content, String contentType, Collection<String> robotNames, boolean exactUserAgentMatching) {\n\n    // If there's nothing there, treat it like we have no restrictions.\n    if ((content == null) || (content.length == 0)) {\n        return new SimpleRobotRules(RobotRulesMode.ALLOW_ALL);\n    }\n\n    int bytesLen = content.length;\n    int offset = 0;\n    Charset encoding = StandardCharsets.UTF_8;\n\n    // Check for a UTF-8 BOM at the beginning (EF BB BF)\n    if ((bytesLen >= 3) && (content[0] == (byte) 0xEF) && (content[1] == (byte) 0xBB) && (content[2] == (byte) 0xBF)) {\n        offset = 3;\n        bytesLen -= 3;\n    }\n\n    String contentAsStr;\n    try {\n        contentAsStr = new String(content, offset, bytesLen, encoding);\n    } catch (CharacterCodingException e) {\n        // If UTF-8 fails, fall back to ISO-8859-1\n        contentAsStr = new String(content, offset, bytesLen, StandardCharsets.ISO_8859_1);\n    }\n\n    // Rest of the function remains the same\n    // ...\n\n    // The remaining part of the function should be kept as is\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(ChannelHandlerContext ctx, Channel channel, ByteBuf buf) throws Exception {\n    int startIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '[');\n    int endIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) ']');\n\n    if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {\n        ByteBuf frame = buf.slice(startIndex, endIndex - startIndex + 1);\n        buf.readerIndex(endIndex + 1);\n        return frame;\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

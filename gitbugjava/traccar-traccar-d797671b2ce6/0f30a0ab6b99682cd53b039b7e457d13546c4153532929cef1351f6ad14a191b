@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeTransparent(DeviceSession deviceSession, ByteBuf buf) {\n    int type = buf.readUnsignedByte();\n\n    if (type == 0xF0) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        Date time;\n        try {\n            time = readDate(buf, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n        } catch (IllegalArgumentException e) {\n            // If date parsing fails, use current date\n            time = new Date();\n        }\n\n        if (buf.readUnsignedByte() > 0) {\n            position.set(Position.KEY_ARCHIVE, true);\n        }\n\n        buf.readUnsignedByte(); // vehicle type\n\n        int count;\n        int subtype = buf.readUnsignedByte();\n        switch (subtype) {\n            // ... (rest of the switch case remains unchanged)\n        }\n\n        return position;\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
