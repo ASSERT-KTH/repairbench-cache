@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    }\n\n    try {\n        // Check if the URL is already absolute\n        new URL(relUrl);\n        return relUrl;\n    } catch (MalformedURLException e) {\n        // If the URL is not absolute, try to combine with the base URI\n        try {\n            URL base = new URL(baseUri);\n            URL abs = new URL(base, relUrl);\n            // Handle special case where the base URI ends with '?' and the relative URL starts with '?'\n            if (baseUri.endsWith(\"?\") && relUrl.startsWith(\"?\")) {\n                return baseUri.substring(0, baseUri.length() - 1) + relUrl;\n            }\n            return abs.toExternalForm(); // Return the absolute URL\n        } catch (MalformedURLException e2) {\n            return \"\"; // Return an empty string if the URL cannot be made absolute\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

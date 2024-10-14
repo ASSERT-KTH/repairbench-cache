@@ -1,0 +1,7 @@
+{
+    "generation": "public Class<?> getGenericType(Field field) {\n    Type generic = field.getGenericType();\n    if (generic instanceof ParameterizedType) {\n        Type[] typeArguments = ((ParameterizedType) generic).getActualTypeArguments();\n        if (typeArguments.length > 0) {\n            Type firstTypeArgument = typeArguments[0];\n            if (firstTypeArgument instanceof Class) {\n                return (Class<?>) firstTypeArgument;\n            } else if (firstTypeArgument instanceof ParameterizedType) {\n                // Handle nested generics\n                return (Class<?>) ((ParameterizedType) firstTypeArgument).getRawType();\n            }\n        }\n    }\n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

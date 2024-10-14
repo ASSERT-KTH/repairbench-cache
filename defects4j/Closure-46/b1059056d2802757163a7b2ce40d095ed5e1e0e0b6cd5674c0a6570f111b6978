@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n    RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n    Set<String> intersection = new HashSet<>(properties.keySet());\n    intersection.retainAll(that.toMaybeRecordType().getPropertyNames());\n    for (String property : intersection) {\n      if (that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(\n          getPropertyType(property))) {\n        builder.addProperty(property, getPropertyType(property),\n            getPropertyNode(property));\n      }\n    }\n    return builder.build();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

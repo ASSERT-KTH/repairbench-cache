@@ -1,0 +1,7 @@
+{
+    "generation": "    public int parseInto(ReadWritableInstant instant, String text, int position) {\n        DateTimeParser parser = requireParser();\n        if (instant == null) {\n            throw new IllegalArgumentException(\"Instant must not be null\");\n        }\n\n        Chronology chrono = instant.getChronology();\n        int defaultYear = chrono.year().get(instant.getMillis());\n\n        DateTimeParserBucket bucket = new DateTimeParserBucket(\n            instant.getMillis(), chrono, iLocale, iPivotYear, defaultYear);\n        int newPos = parser.parseInto(bucket, text, position);\n\n        if (newPos >= 0) {\n            instant.setMillis(bucket.computeMillis(false, text));\n            instant.setChronology(bucket.getChronology());\n        }\n\n        return newPos;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

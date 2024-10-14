@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    Map<K, Collection<V>> map = (Map<K, Collection<V>>) in.readObject();\n    setMap(map);\n    \n    @SuppressWarnings(\"unchecked\")\n    Class<? extends Collection> collectionClass = (Class<? extends Collection>) in.readObject();\n    \n    // Add this check to prevent unsafe deserialization\n    if (collectionClass == null || !Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe class type for deserialization\");\n    }\n    \n    setCollectionClass(collectionClass);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

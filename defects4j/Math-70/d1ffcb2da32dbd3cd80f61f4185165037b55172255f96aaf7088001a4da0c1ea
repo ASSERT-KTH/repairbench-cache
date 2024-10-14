@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        checkInterval(min, max);\n        double midPoint = initial;\n        double fMin = f.value(min);\n        double fMax = f.value(max);\n        double fMid = f.value(midPoint);\n        boolean solved = false;\n        while (!solved) {\n            if (fMin * fMid < 0) {\n                max = midPoint;\n                fMax = fMid;\n            } else {\n                min = midPoint;\n                fMin = fMid;\n            }\n            midPoint = (min + max) / 2;\n            fMid = f.value(midPoint);\n            if (Math.abs(max - min) < solver.getAbsoluteAccuracy()) {\n                solved = true;\n            }\n        }\n        return midPoint;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

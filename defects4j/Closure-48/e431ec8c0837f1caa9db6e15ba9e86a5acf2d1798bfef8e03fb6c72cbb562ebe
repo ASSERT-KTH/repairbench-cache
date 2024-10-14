@@ -1,0 +1,7 @@
+{
+    "generation": "void maybeDeclareQualifiedName(NodeTraversal t, JSDocInfo info,\n    Node n, Node parent, Node rhsValue) {\n  Node ownerNode = n.getFirstChild();\n  String ownerName = ownerNode.getQualifiedName();\n  String qName = n.getQualifiedName();\n  String propName = n.getLastChild().getString();\n  Preconditions.checkArgument(qName != null && ownerName != null);\n\n  // ... (previous code remains unchanged)\n\n  if (!inferred) {\n    ObjectType ownerType = getObjectSlot(ownerName);\n    if (ownerType != null) {\n      boolean isExtern = t.getInput() != null && t.getInput().isExtern();\n      if ((!ownerType.hasOwnProperty(propName) ||\n           ownerType.isPropertyTypeInferred(propName)) &&\n          ((isExtern && !ownerType.isNativeObjectType()) ||\n           !ownerType.isInstanceType())) {\n        ownerType.defineDeclaredProperty(propName, valueType, n);\n      } else if (ownerType.hasOwnProperty(propName)) {\n        // If the property is already declared, update its type\n        JSType existingType = ownerType.getPropertyType(propName);\n        if (!existingType.isEquivalentTo(valueType)) {\n          ownerType.defineDeclaredProperty(propName, valueType, n);\n        }\n      }\n    }\n\n    defineSlot(n, parent, valueType, inferred);\n  } else if (rhsValue != null && rhsValue.isTrue()) {\n    // ... (remaining code remains unchanged)\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

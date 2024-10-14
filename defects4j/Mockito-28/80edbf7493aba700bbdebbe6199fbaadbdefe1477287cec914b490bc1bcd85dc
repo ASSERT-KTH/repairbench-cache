@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Optional<Object> candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (candidate.isPresent()) {\n            Object mock = candidate.get();\n            if (field.getType().equals(mock.getClass())) {\n                // Exact type match, inject immediately\n                injectMock(field, fieldInstance, mock);\n                return;\n            }\n        }\n    }\n    \n    // If no exact match found, try ancestor types\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance)\n            .ifPresent(mock -> injectMock(field, fieldInstance, mock));\n    }\n}\n\nprivate void injectMock(Field field, Object fieldInstance, Object mock) {\n    try {\n        field.setAccessible(true);\n        field.set(fieldInstance, mock);\n    } catch (IllegalAccessException e) {\n        throw new RuntimeException(\"Could not inject mock into field \" + field, e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

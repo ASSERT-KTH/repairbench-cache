@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements elements = select(\"input,textarea,select,button\");\n\n    for (Element element : elements) {\n        if (element.hasAttr(\"name\") && !element.hasAttr(\"disabled\") && !element.parent().hasAttr(\"data-removed\")) {\n            if (\"select\".equalsIgnoreCase(element.tagName())) {\n                for (Element option : element.select(\"option[selected]\")) {\n                    String key = element.attr(\"abs:name\");\n                    String val = option.val();\n                    data.add(Connection.KeyVal.create(key, val));\n                }\n            } else {\n                String key = element.attr(\"abs:name\");\n                String val = element.val();\n                data.add(Connection.KeyVal.create(key, val));\n            }\n        }\n    }\n\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

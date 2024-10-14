@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Number read(JsonReader in) throws IOException {\n  JsonToken jsonToken = in.peek();\n  switch (jsonToken) {\n    case NULL:\n      in.nextNull();\n      return null;\n    case NUMBER:\n      return new LazilyParsedNumber(in.nextString());\n    case STRING:\n      // Handle string representation of numbers\n      String str = in.nextString();\n      try {\n        return new LazilyParsedNumber(str);\n      } catch (NumberFormatException e) {\n        throw new JsonSyntaxException(\"Cannot parse \" + str + \" as a number.\");\n      }\n    default:\n      throw new JsonSyntaxException(\"Expecting number, got: \" + jsonToken);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

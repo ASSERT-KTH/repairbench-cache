@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    private Map<Class<?>, JavaType> _cachedTypes = new ConcurrentHashMap<>();\n\n    public JavaType constructType(Class<?> cls) {\n        if (_cachedTypes.containsKey(cls)) {\n            return _cachedTypes.get(cls);\n        }\n\n        JavaType type = _constructType(cls); // Call some internal method to construct the type\n        _cachedTypes.put(cls, type);\n\n        if (cls.getSuperclass() != null) {\n            constructType(cls.getSuperclass());\n        }\n\n        return type;\n    }\n\n    private JavaType _constructType(Class<?> cls) {\n        // Placeholder for actual type construction logic\n        return new JavaTypeImpl(cls);\n    }\n}\n\nclass JavaTypeImpl extends JavaType {\n    private Class<?> _cls;\n\n    public JavaTypeImpl(Class<?> cls) {\n        super(cls);\n        _cls = cls;\n    }\n\n    @Override\n    public JavaType getSuperClass() {\n        if (_cls.getSuperclass() == null) {\n            return null;\n        }\n        return new JavaTypeImpl(_cls.getSuperclass());\n    }\n}\n\nabstract class JavaType {\n    private Class<?> _cls;\n\n    public JavaType(Class<?> cls) {\n        _cls = cls;\n    }\n\n    public abstract JavaType getSuperClass();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

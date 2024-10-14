@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    Map<K, Collection<V>> map = (Map<K, Collection<V>>) in.readObject();\n    setMap(map);\n    \n    @SuppressWarnings(\"unchecked\")\n    Class<? extends Collection> collectionClass = (Class<? extends Collection>) in.readObject();\n    \n    // Check if the collectionClass is safe to deserialize\n    if (!isSafeClass(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe class: \" + collectionClass.getName());\n    }\n    \n    setCollectionClass(collectionClass);\n}\n\nprivate boolean isSafeClass(Class<?> clazz) {\n    // Add logic to determine if a class is safe to deserialize\n    // For example, you might want to allow only specific collection classes\n    return ArrayList.class.equals(clazz) || HashSet.class.equals(clazz);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

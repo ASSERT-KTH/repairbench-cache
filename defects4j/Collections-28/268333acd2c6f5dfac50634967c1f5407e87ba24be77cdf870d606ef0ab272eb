@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.SortedMap;\nimport java.util.List;\nimport java.util.ArrayList;\n\npublic class PatriciaTrie<V> implements Trie<String, V> {\n    // Other methods and fields\n\n    @Override\n    public SortedMap<String, V> prefixMap(String prefix) {\n        SortedMap<String, V> result = new TreeMap<>();\n        for (Map.Entry<String, V> entry : entrySet()) {\n            if (entry.getKey().startsWith(prefix)) {\n                result.put(entry.getKey(), entry.getValue());\n            }\n        }\n        return new SubMap<>(result, prefix);\n    }\n\n    private static class SubMap<V> implements SortedMap<String, V> {\n        private final SortedMap<String, V> map;\n        private final String prefix;\n\n        public SubMap(SortedMap<String, V> map, String prefix) {\n            this.map = map;\n            this.prefix = prefix;\n        }\n\n        @Override\n        public void clear() {\n            List<String> keysToRemove = new ArrayList<>();\n            for (String key : map.keySet()) {\n                if (key.startsWith(prefix)) {\n                    keysToRemove.add(key);\n                }\n            }\n            for (String key : keysToRemove) {\n                map.remove(key);\n            }\n        }\n\n        // Implement other methods required by SortedMap interface\n        // such as get, put, remove, firstKey, lastKey, etc.\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

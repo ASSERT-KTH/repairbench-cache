@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    Class<Collection<Object>> collectionClass = (Class<Collection<Object>>) in.readObject();\n    \n    // Check if the deserialized class is safe\n    if (!isSafeClass(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe class detected during deserialization: \" + collectionClass.getName());\n    }\n    \n    // Continue with the rest of the deserialization logic\n    // ...\n}\n\nprivate boolean isSafeClass(Class<?> clazz) {\n    // Implement logic to determine if a class is safe for deserialization\n    // For example, you might want to allow only specific collection classes\n    return ArrayList.class.equals(clazz) || HashSet.class.equals(clazz);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

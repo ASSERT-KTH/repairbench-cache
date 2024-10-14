@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Implement Kahan's algorithm to reduce cancellation errors\n    double a[] = new double[3];\n    double b[] = new double[3];\n    double c[] = new double[3];\n\n    double r0, r1, alpha, beta;\n\n    for (int i = 0; i < 3; i++) {\n        r0 = v1.get(i);\n        r1 = v2.get(i);\n\n        alpha = r0 * v2.getNorm();\n        beta = r1 * v1.getNorm();\n        a[i] = alpha;\n        b[i] = beta;\n        c[i] = alpha - beta;\n    }\n\n    double a1, a2, a3, a4;\n    double b1, b2, b3, b4;\n    double c1, c2, c3, c4;\n    double a1b2, a3b4;\n    double b1a2, b3a4;\n    double a2b1, a4b3;\n    double b2a1, b4a3;\n\n    a1 = a[0]; a2 = a[1]; a3 = a[2]; a4 = a[0];\n    b1 = b[0]; b2 = b[1]; b3 = b[2]; b4 = b[0];\n    c1 = c[0]; c2 = c[1]; c3 = c[2]; c4 = c[0];\n\n    a1b2 = a1 * b2;\n    a3b4 = a3 * b4;\n    b1a2 = b1 * a2;\n    b3a4 = b3 * a4;\n    a2b1 = a2 * b1;\n    a4b3 = a4 * b3;\n    b2a1 = b2 * a1;\n    b4a3 = b4 * a3;\n\n    return new Vector3D(a2b1 - a4b3, a3b4 - a1b2, b2a1 - b4a3);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

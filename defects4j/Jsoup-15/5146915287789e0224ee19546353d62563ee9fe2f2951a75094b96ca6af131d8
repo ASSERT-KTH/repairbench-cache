@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, TreeBuilder tb) {\n    switch (t.type) {\n        // ... (previous cases remain the same)\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            // ... (previous code remains the same)\n\n            else if (name.equals(\"script\") || name.equals(\"style\")) {\n                handleRawtext(startTag, tb);\n            }\n\n            // ... (rest of the cases remain the same)\n\n    }\n    return true;\n}\n\nprivate void handleRawtext(Token.StartTag startTag, TreeBuilder tb) {\n    tb.insert(startTag);\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    tb.markInsertionMode();\n    tb.transition(Text);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

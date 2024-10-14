@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    int len = str.length();\n    if (len == 0 || (str.charAt(0) == '_' || str.charAt(len - 1) == '_')) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    String language = \"\", country = \"\", variant = \"\";\n    int langEnd = 2, countryStart = 3, countryEnd = 5, variantStart = 6;\n\n    if (len > langEnd && str.charAt(langEnd) == '_') {\n        if (len > countryEnd + 1 && str.charAt(countryEnd + 1) == '_') {\n            variant = str.substring(variantStart);\n            country = str.substring(countryStart, countryEnd);\n            language = str.substring(0, langEnd);\n        } else {\n            country = str.substring(countryStart, countryEnd);\n            language = str.substring(0, langEnd);\n        }\n    } else {\n        language = str;\n    }\n\n    if (language.isEmpty() || !language.chars().allMatch(Character::isLowerCase)) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    if (!country.isEmpty() && (country.length() != 2 || !country.chars().allMatch(Character::isUpperCase))) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    return new Locale(language, country, variant);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

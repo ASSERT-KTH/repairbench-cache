@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    Class<? extends Collection> valueClass = (Class<? extends Collection>) in.readObject();\n    \n    // Add a check for unsafe classes\n    if (valueClass == String.class || !Collection.class.isAssignableFrom(valueClass)) {\n        throw new UnsupportedOperationException(\"Unsafe class: \" + valueClass.getName());\n    }\n    \n    // Rest of the deserialization logic\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

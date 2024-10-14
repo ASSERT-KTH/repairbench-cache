@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // ... (previous cases remain unchanged)\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.normalName();\n            \n            // ... (other cases remain unchanged)\n\n            else if (name.equals(\"pre\") || name.equals(\"listing\")) {\n                tb.insert(startTag);\n                tb.reader.matchConsume(\"\\n\"); // skip first newline\n                tb.framesetOk(false);\n            }\n\n            // ... (rest of the cases remain unchanged)\n\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

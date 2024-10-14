@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlinableObject(List<Reference> refs) {\n  boolean ret = false;\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    if (parent.isGetProp()) {\n      Preconditions.checkState(parent.getFirstChild() == name);\n      if (gramps.isCall() && gramps.getFirstChild() == parent) {\n        return false;\n      }\n      continue;\n    }\n\n    if (!isVarOrAssignExprLhs(name)) {\n      return false;\n    }\n\n    Node val = ref.getAssignedValue();\n    if (val == null) {\n      continue;\n    }\n\n    if (!val.isObjectLit()) {\n      return false;\n    }\n\n    for (Node child = val.getFirstChild(); child != null; child = child.getNext()) {\n      if (child.isGetterDef() || child.isSetterDef()) {\n        return false;\n      }\n\n      Node childVal = child.getFirstChild();\n      for (Reference t : refs) {\n        Node refNode = t.getParent();\n        while (refNode != null && !NodeUtil.isStatementBlock(refNode)) {\n          if (refNode == childVal) {\n            return false;\n          }\n          refNode = refNode.getParent();\n        }\n      }\n    }\n\n    ret = true;\n  }\n  return ret && refs.size() == 1; // Add this condition to ensure single assignment\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

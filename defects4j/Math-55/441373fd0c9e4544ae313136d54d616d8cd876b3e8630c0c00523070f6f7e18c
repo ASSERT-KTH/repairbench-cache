@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    double x1 = v1.x;\n    double y1 = v1.y;\n    double z1 = v1.z;\n\n    double x2 = v2.x;\n    double y2 = v2.y;\n    double z2 = v2.z;\n\n    // Real cross product calculation using Kahan's method to reduce cancellation errors\n    double rho = (y1 * z2 - y2 * z1) - (x1 * z2 - x2 * z1) + (x1 * y2 - x2 * y1);\n\n    double iRes = v1.y * v2.z - v1.z * v2.y + rho * (y2 * z1 - z2 * y1) - rho * (x2 * z1 - z2 * x1) + rho * (x2 * y1 - y2 * x1);\n    double jRes = v1.z * v2.x - v1.x * v2.z + rho * (z2 * x1 - x2 * z1) - rho * (y2 * x1 - x2 * y1) + rho * (y2 * z1 - z2 * y1);\n    double kRes = v1.x * v2.y - v1.y * v2.x + rho * (x2 * y1 - y2 * x1) - rho * (z2 * y1 - y2 * z1) + rho * (z2 * x1 - x2 * z1);\n\n    return new Vector3D(iRes, jRes, kRes);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

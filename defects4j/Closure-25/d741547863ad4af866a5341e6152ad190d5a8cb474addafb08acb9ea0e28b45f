@@ -1,0 +1,7 @@
+{
+    "generation": "private FlowScope traverseNew(Node n, FlowScope scope) {\n  Node constructor = n.getFirstChild();\n  scope = traverse(constructor, scope);\n  JSType constructorType = constructor.getJSType();\n  JSType type = null;\n  if (constructorType != null) {\n    constructorType = constructorType.restrictByNotNullOrUndefined();\n    if (constructorType.isUnknownType()) {\n      type = getNativeType(UNKNOWN_TYPE);\n    } else {\n      FunctionType ct = constructorType.toMaybeFunctionType();\n      if (ct == null && constructorType instanceof FunctionType) {\n        ct = (FunctionType) constructorType;\n      }\n      if (ct != null && ct.isConstructor()) {\n        type = ct.getInstanceType();\n        \n        // Add this block to handle parameter types\n        int paramIndex = 0;\n        for (Node arg = constructor.getNext(); arg != null; arg = arg.getNext()) {\n          JSType paramType = ct.getParameterType(paramIndex);\n          if (paramType != null) {\n            scope = traverse(arg, scope);\n            JSType argType = arg.getJSType();\n            if (argType != null) {\n              scope = narrowScope(scope, arg, paramType);\n            }\n          }\n          paramIndex++;\n        }\n      }\n    }\n  }\n  n.setJSType(type);\n  return scope;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

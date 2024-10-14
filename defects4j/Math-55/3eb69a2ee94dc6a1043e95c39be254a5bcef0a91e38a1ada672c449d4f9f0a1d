@@ -1,0 +1,7 @@
+{
+    "generation": "  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n      // Rescale both vectors without losing precision,\n      // to ensure their norms are the same order of magnitude.\n\n      // Compute rho as an 8-bit approximation of v1.v2 / v2.v2.\n      double rho = Math.rint(64.0 * (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z) / (v2.x * v2.x + v2.y * v2.y + v2.z * v2.z)) / 64.0;\n\n      // Compute v3 = v1 - rho * v2.\n      double v3x = v1.x - rho * v2.x;\n      double v3y = v1.y - rho * v2.y;\n      double v3z = v1.z - rho * v2.z;\n\n      // Compute cross product from v3 and v2 instead of v1 and v2.\n      double cx = v3y * v2.z - v3z * v2.y;\n      double cy = v3z * v2.x - v3x * v2.z;\n      double cz = v3x * v2.y - v3y * v2.x;\n\n      return new Vector3D(cx, cy, cz);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public Period normalizedStandard(PeriodType type) {\n        type = DateTimeUtils.getPeriodType(type);\n        if (type.isSupported(DurationFieldType.years()) && type.isSupported(DurationFieldType.months())) {\n            int years = getYears();\n            int months = getMonths();\n            if (years != 0 || months != 0) {\n                years = FieldUtils.safeAdd(years, months / 12);\n                months = months % 12;\n            }\n            return new Period(years, months, getWeeks(), getDays(), getHours(), getMinutes(), getSeconds(), getMillis(), type);\n        } else if (type.isSupported(DurationFieldType.months())) {\n            int years = getYears();\n            int months = getMonths();\n            long totalMonths = FieldUtils.safeAdd(FieldUtils.safeMultiply(years, 12), months);\n            return new Period(0, FieldUtils.safeToInt(totalMonths), getWeeks(), getDays(), getHours(), getMinutes(), getSeconds(), getMillis(), type);\n        } else {\n            throw new UnsupportedOperationException(\"Field is not supported\");\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

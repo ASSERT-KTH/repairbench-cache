@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processFunctionNode(FunctionNode functionNode) {\n  Name name = functionNode.getFunctionName();\n  Boolean isUnnamedFunction = false;\n  if (name == null) {\n    name = new Name();\n    name.setIdentifier(\"\");\n    isUnnamedFunction = true;\n  }\n  Node node = newNode(Token.FUNCTION);\n  Node newName = transform(name);\n  if (isUnnamedFunction) {\n    // For unnamed functions, we should not add the empty name node to the AST\n    // as it's not a valid function statement.\n    if (functionNode.getParent() == null || \n        functionNode.getParent().getType() != Token.LP) {\n      return null; // Return null for invalid unnamed function statements\n    }\n  } else {\n    node.addChildToBack(newName);\n  }\n\n  Node lp = newNode(Token.LP);\n  Name fnName = functionNode.getFunctionName();\n  if (fnName != null) {\n    lp.setLineno(fnName.getLineno());\n  } else {\n    lp.setLineno(functionNode.getLineno());\n  }\n  int lparenCharno = functionNode.getLp() +\n      functionNode.getAbsolutePosition();\n\n  lp.setCharno(position2charno(lparenCharno));\n  for (AstNode param : functionNode.getParams()) {\n    lp.addChildToBack(transform(param));\n  }\n  node.addChildToBack(lp);\n\n  Node bodyNode = transform(functionNode.getBody());\n  parseDirectives(bodyNode);\n  node.addChildToBack(bodyNode);\n  return node;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType resolveType(JavaType base) {\n    JavaType resolved = _map.get(base.getRawClass());\n    if (resolved != null) {\n        return resolved;\n    }\n    // Recursively resolve the superclass first if not already resolved\n    if (base.getSuperClass() != null) {\n        JavaType superClass = resolveType(base.getSuperClass());\n        JavaType sub = _concrete(superClass, base);\n        _map.put(base.getRawClass(), sub);\n        return sub;\n    }\n    _map.put(base.getRawClass(), base);\n    return base;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

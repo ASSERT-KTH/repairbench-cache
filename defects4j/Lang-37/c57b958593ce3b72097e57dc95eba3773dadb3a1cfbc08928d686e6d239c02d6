@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    final Class<?> type1 = array1.getClass().getComponentType();\n    final Class<?> type2 = array2.getClass().getComponentType();\n    final Class<?> commonType = getCommonSuperclass(type1, type2);\n    T[] joinedArray = (T[]) Array.newInstance(commonType, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    try {\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    } catch (ArrayStoreException e) {\n        // If we can't store array2 elements in the new array, we need to manually copy and possibly cast them\n        for (int i = 0; i < array2.length; i++) {\n            joinedArray[array1.length + i] = (T) array2[i];\n        }\n    }\n    return joinedArray;\n}\n\nprivate static Class<?> getCommonSuperclass(Class<?> c1, Class<?> c2) {\n    if (c1 == c2) {\n        return c1;\n    }\n    if (c1.isAssignableFrom(c2)) {\n        return c1;\n    }\n    if (c2.isAssignableFrom(c1)) {\n        return c2;\n    }\n    if (c1.isPrimitive() || c2.isPrimitive()) {\n        return Object.class;\n    }\n    do {\n        c1 = c1.getSuperclass();\n    } while (!c1.isAssignableFrom(c2));\n    return c1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

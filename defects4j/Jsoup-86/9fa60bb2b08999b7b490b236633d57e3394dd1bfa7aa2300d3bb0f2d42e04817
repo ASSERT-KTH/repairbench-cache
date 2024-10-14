@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    if (data.length() < 2) {\n        return null;\n    }\n    \n    String decl = data.substring(1, data.length() - 1).trim();\n    if (!decl.startsWith(\"?\") || !decl.endsWith(\"?\")) {\n        return null;\n    }\n    \n    decl = decl.substring(1, decl.length() - 1).trim();\n    \n    int firstSpace = decl.indexOf(' ');\n    if (firstSpace == -1) {\n        return null;\n    }\n    \n    String name = decl.substring(0, firstSpace);\n    String attributeString = decl.substring(firstSpace + 1);\n    \n    XmlDeclaration declaration = new XmlDeclaration(name, data.startsWith(\"!\"));\n    \n    String[] attributes = attributeString.split(\"\\\\s+\");\n    for (String attribute : attributes) {\n        int equalsIndex = attribute.indexOf('=');\n        if (equalsIndex > 0) {\n            String key = attribute.substring(0, equalsIndex).trim();\n            String value = attribute.substring(equalsIndex + 1).trim();\n            if (value.startsWith(\"\\\"\") && value.endsWith(\"\\\"\") || value.startsWith(\"'\") && value.endsWith(\"'\")) {\n                value = value.substring(1, value.length() - 1);\n            }\n            declaration.attr(key, value);\n        }\n    }\n    \n    return declaration;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

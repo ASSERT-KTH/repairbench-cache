@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Object mock = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (mock != null) {\n            try {\n                field.setAccessible(true);\n                field.set(fieldInstance, mock);\n            } catch (IllegalAccessException e) {\n                throw new RuntimeException(\"Could not inject mock: \" + mock + \" into field: \" + field, e);\n            }\n            break; // Inject only once, into the best matching type\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

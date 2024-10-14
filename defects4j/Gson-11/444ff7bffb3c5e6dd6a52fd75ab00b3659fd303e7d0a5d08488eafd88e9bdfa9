@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Number read(JsonReader in) throws IOException {\n      JsonToken jsonToken = in.peek();\n      switch (jsonToken) {\n      case NULL:\n        in.nextNull();\n        return null;\n      case NUMBER:\n        return new LazilyParsedNumber(in.nextString());\n      case STRING:\n        String numAsString = in.nextString();\n        try {\n          if (numAsString.contains(\".\")) {\n            return Double.valueOf(numAsString);\n          } else {\n            return Long.valueOf(numAsString);\n          }\n        } catch (NumberFormatException e) {\n          throw new JsonSyntaxException(\"Invalid numeric value: \" + numAsString, e);\n        }\n      default:\n        throw new JsonSyntaxException(\"Expecting number, got: \" + jsonToken);\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0 || v == 0) {\n        return Math.abs(u) + Math.abs(v);\n    }\n    \n    int uAbs = Math.abs(u);\n    int vAbs = Math.abs(v);\n    \n    // B1. [Find power of 2]\n    int k = Integer.numberOfTrailingZeros(uAbs | vAbs);\n    uAbs >>= k;\n    vAbs >>= k;\n    \n    // B2. Initialize\n    int t = (uAbs & 1) == 1 ? vAbs : -(uAbs / 2);\n    \n    do {\n        t = Math.abs(t);\n        // B4/B3: cast out twos from t.\n        t >>= Integer.numberOfTrailingZeros(t);\n        // B5 [reset max(u,v)]\n        if (t > 0) {\n            uAbs = t;\n        } else {\n            vAbs = -t;\n        }\n        // B6/B3. at this point both u and v should be odd.\n        t = (vAbs - uAbs) / 2;\n    } while (t != 0);\n    \n    return uAbs << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

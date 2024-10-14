@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.Serializable;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.ArrayList;\n\npublic class MultiValueMap<K, V> implements Serializable {\n    private final HashMap<K, List<V>> map;\n    private final Class<? extends List> listClass;\n\n    private MultiValueMap(HashMap<K, List<V>> map, Class<? extends List> listClass) {\n        this.map = map;\n        this.listClass = listClass;\n    }\n\n    public static <K, V> MultiValueMap<K, V> multiValueMap(HashMap<K, List<V>> map, Class<? extends List> listClass) {\n        return new MultiValueMap<>(map, listClass);\n    }\n\n    private void checkUnsafeClass() {\n        if (listClass != ArrayList.class) {\n            throw new UnsupportedOperationException(\"Unsafe class detected: \" + listClass.getName());\n        }\n    }\n\n    private void readObject(java.io.ObjectInputStream ois) throws java.io.IOException, ClassNotFoundException {\n        ois.defaultReadObject();\n        checkUnsafeClass(); // Ensure safety after deserialization\n    }\n\n    @Override\n    public boolean equals(Object obj) {\n        if (this == obj) return true;\n        if (obj == null || getClass() != obj.getClass()) return false;\n        MultiValueMap<?, ?> that = (MultiValueMap<?, ?>) obj;\n        return map.equals(that.map);\n    }\n\n    @Override\n    public int hashCode() {\n        return map.hashCode();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

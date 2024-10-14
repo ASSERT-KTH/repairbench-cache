@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {\n    inputStream.defaultReadObject();\n\n    if (factory == null || (factory instanceof Class && String.class.equals(factory))) {\n        throw new UnsupportedOperationException(\"Unsafe class encountered during deserialization\");\n    }\n\n    map = createMap();\n    for (Map.Entry<K, Collection<V>> entry : map.entrySet()) {\n        V value = (V) factory.newInstance();\n        Collection<V> values = createCollection();\n        values.add(value);\n        map.put(entry.getKey(), values);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

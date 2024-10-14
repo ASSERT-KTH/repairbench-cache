@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/': // Handle the case of a slash to ignore it correctly\n            t.tagPending.selfClosing = true;\n            // Ignore the slash and move to the next character\n            c = r.consume();\n            if (c == '>') {\n                t.emitTagPending();\n                t.transition(Data);\n            } else {\n                t.error(this);\n                t.transition(BeforeAttributeName);\n            }\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

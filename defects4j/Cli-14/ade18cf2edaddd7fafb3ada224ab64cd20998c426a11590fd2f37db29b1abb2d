@@ -1,0 +1,7 @@
+{
+    "generation": "public class FileValidator implements Validator {\n    public static FileValidator getExistingFileInstance() {\n        return new FileValidator();\n    }\n\n    public void validate(List values) throws InvalidArgumentException {\n        for (Object value : values) {\n            if (value instanceof String) {\n                File file = new File((String) value);\n                if (!file.exists()) {\n                    throw new InvalidArgumentException(\"File does not exist: \" + value);\n                }\n            } else if (value instanceof File) {\n                if (!((File) value).exists()) {\n                    throw new InvalidArgumentException(\"File does not exist: \" + value);\n                }\n            } else {\n                throw new InvalidArgumentException(\"Invalid file type: \" + value.getClass());\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

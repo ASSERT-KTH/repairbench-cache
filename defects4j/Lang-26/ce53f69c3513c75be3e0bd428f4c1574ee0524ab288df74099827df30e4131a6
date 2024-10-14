@@ -1,0 +1,7 @@
+{
+    "generation": "import java.time.temporal.WeekFields;\n\n/**\n * <p>Formats a <code>Date</code> object.</p>\n * \n * @param date  the date to format\n * @return the formatted string\n */\npublic String format(Date date) {\n    Calendar c = new GregorianCalendar(mTimeZone);\n    c.setTime(date);\n    \n    // Get the WeekFields for the current locale\n    WeekFields weekFields = WeekFields.of(mLocale);\n    \n    // Get the week of year\n    int weekOfYear = c.get(weekFields.weekOfYear());\n    \n    // Create a new calendar with the week of year set\n    Calendar adjustedCalendar = (Calendar) c.clone();\n    adjustedCalendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);\n    \n    return applyRules(adjustedCalendar, new StringBuffer(mMaxLengthEstimate)).toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

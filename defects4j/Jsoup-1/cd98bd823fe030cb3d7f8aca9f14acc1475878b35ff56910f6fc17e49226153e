@@ -1,0 +1,7 @@
+{
+    "generation": "    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n\n        // Collect non-blank text nodes first\n        for (Node node : element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Reverse the order to maintain original sequence when moving\n        Collections.reverse(toMove);\n\n        for (Node node : toMove) {\n            element.removeChild(node);\n            if (body().childNodes().isEmpty()) {\n                body().appendChild(node); // append node directly if the body is empty\n            } else {\n                body().prependChild(node); // append node at the start of the body\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

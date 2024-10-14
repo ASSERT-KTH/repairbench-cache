@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input[name]\")) {\n        if (!input.parent().equals(this)) {\n            continue;\n        }\n        String key = input.attr(\"name\");\n        String value = input.val();\n        String type = input.attr(\"type\");\n\n        if ((\"checkbox|radio\").contains(type) && input.hasAttr(\"checked\")) {\n            value = input.attr(\"value\");\n        } else if (\"submit|reset|button|image\".contains(type) && !input.hasAttr(\"value\")) {\n            continue;\n        } else if (\"file\".equals(type)) {\n            continue;\n        }\n\n        data.add(new Connection.KeyVal(key, value));\n    }\n\n    for (Element textarea : select(\"textarea[name]\")) {\n        if (!textarea.parent().equals(this)) {\n            continue;\n        }\n        String key = textarea.attr(\"name\");\n        String value = textarea.text();\n        data.add(new Connection.KeyVal(key, value));\n    }\n\n    for (Element select : select(\"select[name]\")) {\n        if (!select.parent().equals(this)) {\n            continue;\n        }\n        String key = select.attr(\"name\");\n        String value = \"\";\n        for (Element option : select.select(\"option[selected]\")) {\n            value = option.val();\n        }\n        data.add(new Connection.KeyVal(key, value));\n    }\n\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

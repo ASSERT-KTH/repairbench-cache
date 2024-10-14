@@ -1,0 +1,7 @@
+{
+    "generation": "void maybeDeclareQualifiedName(NodeTraversal t, JSDocInfo info,\n    Node n, Node parent, Node rhsValue) {\n  Node ownerNode = n.getFirstChild();\n  String ownerName = ownerNode.getQualifiedName();\n  String qName = n.getQualifiedName();\n  String propName = n.getLastChild().getString();\n  Preconditions.checkArgument(qName != null && ownerName != null);\n\n  // ... [previous code remains unchanged] ...\n\n  if (!inferred) {\n    ObjectType ownerType = getObjectSlot(ownerName);\n    if (ownerType != null) {\n      boolean isExtern = t.getInput() != null && t.getInput().isExtern();\n      if ((!ownerType.hasOwnProperty(propName) ||\n           ownerType.isPropertyTypeInferred(propName)) &&\n          ((isExtern && !ownerType.isNativeObjectType()) ||\n           !ownerType.isInstanceType())) {\n        ownerType.defineDeclaredProperty(propName, valueType, n);\n      }\n    }\n\n    // Check if the property is already declared in the current scope\n    Var existingVar = scope.getVar(qName);\n    if (existingVar != null && existingVar.getScope() == scope) {\n      // If it's already declared in this scope, we're redefining it\n      // So we need to undeclare it first\n      scope.undeclare(existingVar);\n    }\n\n    defineSlot(n, parent, valueType, inferred);\n  } else if (rhsValue != null && rhsValue.isTrue()) {\n    // ... [rest of the code remains unchanged] ...\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

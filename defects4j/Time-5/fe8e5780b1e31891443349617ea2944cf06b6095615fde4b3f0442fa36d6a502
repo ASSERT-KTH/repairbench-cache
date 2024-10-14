@@ -1,0 +1,7 @@
+{
+    "generation": "public Period normalizedStandard(PeriodType type) {\n    type = DateTimeUtils.getPeriodType(type);\n    long millis = getMillis();  // no overflow can happen, even with Integer.MAX_VALUEs\n    millis += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));\n    millis += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));\n    millis += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));\n    millis += (((long) getDays()) * ((long) DateTimeConstants.MILLIS_PER_DAY));\n    millis += (((long) getWeeks()) * ((long) DateTimeConstants.MILLIS_PER_WEEK));\n    \n    int years = getYears();\n    int months = getMonths();\n    long totalMonths = years * 12L + months;\n    \n    if (type.contains(DurationFieldType.years()) || type.contains(DurationFieldType.months())) {\n        years = FieldUtils.safeToInt(totalMonths / 12);\n        months = FieldUtils.safeToInt(totalMonths % 12);\n    } else {\n        millis += totalMonths * ((long) DateTimeConstants.MILLIS_PER_MONTH);\n        years = 0;\n        months = 0;\n    }\n    \n    Period result = new Period(millis, type, ISOChronology.getInstanceUTC());\n    if (years != 0 && type.contains(DurationFieldType.years())) {\n        result = result.withYears(years);\n    }\n    if (months != 0 && type.contains(DurationFieldType.months())) {\n        result = result.withMonths(months);\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

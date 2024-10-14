@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"deprecation\")\nprotected BeanPropertyWriter buildWriter(SerializerProvider prov,\n        BeanPropertyDefinition propDef, JavaType declaredType, JsonSerializer<?> ser,\n        TypeSerializer typeSer, TypeSerializer contentTypeSer,\n        AnnotatedMember am, boolean defaultUseStaticTyping)\n    throws JsonMappingException\n{\n    // ... (previous code remains unchanged)\n\n    switch (inclusion) {\n    case NON_DEFAULT:\n        if (_useRealPropertyDefaults) {\n            if (prov.isEnabled(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)) {\n                am.fixAccess(_config.isEnabled(MapperFeature.OVERRIDE_PUBLIC_ACCESS_MODIFIERS));\n            }\n            valueToSuppress = getPropertyDefaultValue(propDef.getName(), am, actualType);\n        } else {\n            valueToSuppress = getDefaultValue(actualType);\n        }\n        suppressNulls = true;\n        if (valueToSuppress == null) {\n            suppressNulls = true;\n        } else {\n            if (valueToSuppress.getClass().isArray()) {\n                valueToSuppress = ArrayBuilders.getArrayComparator(valueToSuppress);\n            }\n        }\n        break;\n    // ... (rest of the switch cases remain unchanged)\n    }\n\n    // ... (rest of the function remains unchanged)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

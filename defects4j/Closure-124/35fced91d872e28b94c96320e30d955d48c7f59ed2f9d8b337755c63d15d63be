@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n\n  node = node.getFirstChild();\n  if (node.isName() && isNameAssignedTo(node.getString(), replacement)) {\n    // Check if any of the ancestors have been replaced to avoid 'might have changed' issue.\n    for (Node ancestor = node; ancestor != null; ancestor = ancestor.getParent()) {\n      if (isNameAssignedTo(ancestor.getString(), replacement)) {\n        return false;\n      }\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

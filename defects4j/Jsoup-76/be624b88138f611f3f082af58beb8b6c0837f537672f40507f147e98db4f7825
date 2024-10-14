@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // ... (other cases remain unchanged)\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.normalName();\n            // ... (other cases remain unchanged)\n            else if (name.equals(\"pre\") || name.equals(\"listing\")) {\n                if (tb.inButtonScope(\"p\")) {\n                    tb.processEndTag(\"p\");\n                }\n                tb.insert(startTag);\n                tb.framesetOk(false);\n                // Skip the next token if it's a newline\n                tb.tokeniser.acknowledgeSelfClosingFlag();\n                if (tb.tokeniser.nextTokenType() == Token.TokenType.Character) {\n                    Token nextToken = tb.tokeniser.peek();\n                    if (nextToken.asCharacter().getData().equals(\"\\n\")) {\n                        tb.tokeniser.advance();\n                    }\n                }\n            }\n            // ... (other cases remain unchanged)\n        // ... (other cases remain unchanged)\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

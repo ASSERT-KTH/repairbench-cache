@@ -1,0 +1,7 @@
+{
+    "generation": "    public void _testEmptyToNullCoercion(Class<?> type, Object nullRepresentation) throws Exception {\n        ObjectMapper mapper = new ObjectMapper();\n        mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n        String json = \"\\\"\\\"\"; // empty string in JSON\n\n        Object result = mapper.readValue(json, type);\n\n        // Ensure the result is null for primitive types\n        if (type.isPrimitive()) {\n            assertEquals(\"Should be coerced to default value\", nullRepresentation, result);\n        } else {\n            assertNull(\"Should be coerced to null\", result);\n        }\n    }\n\n    public void testEmptyToNullCoercionForPrimitives() throws Exception {\n        _testEmptyToNullCoercion(int.class, Integer.valueOf(0));\n        _testEmptyToNullCoercion(long.class, Long.valueOf(0));\n        _testEmptyToNullCoercion(double.class, Double.valueOf(0.0));\n        _testEmptyToNullCoercion(float.class, Float.valueOf(0.0f));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

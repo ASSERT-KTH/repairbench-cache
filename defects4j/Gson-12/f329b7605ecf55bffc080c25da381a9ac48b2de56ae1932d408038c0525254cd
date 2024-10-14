@@ -1,0 +1,7 @@
+{
+    "generation": "@Override public void skipValue() throws IOException {\n    int count = 0;\n    do {\n        JsonToken token = peek();\n        if (token == JsonToken.BEGIN_ARRAY || token == JsonToken.BEGIN_OBJECT) {\n            push(token);\n            count++;\n        } else if (token == JsonToken.END_ARRAY || token == JsonToken.END_OBJECT) {\n            count--;\n            if (stackSize > 0) {\n                pathNames[stackSize - 1] = \"null\";\n            }\n        } else if (token == JsonToken.NAME) {\n            nextName();\n        } else {\n            nextNull();\n        }\n    } while (count != 0);\n\n    if (stackSize > 0) {\n        pathIndices[stackSize - 1]++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

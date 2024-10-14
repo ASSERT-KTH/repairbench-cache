@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        // Ensure that the initial guess is within the bounds\n        if (initial < min || initial > max) {\n            initial = (min + max) / 2;\n        }\n\n        // Ensure that min and max create a valid interval\n        if (f.value(min) * f.value(max) >= 0) {\n            throw new IllegalArgumentException(\"Function values at the interval endpoints must have opposite signs.\");\n        }\n\n        // Perform the bisection method\n        double mid;\n        while (max - min > getAbsoluteAccuracy()) {\n            mid = (min + max) / 2;\n            if (f.value(mid) * f.value(min) < 0) {\n                max = mid;\n            } else {\n                min = mid;\n            }\n        }\n\n        return (min + max) / 2;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}
