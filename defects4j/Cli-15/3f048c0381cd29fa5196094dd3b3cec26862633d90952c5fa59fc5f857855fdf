@@ -1,0 +1,7 @@
+{
+    "generation": "    public List getValues(final Option option,\n                          List defaultValues) {\n        // initialize the return list\n        List valueList = (List) values.get(option);\n\n        // grab the correct default values\n        if ((valueList == null) || valueList.isEmpty()) {\n            valueList = new ArrayList();\n        }\n        if(defaultValues != null) {\n            valueList.addAll(defaultValues);\n        }\n\n\n        // augment the list with the default values\n        if ((valueList == null) || valueList.isEmpty()) {\n            List defaultVal = (List) this.defaultValues.get(option);\n            if (defaultVal != null) {\n                valueList.addAll(defaultVal);\n            }\n        } else {\n            List defaultVal = (List) this.defaultValues.get(option);\n            if (defaultVal != null) {\n                int valueListSize = valueList.size();\n                for (int i = 0; i < defaultVal.size(); i++) {\n                  if (i + valueListSize >= option.getArgument().getMaximum())\n                    break;\n                  \n                  valueList.add(defaultVal.get(i));\n                }\n            }\n        }\n        \n        return valueList == null || valueList.isEmpty() ? Collections.EMPTY_LIST : valueList;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

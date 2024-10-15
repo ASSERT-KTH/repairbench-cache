@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public byte[] getBinaryValue(Base64Variant b64variant)\n        throws IOException, JsonParseException\n    {\n        // Multiple possibilities...\n        JsonNode n = currentNode();\n        if (n != null) {\n            if (n instanceof TextNode) {\n                try {\n                    return _decodeBase64(n.asText(), b64variant);\n                } catch (IllegalArgumentException e) {\n                    throw new JsonParseException(null, e.getMessage());\n                }\n            }\n            // [databind#2096]: although `binaryValue()` works for real binary node\n            // and embedded \"POJO\" node, coercion from TextNode may require variant, so:\n            byte[] data = n.binaryValue();\n            if (data != null) {\n                return data;\n            }\n            if (n.isPojo()) {\n                Object ob = ((POJONode) n).getPojo();\n                if (ob instanceof byte[]) {\n                    return (byte[]) ob;\n                }\n            }\n        }\n        // otherwise return null to mark we have no binary content\n        return null;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

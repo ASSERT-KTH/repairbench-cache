@@ -1,0 +1,7 @@
+{
+    "generation": "public void clear() {\n    if (keySet().isEmpty()) {\n        return;\n    }\n    TrieEntry<K, V> entry = unmodifiedTrie.select(prefix);\n    if (entry == null) {\n        return;\n    }\n\n    if (entry.getKey().equals(prefix)) {\n        entry.removeAll();\n        unmodifiedTrie.delete(prefix); // added this line to fix NPE\n    } else {\n        TrieEntry<K, V> current = entry;\n        while (current != null) {\n             if (current.getKey().startsWith(prefix)) {\n                  TrieEntry<K, V> parent = current.getParent();\n                  current.removeAll();\n                  if(parent != null) { // avoid remove root node\n                      parent.removeChild(current);\n                  }\n\n              }\n              current = current.getNext();\n\n         }\n\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

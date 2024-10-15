@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonSetter;\nimport com.fasterxml.jackson.annotation.Nulls;\nimport com.fasterxml.jackson.databind.ObjectMapper;\n\nimport java.io.IOException;\n\npublic class TestSimpleTypes {\n\n    private void _testEmptyToNullCoercion(Class<?> cls, Object defaultValue) throws IOException\n    {\n        ObjectMapper m = new ObjectMapper();\n        m.setDefaultPropertyInclusion(Value.construct(JsonInclude.Include.NON_EMPTY, JsonInclude.Include.ALWAYS));\n        EmptyBean bean = m.readerFor(EmptyBean.class)\n            .with(m.deserializationConfig().with(\n                    new JsonSetter.Value().withNulls(Nulls.AS_EMPTY)))\n            .readValue(\"{\\\"value\\\":\\\"\\\"}\");\n        assertNull(\"Should coerce empty String to `null` for \" + cls.getName(), bean.value);\n    }\n\n    static class EmptyBean {\n        @JsonSetter(nulls=Nulls.AS_EMPTY)\n        public Object value;\n    }\n\n    // // // Test methods\n\n    public void testEmptyToNullCoercionForPrimitives() throws Exception {\n        _testEmptyToNullCoercion(int.class, Integer.valueOf(0));\n        _testEmptyToNullCoercion(long.class, Long.valueOf(0));\n        _testEmptyToNullCoercion(double.class, Double.valueOf(0.0));\n        _testEmptyToNullCoercion(float.class, Float.valueOf(0.0f));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

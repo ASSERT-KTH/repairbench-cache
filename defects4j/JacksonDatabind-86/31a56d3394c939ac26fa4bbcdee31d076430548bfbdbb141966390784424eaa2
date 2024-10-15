@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.concurrent.ConcurrentHashMap;\n\nimport com.fasterxml.jackson.databind.JavaType;\nimport com.fasterxml.jackson.databind.type.*;\n\npublic class RecursiveTypeTest extends com.fasterxml.jackson.databind.BaseMapTest\n{\n    class Base {\n        public int base = 1;\n    }\n\n    class Sub extends Base {\n        public int sub = 2;\n    }\n\n    static class FieldWrapperBean {\n        public FieldWrapper<String> value;\n    }\n\n    static class FieldWrapper<T> {\n        public T wrapped;\n    }    \n\n    interface MapInterface extends java.util.Map<Long, Sub> { }\n\n    @Override\n    protected ConcurrentHashMap<JavaType, Boolean> _seenTypes = new ConcurrentHashMap<>();\n\n    // [databind#2370]\n    public void testSuperClassWithReferencedJavaType() {\n        TypeFactory tf = objectMapper().getTypeFactory();\n        JavaType baseType = tf.constructType(Base.class);\n        tf.constructType(Sub.class);\n        // baseTypeFromSub should be a ResolvedRecursiveType in this test\n        JavaType baseTypeFromSub = tf.constructType(Sub.class).getSuperClass();\n\n        assertEquals(baseType, baseTypeFromSub);\n\n        assertNotNull(baseTypeFromSub.getSuperClass());\n    }\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

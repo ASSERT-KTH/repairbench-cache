@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = false; // Fix: Don't self-close if it's not explicitly self-closing\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case '/':\n                    t.tagPending.selfClosing = true;\n                    t.advanceTransition(SelfClosingStartTag);\n                    break; // Fix: Added break to handle '/' correctly\n                case eof:\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    t.error(this);\n                    r.unconsume(); // Fix: Put the character back to be consumed in BeforeAttributeName state\n                    t.transition(BeforeAttributeName);\n            }\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

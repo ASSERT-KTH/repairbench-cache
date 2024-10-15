@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonSetter;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.annotation.JsonDeserialize;\n\nimport java.io.IOException;\n\npublic class TestSimpleTypes_testEmptyToNullCoercionForPrimitives {\n\n    private void _testEmptyToNullCoercion(Class<?> primType, Object emptyValue) throws IOException\n    {\n        ObjectMapper m = new ObjectMapper();\n        m.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n        Wrapper w = m.readValue(\"{\\\"value\\\":\\\"\\\"}\", Wrapper.class);\n        if (w.value != null && w.value.getClass() == primType) {\n            fail(\"Should not have passed\");\n        }\n        assertNull(w.value);\n\n\n        // Also: let's verify that non-empty String works ok as well...\n        w = m.readValue(\"{\\\"value\\\":\\\"1\\\"}\", Wrapper.class);\n        assertNotNull(w.value);\n        assertEquals(1, ((Number)w.value).intValue());\n    }\n\n\n    static class Wrapper {\n        @JsonDeserialize(as=ValueClass.class)\n        public Object value;\n\n        public Wrapper() { }\n        public Wrapper(Object v) { value = v; }\n    }\n\n    @JsonDeserialize(using = ValueDeserializer.class)\n    static class ValueClass {\n        public Object value;\n\n        public ValueClass() { }\n        public ValueClass(Object v) { value = v; }\n    }\n\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

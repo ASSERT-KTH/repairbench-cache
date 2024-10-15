@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.*;\nimport com.fasterxml.jackson.core.*;\nimport com.fasterxml.jackson.core.json.*;\n\npublic void _testFieldNameQuotingEnabled(JsonFactory f, boolean useBytes,\n                                           boolean quoted, String exp)\n        throws IOException\n{\n    String FIELD = \"foo\";\n    int VALUE = 1;\n\n    JsonGenerator jg;\n    ByteArrayOutputStream bytes = useBytes ? new ByteArrayOutputStream() : null;\n    StringWriter sw = useBytes ? null : new StringWriter();\n\n    if (useBytes) {\n        jg = f.createGenerator(bytes, JsonEncoding.UTF8);\n    } else {\n        jg = f.createGenerator(sw);\n    }\n    jg.writeStartObject();\n    jg.writeFieldName(FIELD);\n    jg.writeNumber(VALUE);\n    jg.writeEndObject();\n    jg.close();\n\n    String actual = useBytes ? bytes.toString(\"UTF-8\") : sw.toString();\n\n    if (quoted) {\n        if (!actual.equals(exp)) {\n            fail(\"Expected '\"+exp+\"', got '\"+actual+\"'\");\n        }\n    } else {\n        // Let's verify quoting IS disabled (if not there...)\n        if (actual.contains(\"\\\"\"+FIELD+\"\\\"\")) {\n             fail(\"Expected \\\"\"+FIELD+\"\\\" NOT to be quoted in '\"+actual+\"'\");\n        }\n        if (!exp.equals(actual)) {\n            fail(\"Expected '\"+exp+\"', got '\"+actual+\"'\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (int i = 0; i < element.childNodes.size(); i++) {\n            Node node = element.childNode(i);\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank()) {\n                    toMove.add(tn);\n                } else {\n                    element.removeChild(node);\n                    i--;\n                }\n            }\n        }\n\n        if (element.parent() != null && (element.parent().tag().getName().equals(\"body\") || element.parent().tag().getName().equals(\"html\")) && toMove.size() > 0) {\n            // not elegant. todo: make sure we're not recursing through the body here... can't append to body otherwise. and would form a loop.\n            Node firstNonBlank = toMove.remove(0);\n            for (Node node : toMove) {\n                element.removeChild(node);\n                body().appendChild(node);\n            }\n            element.prependChild(firstNonBlank);\n        }\n\n        \n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

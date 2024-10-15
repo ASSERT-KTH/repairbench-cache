@@ -1,0 +1,7 @@
+{
+    "generation": "    URL build() {\n        try {\n            // use the URI class to encode non-ascii in path\n            String protocol = u.getProtocol();\n            String userInfo = u.getUserInfo();\n            String host = IDN.toASCII(decodePart(u.getHost())); // puny-code\n            int port = u.getPort();\n            String path = u.getPath(); // Don't decode the path\n            String query = u.getQuery();\n            String ref = u.getRef();\n\n            URI uri = new URI(protocol, userInfo, host, port, path, query, ref);\n\n            String normUrl = uri.toASCIIString();\n\n            u = new URL(normUrl);\n\n            return u;\n        } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n            // we assert here so that any incomplete normalization issues can be caught in devel. but in practise,\n            // the remote end will be able to handle it, so in prod we just pass the original URL.\n            // The UnsupportedEncodingException would never happen as always UTF8\n            assert Validate.assertFail(e.toString());\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

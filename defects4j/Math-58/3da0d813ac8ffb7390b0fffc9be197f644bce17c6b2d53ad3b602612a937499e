@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        double[] parameters = fit(new Gaussian.Parametric(), guess);\n        if (Double.isNaN(parameters[0]) || Double.isNaN(parameters[1]) || Double.isNaN(parameters[2])) {\n            // try to fit a gaussian with reversed x values\n            final WeightedObservedPoint[] points = getObservations();\n            final WeightedObservedPoint[] revPoints = new WeightedObservedPoint[points.length];\n\n            for(int i = 0; i < points.length; i++){\n                revPoints[i] = new WeightedObservedPoint(points[i].getWeight(),\n                                                       -points[i].getX(),\n                                                       points[i].getY());\n            }\n            final ParameterGuesser guesser = new ParameterGuesser(revPoints);\n            parameters = fit(new Gaussian.Parametric(), guesser.guess());\n                \n            parameters[1] = -parameters[1]; // correct the normalization\n\n        }\n        return parameters;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

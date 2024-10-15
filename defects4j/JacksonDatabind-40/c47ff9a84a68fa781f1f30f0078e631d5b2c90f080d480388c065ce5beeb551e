@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.core.JsonParser;\nimport com.fasterxml.jackson.databind.DeserializationContext;\nimport com.fasterxml.jackson.databind.deser.std.StringDeserializer;\nimport com.fasterxml.jackson.databind.exc.MismatchedInputException;\n\nimport java.io.IOException;\n\npublic class EmptyStringDeserializer extends StringDeserializer {\n\n    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n        String text = p.getText();\n        if (text != null && text.trim().isEmpty()) {\n            // Check if we are to coerce to null, or throw exception\n            boolean isPrimitive = ctxt.getParser().currentToken() == null; // Primitive value\n\n            if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n                return null;\n            }\n             if (!isPrimitive && ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n                 return getNullValue(ctxt);\n             }\n\n            // if so, throw exception\n            if (isPrimitive ) {\n                return getEmptyValue(ctxt);\n            } else {\n                return super.deserialize(p, ctxt);\n            }\n        }\n        return super.deserialize(p, ctxt);\n    }\n\n    @Override\n    public Object getEmptyValue(DeserializationContext ctxt) {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

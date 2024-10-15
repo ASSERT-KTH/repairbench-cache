@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonSetter;\nimport com.fasterxml.jackson.databind.ObjectMapper;\n\nimport java.io.IOException;\n\npublic class TestSimpleTypes {\n\n    private void _testEmptyToNullCoercion(Class<?> primType, Object emptyValue) throws IOException\n    {\n        ObjectMapper m = new ObjectMapper();\n        m.setDefaultSetterInfo(JsonSetter.Value.forContentNulls());\n        Wrapper w = m.readValue(\"{\\\"value\\\":\\\"\\\"}\", Wrapper.class);\n        if (w.value != null) {\n            // should be ok NOT to be null for non-primitive types\n            if (primType.isPrimitive()) {\n                fail(\"Should not have passed\");\n            }\n        }\n    }\n\n    static class Wrapper {\n        public Object value;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    //-----------------------------------------------------------------------\n    public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n        // overridden as superclass algorithm can't handle\n        // 2004-02-29 + 48 months -> 2008-02-29 type dates\n        if (valueToAdd == 0) {\n            return values;\n        }\n        if (DateTimeUtils.isContiguous(partial)) {\n            long instant = 0L;\n            for (int i = 0, isize = partial.size(); i < isize; i++) {\n                instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n            }\n            instant = add(instant, valueToAdd);\n            return iChronology.get(partial, instant);\n        } else {\n            int[] newValues = values.clone();\n            newValues[fieldIndex] = partial.getFieldType(fieldIndex).getField(iChronology).add(partial, fieldIndex, values, valueToAdd)[fieldIndex];\n            \n            // Adjust day of month if necessary\n            if (DateTimeUtils.isContiguous(partial)) {\n                return newValues;\n            } else {\n                DateTimeField field = partial.getFieldType(0).getField(iChronology);\n                int max = field.getMaximumValue(partial, newValues);\n                if (newValues[0] > max) {\n                    newValues[0] = max;\n                }\n\n                return newValues;\n             }\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

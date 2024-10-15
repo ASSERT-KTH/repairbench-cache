@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.*;\nimport com.fasterxml.jackson.core.*;\nimport com.fasterxml.jackson.core.json.*;\n\npublic class TestJsonGeneratorFeatures\n    extends com.fasterxml.jackson.core.BaseTest\n{\n    private final JsonFactory JSON_F = new JsonFactory();\n\n    // // // Helper methods\n\n    private void _testFieldNameQuotingEnabled(JsonFactory f, boolean useBytes,\n            boolean quote, String expected)\n        throws IOException\n    {\n        String DOC = quote ? \"{\\\"foo\\\":1}\" : \"{foo:1}\";\n\n        StringWriter sw = new StringWriter();\n        JsonGenerator jg;\n\n        if (useBytes) {\n            jg = f.createGenerator(new ByteArrayOutputStream());\n            jg.writeStartObject();\n            jg.writeFieldName(\"foo\");\n            jg.writeNumber(1);\n            jg.writeEndObject();\n            jg.close();\n        } else {\n            jg = f.createGenerator(sw);\n            jg.writeStartObject();\n            jg.writeFieldName(\"foo\");\n            jg.writeNumber(1);\n            jg.writeEndObject();\n            jg.close();\n    \n            String generated = sw.toString();\n            if (!generated.equals(expected)) {\n                fail(\"Expected '\"+expected+\"', generated '\"+generated+\"'\");\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

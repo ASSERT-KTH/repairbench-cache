@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.*;\nimport com.fasterxml.jackson.core.*;\nimport com.fasterxml.jackson.core.json.*;\n\npublic void testFieldNameQuotingEnabled() throws IOException\n{\n    // // First, test with default factory, with quoting enabled by default\n\n    // First, default, with quotes\n    _testFieldNameQuotingEnabled(JSON_F, true, true, \"{\\\"foo\\\":1}\");\n    _testFieldNameQuotingEnabled(JSON_F, false, true, \"{\\\"foo\\\":1}\");\n\n    // then without quotes\n    _testFieldNameQuotingEnabled(JSON_F, true, false, \"{foo:1}\");\n    _testFieldNameQuotingEnabled(JSON_F, false, false, \"{foo:1}\");\n\n    // // Then with alternatively configured factory\n\n    JsonFactory f = JsonFactory.builder()\n            .disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES)\n            .build();\n    _testFieldNameQuotingEnabled(f, true, true, \"{\\\"foo\\\":1}\"); // should still quote, due to explicit enabling\n    _testFieldNameQuotingEnabled(f, false, true, \"{\\\"foo\\\":1}\"); // as per config\n\n    // then without quotes\n    _testFieldNameQuotingEnabled(f, true, false, \"{foo:1}\");\n    _testFieldNameQuotingEnabled(f, false, false, \"{foo:1}\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
