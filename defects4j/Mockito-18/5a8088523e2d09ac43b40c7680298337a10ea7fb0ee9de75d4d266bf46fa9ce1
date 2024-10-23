@@ -1,0 +1,7 @@
+{
+    "generation": "Object returnValueFor(Class<?> type) {\n    if (Primitives.isPrimitiveOrWrapper(type)) {\n        return Primitives.defaultValueForPrimitiveOrWrapper(type);\n        // new instances are used instead of Collections.emptyList(), etc.\n        // to avoid UnsupportedOperationException if code under test modifies returned collection\n    } else if (Iterable.class.isAssignableFrom(type)) { // Fix: Check for Iterable interface\n        return Collections.emptyList();\n    } else if (Map.class.isAssignableFrom(type)) { // Fix: Check for Map interface and its implements\n        return Collections.emptyMap();\n    } else if (Set.class.isAssignableFrom(type)) { // Fix: Check for Set interface and its implements\n        return Collections.emptySet();\n    } else if (List.class.isAssignableFrom(type)) { // Fix: Check for List interface and its implements\n        return Collections.emptyList();\n    } else {\n        // If none of the above, try to instantiate (current behavior for non-collection types)\n        try {\n            return type.newInstance();\n        } catch (InstantiationException | IllegalAccessException e) {\n            return null;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

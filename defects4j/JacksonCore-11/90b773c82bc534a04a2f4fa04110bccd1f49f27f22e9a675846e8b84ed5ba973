@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fix for ArrayIndexOutOfBoundsException when symbol table expansion is needed after sharing verification.\n * \n * The issue arises because the defensive copying of `_hashArea` and `_names` does not adjust their lengths \n * to accommodate the need for rehashing, which may require a larger table size.\n */\nprivate void _verifySharing()\n{\n    if (_hashShared) {\n        int newSize = (_needRehash)? _calculateNewSize(_hashArea.length) : _hashArea.length;\n        _hashArea = Arrays.copyOf(_hashArea, newSize);\n        _names = Arrays.copyOf(_names, newSize);\n        _hashShared = false;\n    }\n    if (_needRehash) {\n        rehash();\n    }\n}\n\n// Assuming _calculateNewSize method is already defined elsewhere in the class,\n// which calculates the new size for the symbol table when rehashing is needed.\n// If not, you would need to implement this method according to your requirements.",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

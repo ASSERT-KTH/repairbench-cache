@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Overloaded version of {@link #readValue(InputStream)}.\n */\npublic <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    // Ensure input bytes are decoded as UTF-8 to prevent CharConversionException\n    if (_dataFormatReaders!= null) {\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n    }\n    JsonParser parser = _parserFactory.createParser(src, offset, length);\n    // Explicitly set character encoding to UTF-8 if not already set\n    if (parser.getCodec().getEncoding() == null) {\n        parser = parser.setCodec(new JsonFactory().setCharacterEncoding(\"UTF-8\").createParser(src, offset, length));\n    }\n    return _bindAndReadValues(_considerFilter(parser, true));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

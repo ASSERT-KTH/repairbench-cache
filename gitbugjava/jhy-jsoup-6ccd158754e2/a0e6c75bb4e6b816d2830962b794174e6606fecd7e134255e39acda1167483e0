@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Appends a string to a StringBuilder, converting Unicode to ASCII, \n * normalizing spaces, and escaping non-ASCII characters.\n * \n * @param s               the input string\n * @param spaceAsPlus     whether to replace spaces with '+' or \"%20\"\n * @param sb              the StringBuilder to append to\n * @throws UnsupportedEncodingException if the encoding fails\n */\nprivate static void appendToAscii(String s, boolean spaceAsPlus, StringBuilder sb) throws UnsupportedEncodingException {\n    // minimal normalization of Unicode -> Ascii, and space normal. Existing escapes are left as-is.\n    for (int i = 0; i < s.length(); i++) {\n        int c = s.codePointAt(i);\n        if (c == ' ') {\n            sb.append(spaceAsPlus? '+' : \"%20\");\n        } else if (c > 127) { // out of ascii range\n            // Use the code point to directly encode, avoiding unnecessary String creation\n            sb.append(URLEncoder.encode(String.valueOf(Character.toChars(c)), UTF_8.name()));\n        } else if (c == '?') { // handle '?' separately to avoid double encoding\n            sb.append('?');\n        } else {\n            sb.append((char) c);\n        }\n        // advance by the correct number of chars for the code point\n        i += Character.charCount(c) - 1;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

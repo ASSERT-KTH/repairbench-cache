@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given string is a valid JavaScript identifier.\n * \n * @param s the input string to check\n * @return true if the string is a valid JavaScript identifier, false otherwise\n */\npublic static boolean isJSIdentifier(String s) {\n  int length = s.length();\n\n  // JavaScript identifiers can't be empty and must start with a valid character\n  if (length == 0 || \n      // Use Character.isLetter() || Character.getType() == Character.DOLLAR_SIGN \n      // to align with ECMA-262, 5th ed, 7.6 Identifier Names\n      (!Character.isLetter(s.charAt(0)) && s.charAt(0)!= '$' && s.charAt(0)!= '_')) {\n    return false;\n  }\n\n  // Check the rest of the string for valid identifier part characters\n  for (int i = 1; i < length; i++) {\n    char c = s.charAt(i);\n    if (!Character.isLetterOrDigit(c) && \n        c!= '$' && c!= '_' && \n        // Unicode characters in the range U+200C to U+200F are also valid\n        (c < 0x200C || c > 0x200F) && \n        // Unicode characters in the range U+2028 to U+202F are also valid\n        (c < 0x2028 || c > 0x202F) && \n        // Unicode characters in the range U+2060 to U+206F are also valid\n        (c < 0x2060 || c > 0x206F)) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

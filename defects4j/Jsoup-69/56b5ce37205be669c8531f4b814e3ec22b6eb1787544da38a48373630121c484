@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Recomputes and returns the form data for this form element.\n * \n * @return a list of key-value pairs representing the form data\n */\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input, select, textarea\")) {\n        String name = input.attr(\"name\");\n        if (name.isEmpty()) continue; // ignore inputs without a name\n\n        if (input.tagName().equals(\"input\")) {\n            String type = input.attr(\"type\");\n            if (type.isEmpty()) type = \"text\"; // default to text if not specified\n\n            if (type.equals(\"radio\") || type.equals(\"checkbox\")) {\n                if (!input.hasAttr(\"checked\")) continue; // only include checked radio/checkbox inputs\n            } else if (type.equals(\"submit\")) {\n                if (input.hasAttr(\"name\") &&!input.hasAttr(\"value\")) continue; // skip submit buttons without a value\n            } else if (type.equals(\"image\")) {\n                // handle image input separately (not shown in original code, assuming similar handling)\n            }\n        }\n\n        // Fix: Check if input element was removed from the DOM\n        if (!input.parentNode().hasClass(\"form\")) continue;\n\n        data.add(new Connection.KeyVal(name, input.attr(\"value\")));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

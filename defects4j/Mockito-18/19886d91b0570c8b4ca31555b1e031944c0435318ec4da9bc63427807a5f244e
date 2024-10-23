@@ -1,0 +1,7 @@
+{
+    "generation": "Object returnValueFor(Class<?> type) {\n    if (Primitives.isPrimitiveOrWrapper(type)) {\n        return Primitives.defaultValueForPrimitiveOrWrapper(type);\n        // new instances are used instead of Collections.emptyList(), etc.\n        // to avoid UnsupportedOperationException if code under test modifies returned collection\n    } else if (Iterable.class.isAssignableFrom(type)) { // fixes the issue for Iterable\n        return Collections.emptyList();\n    } else if (Collection.class.isAssignableFrom(type)) { // broader check instead of individual collection types\n        if (Set.class.isAssignableFrom(type)) {\n            return new HashSet<Object>();\n        } else if (SortedSet.class.isAssignableFrom(type)) {\n            return new TreeSet<Object>();\n        } else if (List.class.isAssignableFrom(type)) {\n            return new LinkedList<Object>();\n        } else {\n            return new ArrayList<Object>();\n        }\n    } else if (Map.class.isAssignableFrom(type)) { // broader check instead of individual map types\n        if (SortedMap.class.isAssignableFrom(type)) {\n            return new TreeMap<Object, Object>();\n        } else {\n            return new HashMap<Object, Object>();\n        }\n    }\n    // Let's not care about the rest of collections.\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

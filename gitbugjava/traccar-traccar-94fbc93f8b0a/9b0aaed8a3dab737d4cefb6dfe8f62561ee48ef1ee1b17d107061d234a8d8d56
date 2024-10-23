@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            //... (rest of the switch cases remain the same)\n\n            case \"JO11\":\n                // Fix: Validate longitude value to prevent \"Longitude out of range\" error\n                int longitude = buf.readUnsignedByte() - 40;\n                if (longitude >= -180 && longitude <= 180) {\n                    position.setLongitude(longitude);\n                } else {\n                    Logger.getLogger(getClass()).warn(\"Invalid longitude value: {}\", longitude);\n                }\n                break;\n\n            //... (rest of the switch cases remain the same)\n        }\n    }\n\n    //... (rest of the method remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

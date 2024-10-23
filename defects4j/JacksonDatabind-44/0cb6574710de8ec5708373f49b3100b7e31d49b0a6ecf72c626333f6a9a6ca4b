@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Check for sub-class or sub-interface relationship\n    if (!_class.isAssignableFrom(subclass) &&!isInterfaceImplemented(_class, subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n    return new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}\n\n// Helper method to check if an interface is implemented by a class\nprivate boolean isInterfaceImplemented(Class<?> interfaceClass, Class<?> subclass) {\n    for (Class<?> intf : subclass.getInterfaces()) {\n        if (intf == interfaceClass || isInterfaceImplemented(interfaceClass, intf)) {\n            return true;\n        }\n    }\n    if (subclass.getSuperclass()!= null) {\n        return isInterfaceImplemented(interfaceClass, subclass.getSuperclass());\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

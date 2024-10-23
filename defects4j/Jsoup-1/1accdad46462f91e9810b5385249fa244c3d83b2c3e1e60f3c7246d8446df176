@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Normalises the given element by moving non-blank TextNodes to the beginning of the body.\n * This is necessary when parsing HTML snippets that contain text outside of the body.\n */\nprivate void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node: element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // Fix: append moved nodes to the beginning of the body, not the end\n    for (Node node: toMove) {\n        element.removeChild(node);\n        body().prependChild(node); // Use prependChild instead of appendChild\n        // Remove the unnecessary space append\n        // body().appendChild(new TextNode(\" \", \"\"));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

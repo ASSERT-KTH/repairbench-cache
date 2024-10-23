@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns the options with a long name starting with the name specified.\n * If an exact match is found, only that option is returned.\n * \n * @param opt the partial name of the option\n * @return the options matching the partial name specified, or an empty list if none matches\n * @since 1.3\n */\npublic List<String> getMatchingOptions(String opt)\n{\n    opt = Util.stripLeadingHyphens(opt);\n    \n    List<String> matchingOpts = new ArrayList<String>();\n\n    // check for an exact match first\n    if (longOpts.containsKey(opt)) {\n        matchingOpts.add(opt);\n    } else {\n        // if no exact match, find options starting with the partial name\n        for (String longOpt : longOpts.keySet())\n        {\n            if (longOpt.startsWith(opt) &&!longOpt.equals(opt))\n            {\n                matchingOpts.add(longOpt);\n            }\n        }\n    }\n    \n    // if more than one option matches, ensure the input opt doesn't exactly match one of them\n    if (matchingOpts.size() > 1) {\n        for (String matchingOpt : matchingOpts) {\n            if (opt.equals(matchingOpt)) {\n                matchingOpts.clear();\n                matchingOpts.add(opt);\n                break;\n            }\n        }\n    }\n    \n    return matchingOpts;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

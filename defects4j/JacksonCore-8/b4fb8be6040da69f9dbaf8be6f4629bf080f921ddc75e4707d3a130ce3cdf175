@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns a character array that contains all the text stored in this buffer.\n * Note that this method may create a new char[] on the fly, or return a shared\n * buffer; and that the returned buffer may or may not be modifiable (for\n * shared buffers, it is not). If the buffer is empty, an empty array will be\n * returned.\n */\npublic char[] getTextBuffer()\n{\n    // Are we just using shared input buffer?\n    if (_inputStart >= 0) return _inputBuffer;\n    if (_resultArray!= null)  return _resultArray;\n    if (_resultString!= null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    // Nope; but does it fit in just one segment?\n    if (!_hasSegments)  \n    {\n        // Return empty array for empty segment to avoid NPE\n        return _currentSegment == null? new char[0] : _currentSegment;\n    }\n    // Nope, need to have/create a non-segmented array and return it\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

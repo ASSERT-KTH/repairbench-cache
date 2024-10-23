@@ -1,0 +1,7 @@
+{
+    "generation": "// performance sensitive\npublic boolean hasClass(String className) {\n    final String classAttr = attributes.get(\"class\");\n    if (classAttr == null) return false; // added null check\n\n    final int wantLen = className.length();\n\n    // convert both to lowercase for case-insensitive comparison\n    final String classAttrLower = classAttr.toLowerCase();\n    final String classNameLower = className.toLowerCase();\n\n    // if class attribute is empty, or shorter than the target class name\n    if (classAttrLower.length() < wantLen) {\n        return false;\n    }\n\n    // if both lengths are equal, only need compare the className with the attribute\n    if (classAttrLower.length() == wantLen) {\n        return classAttrLower.equals(classNameLower);\n    }\n\n    // otherwise, scan for whitespace and compare regions\n    int start = 0;\n    for (int i = 0; i <= classAttrLower.length(); i++) { // changed to <= to include last index\n        if (i == classAttrLower.length() || Character.isWhitespace(classAttrLower.charAt(i))) {\n            if (i - start == wantLen && classAttrLower.regionMatches(start, classNameLower, 0, wantLen)) {\n                return true;\n            }\n            start = i + 1; // move past whitespace\n        }\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

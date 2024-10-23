@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points, ensuring non-negative sigma.\n *\n * @return the parameters of the Gaussian function that best fits the observed points \n *         (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    // Ensure initial sigma guess is non-negative for the optimizer\n    guess[2] = Math.max(guess[2], 1e-12); // Set a minimal positive value\n    return fit(new Gaussian.Parametric(), guess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

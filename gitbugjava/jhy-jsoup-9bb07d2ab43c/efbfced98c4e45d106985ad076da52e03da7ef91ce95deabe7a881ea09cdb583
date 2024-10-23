@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Replaces a child node with another, handling parent and sibling indices.\n * \n * @param out the node to be replaced\n * @param in  the node to replace with\n */\nprotected void replaceChild(Node out, Node in) {\n    Validate.isTrue(out.parentNode == this);\n    Validate.notNull(in);\n    if (in!= out) { // added check to handle self-replacement\n        if (in.parentNode!= null)\n            in.parentNode.removeChild(in);\n\n        final int index = out.siblingIndex;\n        ensureChildNodes().set(index, in);\n        in.parentNode = this;\n        in.setSiblingIndex(index);\n    }\n    out.parentNode = null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

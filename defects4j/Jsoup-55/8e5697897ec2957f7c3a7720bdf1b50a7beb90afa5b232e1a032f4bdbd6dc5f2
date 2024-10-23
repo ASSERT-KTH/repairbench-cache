@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed function to correctly handle self-closing tags and attribute names.\n */\nvoid read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '/': // Consume and ignore the slash for self-closing tags in HTML mode\n            c = r.consume();\n            if (c == '>') {\n                t.tagPending.selfClosing = true;\n                t.emitTagPending();\n                t.transition(Data);\n            } else {\n                r.unconsume(); // Return the non '>' character back to the stream\n                t.error(this);\n                t.transition(BeforeAttributeName);\n            }\n            break;\n        case '>':\n            t.tagPending.selfClosing = false; // Only set selfClosing to true when explicitly seen\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            r.unconsume(); // Return the character back to the stream for further processing\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

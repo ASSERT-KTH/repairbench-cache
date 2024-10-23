@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, and the expression is not a method call on an \n *     identifier that could be an event handler (to avoid IE bug #291).\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n        if (n.hasOneChild()) {\n            Node maybeExpr = n.getFirstChild();\n            if (NodeUtil.isExpressionNode(maybeExpr)) {\n                // Check if the expression is a method call on an identifier\n                // that could be an event handler (e.g., 'f.onchange()')\n                if (maybeExpr.getType() == Token.CALL && \n                    maybeExpr.getFirstChild().getType() == Token.GETPROP && \n                    maybeExpr.getFirstChild().getSecondChild().isFromString(\"on\")) {\n                    return false; // avoid IE bug #291\n                }\n            }\n            return NodeUtil.isExpressionNode(maybeExpr);\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

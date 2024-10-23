@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @see #findCalledFunctions(Node)\n */\nprivate void findCalledFunctions(\n    Node node, Set<String> changed, Set<Node> visited) {\n  Preconditions.checkArgument(changed!= null);\n  Preconditions.checkArgument(visited!= null);\n\n  if (visited.add(node)) { // avoid infinite recursion for shared subtrees\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node child = node.getFirstChild();\n      if (child.getType() == Token.NAME) {\n        changed.add(child.getString());\n      } else if (child.getType() == Token.GETPROP // handle 'object.method()'\n                 || child.getType() == Token.CALL_PROP) {\n        // extract the method name from 'object.method()' or 'object[\"method\"]()'\n        String methodName = child.getChildCount() > 1\n           ? child.getChildAtIndex(1).getString()\n            : null;\n        if (methodName!= null) {\n          changed.add(methodName);\n        }\n      }\n    }\n\n    for (Node c = node.getFirstChild(); c!= null; c = c.getNext()) {\n      findCalledFunctions(c, changed, visited);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

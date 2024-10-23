@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class. \n * Handles nested generics by recursively resolving the type.\n * \n * @param field\n * @return\n */\npublic Class<?> getGenericType(Field field) {        \n    Type generic = field.getGenericType();\n    if (generic!= null && generic instanceof ParameterizedType) {\n        Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n        if (actual instanceof ParameterizedType) { // handle nested generics\n            return getGenericTypeFromParameterizedType((ParameterizedType) actual);\n        } else if (actual instanceof Class) { // actual type is a Class\n            return (Class<?>) actual;\n        } else { // actual type is not a Class (e.g., TypeVariable, WildcardType)\n            return Object.class; // fall back to Object.class\n        }\n    }\n    \n    return Object.class;\n}\n\n// Helper method to recursively resolve the type from a ParameterizedType\nprivate Class<?> getGenericTypeFromParameterizedType(ParameterizedType parameterizedType) {\n    Type rawType = parameterizedType.getRawType();\n    if (rawType instanceof Class) {\n        return (Class<?>) rawType;\n    } else {\n        // This should not happen in practice, but handle it just in case\n        return Object.class;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

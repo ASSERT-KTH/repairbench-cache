@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if an element is in the specific scope as defined by the HTML spec.\n * \n * @param targetNames  Names of elements to Match\n * @param baseTypes    Names of elements that halt the search (typically 'html', 'head', etc.)\n * @param extraTypes   Additional names of elements that halt the search (optional)\n * @return              True if element is in scope, false otherwise\n */\nprivate boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n    // https://html.spec.whatwg.org/multipage/parsing.html#has-an-element-in-the-specific-scope\n    \n    // Fix: Prevent excessive stack traversal by limiting the search to the actual stack size\n    int bottom = Math.min(stack.size() - 1, MaxScopeSearchDepth);\n    final int top = Math.max(0, bottom - MaxScopeSearchDepth); // Ensure top doesn't go below 0\n\n    for (int pos = bottom; pos >= top; pos--) {\n        final String elName = stack.get(pos).nodeName();\n        if (inSorted(elName, targetNames))\n            return true;\n        if (inSorted(elName, baseTypes))\n            return false;\n        if (extraTypes!= null && inSorted(elName, extraTypes))\n            return false;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

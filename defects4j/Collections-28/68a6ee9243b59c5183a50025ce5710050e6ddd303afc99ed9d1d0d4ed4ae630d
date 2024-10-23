@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void clear() {\n    // Fix: Iterate through the prefix map's entries and remove from the underlying trie\n    Iterator<Map.Entry<String, Integer>> iterator = entrySet().iterator();\n    while (iterator.hasNext()) {\n        Map.Entry<String, Integer> entry = iterator.next();\n        ((PatriciaTrie<String, Integer>) this.prefixMapTrie).remove(entry.getKey());\n        iterator.remove(); // Safe to remove after updating the underlying trie\n    }\n    // Additional fix: Update the internal state to reflect the cleared prefix map\n    if (this instanceof PrefixMap) {\n        ((PrefixMap<String, Integer>) this).clearDelegate();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

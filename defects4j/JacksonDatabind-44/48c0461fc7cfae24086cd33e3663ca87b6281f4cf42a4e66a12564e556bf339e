@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass) {\n    if (_class == subclass) {\n        return this;\n    }\n    // Check for sub-class or sub-interface relationship\n    if (!_class.isAssignableFrom(subclass) && \n       !Arrays.stream(_superInterfaces).anyMatch(iface -> iface.isAssignableFrom(subclass))) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName() + \" not sub-type of \" \n                                           + _class.getName());\n    }\n    return new SimpleType(subclass, _bindings, this, \n                          // Inherit super-interfaces if not already implemented by subclass\n                          Arrays.stream(_superInterfaces)\n                               .filter(iface ->!subclass.isAssignableFrom(iface))\n                               .toArray(Class<?>[]::new),\n                          _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

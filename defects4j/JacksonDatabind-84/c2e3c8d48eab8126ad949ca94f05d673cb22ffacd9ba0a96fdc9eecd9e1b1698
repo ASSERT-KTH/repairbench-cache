@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // Existing code to handle non-inheritance cases or other scenarios...\n    \n    // **Assumed Fix**:\n    if (cls.getSuperclass()!= null &&!cls.getSuperclass().equals(Object.class)) {\n        // Construct type for superclass first to ensure its properties are registered\n        JavaType superType = constructType(cls.getSuperclass());\n        \n        // Merge superclass properties with subclass properties\n        JavaType subtype = _constructType(cls, superType); // Assuming _constructType is the method building the actual type\n        subtype = _refineType(subtype, superType); // Optionally refine with any additional settings from superclass\n        \n        return subtype;\n    }\n    \n    // If no superclass or Object, proceed as before\n    return _constructType(cls, null);\n}\n\n// **Note**: `_constructType` and `_refineType` are placeholder method names, \n// assuming they exist in your original codebase for constructing and refining types, respectively.\n// You would replace these with the actual method names used in your `TypeFactory` class.",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

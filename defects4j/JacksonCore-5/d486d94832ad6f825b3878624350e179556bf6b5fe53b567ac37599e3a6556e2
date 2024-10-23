@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed version of the _parseIndex function to handle scientific notation\n * and other non-integer numeric strings.\n */\nprivate final static int _parseIndex(String str) {\n    final int len = str.length();\n    // [Issue#133]: beware of super long indexes; assume we never\n    // have arrays over 2 billion entries so ints are fine.\n    if (len == 0 || len > 10) {\n        return -1;\n    }\n    // Attempt to parse as an integer directly, handling most cases efficiently\n    try {\n        return Integer.parseInt(str);\n    } catch (NumberFormatException e) {\n        // If not a simple integer, check for more complex numeric formats\n        for (int i = 0; i < len; ++i) {\n            char c = str.charAt(i);\n            if ((c < '0' || c > '9') && c!= '-' && c!= '.' && c!= 'e' && c!= 'E') {\n                return -1; // Non-numeric character\n            }\n        }\n        // If it's a numeric string but not an integer, reject it\n        return -1;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

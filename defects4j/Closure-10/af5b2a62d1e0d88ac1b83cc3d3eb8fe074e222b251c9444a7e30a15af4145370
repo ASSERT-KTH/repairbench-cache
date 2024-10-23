@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n  if (recurse) {\n    // Additionally check if the node is a result of a conditional or binary expression\n    // that could yield a string, even if not all branches result in a string\n    return allResultsMatch(n, MAY_BE_STRING_PREDICATE) || \n           (n.isConditional() && mayBeStringHelper(n.getFirstChild()) || mayBeStringHelper(n.getSecondChild())) ||\n           (n.isBinaryExpression() && n.getOperator() == Token.OR && (mayBeStringHelper(n.getFirstChild()) || mayBeStringHelper(n.getSecondChild())));\n  } else {\n    return mayBeStringHelper(n);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

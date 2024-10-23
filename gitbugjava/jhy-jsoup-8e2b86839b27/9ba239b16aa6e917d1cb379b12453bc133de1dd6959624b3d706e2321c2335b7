@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the element should be formatted as a block based on its tag, parent's tag, \n * and output settings, considering nested inline elements.\n * \n * @param out Output settings for the document\n * @return True if the element should be formatted as a block, false otherwise\n */\nprivate boolean isFormatAsBlock(Document.OutputSettings out) {\n    // Check if the current tag or its parent tag should be formatted as a block\n    boolean formatAsBlock = tag.formatAsBlock() || (parent()!= null && parent().tag().formatAsBlock());\n    \n    // If the current element is not a block but its parent is, and it contains \n    // only inline elements, it should still be formatted as a block\n    if (!formatAsBlock && parent()!= null && parent().tag().formatAsBlock()) {\n        formatAsBlock =!elements().stream()\n               .allMatch(child -> child.tag().formatAsBlock() == false);\n    }\n    \n    // Finally, consider the output settings\n    return formatAsBlock || out.outline();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

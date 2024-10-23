@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file!= null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Fix: only consider names ending with \"/\" as directories if they don't have a corresponding pax header with a different name\n    if (getName().endsWith(\"/\") &&!hasPaxHeaderWithOverriddenName()) {\n        return true;\n    }\n\n    return false;\n}\n\n// Assuming the existence of a method to check for pax headers with overridden names\nprivate boolean hasPaxHeaderWithOverriddenName() {\n    // Implementation depends on the specifics of your TarArchiveEntry and PaxHeader handling\n    // For demonstration purposes, a simple example is provided:\n    return getoplevelPaxHeaders().stream()\n           .anyMatch(header -> header.getName()!= null &&!header.getName().endsWith(\"/\"));\n}\n\n// Assuming the existence of a method to retrieve pax headers\nprivate List<PaxHeader> get topLevelPaxHeaders() {\n    // Implementation depends on the specifics of your TarArchiveEntry and PaxHeader handling\n    // For demonstration purposes, an example is omitted\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

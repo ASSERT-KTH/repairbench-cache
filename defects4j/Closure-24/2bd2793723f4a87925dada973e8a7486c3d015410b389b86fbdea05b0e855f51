@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    int type = n.getType();\n    Node parent = n.getParent();\n    if (parent.isVar()) {\n      if (n.hasChildren() && (n.getFirstChild().isQualifiedName() || \n                              (n.getFirstChild().isGetProp() && n.getFirstChild().getChildAtIndex(0).isQualifiedName()))) {\n        String name = n.getString();\n        Var aliasVar = scope.getVar(name);\n        aliases.put(name, aliasVar);\n\n        String qualifiedName =\n            aliasVar.getInitialValue().getQualifiedName();\n        if (qualifiedName!= null) { // added null check\n          transformation.addAlias(name, qualifiedName);\n        }\n      } else {\n        // Check if the variable is not a function declaration and not a parameter of the scope function\n        if (type!= Token.FUNCTION &&!scope.isParameter(v.getName())) {\n          report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n        }\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

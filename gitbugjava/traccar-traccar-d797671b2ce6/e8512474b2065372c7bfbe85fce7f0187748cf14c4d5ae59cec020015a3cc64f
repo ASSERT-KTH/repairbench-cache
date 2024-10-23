@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeTransparent(DeviceSession deviceSession, ByteBuf buf) {\n\n    int type = buf.readUnsignedByte();\n\n    if (type == 0xF0) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        // Fix: Properly handle year values to avoid incorrect year parsing\n        Date time;\n        try {\n            time = readDate(buf, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n            if (time.getYear() < 80) { // assuming years 80-99 correspond to 1980-1999\n                time.setYear(time.getYear() + 2000); // adjust year to 21st century\n            }\n        } catch (Exception e) {\n            return null; // or handle the exception as per your requirement\n        }\n\n        if (buf.readUnsignedByte() > 0) {\n            position.set(Position.KEY_ARCHIVE, true);\n        }\n\n        buf.readUnsignedByte(); // vehicle type\n\n        int count;\n        int subtype = buf.readUnsignedByte();\n        switch (subtype) {\n            //... (rest of the switch block remains the same)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

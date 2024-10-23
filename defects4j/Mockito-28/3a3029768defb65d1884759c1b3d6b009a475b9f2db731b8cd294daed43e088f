@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes the injection logic to prioritize exact type matching over ancestor types.\n */\nprivate void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // First, filter by exact type\n        Object exactMatch = mockCandidateFilter.filterCandidateByExactType(mocks, field, fieldInstance);\n        if (exactMatch!= null) {\n            // If exact match found, inject it\n            mockCandidateFilter.inject(exactMatch, field, fieldInstance);\n        } else {\n            // If no exact match, proceed with ancestor type filtering and injection\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

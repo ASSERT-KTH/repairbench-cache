@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addMethodMixIns(Class<?> targetClass, AnnotatedMethodMap methods,\n        Class<?> mixInCls, AnnotatedMethodMap mixIns)\n{\n    List<Class<?>> parents = new ArrayList<Class<?>>();\n    parents.add(mixInCls);\n    ClassUtil.findSuperTypes(mixInCls, targetClass, parents);\n    for (Class<?> mixin : parents) {\n        for (Method m : mixin.getDeclaredMethods()) {\n            if (!_isIncludableMemberMethod(m)) {\n                continue;\n            }\n            AnnotatedMethod am = methods.find(m);\n            if (am!= null) {\n                _addMixUnders(m, am);\n            } else {\n                // Fix: Also add mixin methods if they are not overridden in the target class or its superclasses\n                if (!hasOverridingMethod(targetClass, m)) {\n                    mixIns.add(_constructMethod(m));\n                }\n            }\n        }\n    }\n}\n\n// Helper method to check if a method is overridden in a class or its superclasses\nprivate boolean hasOverridingMethod(Class<?> clazz, Method method) {\n    try {\n        clazz.getDeclaredMethod(method.getName(), method.getParameterTypes());\n        return true;\n    } catch (NoSuchMethodException e) {\n        for (Class<?> parent : ClassUtil.findSuperTypes(clazz, Object.class, null)) {\n            if (hasOverridingMethod(parent, method)) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

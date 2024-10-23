@@ -1,0 +1,7 @@
+{
+    "generation": "public class JsonGenerator {\n    //...\n    private boolean _quoteFieldNames; // Feature flag for quoting field names\n\n    public void writeFieldName(String name) throws IOException {\n        // Buggy logic: Always quotes field names regardless of the feature flag\n        _output.writeString(\"\\\"\" + name + \"\\\"\");\n    }\n\n    public JsonGenerator enable(Feature f) {\n        if (f == Feature.QUOTE_FIELD_NAMES) {\n            _quoteFieldNames = true;\n        }\n        return this;\n    }\n\n    public JsonGenerator disable(Feature f) {\n        if (f == Feature.QUOTE_FIELD_NAMES) {\n            // Oops, forgot to set `_quoteFieldNames` to false here!\n            // _quoteFieldNames = false; // This line is missing\n        }\n        return this;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

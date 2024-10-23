@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) { \n        String data = comment.getData();\n        if (data.length() > 1 && (data.startsWith(\"!\") || data.startsWith(\"?\"))) {\n            try {\n                Document doc = Jsoup.parse(\"<\" + data.substring(1, data.length() -1) + \">\", baseUri, Parser.xmlParser());\n                if (!doc.childNodes().isEmpty()) { // Added check to prevent IndexOutOfBoundsException\n                    Element el = doc.child(0);\n                    insert = new XmlDeclaration(settings.normalizeTag(el.tagName()), data.startsWith(\"!\"));\n                    insert.attributes().addAll(el.attributes());\n                } else {\n                    // Handle the case where the parsed document is empty (e.g., due to malformed input)\n                    // You may want to log a warning or throw a custom exception here\n                }\n            } catch (Exception e) {\n                // Handle any parsing exceptions (e.g., malformed XML declaration)\n                // You may want to log a warning or throw a custom exception here\n            }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

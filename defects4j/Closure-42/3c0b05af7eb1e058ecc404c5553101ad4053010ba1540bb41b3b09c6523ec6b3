@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n    // Check if the loop is actually a \"for each\" loop and handle it accordingly\n    if (loopNode.getToken() == Token.FOR_EACH) {\n        // Throw an error for \"for each\" loops as they are not supported\n        error(loopNode, \"unsupported language extension: for each\");\n        // Return an empty node to maintain AST integrity\n        return new EmptyNode();\n    } else {\n        // Return the bare minimum to put the AST in a valid state for regular \"for in\" loops\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

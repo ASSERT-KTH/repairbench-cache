@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given node represents a reducable function expression.\n * A function expression is considered reducable if it's not a constructor\n * and doesn't have more than one property with a getter/setter in its prototype.\n *\n * @param n the node to check\n * @return true if the node represents a reducable function expression, false otherwise\n */\nprivate static boolean isReduceableFunctionExpression(Node n) {\n    // Check if the node is a function expression\n    if (!NodeUtil.isFunctionExpression(n)) {\n        return false;\n    }\n    \n    // Check if the function is a constructor\n    if (NodeUtil.isConstructor(n)) {\n        return false;\n    }\n    \n    // Get the prototype properties\n    Node prototypeProperties = NodeUtil.getPrototypeProperties(n);\n    \n    // Count the number of properties with getters or setters in the prototype\n    int getterSetterCount = 0;\n    if (prototypeProperties!= null) {\n        for (Node property : prototypeProperties.getChildren()) {\n            if (property.hasChildNode(NodeType.GETPROP) || property.hasChildNode(NodeType.SETPROP)) {\n                getterSetterCount++;\n                if (getterSetterCount > 1) {\n                    return false;\n                }\n            }\n        }\n    }\n    \n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

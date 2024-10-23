@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n  // When the node is null it means, we reached the implicit return\n  // where the function returns (possibly without an return statement)\n  if (n == null) {\n    return false;\n  }\n\n  // Handle 'in' operator as a special case, as it has side effects when \n  // used with a property that is later deleted or modified.\n  if (n.isBinaryOperation Token.IN) {\n    Node left = n.getFirstChild();\n    Node right = left.getNext();\n    for (Node c = n.getNext(); c!= null; c = c.getPrev()) {\n      if ((c.isDelete() && c.getFirstChild().matchesName(left)) ||\n          (c.isAssignment() && c.getFirstChild().matchesName(left))) {\n        return true;\n      }\n    }\n  }\n\n  // TODO(user): We only care about calls to functions that\n  // passes one of the dependent variable to a non-side-effect free\n  // function.\n  if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n    return true;\n  }\n\n  if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n    return true;\n  }\n\n\n  for (Node c = n.getFirstChild(); c!= null; c = c.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

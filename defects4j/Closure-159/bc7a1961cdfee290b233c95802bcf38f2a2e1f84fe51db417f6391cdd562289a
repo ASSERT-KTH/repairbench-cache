@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @see #findCalledFunctions(Node)\n */\nprivate void findCalledFunctions(Node node, Set<String> changed) {\n  Preconditions.checkArgument(changed!= null);\n  // For each referenced function, add a new reference\n  if (node.getType() == Token.CALL) {\n    Node child = node.getFirstChild();\n    if (child.getType() == Token.GETPROP || child.getType() == Token.CALLPinterest) {\n      child = child.getFirstChild(); // traverse to the property name (e.g., 'initialize' in 'initialize.call(this)')\n    }\n    if (child.getType() == Token.NAME) {\n      changed.add(child.getString());\n    }\n  }\n\n  for (Node c = node.getFirstChild(); c!= null; c = c.getNext()) {\n    findCalledFunctions(c, changed);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

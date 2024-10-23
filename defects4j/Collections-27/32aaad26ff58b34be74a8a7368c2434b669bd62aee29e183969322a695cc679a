@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Deserialize a MultiValueMap instance, checking the multi-value type for safety.\n * \n * @param bytes the serialized form\n * @return the deserialized MultiValueMap\n * @throws java.io.IOException on IO errors\n * @throws ClassNotFoundException on class resolution errors\n * @throws UnsupportedOperationException if the multi-value class is not a Collection class\n */\nprotected Object deserialize(byte[] bytes) throws java.io.IOException, ClassNotFoundException {\n    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));\n    MultiValueMap<?,?> map = (MultiValueMap<?,?>) ois.readObject();\n    ois.close();\n    \n    // Check if the multi-value class is a Collection implementation\n    Class<?> multiValueType = map.getMultiValueType();\n    if (!Collection.class.isAssignableFrom(multiValueType)) {\n        throw new UnsupportedOperationException(\"Unsafe multi-value type: \" + multiValueType.getName());\n    }\n    \n    return map;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

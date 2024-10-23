@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    int type = n.getType();\n    Node parent = n.getParent();\n    if (parent.isVar()) {\n      if (n.hasChildren() && n.getFirstChild().isQualifiedName()) {\n        String name = n.getString();\n        Var aliasVar = scope.getVar(name);\n        if (aliasVar!= null) { // Add null check to avoid NPE\n          aliases.put(name, aliasVar);\n\n          String qualifiedName =\n              aliasVar.getInitialValue().getQualifiedName();\n          transformation.addAlias(name, qualifiedName);\n        }\n      } \n    } else if (n.isVar() &&!n.isFunction() &&!isBleedingFunctionParameter(scope, v)) { \n      // Check if the variable is not a function and not a parameter of a bleeding function\n      report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n    }\n  }\n}\n\n// Helper method to check if a variable is a parameter of a bleeding function\nprivate boolean isBleedingFunctionParameter(Scope scope, Var v) {\n  Node node = v.getNode();\n  while (node.getParent()!= null) {\n    node = node.getParent();\n    if (node.isFunction() && scope.isBleedingFunction(node)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

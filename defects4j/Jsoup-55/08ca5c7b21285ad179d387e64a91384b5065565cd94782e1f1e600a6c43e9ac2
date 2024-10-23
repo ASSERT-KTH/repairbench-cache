@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed version of the read function to handle self-closing tags correctly.\n */\nvoid read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            // Check if the next character is a '/' before emitting the tag as self-closing\n            if (r.match('/')) {\n                r.consume(); // Consume the '/' character\n                t.tagPending.selfClosing = true;\n            }\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

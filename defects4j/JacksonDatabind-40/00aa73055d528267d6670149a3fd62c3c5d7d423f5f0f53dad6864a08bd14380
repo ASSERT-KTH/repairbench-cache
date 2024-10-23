@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to coerce empty string to null for primitive types.\n * \n * @param targetType Type to deserialize into\n * @param emptyStringValue Value to possibly coerce\n * @return Null if deserialization target is primitive and value is an empty string; original value otherwise\n */\npublic Object coerceEmptyStringToNull(Class<?> targetType, String emptyStringValue) {\n    // Check if target type is a primitive (including wrappers for this specific use case)\n    if (targetType.isPrimitive() || \n        Number.class.isAssignableFrom(targetType) || \n        Boolean.class.equals(targetType) || \n        Character.class.equals(targetType)) {\n        \n        // If the string is empty, coerce to null for primitives\n        if (emptyStringValue!= null && emptyStringValue.isEmpty()) {\n            return null; // Coercion to null for empty string on primitive target\n        }\n    }\n    // Either not a primitive target or not an empty string, return original value\n    return emptyStringValue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return the sum of this complex number and the given complex number.\n * <p>\n * Uses the definitional formula\n * <pre>\n * (a + bi) + (c + di) = (a+c) + (b+d)i\n * </pre></p>\n * <p>\n * If either this or <code>rhs</code> has a NaN value in either part,\n * {@link #NaN} is returned; otherwise Infinite and NaN values are\n * returned in the parts of the result according to the rules for\n * {@link java.lang.Double} arithmetic.</p>\n *\n * @param rhs the other complex number\n * @return the complex number sum\n * @throws NullArgumentException if <code>rhs</code> is null\n */\npublic Complex add(Complex rhs)\n    throws NullArgumentException {\n    MathUtils.checkNotNull(rhs);\n    double newReal = real + rhs.getReal();\n    double newImaginary = imaginary + rhs.getImaginary();\n    \n    // Check for NaN in either part of either complex number\n    if (Double.isNaN(real) || Double.isNaN(imaginary) ||\n        Double.isNaN(rhs.getReal()) || Double.isNaN(rhs.getImaginary()) ||\n        Double.isNaN(newReal) || Double.isNaN(newImaginary)) {\n        return Complex.NaN;\n    }\n    \n    return createComplex(newReal, newImaginary);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

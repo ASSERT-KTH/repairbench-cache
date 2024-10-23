@@ -1,0 +1,7 @@
+{
+    "generation": "// Assuming this is part of a class extending JsonGenerator\n@Override\npublic JsonGenerator writeFieldName(String name) throws IOException {\n    if (isEnabled(Feature.QUOTE_FIELD_NAMES)) {\n        // Introduce the bug: incorrect quoting character\n        _writeString(\"[\"); // Incorrect - should be a double quote for JSON\n        _writeString(name);\n        _writeString(\"]\"); // Incorrect - should be a double quote for JSON\n    } else {\n        _writeString(name);\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

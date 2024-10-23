@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels), considering the context to avoid generating labeled \n * FUNCTION or DO when extraneous BLOCKs are skipped.\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    // Check if the node is a FUNCTION or DO\n    boolean isFunctionOrDo = (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n    \n    // If it's a block with only one child, and that child is a FUNCTION or DO, \n    // consider it as a FUNCTION or DO for the purpose of this check\n    if (!isFunctionOrDo && n.getType() == Token.BLOCK && n.hasOneChild() && \n        (n.getFirstChild().getType() == Token.FUNCTION || n.getFirstChild().getType() == Token.DO)) {\n        return true;\n    }\n    \n    // Otherwise, stick to the initial check\n    return isFunctionOrDo;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Sort mocks by assignment compatibility, preferring exact type matches\n        List<Object> compatibleMocks = mocks.stream()\n               .sorted((m1, m2) -> {\n                    boolean m1IsExactMatch = field.getType().isInstance(m1);\n                    boolean m2IsExactMatch = field.getType().isInstance(m2);\n                    if (m1IsExactMatch &&!m2IsExactMatch) return -1;\n                    if (!m1IsExactMatch && m2IsExactMatch) return 1;\n                    // If both are exact matches or both are not, preserve original order\n                    return 0;\n                })\n               .collect(Collectors.toList());\n\n        mockCandidateFilter.filterCandidate(new LinkedHashSet<>(compatibleMocks), field, fieldInstance).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

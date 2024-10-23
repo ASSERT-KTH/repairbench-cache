@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Encodes a URL, properly escaping spaces and special characters.\n * \n * @param u the URL to encode\n * @return the encoded URL\n */\nstatic URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        URI uri = new URI(u.getProtocol(), u.getUserInfo(), u.getHost(), u.getPort(), u.getPath(), u.getQuery(), u.getRef());\n        String encodedUrl = uri.toASCIIString();\n        // manually replace spaces with %20 (URI.toASCIIString() doesn't do this)\n        encodedUrl = encodedUrl.replace(\" \", \"%20\");\n        return new URL(encodedUrl);\n    } catch (URISyntaxException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

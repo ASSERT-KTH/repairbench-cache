@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // 29-Jan-2016, tatu: Properly handle FIELD_NAME and skip its children to avoid UnrecognizedPropertyException\n    if (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n        String fieldName = p.getCurrentName();\n        p.nextToken(); // Move to VALUE_TOKEN\n        p.skipChildren(); // Skip field's children\n        p.nextToken(); // Move to next FIELD_NAME or END_OBJECT\n    } else {\n        p.skipChildren();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

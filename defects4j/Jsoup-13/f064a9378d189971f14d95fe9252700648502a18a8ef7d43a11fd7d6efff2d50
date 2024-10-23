@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Test if this element has an attribute, considering absolute URL prefix.\n * @param attributeKey The attribute key to check, may be prefixed with \"abs:\".\n * @return true if the attribute exists, false if not.\n */\npublic boolean hasAttr(String attributeKey) {\n    Validate.notNull(attributeKey);\n\n    // Check if attribute key is prefixed with \"abs:\"\n    if (attributeKey.startsWith(\"abs:\")) {\n        String originalKey = attributeKey.substring(4);\n        // Attribute exists if original key exists and its value is an absolute URL\n        return attributes.hasKey(originalKey) && isAbsolutePath(attributes.get(originalKey));\n    } else {\n        return attributes.hasKey(attributeKey);\n    }\n}\n\n// Helper method to check if a URL is absolute (assuming HTTP/HTTPS schemes)\nprivate boolean isAbsolutePath(String url) {\n    try {\n        java.net.URL parsedUrl = new java.net.URL(url);\n        return parsedUrl.getProtocol()!= null && (parsedUrl.getProtocol().equals(\"http\") || parsedUrl.getProtocol().equals(\"https\"));\n    } catch (java.net.MalformedURLException e) {\n        return false; // Not a valid URL, consider as not absolute\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

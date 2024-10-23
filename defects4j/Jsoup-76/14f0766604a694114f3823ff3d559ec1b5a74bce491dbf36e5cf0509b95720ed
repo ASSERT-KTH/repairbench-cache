@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        //... (rest of the code remains the same until the \"textarea\" case)\n\n        case StartTag:\n            //... (rest of the code remains the same until the \"textarea\" case)\n            else if (name.equals(\"textarea\")) {\n                tb.insert(startTag);\n                // Fix: Ignore the first newline character in textarea elements as per HTML spec.\n                if (tb.tokeniser.isLineFeedPending()) {\n                    tb.tokeniser.consumeLineFeed();\n                }\n                tb.tokeniser.transition(TokeniserState.Rcdata);\n                tb.markInsertionMode();\n                tb.framesetOk(false);\n                tb.transition(Text);\n            }\n            //... (rest of the code remains the same)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

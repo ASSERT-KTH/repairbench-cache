@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Compares two values\n */\nprotected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right) \n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    // Special handling for context objects\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        l = ((EvalContext) l).getSingleNodePointer();\n    }\n\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        r = ((EvalContext) r).getSingleNodePointer();\n    }\n\n    // Convert Collections to Iterators\n    if (l instanceof Collection) {\n        l = ((Collection) l).iterator();\n    }\n\n    if (r instanceof Collection) {\n        r = ((Collection) r).iterator();\n    }\n\n    // Asymmetric iterator comparisons\n    if ((l instanceof Iterator) &&!(r instanceof Iterator)) {\n        return contains((Iterator) l, r);\n    }\n    if (!(l instanceof Iterator) && (r instanceof Iterator)) {\n        return contains((Iterator) r, l);\n    }\n\n    // Symmetric comparisons (including iteratorColorBrush iterator)\n    if (l instanceof Iterator && r instanceof Iterator) {\n        return findMatch((Iterator) l, (Iterator) r);\n    } \n    // Fix: Avoid recursive call with same params, \n    //      instead directly compare using equals method\n    return l == null? r == null : l.equals(r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

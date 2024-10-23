@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tests if an element's attribute value conforms to any of the specified protocols.\n * \n * @param el         the HTML element to check\n * @param attr       the attribute to validate\n * @param protocols  the set of allowed protocols\n * @return true if the attribute value matches any of the protocols, false otherwise\n */\nprivate boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // try to resolve relative urls to abs, and optionally update the attribute so output html has abs.\n    // rels without a baseuri get removed\n    String value = el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks)\n        attr.setValue(value);\n    \n    // Convert value to lowercase for case-insensitive comparison\n    String valueLower = value.toLowerCase();\n    \n    // Check for custom protocols without the trailing colon (:)\n    for (Protocol protocol : protocols) {\n        String protWithColon = protocol.toString().toLowerCase() + \":\";\n        String protWithoutColon = protocol.toString().toLowerCase();\n        \n        if (valueLower.startsWith(protWithColon) || valueLower.equals(protWithoutColon)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

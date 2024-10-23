@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null || o2 == null) {\n        return o1 == null && o2 == null;\n    } else if (isArray(o1)) {\n        return isArray(o2) && areArraysEqual(o1, o2);\n    } else if (o1.getClass()!= o2.getClass()) { // added class check\n        // special handling for array wrapper types (e.g., int[] vs Integer[])\n        if (isWrapperType(o1.getClass()) && isWrapperType(o2.getClass())) {\n            return areEqual(wrapToArray(o1), wrapToArray(o2));\n        }\n        return false; // objects of different classes are not equal\n    } else {\n        // added null check for o1 to prevent NPE in case of broken.equals()\n        return o1!= null && o1.equals(o2);\n    }\n}\n\n// assumed to be already defined elsewhere in the codebase\n// private static boolean isArray(Object o) {... }\n// private static boolean areArraysEqual(Object o1, Object o2) {... }\n// private static boolean isWrapperType(Class<?> clazz) {... }\n// private static Object[] wrapToArray(Object o) {... }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

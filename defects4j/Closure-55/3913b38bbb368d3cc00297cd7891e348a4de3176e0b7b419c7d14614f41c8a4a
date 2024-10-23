@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given node is a reducable function expression.\n * A reducable function expression is a function expression that is not immediately invoked\n * and does not have any side effects in its initializer.\n *\n * @param n The node to check\n * @return True if the node is a reducable function expression, false otherwise\n */\nprivate static boolean isReduceableFunctionExpression(Node n) {\n    // Check if the node is a function expression\n    if (!NodeUtil.isFunctionExpression(n)) {\n        return false;\n    }\n    \n    // Check if the function expression is immediately invoked\n    if (n.getParent()!= null && n.getParent().isCall()) {\n        return false;\n    }\n    \n    // Check for any side effects in the initializer (e.g., function calls, assignments)\n    if (hasSideEffects(n)) {\n        return false;\n    }\n    \n    return true;\n}\n\n// Helper method to check for side effects in a node\nprivate static boolean hasSideEffects(Node n) {\n    // Recursively traverse the node's children\n    for (Node child : n.getChildren()) {\n        if (child.isCall() || child.isAssign()) {\n            return true; // Found a potential side effect\n        }\n        if (hasSideEffects(child)) {\n            return true; // Found a side effect in a child node\n        }\n    }\n    return false; // No side effects found\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

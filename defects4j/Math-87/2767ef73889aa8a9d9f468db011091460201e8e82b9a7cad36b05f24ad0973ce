@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks whether the given column is basic.\n * @param col index of the column to check\n * @return the row that the variable is basic in.  null if the column is not basic\n */\nprivate Integer getBasicRow(final int col) {\n    Integer row = null;\n    for (int i = 0; i < getHeight(); i++) { // CHANGED: start from 0 instead of getNumObjectiveFunctions()\n        if (MathUtils.equals(getEntry(i, col), 1.0, epsilon) && // CHANGED: check for 1.0 (basic variable indicator)\n            getNumEntriesInRow(i) == 1) { // ADDED: ensure only one entry in the row (basic variable condition)\n            if (row == null) {\n                row = i;\n            } else {\n                return null; // column is not basic if multiple rows match\n            }\n        }\n    }\n    return row;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Converts a Unix time (seconds since the epoch, January 1, 1970) to a \n * ZipLong, handling values that exceed the maximum signed 32-bit integer.\n * \n * @param l Unix time in seconds\n * @return ZipLong representation of the Unix time\n */\nprivate static ZipLong unixTimeToZipLong(long l) {\n    if (l > Integer.MAX_VALUE) {\n        // Handle values exceeding the maximum signed 32-bit integer\n        // by converting to unsigned 32-bit representation\n        return new ZipLong(l - (long) Integer.MIN_VALUE);\n    } else if (l < Integer.MIN_VALUE) {\n        // Handle underflow, though Unix time should not precede the epoch\n        return new ZipLong(Integer.MIN_VALUE);\n    } else {\n        return new ZipLong(l);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

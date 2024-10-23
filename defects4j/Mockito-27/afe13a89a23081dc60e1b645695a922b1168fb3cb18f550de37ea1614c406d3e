@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes the resetMock function to preserve existing invocation listeners when resetting a mock.\n * \n * @param <T> the type of the mock object\n * @param mock the mock object to reset\n */\npublic <T> void resetMock(T mock) {\n    MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n    MockHandler<T> newMockHandler = new MockHandler<T>(oldMockHandler);\n    \n    // Preserve existing invocation listeners\n    List<InvocationListener> listeners = ((MockSettingsImpl) oldMockHandler.getMockSettings()).getInvocationListeners();\n    MockSettingsImpl newSettings = (MockSettingsImpl) org.mockito.Mockito.withSettings()\n           .defaultAnswer(org.mockito.Mockito.RETURNS_DEFAULTS)\n           .invocationListeners(listeners.toArray(new InvocationListener[0]));\n    \n    MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, newSettings);\n    ((Factory) mock).setCallback(0, newFilter);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Overloaded version of {@link #readValue(InputStream)}.\n */\npublic <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    // Ensure input is properly decoded to avoid CharConversionException\n    if (_dataFormatReaders!= null) {\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n    }\n    // Fixed: Specify charset to prevent default platform charset usage\n    return _bindAndReadValues(_considerFilter(_parserFactory.createParser(\n            new ByteArrayInputStream(src, offset, length), \n            _parserFactory.getCodec().getJsonFactory().getCharset()), \n            true));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

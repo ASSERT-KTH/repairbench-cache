@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * {@inheritDoc}\n * \n * @param f         the function to solve\n * @param min       the lower bound for the interval\n * @param max       the upper bound for the interval\n * @param initial   the initial guess for the root (Unused in BisectionSolver, kept for API consistency)\n * @return the root\n * @throws MaxIterationsExceededException if the maximum number of iterations is exceeded\n * @throws FunctionEvaluationException if an error occurs during function evaluation\n */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n    // Actual implementation of the Bisection method, ignoring the 'initial' guess as per the algorithm's nature\n    double a = min;\n    double b = max;\n    double fa = f.value(a);\n    double fb = f.value(b);\n    \n    if (fa * fb > 0) {\n        throw new FunctionEvaluationException(\"Root not bracketed in the given interval\");\n    }\n    \n    while (b - a > getAbsoluteAccuracy()) {\n        double c = (a + b) / 2;\n        double fc = f.value(c);\n        \n        if (fc * fa < 0) {\n            b = c;\n            fb = fc;\n        } else {\n            a = c;\n            fa = fc;\n        }\n        \n        if (++getIterations() > getMaxIterations()) {\n            throw new MaxIterationsExceededException();\n        }\n    }\n    \n    return (a + b) / 2;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

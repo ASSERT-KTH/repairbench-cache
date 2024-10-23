@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    int length = buf.readUnsignedByte();\n    int dataLength = length - 5;\n    int type = buf.readUnsignedByte();\n\n    Position position = new Position(getProtocolName());\n    DeviceSession deviceSession = null;\n    if (type!= MSG_LOGIN) {\n        deviceSession = getDeviceSession(channel, remoteAddress);\n        if (deviceSession == null) {\n            return null;\n        }\n        position.setDeviceId(deviceSession.getDeviceId());\n        if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n            deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n        }\n    }\n\n    //... (rest of the function remains the same)\n\n    // Fix for testDecode error: expected: <93> but was: <1550>\n    else if (type == MSG_STATUS && buf.readableBytes() == 22) {\n\n        getLastLocation(position, null);\n\n        buf.readUnsignedByte(); // information content\n        buf.readUnsignedShort(); // satellites\n        buf.readUnsignedByte(); // alarm\n        buf.readUnsignedByte(); // language\n\n        // Fix: divide by 16 to convert to percentage ((trace: 6 * 100 / 6 = 100, but 93 * 100 / 6 = 1550)\n        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte() * 100 / 16);\n\n        //... (rest of the if block remains the same)\n\n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Compares two values\n */\nprotected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right) \n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    // Handle contexts\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        l = ((EvalContext) l).getSingleNodePointer();\n    }\n\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        r = ((EvalContext) r).getSingleNodePointer();\n    }\n\n    // Handle collections and iterators\n    if (l instanceof Collection &&!(l instanceof Iterator)) {\n        l = ((Collection) l).iterator();\n    }\n\n    if (r instanceof Collection &&!(r instanceof Iterator)) {\n        r = ((Collection) r).iterator();\n    }\n\n    // Symmetric iterator comparison\n    if (l instanceof Iterator || r instanceof Iterator) {\n        if (l instanceof Iterator && r instanceof Iterator) {\n            return findMatch((Iterator) l, (Iterator) r);\n        } else if (l instanceof Iterator) {\n            return contains((Iterator) l, r);\n        } else {\n            return contains((Iterator) r, l);\n        }\n    }\n\n    // Base case: compare single values\n    return Objects.equals(l, r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

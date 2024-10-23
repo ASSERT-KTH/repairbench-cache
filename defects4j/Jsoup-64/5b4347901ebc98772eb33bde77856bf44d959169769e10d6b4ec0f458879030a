@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Handles raw text elements (like <style> or <noframes>) \n * by ensuring they are self-closed if initially empty.\n */\nprivate static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    // Check if the element is known to be empty (e.g., <style />, <noframes />)\n    if (isKnownEmptyElement(startTag.name)) {\n        // If empty, append a corresponding end tag to ensure self-closure\n        tb.insert(startTag);\n        tb.insert(new Token.EndTag(startTag.name));\n    } else {\n        tb.insert(startTag);\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n    }\n}\n\n// Assuming isKnownEmptyElement is defined elsewhere, for brevity:\n// private static boolean isKnownEmptyElement(String elementName) {... }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

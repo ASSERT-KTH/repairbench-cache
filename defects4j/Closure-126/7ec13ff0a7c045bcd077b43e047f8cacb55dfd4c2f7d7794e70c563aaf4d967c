@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempts to minimize the number of explicit exit points in a control\n * structure to take advantage of the implied exit at the end of the\n * structure.  This is accomplished by removing redundant statements, and\n * moving statements following a qualifying IF node into that node.\n * For example:\n *\n * function () {\n *   if (x) return;\n *   else blah();\n *   foo();\n * }\n *\n * becomes:\n *\n * function () {\n *  if (x) ;\n *  else {\n *    blah();\n *    foo();\n *  }\n *\n * @param n The execution node of a parent to inspect.\n * @param exitType The type of exit to look for.\n * @param labelName If parent is a label the name of the label to look for,\n *   null otherwise.\n * @nullable labelName non-null only for breaks within labels.\n */\nvoid tryMinimizeExits(Node n, int exitType, String labelName) {\n\n    // Just an 'exit'.\n    if (matchingExitNode(n, exitType, labelName)) {\n      // Check if parent is a TRY node and exit is in FINALLY block\n      if (n.getParent().isTry() && NodeUtil.hasFinally(n.getParent()) &&\n          NodeUtil.getFinally(n.getParent()) == n.getParent().getLastChild()) {\n        return; // Don't remove exit in FINALLY block\n      }\n      NodeUtil.removeChild(n.getParent(), n);\n      compiler.reportCodeChange();\n      return;\n    }\n\n    //... (rest of the function remains the same)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

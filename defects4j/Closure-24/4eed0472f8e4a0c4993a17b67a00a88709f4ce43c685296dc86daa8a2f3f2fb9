@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds aliases in the given scope and reports non-alias locals.\n * \n * @param t NodeTraversal to get the current scope from\n */\nprivate void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    int type = n.getType();\n    Node parent = n.getParent();\n    if (parent.isVar()) {\n      if (n.hasChildren() && n.getFirstChild().isQualifiedName()) {\n        String name = n.getString();\n        Var aliasVar = scope.getVar(name);\n        if (aliasVar!= null) { // added null check\n          aliases.put(name, aliasVar);\n\n          String qualifiedName =\n              aliasVar.getInitialValue().getQualifiedName();\n          transformation.addAlias(name, qualifiedName);\n        }\n      } else if (n.hasChildren() && \n                 (n.getFirstChild().isNumber() || \n                  n.getFirstChild().isString() || \n                  n.getFirstChild().isFunction() || \n                  (n.getFirstChild().isObject() && n.getFirstChild().getNumChildren() == 0))) {\n        // do nothing, as these are allowed locals\n      } else {\n        // TODO(robbyw): Support using locals for private variables.\n        report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

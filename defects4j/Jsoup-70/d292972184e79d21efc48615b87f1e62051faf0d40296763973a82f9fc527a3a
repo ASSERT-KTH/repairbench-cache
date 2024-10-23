@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if whitespace should be preserved for the given Node, \n * looking up the DOM tree up to 5 levels for a preserving parent.\n * \n * @param node the Node to check\n * @return true if whitespace should be preserved, false otherwise\n */\nstatic boolean preserveWhitespace(Node node) {\n    // looks up to 5 levels, to prevent recursion & needless stack searches\n    for (int i = 0; i < 5 && node!= null; i++) {\n        if (node instanceof Element) {\n            Element el = (Element) node;\n            if (el.tag.preserveWhitespace())\n                return true;\n        }\n        node = node.parent();\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

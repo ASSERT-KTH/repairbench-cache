@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Copies attributes from a Jsoup Node to a W3C Element, sanitizing attribute names to conform to XML standards.\n * \n * @param source the Jsoup Node containing the source attributes\n * @param el the W3C Element to receive the copied and sanitized attributes\n */\nprivate void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        // Validate and sanitize attribute name to match XML standards: ^[a-zA-Z_:][-a-zA-Z0-9_:.]\n        String key = attribute.getKey();\n        if (!key.matches(\"^[a-zA-Z_:][-a-zA-Z0-9_:.]*$\")) {\n            // If the attribute name is invalid, log a warning and skip this attribute\n            System.err.println(\"Warning: Skipping attribute with invalid name '\" + key + \"' due to non-compliance with XML standards.\");\n            continue;\n        }\n        el.setAttribute(key, attribute.getValue());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

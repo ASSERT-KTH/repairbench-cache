@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    if (context == null) {\n        return _unknownType();\n    } else {\n        JavaType actualType = context.findType(name);\n        if (actualType!= null) {\n            return actualType;\n        }\n        // Attempt to resolve type variable using its bounds before adding a placeholder\n        Type[] bounds = type.getBounds();\n        if (bounds.length > 0) {\n            // Try to construct a type from the first bound, which can potentially resolve the type variable\n            JavaType boundType = _constructType(bounds[0], context);\n            if (boundType!= null && context.findType(name)!= null) {\n                return context.findType(name);\n            }\n        }\n    }\n\n    /* 29-Jan-2010, tatu: One more problem are recursive types\n     *   (T extends Comparable<T>). Need to add \"placeholder\"\n     *   for resolution to catch those.\n     */\n    context._addPlaceholder(name);\n    return _constructType(type.getBounds().length > 0? type.getBounds()[0] : Object.class, context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

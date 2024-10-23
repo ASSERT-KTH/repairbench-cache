@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tests the list for equality with another object (typically also a list).\n *\n * @param obj  the other object (<code>null</code> permitted).\n *\n * @return A boolean.\n */\npublic boolean equals(Object obj) {\n\n    if (obj == this) {\n        return true;\n    }\n    if (!(obj instanceof ShapeList)) {\n        return false;\n    }\n    ShapeList other = (ShapeList) obj;\n    return super.equals(obj) && this.size() == other.size() \n           && this.elementsEqual(other); // Assuming elementsEqual() method exists\n\n}\n\n// If elementsEqual() method doesn't exist, you can add it as follows:\n\nprivate boolean elementsEqual(ShapeList other) {\n    if (this.size()!= other.size()) {\n        return false;\n    }\n    for (int i = 0; i < this.size(); i++) {\n        if (!equalsShape(this.getShape(i), other.getShape(i))) {\n            return false;\n        }\n    }\n    return true;\n}\n\n// Helper method to compare shapes (considering null cases)\nprivate boolean equalsShape(Shape s1, Shape s2) {\n    if (s1 == null && s2 == null) {\n        return true;\n    }\n    if (s1 == null || s2 == null) {\n        return false;\n    }\n    return s1.equals(s2);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

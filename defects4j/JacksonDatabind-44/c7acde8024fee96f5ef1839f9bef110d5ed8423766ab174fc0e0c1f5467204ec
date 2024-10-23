@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @deprecated\n * \n * @since 2.7\n * \n * @param subclass Target type to convert to (if compatible)\n * @return Instance of `subclass` if it is a subtype of current type, `this` if types are identical;\n *   `null` otherwise (should never happen but is here for completeness/safety)\n */\n@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Check that there is a sub-class or sub-interface relationship\n    if (_class.isAssignableFrom(subclass) || \n        (_superInterfaces!= null && _superInterfaces.contains(subclass))) {\n        return new SimpleType(subclass, _bindings, this, _superInterfaces,\n                _valueHandler, _typeHandler, _asStatic);\n    } else {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

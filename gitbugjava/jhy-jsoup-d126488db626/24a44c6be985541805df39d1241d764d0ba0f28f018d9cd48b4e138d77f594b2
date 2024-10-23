@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Consume a sub-query, handling balanced parens and brackets, and combinator separators.\n * \n * @return the consumed sub-query as a string\n */\nprivate String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    boolean combinatorEncountered = false; // Flag to track if a combinator has been encountered\n    while (!tq.isEmpty()) {\n        if (tq.matches(\"(\"))\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        else if (tq.matches(\"[\"))\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        else if (tq.matchesAny(Combinators)) {\n            combinatorEncountered = true; // Mark that a combinator is encountered\n            if (sq.length() > 0)\n                break;\n            else\n                tq.consume();\n        } else {\n            if (combinatorEncountered) { // If a combinator was encountered before, break\n                break;\n            }\n            sq.append(tq.consume());\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

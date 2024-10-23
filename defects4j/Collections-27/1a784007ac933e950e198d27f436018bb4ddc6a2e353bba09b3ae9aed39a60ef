@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Reconstructs the MultiValueMap from a serialized form, ensuring type safety for the value class.\n * \n * @param in the object input stream\n * @throws IOException            if an I/O error occurs\n * @throws ClassNotFoundException if the class of a serialized object cannot be found\n * @throws UnsupportedOperationException if the deserialized value class is not a Collection type\n */\nprivate MultiValueMap(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject(); // Reads the underlying map\n    \n    // Read the value class (which was previously not checked)\n    Class<?> valueClass = (Class<?>) in.readObject();\n    \n    // ** Introduced Fix: Ensure the value class is a Collection type **\n    if (!Collection.class.isAssignableFrom(valueClass)) {\n        throw new UnsupportedOperationException(\"Only Collection types are supported for deserialization: \" + valueClass.getName());\n    }\n    \n    // Proceed with reconstruction if the value class is safe (a Collection type)\n    this.valueClass = valueClass;\n    //... (Rest of the reconstruction code remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

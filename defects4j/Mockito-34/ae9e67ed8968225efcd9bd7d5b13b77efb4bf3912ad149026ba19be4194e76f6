@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Captures arguments from the given invocation, handling cases where the number of arguments \n * may not match the number of matchers (e.g., varargs).\n */\npublic void captureArgumentsFrom(Invocation i) {\n    Object[] arguments = i.getArguments();\n    int matcherIndex = 0;\n    for (Object arg : arguments) {\n        if (matcherIndex < matchers.size()) {\n            Matcher m = matchers.get(matcherIndex);\n            if (m instanceof CapturesArguments) {\n                ((CapturesArguments) m).captureFrom(arg);\n            }\n            matcherIndex++;\n        } else {\n            // Handle excess arguments (e.g., varargs), ignoring them if no more matchers exist\n            break;\n        }\n    }\n    // Handle remaining matchers without corresponding arguments (e.g., empty varargs)\n    while (matcherIndex < matchers.size()) {\n        Matcher m = matchers.get(matcherIndex);\n        if (m instanceof CapturesArguments) {\n            ((CapturesArguments) m).captureFrom(null); // or a default value, depending on the requirement\n        }\n        matcherIndex++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

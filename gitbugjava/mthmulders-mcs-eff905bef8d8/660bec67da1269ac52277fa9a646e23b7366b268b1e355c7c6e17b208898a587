@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes the printRow function to include the Group, Artifact, and Version (GAV) in the output table.\n * \n * @param table the Help.TextTable to add a row to\n * @param doc the SearchResponse.Response.Doc containing the GAV and timestamp information\n */\nprivate void printRow(final Help.TextTable table, final SearchResponse.Response.Doc doc) {\n    var lastUpdated = DATE_TIME_FORMATTER.format(\n            Instant.ofEpochMilli(doc.timestamp()).atZone(ZoneId.systemDefault())\n    );\n    var gav = String.format(\"%s:%s:%s\", doc.groupId(), doc.artifactId(), doc.version());\n    \n    // Add the GAV and last updated values as separate columns in the table\n    table.addRowValues(doc.id(), gav, lastUpdated);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

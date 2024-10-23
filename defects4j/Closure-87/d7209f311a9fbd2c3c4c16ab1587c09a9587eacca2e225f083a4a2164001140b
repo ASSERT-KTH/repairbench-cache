@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, and the block is not part of an event handler.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // Additional check to handle the IE bug (Issue 291) more accurately\n      // by ensuring the expression is not an event handler property access\n      return NodeUtil.isExpressionNode(maybeExpr) \n          &&!isEventHandlerPropertyAccess(maybeExpr);\n    }\n  }\n  return false;\n}\n\n// Helper method to check if the given node represents an event handler property access\nprivate boolean isEventHandlerPropertyAccess(Node node) {\n  if (node.getType() == Token.GETPROP) {\n    String propName = node.getString();\n    return propName.matches(\"on\\\\w+\"); // Matches property names starting with 'on' (e.g., 'onclick', 'onchange')\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if an element is inlineable based on its tag, parent, position, and output settings.\n * \n * @param out the Document output settings\n * @return true if the element is inlineable, false otherwise\n */\nprivate boolean isInlineable(Document.OutputSettings out) {\n    if (!tag.isInline())\n        return false;\n    return (parent() == null || parent().isBlock())\n        && (parent() == null ||!isEffectivelyFirstInBlockParent()) // Fix: Check if first in block parent\n        &&!out.outline();\n}\n\n// Additional helper method (may need to be added if not already present)\nprivate boolean isEffectivelyFirstInBlockParent() {\n    return parent()!= null && parent().isBlock() && parent().childNodes().first() == this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

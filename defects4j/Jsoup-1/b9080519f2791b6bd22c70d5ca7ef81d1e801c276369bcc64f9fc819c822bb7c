@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Normalises an element by moving non-blank text nodes to the start of the body.\n */\nprivate void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node: element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // Move text nodes to the *start* of the body, not the end\n    for (Node node: toMove) {\n        element.removeChild(node);\n        body().prependChild(new TextNode(\" \", \"\")); // Add a space before prepending\n        body().prependChild(node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

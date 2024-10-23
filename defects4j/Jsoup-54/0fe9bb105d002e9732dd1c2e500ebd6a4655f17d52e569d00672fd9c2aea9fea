@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        // valid xml attribute names are: ^[a-zA-Z_:][-a-zA-Z0-9_:.]\n        String key = attribute.getKey().replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n        if (!key.isEmpty()) { // prevent setting empty attribute names\n            if (isValidXmlName(key)) { // check if the result is a valid XML name\n                el.setAttribute(key, attribute.getValue());\n            } else {\n                // handle invalid attribute names, e.g., log a warning or throw a custom exception\n                System.err.println(\"Warning: Skipping invalid attribute name '\" + attribute.getKey() + \"' during XML conversion.\");\n            }\n        }\n    }\n}\n\n// Helper method to check if a string is a valid XML name\nprivate boolean isValidXmlName(String name) {\n    return name.matches(\"^[a-zA-Z_][a-zA-Z0-9_:.]*$\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

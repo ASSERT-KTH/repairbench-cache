@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the given HTTP response code is non-retryable.\n * \n * @param response      the HTTP response\n * @param retryHTTP403  whether to retry on HTTP 403\n * @return true if the response code is non-retryable, false otherwise\n */\nstatic boolean isNonRetryableHTTPCode(CloseableHttpResponse response, boolean retryHTTP403) {\n    int statusCode = response.getStatusLine().getStatusCode();\n    return response!= null\n        && (statusCode < 500 // client errors and redirects are non-retryable\n            || statusCode >= 600) // unknown codes are non-retryable\n        && statusCode!= 408  // request timeout is retryable\n        && statusCode!= 429  // too many requests is retryable\n        && (!retryHTTP403 || statusCode!= 403); // HTTP 403 is retryable if configured\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

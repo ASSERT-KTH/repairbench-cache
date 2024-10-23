@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Method called to figure out settable properties for the\n * bean deserializer to use.\n *<p>\n * Note: designed to be overridable, and effort is made to keep interface\n * similar between versions.\n */\nprotected void addBeanProps(DeserializationContext ctxt,\n        BeanDescription beanDesc, BeanDeserializerBuilder builder)\n        throws JsonMappingException\n{\n    //... (rest of the function remains the same until this point)\n\n    // Ok: let's then filter out property definitions\n    List<BeanPropertyDefinition> propDefs = filterBeanProps(ctxt,\n            beanDesc, builder, beanDesc.findProperties(), ignored);\n\n    // **FIX INTRODUCED HERE**\n    // Additionally filter out properties with ignored getters when using getters as setters\n    if (useGettersAsSetters) {\n        propDefs = propDefs.stream()\n               .filter(propDef ->!ignored.contains(propDef.getName()) || \n                        (!propDef.hasGetter() || propDef.getMetadata().hasGetterIgnored()))\n               .collect(Collectors.toList());\n    }\n\n    // After which we can let custom code change the set\n    if (_factoryConfig.hasDeserializerModifiers()) {\n        for (BeanDeserializerModifier mod : _factoryConfig.deserializerModifiers()) {\n            propDefs = mod.updateProperties(ctxt.getConfig(), beanDesc, propDefs);\n        }\n    }\n    \n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

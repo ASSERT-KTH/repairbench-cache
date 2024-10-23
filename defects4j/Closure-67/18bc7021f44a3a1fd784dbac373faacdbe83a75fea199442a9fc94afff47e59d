@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the given assignment node is assigning to a property of a prototype.\n *\n * @param assign the assignment node to check\n * @return true if the assignment is to a property of a prototype, false otherwise\n */\nprivate boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n!= null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP) {\n    // Traverse up the GETPROP chain to find the base object\n    Node base = n;\n    while (base.getType() == Token.GETPROP) {\n      base = base.getFirstChild();\n    }\n\n    // Check if the base object is a function's prototype\n    if (base.getType() == Token.STRING && base.getString().equals(\"prototype\")) {\n      // Verify the parent of the base object is a function\n      Node parent = base.getParent();\n      return parent!= null && parent.getType() == Token.FUNCTION;\n    }\n\n    // We want to exclude the assignment itself from the usage list\n    boolean isChainedProperty = n.getFirstChild().getType() == Token.GETPROP;\n\n    if (isChainedProperty) {\n      Node child = n.getFirstChild().getFirstChild().getNext();\n\n      if (child.getType() == Token.STRING && child.getString().equals(\"prototype\")) {\n        return true;\n      }\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonToken nextToken() throws IOException\n{\n    //... (rest of the code remains the same until the end of the switch statement)\n\n    case ID_END_ARRAY:\n    case ID_END_OBJECT:\n        {\n            boolean returnEnd = _headContext.isStartHandled();\n            f = _headContext.getFilter();\n            if ((f!= null) && (f!= TokenFilter.INCLUDE_ALL)) {\n                f.filterFinishArray();\n            }\n            _headContext = _headContext.getParent();\n            _itemFilter = _headContext.getFilter();\n            if (returnEnd) {\n                return (_currToken = t);\n            }\n            // Fix: Return END_TOKEN if _includePath is true\n            if (_includePath) {\n                return (_currToken = t);\n            }\n        }\n        break;\n\n    //... (rest of the code remains the same)\n\n    // We get here if token was not yet found; offlined handling\n    return _nextToken2();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

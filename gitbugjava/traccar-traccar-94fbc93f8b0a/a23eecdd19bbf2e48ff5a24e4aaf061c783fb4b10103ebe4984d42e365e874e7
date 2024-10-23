@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            //... (rest of the switch statement remains the same)\n\n            case \"JO11\":\n                position.set(Position.KEY_COOLANT_TEMP, buf.readUnsignedByte() - 40);\n                // FIX: Added validation for longitude value\n            case \"JH1\":\n                double obdSpeed = buf.readUnsignedShort() / 256.0;\n                if (obdSpeed >= -180 && obdSpeed <= 180) { // validate longitude range\n                    position.setLongitude(obdSpeed);\n                } else {\n                    throw new IllegalArgumentException(\"Longitude out of range\");\n                }\n                break;\n            //... (rest of the switch statement remains the same)\n\n            //... (rest of the function remains the same)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

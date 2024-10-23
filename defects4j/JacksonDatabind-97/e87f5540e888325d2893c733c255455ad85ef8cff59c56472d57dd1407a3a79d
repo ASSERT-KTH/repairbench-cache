@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic final void serialize(JsonGenerator gen, SerializerProvider ctxt) throws IOException\n{\n    if (_value == null) {\n        ctxt.defaultSerializeNull(gen);\n    } else if (_value instanceof JsonSerializable) {\n        ((JsonSerializable) _value).serialize(gen, ctxt);\n    } else if (ctxt.getAttribute(\"myAttr\")!= null && _value instanceof Data) {\n        // Custom serialization for Data object when \"myAttr\" is present\n        Data data = (Data) _value;\n        gen.writeStartObject();\n        gen.writeStringField(\"aStr\", \"The value is: \" + ctxt.getAttribute(\"myAttr\") + \"!\");\n        gen.writeEndObject();\n    } else {\n        // 25-May-2018, tatu: [databind#1991] do not call via generator but through context;\n        //    this to preserve contextual information\n        gen.writeObject(_value);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

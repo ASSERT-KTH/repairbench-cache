@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Retrieves the list of values associated with the specified option.\n * If no values are found, it attempts to use the default values provided\n * and then the default values stored within this instance.\n * \n * @param option the option to retrieve values for\n * @param defaultValues the default values to use if none are found\n * @return the list of values, or an empty list if none are found\n */\npublic List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // if no values are found, use the provided default values\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = defaultValues;\n    } else {\n        // if some values are found, augment with provided default values up to the option's maximum\n        int remaining = option.getArgument().getMaximum() - valueList.size();\n        if (remaining > 0 && defaultValues!= null) {\n            valueList = new ArrayList<>(valueList);\n            valueList.addAll(defaultValues.subList(0, remaining));\n        }\n    }\n\n    // if still no values are found, use the default values stored within this instance\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = (List) this.defaultValues.get(option);\n    }\n\n    // return the list, or an empty list if still none are found\n    return valueList == null? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

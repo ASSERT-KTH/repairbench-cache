@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given Node represents a reducable function expression.\n * A function expression is considered reducable if it is not a constructor \n * or an immediately invoked function expression (IIFE).\n *\n * @param n the Node to check\n * @return true if the Node is a reducable function expression, false otherwise\n */\nprivate static boolean isReduceableFunctionExpression(Node n) {\n    return NodeUtil.isFunctionExpression(n) \n           &&!NodeUtil.isConstructor(n) \n           &&!isImmediatelyInvokedFunctionExpression(n);\n}\n\n// Helper method to check for IIFE (added if not already present)\nprivate static boolean isImmediatelyInvokedFunctionExpression(Node n) {\n    if (n.getParent() instanceof CallNode) {\n        return ((CallNode) n.getParent()).getCallee() == n;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

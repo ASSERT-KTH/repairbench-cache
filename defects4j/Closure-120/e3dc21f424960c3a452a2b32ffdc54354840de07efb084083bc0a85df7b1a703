@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime, considering the entire program flow.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop and is not reachable from a re-entrant context.\n  for (BasicBlock block = ref.getBasicBlock();\n       block!= null; block = block.getParent()) {\n    if (block.isFunction) {\n      // Check if the function is reachable from a re-entrant context (e.g., recursive calls).\n      if (isReachableFromReentrantContext(block.getFunction())) {\n        return false;\n      }\n      break;\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  // Verify no other assignments exist in the entire program flow.\n  return getAssignedReferences().size() == 1;\n}\n\n// Helper method to check if a function is reachable from a re-entrant context.\nprivate boolean isReachableFromReentrantContext(Function function) {\n  // Simple implementation: check for direct recursion.\n  // This can be enhanced to detect more complex re-entrant flows.\n  return function.getCallers().contains(function);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

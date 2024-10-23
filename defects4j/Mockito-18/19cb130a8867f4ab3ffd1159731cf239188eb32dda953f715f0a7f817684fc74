@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns a default return value for the given type.\n * For collections, returns empty instances to avoid UnsupportedOperationException if code under test modifies returned collection.\n *\n * @param type the type for which to return a default value\n * @return a default return value for the given type, or null if no default value is defined\n */\nObject returnValueFor(Class<?> type) {\n    if (Primitives.isPrimitiveOrWrapper(type)) {\n        return Primitives.defaultValueForPrimitiveOrWrapper(type);\n    } else if (Iterable.class.isAssignableFrom(type)) { // Fix: Check for Iterable interface\n        return Collections.emptyList(); // Return an empty, unmodifiable list\n    } else if (Map.class.isAssignableFrom(type)) { // Fix: Check for Map interface\n        return Collections.emptyMap(); // Return an empty, unmodifiable map\n    } else if (Collection.class.isAssignableFrom(type)) { // Fix: Check for Collection interface (catch-all for other collections)\n        return Collections.emptySet(); // Return an empty, unmodifiable set\n    }\n    // Let's not care about the rest of collections.\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

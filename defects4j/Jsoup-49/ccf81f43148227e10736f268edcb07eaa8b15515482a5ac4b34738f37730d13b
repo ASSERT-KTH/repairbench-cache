@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Inserts the given child nodes at the specified index, shifting existing child nodes to the right.\n * \n * @param index    the index at which to insert the child nodes\n * @param children the child nodes to insert\n */\nprotected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    for (int i = children.length - 1; i >= 0; i--) {\n        Node in = children[i];\n        reparentChild(in);\n        // Fix: Adjust the insertion index after each insertion to account for the shift\n        childNodes.add(index, in);\n        // Increment index to maintain correct insertion point for subsequent nodes\n        index++;\n    }\n    reindexChildren(0); // Reindex from the start after all insertions\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

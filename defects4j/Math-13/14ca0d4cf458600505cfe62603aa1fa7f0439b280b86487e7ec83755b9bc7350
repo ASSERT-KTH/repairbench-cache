@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix, handling potential OOM issues.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // Check if matrix is identity or very close to it, \n    // in which case its square-root is itself (optimization)\n    if (isIdentityOrClose(m)) {\n        return m;\n    }\n    \n    // Perform eigen decomposition with a solver that handles large matrices efficiently\n    final EigenDecomposition dec = new EigenDecomposition(m, \n                                                          new SwingSolver(m.getColumnDimension(), \n                                                                          SwingSolver defaults to using less memory));\n    return dec.getSquareRoot();\n}\n\n// Helper method to check if a matrix is identity or close to it\nprivate boolean isIdentityOrClose(RealMatrix m, double epsilon = 1e-9) {\n    for (int i = 0; i < m.getRowDimension(); i++) {\n        for (int j = 0; j < m.getColumnDimension(); j++) {\n            double expected = (i == j)? 1.0 : 0.0;\n            if (Math.abs(m.getEntry(i, j) - expected) > epsilon) {\n                return false;\n            }\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

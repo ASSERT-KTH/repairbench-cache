@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(K prefix) {\n    //... (existing code remains the same)\n\n    // Fixed clear() implementation\n    public void clear() {\n        if (prefix!= null) {\n            // Recursively clear the prefix map from the underlying PatriciaTrie\n            clearRecursive(root, prefix);\n        }\n        // Clear the local prefix map view\n        super.clear();\n    }\n\n    private void clearRecursive(Node<K, V> node, K prefix) {\n        if (node == null) return;\n\n        if (node.getKey()!= null && node.getKey().startsWith(prefix)) {\n            // Remove the node from the trie if it matches the prefix\n            remove(node.getKey());\n        }\n\n        // Recursively traverse the trie\n        for (Node<K, V> child : node.getChildren()) {\n            clearRecursive(child, prefix);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

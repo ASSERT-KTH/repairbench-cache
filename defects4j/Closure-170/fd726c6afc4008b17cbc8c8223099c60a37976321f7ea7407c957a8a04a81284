@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and store it in\n * numUseWithinUseCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName) &&\n         !(parent.isAssign() && \n            (parent.getFirstChild() == n || // lhs of assignment\n             isRhsOfAssignInConditional(parent, n)))) { // rhs of assignment in conditional\n        numUsesWithinCfgNode++;\n      }\n    }\n\n    /**\n     * Checks if the given node is the RHS of an assignment within a conditional.\n     * \n     * @param parent the parent node (expected to be an Assign node)\n     * @param n the node to check (expected to be a Name node with the varName)\n     * @return true if the node is the RHS of an assignment within a conditional\n     */\n    private boolean isRhsOfAssignInConditional(Node parent, Node n) {\n      Node grandParent = parent.getParent();\n      return grandParent!= null && \n             (grandParent.isCond() || grandParent.isTernary()) && \n             parent.getChildCount() > 2 && \n             parent.getChildAtIndex(parent.getChildCount() - 1) == n;\n    }\n\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

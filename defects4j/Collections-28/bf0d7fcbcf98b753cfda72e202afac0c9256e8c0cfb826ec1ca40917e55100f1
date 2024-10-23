@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes NullPointerException when clearing a prefix map.\n * Ensures the underlying trie is updated correctly upon prefix map clearance.\n */\n@Override\npublic void clear() {\n    if (prefixMap == null) { // added null check to prevent NPE\n        return;\n    }\n    Iterator<Map.Entry<String, Integer>> iterator = prefixMap.entrySet().iterator();\n    while (iterator.hasNext()) {\n        Map.Entry<String, Integer> entry = iterator.next();\n        // Directly remove from the underlying trie to maintain consistency\n        trie.remove(entry.getKey());\n        iterator.remove(); // safely remove from the prefix map\n    }\n    prefixMap = null; // reset prefix map after clearance\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

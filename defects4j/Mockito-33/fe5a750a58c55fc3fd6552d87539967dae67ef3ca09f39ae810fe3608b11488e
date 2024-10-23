@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {        \n    // Handle cases where Java generates forwarding methods (e.g., with generics)\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n    \n    // Compare method signatures, considering bridged/forwarding methods\n    return areMethodsEquivalent(m1, m2);\n}\n\n// Helper method to compare method signatures, handling bridged/forwarding methods\nprivate boolean areMethodsEquivalent(Method m1, Method m2) {\n    return m1.getName().equals(m2.getName()) \n           && Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes()) \n           && m1.getReturnType().equals(m2.getReturnType()) \n           && m1.getDeclaringClass().isAssignableFrom(m2.getDeclaringClass()) \n           || (m1.isBridge() && m2.isBridge() && getOriginalMethod(m1).equals(getOriginalMethod(m2)));\n}\n\n// Helper method to get the original method for bridged methods\nprivate Method getOriginalMethod(Method bridgedMethod) {\n    try {\n        // Access the synthetic bridge method's target via reflection\n        return (Method) bridgedMethod.getClass().getDeclaredField(\"backwardCompatibleMethod\").get(bridgedMethod);\n    } catch (Exception e) {\n        throw new RuntimeException(\"Failed to access original method for bridge method\", e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

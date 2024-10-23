@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Test if this element has an attribute, considering \"abs:\" prefix for absolute URLs.\n * @param attributeKey The attribute key to check. May start with \"abs:\".\n * @return true if the attribute exists, false if not.\n */\npublic boolean hasAttr(String attributeKey) {\n    Validate.notNull(attributeKey);\n\n    // Check if attribute key starts with \"abs:\" and adjust accordingly\n    String keyToCheck = attributeKey.startsWith(\"abs:\") \n                         ? attributeKey.substring(4) \n                          : attributeKey;\n\n    return attributes.hasKey(keyToCheck) \n           || (attributeKey.startsWith(\"abs:\") && isAbsoluteUrl(attributeKey.substring(4)));\n}\n\n// Assuming the existence of a method to check if an attribute value is an absolute URL\nprivate boolean isAbsoluteUrl(String attributeName) {\n    String attributeValue = attributes.get(attributeName);\n    return attributeValue!= null && (attributeValue.startsWith(\"http://\") || attributeValue.startsWith(\"https://\"));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {\n    // Handle cases where Java generates forwarding methods for generics\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n    \n    // Check if either method is a synthetic forwarding method\n    if (m1.isSynthetic() || m2.isSynthetic()) {\n        // Compare the declaring classes and method signatures (name, return type, parameter types)\n        return m1.getDeclaringClass().isAssignableFrom(m2.getDeclaringClass()) \n               || m2.getDeclaringClass().isAssignableFrom(m1.getDeclaringClass())\n               && m1.getName().equals(m2.getName()) \n               && Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes()) \n               && m1.getReturnType().equals(m2.getReturnType());\n    } else {\n        // Default to equals() for non-synthetic methods\n        return m1.equals(m2);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

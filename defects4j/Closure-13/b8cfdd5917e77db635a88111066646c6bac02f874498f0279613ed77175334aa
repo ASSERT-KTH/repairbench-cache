@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Traverses the AST, revisiting nodes as necessary to catch newly created opportunities.\n * \n * @param node the current node in the AST\n */\nprivate void traverse(Node node) {\n    // The goal here is to avoid retraversing the entire AST to catch newly created opportunities.\n    // So we track whether a \"unit of code\" has changed, and revisit immediately.\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    Node currentNode = node;\n    do {\n      // Traverse children first to ensure parent nodes are processed after their children\n      Node c = currentNode.getFirstChild();\n      while (c!= null) {\n        traverse(c);\n        Node next = c.getNext();\n        c = next;\n      }\n\n      // Visit the current node after its children\n      visit(currentNode);\n      visits++;\n\n      // Check if the node has changed, if so, update the current node for the next iteration\n      if (shouldRetraverse(currentNode)) {\n        currentNode = node; // Reset to the original node for re-traversal\n      } else {\n        break; // Exit the loop if no further re-traversal is needed\n      }\n\n      Preconditions.checkState(visits < 10000, \"too many iterations\");\n    } while (true); // Loop until shouldRetraverse returns false\n\n    exitNode(node);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

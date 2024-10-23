@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    double dotProductV1V2 = v1.dotProduct(v2);\n    double dotProductV2V2 = v2.dotProduct(v2);\n    double rho = (dotProductV1V2 / dotProductV2V2) * 255.0 / 256.0; // 8 bits approximation\n\n    // reduce cancellation errors by preconditioning,\n    // replace v1 by v3 = v1 - rho v2 with rho chosen to compute v3 without loss of precision\n    Vector3D v3 = v1.subtract(v2.multiply(rho));\n\n    // compute cross product from v3 and v2 instead of v1 and v2\n    return new Vector3D(v3.y * v2.z - v3.z * v2.y, v3.z * v2.x - v3.x * v2.z, v3.x * v2.y - v3.y * v2.x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

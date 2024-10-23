@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns the values associated with the given Option.\n * \n * If no values are found, and default values are specified, these are returned.\n * If more default values are specified than were provided, the additional \n * default values are appended to the list.\n * \n * @param option the Option for which to retrieve values\n * @param defaultValues the default values to use if no values are found\n * @return the list of values, or an empty list if none are found\n */\npublic List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // if no values are found, use the default values\n    if (valueList == null || valueList.isEmpty()) {\n        valueList = defaultValues;\n    } else {\n        // augment the list with the default values if there are more defaults\n        List additionalDefaults = (List) this.defaultValues.get(option);\n        if (additionalDefaults!= null) {\n            int max = option.getArgument().getMaximum();\n            if (max > 0 && valueList.size() < max) {\n                int toAdd = max - valueList.size();\n                valueList.addAll(additionalDefaults.subList(0, toAdd));\n            }\n        }\n    }\n\n    return valueList == null? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its lifetime,\n *     considering the entire program execution (not just within a single loop).\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Check if the variable is reassigned across function calls or in other scopes.\n  Node assignmentNode = ref.getNode();\n  Scope scope = assignmentNode.getScope();\n  for (Node node : scope.getChildNodes()) {\n    if (node instanceof AssignNode && node.getLhs().equals(assignmentNode)) {\n      if (!node.equals(assignmentNode)) {\n        return false; // Reassigned in a different location\n      }\n    } else if (node instanceof FunctionNode) {\n      // If the variable is accessed within a nested function, it may be reassigned.\n      if (((FunctionNode) node).getScope().getVar(ref.getVariable())!= null) {\n        return false; // May be reassigned in a nested function\n      }\n    }\n  }\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock block = ref.getBasicBlock();\n       block!= null; block = block.getParent()) {\n    if (block.isFunction) {\n      break;\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

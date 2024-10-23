@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime, considering both direct assignments and indirect ones through\n *     function calls.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock block = ref.getBasicBlock();\n       block!= null; block = block.getParent()) {\n    if (block.isFunction) {\n      break;\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  // Check for indirect assignments through recursive function calls.\n  if (ref.getBasicBlock().isFunction && hasRecursiveCall(ref.getBasicBlock())) {\n    return false;\n  }\n\n  return true;\n}\n\n// Assuming this method is already available in the codebase, \n// if not, it would need to be implemented to check for recursive function calls.\nprivate boolean hasRecursiveCall(BasicBlock block) {\n  // Implementation to check for recursive function calls\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

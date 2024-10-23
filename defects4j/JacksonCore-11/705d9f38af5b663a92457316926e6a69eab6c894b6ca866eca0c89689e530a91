@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fix: Ensuring proper array resizing during symbol table expansion\n * \n * @author [Your Name]\n */\nprivate void _verifySharing() {\n    if (_hashShared) {\n        // Increase buffer size to accommodate growth, not just copy the existing length\n        int newSize = (_hashArea.length << 1); // doubling the size, common expansion strategy\n        _hashArea = Arrays.copyOf(_hashArea, newSize);\n        _names = Arrays.copyOf(_names, newSize);\n        _hashShared = false;\n        // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n        //    we rehash as needed, as need-rehash flag is not copied from parent\n        _needRehash = true; // Ensure rehashing after resizing\n    }\n    if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

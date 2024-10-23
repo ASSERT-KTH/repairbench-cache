@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes to ensure proper handling of nested inline elements (e.g., anchor tags within other anchor tags).\n * \n * @param out the Document.OutputSettings\n * @return true if the element is inlineable, false otherwise\n */\nprivate boolean isInlineable(Document.OutputSettings out) {\n    // Ensure the tag itself is inline\n    return tag().isInline()\n        // Verify the parent is either null or a block element\n        && (parent() == null || parent().isBlock())\n        // Check for previous sibling to maintain positioning\n        && previousSibling()!= null\n        // Only consider outlining if it's not already set to outline\n        &&!out.outline()\n        // NEW CONDITION: Disallow inlineable if parent is also inline and not a phrasing content container\n        &&!(parent()!= null && parent().isInline() &&!parent().isPhrasingContentContainer());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

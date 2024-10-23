@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Parse an entry name from a buffer.\n * Parsing stops when a NUL is found\n * or the buffer length is reached.\n * Non-ASCII characters are preserved.\n *\n * @param buffer The buffer from which to parse.\n * @param offset The offset into the buffer from which to parse.\n * @param length The maximum number of bytes to parse.\n * @return The entry name.\n */\npublic static String parseName(byte[] buffer, final int offset, final int length) {\n    byte[] nameBytes = new byte[length];\n    int      nameLen  = 0;\n\n    for (int i = offset; i < offset + length; ++i) {\n        if (buffer[i] == 0) {\n            break;\n        }\n        nameBytes[nameLen++] = buffer[i];\n    }\n\n    // Use ISO-8859-1 to preserve non-ASCII characters\n    return new String(nameBytes, 0, nameLen, java.nio.charset.StandardCharsets.ISO_8859_1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Parse an entry name from a buffer.\n * Parsing stops when a NUL is found\n * or the buffer length is reached.\n *\n * @param buffer The buffer from which to parse.\n * @param offset The offset into the buffer from which to parse.\n * @param length The maximum number of bytes to parse.\n * @return The entry name.\n */\npublic static String parseName(byte[] buffer, final int offset, final int length) {\n    StringBuilder result = new StringBuilder(length);\n    int          end = offset + length;\n    boolean      nulReached = false;\n\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            nulReached = true;\n            break;\n        }\n        result.append((char) buffer[i]);\n    }\n\n    // If a NUL was encountered, replace it and any subsequent characters with their Unicode representation\n    if (nulReached) {\n        byte[] remaining = new byte[length - (end - offset)];\n        System.arraycopy(buffer, end, remaining, 0, remaining.length);\n        String remainingStr = new String(remaining, Charset.forName(\"ISO-8859-1\"));\n        result.append(remainingStr.replace(\"\\u0000\", \"\\\\u0000\"));\n    }\n\n    return result.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

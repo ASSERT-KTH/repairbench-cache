@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given CFG node has an attached exception handler.\n *\n * @param cfgNode the node to check\n * @return true if the node has an exception handler, false otherwise\n */\nprivate boolean hasExceptionHandler(Node cfgNode) {\n  // Traverse up the AST to check for Try nodes, which indicate exception handling\n  while (cfgNode!= null) {\n    if (cfgNode.getParent() instanceof TryNode) {\n      // If a Try node is found, check if it has a Catch or Finally block\n      TryNode tryNode = (TryNode) cfgNode.getParent();\n      return tryNode.getCatchBlock()!= null || tryNode.getFinallyBlock()!= null;\n    }\n    cfgNode = cfgNode.getParent();\n  }\n  // If no Try node with a Catch or Finally block is found, return false\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

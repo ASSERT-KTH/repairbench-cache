@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Resolve the referenced type within the enclosing scope.\n */\n@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // Check for implicit prototype cycles before attempting resolution\n    if (detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n    }\n\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (resolved) {\n        // Avoid calling super.resolveInternal(t, enclosing) when already resolved via registry\n        // to prevent potential recursive calls and StackOverflowError\n        finishPropertyContinuations();\n        return registry.isLastGeneration()? getReferencedType() : this;\n    }\n\n    // Resolve via properties only if not already resolved via registry\n    resolved = resolveViaProperties(t, enclosing);\n    if (resolved && detectImplicitPrototypeCycle()) {\n        // If a cycle is detected after resolution, handle it\n        handleTypeCycle(t);\n    }\n\n    // Call super.resolveInternal only if not already resolved\n    if (!resolved) {\n        super.resolveInternal(t, enclosing);\n    }\n    if (isResolved()) {\n        finishPropertyContinuations();\n    }\n    return registry.isLastGeneration()? getReferencedType() : this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

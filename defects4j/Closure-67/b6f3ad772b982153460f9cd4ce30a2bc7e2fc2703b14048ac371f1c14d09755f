@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the assignment is to a property of a prototype object.\n * \n * @param assign the assignment node to check\n * @return true if the assignment is to a prototype property, false otherwise\n */\nprivate boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n!= null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP\n     ) {\n    // We want to exclude the assignment itself from the usage list\n    boolean isPrototypeProperty = false;\n    Node current = n;\n    while (current.getType() == Token.GETPROP) {\n      Node grandChild = current.getFirstChild().getNext();\n      if (grandChild.getType() == Token.STRING &&\n          grandChild.getString().equals(\"prototype\")) {\n        isPrototypeProperty = true;\n        break;\n      }\n      current = current.getFirstChild();\n    }\n    return isPrototypeProperty;\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

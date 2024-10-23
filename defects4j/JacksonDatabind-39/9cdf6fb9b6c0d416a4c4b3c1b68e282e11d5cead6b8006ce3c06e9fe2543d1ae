@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // Handle unknown/dangling properties by skipping them\n    if (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n        String fieldName = p.getCurrentName();\n        p.nextToken(); // Move to value\n        p.skipChildren(); // Skip the value and any children\n        // Consume the matching END_OBJECT if any\n        if (p.getCurrentToken() == JsonToken.END_OBJECT) {\n            p.nextToken();\n        }\n    } else {\n        p.skipChildren();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

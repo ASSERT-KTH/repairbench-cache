@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes the clearing of prefixMap to prevent NullPointerException and ensure\n * correct key removal from the underlying PatriciaTrie.\n */\n@Override\npublic void clear() {\n    if (this.prefixMap!= null) {\n        String prefix = this.prefixMap prefix(); // assuming a method to get the prefix\n        Iterator<Map.Entry<String, Integer>> iterator = this.prefixMap.entrySet().iterator();\n        while (iterator.hasNext()) {\n            Map.Entry<String, Integer> entry = iterator.next();\n            if (entry.getKey().startsWith(prefix)) {\n                // Remove the entry from the underlying PatriciaTrie\n                this.trie.remove(entry.getKey());\n                iterator.remove(); // Safe to remove while iterating with Iterator\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

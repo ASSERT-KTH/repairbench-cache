@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Reduce the fraction to the smallest values for the numerator and\n * denominator, returning the result.</p>\n * \n * <p>For example, if this fraction represents 2/4, then the result\n * will be 1/2.</p>\n *\n * @return a new reduced fraction instance, or this if no simplification possible\n */\npublic Fraction reduce() {\n    if (numerator == 0) {\n        return Fraction.ZERO; // handle zero numerator case explicitly\n    }\n    \n    int gcd = greatestCommonDivisor(Math.abs(numerator), Math.abs(denominator));\n    if (gcd == 1) {\n        return this; // no simplification needed\n    }\n    \n    // Preserve the original sign\n    int newNumerator = (int) Math.copySign(numerator / gcd, numerator);\n    int newDenominator = (int) Math.copySign(denominator / gcd, denominator);\n    \n    // If the result is equivalent to this, return this for consistency with expectations\n    if (newNumerator == numerator && newDenominator == denominator) {\n        return this;\n    }\n    \n    return Fraction.getFraction(newNumerator, newDenominator);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

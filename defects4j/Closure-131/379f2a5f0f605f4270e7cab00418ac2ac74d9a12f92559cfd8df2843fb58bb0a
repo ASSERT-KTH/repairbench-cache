@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the given string is a valid JavaScript identifier.\n * \n * Note: This implementation differs from Java's identifier rules to match JavaScript's.\n *       Specifically, it allows Unicode escape sequences and some Unicode characters.\n */\npublic static boolean isJSIdentifier(String s) {\n  int length = s.length();\n\n  if (length == 0) {\n    return false;\n  }\n\n  // Check the first character, considering Unicode escape sequences and $, _\n  if (!(s.charAt(0) == '$' || s.charAt(0) == '_' ||\n        (length > 1 && s.charAt(0) == 'u' && s.charAt(1) == 'n' && s.regionMatches(2, \"defined\", 0, 7)) ||\n        Character.isLetter(s.charAt(0)) || \n        Unicode.isJSIdentifierStart(s.charAt(0)))) {\n    return false;\n  }\n\n  for (int i = 1; i < length; i++) {\n    // Check subsequent characters, allowing for Unicode escape sequences and more\n    if (!(s.charAt(i) == '$' || s.charAt(i) == '_' ||\n          (i + 4 < length && s.charAt(i) == 'u' && s.charAt(i+1) == '{') || // Unicode code point escape\n          Character.isLetterOrDigit(s.charAt(i)) || \n          Unicode.isJSIdentifierPart(s.charAt(i)))) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

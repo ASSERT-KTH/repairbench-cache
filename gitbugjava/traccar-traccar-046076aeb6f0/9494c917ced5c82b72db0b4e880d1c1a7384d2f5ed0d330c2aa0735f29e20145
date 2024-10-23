@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    int length = buf.readUnsignedByte();\n    int dataLength = length - 5;\n    int type = buf.readUnsignedByte();\n\n    //... (rest of the function remains the same until this point)\n\n    if (type == MSG_GPS_LBS_2 || type == MSG_GPS_LBS_3 || type == MSG_GPS_LBS_4\n            && buf.readableBytes() >= 3) { // Changed from buf.readableBytes() >= 3 + 6\n        position.set(Position.KEY_IGNITION, buf.readUnsignedByte() > 0);\n        if (buf.readableBytes() >= 2) { // Added check for readable bytes\n            position.set(Position.KEY_EVENT, buf.readUnsignedByte()); // reason\n        }\n        if (buf.readableBytes() >= 1) { // Added check for readable bytes\n            position.set(Position.KEY_ARCHIVE, buf.readUnsignedByte() > 0);\n        }\n    }\n\n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

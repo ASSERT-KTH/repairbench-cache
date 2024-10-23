@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given Node represents a reducable function expression.\n * A reducable function expression is a function expression that is not a constructor\n * and does not have any side effects in its property getters.\n *\n * @param n the Node to check\n * @return true if the Node represents a reducable function expression, false otherwise\n */\nprivate static boolean isReduceableFunctionExpression(Node n) {\n    return NodeUtil.isFunctionExpression(n) \n           &&!NodeUtil.isConstructor(n)\n           &&!hasSideEffectsInPropertyGetters(n);\n}\n\n// Helper method to check for side effects in property getters\nprivate static boolean hasSideEffectsInPropertyGetters(Node n) {\n    for (Node child : n.getChildren()) {\n        if (child.isProperty() && child.getFirstChild().isGetProp()) {\n            Node getter = child.getFirstChild().getLastChild();\n            if (hasSideEffects(getter)) {\n                return true;\n            }\n        }\n    }\n    return false;\n}\n\n// Helper method to check for side effects in a Node (e.g., function calls, assignments)\nprivate static boolean hasSideEffects(Node n) {\n    // Implement side effect detection, e.g., using NodeUtil or custom logic\n    // For brevity, a simple example is provided; you may need to expand this\n    return n.isCall() || n.isAssign();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Creates a time period for the week in which the specified date/time\n * falls, calculated relative to the specified time zone.\n *\n * @param time  the date/time (<code>null</code> not permitted).\n * @param zone  the time zone (<code>null</code> not permitted).\n *\n * @deprecated As of 1.0.7, use {@link #Week(Date, TimeZone, Locale)}.\n */\npublic Week(Date time, TimeZone zone) {\n    // Fix: Pass the provided zone to the overloaded constructor instead of defaulting to RegularTimePeriod.DEFAULT_TIME_ZONE\n    // Also, add a check to use the provided zone's locale if possible, falling back to Locale.getDefault()\n    this(time, zone, getLocaleForTimeZone(zone));\n}\n\n// Helper method to get the locale for a given time zone (if available)\nprivate Locale getLocaleForTimeZone(TimeZone zone) {\n    String[] availableZoneIds = Locale.getAvailableLocales();\n    for (String zoneId : availableZoneIds) {\n        if (zone.getID().equals(zoneId)) {\n            return new Locale(zoneId);\n        }\n    }\n    // Fall back to default locale if no match found\n    return Locale.getDefault();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

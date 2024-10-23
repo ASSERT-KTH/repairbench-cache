@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if an element is in the specific scope as defined by the HTML spec.\n * \n * @param targetNames Names of target elements\n * @param baseTypes   Names of base elements ( scopes to break out of )\n * @param extraTypes  Additional types to break out of (optional)\n * @return True if in scope, false if not\n */\nprivate boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n    // https://html.spec.whatwg.org/multipage/parsing.html#has-an-element-in-the-specific-scope\n    int bottom = Math.max(0, stack.size() - 1); // Ensure bottom is not negative\n    int top = Math.max(0, bottom - MaxScopeSearchDepth); // Calculate top based on bottom, ensure non-negative\n\n    // Limit the search to the top 'MaxScopeSearchDepth' elements from the bottom of the stack\n    for (int pos = bottom; pos >= top; pos--) {\n        final String elName = stack.get(pos).nodeName();\n        if (inSorted(elName, targetNames)) \n            return true;\n        if (inSorted(elName, baseTypes)) \n            return false;\n        if (extraTypes!= null && inSorted(elName, extraTypes)) \n            return false;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

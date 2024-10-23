@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, considering the IE event handler bug (issue 291).\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n        if (n.hasOneChild()) {\n            Node maybeExpr = n.getFirstChild();\n            // Additional check to handle the IE event handler bug (issue 291)\n            // where event handlers behave differently when their return value \n            // is used vs. when their return value is in an EXPR_RESULT.\n            return NodeUtil.isExpressionNode(maybeExpr) \n                &&!isEventHandlerReturningExprResult(maybeExpr);\n        }\n    }\n    return false;\n}\n\n// Helper function to detect potential IE event handler bug pattern\nprivate boolean isEventHandlerReturningExprResult(Node expr) {\n    // Check if the expression is a method call with 'on' prefix (common in event handlers)\n    if (expr.isCall() && expr.getFirstChild().getString().matches(\"on\\\\w+\")) {\n        // Check if the method call is within an EXPR_RESULT node (indicating return value usage)\n        Node parent = expr.getParent();\n        return parent!= null && parent.getType() == Token.EXPR_RESULT;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

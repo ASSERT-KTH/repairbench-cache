@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns a character array that contains the contents of this buffer.\n * If buffer has been initialized with a shared input buffer (see\n * {@link #resetWithShared(byte[], int, int)}), and has not been\n * modified, the shared buffer is returned. If not, a new char array\n * is created and returned.\n */\npublic char[] getTextBuffer()\n{\n    // Are we just using shared input buffer?\n    if (_inputStart >= 0) return _inputBuffer;\n    if (_resultArray!= null)  return _resultArray;\n    if (_resultString!= null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    // Nope; but does it fit in just one segment?\n    if (!_hasSegments)  \n        // FIX: Handle case where _currentSegment is null (empty buffer)\n        return (_currentSegment == null)? new char[0] : _currentSegment;\n    // Nope, need to have/create a non-segmented array and return it\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

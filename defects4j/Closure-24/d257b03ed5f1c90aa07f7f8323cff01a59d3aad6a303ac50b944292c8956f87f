@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds aliases in the given scope and updates the aliases map and transformation.\n * \n * @param t the NodeTraversal object\n */\nprivate void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    int type = n.getType();\n    Node parent = n.getParent();\n    \n    // Check if the variable is not a function parameter and not a bleeding function\n    if (!scope.isParam(v) &&!scope.isBleedingFunction(v)) {\n      if (n.hasChildren() && n.getFirstChild().isQualifiedName()) {\n        String name = n.getString();\n        Var aliasVar = scope.getVar(name);\n        aliases.put(name, aliasVar);\n\n        String qualifiedName =\n            aliasVar.getInitialValue().getQualifiedName();\n        transformation.addAlias(name, qualifiedName);\n      } else {\n        // Report error if the local variable is not an alias\n        report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

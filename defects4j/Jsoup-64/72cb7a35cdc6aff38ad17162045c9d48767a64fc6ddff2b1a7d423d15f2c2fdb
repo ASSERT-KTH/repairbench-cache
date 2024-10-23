@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Handle rawtext tokens (e.g., style, script, textarea, etc.) by self-closing if necessary.\n * \n * @param startTag the starting tag for the rawtext element\n * @param tb the HtmlTreeBuilder instance\n */\nprivate static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    tb.insert(startTag);\n    \n    // Check if the element is known to be empty (e.g., style, noframes) and self-close if necessary\n    if (isKnownEmptyElement(startTag.name)) {\n        tb.insert(new Token.EndTag(startTag.name));\n    } else {\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n    }\n}\n\n// Helper method to check for known empty elements\nprivate static boolean isKnownEmptyElement(String elementName) {\n    return \"style\".equalsIgnoreCase(elementName) || \"noframes\".equalsIgnoreCase(elementName);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

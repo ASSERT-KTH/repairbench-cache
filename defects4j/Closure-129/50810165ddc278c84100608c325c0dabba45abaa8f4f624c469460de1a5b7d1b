@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * There are two types of calls we are interested in: calls without explicit\n * \"this\" values (what we call \"free\" calls) and direct calls to eval.\n */\nprivate void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  // Keep track of the \"this\" context of a call. A call without an explicit\n  // \"this\" is a free call.\n  Node first = n.getFirstChild();\n\n  // Ignore cast nodes and property access nodes (e.g., (new x())['abc']())\n  if (!(NodeUtil.isGet(first) || NodeUtil.isCast(first))) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  // Keep track of the context in which eval is called. It is important\n  // to distinguish between \"(0, eval)()\" and \"eval()\".\n  if (first.isName() &&\n      \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

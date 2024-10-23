@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes: \n * - Returning inconsistent results for compareTo() when comparing a mock to itself\n * - Failing to maintain consistency with equals() when comparing the same reference\n */\npublic Object answer(InvocationOnMock invocation) {\n    if (methodsGuru.isToString(invocation.getMethod())) {\n        Object mock = invocation.getMock();\n        MockName name = mockUtil.getMockName(mock);\n        if (name.isDefault()) {\n            return \"Mock for \" + mockUtil.getMockSettings(mock).getTypeToMock().getSimpleName() + \", hashCode: \" + mock.hashCode();\n        } else {\n            return name.toString();\n        }\n    } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {\n        // Fix: Return 0 if references are the same, -1 or 1 otherwise\n        Object arg = invocation.getArguments()[0];\n        if (arg == invocation.getMock()) {\n            return 0; // Same reference, return 0 for consistency with equals()\n        } else {\n            return 1; // Different reference, return non-zero value\n        }\n    }\n    \n    Class<?> returnType = invocation.getMethod().getReturnType();\n    return returnValueFor(returnType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

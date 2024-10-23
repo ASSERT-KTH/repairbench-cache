@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Retrieves the form data from the input elements within this form.\n * \n * @return list of key-value pairs representing the form data\n */\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input, textarea, select\")) {\n        String name = input.attr(\"name\");\n        if (!name.isEmpty()) { // ignore inputs without a name\n            if (input.tagName().equals(\"input\")) {\n                String type = input.attr(\"type\");\n                if (type.equals(\"radio\") || type.equals(\"checkbox\")) {\n                    if (input.hasAttr(\"checked\")) {\n                        data.add(new Connection.KeyVal(name, input.attr(\"value\")));\n                    }\n                } else if (!type.equals(\"submit\") &&!type.equals(\"reset\") &&!type.equals(\"button\")) {\n                    data.add(new Connection.KeyVal(name, input.attr(\"value\")));\n                }\n            } else if (input.tagName().equals(\"textarea\")) {\n                data.add(new Connection.KeyVal(name, input.text()));\n            } else if (input.tagName().equals(\"select\")) {\n                for (Element option : input.select(\"option[selected]\")) {\n                    data.add(new Connection.KeyVal(name, option.attr(\"value\")));\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

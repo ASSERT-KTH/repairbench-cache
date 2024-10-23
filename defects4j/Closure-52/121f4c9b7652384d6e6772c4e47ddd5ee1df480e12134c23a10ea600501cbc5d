@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  // Check for numeric literals (decimal, octal, hexadecimal)\n  if (s.length() > 2 && s.substring(0, 2).equals(\"0x\")) { // hexadecimal\n    for (int index = 2; index < s.length(); index++) {\n      char c = s.charAt(index);\n      if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {\n        return false;\n      }\n    }\n    return true;\n  } else if (s.length() > 1 && s.charAt(0) == '0' && s.charAt(1)!= '.') { // octal\n    for (int index = 1; index < s.length(); index++) {\n      char c = s.charAt(index);\n      if (c < '0' || c > '7') {\n        return false;\n      }\n    }\n    return true;\n  } else { // decimal (also matches decimal part of float literals starting with '0.')\n    int index = 0;\n    if (s.charAt(0) == '0' && s.length() > 1 && s.charAt(1) == '.') {\n      index = 2; // skip \"0.\" for float literals\n    }\n    for (; index < s.length(); index++) {\n      char c = s.charAt(index);\n      if (c < '0' || c > '9') {\n        return false;\n      }\n    }\n    return s.length() > (index == 2? 1 : 0); // ensure at least one digit\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

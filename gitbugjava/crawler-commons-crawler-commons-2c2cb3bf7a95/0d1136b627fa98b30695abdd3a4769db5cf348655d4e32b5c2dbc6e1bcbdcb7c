@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes the issue with unescaped Unicode paths in robots.txt files by properly decoding URLs\n * before comparing them with the rules.\n */\nprivate SimpleRobotRules parseContent(String url, byte[] content, String contentType, Collection<String> robotNames, boolean exactUserAgentMatching) {\n\n    //... (rest of the function remains the same until this point)\n\n    while (lineParser.hasMoreTokens()) {\n        String line = lineParser.nextToken();\n\n        //... (rest of the function remains the same until this point)\n\n        RobotToken token = tokenize(line);\n        switch (token.getDirective()) {\n            case DISALLOW:\n            case ALLOW:\n                // Decode URL paths to properly handle unescaped Unicode characters\n                String decodedPath = URLDecoder.decode(token.getPath(), StandardCharsets.UTF_8);\n                token.setPath(decodedPath); // Update the token with the decoded path\n                // Fall through to handle the updated token\n\n            case DISALLOW:\n                parseState.setFinishedAgentFields(true);\n                handleDisallow(parseState, token);\n                break;\n\n            case ALLOW:\n                parseState.setFinishedAgentFields(true);\n                handleAllow(parseState, token);\n                break;\n\n            //... (rest of the function remains the same)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

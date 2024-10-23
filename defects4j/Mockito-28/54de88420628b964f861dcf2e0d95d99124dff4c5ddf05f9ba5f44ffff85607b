@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes the issue by filtering candidates based on the most specific type match.\n * If an exact type match is found, it will be injected; otherwise, the closest ancestor type match will be used.\n */\nprivate void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // First, try to find an exact type match\n        Object exactMatch = mockCandidateFilter.findExactMatch(mocks, field.getType());\n        if (exactMatch!= null) {\n            // If found, inject the exact match\n            mockCandidateFilter.inject(exactMatch, field, fieldInstance);\n        } else {\n            // If not, filter and inject the closest ancestor type match (if any)\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

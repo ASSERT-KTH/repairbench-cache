@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed version of the parseContent function to handle Unicode unescaped paths correctly.\n */\nprivate SimpleRobotRules parseContent(String url, byte[] content, String contentType, Collection<String> robotNames, boolean exactUserAgentMatching) {\n\n    //... (rest of the function remains the same until the lineParser loop)\n\n    while (lineParser.hasMoreTokens()) {\n        String line = lineParser.nextToken();\n\n        //... (rest of the loop remains the same until handling directives)\n\n        RobotToken token = tokenize(line);\n        switch (token.getDirective()) {\n            case DISALLOW:\n            case ALLOW:\n                // Fix: URL decode and then normalize the path to handle Unicode unescaped paths\n                String path = URLDecoder.decode(token.getPath(), StandardCharsets.UTF_8);\n                path = java.net.URI.create(path).normalize().getPath();\n                token = new RobotToken(token.getDirective(), path, token.getFields()); // Assume RobotToken has a constructor like this\n            case USER_AGENT:\n            //... (rest of the switch statement remains the same)\n\n            handleDisallow(parseState, token); // Update the handleDisallow call to use the updated token\n            //... (similar updates for handleAllow and other affected directives)\n        }\n    }\n\n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

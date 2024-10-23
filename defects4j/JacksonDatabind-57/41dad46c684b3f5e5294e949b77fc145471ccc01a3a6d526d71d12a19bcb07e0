@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Overloaded version of {@link #readValue(InputStream)}.\n */\npublic <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    // Added null check and UTF-32 validation for byte array input\n    if (src == null) {\n        throw new NullPointerException(\"Input byte array is null\");\n    }\n    if (length < 0 || offset < 0 || offset + length > src.length) {\n        throw new IndexOutOfBoundsException(\"Invalid input range: offset=\" + offset + \", length=\" + length);\n    }\n    // Validate for UTF-32 BOM to prevent CharConversionException\n    if (length >= 4 && (src[offset] == (byte) 0x00 && src[offset+1] == (byte) 0x00 && \n                        src[offset+2] == (byte) 0xFE && src[offset+3] == (byte) 0xFF)) {\n        throw new JsonParseException(_parserFactory.createParser(src), \n                \"UTF-32 not supported, use UTF-8 or UTF-16 instead\");\n    }\n\n    if (_dataFormatReaders!= null) {\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n    }\n    return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src), \n                true));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

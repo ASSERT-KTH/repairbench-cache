@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Copies attributes from a Jsoup Node to a W3C Element, \n * ensuring attribute names conform to XML specifications.\n * \n * @param source Jsoup Node with attributes to copy\n * @param el     W3C Element to receive the attributes\n */\nprivate void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        // valid xml attribute names are: ^[a-zA-Z_:][-a-zA-Z0-9_:.]\n        String key = attribute.getKey().replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n        \n        // Ignore attributes with empty or invalid names after sanitization\n        if (!key.isEmpty()) {\n            el.setAttribute(key, attribute.getValue());\n        } else {\n            // Optionally log or handle the ignored attribute for debugging/troubleshooting\n            // System.out.println(\"Ignored attribute with invalid name: '\" + attribute.getKey() + \"'\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

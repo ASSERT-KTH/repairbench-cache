@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed deserialization method to ensure Class safety for value type.\n */\nprivate Object readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject(); // read the default serialized form\n    \n    // Safety check for value type (clazz) during deserialization\n    if (!Collection.class.isAssignableFrom(clazz) &&!Map.class.isAssignableFrom(clazz)) {\n        throw new UnsupportedOperationException(\"Unsafe deserialization: \" + clazz + \" is not a Collection or Map\");\n    }\n    \n    // Rest of the deserialization logic remains unchanged\n    //...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

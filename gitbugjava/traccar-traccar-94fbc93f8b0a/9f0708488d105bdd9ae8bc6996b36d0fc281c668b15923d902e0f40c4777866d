@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Reads custom binary data from the provided buffer.\n *\n * @param position position object to fill\n * @param buf      byte buffer containing custom data\n * @param form     format string (e.g., \"%SA%CN%GQ%GS...\")\n */\nprivate void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            //... (other cases remain the same)\n\n            case \"JO11\":\n                // Fix: Ensure longitude value is within valid range (-180 to 180)\n                int longitude = buf.readUnsignedByte() - 40;\n                if (longitude > 180) {\n                    longitude = 180;\n                } else if (longitude < -180) {\n                    longitude = -180;\n                }\n                position.setLongitude(longitude); // Assuming setLongitude exists in Position class\n                break;\n\n            //... (other cases remain the same)\n\n            default:\n                break;\n        }\n    }\n\n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

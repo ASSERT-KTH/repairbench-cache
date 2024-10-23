@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // Avoid computing eigen decomposition for large matrices\n    if (m.getRowDimension() < 1000) { // adjust threshold as needed\n        final EigenDecomposition dec = new EigenDecomposition(m);\n        return dec.getSquareRoot();\n    } else {\n        // For large matrices, use a more memory-efficient approach\n        // such as Cholesky decomposition (since the matrix is symmetric, positive-definite)\n        final CholeskyDecomposition chol = new CholeskyDecomposition(m);\n        return chol.getL().transpose().multiply(chol.getL());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

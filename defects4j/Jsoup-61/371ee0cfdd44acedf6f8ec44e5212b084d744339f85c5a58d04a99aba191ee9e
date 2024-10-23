@@ -1,0 +1,7 @@
+{
+    "generation": "// performance sensitive\npublic boolean hasClass(String className) {\n    final String classAttr = attributes.get(\"class\");\n    if (classAttr == null) {\n        return false;\n    }\n\n    final String classNameLower = className.toLowerCase();\n    final String classAttrLower = classAttr.toLowerCase();\n\n    if (classAttrLower.equals(classNameLower)) {\n        return true; // exact match, no whitespace\n    }\n\n    // scan for whitespace and compare regions (with no string or arraylist allocations)\n    int start = 0;\n    for (int i = 0; i < classAttrLower.length(); i++) {\n        if (Character.isWhitespace(classAttrLower.charAt(i))) {\n            if (i - start == classNameLower.length() \n                && classAttrLower.regionMatches(start, classNameLower, 0, classNameLower.length())) {\n                return true;\n            }\n            start = i + 1; // reset start after whitespace\n        }\n    }\n\n    // check the last entry\n    return classAttrLower.length() - start == classNameLower.length() \n           && classAttrLower.regionMatches(start, classNameLower, 0, classNameLower.length());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

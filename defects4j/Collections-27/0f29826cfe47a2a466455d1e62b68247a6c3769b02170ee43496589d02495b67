@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed deserialization method to enforce safety checks on value classes.\n *\n * @param bytes the serialized MultiValueMap bytes\n * @return the deserialized MultiValueMap\n * @throws java.io.IOException                on IO errors\n * @throws ClassNotFoundException            on class not found errors\n * @throws UnsupportedOperationException    if the deserialized value class is not a Collection\n */\nprivate Object deserialize(byte[] bytes) throws java.io.IOException, ClassNotFoundException {\n    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));\n    MultiValueMap<?,?> map = (MultiValueMap<?,?>) ois.readObject();\n    ois.close();\n\n    // Safety check: Ensure the value class is a Collection (considered \"safe\" here)\n    if (!(map.getValueClass().isAssignableFrom(Collection.class))) {\n        throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n    }\n\n    return map;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

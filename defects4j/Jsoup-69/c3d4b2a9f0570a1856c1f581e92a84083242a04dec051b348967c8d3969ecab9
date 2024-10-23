@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Rebuilds the form data map after modifications to the form elements.\n * \n * @return the updated form data key-value pairs\n */\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input, select, textarea\")) {\n        if (!input.tagName().equals(\"input\") ||!input.attr(\"type\").equals(\"submit\")) {\n            String name = input.attr(\"name\");\n            if (!name.isEmpty()) {\n                String value = input.tagName().equals(\"textarea\")? input.text() \n                                   : input.attr(\"value\"); // handle textarea separately\n                if (input.tagName().equals(\"select\")) {\n                    for (Element option : input.select(\"option[selected]\")) {\n                        data.add(new Connection.KeyVal(name, option.attr(\"value\")));\n                    }\n                } else if (input.attr(\"type\").equals(\"checkbox\") || input.attr(\"type\").equals(\"radio\")) {\n                    if (input.hasAttr(\"checked\")) {\n                        data.add(new Connection.KeyVal(name, value));\n                    }\n                } else {\n                    data.add(new Connection.KeyVal(name, value));\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

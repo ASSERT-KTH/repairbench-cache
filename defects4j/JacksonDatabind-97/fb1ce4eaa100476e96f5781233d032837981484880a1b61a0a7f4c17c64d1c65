@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic final void serialize(JsonGenerator gen, SerializerProvider ctxt) throws IOException\n{\n    if (_value == null) {\n        ctxt.defaultSerializeNull(gen);\n    } else if (_value instanceof JsonSerializable) {\n        ((JsonSerializable) _value).serialize(gen, ctxt);\n    } else {\n        // Fix: Pass contextual information (attributes) to the writeObject call\n        ctxt.setAttribute(\"myAttr\", ctxt.getAttribute(\"myAttr\")); // preserve attribute\n        gen.writeObject(_value, ctxt); // use context to preserve attributes\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

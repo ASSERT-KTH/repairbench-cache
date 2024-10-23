@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the given CFG node has an exception handler.\n *\n * @param cfgNode the Control Flow Graph node to check\n * @return true if the node has an exception handler, false otherwise\n */\nprivate boolean hasExceptionHandler(Node cfgNode) {\n  // Traverse up the AST to find the nearest try-catch block\n  while (cfgNode!= null) {\n    if (cfgNode.isBlock() && cfgNode.getFirstChild()!= null && \n        cfgNode.getFirstChild().isToken(TokenType.TRY)) {\n      // If a try node is found, check if it has a catch or finally block\n      Node tryNode = cfgNode.getFirstChild();\n      return tryNode.getNext()!= null && \n             (tryNode.getNext().isToken(TokenType.CATCH) || \n              tryNode.getNext().isToken(TokenType.FINALLY));\n    }\n    cfgNode = cfgNode.getParent();\n  }\n  // If no try-catch block is found in the ancestors, return false\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

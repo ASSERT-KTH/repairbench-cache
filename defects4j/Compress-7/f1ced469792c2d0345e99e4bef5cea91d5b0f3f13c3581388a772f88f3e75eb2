@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Parse an entry name from a buffer.\n * Parsing stops when a NUL is found\n * or the buffer length is reached.\n *\n * @param buffer The buffer from which to parse.\n * @param offset The offset into the buffer from which to parse.\n * @param length The maximum number of bytes to parse.\n * @return The entry name.\n */\npublic static String parseName(byte[] buffer, final int offset, final int length) {\n    StringBuilder result = new StringBuilder(length);\n    int          end = offset + length;\n\n    for (int i = offset; i < end; ++i) {\n        byte b = buffer[i];\n        if (b == 0) { // NUL character, stop parsing\n            break;\n        }\n        // Handle non-ASCII characters correctly\n        if (b < 0) { // negative byte value, indicating non-ASCII\n            result.append(String.format(\"\\\\%03o\", b)); // escape non-ASCII bytes\n        } else {\n            result.append((char) b);\n        }\n    }\n\n    return result.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

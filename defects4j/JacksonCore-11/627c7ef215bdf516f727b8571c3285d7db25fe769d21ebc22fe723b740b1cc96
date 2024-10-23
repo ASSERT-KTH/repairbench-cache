@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fix for [jackson-core#216]: Ensure proper rehashing when sharing is verified.\n */\nprivate void _verifySharing()\n{\n    if (_hashShared) {\n        _hashArea = Arrays.copyOf(_hashArea, _hashArea.length * 2); // Expand capacity to avoid AIOOBE\n        _names = Arrays.copyOf(_names, _names.length * 2); // Maintain parallel array structure\n        _hashShared = false;\n        // Rehashing is now implicitly handled due to increased capacity, but explicit call ensured for consistency\n        _needRehash = true; \n    }\n    if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

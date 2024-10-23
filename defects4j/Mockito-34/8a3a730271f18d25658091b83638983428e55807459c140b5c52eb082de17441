@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation i) {\n    int k = 0;\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            Object[] args = i.getArguments();\n            if (k < args.length) { // Add bounds checking to prevent ArrayIndexOutOfBoundsException\n                ((CapturesArguments) m).captureFrom(args[k]);\n            }\n        } else if (m instanceof AnyVararg) { // Handle Vararg matchers separately\n            Object[] args = i.getArguments();\n            if (k < args.length) {\n                ((AnyVararg) m).captureFrom(Arrays.copyOfRange(args, k, args.length));\n                k = args.length; // Skip remaining indices for vararg\n            }\n        }\n        k++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

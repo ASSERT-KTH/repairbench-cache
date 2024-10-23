@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @see #findCalledFunctions(Node)\n */\nprivate void findCalledFunctions(\n    Node node, Set<String> changed) {\n  Preconditions.checkArgument(changed!= null);\n  // For each referenced function, add a new reference\n  if (node.getType() == Token.CALL) {\n    Node child = node.getFirstChild();\n    if (child.getType() == Token.NAME) {\n      String funcName = child.getString();\n      // Check if the function is defined in the same scope\n      Node scope = node.getScope().getOwner();\n      while (scope!= null) {\n        Node funcDecl = scope.getFirstChild();\n        while (funcDecl!= null) {\n          if (funcDecl.getType() == Token.FUNCTION && funcDecl.getChildCount() > 0 \n              && funcDecl.getFirstChild().getString().equals(funcName)) {\n            changed.add(funcName);\n            break;\n          }\n          funcDecl = funcDecl.getNext();\n        }\n        if (changed.contains(funcName)) break;\n        scope = scope.getScope().getOwner();\n      }\n    }\n  }\n\n  for (Node c = node.getFirstChild(); c!= null; c = c.getNext()) {\n    findCalledFunctions(c, changed);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

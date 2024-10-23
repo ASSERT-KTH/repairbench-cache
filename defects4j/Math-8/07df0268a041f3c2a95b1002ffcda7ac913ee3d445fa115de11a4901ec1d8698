@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n * positive.\n */\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                sampleSize);\n    }\n\n    // Create an array of type Object[] instead of trying to instantiate an array of type T\n    final Object[] out = new Object[sampleSize];\n\n    for (int i = 0; i < sampleSize; i++) {\n        // Since the array is of type Object[], the assignment will work\n        out[i] = sample();\n    }\n\n    // Use Arrays.copyOf to create a typed array, handling theunchecked cast\n    @SuppressWarnings(\"unchecked\")\n    final T[] typedOut = (T[]) java.util.Arrays.copyOf(out, sampleSize, (Class<? extends T[]>) out.getClass());\n    \n    return typedOut;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

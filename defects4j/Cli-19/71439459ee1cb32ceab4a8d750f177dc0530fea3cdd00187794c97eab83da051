@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>If an {@link Option} exists for <code>token</code> then\n * set the current option and add the token to the processed \n * list.</p>\n *\n * <p>If an {@link Option} does not exist and <code>stopAtNonOption</code>\n * is set then ignore the current token and add the remaining tokens\n * to the processed tokens list directly. If an {@link Option} does not exist\n * and <code>stopAtNonOption</code> is not set, throw an UnrecognizedOptionException.</p>\n *\n * @param token The current option token\n * @param stopAtNonOption Specifies whether flattening should halt\n * at the first non option.\n * @throws UnrecognizedOptionException if the option is not recognized and stopAtNonOption is false\n */\nprivate void processOptionToken(String token, boolean stopAtNonOption) throws UnrecognizedOptionException\n{\n    if (options.hasOption(token))\n    {\n        currentOption = options.getOption(token);\n        tokens.add(token);\n    }\n    else if (stopAtNonOption)\n    {\n        eatTheRest = true;\n        tokens.add(token);\n    }\n    else\n    {\n        throw new UnrecognizedOptionException(String.format(\"Unrecognized option: %s\", token), token);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

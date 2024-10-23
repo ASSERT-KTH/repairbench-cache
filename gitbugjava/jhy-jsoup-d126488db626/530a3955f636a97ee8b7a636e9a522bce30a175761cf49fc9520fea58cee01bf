@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Consume a sub-query, handling balancing and combinators.\n * \n * @return the consumed sub-query as a string\n */\nprivate String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    boolean combinatorConsumed = false; // track if a combinator has been consumed\n    while (!tq.isEmpty()) {\n        if (tq.matches(\"(\"))\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        else if (tq.matches(\"[\"))\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        else if (tq.matchesAny(Combinators)) {\n            if (combinatorConsumed) // if already consumed a combinator, break\n                break;\n            combinatorConsumed = true; // mark as consumed\n            if (sq.length() > 0) // if sq is not empty, append the combinator and break\n                sq.append(tq.consume());\n            else\n                tq.consume(); // else just consume the combinator\n        } else {\n            if (combinatorConsumed && tq.matches(\">\")) // if already consumed a combinator and next is '>', break\n                break;\n            sq.append(tq.consume());\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

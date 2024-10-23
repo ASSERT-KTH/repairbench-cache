@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix, handling potential OutOfMemory issues.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // Avoid loading the entire decomposition into memory\n    final EigenDecomposition dec = new EigenDecomposition(m, 1e-6, 100); // threshold, max iterations\n    final RealMatrix sqrtMatrix = MatrixUtils.createRealMatrix(m.getRowDimension(), m.getColumnDimension());\n\n    // Compute square root in-place, without storing all eigenvectors\n    for (int i = 0; i < m.getColumnDimension(); i++) {\n        final double eigenValue = dec.getEigenValue(i).getReal();\n        if (eigenValue > 0) { // ensure positive-definite\n            final double sqrtEigenValue = Math.sqrt(eigenValue);\n            final RealVector eigenvector = dec.getEigenvector(i);\n            sqrtMatrix.operate(eigenvector.mapMultiply(sqrtEigenValue));\n        }\n    }\n    return sqrtMatrix;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

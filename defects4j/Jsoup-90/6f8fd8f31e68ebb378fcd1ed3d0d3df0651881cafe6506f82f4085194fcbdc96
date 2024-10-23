@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the input byte array resembles a UTF-8 encoded string.\n * \n * @param input the byte array to check\n * @return true if the input looks like UTF-8, false otherwise\n */\nprivate static boolean looksLikeUtf8(byte[] input) {\n    int i = 0;\n    // BOM:\n    if (input.length >= 3 && (input[0] & 0xFF) == 0xEF\n        && (input[1] & 0xFF) == 0xBB && (input[2] & 0xFF) == 0xBF) {\n        i = 3;\n    }\n\n    for (int j = input.length; i < j; ++i) {\n        int o = input[i];\n        if ((o & 0x80) == 0) {\n            continue; // ASCII\n        }\n\n        // UTF-8 leading:\n        int end;\n        if ((o & 0xE0) == 0xC0) {\n            end = i + 1;\n        } else if ((o & 0xF0) == 0xE0) {\n            end = i + 2;\n        } else if ((o & 0xF8) == 0xF0) {\n            end = i + 3;\n        } else {\n            return false;\n        }\n\n        // Ensure end doesn't exceed input array bounds\n        end = Math.min(end, input.length);\n\n        while (i < end) {\n            i++;\n            if (i >= input.length) break; // Prevent ArrayIndexOutOfBoundsException\n            o = input[i];\n            if ((o & 0xC0)!= 0x80) {\n                return false;\n            }\n        }\n        // Adjust i to continue the outer loop from the correct position\n        i--; \n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

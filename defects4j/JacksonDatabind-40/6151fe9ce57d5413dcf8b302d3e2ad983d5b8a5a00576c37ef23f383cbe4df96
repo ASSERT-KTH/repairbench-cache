@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixes coercion of empty strings to null for primitive types.\n *\n * @param targetType Primitive type (int, long, double, float)\n * @param emptyStringValue Empty string value to coerce\n * @return null if coercion is enabled, otherwise the default value for the primitive type\n */\nprotected Object coerceEmptyStringToNullForPrimitive(Class<?> targetType, String emptyStringValue) {\n    if (_config.isEnabled(DeserializationFeature.ACCEPT_EMPTY_VALUES_AS_NULL_OBJECTS)\n            &&!_config.isEnabled(DeserializationFeature.FAIL_ONNUMERIC_EDGE_CASES)) {\n        // Return null for empty strings, except for boolean which has no null representation\n        if (targetType!= Boolean.TYPE && targetType!= Boolean.class) {\n            return null;\n        }\n    }\n    // Fall back to default values for primitives if coercion is disabled or not applicable\n    return _primitiveDefaults.get(targetType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Closes the CPIO output stream as well as the stream being filtered.\n * \n * @throws IOException\n *             if an I/O error has occurred or if a CPIO file error has\n *             occurred\n */\npublic void close() throws IOException {\n    if (!this.closed) {\n        this.closed = true; // set closed flag before closing to prevent concurrent close attempts\n        try {\n            super.close(); // close the underlying stream\n        } finally {\n            // ensure the archive is properly terminated (e.g., padding, trailers) \n            // if not already done in super.close()\n            this.finish(); // assuming a finish() method exists to terminate the archive\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

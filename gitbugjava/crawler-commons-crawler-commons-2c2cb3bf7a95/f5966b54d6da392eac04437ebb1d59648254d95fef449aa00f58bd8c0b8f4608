@@ -1,0 +1,7 @@
+{
+    "generation": "private SimpleRobotRules parseContent(String url, byte[] content, String contentType, Collection<String> robotNames, boolean exactUserAgentMatching) {\n\n    //... (rest of the function remains the same until the line where contentAsStr is created)\n\n    String contentAsStr;\n    contentAsStr = new String(content, offset, bytesLen, encoding);\n\n    // **ADDED ENCODING NORMALIZATION FOR URL PATHS IN ROBOTS.TXT RULES**\n    contentAsStr = normalizeEncodingForUrlPaths(contentAsStr);\n\n    //... (rest of the function remains the same)\n\n}\n\n// **NEW METHOD TO NORMALIZE ENCODING FOR URL PATHS IN ROBOTS.TXT RULES**\nprivate String normalizeEncodingForUrlPaths(String contentAsStr) {\n    // Using a simple approach to decode any URL-encoded sequences in the content\n    // This assumes that the encoding used for the content is correct, but URL paths within may be encoded\n    return contentAsStr.replaceAll(\"%([0-9A-Fa-f]{2})\", match -> {\n        try {\n            return Character.toString((char) Integer.parseInt(match.group(1), 16));\n        } catch (NumberFormatException e) {\n            // If parsing fails, leave the original sequence (e.g., \"%ZZ\" where ZZ is not a valid hex code)\n            return match.group(0);\n        }\n    });\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

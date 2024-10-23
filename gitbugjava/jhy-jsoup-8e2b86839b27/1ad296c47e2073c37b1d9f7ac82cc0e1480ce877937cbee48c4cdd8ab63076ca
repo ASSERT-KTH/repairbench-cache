@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the element should be formatted as a block based on its tag, \n * parent's tag (if any), and output settings. Also considers inline styles \n * on nested elements.\n * \n * @param out Document output settings\n * @return true if the element should be formatted as a block, false otherwise\n */\nprivate boolean isFormatAsBlock(Document.OutputSettings out) {\n    // Check if this element's tag or its parent's tag (if exists) should be formatted as a block\n    boolean parentOrSelfBlock = tag.formatAsBlock() || (parent()!= null && parent().tag().formatAsBlock());\n    \n    // If output is set to outline, it overrides the block format check\n    boolean outlineOverrides = out.outline();\n    \n    // Check if any direct child has a display:inline style, indicating block formatting is desired for this element\n    boolean hasInlineChild =!getElementsMatchingOwnText(tagName(\"p[style*='display:inline']\")).isEmpty();\n    \n    // Combine the conditions: format as block if parent/self should, or if output is set to outline, or if a child has inline style\n    return parentOrSelfBlock || outlineOverrides || hasInlineChild;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void process(Node externs, Node root) {\n    // Traverse and process the AST before renaming to avoid name conflicts\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n       .process(externs, root);\n    \n    NodeTraversal.traverse(compiler, root, this);\n    \n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n      NodeTraversal t = new NodeTraversal(compiler, renamer);\n      t.traverseRoots(externs, root);\n    }\n    \n    // Remove duplicates after renaming to ensure unique names are considered\n    removeDuplicateDeclarations(root);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

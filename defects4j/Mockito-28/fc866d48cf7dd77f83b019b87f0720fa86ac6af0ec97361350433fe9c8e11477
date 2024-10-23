@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // First, try to find an exact type match\n        Object exactMatch = mockCandidateFilter.findExactTypeMatch(mocks, field.getType());\n        if (exactMatch!= null) {\n            // If found, inject the exact match\n            mockCandidateFilter.inject(fieldInstance, field, exactMatch);\n        } else {\n            // If no exact match, filter and inject as before (considering ancestors)\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

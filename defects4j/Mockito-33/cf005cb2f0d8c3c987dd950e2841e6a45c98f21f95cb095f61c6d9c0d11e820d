@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if the current invocation has the same method as the candidate invocation.\n * \n * @param candidate the invocation to compare with\n * @return true if methods are the same, considering bridging methods in Java generics\n */\npublic boolean hasSameMethod(Invocation candidate) {\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n    \n    // Using Java 8's isBridge() method to handle bridging methods in generics\n    // and comparing method's declaring class, name, and parameter types\n    return (m1.isBridge() || m2.isBridge() \n           ? areMethodsEquivalent(m1, m2) \n            : m1.equals(m2));\n}\n\n// Helper method to compare methods considering generics bridging\nprivate boolean areMethodsEquivalent(Method m1, Method m2) {\n    return m1.getDeclaringClass().equals(m2.getDeclaringClass())\n           && m1.getName().equals(m2.getName())\n           && Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

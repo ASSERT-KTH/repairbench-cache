@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Captures arguments from the given invocation, handling variable-length arguments (varargs) properly.\n * \n * @param i the invocation from which to capture arguments\n */\npublic void captureArgumentsFrom(Invocation i) {\n    Object[] args = i.getArguments();\n    int k = 0;\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            if (k < args.length) { // check if k is within bounds\n                if (m instanceof AnyVararg && k == args.length - 1) { \n                    // handle vararg case, pass the remaining arguments as an array\n                    ((CapturesArguments) m).captureFrom(getRemainingArgsAsArray(args, k));\n                } else {\n                    ((CapturesArguments) m).captureFrom(args[k]);\n                }\n            }\n            k++;\n        }\n    }\n}\n\n// Helper method to get the remaining arguments as an array for vararg handling\nprivate Object[] getRemainingArgsAsArray(Object[] args, int startIndex) {\n    Object[] remainingArgs = new Object[args.length - startIndex];\n    System.arraycopy(args, startIndex, remainingArgs, 0, args.length - startIndex);\n    return remainingArgs;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

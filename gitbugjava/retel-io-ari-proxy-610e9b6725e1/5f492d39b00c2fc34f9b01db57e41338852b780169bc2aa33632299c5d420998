@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Registers a call context with the provided call context provider for the given ARI command.\n * \n * @param callContextProvider The actor reference for the call context provider.\n * @param callContext The call context to register.\n * @param ariCommand The ARI command to process.\n * @return A Try containing Done if successful, or a RuntimeException if the command is a creation command but no resource ID could be extracted.\n */\npublic static Try<Done> registerCallContext(\n    final ActorRef<CallContextProviderMessage> callContextProvider,\n    final String callContext,\n    final AriCommand ariCommand) {\n\n    if (!ariCommand.extractCommandType().isCreationOrUpdateCommand()) {\n      return Try.success(Done.done());\n    }\n\n    final Option<AriResource> maybeResource =\n        ariCommand\n           .extractResourceRelations()\n           .find(AriResourceRelation::isCreatedOrUpdated)\n           .map(AriResourceRelation::getResource);\n\n    if (maybeResource.isEmpty()) {\n      return Try.failure(\n          new RuntimeException(\n              String.format(\n                  \"Failed to extract resourceId from command '%s'\", ariCommand.toString())));\n    }\n\n    final AriResource resource = maybeResource.get();\n\n    callContextProvider.tell(new RegisterCallContext(resource.getId(), callContext));\n    return Try.success(Done.done());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

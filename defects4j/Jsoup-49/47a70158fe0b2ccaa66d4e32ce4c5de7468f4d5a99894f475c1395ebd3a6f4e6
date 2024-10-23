@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Inserts the given child nodes at the specified index, shifting existing child nodes to the right.\n * \n * @param index    the index at which to insert the child nodes (0-based, with 0 being the first child)\n * @param children the child nodes to insert (vararg, allowing multiple nodes to be added in one call)\n */\nprotected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    // Fix: insert children in the correct order (from left to right) and update the index accordingly\n    for (Node child : children) {\n        reparentChild(child);\n        childNodes.add(index++, child);\n    }\n    reindexChildren(index - children.length); // Update the reindex call to reflect the inserted range\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

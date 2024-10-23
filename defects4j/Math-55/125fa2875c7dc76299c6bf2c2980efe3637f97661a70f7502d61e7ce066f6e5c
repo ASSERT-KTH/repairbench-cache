@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // compute dot product v1.v2\n    double dotProduct = v1.dotProduct(v2);\n    \n    // compute squared norm of v2\n    double v2NormSq = v2.dotProduct(v2);\n\n    // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    double rho;\n    if (v2NormSq == 0) {\n        // v2 is zero, cross product is zero\n        return new Vector3D(0, 0, 0);\n    } else if (dotProduct == 0) {\n        // v1 and v2 are orthogonal, no need to rescale\n        rho = 0;\n    } else {\n        double invV2NormSq = 1 / v2NormSq;\n        double rhoTemp = dotProduct * invV2NormSq;\n        rho = (byte) (rhoTemp * 256); // 8 bits approximation\n        rho /= 256.0;\n    }\n\n    // compute v3 = v1 - rho v2 without losing precision\n    Vector3D v3 = new Vector3D(v1.x - rho * v2.x, v1.y - rho * v2.y, v1.z - rho * v2.z);\n\n    // compute cross product from v3 and v2 instead of v1 and v2\n    return new Vector3D(v3.y * v2.z - v3.z * v2.y, v3.z * v2.x - v3.x * v2.z, v3.x * v2.y - v3.y * v2.x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Handles rawtext elements (e.g. style, script, textarea, title, noscript, noframes).\n * These elements are not parsed for HTML, and their contents are treated as raw text.\n * \n * @param startTag the start tag of the rawtext element\n * @param tb the HTML tree builder\n */\nprivate static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    // Insert the start tag into the DOM\n    tb.insert(startTag);\n    \n    // Transition the tokeniser to rawtext state to prevent HTML parsing\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    \n    // Mark the current insertion mode for later restoration\n    tb.markInsertionMode();\n    \n    // Switch to a special insertion mode for rawtext elements\n    tb.transition(Rawtext); // Fix: Changed from Text to Rawtext\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

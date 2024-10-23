@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonToken nextToken() throws IOException\n{\n    //... (rest of the function remains the same until this point)\n\n    default: // scalar value\n        f = _itemFilter;\n        if (f == TokenFilter.INCLUDE_ALL) {\n            return (_currToken = t);\n        }\n        if (f!= null) {\n            f = _headContext.checkValue(f);\n            if ((f == TokenFilter.INCLUDE_ALL)\n                    || ((f!= null) && f.includeValue(delegate))) {\n                if (!_allowMultipleMatches) { // NEW CONDITION\n                    _itemFilter = TokenFilter.INCLUDE_ALL; // FORCE INCLUDE_ALL AFTER FIRST MATCH\n                }\n                return (_currToken = t);\n            }\n        }\n        // Otherwise not included (leaves must be explicitly included)\n        break;\n    }\n\n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

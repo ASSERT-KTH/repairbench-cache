@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fix for [jackson-core#216]: Ensure symbol table is properly reinitialized\n * after sharing, including rehashing if necessary, and expanding table size \n * to prevent ArrayIndexOutOfBoundsException.\n */\nprivate void _verifySharing()\n{\n    if (_hashShared) {\n        // Increase table size to prevent ArrayIndexOutOfBoundsException\n        int newSize = Math.max(_hashArea.length * 2, 1024); // doubling, with minimum of 1024\n        _hashArea = Arrays.copyOf(_hashArea, newSize);\n        _names = Arrays.copyOf(_names, newSize);\n        _hashShared = false;\n        // Rehash as needed, as need-rehash flag is not copied from parent\n        if (_needRehash) {\n            rehash();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

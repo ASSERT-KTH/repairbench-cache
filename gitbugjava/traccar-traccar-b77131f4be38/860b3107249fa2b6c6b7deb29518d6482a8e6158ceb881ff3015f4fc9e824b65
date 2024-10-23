@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(\n        Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n\n    ByteBuf buf = (ByteBuf) msg;\n\n    buf.skipBytes(1); // '[' header\n    manufacturer = buf.readSlice(2).toString(StandardCharsets.US_ASCII);\n    buf.skipBytes(1); // '*' delimiter\n\n    int idIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '*');\n    if (idIndex < 0) { // Added null check for idIndex\n        return null;\n    }\n    String id = buf.readSlice(idIndex - buf.readerIndex()).toString(StandardCharsets.US_ASCII);\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, id);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    buf.skipBytes(1); // '*' delimiter\n\n    String index = null;\n    int contentIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '*');\n    if (contentIndex + 5 < buf.writerIndex() && buf.getByte(contentIndex + 5) == '*'\n            && buf.toString(contentIndex + 1, 4, StandardCharsets.US_ASCII).matches(\"\\\\p{XDigit}+\")) {\n        int indexLength = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '*') - buf.readerIndex();\n        hasIndex = true;\n        index = buf.readSlice(indexLength).toString(StandardCharsets.US_ASCII);\n        buf.skipBytes(1); // '*' delimiter\n    }\n\n    // Rest of the function remains the same\n\n    //... (rest of the code)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

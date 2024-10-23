@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Processes a OBJECTLIT node.\n */\nprivate void handleObjectLit(NodeTraversal t, Node n) {\n  for (Node child = n.getFirstChild();\n      child!= null;\n      child = child.getNext()) {\n    // Maybe STRING, GET, SET\n\n    // Check if child is a STRING node to avoid NPE\n    if (child.isString()) {\n      String name = child.getString();\n      T type = typeSystem.getType(getScope(), n, name);\n\n      Property prop = getProperty(name);\n      if (!prop.scheduleRenaming(child,\n                                 processProperty(t, prop, type, null))) {\n        // TODO(user): It doesn't look like the user can do much in this\n        // case right now.\n        if (propertiesToErrorFor.containsKey(name)) {\n          compiler.report(JSError.make(\n              t.getSourceName(), child, propertiesToErrorFor.get(name),\n              Warnings.INVALIDATION, name,\n              (type == null? \"null\" : type.toString()), n.toString(), \"\"));\n        }\n      }\n    } else {\n      // Handle non-STRING child nodes (e.g., GET, SET)\n      // Add necessary logic here, e.g., recursively traverse child nodes\n      // For demonstration, just log a message\n      compiler.report(JSError.make(\n          t.getSourceName(), child, \"Unhandled child node type\",\n          Warnings.UNEXPECTED_INPUT, child.getType(), \"\"));\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

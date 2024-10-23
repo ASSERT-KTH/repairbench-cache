@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>\n * Escapes the characters in the <code>String</code> passed and writes the result to the <code>Writer</code>\n * passed.\n * </p>\n * \n * @param writer\n *            The <code>Writer</code> to write the results of the escaping to. Assumed to be a non-null value.\n * @param str\n *            The <code>String</code> to escape. Assumed to be a non-null value.\n * @throws IOException\n *             when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)}\n *             methods.\n * \n * @see #escape(String)\n * @see Writer\n */\npublic void escape(Writer writer, String str) throws IOException {\n    int len = str.length();\n    StringBuilder sb = new StringBuilder();\n    for (int i = 0; i < len; i++) {\n        int codePoint = str.codePointAt(i);\n        int charCount = Character.charCount(codePoint);\n        if (charCount > 1) {\n            // surrogate pair, handle as a single unit\n            i += charCount - 1;\n        }\n        String entityName = this.entityName(codePoint);\n        if (entityName == null) {\n            if (codePoint > 0x7F) {\n                sb.append(\"&#\").append(Integer.toString(codePoint, 10)).append(';');\n            } else {\n                sb.appendCodePoint(codePoint);\n            }\n        } else {\n            sb.append('&').append(entityName).append(';');\n        }\n    }\n    writer.write(sb.toString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

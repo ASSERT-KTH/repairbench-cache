@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Turns out that these are expensive enough to create so that caching\n * does make sense.\n *<p>\n * IMPORTANT: but, note, that instances CAN NOT BE CACHED if there is\n * a value type deserializer, key type deserializer or ignorable properties; \n * this caused issues with custom deserializers.\n * \n * @since 2.4.4\n */\n@Override\npublic boolean isCachable() {\n    /* As per [databind#735], existence of value or key deserializer (only passed\n     * if annotated to use non-standard one) or ignorable properties should prevent caching.\n     */\n    return (_valueTypeDeserializer == null)\n            && (_keyTypeDeserializer == null) // Added check for key deserializer\n            && (_ignorableProperties == null);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

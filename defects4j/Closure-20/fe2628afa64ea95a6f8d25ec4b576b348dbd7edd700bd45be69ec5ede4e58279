@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tries to fold a simple function call to 'String(a)' into '' + (a) for \n * immutable literals, enabling further optimizations.\n *\n * @param n the node to attempt folding on\n * @return the potentially folded node, or the original node if no fold occurred\n */\nprivate Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n    if (callTarget!= null && callTarget.isName() &&\n          callTarget.getString().equals(\"String\")) {\n      // Fold String(a) to '' + (a) on immutable literals\n      Node value = callTarget.getNext();\n      if (value!= null && \n          (value.isNumber() || value.isString() || value.isNull() || value.isBoolean())) {\n        Node addition = IR.add(\n            IR.string(\"\").srcref(callTarget),\n            value.detachFromParent());\n        n.getParent().replaceChild(n, addition);\n        reportCodeChange();\n        return addition;\n      }\n    }\n    return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

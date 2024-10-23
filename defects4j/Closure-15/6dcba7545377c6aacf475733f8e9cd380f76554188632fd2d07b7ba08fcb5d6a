@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n  // When the node is null it means, we reached the implicit return\n  // where the function returns (possibly without an return statement)\n  if (n == null) {\n    return false;\n  }\n\n  // Check for 'in' operator as well, since it's not side-effect free\n  // when the right-hand side is a non-constant object literal\n  if (n.is_BINARY_OPERATOR() && n.getString().equals(\"in\")) {\n    Node rightHandSide = n.getChildAtIndex(1);\n    if (rightHandSide.isOBJECTLIT() &&!NodeUtil.isConstantObjectLiteral(rightHandSide)) {\n      return true;\n    }\n  }\n\n  // TODO(user): We only care about calls to functions that\n  // passes one of the dependent variable to a non-side-effect free\n  // function.\n  if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n    return true;\n  }\n\n  if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n    return true;\n  }\n\n  for (Node c = n.getFirstChild(); c!= null; c = c.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

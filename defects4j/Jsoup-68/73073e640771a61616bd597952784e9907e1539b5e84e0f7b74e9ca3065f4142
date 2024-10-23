@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if an element is within a specific scope as defined in the HTML spec.\n * \n * @param targetNames Names of elements to match (inclusive)\n * @param baseTypes   Names of elements to stop at (exclusive)\n * @param extraTypes  Additional names of elements to stop at (exclusive), or null\n * @return True if an element in the target names is found within the specific scope, false otherwise\n */\nprivate boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n    // Calculate the top and bottom bounds for the scope search, capping at MaxScopeSearchDepth\n    int bottom = Math.min(stack.size() - 1, MaxScopeSearchDepth);\n    final int top = Math.max(bottom - MaxScopeSearchDepth, 0);\n\n    // Walk up the stack from bottom to top\n    for (int pos = bottom; pos >= top; pos--) {\n        final String elName = stack.get(pos).nodeName();\n\n        // Check if the element is in the target names (return true if found)\n        if (inSorted(elName, targetNames)) {\n            return true;\n        }\n\n        // Check if the element is in the base or extra types (return false if found)\n        if (inSorted(elName, baseTypes) || \n            (extraTypes!= null && inSorted(elName, extraTypes))) {\n            return false;\n        }\n    }\n\n    // If no matching element is found within the scope, return false\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

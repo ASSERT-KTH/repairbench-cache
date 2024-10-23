@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tests that empty strings coerce to null for the given primitive type.\n * \n * @param clazz   The primitive type wrapper class (e.g., Integer.class for int)\n * @param defaultValue The default value expected when not coercing to null\n */\nprotected void _testEmptyToNullCoercion(Class<?> clazz, Object defaultValue) throws Exception {\n    // Assuming ObjectMapper is configured elsewhere to enable/disable\n    // DESERIALIZE_EMPTY_STRING_AS_NULL for these tests\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n\n    // Test with an empty string, expecting null\n    String jsonEmpty = \"\\\"\\\"\";\n    Object resultEmpty = mapper.readValue(jsonEmpty, clazz);\n    assertNull(\"Expected null for empty string, but got: \" + resultEmpty, resultEmpty);\n\n    // Test with a non-empty value to ensure it doesn't coerce to null\n    String jsonWithValue = \"\\\"\" + defaultValue.toString() + \"\\\"\";\n    Object resultWithValue = mapper.readValue(jsonWithValue, clazz);\n    assertEquals(\"Expected value, but got: \" + resultWithValue, defaultValue, resultWithValue);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

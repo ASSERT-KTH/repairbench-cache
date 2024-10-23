@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeExtended(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    // Added null check for buf to prevent NullPointerException\n    if (buf == null) {\n        return null;\n    }\n\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n        deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    // Added check for readable bytes before attempting to read from buf\n    if (buf.readableBytes() < 3) {\n        return null; // or throw an exception, depending on your requirements\n    }\n\n    buf.readUnsignedShort(); // length\n    int type = buf.readUnsignedByte();\n\n    // Rest of your function remains the same...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

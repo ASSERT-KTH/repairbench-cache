@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token\n */\nprivate boolean isShortOption(String token)\n{\n    // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n    return token.startsWith(\"-\") \n           && token.length() >= 2 \n           && token.substring(1).matches(\"[a-zA-Z0-9]+(=[^=]*)?$\")  // ensure rest of token is valid short option format\n           && options.hasShortOption(token.substring(1, 2)) \n           && (token.length() == 2 || options.hasShortOption(token.substring(1, 3)) || token.substring(2).startsWith(\"=\")); \n           // additional check to prevent consuming next option as value\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

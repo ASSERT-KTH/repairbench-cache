@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n    if (loopNode.isForEach()) {\n        // Handle 'for each' loop specifically, as it's not supported in standard JS\n        reportError(loopNode, \"unsupported language extension: for each\");\n        // Return a placeholder node to maintain AST validity, or throw an exception\n        // Depending on the desired behavior for unsupported features\n        return errorNode(Token.FOR, \"Unsupported 'for each' loop\");\n    } else {\n        // Standard 'for...in' loop handling\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

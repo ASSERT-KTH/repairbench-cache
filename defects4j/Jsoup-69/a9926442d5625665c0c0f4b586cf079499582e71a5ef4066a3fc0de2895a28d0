@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the form's data, as a list of key-value pairs.\n * \n * @return list of Connection.KeyVal objects containing the form data\n */\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input, select, textarea\")) {\n        if (input.tagName().equals(\"input\") \n            && (!input.attr(\"name\").isEmpty()) \n            && (!input.attr(\"disabled\").isEmpty() || input.attr(\"type\").equals(\"reset\") || input.attr(\"type\").equals(\"button\") || input.attr(\"type\").equals(\"image\"))) {\n            continue; // skip inputs without name, or those that are disabled/reset/button/image types\n        }\n        String key = input.attr(\"name\");\n        String value = input.tagName().equals(\"input\") \n                       ? input.attr(\"value\") \n                        : input.tagName().equals(\"textarea\") \n                         ? input.text() \n                          : input.selectFirst(\"option[selected]\").attr(\"value\"); // default to first selected option for select\n        if (!key.isEmpty() && value!= null) { // **Added check to ensure key is not empty**\n            data.add(new Connection.KeyVal(key, value));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

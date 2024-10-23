@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns the current input stream for the 7z entry. \n * If in solid compression mode, decompresses and discards leading folder streams.\n * \n * @return the current input stream\n * @throws IOException if an I/O error occurs\n * @throws IllegalStateException if no entry has been selected (call getNextEntry() first)\n */\nprivate InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty() && currentEntry == null) {\n        throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n    }\n    \n    // If we've already processed the deferred streams for the current entry, \n    // return the stream associated with the current entry (if any)\n    if (deferredBlockStreams.isEmpty() && currentEntryStream!= null) {\n        return currentEntryStream;\n    }\n    \n    // In solid compression mode, decompress all leading folder streams \n    // to get access to an entry\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n\n    // If there's only one stream left, return it. \n    // Otherwise, return the stream associated with the current entry (if any)\n    return deferredBlockStreams.isEmpty()? currentEntryStream : deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

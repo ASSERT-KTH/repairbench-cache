@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks if a given string is a valid JavaScript identifier.\n * \n * @param s the input string to check\n * @return true if the string is a valid JavaScript identifier, false otherwise\n */\npublic static boolean isJSIdentifier(String s) {\n  int length = s.length();\n\n  // JavaScript identifiers cannot be empty\n  if (length == 0) {\n    return false;\n  }\n\n  // JavaScript identifiers must start with a valid start character\n  // (Letter, $, _), but not with a Unicode escape sequence\n  if (!isJSIdentifierStart(s, 0)) {\n    return false;\n  }\n\n  // JavaScript identifiers can contain valid part characters (Letter, Digit, $, _)\n  for (int i = 1; i < length; i++) {\n    if (!Character.isLetterOrDigit(s.charAt(i)) &&!\"$_.selectedIndex\".contains(String.valueOf(s.charAt(i)))) {\n      return false;\n    }\n  }\n\n  return true;\n}\n\n// Helper function to check if a character at a specific position is a valid \n// JavaScript identifier start character, considering Unicode escape sequences\nprivate static boolean isJSIdentifierStart(String s, int index) {\n  char c = s.charAt(index);\n  if (c == '\\\\') { // Check for Unicode escape sequence\n    return index + 5 <= s.length() && s.startsWith(\"u\", index + 1);\n  } else { // Regular identifier start character check\n    return Character.isLetter(c) || c == '$' || c == '_';\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
