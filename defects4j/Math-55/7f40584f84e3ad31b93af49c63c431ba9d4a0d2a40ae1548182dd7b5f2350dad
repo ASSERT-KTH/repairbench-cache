@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute max norm\n    double n1 = Math.max(Math.abs(v1.x), Math.max(Math.abs(v1.y), Math.abs(v1.z)));\n    double n2 = Math.max(Math.abs(v2.x), Math.max(Math.abs(v2.y), Math.abs(v2.z)));\n    double scale = Math.max(n1, n2);\n    \n    if (scale == 0) {\n        return new Vector3D(0, 0, 0);\n    }\n\n    // Rescale to handle cancellation\n    double x1 = v1.x / scale;\n    double y1 = v1.y / scale;\n    double z1 = v1.z / scale;\n    double x2 = v2.x / scale;\n    double y2 = v2.y / scale;\n    double z2 = v2.z / scale;\n\n    // Compute cross product\n    double dx = y1 * z2 - z1 * y2;\n    double dy = z1 * x2 - x1 * z2;\n    double dz = x1 * y2 - y1 * x2;\n\n    // Rescale back\n    return new Vector3D(dx * scale, dy * scale, dz * scale);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

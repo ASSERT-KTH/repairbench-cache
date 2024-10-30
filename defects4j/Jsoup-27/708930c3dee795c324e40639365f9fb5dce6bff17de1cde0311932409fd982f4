@@ -1,0 +1,7 @@
+{
+    "generation": "static String getCharsetFromContentType(String contentType) {\n    if (contentType == null) return null;\n    Matcher m = charsetPattern.matcher(contentType);\n    if (m.find()) {\n        String charset = m.group(1).trim();\n        charset = charset.replaceAll(\"[\\\"']\", \"\"); // remove quotes\n        try {\n            if (charset.equalsIgnoreCase(\"utf-8\")) // special case for utf-8\n                return \"utf-8\";\n            // verify charset is supported\n            if (Charset.isSupported(charset))\n                return charset.toUpperCase(Locale.ENGLISH);\n        } catch (IllegalCharsetNameException e) {\n            // if our charset matching was wrong, just return null\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

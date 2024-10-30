@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        case Character: {\n            Token.Character c = t.asCharacter();\n            if (c.getData().equals(nullString)) {\n                tb.error(this);\n                return false;\n            } else if (tb.framesetOk() && isWhitespace(c)) {\n                tb.reconstructFormattingElements();\n                tb.insert(c);\n            } else {\n                tb.reconstructFormattingElements();\n                tb.insert(c);\n                tb.framesetOk(false);\n            }\n            break;\n        }\n        // ... [previous cases remain the same until the \"pre\" handling] ...\n        } else if (name.equals(\"pre\") || name.equals(\"listing\")) {\n            if (tb.inButtonScope(\"p\")) {\n                tb.processEndTag(\"p\");\n            }\n            tb.insert(startTag);\n            // Skip the first newline character after pre or listing tag\n            tb.reader.matchConsume(\"\\n\");\n            tb.framesetOk(false);\n        } else if (name.equals(\"xmp\")) {\n            if (tb.inButtonScope(\"p\")) {\n                tb.processEndTag(\"p\");\n            }\n            tb.reconstructFormattingElements();\n            tb.framesetOk(false);\n            handleRawtext(startTag, tb);\n        }\n        // ... [rest of the code remains the same] ...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

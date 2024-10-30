@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute dot products\n    double v1Dotv2 = Vector3D.dotProduct(v1, v2);\n    double v2Dotv2 = Vector3D.dotProduct(v2, v2);\n    \n    // Compute rho to handle cancellation issues\n    double rho = (v2Dotv2 == 0) ? 0 : Math.rint(v1Dotv2 / v2Dotv2 * 256.0) / 256.0;\n    \n    // Create preconditioned vector v3 = v1 - rho * v2\n    Vector3D v3 = new Vector3D(1.0, v1, -rho, v2);\n    \n    // Compute the cross product using the preconditioned vector\n    double x = v3.y * v2.z - v3.z * v2.y;\n    double y = v3.z * v2.x - v3.x * v2.z;\n    double z = v3.x * v2.y - v3.y * v2.x;\n    \n    return new Vector3D(x, y, z);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    \n    Class<?> type1 = array1.getClass().getComponentType();\n    Class<?> type2 = array2.getClass().getComponentType();\n    \n    // If types are different, use the most general common supertype\n    if (array2.length > 0 && !type1.isAssignableFrom(type2)) {\n        Class<?> commonType = null;\n        // Find common superclass/interface\n        for (Class<?> c = type1; c != null; c = c.getSuperclass()) {\n            if (c.isAssignableFrom(type2)) {\n                commonType = c;\n                break;\n            }\n        }\n        if (commonType == null) {\n            throw new IllegalArgumentException(\"Cannot store elements of type \" + \n                type2.getName() + \" in an array of type \" + type1.getName());\n        }\n        type1 = commonType;\n    }\n    \n    T[] joinedArray = (T[]) Array.newInstance(type1, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    \n    // Calculate the current year to check for leap year\n    boolean isLeapDay = false;\n    if (partial.size() >= 2) {\n        if (values[0] == 2 && values[1] == 29) {\n            isLeapDay = true;\n        }\n    }\n    \n    // Use chronology's datetime calculations for contiguous fields\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        instant = add(instant, valueToAdd);\n        \n        // Special handling for February 29th\n        int[] result = iChronology.get(partial, instant);\n        if (isLeapDay && result[0] != 2) {\n            // If we started with Feb 29 and moved to another month, keep the 29th if possible\n            int maxDay = iChronology.dayOfMonth().getMaximumValue(instant);\n            if (maxDay >= 29) {\n                result[1] = 29;\n            }\n        }\n        return result;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

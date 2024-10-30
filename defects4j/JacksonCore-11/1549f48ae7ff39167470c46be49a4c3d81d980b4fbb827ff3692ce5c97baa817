@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _verifySharing()\n    {\n        if (_hashShared) {\n            // Need to copy the primary hash area and name array\n            _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n            _names = Arrays.copyOf(_names, _names.length);\n            // Also need to copy the collision area since it's part of the shared state\n            if (_spilloverEnd > 0) {\n                _spilloverArea = Arrays.copyOf(_spilloverArea, _spilloverArea.length);\n            }\n            _hashShared = false;\n            // When sharing is split, we need to force rehash to ensure proper operation\n            _needRehash = true;\n        }\n        if (_needRehash) {\n            rehash();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

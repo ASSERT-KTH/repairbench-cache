@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute dot products\n    double dot  = Vector3D.dotProduct(v1, v2);\n    double v1Sq = Vector3D.dotProduct(v1, v1);\n    double v2Sq = Vector3D.dotProduct(v2, v2);\n    \n    // Compute scaling factors\n    double s = FastMath.sqrt((v1Sq * v2Sq));\n    \n    if (s == 0) {\n        return new Vector3D(0, 0, 0);\n    }\n\n    // Normalize vectors to reduce numerical errors\n    Vector3D u1 = new Vector3D(1/FastMath.sqrt(v1Sq), v1);\n    Vector3D u2 = new Vector3D(1/FastMath.sqrt(v2Sq), v2);\n    \n    // Compute cross product with normalized vectors and rescale\n    double x = u1.y * u2.z - u1.z * u2.y;\n    double y = u1.z * u2.x - u1.x * u2.z;\n    double z = u1.x * u2.y - u1.y * u2.x;\n    \n    return new Vector3D(s * x, s * y, s * z);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

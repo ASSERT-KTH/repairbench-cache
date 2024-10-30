@@ -1,0 +1,7 @@
+{
+    "generation": "        boolean process(Token t, HtmlTreeBuilder tb) {\n            // [Previous cases remain the same until the applet/marquee/object section]\n            } else if (StringUtil.in(name, \"applet\", \"marquee\", \"object\")) {\n                if (!tb.inScope(name)) {  // Changed from \"name\" to name\n                    tb.error(this);\n                    return false;\n                }\n                tb.generateImpliedEndTags();\n                if (!tb.currentElement().nodeName().equals(name))\n                    tb.error(this);\n                tb.popStackToClose(name);\n                tb.clearFormattingElementsToLastMarker();\n            } else if (name.equals(\"br\")) {\n                tb.error(this);\n                tb.process(new Token.StartTag(\"br\"));\n                return false;\n            } else {\n                return anyOtherEndTag(t, tb);\n            }\n\n            break;\n        }\n        return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

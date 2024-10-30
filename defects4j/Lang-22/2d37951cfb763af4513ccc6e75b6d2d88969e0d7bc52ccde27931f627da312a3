@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // handle special cases first to avoid potential overflow\n    if (v == Integer.MIN_VALUE) {\n        if ((u & 1) == 0) {\n            return Math.abs(u & (Integer.MIN_VALUE));\n        }\n        return 1;\n    }\n    if (u == Integer.MIN_VALUE) {\n        if ((v & 1) == 0) {\n            return Math.abs(v & (Integer.MIN_VALUE));\n        }\n        return 1;\n    }\n\n    // make both inputs positive\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    //if either operand is 1, return 1:\n    if (u == 1 || v == 1) {\n        return 1;\n    }\n    if (u == 0 || v == 0) {\n        return Math.max(u, v);\n    }\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n\n    // B2. Initialize\n    int t = (u & 1) == 1 ? -v : u/2;\n\n    do {\n        while ((t & 1) == 0) {\n            t /= 2;\n        }\n\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        t = (v - u)/2;\n    } while (t != 0);\n\n    return Math.abs(u) * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

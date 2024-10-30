@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        final int rows = m.getRowDimension();\n        final RealMatrix result = MatrixUtils.createRealMatrix(rows, rows);\n        \n        // For 1x1 matrices, return the square root directly\n        if (rows == 1) {\n            result.setEntry(0, 0, FastMath.sqrt(m.getEntry(0, 0)));\n            return result;\n        }\n        \n        // Use Cholesky decomposition which is more efficient for positive definite matrices\n        final CholeskyDecomposition cholesky = new CholeskyDecomposition(m);\n        return cholesky.getL();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

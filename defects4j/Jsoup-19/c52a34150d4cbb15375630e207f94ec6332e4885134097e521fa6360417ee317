@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n        String value = attr.getValue();\n        \n        // if the value is missing a protocol and has a base URI, try to resolve it\n        if (!value.contains(\":\") && !preserveRelativeLinks) {\n            String absValue = el.absUrl(attr.getKey());\n            if (!absValue.isEmpty()) {\n                attr.setValue(absValue);\n                value = absValue;\n            }\n        }\n        \n        for (Protocol protocol : protocols) {\n            String prot = protocol.toString() + \":\";\n            if (value.toLowerCase().startsWith(prot)) {\n                return true;\n            }\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

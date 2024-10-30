@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        final int dim = m.getRowDimension();\n        final RealMatrix sqrtMatrix = MatrixUtils.createRealMatrix(dim, dim);\n        \n        // Perform Cholesky decomposition\n        double[][] data = m.getData();\n        for (int i = 0; i < dim; i++) {\n            for (int j = 0; j <= i; j++) {\n                double sum = data[i][j];\n                for (int k = 0; k < j; k++) {\n                    sum -= sqrtMatrix.getEntry(i, k) * sqrtMatrix.getEntry(j, k);\n                }\n                if (i == j) {\n                    sqrtMatrix.setEntry(i, i, Math.sqrt(sum));\n                } else {\n                    sqrtMatrix.setEntry(i, j, sum / sqrtMatrix.getEntry(j, j));\n                }\n            }\n        }\n        \n        return sqrtMatrix;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

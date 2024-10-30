@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    // only showing the part that needs to be changed, since the function is very long\n    // ... (previous code remains the same until the StringUtil.in check)\n\n    } else if (StringUtil.in(name, \"sarcasm\")) {\n        // *sigh*\n        return anyOtherEndTag(t, tb);\n    } else if (StringUtil.in(name,\n            \"a\", \"b\", \"big\", \"code\", \"em\", \"font\", \"i\", \"nobr\", \"s\", \"small\", \"strike\", \"strong\", \"tt\", \"u\")) {\n        // Adoption Agency Algorithm.\n        OUTER:\n        for (int i = 0; i < 8; i++) {\n            Element formatEl = tb.getActiveFormattingElement(name);\n            if (formatEl == null)\n                return anyOtherEndTag(t, tb);\n            else if (!tb.onStack(formatEl)) {\n                tb.error(this);\n                tb.removeFromActiveFormattingElements(formatEl);\n                return true;\n            } else if (!tb.inScope(formatEl.nodeName())) {\n                tb.error(this);\n                return false;\n            } else if (tb.currentElement() != formatEl)\n                tb.error(this);\n\n            // ... (rest of the function remains the same)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

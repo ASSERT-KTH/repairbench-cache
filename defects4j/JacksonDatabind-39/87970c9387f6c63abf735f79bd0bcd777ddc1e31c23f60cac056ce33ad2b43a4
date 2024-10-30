@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        JsonToken t;\n        // Need to skip through all content, not just children (which would only\n        // skip up to end of current object/array)\n        while ((t = p.nextToken()) != null) {\n            // But! Field names are special; can NOT call skipChildren() on those\n            if (t == JsonToken.FIELD_NAME) {\n                continue;\n            }\n            p.skipChildren();\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

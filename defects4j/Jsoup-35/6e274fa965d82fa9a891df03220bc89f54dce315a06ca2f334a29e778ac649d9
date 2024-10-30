@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    // ... (no changes until line 356, which is the 'a' tag handling condition)\n\n    } else if (name.equals(\"a\")) {\n        if (tb.getActiveFormattingElement(\"a\") != null) {\n            tb.error(this);\n            tb.process(new Token.EndTag(\"a\"));\n            \n            // remove all unclosed \"a\" elements\n            Element remainingA;\n            while ((remainingA = tb.getFromStack(\"a\")) != null) {\n                tb.removeFromActiveFormattingElements(remainingA);\n                tb.removeFromStack(remainingA);\n            }\n        }\n        tb.reconstructFormattingElements();\n        Element a = tb.insert(startTag);\n        tb.pushActiveFormattingElements(a);\n    }\n\n    // ... (rest of the function remains unchanged)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

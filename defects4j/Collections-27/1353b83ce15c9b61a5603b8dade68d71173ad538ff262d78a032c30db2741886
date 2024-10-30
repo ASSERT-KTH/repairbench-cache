@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    Class<? extends Collection<?>> collectionClass = (Class<? extends Collection<?>>) in.readObject();\n    \n    // Validate that the collection class is safe to instantiate\n    if (!Collection.class.isAssignableFrom(collectionClass) || \n        collectionClass.isInterface() || \n        Modifier.isAbstract(collectionClass.getModifiers())) {\n        throw new UnsupportedOperationException(\"Collection class \" + collectionClass.getName() + \n            \" is not supported for deserialization\");\n    }\n    \n    this.collectionClass = collectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

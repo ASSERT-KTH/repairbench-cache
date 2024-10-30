@@ -1,0 +1,7 @@
+{
+    "generation": "    private JavaType _mapType(Class<?> rawClass)\n    {\n        // Properties are special, always String/String\n        if (Properties.class.isAssignableFrom(rawClass)) {\n            return MapType.construct(rawClass, \n                SimpleType.constructUnsafe(String.class),\n                SimpleType.constructUnsafe(String.class));\n        }\n        // Regular Maps\n        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n        // ok to have no types (\"raw\")\n        if (typeParams == null) {\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": can not determine type parameters\");\n        }\n        return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

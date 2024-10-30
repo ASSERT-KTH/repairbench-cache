@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, TreeBuilder tb) {\n    // ... existing code ...\n    switch (t.type) {\n        case Character:\n            // ... existing Character case ...\n        case Comment:\n            // ... existing Comment case ...\n        case Doctype:\n            // ... existing Doctype case ...\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n\n            // Add handling for script and style tags\n            if (name.equals(\"script\") || name.equals(\"style\")) {\n                tb.insert(startTag);\n                tb.tokeniser.transition(TokeniserState.Data); // handle as data\n                return true;\n            }\n\n            // ... rest of existing StartTag case ...\n        case EndTag:\n            // ... existing EndTag case ...\n        case EOF:\n            // ... existing EOF case ...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

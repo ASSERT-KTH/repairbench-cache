@@ -1,0 +1,7 @@
+{
+    "generation": "        boolean process(Token t, TreeBuilder tb) {\n            // ... (keep the first part of the function unchanged until the \"StartTag\" case)\n            switch (t.type) {\n                case StartTag:\n                    Token.StartTag startTag = t.asStartTag();\n                    String name = startTag.name();\n                    // ... (keep until just before existing style/script handling)\n\n                    // Add script handling along with existing cases\n                    if (StringUtil.in(name, \"script\", \"style\")) {\n                        if (tb.inButtonScope(\"p\")) {\n                            tb.process(new Token.EndTag(\"p\"));\n                        }\n                        tb.insert(startTag);\n                        tb.tokeniser.transition(TokeniserState.ScriptData);\n                        tb.markInsertionMode();\n                        tb.transition(Text);\n                    } else if (name.equals(\"plaintext\")) {\n                        // ... (keep the rest of the function unchanged)\n                    }\n                    // ... (keep all other cases unchanged)\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

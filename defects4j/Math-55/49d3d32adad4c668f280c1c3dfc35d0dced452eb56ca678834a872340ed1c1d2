@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    \n    // rescale both vectors without losing precision,\n    // to ensure their norm are the same order of magnitude\n    final double x1 = v1.getX();\n    final double y1 = v1.getY();\n    final double z1 = v1.getZ();\n    final double x2 = v2.getX();\n    final double y2 = v2.getY();\n    final double z2 = v2.getZ();\n\n    // we reduce cancellation errors by preconditioning,\n    // we replace v1 by v3 = v1 - rho v2 with rho chosen in order to compute\n    // v3 without loss of precision. See Kahan lecture\n    // \"Computing Cross-Products and Rotations in 2- and 3-Dimensional Euclidean Spaces\"\n    // available at http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf\n\n    // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    final double kx1 = FastMath.floor(x1 / x2 + 0.5);\n    final double ky1 = FastMath.floor(y1 / y2 + 0.5);\n    final double kz1 = FastMath.floor(z1 / z2 + 0.5);\n    final double dx1 = x1 - kx1 * x2;\n    final double dy1 = y1 - ky1 * y2;\n    final double dz1 = z1 - kz1 * z2;\n\n    // compute cross product from v3 and v2 instead of v1 and v2\n    return new Vector3D(dy1 * z2 - dz1 * y2,\n                       dz1 * x2 - dx1 * z2,\n                       dx1 * y2 - dy1 * x2);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

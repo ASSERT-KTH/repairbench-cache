@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    // ... (keep all code until the battery level handling part)\n\n    if (type == MSG_GPS_LBS_STATUS_3 || type == MSG_FENCE_MULTI) {\n        position.set(Position.KEY_GEOFENCE, buf.readUnsignedByte());\n    }\n\n    if (hasLanguage(type)) {\n        int batteryLevel = buf.readUnsignedShort();\n        if (batteryLevel <= 100) {\n            position.set(Position.KEY_BATTERY_LEVEL, batteryLevel);\n        }\n    }\n\n    sendResponse(channel, false, type, buf.getShort(buf.writerIndex() - 6), null);\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public long readBits(final int count) throws IOException {\n    if (count < 0 || count > MAXIMUM_CACHE_SIZE) {\n        throw new IllegalArgumentException(\"count must not be negative or greater than \" + MAXIMUM_CACHE_SIZE);\n    }\n    while (bitsCachedSize < count) {\n        final long nextByte = in.read();\n        if (nextByte < 0) {\n            return nextByte;\n        }\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            bitsCached |= (nextByte << bitsCachedSize);\n        } else {\n            // Avoid overflow when shifting by ensuring we don't shift more than necessary\n            if (bitsCachedSize + 8 <= MAXIMUM_CACHE_SIZE) {\n                bitsCached <<= 8;\n                bitsCached |= nextByte;\n            } else {\n                // Handle the case where shifting by 8 would cause overflow\n                long mask = (1L << bitsCachedSize) - 1;\n                bitsCached = ((bitsCached & mask) << 8) | nextByte;\n            }\n        }\n        bitsCachedSize += 8;\n    }\n\n    final long bitsOut;\n    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n        bitsOut = (bitsCached & MASKS[count]);\n        bitsCached >>>= count;\n    } else {\n        bitsOut = (bitsCached >> (bitsCachedSize - count)) & MASKS[count];\n        bitsCached &= ((1L << (bitsCachedSize - count)) - 1);\n    }\n    bitsCachedSize -= count;\n    return bitsOut;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

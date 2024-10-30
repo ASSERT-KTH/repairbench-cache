@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value;\n    if (attr.getKey().equals(\"src\") || attr.getKey().equals(\"href\")) {\n        value = el.absUrl(attr.getKey());\n        if (value.length() == 0) // if no base URI, will return empty. use value instead\n            value = attr.getValue();\n        if (!preserveRelativeLinks)\n            attr.setValue(value);\n    } else {\n        value = attr.getValue();\n    }\n    \n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (value.toLowerCase().startsWith(prot)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

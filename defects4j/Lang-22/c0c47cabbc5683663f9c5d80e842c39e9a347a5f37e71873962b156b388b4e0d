@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    if (Math.abs(u) <= 1 || Math.abs(v) <= 1) {\n        return 1;\n    }\n    // handle special case of Integer.MIN_VALUE to avoid overflow\n    if (u == Integer.MIN_VALUE || v == Integer.MIN_VALUE) {\n        if (v == 0 || u == 0) {\n            throw new ArithmeticException(\"overflow: gcd is 2^31\");\n        }\n        // if one number is Integer.MIN_VALUE and the other is even, we can divide both by 2\n        if ((u == Integer.MIN_VALUE && v % 2 == 0) || \n            (v == Integer.MIN_VALUE && u % 2 == 0)) {\n            return 2 * greatestCommonDivisor(u/2, v/2);\n        }\n        return 1;\n    }\n    \n    // keep u and v negative\n    if (u > 0) { u = -u; }\n    if (v > 0) { v = -v; }\n    \n    int k = 0;\n    while ((u&1) == 0 && (v&1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    \n    int t = ((u&1) == 1) ? v : -(u/2);\n    do {\n        while ((t&1) == 0) {\n            t /= 2;\n        }\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        t = (v - u)/2;\n    } while (t != 0);\n    \n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    \n    int[] newValues = new int[values.length];\n    System.arraycopy(values, 0, newValues, 0, values.length);\n    \n    // Use a base year that's a leap year (2000) to handle February 29th correctly\n    long instant = ISOChronology.getInstanceUTC().year().set(0, 2000);\n    for (int i = 0, isize = partial.size(); i < isize; i++) {\n        instant = partial.getFieldType(i).getField(iChronology).set(instant, newValues[i]);\n    }\n    instant = add(instant, valueToAdd);\n    return iChronology.get(partial, instant);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

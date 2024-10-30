@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    if (valueList == null) {\n        valueList = new ArrayList();\n    }\n\n    // if we have values, use them\n    if (!valueList.isEmpty()) {\n        // if there are default values, add any that aren't already present\n        if (defaultValues != null) {\n            for (int i = valueList.size(); i < defaultValues.size(); i++) {\n                valueList.add(defaultValues.get(i));\n            }\n        }\n    } else {\n        // no values, use the defaults\n        if (defaultValues != null) {\n            valueList.addAll(defaultValues);\n        } else {\n            // try secondary defaults\n            List secondaryDefaults = (List) this.defaultValues.get(option);\n            if (secondaryDefaults != null) {\n                valueList.addAll(secondaryDefaults);\n            }\n        }\n    }\n\n    return valueList.isEmpty() ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
