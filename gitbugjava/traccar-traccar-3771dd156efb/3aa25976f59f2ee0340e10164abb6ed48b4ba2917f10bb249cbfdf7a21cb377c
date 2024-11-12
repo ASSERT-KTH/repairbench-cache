@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodePosition(DeviceSession deviceSession, String data) {\n        Parser parser = new Parser(PATTERN_POSITION, data);\n        if (!parser.matches()) {\n            return null;\n        }\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        position.setTime(parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));\n        position.setValid(parser.next().equals(\"A\"));\n        position.setLatitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_HEM));\n        position.setLongitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_HEM));\n        position.setSpeed(UnitsConverter.knotsFromMps(parser.nextDouble(0)));\n        position.setCourse(parser.nextDouble(0));\n        position.setAltitude(parser.nextDouble(0));\n        position.set(Position.KEY_SATELLITES, parser.nextInt(0));\n        position.set(Position.KEY_",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

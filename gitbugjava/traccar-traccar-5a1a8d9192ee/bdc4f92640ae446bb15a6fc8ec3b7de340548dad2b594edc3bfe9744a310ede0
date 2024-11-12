@@ -1,0 +1,7 @@
+{
+    "generation": "   @Override\n    protected Object decode(\n            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n        ByteBuf buf = (ByteBuf) msg;\n        buf.readUnsignedByte(); \n        buf.readUnsignedShort(); \n        buf.readUnsignedByte(); \n        buf.readUnsignedShort(); \n        buf.readUnsignedInt(); \n        String imei = buf.readCharSequence(15, StandardCharsets.US_ASCII).toString();\n        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);\n        if (deviceSession == null) {\n            return null;\n        }\n        buf.readUnsignedByte(); \n        buf.readUnsignedShort(); \n        buf.readUnsignedShort(); \n        buf.readUnsignedInt(); \n        buf.readUnsignedByte(); \n        buf.readUnsignedShort(); \n        buf.readUnsignedShort(); \n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        List<Integer> parameters",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

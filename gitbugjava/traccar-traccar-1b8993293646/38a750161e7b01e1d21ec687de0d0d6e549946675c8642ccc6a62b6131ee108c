@@ -1,0 +1,7 @@
+{
+    "generation": "   private Object decodeLocationNew(\n            Channel channel, SocketAddress remoteAddress, String sentence) {\n        Parser parser = new Parser(PATTERN_NEW, sentence);\n        if (!parser.matches()) {\n            return null;\n        }\n        String imei = parser.next();\n        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);\n        if (deviceSession == null) {\n            return null;\n        }\n        String index = parser.next();\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        position.set(Position.KEY_ALARM, decodeAlarm(parser.nextInt()));\n        position.setDeviceTime(parser.nextDateTime());\n        Network network = new Network();\n        network.addCellTower(CellTower.from(\n                parser.nextInt(), parser.nextInt(), parser.nextHexInt(), parser.nextHexInt()));\n        position.set(Position.KEY_BATTERY, parser.nextDouble());\n        position.set(Position.KEY_B",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

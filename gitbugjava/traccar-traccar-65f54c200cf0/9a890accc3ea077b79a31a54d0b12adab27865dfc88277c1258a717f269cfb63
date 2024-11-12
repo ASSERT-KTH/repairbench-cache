@@ -1,0 +1,7 @@
+{
+    "generation": "    private void decodeLocation(Position position, ByteBuf buf, int codec, String model) {\n        int globalMask = 0x0f;\n        if (codec == CODEC_GH3000) {\n            long time = buf.readUnsignedInt() & 0x3fffffff;\n            time += 1167609600; \n            globalMask = buf.readUnsignedByte();\n            if (BitUtil.check(globalMask, 0)) {\n                position.setTime(new Date(time * 1000));\n                int locationMask = buf.readUnsignedByte();\n                if (BitUtil.check(locationMask, 0)) {\n                    position.setLatitude(buf.readFloat());\n                    position.setLongitude(buf.readFloat());\n                }\n                if (BitUtil.check(locationMask, 1)) {\n                    position.setAltitude(buf.readUnsignedShort());\n                }\n                if (BitUtil.check(locationMask, 2)) {\n                    position.setCourse(",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

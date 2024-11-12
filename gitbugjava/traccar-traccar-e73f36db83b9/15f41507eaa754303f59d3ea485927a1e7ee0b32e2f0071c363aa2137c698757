@@ -1,0 +1,7 @@
+{
+    "generation": "   private Object decodeEri(Channel channel, SocketAddress remoteAddress, String sentence) {\n        Parser parser = new Parser(PATTERN_ERI, sentence);\n        if (!parser.matches()) {\n            return null;\n        }\n        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());\n        if (deviceSession == null) {\n            return null;\n        }\n        long mask = parser.nextHexLong();\n        LinkedList<Position> positions = new LinkedList<>();\n        Integer power = parser.nextInt();\n        Parser itemParser = new Parser(PATTERN_LOCATION, parser.next());\n        while (itemParser.find()) {\n            Position position = new Position(getProtocolName());\n            position.setDeviceId(deviceSession.getDeviceId());\n            decodeLocation(position, itemParser);\n            positions.add(position);\n        }\n        Position position = positions.getLast();\n        if (power != null) {\n            position.set(Position.KEY_POWER, power * 0.001);\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

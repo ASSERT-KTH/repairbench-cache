@@ -1,0 +1,7 @@
+{
+    "generation": "   private void decodeFragment(Position position, String fragment) {\n        int dataIndex = fragment.indexOf(':');\n        int index = 0;\n        String[] values;\n        if (fragment.length() == dataIndex + 1) {\n            values = new String[0];\n        } else {\n            values = fragment.substring(dataIndex + 1).split(\";\");\n        }\n        switch (fragment.substring(0, dataIndex)) {\n            case \"GPS\":\n                position.setValid(values[index++].equals(\"A\"));\n                position.set(Position.KEY_SATELLITES, Integer.parseInt(values[index++]));\n                position.setLatitude(Double.parseDouble(values[index++]));\n                if (values[index++].charAt(0) == 'S') {\n                    position.setLatitude(-position.getLatitude());\n                }\n                position.setLongitude(Double.parseDouble(values[index++]));\n                if (values[index++].charAt(0) == 'W') {\n                    position.setLongitude(-",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

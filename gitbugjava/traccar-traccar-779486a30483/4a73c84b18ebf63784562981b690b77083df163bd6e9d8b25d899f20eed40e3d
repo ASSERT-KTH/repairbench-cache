@@ -1,0 +1,7 @@
+{
+    "generation": "protected Object decodeAvrmc(\n            String sentence, Channel channel, SocketAddress remoteAddress) {\n        Parser parser = new Parser(PATTERN_AVRMC, sentence);\n        if (!parser.matches()) {\n            return null;\n        }\n        DeviceSession deviceSession =\n            getDeviceSession(channel, remoteAddress, parser.next());\n        if (deviceSession == null) {\n            return null;\n        }\n        String deviceModel = null;\n        Device device = getCacheManager().getObject(Device.class, deviceSession.getDeviceId());\n        if (device != null) {\n            deviceModel = device.getModel();\n        }\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        DateBuilder dateBuilder = new DateBuilder()\n                .setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));\n        String status = parser.next();\n        String upperCaseStatus = status.toUpperCase();\n        position.setValid(upperCaseStatus.equals(\"A\") || upper",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

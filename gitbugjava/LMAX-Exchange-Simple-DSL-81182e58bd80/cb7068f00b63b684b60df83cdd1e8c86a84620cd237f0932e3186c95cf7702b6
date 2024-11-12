@@ -1,0 +1,7 @@
+{
+    "generation": "       void consume(final RepeatingArgGroup groupArg, final Deque<NameValuePair> arguments)\n        {\n            final Map<DslArg, List<String>> valuesByArg = new HashMap<>();\n            final SimpleArgumentProcessor processor = new SimpleArgumentProcessor(valuesByArg, \"Did not supply a value for %s in group \" + groupArg.getName());\n            processor.consume(groupArg.getIdentity(), arguments);\n            final Map<String, SimpleDslArg> argsByName = new HashMap<>();\n            argsByName.put(groupArg.getIdentity().getName(), groupArg.getIdentity());\n            for (SimpleDslArg dslArg : groupArg.getOtherArgs())\n            {\n                if (argsByName.put(dslArg.getName().toLowerCase(), dslArg) != null)\n                {\n                    throw new IllegalArgumentException(\"Duplicate parameter '\" + dslArg.getName() + \"' in group \" + groupArg.getName());\n                }\n            }\n            while (!arguments.isEmpty())\n            {\n                final NameValuePair argument = arguments.pollFirst();\n                if",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

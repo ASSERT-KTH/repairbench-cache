@@ -1,0 +1,7 @@
+{
+    "generation": "   URL build() {\n        try {\n            URI uri = new URI(\n                u.getProtocol(),\n                u.getUserInfo(),\n                IDN.toASCII(decodePart(u.getHost())), \n                u.getPort(),\n                decodePart(u.getPath()),\n                null, null \n            );\n            String normUrl = uri.toASCIIString();\n            if (q != null || u.getRef() != null) {\n                StringBuilder sb = StringUtil.borrowBuilder().append(normUrl);\n                if (q != null) {\n                    sb.append('?');\n                    appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n                }\n                if (u.getRef() != null) {\n                    sb.append('#');\n                    appendToAscii(u.getRef(), false, sb);\n                }\n                normUrl = StringUtil.releaseBuilder(sb);\n            }\n            return new URL(normUrl);\n        } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n           ",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

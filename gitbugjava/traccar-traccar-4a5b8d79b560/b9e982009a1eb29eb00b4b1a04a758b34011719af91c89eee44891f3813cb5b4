@@ -1,0 +1,7 @@
+{
+    "generation": "   @Override\n    protected Object decode(\n            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n        String sentence = (String) msg;\n        sentence = sentence.substring(sentence.indexOf('|') + 1, sentence.lastIndexOf('|'));\n        Position position = new Position();\n        position.setProtocol(getProtocolName());\n        for (String entry : sentence.split(\",\")) {\n            int delimiter = entry.indexOf('=');\n            String key = entry.substring(0, delimiter);\n            String value = entry.substring(delimiter + 1);\n            switch (key) {\n                case \"unit\":\n                    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, value);\n                    if (deviceSession != null) {\n                        position.setDeviceId(deviceSession.getDeviceId());\n                    }\n                    break;\n                case \"gps_valid\":\n                    position.setValid(Integer.parseInt(value) != 0);\n                    break;\n                case \"datetime_actual\":\n                    position.setTime(new SimpleDateFormat(\"yyyy/",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

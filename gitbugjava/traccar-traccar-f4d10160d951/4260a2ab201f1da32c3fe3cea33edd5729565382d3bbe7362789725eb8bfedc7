@@ -1,0 +1,7 @@
+{
+    "generation": "   @Override\n    protected Object decode(\n            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n        ByteBuf buf = (ByteBuf) msg;\n        buf.skipBytes(1); \n        int flags = buf.readUnsignedByte();\n        buf.skipBytes(2); \n        int index = buf.readUnsignedShortLE();\n        int type = buf.readUnsignedByte();\n        if (BitUtil.check(flags, 4)) {\n            sendResponse(channel, remoteAddress, index, type, buf);\n        }\n        if (type == MSG_DATA) {\n            List<Position> positions = new LinkedList<>();\n            Set<Integer> keys = new HashSet<>();\n            boolean hasLocation = false;\n            Position position = new Position(getProtocolName());\n            DeviceSession deviceSession = null;\n            while (buf.isReadable()) {\n                int endIndex = buf.readUnsignedByte() + buf.readerIndex();\n                int key = buf.readUnsignedByte();\n                if (keys.contains(key)) {\n                    if (!hasLocation)",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeTransparent(DeviceSession deviceSession, ByteBuf buf) {\n        int type = buf.readUnsignedByte();\n        if (type == 0xF0) {\n            Position position = new Position(getProtocolName());\n            position.setDeviceId(deviceSession.getDeviceId());\n            Date time = readDate(buf, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n            if (buf.readUnsignedByte() > 0) {\n                position.set(Position.KEY_ARCHIVE, true);\n            }\n            buf.readUnsignedByte(); \n            int count;\n            int subtype = buf.readUnsignedByte();\n            switch (subtype) {\n                case 0x01:\n                    count = buf.readUnsignedByte();\n                    for (int i = 0; i < count; i++) {\n                        int id = buf.readUnsignedShort();\n                        int length = buf.readUnsignedByte();\n                        switch (id) {\n                            case 0x0102:\n                            case 0x",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

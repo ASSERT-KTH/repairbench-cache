@@ -1,0 +1,7 @@
+{
+    "generation": "   private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n        CellTower cellTower = new CellTower();\n        String[] keys = form.substring(1).split(\"%\");\n        for (String key : keys) {\n            switch (key) {\n                case \"SA\":\n                    position.set(Position.KEY_SATELLITES, buf.readUnsignedByte());\n                    break;\n                case \"MV\":\n                    position.set(Position.KEY_POWER, buf.readUnsignedShort() * 0.1);\n                    break;\n                case \"BV\":\n                    position.set(Position.KEY_BATTERY, buf.readUnsignedShort() * 0.1);\n                    break;\n                case \"GQ\":\n                    cellTower.setSignalStrength((int) buf.readUnsignedByte());\n                    break;\n                case \"CE\":\n                    cellTower.setCellId((int) buf.readUnsignedInt());\n                    break;\n                case \"LC\":\n                   ",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

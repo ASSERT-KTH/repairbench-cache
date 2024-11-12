@@ -1,0 +1,7 @@
+{
+    "generation": "   protected Object decodePosition(DeviceSession deviceSession, String content) throws Exception {\n        Parser parser = new Parser(PATTERN_POSITION, content);\n        if (!parser.matches()) {\n            return null;\n        }\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        int event = parser.nextInt();\n        String eventData = parser.next();\n        if (event == 53) {\n            position.set(Position.KEY_DRIVER_UNIQUE_ID, eventData);\n        } else {\n            position.set(Position.KEY_ALARM, decodeAlarm(event));\n        }\n        position.setTime(parser.nextDateTime());\n        position.setValid(parser.next().equals(\"A\"));\n        position.setLatitude(parser.nextDouble());\n        position.setLongitude(parser.nextDouble());\n        position.set(Position.KEY_SATELLITES, parser.nextInt());\n        position.set(Position.KEY_HDOP, parser.nextDouble());",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

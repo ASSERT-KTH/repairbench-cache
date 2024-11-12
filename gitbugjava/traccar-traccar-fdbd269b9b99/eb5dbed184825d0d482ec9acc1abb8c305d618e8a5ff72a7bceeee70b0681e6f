@@ -1,0 +1,7 @@
+{
+    "generation": "   private Object decodePosition(\n            Channel channel, SocketAddress remoteAddress, String sentence, String id) {\n        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, id);\n        if (deviceSession == null) {\n            return null;\n        }\n        List<Position> positions = new LinkedList<>();\n        Position position = null;\n        DateBuilder dateBuilder = null;\n        for (String pair : sentence.split(\",\")) {\n            String[] data = pair.split(\"[=:]\");\n            int key;\n            try {\n                key = Integer.parseInt(data[0], 16);\n            } catch (NumberFormatException e) {\n                continue;\n            }\n            String value = data.length >= 2 ? data[1] : \"\";\n            if (key == 0x0) {\n                if (position != null) {\n                    position.setTime(dateBuilder.getDate());\n                    positions.add(position);\n                }\n                position = new Position(getProtocolName());\n                position.setDeviceId(deviceSession.getDeviceId());\n                dateBuilder = new Date",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

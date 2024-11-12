@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeCan(Channel channel, SocketAddress remoteAddress, String sentence) throws ParseException {\n        Position position = new Position(getProtocolName());\n        int index = 0;\n        String[] values = sentence.split(\",\");\n        index += 1; \n        index += 1; \n        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, values[index++]);\n        position.setDeviceId(deviceSession.getDeviceId());\n        index += 1; \n        index += 1; \n        index += 1; \n        long reportMask = Long.parseLong(values[index++], 16);\n        long reportMaskExt = 0;\n        if (BitUtil.check(reportMask, 0)) {\n            position.set(Position.KEY_VIN, values[index++]);\n        }\n        if (BitUtil.check(reportMask, 1)) {\n            position.set(Position.KEY_IGNITION, Integer.parseInt(values[index++]) > 0);\n        }\n        if (BitUtil.check(reportMask, 2)) {\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

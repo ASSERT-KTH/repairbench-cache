@@ -1,0 +1,7 @@
+{
+    "generation": "   private Position decodePosition(\n            Channel channel, DeviceSession deviceSession, ByteBuf buf, int type, int index, ByteBuf imei) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        position.set(Position.KEY_INDEX, index);\n        if (header != 0x2727) {\n            buf.readUnsignedShort(); \n            buf.readUnsignedShort(); \n            buf.readUnsignedByte(); \n            buf.readUnsignedShort(); \n            position.set(Position.KEY_RSSI, BitUtil.to(buf.readUnsignedShort(), 7));\n        }\n        int status = buf.readUnsignedByte();\n        position.set(Position.KEY_SATELLITES, BitUtil.to(status, 5));\n        if (header != 0x2727) {\n            buf.readUnsignedByte(); \n            buf.readUnsignedByte(); \n            buf.readUnsignedByte(); \n            buf.readUnsignedByte(); \n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

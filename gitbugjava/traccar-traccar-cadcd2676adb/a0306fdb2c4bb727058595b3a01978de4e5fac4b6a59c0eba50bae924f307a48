@@ -1,0 +1,7 @@
+{
+    "generation": "   @Override\n    protected Object decode(\n            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n        ByteBuf buf = (ByteBuf) msg;\n        buf.skipBytes(2); \n        int type = buf.readUnsignedByte();\n        buf.readUnsignedShort(); \n        if (type == MSG_LOGIN || type == MSG_ADMIN_NUMBER || type == MSG_SEND_TEXT\n                || type == MSG_SMS_ALARM_SWITCH || type == MSG_POSITION_REUPLOAD) {\n            ByteBuf response = Unpooled.buffer();\n            response.writeByte(0x29);\n            response.writeByte(0x29); \n            response.writeByte(MSG_CONFIRMATION);\n            response.writeShort(6); \n            response.writeByte(buf.getByte(buf.writerIndex() - 2));\n            response.writeByte(type);\n            response.writeByte(buf.writerIndex() > 9 ? buf.getByte(9) : 0);",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

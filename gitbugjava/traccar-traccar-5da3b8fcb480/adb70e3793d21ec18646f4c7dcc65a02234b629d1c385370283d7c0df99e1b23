@@ -1,0 +1,7 @@
+{
+    "generation": "   private Position decodeLocation(DeviceSession deviceSession, ByteBuf buf) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n        position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedInt()));\n        decodeCoordinates(position, buf);\n        position.setAltitude(buf.readShort());\n        position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedShort() * 0.1));\n        position.setCourse(buf.readUnsignedShort());\n        position.setTime(readDate(buf, deviceSession.get(DeviceSession.KEY_TIMEZONE)));\n        while (buf.readableBytes() > 2) {\n            int subtype = buf.readUnsignedByte();\n            int length = buf.readUnsignedByte();\n            int endIndex = buf.readerIndex() + length;\n            String stringValue;\n            switch (subtype) {\n                case 0x01:\n                    position.set(Position.KEY_ODOMETER",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

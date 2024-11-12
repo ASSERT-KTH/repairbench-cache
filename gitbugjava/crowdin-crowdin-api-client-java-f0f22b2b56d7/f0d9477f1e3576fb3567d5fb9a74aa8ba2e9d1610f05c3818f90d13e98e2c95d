@@ -1,0 +1,7 @@
+{
+    "generation": "   public JacksonJsonTransformer() {\n        ObjectMapper cleanObjectMapper = new ObjectMapper();\n        SimpleModule enumModule = new SimpleModule()\n            .addDeserializer(Enum.class, new EnumDeserializer());\n        SimpleModule module = new SimpleModule()\n            .addSerializer(Enum.class, new EnumSerializer())\n            .addDeserializer(Enum.class, new EnumDeserializer())\n            .addDeserializer(CrowdinApiException.class, new CrowdinApiExceptionDeserializer(cleanObjectMapper))\n            .addDeserializer(Project.class, new ProjectDeserializer(cleanObjectMapper.copy()\n                .registerModule(enumModule)))\n            .addDeserializer(FileInfo.class, new FileInfoDeserializer(cleanObjectMapper.copy()\n                .registerModule(enumModule)\n                .registerModule(new SimpleModule()\n                    .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper))\n                    .addDeserializer(ExportOptions.class, new File",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

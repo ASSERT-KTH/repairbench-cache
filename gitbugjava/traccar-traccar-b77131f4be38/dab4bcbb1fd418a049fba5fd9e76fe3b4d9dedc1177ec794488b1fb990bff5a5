@@ -1,0 +1,7 @@
+{
+    "generation": "   @Override\n    protected Object decode(\n            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n        ByteBuf buf = (ByteBuf) msg;\n        buf.skipBytes(1); \n        manufacturer = buf.readSlice(2).toString(StandardCharsets.US_ASCII);\n        buf.skipBytes(1); \n        int idIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '*');\n        if (idIndex < 0) {\n            return null;\n        }\n        String id = buf.readSlice(idIndex - buf.readerIndex()).toString(StandardCharsets.US_ASCII);\n        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, id);\n        if (deviceSession == null) {\n            return null;\n        }\n        buf.skipBytes(1); \n        String index = null;\n        int contentIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '*');\n        if (contentIndex + 5 < buf.writerIndex() && buf.get",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
