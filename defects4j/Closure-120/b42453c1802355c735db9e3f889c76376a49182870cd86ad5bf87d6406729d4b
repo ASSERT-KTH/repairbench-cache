@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  List<Reference> refs = getAllAssignments();\n  if (refs.size() != 1) {\n    return false;\n  }\n\n  Reference ref = refs.get(0);\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isFunction) {\n      break;\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

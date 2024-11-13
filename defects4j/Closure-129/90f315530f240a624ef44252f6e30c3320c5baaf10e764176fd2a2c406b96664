@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  // Keep track of the \"this\" context of a call. A call without an\n  // explicit \"this\" is a free call.\n  Node first = n.getFirstChild();\n\n  // ignore cast nodes.\n  if (first.isCast()) {\n    first = first.getFirstChild();\n  }\n\n  // Check if the call is a free call. A free call is one where the function\n  // is not a method call or a property access.\n  if (first.isName() || first.isFunction()) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  } else if (first.isGetProp() || first.isGetElem()) {\n    // If the call is a method call or property access, it is not a free call.\n    n.putBooleanProp(Node.FREE_CALL, false);\n  }\n\n  // Keep track of the context in which eval is called. It is important\n  // to distinguish between \"(0, eval)()\" and \"eval()\".\n  if (first.isName() && \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

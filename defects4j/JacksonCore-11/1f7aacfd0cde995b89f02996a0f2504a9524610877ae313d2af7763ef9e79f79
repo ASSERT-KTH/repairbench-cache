@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        // Ensure we have our own copy of the hash area and names\n        _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n        _names = Arrays.copyOf(_names, _names.length);\n        _hashShared = false;\n        // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n        //    we rehash as needed, as need-rehash flag is not copied from parent\n    }\n    if (_needRehash) {\n        // Ensure we rehash safely\n        rehashSafely();\n    }\n}\n\nprivate void rehashSafely() {\n    int oldSize = _hashArea.length;\n    int newSize = oldSize * 2; // Example of doubling the size, adjust as needed\n    int[] newHashArea = new int[newSize];\n    String[] newNames = new String[newSize];\n    \n    for (int i = 0; i < oldSize; i++) {\n        int hash = _hashArea[i];\n        if (hash != 0) {\n            int index = hash & (newSize - 1);\n            while (newHashArea[index] != 0) {\n                index = (index + 1) & (newSize - 1); // Linear probing\n            }\n            newHashArea[index] = hash;\n            newNames[index] = _names[i];\n        }\n    }\n    \n    _hashArea = newHashArea;\n    _names = newNames;\n    _needRehash = false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

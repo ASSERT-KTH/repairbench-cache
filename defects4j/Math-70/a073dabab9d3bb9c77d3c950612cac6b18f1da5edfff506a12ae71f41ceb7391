@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n    // Ensure the initial guess is within the specified range\n    if (initial < min || initial > max) {\n        throw new IllegalArgumentException(\"Initial guess is not within the range [min, max]\");\n    }\n    \n    // Use the initial guess to help narrow down the interval\n    double a = min;\n    double b = max;\n    \n    if (f.value(a) * f.value(initial) <= 0) {\n        b = initial;\n    } else if (f.value(initial) * f.value(b) <= 0) {\n        a = initial;\n    } else {\n        throw new FunctionEvaluationException(initial, \"Initial guess does not bracket a root\");\n    }\n    \n    // Perform the bisection method\n    while (b - a > getAbsoluteAccuracy() && getIterations() < getMaxIterations()) {\n        double mid = a + (b - a) / 2.0;\n        double midValue = f.value(mid);\n        \n        if (midValue == 0.0) {\n            return mid; // Found an exact root\n        }\n        \n        if (f.value(a) * midValue < 0) {\n            b = mid;\n        } else {\n            a = mid;\n        }\n        \n        incrementIterations();\n    }\n    \n    if (getIterations() >= getMaxIterations()) {\n        throw new MaxIterationsExceededException(getMaxIterations(), a + (b - a) / 2.0);\n    }\n    \n    return a + (b - a) / 2.0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

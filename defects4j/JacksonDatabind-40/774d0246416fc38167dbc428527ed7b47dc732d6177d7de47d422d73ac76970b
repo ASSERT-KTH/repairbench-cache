@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Number defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);\n    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n\n    String emptyInput = \"\";\n    Object result = mapper.readValue(emptyInput, type);\n\n    if (type.isPrimitive()) {\n        // For primitives, we should check against the default value\n        assertEquals(\"Should not have passed\", defaultValue, result);\n    } else {\n        // For wrapper types, we should check against null\n        assertNull(\"Should not have passed\", result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

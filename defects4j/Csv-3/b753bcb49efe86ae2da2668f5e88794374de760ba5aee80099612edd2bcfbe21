@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Handle an escape sequence.\n * The current character must be the escape character.\n * On return, the next character is available by calling {@link ExtendedBufferedReader#getLastChar()}\n * on the input stream.\n * \n * @return the unescaped character (as an int) or the escaped sequence itself if it's not a known escape sequence.\n * @throws IOException if there is a problem reading the stream or the end of stream is detected: \n * the escape character is not allowed at end of stream\n */\nint readEscape() throws IOException {\n    // the escape char has just been read (normally a backslash)\n    final int c = in.read();\n    switch (c) {\n    case 'r':\n        return CR;\n    case 'n':\n        return LF;\n    case 't':\n        return TAB;\n    case 'b':\n        return BACKSPACE;\n    case 'f':\n        return FF;\n    case 'N': // Handle MySQL \\N for NULL\n        return c;\n    case CR:\n    case LF:\n    case FF: \n    case TAB: \n    case BACKSPACE:\n        return c;\n    case END_OF_STREAM:\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    default:\n        // For any other character, return the escaped sequence itself\n        return c;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

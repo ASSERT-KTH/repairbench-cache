@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    // Extract the stored checksum as a decimal number\n    for (int i = CHKSUM_OFFSET; i < CHKSUM_OFFSET + CHKSUMLEN; i++) {\n        if (header[i] == ' ') {\n            continue; // Skip spaces\n        }\n        if ('0' <= header[i] && header[i] <= '7') {\n            storedSum = storedSum * 8 + (header[i] - '0');\n        } else {\n            // If the checksum contains non-octal characters, it's invalid\n            return false;\n        }\n    }\n\n    // Calculate the unsigned and signed sums\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' '; // Treat checksum bytes as spaces\n        }\n        unsignedSum += 0xff & b;\n        signedSum += b;\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

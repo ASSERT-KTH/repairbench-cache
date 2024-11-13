@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks name referenced in node to determine if it might have\n * changed.\n * @return Whether the replacement can be made.\n */\nprivate boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n\n  Node nameNode = node.getFirstChild();\n  if (nameNode.isName()) {\n    String name = nameNode.getString();\n    // Check if the name is assigned to in the rest of the code.\n    // This is a simplified check and might need more context in a real-world scenario.\n    if (isNameAssignedTo(name, node.getNext())) {\n      return false;\n    }\n  }\n\n  return true;\n}\n\n/**\n * Helper function to check if a name is assigned to in the given subtree.\n */\nprivate boolean isNameAssignedTo(String name, Node node) {\n  if (node == null) {\n    return false;\n  }\n  if (node.isAssign() && node.getFirstChild().isName() && node.getFirstChild().getString().equals(name)) {\n    return true;\n  }\n  for (Node child : node.children()) {\n    if (isNameAssignedTo(name, child)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

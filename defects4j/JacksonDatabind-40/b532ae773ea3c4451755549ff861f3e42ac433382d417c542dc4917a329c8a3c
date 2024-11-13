@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n\n    String emptyValue = \"\";\n    Object result = mapper.readValue(emptyValue, type);\n\n    // Check if the result is null for primitive wrapper types\n    if (type == Integer.class || type == Long.class || type == Double.class || type == Float.class) {\n        assertNull(\"Should have been null for type: \" + type, result);\n    } else {\n        assertEquals(\"Should have been the default value for type: \" + type, defaultValue, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

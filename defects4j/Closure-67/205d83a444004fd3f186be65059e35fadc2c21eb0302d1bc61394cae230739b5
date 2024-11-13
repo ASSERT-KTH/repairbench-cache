@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)) {\n    if (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM) {\n      // We want to exclude the assignment itself from the usage list\n      Node potentialPrototypeNode = n.getFirstChild();\n      if (potentialPrototypeNode.getType() == Token.GETPROP) {\n        potentialPrototypeNode = potentialPrototypeNode.getFirstChild();\n      }\n      if (potentialPrototypeNode.getType() == Token.GETPROP) {\n        Node propNode = potentialPrototypeNode.getFirstChild().getNext();\n        if (propNode.getType() == Token.STRING && propNode.getString().equals(\"prototype\")) {\n          return true;\n        }\n      } else if (potentialPrototypeNode.getType() == Token.GETELEM) {\n        Node propNode = potentialPrototypeNode.getFirstChild().getNext();\n        if (propNode.getType() == Token.STRING && propNode.getString().equals(\"prototype\")) {\n          return true;\n        }\n      }\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

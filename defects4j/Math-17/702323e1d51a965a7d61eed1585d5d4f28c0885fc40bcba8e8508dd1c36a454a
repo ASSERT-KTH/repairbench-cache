@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    // Handle the special case of multiplying by zero\n    if (x == 0) {\n        return getField().getZero();\n    }\n    \n    // Handle the case where the current Dfp is zero\n    if (this.equals(getField().getZero())) {\n        return getField().getZero();\n    }\n    \n    // Handle the case where the current Dfp is NaN\n    if (this.isNaN()) {\n        return getField().getNaN();\n    }\n    \n    // Handle the case where the current Dfp is infinite\n    if (this.isInfinite()) {\n        return this.copySign(getField().getZero(), x < 0);\n    }\n    \n    // Call the multiplyFast method to perform the multiplication\n    Dfp result = multiplyFast(x);\n    \n    // Ensure the result is correctly signed\n    result.sign = (byte) (this.sign * Math.signum(x));\n    \n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

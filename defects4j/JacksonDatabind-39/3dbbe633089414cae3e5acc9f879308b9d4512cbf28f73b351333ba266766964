@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    JsonNode node = p.getCodec().readTree(p);\n    JsonNode itemNode = node.get(\"item\");\n    if (itemNode != null) {\n        JsonNode typeNode = itemNode.get(\"type\");\n        if (typeNode != null) {\n            String type = typeNode.asText();\n            if (!\"event\".equals(type)) {\n                // If the type is not recognized, we should return null for the item\n                ((ObjectNode) node).set(\"item\", null);\n            }\n        }\n    }\n    return ctxt.readValue(node.traverse(p.getCodec()), CallRecord.class);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    if (!data.startsWith(\"xml\")) {\n        return null; // Not an XML declaration\n    }\n    String xmlDeclData = \"<\" + data + \">\";\n    Document doc = Jsoup.parse(xmlDeclData, baseUri(), Parser.xmlParser());\n    XmlDeclaration decl = null;\n    if (doc.childNodeSize() > 0) {\n        Node node = doc.childNode(0);\n        if (node instanceof XmlDeclaration) {\n            decl = (XmlDeclaration) node;\n        }\n    }\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

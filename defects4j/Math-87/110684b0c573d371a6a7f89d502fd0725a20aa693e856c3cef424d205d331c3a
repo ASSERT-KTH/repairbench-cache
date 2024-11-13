@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks whether the given column is basic.\n * @param col index of the column to check\n * @return the row that the variable is basic in. null if the column is not basic\n */\nprivate Integer getBasicRow(final int col) {\n    Integer row = null;\n    for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {\n        if (MathUtils.equals(getEntry(i, col), 1.0, epsilon) && isPivotColumn(i, col)) {\n            if (row == null) {\n                row = i;\n            } else {\n                return null; // More than one basic row found, should not happen for a basic column\n            }\n        } else if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {\n            return null; // Non-zero and non-one value found, not a basic column\n        }\n    }\n    return row;\n}\n\n/**\n * Helper method to check if the column is a pivot column in the given row.\n * @param row index of the row\n * @param col index of the column\n * @return true if the column is a pivot column in the row, false otherwise\n */\nprivate boolean isPivotColumn(int row, int col) {\n    for (int j = 0; j < getWidth(); j++) {\n        if (j != col && !MathUtils.equals(getEntry(row, j), 0.0, epsilon)) {\n            return false; // Found a non-zero entry in the row, not a pivot column\n        }\n    }\n    return true; // All other entries in the row are zero, this is a pivot column\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

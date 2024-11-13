@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n * \n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n{\n    TokenBuffer tb = new TokenBuffer(jp, ctxt.getParserFeatures(jp));\n    JsonToken currentToken = jp.getCurrentToken();\n    \n    // If the current token is FIELD_NAME, it implies we are missing a START_OBJECT\n    if (currentToken == JsonToken.FIELD_NAME) {\n        tb.writeStartObject();\n    }\n    \n    copyCurrentStructure(jp, tb);\n    \n    return tb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

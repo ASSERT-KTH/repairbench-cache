@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n\n    // Test with an empty string\n    String jsonString = \"\";\n    try {\n        Object result = mapper.readValue(jsonString, type);\n        // If the type is a primitive wrapper, it should not be null\n        if (type.isPrimitive()) {\n            assertEquals(defaultValue, result);\n        } else {\n            assertNull(result);\n        }\n    } catch (MismatchedInputException e) {\n        // Expected for primitive types since null is not allowed\n        if (!type.isPrimitive()) {\n            throw e; // Re-throw if it's not a primitive type\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

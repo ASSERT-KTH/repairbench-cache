@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Optional<Object> bestMatch = mocks.stream()\n            .filter(mock -> field.getType().isInstance(mock))\n            .max(Comparator.comparingInt(mock -> typeHierarchyDistance(field.getType(), mock.getClass())));\n\n        bestMatch.ifPresent(mock -> {\n            try {\n                field.setAccessible(true);\n                field.set(fieldInstance, mock);\n            } catch (IllegalAccessException e) {\n                throw new RuntimeException(\"Failed to inject mock into field: \" + field.getName(), e);\n            }\n        });\n    }\n}\n\nprivate int typeHierarchyDistance(Class<?> target, Class<?> candidate) {\n    int distance = 0;\n    while (candidate != null && !candidate.equals(target)) {\n        candidate = candidate.getSuperclass();\n        distance++;\n    }\n    return candidate == null ? Integer.MAX_VALUE : distance;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // Ensure that the cache is checked and updated correctly\n    JavaType existingType = _cachedTypes.get(cls);\n    if (existingType != null) {\n        return existingType;\n    }\n\n    // Create a new JavaType and ensure that superclass information is included\n    JavaType newType = _constructType(cls, null);\n    _cachedTypes.put(cls, newType);\n\n    // Ensure that superclass properties are included in the type information\n    if (newType.isArrayType() || newType.isPrimitive()) {\n        return newType;\n    }\n\n    JavaType superClass = newType.getSuperClass();\n    if (superClass != null && !superClass.isArrayType() && !superClass.isPrimitive()) {\n        // Recursively construct the super class type to ensure its properties are included\n        constructType(superClass.getRawClass());\n    }\n\n    return newType;\n}\n\nprivate JavaType _constructType(Class<?> cls, TypeBindings context) {\n    // Construct the JavaType for the class\n    if (cls.isArray()) {\n        return ArrayType.construct(_constructType(cls.getComponentType(), context), null);\n    }\n    // Handle other types (class, interface, etc.)\n    return new SimpleType(cls);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

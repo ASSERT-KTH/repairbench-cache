@@ -1,0 +1,7 @@
+{
+    "generation": "import java.text.Collator;\nimport java.util.Locale;\n\npublic static boolean containsIgnoreCase(String str, String searchStr) {\n    if (str == null || searchStr == null) {\n        return false;\n    }\n    Collator collator = Collator.getInstance(Locale.ROOT);\n    collator.setStrength(Collator.PRIMARY);\n    return collator.compare(str, searchStr) == 0 || containsCollator(str, searchStr, collator);\n}\n\nprivate static boolean containsCollator(String str, String searchStr, Collator collator) {\n    int searchLength = searchStr.length();\n    for (int i = 0; i <= str.length() - searchLength; i++) {\n        if (collator.compare(str.substring(i, i + searchLength), searchStr) == 0) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // if the parsed values are null or empty, use the provided default values\n    if (valueList == null || valueList.isEmpty()) {\n        valueList = defaultValues;\n    } else {\n        // if there are parsed values, augment them with the default values if necessary\n        int min = option.getArgument().getMinimum();\n        int max = option.getArgument().getMaximum();\n        if (valueList.size() < max) {\n            // calculate how many default values are needed\n            int neededDefaults = max - valueList.size();\n            List additionalDefaults = defaultValues.subList(0, Math.min(neededDefaults, defaultValues.size()));\n            valueList.addAll(additionalDefaults);\n        }\n    }\n\n    // if the list is still null, return an empty list\n    return valueList == null ? Collections.emptyList() : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

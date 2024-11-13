@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        if (n.isComma()) {\n            // For comma expressions, the type of the entire expression is the type of the last operand.\n            return mayBeString(n.getLastChild(), false);\n        } else if (n.isHook()) {\n            // For conditional expressions (?:), we need to check both the true and false cases.\n            return mayBeString(n.getSecondChild(), false) || mayBeString(n.getLastChild(), false);\n        } else if (n.isAdd()) {\n            // For addition, if either operand might be a string, the result might be a string.\n            Node left = n.getFirstChild();\n            Node right = n.getSecondChild();\n            return mayBeString(left, false) || mayBeString(right, false);\n        } else {\n            return mayBeStringHelper(n);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

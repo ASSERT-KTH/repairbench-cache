@@ -1,0 +1,7 @@
+{
+    "generation": "protected void registerTypeVariablesOn(Type classType) {\n    if (!(classType instanceof ParameterizedType)) {\n        return;\n    }\n    ParameterizedType parameterizedType = (ParameterizedType) classType;\n    TypeVariable<?>[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();\n    Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n    \n    // Use a set to track the types we've already processed to prevent infinite recursion\n    Set<Type> processedTypes = new HashSet<>();\n    \n    for (int i = 0; i < actualTypeArguments.length; i++) {\n        TypeVariable<?> typeParameter = typeParameters[i];\n        Type actualTypeArgument = actualTypeArguments[i];\n\n        if (processedTypes.add(actualTypeArgument)) { // Only process if not already processed\n            if (actualTypeArgument instanceof WildcardType) {\n                contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n            } else {\n                contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n            }\n            \n            // Recursively register type variables for any nested parameterized types\n            if (actualTypeArgument instanceof ParameterizedType) {\n                registerTypeVariablesOn(actualTypeArgument);\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

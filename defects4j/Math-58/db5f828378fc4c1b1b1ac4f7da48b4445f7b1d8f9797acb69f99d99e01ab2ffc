@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        // Create a bounded optimizer to ensure sigma remains positive\n        final double[] lowerBounds = { Double.NEGATIVE_INFINITY, 0.0, Double.NEGATIVE_INFINITY };\n        final double[] upperBounds = { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY };\n        ((BaseMultivariateVectorOptimizer<LeastSquaresProblem>) getOptimizer()).setLowerBound(lowerBounds);\n        ((BaseMultivariateVectorOptimizer<LeastSquaresProblem>) getOptimizer()).setUpperBound(upperBounds);\n        return fit(new Gaussian.Parametric(), guess);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

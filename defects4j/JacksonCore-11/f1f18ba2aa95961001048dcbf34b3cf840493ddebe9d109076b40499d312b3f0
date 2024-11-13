@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        // Double the size of the hash area and names array for growth\n        int newSize = _hashArea.length << 1; // Double the size\n        _hashArea = Arrays.copyOf(_hashArea, newSize);\n        _names = Arrays.copyOf(_names, newSize);\n        _hashShared = false;\n        // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n        //    we rehash as needed, as need-rehash flag is not copied from parent\n        _needRehash = true; // Ensure rehashing occurs\n    }\n    if (_needRehash) {\n        rehash();\n        _needRehash = false; // Reset the rehash flag after rehashing\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

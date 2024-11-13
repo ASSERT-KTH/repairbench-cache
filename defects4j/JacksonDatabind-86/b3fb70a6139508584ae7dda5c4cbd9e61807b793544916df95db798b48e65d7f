@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // First, check if the type is already cached\n    JavaType type = _cachedTypes.get(cls);\n    if (type != null) {\n        return type;\n    }\n    \n    // If not cached, construct the type\n    type = _fromClass(cls, null);\n    \n    // Cache the constructed type\n    _cachedTypes.put(cls, type);\n    \n    // If the constructed type is a class type, ensure its super class is also cached\n    if (type instanceof ClassType) {\n        Class<?> superClass = cls.getSuperclass();\n        if (superClass != null && !_cachedTypes.containsKey(superClass)) {\n            constructType(superClass);\n        }\n    }\n    \n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    if (isNaN()) {\n        return this; // NaN * anything = NaN\n    }\n    if (x == 0) {\n        if (isZero()) {\n            return this; // 0 * 0 = 0\n        }\n        if (isInfinite()) {\n            field.setFlag(DfpField.FLAG_INVALID);\n            return field.getNaN(); // Infinity * 0 = NaN\n        }\n        return field.getZero(); // any number * 0 = 0\n    }\n    if (x == 1) {\n        return this; // any number * 1 = itself\n    }\n    if (x == -1) {\n        return negate(); // any number * -1 = -itself\n    }\n    return multiply(field.newDfp(x));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

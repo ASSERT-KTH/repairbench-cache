@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        return mayBeStringHelper(n) || couldBeStringInExpression(n);\n    }\n}\n\nprivate static boolean couldBeStringInExpression(Node n) {\n    if (n.isAdd()) {\n        for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n            if (mayBeString(child, true)) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import java.nio.charset.StandardCharsets;\n\n/**\n * Parse an entry name from a buffer.\n * Parsing stops when a NUL is found\n * or the buffer length is reached.\n *\n * @param buffer The buffer from which to parse.\n * @param offset The offset into the buffer from which to parse.\n * @param length The maximum number of bytes to parse.\n * @return The entry name.\n */\npublic static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    int terminator = offset;\n\n    // Find the position of the NUL terminator\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            terminator = i;\n            break;\n        }\n    }\n\n    // Decode the bytes to a String using ISO-8859-1 encoding\n    return new String(buffer, offset, terminator - offset, StandardCharsets.ISO_8859_1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

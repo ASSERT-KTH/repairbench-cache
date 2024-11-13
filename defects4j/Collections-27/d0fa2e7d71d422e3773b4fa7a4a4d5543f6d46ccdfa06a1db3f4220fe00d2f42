@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Collection<?> coll = collectionFactory.create();\n    if (!(coll instanceof List) && !(coll instanceof Set)) {\n        throw new UnsupportedOperationException(\"Unsafe collection type: \" + coll.getClass().getName());\n    }\n    // Continue with the rest of the deserialization logic\n    int size = in.readInt();\n    for (int i = 0; i < size; i++) {\n        K key = (K) in.readObject();\n        Collection<V> values = (Collection<V>) in.readObject();\n        if (!(values instanceof List) && !(values instanceof Set)) {\n            throw new UnsupportedOperationException(\"Unsafe collection type for values: \" + values.getClass().getName());\n        }\n        map.put(key, values);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

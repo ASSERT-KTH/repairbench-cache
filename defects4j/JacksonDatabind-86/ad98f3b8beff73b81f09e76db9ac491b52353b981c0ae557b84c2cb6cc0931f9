@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    if (cls == null) {\n        throw new IllegalArgumentException(\"Class must not be null\");\n    }\n    // Check if the type is already cached\n    JavaType type = _typeCache.get(cls);\n    if (type == null) {\n        // If not cached, construct the type\n        type = _constructType(cls, null, null);\n        // Cache the constructed type\n        _typeCache.put(cls, type);\n    }\n    // Ensure the type hierarchy is correctly set up\n    if (type instanceof SimpleType && cls.getSuperclass() != null) {\n        JavaType superType = constructType(cls.getSuperclass());\n        ((SimpleType) type).setSuperClass(superType);\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

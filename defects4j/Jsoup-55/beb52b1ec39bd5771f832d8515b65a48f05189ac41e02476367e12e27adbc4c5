@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            if (t.tagPending.attributes.size() > 0 && t.tagPending.attributes.get(t.tagPending.attributes.size() - 1).key.endsWith(\"/\")) {\n                // Remove the trailing slash from the last attribute key\n                String lastKey = t.tagPending.attributes.get(t.tagPending.attributes.size() - 1).key;\n                t.tagPending.attributes.get(t.tagPending.attributes.size() - 1).key = lastKey.substring(0, lastKey.length() - 1);\n            }\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/':\n            char nextChar = r.current();\n            if (nextChar == '>') {\n                t.tagPending.selfClosing = true;\n                t.transition(AfterSelfClosingStartTag);\n            } else {\n                t.tagPending.attributes.add(new Token.Attribute(\"/\"));\n                t.transition(BeforeAttributeName);\n            }\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    CallRecord result = new CallRecord();\n    p.nextToken(); // Move to the first token (FIELD_NAME)\n    while (p.currentToken() == JsonToken.FIELD_NAME) {\n        String fieldName = p.currentName();\n        p.nextToken(); // Move to the value token\n        try {\n            switch (fieldName) {\n                case \"version\":\n                    result.version = p.getDoubleValue();\n                    break;\n                case \"application\":\n                    result.application = p.getText();\n                    break;\n                case \"item\":\n                    result.item = p.readValueAs(Item.class);\n                    break;\n                case \"item2\":\n                    result.item2 = p.readValueAs(Item.class);\n                    break;\n                default:\n                    // Ignore unknown fields\n                    p.skipChildren();\n                    break;\n            }\n        } catch (JsonMappingException e) {\n            // Handle mapping exceptions if necessary\n            p.skipChildren();\n        }\n        p.nextToken(); // Move to the next field name\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

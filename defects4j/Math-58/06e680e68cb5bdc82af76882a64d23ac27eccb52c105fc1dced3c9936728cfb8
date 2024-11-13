@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    \n    // Define the lower bounds for the parameters (mean, sigma, amplitude)\n    double[] lowerBounds = { Double.NEGATIVE_INFINITY, 0.0, Double.NEGATIVE_INFINITY };\n    double[] upperBounds = { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY };\n    \n    // Use a bounded optimizer\n    final BaseMultivariateOptimizer<Gaussian.Parametric> optimizer = new LevenbergMarquardtOptimizer().bounded(lowerBounds, upperBounds);\n    \n    return optimizer.optimize(\n        new MaxEval(Integer.MAX_VALUE),\n        new LeastSquaresProblem.Builder()\n            .start(guess)\n            .model(new Gaussian.Parametric())\n            .target(new ArrayRealVector(getObservations()))\n            .weight(new ArrayRealVector(new double[getObservations().length], 1.0))\n            .build()\n    ).getPoint().toArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

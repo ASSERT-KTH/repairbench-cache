@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n    Node n = assign.getFirstChild();\n    if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)) {\n        Node rhs = assign.getLastChild();\n        if (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM) {\n            Node objNode = n.getFirstChild();\n            Node propNode = n.getSecondChild();\n\n            // Check if the object part of the property is a prototype access\n            if (objNode.getType() == Token.GETPROP) {\n                Node objObjNode = objNode.getFirstChild();\n                Node objPropNode = objNode.getSecondChild();\n\n                if (objPropNode.getType() == Token.STRING && objPropNode.getString().equals(\"prototype\")) {\n                    // Check if the property being assigned is a string or name\n                    if (propNode.getType() == Token.STRING || propNode.getType() == Token.NAME) {\n                        return true;\n                    }\n                }\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

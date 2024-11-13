@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    // Check for special cases\n    if (isNaN()) {\n        return this; // NaN * anything = NaN\n    }\n    if (x == 0) {\n        if (this.isZero()) {\n            return this; // 0 * 0 = 0\n        } else if (this.isInfinite()) {\n            return getField().getNaN(); // Infinity * 0 = NaN\n        } else {\n            return getField().getZero(); // finite number * 0 = 0\n        }\n    }\n    if (this.isInfinite()) {\n        return this; // Infinity * finite number = Infinity\n    }\n\n    // Use multiplyFast for normal multiplication\n    return multiplyFast(x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

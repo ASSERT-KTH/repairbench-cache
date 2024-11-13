@@ -1,0 +1,7 @@
+{
+    "generation": "package com.fasterxml.jackson.databind.type;\n\nimport com.fasterxml.jackson.databind.JavaType;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.type.TypeFactory;\n\npublic class TypeFactoryFix {\n    public static void main(String[] args) throws Exception {\n        ObjectMapper mapper = new ObjectMapper();\n        TypeFactory tf = mapper.getTypeFactory();\n\n        // Constructing types to ensure they are cached correctly\n        tf.constructType(Base.class);\n        JavaType subType = tf.constructType(Sub.class);\n\n        // Ensuring that the base type is correctly referenced\n        JavaType baseTypeFromSub = subType.getSuperClass();\n        assertNotNull(baseTypeFromSub);\n\n        // Testing serialization\n        Sub sub = new Sub();\n        String serialized = mapper.writeValueAsString(sub);\n        assertEquals(\"{\\\"base\\\":1,\\\"sub\\\":2}\", serialized);\n    }\n\n    public static void assertNotNull(Object obj) {\n        if (obj == null) {\n            throw new AssertionError(\"Expected object to be not null\");\n        }\n    }\n\n    public static void assertEquals(String expected, String actual) {\n        if (!expected.equals(actual)) {\n            throw new AssertionError(\"Expected:<\" + expected + \"> but was:<\" + actual + \">\");\n        }\n    }\n}\n\nclass Base {\n    public int base = 1;\n}\n\nclass Sub extends Base {\n    public int sub = 2;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

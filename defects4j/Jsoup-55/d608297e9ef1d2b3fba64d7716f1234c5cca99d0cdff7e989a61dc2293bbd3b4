@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.current(); // Use current() to check the character without consuming it\n    switch (c) {\n        case '>':\n            r.advance(); // Consume the '>' character\n            t.transition(Data);\n            break;\n        case '/':\n            r.advance(); // Consume the '/' character\n            c = r.current(); // Check the next character\n            if (c == '>') {\n                t.tagPending.selfClosing = true;\n                r.advance(); // Consume the '>' character\n            }\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

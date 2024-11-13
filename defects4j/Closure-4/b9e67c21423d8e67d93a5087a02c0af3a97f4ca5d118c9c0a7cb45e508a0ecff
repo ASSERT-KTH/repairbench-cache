@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // Use a visited set to prevent infinite recursion\n    Set<JSType> visitedTypes = new HashSet<>();\n\n    // Helper function to resolve types with cycle detection\n    JSType resolveTypeWithCycleDetection(JSType type, ErrorReporter t, StaticScope<JSType> enclosing, Set<JSType> visited) {\n        if (visited.contains(type)) {\n            handleTypeCycle(t);\n            return type;\n        }\n        visited.add(type);\n\n        boolean resolved = type.resolveViaRegistry(t, enclosing);\n        if (type.detectImplicitPrototypeCycle()) {\n            type.handleTypeCycle(t);\n        }\n\n        if (resolved) {\n            type.super.resolveInternal(t, enclosing);\n            type.finishPropertyContinuations();\n            return type.registry.isLastGeneration() ?\n                type.getReferencedType() : type;\n        }\n\n        type.resolveViaProperties(t, enclosing);\n        if (type.detectImplicitPrototypeCycle()) {\n            type.handleTypeCycle(t);\n        }\n\n        type.super.resolveInternal(t, enclosing);\n        if (type.isResolved()) {\n            type.finishPropertyContinuations();\n        }\n        return type.registry.isLastGeneration() ?\n            type.getReferencedType() : type;\n    }\n\n    return resolveTypeWithCycleDetection(this, t, enclosing, visitedTypes);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

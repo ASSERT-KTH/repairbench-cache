@@ -1,0 +1,7 @@
+{
+    "generation": "@Test public void removeFormElement() {\n    String html = \"<html>\\n\" +\n            \"  <body> \\n\" +\n            \"      <form action=\\\"/hello.php\\\" method=\\\"post\\\">\\n\" +\n            \"      User:<input type=\\\"text\\\" name=\\\"user\\\" />\\n\" +\n            \"      Password:<input type=\\\"password\\\" name=\\\"pass\\\" />\\n\" +\n            \"      <input type=\\\"submit\\\" name=\\\"login\\\" value=\\\"login\\\" />\\n\" +\n            \"   </form>\\n\" +\n            \"  </body>\\n\" +\n            \"</html>  \";\n    Document doc = Jsoup.parse(html);\n    FormElement form = (FormElement) doc.selectFirst(\"form\");\n    Element pass = form.selectFirst(\"input[name=pass]\");\n    pass.remove();\n\n    // Re-evaluate the form data to reflect the current state of the document\n    form = (FormElement) doc.selectFirst(\"form\");\n    List<Connection.KeyVal> data = form.formData();\n    assertEquals(2, data.size());\n    assertEquals(\"user\", data.get(0).key());\n    assertEquals(\"login\", data.get(1).key());\n    assertEquals(null, doc.selectFirst(\"input[name=pass]\"));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

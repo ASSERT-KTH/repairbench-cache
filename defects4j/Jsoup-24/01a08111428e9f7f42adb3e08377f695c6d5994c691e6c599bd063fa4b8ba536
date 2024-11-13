@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    if (r.matchesLetter()) {\n        String name = r.consumeLetterSequence();\n        t.tagPending.appendTagName(name.toLowerCase());\n        t.dataBuffer.append(name);\n        r.advance();\n        return;\n    }\n\n    if (t.isAppropriateEndTagToken() && !r.isEmpty()) {\n        char c = r.current();\n        switch (c) {\n            case '\\t':\n            case '\\n':\n            case '\\f':\n            case ' ':\n                t.transition(BeforeAttributeName);\n                r.advance();\n                break;\n            case '/':\n                t.transition(SelfClosingStartTag);\n                r.advance();\n                break;\n            case '>':\n                t.emitTagPending();\n                t.transition(Data);\n                r.advance();\n                break;\n            default:\n                t.dataBuffer.append(c);\n                r.advance();\n                anythingElse(t, r);\n                break;\n        }\n    } else {\n        anythingElse(t, r);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

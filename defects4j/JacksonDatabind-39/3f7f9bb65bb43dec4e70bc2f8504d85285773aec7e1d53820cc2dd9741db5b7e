@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonNode node = p.getCodec().readTree(p);\n    CallRecord callRecord = new CallRecord();\n\n    // Assuming CallRecord has fields: version, application, item, item2\n    if (node.has(\"version\")) {\n        callRecord.version = node.get(\"version\").asDouble();\n    }\n    if (node.has(\"application\")) {\n        callRecord.application = node.get(\"application\").asText();\n    }\n    if (node.has(\"item\")) {\n        JsonNode itemNode = node.get(\"item\");\n        if (\"event\".equals(itemNode.get(\"type\").asText())) {\n            callRecord.item = p.getCodec().treeToValue(itemNode, Event.class);\n        } else {\n            // Handle unknown types or set to null\n            callRecord.item = null;\n        }\n    }\n    if (node.has(\"item2\")) {\n        JsonNode item2Node = node.get(\"item2\");\n        if (\"event\".equals(item2Node.get(\"type\").asText())) {\n            callRecord.item2 = p.getCodec().treeToValue(item2Node, Event.class);\n        } else {\n            // Handle unknown types or set to null\n            callRecord.item2 = null;\n        }\n    }\n    return callRecord;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

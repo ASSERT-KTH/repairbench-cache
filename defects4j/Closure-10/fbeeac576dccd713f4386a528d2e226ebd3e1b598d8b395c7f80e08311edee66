@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        switch (n.getToken()) {\n            case STRING:\n                return true;\n            case NAME:\n                // If the name is a known string constant, return true\n                return n.getString().length() > 0;\n            case ADD:\n                // If any child of an addition operation might be a string, return true\n                for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n                    if (mayBeString(child, true)) {\n                        return true;\n                    }\n                }\n                return false;\n            case OR:\n            case HOOK:\n                // For OR and ternary operations, check if any branch might be a string\n                for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n                    if (mayBeString(child, true)) {\n                        return true;\n                    }\n                }\n                return false;\n            default:\n                return mayBeStringHelper(n);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

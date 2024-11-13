@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Create an instance of CallRecord to populate\n    CallRecord record = new CallRecord();\n    \n    // Iterate through each field in the JSON\n    while (p.nextToken() != JsonToken.END_OBJECT) {\n        String fieldName = p.getCurrentName();\n        p.nextToken(); // Move to the value\n        \n        switch (fieldName) {\n            case \"version\":\n                record.version = p.getDoubleValue();\n                break;\n            case \"application\":\n                record.application = p.getText();\n                break;\n            case \"item\":\n                // Assuming item is of a type that can handle unknown type IDs\n                // You might need to handle this specifically if it's a polymorphic type\n                record.item = p.getCodec().readValue(p, Item.class);\n                break;\n            case \"item2\":\n                // Assuming item2 is of a type that can handle unknown type IDs\n                record.item2 = p.getCodec().readValue(p, Item.class);\n                break;\n            default:\n                // Skip unknown fields\n                p.skipChildren();\n                break;\n        }\n    }\n    \n    return record;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

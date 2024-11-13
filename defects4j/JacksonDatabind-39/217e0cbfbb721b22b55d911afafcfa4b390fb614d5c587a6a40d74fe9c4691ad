@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    CallRecord record = new CallRecord();\n    while (p.nextToken() != JsonToken.END_OBJECT) {\n        String fieldName = p.getCurrentName();\n        p.nextToken();\n        if (\"version\".equals(fieldName)) {\n            record.version = p.getDoubleValue();\n        } else if (\"application\".equals(fieldName)) {\n            record.application = p.getText();\n        } else if (\"item\".equals(fieldName)) {\n            try {\n                record.item = p.readValueAs(Item.class);\n            } catch (MismatchedInputException e) {\n                // Handle the case where the type is unknown or invalid\n                p.skipChildren();\n            }\n        } else if (\"item2\".equals(fieldName)) {\n            try {\n                record.item2 = p.readValueAs(Item.class);\n            } catch (MismatchedInputException e) {\n                // Handle the case where the type is unknown or invalid\n                p.skipChildren();\n            }\n        } else {\n            // Skip unknown fields\n            p.skipChildren();\n        }\n    }\n    return record;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

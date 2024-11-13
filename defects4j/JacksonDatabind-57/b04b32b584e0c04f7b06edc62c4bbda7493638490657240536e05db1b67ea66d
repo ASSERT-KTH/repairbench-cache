@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Overloaded version of {@link #readValue(InputStream)}.\n */\npublic <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    if (_dataFormatReaders != null) {\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n    }\n    JsonParser parser = _parserFactory.createParser(new ByteArrayInputStream(src, offset, length));\n    parser.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS); // or any other features required\n    parser.setCodec(_objectMapper);\n    return _bindAndReadValues(_considerFilter(parser, true));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

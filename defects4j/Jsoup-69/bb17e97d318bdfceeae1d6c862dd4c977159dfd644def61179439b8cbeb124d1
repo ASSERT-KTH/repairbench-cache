@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : select(\"input[name], textarea[name], select[name]\")) {\n        if (el.hasAttr(\"name\") && !el.hasAttr(\"disabled\")) {\n            String name = el.attr(\"name\");\n            String type = el.tagName().equals(\"input\") ? el.attr(\"type\").toLowerCase() : null;\n            if (\"file\".equals(type)) {\n                // handle file input\n                FileInput fileInput = new FileInput(name, el.attr(\"value\"));\n                data.add(fileInput);\n            } else if (\"checkbox\".equals(type) || \"radio\".equals(type)) {\n                // handle checkbox and radio\n                if (el.hasAttr(\"checked\")) {\n                    data.add(new KeyValue(name, el.val()));\n                }\n            } else {\n                data.add(new KeyValue(name, el.val()));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

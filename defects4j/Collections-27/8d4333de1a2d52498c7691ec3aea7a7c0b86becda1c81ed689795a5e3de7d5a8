@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n    \n    // Read the map and value collection class\n    Map<? extends K, ? extends Collection<? extends V>> map = (Map<? extends K, ? extends Collection<? extends V>>) ois.readObject();\n    Class<? extends Collection> valueCollectionClass = (Class<? extends Collection>) ois.readObject();\n    \n    // Check for unsafe classes\n    if (valueCollectionClass == null || !Collection.class.isAssignableFrom(valueCollectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe clazz detected during de-serialization\");\n    }\n    \n    // Reinitialize the map with the deserialized data\n    this.map = new HashMap<>(map);\n    this.valueCollectionClass = valueCollectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

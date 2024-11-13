@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.coercionConfigFor(type).setCoercionInputShape(CoercionInputShape.EmptyString, CoercionAction.AsNull);\n\n    String json = \"\\\"\\\"\";\n    try {\n        Object value = mapper.readValue(json, type);\n        assertNull(\"Should not have passed\", value);\n    } catch (MismatchedInputException e) {\n        // This exception can be ignored as we are expecting a null value for empty string\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

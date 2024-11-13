@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n    int length = s.length();\n\n    if (length == 0) {\n        return false;\n    }\n\n    // Check if the first character is a valid JS identifier start\n    char firstChar = s.charAt(0);\n    if (!isJSIdentifierStart(firstChar)) {\n        return false;\n    }\n\n    // Check the rest of the characters\n    for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (!isJSIdentifierPart(c)) {\n            return false;\n        }\n    }\n\n    return true;\n}\n\nprivate static boolean isJSIdentifierStart(char c) {\n    // [A-Za-z$_]\n    return (c >= 'A' && c <= 'Z') || \n           (c >= 'a' && c <= 'z') || \n           c == '$' || \n           c == '_' || \n           (c >= 0x00A0 && isUnicodeLetter(c));\n}\n\nprivate static boolean isJSIdentifierPart(char c) {\n    // [A-Za-z0-9$_] and Unicode letter/number\n    return (c >= 'A' && c <= 'Z') || \n           (c >= 'a' && c <= 'z') || \n           (c >= '0' && c <= '9') || \n           c == '$' || \n           c == '_' || \n           (c >= 0x00A0 && (isUnicodeLetter(c) || isUnicodeDigit(c)));\n}\n\nprivate static boolean isUnicodeLetter(char c) {\n    // Simplified check for Unicode letter\n    return Character.isLetter(c) && !Character.isDigit(c);\n}\n\nprivate static boolean isUnicodeDigit(char c) {\n    // Check for Unicode digit\n    return Character.isDigit(c);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

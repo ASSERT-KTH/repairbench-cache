@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {\n    inputStream.defaultReadObject();\n    Class<?> unsafeClass = (Class<?>) inputStream.readObject();\n    \n    if (!Collection.class.isAssignableFrom(unsafeClass)) {\n        throw new UnsupportedOperationException(\"Unsupported class type: \" + unsafeClass.getName());\n    }\n    \n    @SuppressWarnings(\"unchecked\")\n    Class<? extends Collection<?>> collectionClass = (Class<? extends Collection<?>>) unsafeClass;\n    collectionClazz = collectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

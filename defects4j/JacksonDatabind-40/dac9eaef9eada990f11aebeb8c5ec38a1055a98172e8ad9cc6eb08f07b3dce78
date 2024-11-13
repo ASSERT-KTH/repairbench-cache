@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n\n    String input = \"\"; // Empty input\n    Object result = mapper.readValue(input, type);\n\n    if (type.isPrimitive()) {\n        // For primitive types, Jackson will not convert an empty string to null\n        // Instead, it will use the default value for the primitive type (e.g., 0 for int, 0.0 for double)\n        assertEquals(defaultValue, result);\n    } else {\n        // For wrapper types, Jackson can convert an empty string to null if configured\n        assertNull(result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

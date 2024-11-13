@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @param x Normalized objective variables.\n * @return the original objective variables, possibly repaired.\n */\npublic double[] repairAndDecode(final double[] x) {\n    double[] repaired = new double[x.length];\n    for (int i = 0; i < x.length; i++) {\n        // Assuming x is already within the bounds [-1, 1] based on typical normalization\n        // Map x from [-1, 1] to [lower[i], upper[i]]\n        double lower = -1e6; // Example lower bound, should be provided as a parameter\n        double upper = 0.5;  // Example upper bound, should be provided as a parameter\n        repaired[i] = lower + (x[i] + 1) * (upper - lower) / 2.0;\n        // Clip the value to ensure it is within the bounds\n        repaired[i] = Math.max(lower, Math.min(repaired[i], upper));\n    }\n    return repaired;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

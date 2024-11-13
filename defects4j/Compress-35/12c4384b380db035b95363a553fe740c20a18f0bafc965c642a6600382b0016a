@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    final int CHKSUM_OFFSET = 148; // Offset of the checksum field in the header\n    final int CHKSUMLEN = 8;      // Length of the checksum field\n\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' '; // Treat checksum bytes as spaces (ASCII 32)\n        }\n        unsignedSum += 0xff & b;\n        signedSum += b;\n    }\n\n    // Calculate the stored checksum value\n    for (int i = CHKSUM_OFFSET; i < CHKSUM_OFFSET + CHKSUMLEN - 1; i++) {\n        byte b = header[i];\n        if (b < '0' || b > '7') {\n            break; // If any character is not a digit, stop parsing\n        }\n        storedSum = storedSum * 8 + b - '0';\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

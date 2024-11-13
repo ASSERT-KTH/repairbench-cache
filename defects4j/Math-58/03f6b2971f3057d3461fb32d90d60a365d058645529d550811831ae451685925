@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    // Transform the guess to ensure sigma is positive\n    double[] transformedGuess = new double[] { guess[0], Math.log(guess[1]), guess[2] };\n\n    // Define a Parametric UnivariateFunction that applies the transformation\n    ParametricUnivariateFunction parametricFunction = new ParametricUnivariateFunction() {\n        @Override\n        public double value(double x, double... p) {\n            // p[0] = norm, p[1] = log(sigma), p[2] = mean\n            return new Gaussian().value(x, p[0], Math.exp(p[1]), p[2]);\n        }\n\n        @Override\n        public double[] gradient(double x, double... p) {\n            // p[0] = norm, p[1] = log(sigma), p[2] = mean\n            double[] grad = new Gaussian().gradient(x, p[0], Math.exp(p[1]), p[2]);\n            grad[1] *= Math.exp(p[1]); // Chain rule for log(sigma)\n            return grad;\n        }\n    };\n\n    return fit(parametricFunction, transformedGuess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
