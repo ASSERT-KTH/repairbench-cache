@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.UnsupportedEncodingException;\nimport java.net.*;\n\nstatic URL encodeUrl(URL u) {\n    try {\n        String protocol = u.getProtocol();\n        String host = u.getHost();\n        int port = u.getPort();\n        String path = u.getPath();\n        String query = u.getQuery();\n        String ref = u.getRef();\n\n        // Encode the path and query separately\n        path = URLEncoder.encode(path, \"UTF-8\").replace(\"+\", \"%20\");\n        query = query != null ? URLEncoder.encode(query, \"UTF-8\").replace(\"+\", \"%20\") : null;\n\n        // Reconstruct the URL\n        StringBuilder encodedUrl = new StringBuilder();\n        encodedUrl.append(protocol).append(\"://\").append(host);\n        if (port != -1) {\n            encodedUrl.append(\":\").append(port);\n        }\n        encodedUrl.append(path);\n        if (query != null) {\n            encodedUrl.append(\"?\").append(query);\n        }\n        if (ref != null) {\n            encodedUrl.append(\"#\").append(URLEncoder.encode(ref, \"UTF-8\").replace(\"+\", \"%20\"));\n        }\n\n        return new URL(encodedUrl.toString());\n    } catch (UnsupportedEncodingException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

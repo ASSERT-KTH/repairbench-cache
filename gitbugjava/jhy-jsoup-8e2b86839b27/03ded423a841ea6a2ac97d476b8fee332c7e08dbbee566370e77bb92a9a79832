@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    // Check if the current tag formats as a block\n    if (tag.formatAsBlock()) {\n        return true;\n    }\n    \n    // Check if the parent tag formats as a block\n    if (parent() != null && parent().tag().formatAsBlock()) {\n        return true;\n    }\n    \n    // Check if the output settings specify outlining (pretty print)\n    if (out.outline()) {\n        return true;\n    }\n    \n    // Check if the element has a display style of 'inline' but is still a block-level element\n    if (hasAttr(\"style\")) {\n        String style = attr(\"style\");\n        if (style.contains(\"display:inline;\")) {\n            // Check if the tag is inherently a block-level element\n            return Tag.isBlock(tag.getName());\n        }\n    }\n    \n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

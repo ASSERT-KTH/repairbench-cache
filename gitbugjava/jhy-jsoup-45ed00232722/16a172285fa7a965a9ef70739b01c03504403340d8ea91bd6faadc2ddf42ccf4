@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n        u = punyUrl(u);\n        try {\n            //  odd way to encode urls, but it works!\n            String urlS = u.toExternalForm(); // URL external form may have spaces which is illegal in new URL() (odd asymmetry)\n            urlS = urlS.replace(\" \", \"%20\");\n            final URI uri = new URI(urlS);\n            URL encodedUrl = new URL(uri.toASCIIString());\n            // Properly encode the query and fragment parts\n            String encodedQuery = uri.getQuery() != null ? URLEncoder.encode(uri.getQuery(), \"UTF-8\").replace(\"+\", \"%20\") : null;\n            String encodedFragment = uri.getFragment() != null ? URLEncoder.encode(uri.getFragment(), \"UTF-8\").replace(\"+\", \"%20\") : null;\n            return new URL(uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath() + (encodedQuery != null ? \"?\" + encodedQuery : \"\") + (encodedFragment != null ? \"#\" + encodedFragment : \"\"));\n        } catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e) {\n            // give up and return the original input\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
