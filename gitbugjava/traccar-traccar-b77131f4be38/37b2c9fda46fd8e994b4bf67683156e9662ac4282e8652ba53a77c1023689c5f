@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(\n        Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n    ByteBuf buf = (ByteBuf) msg;\n    buf.skipBytes(1); \n    // ... other code ...\n    if (type.equalsIgnoreCase(\"PULSE\")\n            || type.equalsIgnoreCase(\"HEART\")\n            || type.equalsIgnoreCase(\"BLOOD\")\n            || type.equalsIgnoreCase(\"BPHRT\")\n            || type.equalsIgnoreCase(\"btemp2\")) {\n        if (buf.isReadable()) {\n            Position position = new Position(getProtocolName());\n            position.setDeviceId(deviceSession.getDeviceId());\n            getLastLocation(position, new Date());\n            String[] values = buf.toString(StandardCharsets.US_ASCII).split(\",\");\n            int valueIndex = 0;\n            if (type.equalsIgnoreCase(\"btemp2\")) {\n                if (Integer.parseInt(values[valueIndex++]) > 0) {\n                    position.set(Position.PREFIX_TEMP + 1, Double.parseDouble(values[valueIndex]));\n                }\n            } else {\n                // ... other code ...\n            }\n            return position;\n        }\n    }\n    // ... other code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
