@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitCall(NodeTraversal t, Node n) {\n    Node child = n.getFirstChild();\n    JSType childType = getJSType(child).restrictByNotNullOrUndefined();\n\n    if (!childType.canBeCalled()) {\n        report(t, n, NOT_CALLABLE, childType.toString());\n        ensureTyped(t, n);\n        return;\n    }\n\n    // A couple of types can be called as if they were functions.\n    // If it is a function type, then validate parameters and this type.\n    if (childType instanceof FunctionType) {\n        FunctionType functionType = (FunctionType) childType;\n        if (!functionType.getReceiverType().isUnknown()) {\n            Node parent = n.getParent();\n            if (parent == null || parent.getType() != Token.GETPROP && parent.getType() != Token.GETELEM) {\n                report(t, n, THIS_TYPE_NOT_PROVIDED, functionType.getReceiverType().toString());\n            }\n        }\n        // remaining part of the function...\n    } else {\n        ensureTyped(t, n);\n    }\n    // ... remaining part of the function\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

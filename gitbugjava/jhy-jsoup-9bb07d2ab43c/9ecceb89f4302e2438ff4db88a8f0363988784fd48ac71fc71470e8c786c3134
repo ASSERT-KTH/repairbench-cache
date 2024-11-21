@@ -1,0 +1,7 @@
+{
+    "generation": "protected void replaceChild(Node out, Node in) {\n    Validate.isTrue(out.parentNode == this);\n    Validate.notNull(in);\n\n    if (in == out) {\n        return; // no op if replacing node with itself\n    }\n\n    if (in.parentNode != null) {\n        in.parentNode.removeChild(in);\n    }\n\n    List<Node> childNodes = ensureChildNodes();\n    int index = childNodes.indexOf(out); // use indexOf to find the index\n    childNodes.set(index, in);\n    in.parentNode = this;\n    in.setSiblingIndex(index);\n    out.parentNode = null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

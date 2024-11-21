@@ -1,0 +1,7 @@
+{
+    "generation": "void tryMinimizeExits(Node n, int exitType, String labelName) {\n    // ... existing code ...\n\n    // Just a 'try/catch/finally'.\n    if (n.isTry()) {\n        Node tryBlock = n.getFirstChild();\n        tryMinimizeExits(tryBlock, exitType, labelName);\n        Node allCatchNodes = NodeUtil.getCatchBlock(n);\n        if (NodeUtil.hasCatchHandler(allCatchNodes)) {\n            Preconditions.checkState(allCatchNodes.hasOneChild());\n            Node catchNode = allCatchNodes.getFirstChild();\n            Node catchCodeBlock = catchNode.getLastChild();\n            tryMinimizeExits(catchCodeBlock, exitType, labelName);\n        }\n        if (NodeUtil.hasFinally(n)) {\n            Node finallyBlock = n.getLastChild();\n            // Prevent removing break in try-finally block\n            if (exitType == Token.BREAK && labelName != null\n                    && finallyBlock.hasChildren()\n                    && matchingExitNode(finallyBlock.getFirstChild(),\n                    exitType, labelName)) {\n                return;\n            }\n            tryMinimizeExits(finallyBlock, exitType, labelName);\n        }\n    }\n    // ... rest of the code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

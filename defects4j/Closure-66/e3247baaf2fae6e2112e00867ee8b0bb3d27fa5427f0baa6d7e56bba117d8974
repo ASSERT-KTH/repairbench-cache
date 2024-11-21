@@ -1,0 +1,7 @@
+{
+    "generation": "case Token.OBJECTLIT:\n    ensureTyped(t, n, JSType.forObjectDefinition(t.getJSG().getTypeRegistry()));\n    // Iterate over the children of the OBJECTLIT to check if they are strings.\n    for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n        if (child.getType() == Token.STRING) {\n          ensureTyped(t, child, STRING_TYPE);\n        }\n    }\n    break;\n\ncase Token.STRING:\n    ensureTyped(t, n, STRING_TYPE);\n    // Object literal keys are not typeable\n    if (NodeUtil.isObjectLitKey(n, n.getParent())) {\n        typeable = false;\n    }\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

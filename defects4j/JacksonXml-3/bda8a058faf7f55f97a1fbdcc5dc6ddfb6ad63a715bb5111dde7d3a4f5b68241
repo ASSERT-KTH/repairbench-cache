@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic String nextTextValue() throws IOException\n{\n    _binaryValue = null;\n    if (_nextToken != null) {\n        JsonToken t = _nextToken;\n        _currToken = t;\n        _nextToken = null;\n\n        // expected case; yes, got a String\n        if (t == JsonToken.VALUE_STRING) {\n            return _currText;\n        }\n        // added this block to handle the case when _nextToken is JsonToken.FIELD_NAME\n        else if (t == JsonToken.FIELD_NAME) {\n            return _xmlTokens.getText();\n        }\n        _updateState(t);\n    }\n\n    int token = _xmlTokens.next();\n\n    //... rest of the method remains the same\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

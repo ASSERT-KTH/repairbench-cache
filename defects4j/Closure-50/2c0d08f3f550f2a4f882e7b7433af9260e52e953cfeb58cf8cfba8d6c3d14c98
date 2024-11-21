@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldArrayJoin(Node n) {\n    Node callTarget = n.getFirstChild();\n\n    if (callTarget == null || !NodeUtil.isGetProp(callTarget)) {\n      return n;\n    }\n\n    Node arrayNode = callTarget.getFirstChild();\n    Node functionName = arrayNode.getNext();\n\n    if ((arrayNode.getType() != Token.ARRAYLIT) ||\n        !functionName.getString().equals(\"join\")) {\n      return n;\n    }\n\n    Node right = functionName.getNext();\n    if (right != null) {\n      if (!NodeUtil.isImmutableValue(right)) {\n        return n;\n      }\n    } else {\n      // No argument to the join method defaults to a comma.\n      right = Node.newString(\",\").copyInformationFrom(functionName);\n    }\n\n    String joinString = NodeUtil.getStringValue(right);\n    //... rest of the method as it is\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

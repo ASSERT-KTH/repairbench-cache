@@ -1,0 +1,7 @@
+{
+    "generation": "public ZipArchiveEntry getNextZipEntry() throws IOException {\n    boolean firstEntry = true;\n    if (closed || hitCentralDirectory) {\n        return null;\n    }\n    if (current != null) {\n        closeEntry();\n        firstEntry = false;\n    }\n\n    try {\n        if (firstEntry) {\n            readFirstLocalFileHeader(LFH_BUF);\n        } else {\n            readFully(LFH_BUF);\n        }\n    } catch (final EOFException e) {\n        return null;\n    }\n\n    final ZipLong sig = new ZipLong(LFH_BUF);\n    if (sig.equals(ZipLong.CFH_SIG) || sig.equals(ZipLong.AED_SIG)) {\n        hitCentralDirectory = true;\n        skipRemainderOfArchive();\n        return null;\n    }\n    if (!sig.equals(ZipLong.LFH_SIG)) {\n        throw new ZipException(\"Unexpected record signature: 0x\" + Long.toHexString(sig.getValue()));\n    }\n\n    int off = WORD;\n    current = new CurrentEntry();\n\n    // Rest of the function...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

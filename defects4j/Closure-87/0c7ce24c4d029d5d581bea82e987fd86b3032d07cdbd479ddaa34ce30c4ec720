@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n      if (n.hasOneChild()) {\n        Node maybeExpr = n.getFirstChild();\n\n        // Avoid folding for IE bug case where event handlers behave differently\n        // IE has a bug where event handlers behave differently when\n        // their return value is used vs. when their return value is in\n        // an EXPR_RESULT. It's pretty freaking weird. See:\n        // http://code.google.com/p/closure-compiler/issues/detail?id=291\n\n        if (NodeUtil.isGetProp(maybeExpr) && maybeExpr.getFirstChild().isCall()) {\n          // Check for `onchange` property in function call, potentially nested\n          Node callNode = maybeExpr.getFirstChild();\n          if (isEventHandlerOnchange(maybeExpr)) {\n            return false;\n          }\n        }\n\n        return NodeUtil.isExpressionNode(maybeExpr);\n      }\n    }\n\n    return false;\n  }\n\n  // Helper method to detect 'onchange' event handler with an implicit 'this' parameter\n  private boolean isEventHandlerOnchange(Node maybeExpr) {\n    Node propName = maybeExpr.getLastChild();\n    return propName.isString() && \"onchange\".equals(propName.getString());\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

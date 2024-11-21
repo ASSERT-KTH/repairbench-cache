@@ -1,0 +1,7 @@
+{
+    "generation": "public ZipArchiveInputStream(InputStream inputStream,\n                             String encoding,\n                             boolean useUnicodeExtraFields,\n                             boolean allowStoredEntriesWithDataDescriptor) throws IOException {\n    zipEncoding = ZipEncodingHelper.getZipEncoding(encoding);\n    this.useUnicodeExtraFields = useUnicodeExtraFields;\n    this.allowStoredEntriesWithDataDescriptor = allowStoredEntriesWithDataDescriptor;\n    in = new PushbackInputStream(inputStream, buf.capacity());\n\n    // peek at next entry without advancing\n    in.mark(buf.length);\n    ZipArchiveEntry ze = getNextEntry();\n    in.reset();\n\n    // if first entry is stored without data descriptor and not allowed, skip it.\n    if (!this.allowStoredEntriesWithDataDescriptor && ze != null && ze.getMethod() == STORED && !ze.getDataDescriptorFlag()) {\n        try (InputStream entryData = new LimitedInputStream(in, ze.getSize())) {\n            IOUtils.skip(entryData, ze.getSize());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

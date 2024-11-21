@@ -1,0 +1,7 @@
+{
+    "generation": "// Check an ASSIGN statement that's trying to override a property on a superclass.\nJSDocInfo overridingInfo = parent.getJSDocInfo();\nVisibility overridingVisibility = overridingInfo == null ?\n    Visibility.INHERITED : overridingInfo.getVisibility();\n\n// Check that the property can be overridden and that the visibility is the same or wider than the original property.\nif (visibility == Visibility.PRIVATE) {\n  compiler.report(\n      t.makeError(getprop, PRIVATE_OVERRIDE, objectType.toString()));\n} else if (overridingVisibility != Visibility.INHERITED &&\n    (overridingVisibility.compareTo(visibility) > 0 ||\n    !docInfo.getSourceName().equals(t.getInput().getName()))) {\n  compiler.report(\n      t.makeError(getprop, BAD_PRIVATE_PROPERTY_ACCESS,\n          propertyName,\n          validator.getReadableJSTypeName(getprop.getFirstChild(), true)));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

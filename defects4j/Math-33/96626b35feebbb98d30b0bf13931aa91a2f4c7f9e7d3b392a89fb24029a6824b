@@ -1,0 +1,7 @@
+{
+    "generation": "protected void dropPhase1Objective() {\n    if (getNumObjectiveFunctions() == 1) {\n        return;\n    }\n\n    List<Integer> columnsToDrop = new ArrayList<>();\n    columnsToDrop.add(0);  // Objective function\n\n    // positive cost non-artificial variables\n    for (int i = getNumObjectiveFunctions(); i < tableau.getColumnDimension(); i++) {\n        if (tableau.getEntry(0, i) > 0) {\n            columnsToDrop.add(i);\n        }\n    }\n\n    // non-basic artificial variables\n    for (int i = getArtificialVariableOffset(); i < getArtificialVariableOffset() + getNumArtificialVariables(); i++) {\n        if (getBasicRow(i) == null) {\n            columnsToDrop.add(i);\n        }\n    }\n\n    double[][] matrix = new double[tableau.getRowDimension() - 1][tableau.getColumnDimension() - columnsToDrop.size()];\n    for (int i = 1; i < tableau.getRowDimension(); i++) {\n        int col = 0;\n        for (int j = 0; j < tableau.getColumnDimension(); j++) {\n            if (!columnsToDrop.contains(j)) {\n                matrix[i - 1][col++] = tableau.getEntry(i, j);\n            }\n        }\n    }\n\n    for (int i = columnsToDrop.size() - 1; i >= 0; i--) {\n        columnLabels.remove((int) columnsToDrop.get(i));\n    }\n\n    this.tableau = new Array2DRowRealMatrix(matrix);\n    this.numArtificialVariables = 0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

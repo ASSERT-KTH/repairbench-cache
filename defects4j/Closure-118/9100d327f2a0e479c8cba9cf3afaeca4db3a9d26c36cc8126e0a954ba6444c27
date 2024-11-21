@@ -1,0 +1,7 @@
+{
+    "generation": "private void handleObjectLit(NodeTraversal t, Node n) {\n  for (Node child = n.getFirstChild();\n      child != null;\n      child = child.getNextSibling()) {\n    Node keyNode = child.getFirstChild();\n    Node valueNode = child.getSecondChild();\n    String name = keyNode.getString();\n    T type = null;\n    if (getScope() instanceof VarScope) {\n      Var var = getScope().getVar(name);\n      if (var != null) {\n        type = var.getType();\n      }\n    }\n    if (type == null) {\n      type = typeSystem.getType(getScope(), valueNode, name);\n    }\n    Property prop = getProperty(name);\n    if (!prop.scheduleRenaming(valueNode,\n                              processProperty(t, prop, type, null))) {\n      if (propertiesToErrorFor.containsKey(name)) {\n        compiler.report(JSError.make(\n            t.getSourceName(), valueNode, propertiesToErrorFor.get(name),\n            Warnings.INVALIDATION, name,\n            (type == null ? \"null\" : type.toString()), n.toString(), \"\"));\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

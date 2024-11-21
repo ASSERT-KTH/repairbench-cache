@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isSubtype(JSType other) {\n    if (!(other instanceof ArrowType)) {\n        return false;\n    }\n\n    ArrowType that = (ArrowType) other;\n\n    // this.returnType <: that.returnType (covariant)\n    if (!this.returnType.isSubtype(that.returnType)) {\n        return false;\n    }\n\n    // that.paramType[i] <: this.paramType[i] (contravariant)\n    Node thisParam = parameters.getFirstChild();\n    Node thatParam = that.parameters.getFirstChild();\n    while (thisParam != null && thatParam != null) {\n        JSType thisParamType = thisParam.getJSType();\n        JSType thatParamType = thatParam.getJSType();\n        if (thisParamType != null) {\n            if (thatParamType == null ||\n                !thatParamType.isSubtype(thisParamType)) {\n                return false;\n            }\n        }\n\n        if (thisParam.isVarArgs() && !thatParam.isVarArgs() && thisParam.getNext() == null) {\n            // Continue checking varargs against remaining thatParams\n        } else {\n            thisParam = thisParam.getNext();\n        }\n        thatParam = thatParam.getNext();\n    }\n\n    // \"that\" can't be a supertype, because it's missing a required argument.\n    if (thisParam == null && thatParam != null && !thatParam.isVarArgs()) {\n        return false;\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

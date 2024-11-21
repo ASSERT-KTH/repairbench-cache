@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Visits a NEW node.\n */\nprivate void visitNew(NodeTraversal t, Node n) {\n  Node constructor = n.getFirstChild();\n  JSType type = getJSType(constructor).restrictByNotNullOrUndefined();\n  if (type.isConstructor() || type.isEmptyType() || type.isUnknownType()) {\n    FunctionType fnType = type.toMaybeFunctionType();\n    if (fnType != null) {\n      visitParameterList(t, n, fnType);\n      // Ensure the node is typed with the instance type of the constructor only if the constructor is a function type\n      ensureTyped(t, n, fnType.getInstanceType());\n    } else {\n      ensureTyped(t, n);\n    }\n  } else {\n    report(t, n, NOT_A_CONSTRUCTOR);\n    // If the constructor is not a function type, do not assume it is callable\n    ensureTyped(t, n);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

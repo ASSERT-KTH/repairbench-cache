@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean evaluatesToLocalValue(Node value, Predicate<Node> locals) {\n  switch (value.getType()) {\n    // ... existing cases ...\n    case Token.CALL:\n      // We should consider it as a local value only when it's a known\n      // immutable property or linked to a local value.\n      Node callee = value.getFirstChild();\n      return (NodeUtil.isImmutableValue(callee) && locals.apply(callee))\n               || locals.apply(value);\n    case Token.NEW:\n      // NEW operator always creates a new instance,\n      // so the new object is not locally bound.\n      return false;\n    // ... existing cases ...\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

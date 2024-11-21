@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlinableObject(List<Reference> refs, Node val) {\n      for (Reference ref : refs) {\n        Node name = ref.getNode();\n        Node parent = ref.getParent();\n        Node grandParent = ref.getGrandparent();\n        Node greatGrandParent = grandParent != null ? grandParent.getParent() : null;\n\n        if (parent.isGetProp()) {\n          Preconditions.checkState(parent.getFirstChild() == name);\n          if (grandParent.isCall() && grandParent.getFirstChild() == parent) {\n            return false;\n          }\n          if (grandParent.isGetProp()) {\n            if (greatGrandParent != val) {\n              return false;\n            }\n            continue;\n          }\n          return false;\n        }\n\n        if (!isVarOrAssignExprLhs(name)) {\n           return false;\n        }\n\n        Node valueNode = ref.getAssignedValue();\n\n        if (valueNode == null || !valueNode.isObjectLit()) {\n          return false;\n        }\n\n        for (Node child = valueNode.getFirstChild(); child != null;\n             child = child.getNext()) {\n          Node childKey = child.getFirstChild();\n          if (childKey != null && childKey.isName() && childKey.getString().equals(name.getString())) {\n            return false; // Self-referential assignment\n          }\n        }\n      }\n      return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

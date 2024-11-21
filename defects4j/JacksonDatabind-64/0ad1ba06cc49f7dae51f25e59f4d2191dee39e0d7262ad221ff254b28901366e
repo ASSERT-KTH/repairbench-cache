@@ -1,0 +1,7 @@
+{
+    "generation": "// ... (rest of the function)\n\nJsonInclude.Include inclusion = inclV.getValueInclusion();\n\nif (inclusion == JsonInclude.Include.USE_DEFAULTS) { // should not occur but...\n    inclusion = JsonInclude.Include.ALWAYS;\n}\n\nswitch (inclusion) {\ncase NON_DEFAULT:\n    if (_useRealPropertyDefaults) {\n        if (am.getMember().getDeclaringClass().isAssignableFrom(actualType.getRawClass())) {\n            // Handle non-POJO classes with default value suppression\n            valueToSuppress = getDefaultValue(actualType);\n            if (valueToSuppress != null && valueToSuppress.getClass().isArray()) {\n                valueToSuppress = ArrayBuilders.getArrayComparator(valueToSuppress);\n            }\n            suppressNulls = valueToSuppress != null;\n        } else {\n            // For POJO classes, try to find POJO property defaults\n            valueToSuppress = getPropertyDefaultValue(propDef.getName(), am, actualType);\n            suppressNulls = valueToSuppress == null;\n        }\n    } else {\n        // Handle cases where _useRealPropertyDefaults is false\n        valueToSuppress = getDefaultValue(actualType);\n        suppressNulls = true;\n    }\n    break;\n// ... (rest of the function)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

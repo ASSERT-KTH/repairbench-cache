@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        int oldCapacity = _hashArea.length;\n        // Ensure _hashArea and _names are copied and have proper capacity\n        _hashArea = _expandCapacity(_hashArea);\n        _names = _expandCapacity(_names);\n        // Reset shard flag\n        _hashShared = false;\n        // Need to ensure we rehash as needed, as need-rehash flag is not copied from parent\n        _needRehash = _needRehash || oldCapacity != _hashArea.length;\n    }\n    // Check if rehash is needed\n    if (_needRehash) {\n        rehash();\n    }\n}\n\n// Helper method to expand capacity of an array\nprivate String[] _expandCapacity(String[] array) {\n    int oldCapacity = array.length;\n    // Increase capacity to next power of 2\n    int newCapacity = oldCapacity == 0 ? 1 : oldCapacity << 1;\n    // Double check to ensure capacity does not exceed maximum array size\n    if (newCapacity < 0) {\n        newCapacity = Integer.MAX_VALUE;\n    }\n    // Copy contents of old array to new array\n    return Arrays.copyOf(array, newCapacity);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

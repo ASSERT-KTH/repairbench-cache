@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructType(Class<?> rawType) {\n    if (rawType == null) {\n        return null;\n    }\n    JavaType type = _typeCache.getType(rawType);\n    if (type != null) {\n        if (_typeModifier == null) {\n            return type;\n        }\n        type = _typeModifier.modifyType(type, rawType, this, null);\n        if (type != null) {\n            return type;\n        }\n    }\n    ClassKey key = new ClassKey(rawType);\n    JavaType[] superTypes = super.findSuperTypes(rawType, null);\n    Class<?>[] interfaces = rawType.getInterfaces();\n    JavaType[] ifTypes = super.findInterfaceTypes(interfaces, null);\n    for (JavaType ifType : ifTypes) {\n        type = super.constructFromCanonical(ifType.getRawClass(), ifType);\n        if (type != null) {\n            return type;\n        }\n    }\n    return super.constructType(rawType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

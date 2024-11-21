@@ -1,0 +1,7 @@
+{
+    "generation": "void add(Node n, Context context) {\n    // ... the rest of the function remains the same\n\n    case Token.COMMA: {\n        Preconditions.checkState(childCount == 2);\n        unrollBinaryOperator(n, Token.COMMA, \",\", context,\n                getContextForNoInOperator(context), 0, 0);\n        break;\n    }\n\n    case Token.IN: {\n        Preconditions.checkState(childCount == 2);\n        // If left operand is a number, wrap it in quotes\n        if (first.isNumber()) {\n            String number = String.valueOf(first.getDouble());\n            add(number.indexOf('.') == -1 ? \"\\\"\" + number + \"\\\"\" : number);\n        } else {\n            addExpr(first, NodeUtil.precedence(type), context);\n        }\n        add(\" in \");\n        addExpr(last, NodeUtil.precedence(type), context);\n        break;\n    }\n\n    // ... the rest of the function remains the same\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

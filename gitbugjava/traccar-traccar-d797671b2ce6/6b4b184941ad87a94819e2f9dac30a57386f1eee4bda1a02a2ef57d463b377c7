@@ -1,0 +1,7 @@
+{
+    "generation": "private void decodeCoordinates(Position position, ByteBuf buf) {\n    int longitude = buf.readUnsignedInt();\n    if (longitude != 0) {\n        position.setLongitude(decodeLongitude(longitude));\n    }\n    int latitude = buf.readUnsignedInt();\n    if (latitude != 0) {\n        position.setLatitude(decodeLatitude(latitude));\n    }\n    int altitude = buf.readUnsignedShort();\n    if (altitude != 0) {\n        position.setAltitude(altitude);\n    }\n}\n\n// This function is used to decode the latitude\nprivate double decodeLatitude(int latitude) {\n    if (latitude == 0xffffffff || latitude == 0) {\n        return 0;\n    }\n    return (double) latitude / 10000000;\n}\n\n// This function is used to decode the longitude\nprivate double decodeLongitude(int longitude) {\n    if (longitude == 0xffffffff || longitude == 0) {\n        return 0;\n    }\n    return (double) longitude / 10000000;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

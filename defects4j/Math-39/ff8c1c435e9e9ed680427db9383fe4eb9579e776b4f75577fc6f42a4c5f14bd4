@@ -1,0 +1,7 @@
+{
+    "generation": "private double acceptStep(final RungeKuttaStepInterpolator interpolator, final double[] y,\n                          final double[] yDot, final double t)\n        throws MathIllegalStateException, MathIllegalArgumentException {\n\n    // Update the interpolator and check for events\n    interpolator.storeTime(stepStart + stepSize);\n    interpolator.storeState(y, yDot);\n    interpolator.acceptStep(stepStart + stepSize, y);\n    notifyStepHandlers(interpolator);\n    handleEvents(interpolator, t);\n\n    // Check if the next step should be the last one\n    final double nextT = stepStart + stepSize;\n    double epsilon = 1e-14; // small tolerance value\n    if (forward && (nextT > t || FastMath.abs(nextT - t) < epsilon)) {\n        isLastStep = true;\n    } else if (!forward && (nextT < t || FastMath.abs(nextT - t) < epsilon)) {\n        isLastStep = true;\n    }\n\n    return nextT;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

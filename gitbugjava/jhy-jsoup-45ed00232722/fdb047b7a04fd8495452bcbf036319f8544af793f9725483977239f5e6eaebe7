@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String protocol = u.getProtocol();\n        String authority = u.getAuthority();\n        String path = u.getPath().replace(\" \", \"%20\"); // replace spaces in path\n        String query = u.getQuery();\n        if (query != null) {\n            query = query.replace(\" \", \"%20\"); // replace spaces in query\n        }\n        String ref = u.getRef();\n        if (ref != null) {\n            ref = ref.replace(\" \", \"%20\"); // replace spaces in ref\n        }\n\n        String urlS = protocol + \"://\" + authority + path;\n        if (query != null) {\n            urlS += \"?\" + query;\n        }\n        if (ref != null) {\n            urlS += \"#\" + ref;\n        }\n\n        final URI uri = new URI(urlS);\n        return new URL(uri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

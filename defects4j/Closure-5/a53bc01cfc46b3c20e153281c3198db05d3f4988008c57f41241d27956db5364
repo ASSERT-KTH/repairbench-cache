@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlinableObject(List<Reference> refs) {\n      boolean ret = false;\n      Set<String> validProperties = Sets.newHashSet();\n      for (Reference ref : refs) {\n        Node name = ref.getNode();\n        Node parent = ref.getParent();\n        Node gramps = ref.getGrandparent();\n\n        if (parent.isDelProp()) {\n          return false; // If a property is deleted, the object cannot be inlined.\n        }\n\n        if (parent.isGetProp()) {\n          Preconditions.checkState(parent.getFirstChild() == name);\n          if (gramps.isCall()\n              && gramps.getFirstChild() == parent) {\n            return false;\n          }\n\n          String propName = parent.getLastChild().getString();\n          if (!validProperties.contains(propName)) {\n            if (NodeUtil.isVarOrSimpleAssignLhs(parent, gramps)) {\n              validProperties.add(propName);\n            } else {\n              return false;\n            }\n          }\n          continue;\n        }\n\n      // rest of the function ...\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    Class<?> collectionClazz = (Class<?>) ois.readObject();\n    if (!Collection.class.isAssignableFrom(collectionClazz)) {\n        throw new UnsupportedOperationException(\"Class \" + collectionClazz + \" is not a Collection\");\n    }\n    this.collectionFactory = new MultiValueMap.Factory() {\n        public Collection create() {\n            try {\n                return (Collection) collectionClazz.newInstance();\n            } catch (Exception e) {\n                throw new IllegalArgumentException(\"Collection class cannot be instantiated: \" + collectionClazz, e);\n            }\n        }\n    };\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

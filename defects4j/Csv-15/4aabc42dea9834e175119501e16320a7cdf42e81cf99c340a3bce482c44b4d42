@@ -1,0 +1,7 @@
+{
+    "generation": "case MINIMAL:\n    if (len <= 0) {\n        // always quote an empty token that is the first\n        // on the line\n        if (newRecord) {\n            quote = true;\n        }\n    } else {\n        char c = value.charAt(pos);\n\n        if (newRecord && (c < 0x20 || (c > 0x21 && c < 0x23) || (c > 0x2B && c < 0x2D) || (c > 0x7E && c != '\u20ac'))) {\n            quote = true;\n        } else if (c <= COMMENT) {\n            // Some other chars at the start of a value caused the parser to fail, so for now\n            // encapsulate if we start in anything less than '#'. We are being conservative\n            // by including the default comment char too.\n            quote = true;\n        } else {\n            while (pos < end) {\n                c = value.charAt(pos);\n                if (c == LF || c == CR || c == quoteChar || c == delimChar) {\n                    quote = true;\n                    break;\n                }\n                pos++;\n            }\n\n            if (!quote) {\n                pos = end - 1;\n                c = value.charAt(pos);\n                // Some other chars at the end caused the parser to fail, so for now\n                // encapsulate if we end in anything less than ' '\n                if (c <= SP) {\n                    quote = true;\n                }\n            }\n        }\n    }\n// rest of the code here...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

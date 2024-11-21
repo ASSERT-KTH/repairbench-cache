@@ -1,0 +1,7 @@
+{
+    "generation": "private CanInlineResult canInlineReferenceDirectly(Node callNode, Node fnNode) {\n  if (!isDirectCallNodeReplacementPossible(fnNode)) {\n    return CanInlineResult.NO;\n  }\n\n  Node block = fnNode.getLastChild();\n\n  boolean hasSideEffects = false;\n  if (block.hasChildren()) {\n    Preconditions.checkState(block.hasOneChild());\n    Node stmt = block.getFirstChild();\n    if (stmt.isReturn()) {\n      Node returnNode = stmt.getFirstChild();\n      if (returnNode != null &&\n          NodeUtil.mayHaveSideEffects(returnNode, compiler)) {\n        hasSideEffects = true;\n      }\n    }\n  }\n\n  Node cArg = callNode.getFirstChild().getNext();\n  Node fnParam = NodeUtil.getFunctionParameters(fnNode).getFirstChild();\n\n  while (cArg != null) {\n    if (hasSideEffects && NodeUtil.canBeSideEffected(cArg) &&\n        (fnParam == null ||\n         NodeUtil.mayEffectMutableState(cArg, compiler) ||\n         NodeUtil.getNameReferenceCount(block, fnParam.getString()) > 1)) {\n      return CanInlineResult.NO;\n    }\n\n    // Check for side-effects in every call argument.\n    if (NodeUtil.mayHaveSideEffects(cArg, compiler)) {\n      return CanInlineResult.NO;\n    }\n\n    cArg = cArg.getNext();\n    // Move to the next named parameter.\n    if (fnParam != null) {\n      fnParam = fnParam.getNext();\n    }\n  }\n\n  return CanInlineResult.YES;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"resource\")\nprotected Object deserializeUsingPropertyBasedWithUnwrapped(JsonParser p, DeserializationContext ctxt)\n    throws IOException\n{\n    // ... (other parts of function)\n\n    // We hit END_OBJECT, so:\n    Object bean;\n    try {\n        bean = creator.build(ctxt, buffer);\n    } catch (Exception e) {\n        wrapInstantiationProblem(e, ctxt);\n        return null; // never gets here\n    }\n    // [databind#2088] fix: move the writeEndObject call to just before the return statement\n    tokens.writeEndObject();\n    return _unwrappedPropertyHandler.processUnwrapped(p, ctxt, bean, tokens);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

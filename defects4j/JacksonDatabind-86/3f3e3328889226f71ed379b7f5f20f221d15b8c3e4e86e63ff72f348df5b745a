@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    // ... other methods ...\n\n    public JavaType constructType(Class<?> rawType) {\n        // Ensure that the type construction properly handles hierarchical types\n        JavaType type = _typeCache.get(rawType);\n\n        if (type == null) {\n            type = _constructType(rawType);\n            _typeCache.add(rawType, type);\n        }\n\n        if (rawType.getSuperclass() != null) {\n            // Ensure the superclass is also constructed and cached\n            JavaType superClassType = constructType(rawType.getSuperclass());\n            type.setSuperClass(superClassType);\n        }\n\n        return type;\n    }\n\n    private JavaType _constructType(Class<?> rawType) {\n        // Implement the actual type construction logic\n        // ...\n    }\n\n    private final Map<Class<?>, JavaType> _typeCache = new ConcurrentHashMap<>();\n\n    // Add method to add types to the cache\n    private void add(Class<?> rawType, JavaType type) {\n        _typeCache.put(rawType, type);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

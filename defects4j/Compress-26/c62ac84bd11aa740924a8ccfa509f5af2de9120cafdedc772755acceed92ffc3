@@ -1,0 +1,7 @@
+{
+    "generation": "public static long skip(InputStream input, long numToSkip) throws IOException {\n    long totalSkipped = 0;\n    int toRead = 0;\n    byte[] skipBuffer = new byte[8192]; // use a buffer of reasonable size\n\n    while (numToSkip > 0) {\n        long skipped = input.skip(numToSkip);\n        if (skipped > 0) {\n            totalSkipped += skipped;\n            numToSkip -= skipped;\n        } else if (skipped == 0) {\n            // some InputStream implementations may return 0 when skipping 0 bytes!\n            toRead = (int) Math.min(8192, numToSkip);\n            if (input.read(skipBuffer, 0, toRead) < 0) {\n                // EOF has been reached, return\n                break;\n            }\n            totalSkipped += toRead;\n            numToSkip -= toRead;\n        } else {\n            throw new IOException(\"Invalid number of bytes skipped: \" + skipped);\n        }\n    }\n\n    return totalSkipped;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

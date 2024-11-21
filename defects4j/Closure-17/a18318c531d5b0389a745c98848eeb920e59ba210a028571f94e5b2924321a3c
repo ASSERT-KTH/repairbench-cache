@@ -1,0 +1,7 @@
+{
+    "generation": "private JSType getDeclaredType(String sourceName, JSDocInfo info,\n    Node lValue, @Nullable Node rValue) {\n  if (info != null && info.hasType()) {\n    return getDeclaredTypeInAnnotation(sourceName, lValue, info);\n  } else if (rValue != null && rValue.isFunction() &&\n      shouldUseFunctionLiteralType(\n          JSType.toMaybeFunctionType(rValue.getJSType()), info, lValue)) {\n    return rValue.getJSType();\n  } else if (info != null) {\n    if (info.hasEnumParameterType()) {\n      return createEnumTypeFromNodes(\n          rValue, lValue.getQualifiedName(), info, lValue);\n    } else if (info.isConstructor() || info.isInterface()) {\n      return createFunctionTypeFromNodes(\n          rValue, lValue.getQualifiedName(), info, lValue);\n    } else if (info.isConstant()) {\n      if (rValue != null && rValue.isObjectLit()) {\n        return rValue.getJSType();\n      } else {\n        return getDeclaredTypeInAnnotation(sourceName, lValue, info);\n      }\n    }\n  }\n\n  return (rValue != null) ? rValue.getJSType() : null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Creates a time period for the week in which the specified date/time\n     * falls, calculated relative to the specified time zone.\n     *\n     * @param time  the date/time (<code>null</code> not permitted).\n     * @param zone  the time zone (<code>null</code> not permitted).\n     * @param locale The locale for number formatting (<code>null</code> not permitted).\n     *\n     * @deprecated As of 1.0.7, use {@link #Week(Date, TimeZone, Locale)}.\n     */\n    public Week(Date time, TimeZone zone, Locale locale) {\n        super(time, locale);\n        Pattern p = FastDateFormat.getInstance(\"EEEEE dd MMMM yyyy\", locale);\n        TimeZone tz = zone;\n        this.calendar = Calendar.getInstance(tz, locale);\n        this.calendar.setMinimalDaysInFirstWeek(getMinimalDaysInFirstWeek(locale));\n        this.calendar.setTime(time);\n        this.firstMillisecond = getFirstMillisecond(calendar);\n        this.runningMillisecondTotal = time.getTime() - firstMillisecond;\n    }\n\n    public Week(Date time, TimeZone zone) {\n        this(time, zone, Locale.getDefault());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right)\n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        l = ((EvalContext) l).getSingleNodePointer();\n    }\n\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        r = ((EvalContext) r).getSingleNodePointer();\n    }\n\n    if (l instanceof Collection) {\n        Collection lCol = (Collection) l;\n        if (lCol.size() == 1) {\n            l = lCol.iterator().next();\n        } else {\n            return collectionContains(lCol, r);\n        }\n    }\n\n    if (r instanceof Collection) {\n        Collection rCol = (Collection) r;\n        if (rCol.size() == 1) {\n            r = rCol.iterator().next();\n        } else {\n            return collectionContains(r, l);\n        }\n    }\n\n    if (l.equals(r)) {\n        return true;\n    }\n\n    return false;\n}\n\nprivate boolean collectionContains(Collection col, Object obj) {\n    for (Object item : col) {\n        if (obj.equals(item)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

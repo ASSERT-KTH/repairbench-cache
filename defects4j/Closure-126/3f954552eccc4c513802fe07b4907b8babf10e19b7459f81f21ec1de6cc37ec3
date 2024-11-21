@@ -1,0 +1,7 @@
+{
+    "generation": "void tryMinimizeExits(Node n, int exitType, String labelName) {\n    // Handling a 'break' within a 'try-finally' block.\n    if (n.isTry() && NodeUtil.hasFinally(n) && exitType == Node.BREAK && labelName != null) {\n        Node finallyNode = n.getLastChild();\n        for (Node child : n.getFirstChild().children()) {\n            if (child.isBreak() && labelName.equals(child.getFirstChild().getString())) {\n                NodeUtil.removeChild(n, child);\n                compiler.reportCodeChange();\n                return;\n            }\n        }\n    }\n\n    // Code for handling RETRUN and other types of exits goes here...\n    // Remainder of the function stays the same, with modifications for the RETURN node as needed.\n\n    // Inside the last child handling loop, add this specific handling for RETURN nodes\n    for (Node c = n.getLastChild(); c != null; c = n.getLastChild()) {\n        if (c.isReturn() && c == n.getLastChild()) {\n            NodeUtil.removeChild(n, c);\n            compiler.reportCodeChange();\n            continue;\n        }\n        tryMinimizeExits(c, exitType, labelName);\n        if (c == n.getLastChild()) {\n            break;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

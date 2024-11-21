@@ -1,0 +1,7 @@
+{
+    "generation": "boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {\n    String name = t.asEndTag().normalName();\n    ArrayList<Element> stack = tb.getStack();\n    for (int pos = stack.size() - 1; pos >= 0; pos--) {\n        Element node = stack.get(pos);\n        if (node.nodeName().equals(name)) {\n            break;  // break the loop once a match is found\n        } else {\n            if (!tb.isSpecial(node)) {\n                tb.generateImpliedEndTags(node.nodeName());\n                tb.popStackToClose(node.nodeName());\n            } else {\n                tb.error(this);\n                return false;\n            }\n        }\n    }\n\n    // pop the stack and generate implied end tags for the current end tag\n    tb.generateImpliedEndTags(name);\n    if (!name.equals(tb.currentElement().nodeName())) {\n        tb.error(this);\n    }\n    tb.popStackToClose(name);\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.List;\nimport java.util.Map;\n\npublic class MultiValueMap<K, V> {\n\n    private final Map<K, List<V>> map;\n    private final Class<V> valueType;\n\n    private MultiValueMap(Map<K, List<V>> map, Class<V> valueType) {\n        this.map = map;\n        this.valueType = valueType;\n    }\n\n    public static <K, V> MultiValueMap<K, V> multiValueMap(Map<K, List<V>> map, Class<V> valueType) {\n        return new MultiValueMap<>(map, valueType);\n    }\n\n    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n\n        // Security check for unsupported valueType\n        if (!ArrayList.class.isAssignableFrom(valueType)) {\n            throw new UnsupportedOperationException(\"Unsafe class type: \" + valueType.getName());\n        }\n    }\n\n    // Additional methods and code ommited for brevity\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

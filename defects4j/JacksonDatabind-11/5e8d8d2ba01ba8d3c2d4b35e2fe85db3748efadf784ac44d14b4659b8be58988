@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    JavaType actualType = (context == null) ? null : context.findType(name);\n\n    // If the type is already known, return it\n    if (actualType != null) {\n        return actualType;\n    }\n\n    Type[] bounds = type.getBounds();\n\n    // If there are bounds and no context passed, use the first bound\n    if (bounds.length > 0 && context == null) {\n        return _constructType(bounds[0], context);\n    }\n\n    // If there are no bounds and no context, return unknown type\n    if (bounds.length == 0 && context == null) {\n        return _unknownType();\n    }\n\n    /* Add placeholder for resolution to catch types like Comparable<T> */\n    context._addPlaceholder(name);\n\n    // If there are bounds, use them to construct the type\n    if (bounds.length > 0) {\n        return _constructType(bounds[0], context);\n    }\n\n    // If none of the conditions above are met, return unknown type\n    return _unknownType();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

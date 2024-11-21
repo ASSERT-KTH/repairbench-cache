@@ -1,0 +1,7 @@
+{
+    "generation": "if (parent != null && parent.getType() == Token.ASSIGN) {\n  Node lhs = parent.getFirstChild();\n  Node rhs = lhs.getNext();\n\n  if (n == lhs) {\n    // Always traverse the left side of the assignment...\n    if (assignLhsChild == null) {\n      assignLhsChild = lhs;\n    }\n  } else if (n.getType() == Token.FUNCTION && rhs.getType() == Token.FUNCTION) {\n    // Don't traverse prototype assignment of methods\n    if (lhs.getType() == Token.GETPROP || lhs.getType() == Token.GETELEM) {\n      Node parentProp = lhs.getFirstChild();\n      if (parentProp.getType() == Token.GETPROP &&\n          parentProp.getLastChild().getString().equals(\"prototype\")) {\n        return false;\n      }\n\n      if (parentProp.getQualifiedName() != null &&\n          parentProp.getQualifiedName().contains(\".prototype.\")) {\n        return false;\n      }\n    }\n\n    // Don't traverse interface method definitions\n    Node grannyp = parent.getParent();\n    if (grannyp != null && grannyp.getType() == Token.MEMBER_FUNCTION_DEF) {\n      JSDocInfo jsDoc = getFunctionJsDocInfo(grannyp.getParent());\n      if (jsDoc != null && jsDoc.isInterface()) {\n        return false;\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

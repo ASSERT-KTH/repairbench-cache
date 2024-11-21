@@ -1,0 +1,7 @@
+{
+    "generation": "   public int parseInto(DateTimeParserBucket bucket, String text, int position) {\n        String str = text.substring(position);\n        for (String id : ALL_IDS) {\n            if (str.startsWith(id)) {\n                // Ensure the match is the longest possible, without overlapping multiple timezone IDs\n                int endPos = position + id.length();\n                for (String longerId : ALL_IDS) {\n                    if (longerId.startsWith(id) && str.startsWith(longerId)) {\n                        id = longerId;\n                        endPos = position + id.length();\n                    }\n                }\n                bucket.setZone(DateTimeZone.forID(id));\n                return endPos;\n            }\n        }\n        return ~position;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void feedInput(byte[] buf, int start, int end) throws IOException\n{\n    if (end < start) {\n        _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n    }\n    if (_endOfInput) {\n        _reportError(\"Already closed, can not feed more input\");\n    }\n\n    if (_inputPtr >= _inputEnd) {\n        // No remaining input, update _currInputProcessed directly\n        _currInputProcessed += start - _inputEnd;\n    } else {\n        // There's remaining input in the buffer, the new input will contribute to the row start\n        _currInputRowStart = start - (_inputEnd - _currInputRowStart);\n        _currInputProcessed += _origBufferLen - (_inputEnd - _inputPtr);\n    }\n\n    _inputBuffer = buf;\n    _inputPtr = start;\n    _inputEnd = end;\n    _origBufferLen = end - start;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

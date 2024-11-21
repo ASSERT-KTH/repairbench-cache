@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldArrayJoin(Node n) {\n    Node callTarget = n.getFirstChild();\n\n    if (callTarget == null || !NodeUtil.isGetProp(callTarget)) {\n      return n;\n    }\n\n    Node arrayNode = callTarget.getFirstChild();\n    Node functionName = arrayNode.getNext();\n\n    if ((arrayNode.getType() != Token.ARRAYLIT) ||\n        !functionName.getString().equals(\"join\")) {\n      return n;\n    }\n\n    // Check if the join function is called with more than one argument\n    if (callTarget.getChildCount() > 2) {\n      return n;\n    }\n\n    Node right = callTarget.getNext();\n    String joinString = (right == null) ? \",\" : NodeUtil.getStringValue(right);\n\n    // Rest of the function...\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

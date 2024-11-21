@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    JavaType type = typeFactoryCache.getJavaType(cls);\n    if (type == null) {\n        Class<?> superCls = cls.getSuperclass();\n        if (superCls != null) {\n            JavaType superType = constructType(superCls); // construct superclass type first\n            type = constructSimpleType(cls, As.WRAPPER_TYPE);\n            type = _fromClass(cls, superType, As.PROPERTY); // pass superclass type to subclass construction\n        } else {\n            type = constructSimpleType(cls, As.WRAPPER_TYPE);\n        }\n        typeFactoryCache.addJavaType(type);\n    }\n    return type;\n}\n\nprivate JavaType _fromClass(Class<?> cls, JavaType superType, As property) {\n    // implementation here\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

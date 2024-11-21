@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Filter mocks that are assignable from the field type\n        Set<Object> assignableMocks = mocks.stream()\n                .filter(mock -> field.getType().isAssignableFrom(mock.getClass()))\n                .collect(Collectors.toSet());\n\n        // If there are any mocks that are assignable, choose the best match and inject\n        if (!assignableMocks.isEmpty()) {\n            Object bestMockCandidate = mockCandidateFilter.filterCandidate(assignableMocks, field, fieldInstance).thenPrepare();\n            mockInjector.inject(field, fieldInstance, bestMockCandidate);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

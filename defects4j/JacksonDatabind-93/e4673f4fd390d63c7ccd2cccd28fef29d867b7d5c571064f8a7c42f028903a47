@@ -1,0 +1,7 @@
+{
+    "generation": "public void validateSubType(DeserializationContext ctxt, JavaType type) throws JsonMappingException\n{\n    final Class<?> raw = type.getRawClass();\n    if (raw == null)\n    {\n        return;\n    }\n\n    String full = raw.getName();\n\n    if (_cfgIllegalClassNames.contains(full))\n    {\n        throwJsonMappingException(ctxt, full);\n    }\n\n    if (full.startsWith(PREFIX_STRING))\n    {\n        for (Class<?> cls = raw; cls != null; cls = cls.getSuperclass())\n        {\n            String name = cls.getSimpleName();\n            if (\"AbstractPointcutAdvisor\".equals(name) || \"AbstractApplicationContext\".equals(name))\n            {\n                throwJsonMappingException(ctxt, full);\n            }\n        }\n    }\n}\n\nprivate void throwJsonMappingException(DeserializationContext ctxt, String full) throws JsonMappingException\n{\n    throw JsonMappingException.from(ctxt, String.format(\"Illegal type (%s) to deserialize: prevented for security reasons\", full));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

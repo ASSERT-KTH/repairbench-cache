@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  Set<Function> visitedFunctions = new HashSet<>();\n  for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n    if (block.isFunction()) {\n      if (visitedFunctions.contains(block.getFunction())) {\n        return false; // Recursive assignment found\n      }\n      visitedFunctions.add(block.getFunction());\n    } else if (block.isLoop()) {\n      return false; // Assignment in a loop found\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

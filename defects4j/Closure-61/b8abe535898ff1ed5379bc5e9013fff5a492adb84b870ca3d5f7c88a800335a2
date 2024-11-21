@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns true if calls or allocations to this node may have side effects.\n * This is more accurate than the simpler functionCallHasSideEffects().\n *\n * @param node The node to be inspected. It can be a CALL, NEW, or possibly\n *     a TYPEOF node.\n * @param compiler A compiler object to provide program state changing context\n *     information. Can be null.\n */\nstatic boolean allocationOrCallHasSideEffects(\n    Node node, @Nullable AbstractCompiler compiler) {\n  switch (node.getType()) {\n    case Token.NEW:\n      return true; // Every constructor call is assumed to have side effects.\n    case Token.CALL:\n      return functionCallHasSideEffects(node, compiler);\n    case Token.TYPEOF:\n      // TYPEOF consts have no side effects.\n      return !(node.getLastChild().isName() && node.getLastChild().isQualifiedName());\n    default:\n      return false;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

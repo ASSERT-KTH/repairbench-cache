@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n    if (n == scope.getRootNode() || parent == n) return;\n\n    if (n.getType() == Token.LP && parent.getType() == Token.FUNCTION) {\n      handleFunctionInputs(parent);\n      return;\n    }\n\n    attachLiteralTypes(n);\n    switch (n.getType()) {\n        case Token.FUNCTION:\n        case Token.GETPROP:\n            if (parent.getType() != Token.ROOT) {\n                defineNamespacedFunction(n, parent);\n            }\n            break;\n        case Token.CATCH:\n            defineCatch(n, parent);\n            break;\n        case Token.VAR:\n            defineVar(n, parent);\n            break;\n    }\n}\n\nprivate void defineNamespacedFunction(Node function, Node parent) {\n    Node nameNode = getFunctionNameNode(function);\n    if (nameNode == null) {\n        return;\n    }\n\n    String name = nameNode.getString();\n    Var var = scope.getVar(name);\n    if (var == null) {\n        var = scope.createVar(name);\n    }\n    var.setType(getNodeJSType(function));\n    var.setNameNode(nameNode);\n}\n\nprivate Node getFunctionNameNode(Node function) {\n    // Implementation to return the name node of the function\n}\n\nprivate JSType getNodeJSType(Node node) {\n    // Implementation to return the JS Type of the node\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

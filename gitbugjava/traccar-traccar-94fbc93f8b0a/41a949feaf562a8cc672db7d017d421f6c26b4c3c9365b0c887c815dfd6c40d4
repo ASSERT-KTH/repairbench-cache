@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    // Your other code remains the same\n\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            case \"CE\":\n                cellTower.setCellId(buf.readUnsignedInt());\n                break;\n            case \"LP\": // assumed latitude\n                CellTower cellTower = new CellTower();\n                position.setLatitude(buf.readInt() / 10000000.0);\n                break;\n            case \"LO\": // assumed longitude\n                position.setLongitude(buf.readInt() / 10000000.0);\n                break;\n            // Remaining cases\n        }\n    }\n\n    // Rest of your code\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

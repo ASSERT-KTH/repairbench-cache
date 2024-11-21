@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    if (detectedCycle()) {\n        t.report(JSError.make(\"Parse error. Cycle detected in inheritance chain of type \" + getName()));\n        return this;\n    }\n\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (!resolved) {\n        resolveViaProperties(t, enclosing);\n    }\n\n    if (isResolved() && !(isInterface() && getSuperClass() != null)) {\n        super.resolveInternal(t, enclosing);\n        finishPropertyContinuations();\n    }\n\n    return registry.isLastGeneration() ? getReferencedType() : this;\n}\n\nprivate boolean detectedCycle() {\n    return detectImplicitPrototypeCycle() || (isInterface() && getSuperClass() != null && getSuperClass().isSubTypeOf(this));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

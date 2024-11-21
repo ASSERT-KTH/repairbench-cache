@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get an absolute URL from a URL attribute that may be relative...\n */\npublic String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        try {\n            URL base = new URL(baseUri);\n            if (relUrl.startsWith(\"?\")) {\n                URL abs = new URL(base.getProtocol(), base.getHost(), base.getPort(), baseUri + relUrl);\n                return abs.toExternalForm();\n            } else {\n                URL abs = new URL(base, relUrl);\n                return abs.toExternalForm();\n            }\n        } catch (MalformedURLException e) {\n            try {\n                // the base is unsuitable or the attribute is a relative URL without a path, try the attribute on its own\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            } catch (MalformedURLException ignored) {\n                // The attribute value does not make a valid absolute or relative URL\n            }\n        }\n    }\n    return \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

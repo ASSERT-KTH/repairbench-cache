@@ -1,0 +1,7 @@
+{
+    "generation": "if (type == MSG_GPS_LBS_STATUS_3 || type == MSG_FENCE_MULTI) {\n    position.set(Position.KEY_GEOFENCE, buf.readUnsignedByte());\n} else if (type == MSG_STATUS && buf.readableBytes() == 22) {\n    buf.readUnsignedByte(); // information content\n    buf.readUnsignedShort(); // satellites\n    buf.readUnsignedByte(); // alarm\n    buf.readUnsignedByte(); // language\n    position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n    buf.readUnsignedByte(); // working mode\n    buf.readUnsignedShort(); // working voltage\n    buf.readUnsignedByte(); // reserved\n    buf.readUnsignedShort(); // working times\n    buf.readUnsignedShort(); // working time\n    int value = buf.readUnsignedShort();\n    double temperature = BitUtil.to(value, 15) * 0.1;\n    position.set(Position.PREFIX_TEMP + 1, BitUtil.check(value, 15) ? temperature : -temperature);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

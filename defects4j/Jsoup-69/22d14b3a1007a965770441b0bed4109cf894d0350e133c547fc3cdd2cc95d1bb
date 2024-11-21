@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    Elements elements = this.select(\"[name]\");\n    List<Connection.KeyVal> kv = new ArrayList<>(elements.size());\n\n    for (Element el : elements) {\n        if (el.parent() == this) {\n            String name = el.attr(\"abs:name\");\n            String val = el.val();\n            if (val == null && el.attributes().hasKey(\"content\")) {\n                val = el.attr(\"content\");\n            }\n            if (val != null && !el.tagName().equals(\"#comment\")) {\n                kv.add(KeyVal.create(name, val));\n            }\n        }\n    }\n\n    return kv;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

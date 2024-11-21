@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    tb.insert(startTag);\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    // The issue was with the markInsertionMode() and transition(Text) calls.\n    // The transition(Text) method causes the tokeniser to start parsing text, but it shouldn't here because 'style' and 'noframes' are self-closing tags.\n    // So, we should to insert an EndTag instead and let the tree builder handle it appropriately.\n    tb.insert(new Token.EndTag(startTag.tagName()));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

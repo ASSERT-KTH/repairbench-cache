@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodePosition(\n        Channel channel, DeviceSession deviceSession, ByteBuf buf, int type, int index, ByteBuf imei) {\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    position.set(Position.KEY_INDEX, index);\n\n    if (header != 0x2727) {\n        // ...\n        position.set(Position.KEY_RSSI, BitUtil.to(buf.readUnsignedShort(), 7));\n        // ...\n    }\n\n    int status = buf.readUnsignedByte();\n    position.set(Position.KEY_SATELLITES, BitUtil.to(status, 5));\n\n    if (header != 0x2727) {\n        // ...\n        int adcCount = type == MSG_GPS_2 || type == MSG_ALARM_2 ? 5 : 2;\n        for (int i = 1; i <= adcCount; i++) {\n            String value = ByteBufUtil.hexDump(buf.readSlice(2));\n            if (!value.equals(\"ffff\")) {\n                position.set(Position.PREFIX_ADC + i, Integer.parseInt(value, 16) * 0.01);\n            }\n        }\n        // ...\n    }\n\n    int alarm = buf.readUnsignedByte();\n    position.set(Position.KEY_ALARM, header != 0x2727 ? decodeAlarm1(alarm) : decodeAlarm2(alarm));\n    position.set(\"alarmCode\", alarm);\n\n    // ... the remaining function code\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

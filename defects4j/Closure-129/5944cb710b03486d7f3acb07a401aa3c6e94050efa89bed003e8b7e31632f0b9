@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  Node first = n.getFirstChild();\n\n  if (first.isGetProp() || first.isString() || first.isName() || first.isCall()) {\n    n.putBooleanProp(Node.FREE_CALL, false);\n  } else {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  if (first.isName() && \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

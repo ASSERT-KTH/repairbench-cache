@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n *\n * @param token\n */\nprivate boolean isShortOption(String token)\n{\n    if (token.startsWith(\"-\") && token.length() > 2) {\n        // Options that are more than one character long like \"-SV\"\n        if (token.indexOf('=') == -1) {\n            // Options without \"=value\"\n            for (int i = 1; i < token.length(); i++) {\n                if (!options.hasShortOption(String.valueOf(token.charAt(i)))) {\n                    return false;\n                }\n            }\n            return true;\n        } else {\n            // Options with \"=value\"\n            return token.substring(1, token.indexOf('=')).chars().allMatch(c -> options.hasShortOption(String.valueOf((char) c)));\n        }\n    }\n    else if (token.startsWith(\"-\") && token.length() >= 2) {\n        // Standard single character options\n        return options.hasShortOption(token.substring(1, 2));\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

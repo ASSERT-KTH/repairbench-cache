@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        List<Object> filteredMocks = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (!filteredMocks.isEmpty()) {\n            Object bestMatchingMock = getBestMatchingMock(filteredMocks, field.getType());\n            if (bestMatchingMock != null) {\n                try {\n                    field.setAccessible(true);\n                    field.set(fieldInstance, bestMatchingMock);\n                } catch (IllegalAccessException e) {\n                    // handle exception\n                }\n            }\n        }\n    }\n}\n\nprivate Object getBestMatchingMock(List<Object> mocks, Class<?> fieldType) {\n    Object bestMatchingMock = null;\n    for (Object mock : mocks) {\n        if (fieldType.isAssignableFrom(mock.getClass())) {\n            if (bestMatchingMock == null || fieldType.isAssignableFrom(bestMatchingMock.getClass())) {\n                bestMatchingMock = mock;\n            }\n        }\n    }\n    return bestMatchingMock;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

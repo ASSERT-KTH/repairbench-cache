@@ -1,0 +1,7 @@
+{
+    "generation": "...\ncase EndTag:\n    Token.EndTag endTag = t.asEndTag();\n    name = endTag.name();\n    ...\n    else if (name.equals(\"a\")) {\n        Element formatAnchor = tb.getActiveFormattingElement(\"a\");\n        if (formatAnchor == null) {\n            tb.error(this);\n            return false;\n        }\n        else if (tb.inTableScope(\"a\")) {\n            tb.error(this);\n            tb.process(new Token.EndTag(\"a\"));\n            return tb.process(endTag);\n        }\n        else {\n            tb.generateImpliedEndTags();\n            if (tb.currentElement() != formatAnchor)\n                tb.error(this);\n            tb.removeFromActiveFormattingElements(formatAnchor);\n\n            // move the formatAnchor node to be the last child of currentElement()\n            Element current = tb.currentElement();\n            if (current.parent() != null) {\n                current.remove();\n            }\n            formatAnchor.normalise();\n            current.appendChild(formatAnchor);\n\n            Element lastNode = formatAnchor;\n            while (lastNode.nextSibling() != null)\n                lastNode = lastNode.nextSibling();\n            tb.insertInFosterParent(lastNode);\n            tb.removeFromStack(formatAnchor);\n            tb.pop();\n        }\n    }\n    ...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

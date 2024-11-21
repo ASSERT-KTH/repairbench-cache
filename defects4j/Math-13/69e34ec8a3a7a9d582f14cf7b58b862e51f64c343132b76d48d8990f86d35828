@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    try {\n        final EigenDecomposition dec = new EigenDecomposition(m.scalarMultiply(1.0e-300));\n        return dec.getSquareRoot().scalarMultiply(1.0e150);\n    } catch (IllegalArgumentException e) {\n        // Handling cases with close to zero eigenvalues in the matrix\n        int rows = m.getRowDimension();\n        RealMatrix sqrtM = MatrixUtils.createRealMatrix(rows, rows);\n        for (int i = 0; i < rows; i++) {\n            sqrtM.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));\n        }\n        return sqrtM;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

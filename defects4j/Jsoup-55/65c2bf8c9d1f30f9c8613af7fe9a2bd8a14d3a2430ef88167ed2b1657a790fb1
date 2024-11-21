@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(TokeniserState.Data);\n            break;\n        caseEOF:\n            t.eofError(this);\n            t.transition(TokeniserState.Data);\n            break;\n        case '/': // Missing case for '/'\n            if (t.stateBeforeAttributeName == TokeniserState.AfterAttributeValueQuoted || t.isInAttributeNameState()) {\n                // Handle '/' as part of the attribute value or attribute name\n                t.error(this);\n            } else {\n                // Assume '/' is the closing tag indicator\n                t.tagPending.selfClosing = true;\n                t.emitTagPending();\n                t.transition(TokeniserState.BeforeTagName);\n            }\n            break;\n        default:\n            t.error(this);\n            t.transition(TokeniserState.BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

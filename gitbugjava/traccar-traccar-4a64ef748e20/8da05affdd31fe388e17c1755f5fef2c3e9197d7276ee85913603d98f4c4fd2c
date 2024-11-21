@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeLocation(DeviceSession deviceSession, ByteBuf buf) {\n    // ...\n    // The buggy line is here\n    case 0xFE:\n        // ...\n        // The issue was that position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n        // should be placed outside the if-else block to ensure that the battery level\n        // is always set, not just when mark equals 0x7C.\n        int mark = buf.readUnsignedByte();\n        if (mark == 0x7C) {\n            // ...\n        }\n        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n        break;\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

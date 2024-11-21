@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        // handle empty known tags\n        if (startTag.isSelfClosing() || Tag.valueOf(startTag.name()).isSelfClosing()) {\n            Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n            insert(el);\n            // Force an end tag to be emitted for self-closing tags.\n            tokeniser.emit(new Token.EndTag(el.tagName()));\n            return el;\n        }\n\n        // handle non-empty tags\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

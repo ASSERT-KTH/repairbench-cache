@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    char ch;\n    while (!tq.isEmpty()) {\n        ch = tq.peek(); // peek at the next character\n        if (ch == '(') {\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        } else if (ch == '[') {\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        } else if (Combinators.contains(ch) && sq.length() > 0) { // if sq.length() > 0, encountering a Combener stops subquery consumption\n            break;\n        } else {\n            sq.append(tq.consume());\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

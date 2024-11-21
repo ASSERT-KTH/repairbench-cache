@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    if (DateTimeUtils.isContiguous(partial)) {\n        int year = values[0];\n        int month = values[1] + valueToAdd;\n        int day = values[2];\n\n        // If adding/subtracting months results in a year change, adjust the year\n        if (month > 12) {\n            month -= 12;\n            year += 1;\n        } else if (month < 1) {\n            month += 12;\n            year -= 1;\n        }\n\n        // Check if the day is valid for the new month\n        if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {\n            // If the day is 31 and the month has only 30 days, set the day to 30\n            day = 30;\n        } else if (day == 30 || day == 31) {\n            // If the day is 30 or 31, check if the new month has enough days\n            int maxDaysInMonth = DateTime.now().withYear(year).withMonthOfYear(month).dayOfMonth().getMaximumValue();\n            if (day > maxDaysInMonth) {\n                // If not, set the day to the maximum valid day for the new month\n                day = maxDaysInMonth;\n            }\n        }\n\n        // Create a new MonthDay with the adjusted year, month, and day\n        return new int[]{year, month, day};\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

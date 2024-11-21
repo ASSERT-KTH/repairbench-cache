@@ -1,0 +1,7 @@
+{
+    "generation": "void tryMinimizeExits(Node n, int exitType, String labelName) {\n    if (n.isReturn()) {\n      Node parent = n.getParent();\n      if (parent.isBlock()) {\n        if (parent.getLastChild() != n) {\n          NodeUtil.removeChild(parent, n);\n          compiler.reportCodeChange();\n        }\n      } else if (parent.isIf()) {\n        NodeUtil.removeChild(parent, n);\n        compiler.reportCodeChange();\n      }\n    } else if (n.isBreak() && n.getParent().isTry() && NodeUtil.hasFinally(n.getParent())) {\n      // Don't minimize exits for breaks within try-finally blocks\n      return;\n    }\n\n    // The rest of the original function...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static Appendable render(final String input, Appendable target) throws IOException {\n    int i = 0;\n    int j, k;\n\n    // Check for initially invalid input case\n    if (input.length() < BEGIN_TOKEN_LEN + END_TOKEN_LEN && input.contains(END_TOKEN)) {\n        throw new IllegalArgumentException(\"Invalid input: END token found before BEGIN token\");\n    }\n\n    while (true) {\n        j = input.indexOf(BEGIN_TOKEN, i);\n        if (j == -1) {\n            if (i == 0) {\n                target.append(input);\n                return target;\n            }\n            target.append(input.substring(i));\n            return target;\n        }\n        target.append(input.substring(i, j));\n        k = input.indexOf(END_TOKEN, j);\n\n        // Throw illegal argument exception if END token found before BEGIN token\n        if (k == -1) {\n            throw new IllegalArgumentException(\"Invalid input: END token not found\");\n        }\n        j += BEGIN_TOKEN_LEN;\n        String spec = input.substring(j, k);\n\n        String[] items = spec.split(CODE_TEXT_SEPARATOR, 2);\n        if (items.length == 1) {\n            target.append(input);\n            return target;\n        }\n        String replacement = render(items[1], items[0].split(CODE_LIST_SEPARATOR));\n\n        target.append(replacement);\n\n        i = k + END_TOKEN_LEN;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

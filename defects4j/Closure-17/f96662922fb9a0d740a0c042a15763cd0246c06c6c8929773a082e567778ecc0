@@ -1,0 +1,7 @@
+{
+    "generation": "if (info != null && info.isConstant()) {\n  if (rValue != null) {\n    if (rValue.getJSType() != null && !rValue.getJSType().isUnknownType()) {\n      // If rValue has a type-cast, we use the type in the type-cast.\n      // If rValue's type was already computed during scope creation,\n      // then we can safely use that.\n      return rValue.getJSType();\n    } else if (rValue.isOr()) {\n      // Check for a very specific JS idiom:\n      // var x = x || TYPE;\n      // This is used by Closure's base namespace for esoteric reasons.\n      Node firstClause = rValue.getFirstChild();\n      Node secondClause = firstClause.getNext();\n      boolean namesMatch = firstClause.isName() && lValue.isName() && firstClause.getString().equals(lValue.getString());\n      if (namesMatch && secondClause.getJSType() != null && !secondClause.getJSType().isUnknownType()) {\n        return secondClause.getJSType();\n      }\n    }\n  }\n  // If this is a constant and has an annotated type, we should return that type\n  if (info.hasType()) {\n    return getDeclaredTypeInAnnotation(sourceName, lValue, info);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

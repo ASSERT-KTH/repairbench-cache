@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Resolve the referenced type within the enclosing scope.\n */\n@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n  boolean resolved = false;\n  int cycleDetectionLimit = 10; // Limit the number of cycles to detect\n\n  while (!resolved && cycleDetectionLimit > 0) {\n    resolved = resolveViaRegistry(t, enclosing);\n    if (detectImplicitPrototypeCycle()) {\n      handleTypeCycle(t);\n      break; // Stop resolving if a type cycle is detected\n    }\n    if (resolved) {\n      super.resolveInternal(t, enclosing);\n      finishPropertyContinuations();\n      return registry.isLastGeneration() ? getReferencedType() : this;\n    }\n\n    resolveViaProperties(t, enclosing);\n    if (detectImplicitPrototypeCycle()) {\n      handleTypeCycle(t);\n      break; // Stop resolving if a type cycle is detected\n    }\n\n    super.resolveInternal(t, enclosing);\n    if (isResolved()) {\n      finishPropertyContinuations();\n      resolved = true;\n    }\n\n    cycleDetectionLimit--; // Decrease the limit with each iteration\n  }\n\n  if (cycleDetectionLimit == 0) {\n    t.report(JSError.make(errorNode, ERROR_TYPE_CYCLE_DETECTED, getQualifiedName()));\n  }\n  return registry.isLastGeneration() ? getReferencedType() : this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

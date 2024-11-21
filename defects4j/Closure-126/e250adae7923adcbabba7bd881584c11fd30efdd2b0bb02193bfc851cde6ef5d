@@ -1,0 +1,7 @@
+{
+    "generation": "  void tryMinimizeExits(Node n, int exitType, String labelName) {\n    // Just an 'exit'.\n    if (n.isReturn() || matchingExitNode(n, exitType, labelName)) {\n      NodeUtil.removeChild(n.getParent(), n);\n      compiler.reportCodeChange();\n      return;\n    }\n\n    // Just an 'if'.\n    if (n.isIf()) {\n      Node ifTree = n;\n      Node condition = ifTree.getFirstChild();\n      Node thenBlock = condition.getNext();\n      Node elseBlock = thenBlock.getNext();\n\n      // Try to minimize exits in the condition.\n      if (condition.isExprResult()) {\n        tryMinimizeExits(condition.getFirstChild(), exitType, labelName);\n      }\n\n      tryMinimizeExits(thenBlock, exitType, labelName);\n      if (elseBlock != null) {\n        tryMinimizeExits(elseBlock, exitType, labelName);\n      }\n      return;\n    }\n\n    // The rest of your code ...\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

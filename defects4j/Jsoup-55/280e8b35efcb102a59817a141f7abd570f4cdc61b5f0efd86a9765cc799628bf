@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/':\n            c = r.consume();\n            if (c == '>' || Character.isWhitespace(c)) {\n                t.tagPending.selfClosing = true;\n                t.emitTagPending();\n                t.transition(Data);\n                break;\n            } else {\n                // If not end of the tag, put the consumed character back and fall through\n                r.unconsume();\n                // Continue parsing the character as part of the attribute name\n            }\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            // If the character is not a '/', consume it as part of the attribute name\n            t.error(this);\n            t.transition(BeforeAttributeName);\n            // Re-consume the character\n            r.unconsume();\n    }\n    // Process the character based on the new state\n    // This should be the usual flow of the function after handling the character,\n    // which has not changed and should be the same as before if this fix is applied correctly\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

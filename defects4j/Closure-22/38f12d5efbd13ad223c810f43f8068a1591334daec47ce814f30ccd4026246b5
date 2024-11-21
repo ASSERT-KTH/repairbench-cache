@@ -1,0 +1,7 @@
+{
+    "generation": "  // ...\n\n  boolean isResultUsed = NodeUtil.isExpressionResultUsed(n);\n  boolean isSimpleOp = NodeUtil.isSimpleOperatorType(n.getType());\n  if (!isResultUsed &&\n      (isSimpleOp || !NodeUtil.mayHaveSideEffects(n, t.getCompiler()))) {\n    if (n.isQualifiedName() && n.getJSDocInfo() != null) {\n      return;\n    }\n\n    // Add this condition\n    if (n.isExprResult() && n.getChildCount() == 1 && isSimpleOperatorType(n.getFirstChild().getType())) {\n      return;\n    }\n\n    // ... rest of the function unchanged\n  }\n}\n\n// Add this helper function\nprivate boolean isSimpleOperatorType(int type) {\n    return Token.isSimpleOperator(type) || type == Token.COMMA;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

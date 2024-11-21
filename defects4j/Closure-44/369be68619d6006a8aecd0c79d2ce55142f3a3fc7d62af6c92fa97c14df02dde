@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    if ((isWordChar(c) || c == '/' || c == '\\\\') && (isWordChar(getLastChar()) || getLastChar() == '/')) {\n      // need space to separate. This is not pretty printing.\n      // For example: \"return foo;\"\n      append(\" \");\n    } else if (c == '/' && getLastChar() == '/') {\n      // Do not allow multiple forward slashes.\n      // For example,\n      // REGEXP DIV REGEXP\n      // is valid and should print like\n      // / // / /\n      append(\" \");\n    }\n\n    append(newcode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

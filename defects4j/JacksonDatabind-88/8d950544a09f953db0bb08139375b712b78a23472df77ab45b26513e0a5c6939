@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _typeFromId(String id, DatabindContext ctxt) throws IOException\n{\n    TypeFactory tf = ctxt.getTypeFactory();\n    if (id.indexOf('<') > 0) {\n        JavaType t = tf.constructFromCanonical(id);\n        if (!_baseType.isAssignableFrom(t)) { // check assignability\n            throw new JsonMappingException(\"Incompatible types, field expected \" + _baseType + \" but got \" + t);\n        }\n        return t;\n    }\n    Class<?> cls;\n    try {\n        cls =  tf.findClass(id);\n    } catch (ClassNotFoundException e) {\n        // Handle exception...\n    } catch (Exception e) {\n        // Handle exception...\n    }\n    JavaType t = tf.constructSpecializedType(_baseType, cls);\n    if (!_baseType.isAssignableFrom(t)) { // check assignability\n        throw new JsonMappingException(\"Incompatible types, field expected \" + _baseType + \" but got \" + t);\n    }\n    return t;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

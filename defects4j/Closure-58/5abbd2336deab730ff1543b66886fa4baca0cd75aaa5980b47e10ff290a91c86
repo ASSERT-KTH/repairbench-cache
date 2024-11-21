@@ -1,0 +1,7 @@
+{
+    "generation": "private void computeGenKill(Node n, BitSet gen, BitSet kill, boolean conditional) {\n  ...\n\n  case Token.FOR:\n    if (!NodeUtil.isForIn(n)) {\n      ...\n    } else {\n      Node lhs = n.getFirstChild();\n      Node rhs = lhs.getNext();\n      addLocalVariablesInExpressionToSets(lhs, gen, kill); // New method to be added\n      computeGenKill(rhs, gen, kill, conditional);\n    }\n    return;\n\n  ...\n}\n\nprivate void addLocalVariablesInExpressionToSets(Node n, BitSet gen, BitSet kill) {\n  if (n.isName()) {\n    addToSetIfLocal(n, kill);\n    addToSetIfLocal(n, gen);\n  } else {\n    for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n      addLocalVariablesInExpressionToSets(c, gen, kill);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

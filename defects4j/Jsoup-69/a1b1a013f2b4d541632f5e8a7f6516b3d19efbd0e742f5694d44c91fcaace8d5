@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements inputs = getElementsByTag(\"input\");\n    for (Element input : inputs) {\n        String name = input.attr(\"name\");\n        if (name.isEmpty())\n            continue;\n\n        String type = input.normalName().toLowerCase();\n        if (\"submit\".equals(type) || \"image\".equals(type) || \"button\".equals(type)) {\n            maybeAddFormValue(data, input);\n        } else if (\"select\".equals(type)) {\n            Elements options = input.select(\"option[selected]\");\n            boolean found = false;\n            for (Element option : options) {\n                found = true;\n                maybeAddFormValue(data, option);\n            }\n            // If no option is selected, select the first one\n            if (!found && !options.isEmpty())\n                maybeAddFormValue(data, options.first());\n        } else {\n            maybeAddFormValue(data, input);\n        }\n    }\n    Elements textareas = getElementsByTag(\"textarea\");\n    for (Element textarea : textareas) {\n        String name = textarea.attr(\"name\");\n        if (!name.isEmpty())\n            maybeAddFormValue(data, textarea);\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

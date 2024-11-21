@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  if (s.isEmpty()) {\n    return false;\n  }\n\n  // accounts for octal numbers starting with 0\n  if (s.charAt(0) == '0') {\n    for (int i = 1; i < s.length(); i++) {\n      char c = s.charAt(i);\n      if (c < '0' || c > '7') {\n        return false;\n      }\n    }\n    return true;\n  }\n\n  // accounts for hexadecimal numbers starting with 0x\n  if (s.startsWith(\"0x\") || s.startsWith(\"0X\")) {\n    for (int i = 2; i < s.length(); i++) {\n      char c = s.charAt(i);\n      if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {\n        return false;\n      }\n    }\n    return true;\n  }\n\n  // accounts for decimal, floating and scientific notation numbers\n  for (int i = s.charAt(0) == '-' ? 1 : 0; i < s.length(); i++) {\n    char c = s.charAt(i);\n    if (c == '.') {\n      if (i == s.length() - 1 || i == 0 || s.charAt(i - 1) == 'e' || s.charAt(i - 1) == 'E') {\n        return false;\n      }\n    } else if (c == 'e' || c == 'E') {\n      if (i == s.length() - 1 || i == 0 || s.charAt(i - 1) == '.') {\n        return false;\n      }\n    } else if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

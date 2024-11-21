@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitCall(NodeTraversal t, Node n) {\n  Node child = n.getFirstChild();\n  JSType childType = getJSType(child);\n\n  if (childType.isUnknownType()) {\n    report(t, n, UNKNOWN_TYPE_IN_CALL, child.getString());\n    ensureTyped(t, n);\n    return;\n  }\n\n  childType = childType.restrictByNotNullOrUndefined();\n\n  if (!childType.canBeCalled()) {\n    report(t, n, NOT_CALLABLE, childType.toString());\n    ensureTyped(t, n);\n    return;\n  }\n\n  if (childType instanceof FunctionType) {\n    FunctionType functionType = (FunctionType) childType;\n    ensureValidThisType(t, functionType, n);\n    visitParameterList(t, n, functionType);\n    ensureTyped(t, n, functionType.getReturnType());\n  } else {\n    ensureTyped(t, n);\n  }\n}\n\nprivate void ensureValidThisType(NodeTraversal t, FunctionType functionType, Node n) {\n  if (functionType.hasExplicitThisType()) {\n    Node qualifier = n.getFirstChild();\n    Node parent = n.getParent();\n    if (!((parent.isGetProp() || parent.isGetElem()) && parent.getFirstChild().equals(qualifier))) {\n      report(t, n, THIS_TYPE_NOT_IN_CONTEXT, functionType.getExplicitThisType().toString());\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

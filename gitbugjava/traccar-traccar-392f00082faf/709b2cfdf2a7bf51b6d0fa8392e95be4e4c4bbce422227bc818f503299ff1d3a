@@ -1,0 +1,7 @@
+{
+    "generation": "private List<Position> decodeBinaryE(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    List<Position> positions = new LinkedList<>();\n\n    buf.readerIndex(buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) ',') + 1);\n    String imei = buf.readSlice(15).toString(StandardCharsets.US_ASCII);\n    buf.skipBytes(1 + 3 + 1);\n\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);\n    if (deviceSession == null || imei.equals(\"FFFFFFFFFFFFFFF\")) {\n        return null; // Add a check for the FFFFFFFFFFFFFFF IMEI\n    }\n\n    // Rest of the code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

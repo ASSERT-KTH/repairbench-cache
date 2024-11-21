@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    Element originalElement = element;\n    // evaluate from last to first\n    for (int i = evaluators.size() -1; i >= 0; --i) {\n        if (element == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        // Change from element.parent() to originalElement.parent() to restrict the search context\n        if (i > 0) {\n            originalElement = originalElement.parent();\n        }\n        element = element.parent();\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldArrayJoin(Node n) {\n  Node callTarget = n.getFirstChild();\n\n  if (callTarget == null || !NodeUtil.isGetProp(callTarget)) {\n    return n;\n  }\n\n  Node right = callTarget.getNext();\n  String joinString = \",\"; // Default separator is \",\"\n\n  if (right != null) {\n    if (!NodeUtil.isImmutableValue(right)) {\n      return n;\n    }\n    joinString = NodeUtil.getStringValue(right);\n  }\n\n  Node arrayNode = callTarget.getFirstChild();\n  Node functionName = arrayNode.getNext();\n\n  if ((arrayNode.getType() != Token.ARRAYLIT) ||\n      !functionName.getString().equals(\"join\")) {\n    return n;\n  }\n\n  // Rest of the function code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

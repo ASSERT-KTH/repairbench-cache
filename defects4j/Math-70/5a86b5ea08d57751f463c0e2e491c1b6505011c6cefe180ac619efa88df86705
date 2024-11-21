@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n    if (f.value(min) * f.value(max) >= 0) {\n        throw new FunctionEvaluationException(new IllegalArgumentException(), min, max);\n    }\n\n    double a = min;\n    double b = max;\n    double c = a;\n\n    if (f.value(initial) == 0.0)\n        return initial;\n\n    if (f.value(a) * f.value(initial) < 0) {\n        b = initial;\n    } else {\n        a = initial;\n    }\n\n    while ((b - a) > getAbsoluteAccuracy()) {\n        c = (a + b) / 2;\n        if (f.value(c) == 0.0) {\n            break;\n        } else if (f.value(a) * f.value(c) < 0) {\n            b = c;\n        } else {\n            a = c;\n        }\n    }\n\n    return c;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

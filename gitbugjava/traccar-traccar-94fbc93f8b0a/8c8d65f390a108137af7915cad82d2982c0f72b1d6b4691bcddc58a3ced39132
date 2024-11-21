@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            // The rest of the cases...\n\n            case \"JH3\":\n            case \"JH4\":\n            case \"JH5\":\n            case \"JH6\":\n            case \"JH7\":\n                int index = Integer.parseInt(key.substring(2)) - 2;\n                position.set(\"axleWeight\" + index, buf.readUnsignedShort() * 0.5);\n                break;\n            case \"JL3\":\n                position.set(Position.KEY_ODOMETER, buf.readUnsignedInt() * 1000); // Bug fix: multiply by 1000 instead of 161\n                break;\n\n            // The rest of the cases...\n        }\n    }\n\n    // The rest of the function...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

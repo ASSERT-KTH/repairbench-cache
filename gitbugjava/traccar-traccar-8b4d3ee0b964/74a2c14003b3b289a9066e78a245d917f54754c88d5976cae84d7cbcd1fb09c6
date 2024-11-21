@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n    String sentence = (String) msg;\n\n    if (sentence.startsWith(\"!1,\")) {\n        int index = sentence.length() > 3 ? sentence.indexOf(',', 3) : -1;\n        if (index < 0) {\n            index = sentence.length();\n        }\n        if (index > 3) {\n            getDeviceSession(channel, remoteAddress, sentence.substring(3, index));\n        }\n    }\n\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);\n    if (deviceSession == null || !(sentence.matches(\"![35A-D],.*\") && getProtocolName() != null)) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n    String type = sentence.substring(1, 2);\n    position.set(Position.KEY_TYPE, type);\n\n    // The rest of the function...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

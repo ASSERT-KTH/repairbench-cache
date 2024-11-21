@@ -1,0 +1,7 @@
+{
+    "generation": "public void escape(Writer writer, String str) throws IOException {\n    int len = str.length();\n    int i = 0;\n\n    while (i < len) {\n        char c = str.charAt(i);\n        int codePoint = c;\n\n        if (Character.isHighSurrogate(c)) {\n            codePoint = Character.toCodePoint(c, str.charAt(i + 1));\n            i++;\n        }\n\n        String entityName = this.entityName(c);\n        if (entityName == null) {\n            if (codePoint > 0xFFFF) {\n                writer.write(\"&#x\");\n                writer.write(Integer.toHexString(codePoint));\n                writer.write(';');\n            } else if (codePoint > 0x7F) {\n                writer.write(\"&#\");\n                writer.write(Integer.toString(codePoint, 10));\n                writer.write(';');\n            } else {\n                writer.write(c);\n            }\n        } else {\n            writer.write('&');\n            writer.write(entityName);\n            writer.write(';');\n        }\n\n        i++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

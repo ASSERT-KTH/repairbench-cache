@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean equals(Object o) {\n    if (this == o) return true;\n    if (o == null || getClass() != o.getClass()) return false;\n    if (!super.equals(o)) return false;\n\n    Element element = (Element) o;\n\n    // The bug was that the method was always returning 'this == o',\n    // which is a reference comparison, instead of comparing the actual content.\n    // The correct code should compare the state of the 'Element' object.\n    return this.tag.equals(element.tag) &&\n           this.attributes.equals(element.attributes) &&\n           this.childNodes.equals(element.childNodes);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

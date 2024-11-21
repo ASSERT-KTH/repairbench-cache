@@ -1,0 +1,7 @@
+{
+    "generation": "        private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n            for (Attribute attribute : source.attributes()) {\n                // valid xml attribute names are: ^[a-zA-Z_:][-a-zA-Z0-9_:.]\n                String key = attribute.getKey().replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n\n                // Add validation for invalid XML characters\n                if (isValidXmlAttributeName(key)) {\n                    el.setAttribute(key, attribute.getValue());\n                }\n            }\n        }\n\n        private boolean isValidXmlAttributeName(String name) {\n            if (name == null || name.length() == 0) {\n                return false;\n            }\n            if (!Character.isLetter(name.charAt(0)) && name.charAt(0) != '_' && name.charAt(0) != ':') {\n                return false;\n            }\n            for (int i = 1; i < name.length(); i++) {\n                char ch = name.charAt(i);\n                if (!Character.isLetterOrDigit(ch) && ch != '_' && ch != ':' && ch != '.' && ch != '-') {\n                    return false;\n                }\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

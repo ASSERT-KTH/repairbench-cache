@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Number read(JsonReader in) throws IOException {\n  JsonToken jsonToken = in.peek();\n  switch (jsonToken) {\n    case NULL:\n      in.nextNull();\n      return null;\n    case NUMBER:\n      String numberString = in.nextString();\n      try {\n        // Try parsing as Double first for performance\n        return Double.parseDouble(numberString);\n      } catch (NumberFormatException e) {\n        // If it's too large to be a Double, parse as BigDecimal\n        return new BigDecimal(numberString);\n      }\n    default:\n      throw new JsonSyntaxException(\"Expecting number, got: \" + jsonToken);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

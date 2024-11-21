@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    if (visitedTypes.contains(this)) { // Assuming visitedTypes is a set to keep track of visited types\n      handleInheritanceCycle(t);\n      return this;\n    }\n\n    visitedTypes.add(this);\n\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (detectImplicitPrototypeCycle()) {\n      handleTypeCycle(t);\n      visitedTypes.remove(this);\n      return this;\n    }\n\n    // Rest of the function...\n\n    visitedTypes.remove(this);\n    return registry.isLastGeneration() ? getReferencedType() : this;\n  }\n\n  private void handleInheritanceCycle(ErrorReporter t) {\n    t.report(JSError.make(\"Parse error. Cycle detected in inheritance chain of type \" + getQualifiedName()));\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

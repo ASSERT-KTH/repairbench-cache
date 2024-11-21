@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n  if (recurse) {\n    return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n  } else {\n    if (n instanceof Conditional) {\n      return mayBeString((Conditional) n, true); // recurse into conditional expressions\n    } else {\n      return mayBeStringHelper(n);\n    }\n  }\n}\n\nprivate static boolean mayBeString(Conditional n, boolean recurse) {\n  return mayBeString(n.getTrueBranch(), recurse) && mayBeString(n.getFalseBranch(), recurse);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

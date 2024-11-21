@@ -1,0 +1,7 @@
+{
+    "generation": "String getReadableJSTypeName(Node n, boolean dereference) {\n    // The rest of the code...\n\n    // If we're analyzing a GETPROP, the property may be inherited by the\n    // prototype chain. So climb the prototype chain and find out where\n    // the property was originally defined.\n    if (n.isGetProp()) {\n      ObjectType objectType = getJSType(n.getFirstChild()).dereference();\n      if (objectType != null) {\n        String propName = n.getLastChild().getString();\n\n        // Traverse the full prototype chain to find the definition of the property\n        while (objectType != null && !objectType.hasOwnProperty(propName)) {\n          // Interfaces\n          if (objectType.getConstructor() != null &&\n              objectType.getConstructor().isInterface()) {\n            objectType = FunctionType.getTopDefiningInterface(objectType, propName);\n          }\n          // Classes\n          else {\n            objectType = objectType.getImplicitPrototype();\n          }\n        }\n\n        if (objectType != null &&\n            (objectType.getConstructor() != null ||\n             objectType.isFunctionPrototypeType())) {\n          return objectType.toString() + \".\" + propName;\n        }\n      }\n    }\n\n    // The rest of the code...\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

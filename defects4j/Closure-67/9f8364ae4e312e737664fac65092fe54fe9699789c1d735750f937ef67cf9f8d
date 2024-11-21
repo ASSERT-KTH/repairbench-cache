@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node lhs = assign.getFirstChild();\n      if (lhs != null && NodeUtil.isVarOrSimpleAssignLhs(lhs, assign)\n          && lhs.getType() == Token.GETPROP) {\n        // We want to exclude the assignment itself from the usage list\n        boolean isChainedProperty = lhs.getFirstChild().getType() == Token.GETPROP;\n\n        if (isChainedProperty) {\n          Node child = lhs.getFirstChild().getFirstChild().getNext();\n\n          if (child.getType() == Token.STRING\n              && child.getString().equals(\"prototype\")) {\n            return true;\n          }\n        }\n        else{\n          String property = lhs.getString();\n          if (property != null && property.contains(\"prototype\")) {\n            return true;\n          }\n        }\n      }\n\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

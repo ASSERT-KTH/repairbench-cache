@@ -1,0 +1,7 @@
+{
+    "generation": "// Fix for the problem where BOM is not properly handled during parsing.\nstatic Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {\n    String docData;\n    Document doc = null;\n\n    // Look for BOM, if found override charsetName\n    if (byteData.get(0) == (byte) 0xEF && byteData.get(1) == (byte) 0xBB && byteData.get(2) == (byte) 0xBF) {\n        charsetName = \"UTF-8\";\n    } else if (byteData.get(0) == (byte) 0xFE && byteData.get(1) == (byte) 0xFF) {\n        charsetName = \"UTF-16BE\";\n    } else if (byteData.get(0) == (byte) 0xFF && byteData.get(1) == (byte) 0xFE) {\n        charsetName = \"UTF-16LE\";\n    } else if (byteData.get(0) == (byte) 0x00 && byteData.get(1) == (byte) 0x00 && byteData.get(2) == (byte) 0xFE && byteData.get(3) == (byte) 0xFF) {\n        charsetName = \"UTF-32BE\";\n    } else if (byteData.get(0) == (byte) 0xFF && byteData.get(1) == (byte) 0xFE && byteData.get(2) == (byte) 0x00 && byteData.get(3) == (byte) 0x00) {\n        charsetName = \"UTF-32LE\";\n    }\n\n    // Rest of the code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

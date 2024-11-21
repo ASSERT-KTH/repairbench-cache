@@ -1,0 +1,7 @@
+{
+    "generation": "int nextIndexOf(CharSequence seq) {\n    char startChar = seq.charAt(0);\n    for (int offset = pos; offset < length; offset++) {\n        if (Character.isHighSurrogate(input[offset]) && offset + 1 < length) {\n            char nextChar = input[offset + 1];\n            if (Character.isLowSurrogate(nextChar) && startChar != Character.toCodePoint(input[offset], nextChar))\n                offset++; // Move past the surrogate pair\n        } else if (startChar != input[offset])\n            continue;\n\n        int i = offset + 1;\n        int last = i + seq.length() - 1;\n        if (last <= length) {\n            for (int j = 1; i < last; i++, j++) {\n                if (Character.isHighSurrogate(input[i]) && i + 1 < length) {\n                    char nextChar = input[i + 1];\n                    if (Character.isLowSurrogate(nextChar) && seq.charAt(j) != Character.toCodePoint(input[i], nextChar))\n                        break;\n                    i++; // Move past the surrogate pair\n                } else if (seq.charAt(j) != input[i])\n                    break;\n            }\n            if (i == last) // Found full sequence\n                return offset - pos;\n        }\n    }\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '/':\n            t.tagPending.selfClosing = true;\n            c = r.consume();\n            if (c == '>') {\n                t.emitTagPending();\n                t.transition(Data);\n            } else {\n                r.unconsume(); // put back the character, it's not a '>'\n            }\n            break;\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            // this case should handle the beginning of an attribute name\n            if (!isWhitespace(c) && c != '/' && c != '>' && c != '<' && c != '\\u0000' && c != '\\u000C') {\n                t.tagPending.appendTagName(c);\n                t.transition(BeforeAttributeName);\n            } else {\n                t.error(this);\n            }\n            break;\n    }\n}\n\n// helper function to check for whitespaces\nprivate boolean isWhitespace(char c) {\n    return c == '\\'' || c == '\\\"' || Character.isWhitespace(c);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

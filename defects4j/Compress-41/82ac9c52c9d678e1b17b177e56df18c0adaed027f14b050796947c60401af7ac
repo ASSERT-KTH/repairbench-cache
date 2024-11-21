@@ -1,0 +1,7 @@
+{
+    "generation": "public ZipArchiveEntry getNextZipEntry() throws IOException {\n    if (closed || hitCentralDirectory) {\n        return null;\n    }\n\n    if (current != null) {\n        closeEntry();\n    }\n\n    try {\n        LFH_BUF = new byte[LFH_BUF_SIZE];\n        readFully(LFH_BUF);\n    } catch (final EOFException e) {\n        return null;\n    }\n\n    final ZipLong sig = new ZipLong(LFH_BUF);\n    if (sig.equals(ZipLong.CFH_SIG) || sig.equals(ZipLong.AED_SIG)) {\n        hitCentralDirectory = true;\n        return null;\n    }\n\n    if (!sig.equals(ZipLong.LFH_SIG)) {\n        throw new ZipException(\"Unexpected record signature: \" + sig);\n    }\n\n    // rest of the function...\n    // The remaining parts of the function are left unchanged\n\n    entriesRead++;\n    return current.entry;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

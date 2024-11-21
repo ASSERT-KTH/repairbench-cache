@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // Switch this and that if that is a UnionType\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  // Handle equality\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      return new TypePair(null, null);\n\n    case FALSE:\n    case UNKNOWN:\n      if (this instanceof VoidType && that instanceof VoidType) {\n        // If both this and that are VOID_TYPE, return NO_TYPE for inequality\n        return new TypePair(NO_TYPE, NO_TYPE);\n      } else {\n        // Otherwise, return same types as input\n        return new TypePair(this, that);\n      }\n  }\n\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new LinkedList<Connection.KeyVal>();\n    Elements elements = getAllElements();\n\n    for (Element element : elements) {\n        if (element.parent() != null && element instanceof FormElement && element.tagName().equals(\"input\")) {\n            InputElement input = (InputElement) element;\n\n            if (\"submit\".equals(input.attr(\"type\"))) {\n                data.add(new Connection.KeyVal(input.attr(\"name\"), input.attr(\"value\")));\n            } else {\n                data.add(new Connection.KeyVal(input.attr(\"name\"), input.val()));\n            }\n        }\n    }\n\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

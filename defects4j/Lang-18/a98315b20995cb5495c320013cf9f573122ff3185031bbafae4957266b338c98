@@ -1,0 +1,7 @@
+{
+    "generation": "protected List<Rule> parsePattern() {\n    DateFormatSymbols symbols = new DateFormatSymbols(mLocale);\n    List<Rule> rules = new ArrayList<Rule>();\n\n    ...\n\n    for (int i = 0; i < length; i++) {\n        ...\n\n        char c = token.charAt(0);\n\n        switch (c) {\n        case 'G': // era designator (text)\n            ...\n            // do not handle year tokens here\n            break;\n        case 'y': // year (number)\n            // handle year token only when it's not preceded by 'G'\n            if (i > 0 && mPattern.charAt(i - 1) != 'G') {\n                if (tokenLen >= 4) {\n                    rule = selectNumberRule(Calendar.YEAR, tokenLen);\n                } else {\n                    rule = TwoDigitYearField.INSTANCE;\n                }\n            }\n            break;\n        ...\n        }\n\n        if (rule != null) {\n            rules.add(rule);\n        }\n    }\n\n    ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

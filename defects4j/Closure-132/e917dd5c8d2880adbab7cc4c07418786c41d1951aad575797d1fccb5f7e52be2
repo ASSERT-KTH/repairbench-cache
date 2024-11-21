@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n* Try turning IF nodes into smaller HOOKs\n*\n* Returns the replacement for n or the original if no replacement was\n* necessary.\n*/\nprivate Node tryMinimizeIf(Node n) {\n\n  Node parent = n.getParent();\n  Node cond = n.getFirstChild();\n\n  if (NodeUtil.isLiteralValue(cond, true)) {\n    return n;\n  }\n\n  Node thenBranch = cond.getNext();\n  Node elseBranch = thenBranch.getNext();\n\n  if (elseBranch != null) {\n    tryRemoveRepeatedStatements(n);\n\n    // If the then branch and else branch are both expression blocks,\n    // we can replace the if-statement with a ternary expression\n    if (isFoldableExpressBlock(thenBranch) && isFoldableExpressBlock(elseBranch)) {\n      Node thenOp = getBlockExpression(thenBranch).getFirstChild();\n      Node elseOp = getBlockExpression(elseBranch).getFirstChild();\n\n      n.removeChild(cond);\n      thenOp.detachFromParent();\n      elseOp.detachFromParent();\n\n      Node expr = IR.exprResult(IR.hook(cond, thenOp, elseOp).srcref(n));\n      parent.replaceChild(n, expr);\n      reportCodeChange();\n\n      return expr;\n    }\n  }\n\n  // Rest of the method...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

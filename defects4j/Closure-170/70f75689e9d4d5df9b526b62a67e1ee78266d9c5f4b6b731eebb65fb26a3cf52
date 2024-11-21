@@ -1,0 +1,7 @@
+{
+    "generation": "    private void getNumUseInUseCfgNode(final Node cfgNode) {\n        numUsesWithinCfgNode = 0;\n\n        AbstractCfgNodeTraversalCallback gatherCb = new AbstractCfgNodeTraversalCallback() {\n            @Override\n            public void visit(NodeTraversal t, Node n, Node parent) {\n                if (n.isName() && n.getString().equals(varName) &&\n                    !(parent.isAssign() && parent.getFirstChild() == n) &&\n                    !(parent.isHook() && isVarAssignedInsideHook(parent, varName))) {\n                    numUsesWithinCfgNode++;\n                }\n            }\n        };\n\n        NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }\n\n    private boolean isVarAssignedInsideHook(Node hookNode, String varName) {\n        return NodeUtil.isNameReference(hookNode.getLastChild(), varName) &&\n               hookNode.getChildCount() > 1 &&\n               NodeUtil.isAssignmentOp(hookNode.getFirstChild());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

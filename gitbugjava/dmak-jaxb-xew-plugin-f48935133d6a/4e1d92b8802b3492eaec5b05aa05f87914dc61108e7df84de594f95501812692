@@ -1,0 +1,7 @@
+{
+    "generation": "private void moveClassLevelUp(Outline outline, JDefinedClass clazz) {\n    // Modify the container so it now refers the class. Container can be a class or package.\n    JDefinedClass parent = (JDefinedClass) clazz.parentContainer();\n    JClassContainer grandParent = parent.parentContainer();\n    // Allows to track class name collisions:\n    Map<String, JDefinedClass> classes;\n\n    if (grandParent.isClass()) {\n        JDefinedClass grandParentClass = (JDefinedClass) grandParent;\n\n        writeSummary(\"\\tMoving inner class \" + clazz.fullName() + \" to class \" + grandParentClass.fullName());\n\n        classes = getPrivateField(grandParentClass, \"classes\");\n    }\n    else {\n        JPackage grandParentPackage = (JPackage) grandParent;\n\n        writeSummary(\"\\tMoving inner class \" + clazz.fullName() + \" to package \" + grandParentPackage.name());\n\n        classes = getPrivateField(grandParentPackage, \"classes\");\n\n        // Remove the \"static\" modifier from the class when the grandparent is a package:\n        int mods = clazz.mods().getValue() & ~JMod.STATIC;\n        clazz.mods().setValue(mods);\n\n        // The rest of the code remains the same.\n        // ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

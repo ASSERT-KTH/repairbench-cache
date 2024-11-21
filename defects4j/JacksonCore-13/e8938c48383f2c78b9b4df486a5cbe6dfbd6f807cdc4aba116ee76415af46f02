@@ -1,0 +1,7 @@
+{
+    "generation": "public void _testFieldNameQuotingEnabled(JsonFactory f, boolean enabledRelaxed, boolean quotedFieldName,\n                                             String expResult) throws IOException\n{\n    JsonGenerator g = f.createGenerator(new ByteArrayOutputStream());\n    if (enabledRelaxed) {\n        g.enable(JsonGenerator.Feature.WRITE_FIELD_NAMES_AS_ARRAY_INDEX_FOR_ENUMS);\n    } else {\n        g.disable(JsonGenerator.Feature.WRITE_FIELD_NAMES_AS_ARRAY_INDEX_FOR_ENUMS);\n    }\n    if (quotedFieldName) {\n        g.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES); // This line was missing in original code\n    } else {\n        g.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n    g.writeStartObject();\n    g.writeNumberField(\"foo\", 1);\n    g.writeEndObject();\n    g.close();\n    String actualResult = g.getOutputTarget().toString();\n    assertEquals(expResult, actualResult);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic String nextTextValue() throws IOException\n{\n    _binaryValue = null;\n    if (_nextToken != null) {\n        JsonToken t = _nextToken;\n        _currToken = t;\n        _nextToken = null;\n\n        // expected case; yes, got a String\n        if (t == JsonToken.VALUE_STRING) {\n            return _currText;\n        }\n\n        _updateState(t);\n        return null;\n    }\n\n    int token = _xmlTokens.next();\n\n    // mostly copied from 'nextToken()'\n    while (token == XmlTokenStream.XML_START_ELEMENT) {\n        // ... (rest of the code)\n    }\n\n    // Ok; beyond start element, what do we get?\n    switch (token) {\n        case XmlTokenStream.XML_END_ELEMENT:\n            // ... (rest of the code)\n            break;\n        case XmlTokenStream.XML_ATTRIBUTE_NAME:\n            // ... (rest of the code)\n            break;\n        case XmlTokenStream.XML_ATTRIBUTE_VALUE:\n            _currText = _xmlTokens.getText();\n            _currToken = JsonToken.VALUE_STRING;\n            // Return the value here to match expectations\n            return _currText;\n        case XmlTokenStream.XML_TEXT:\n            // ... (rest of the code)\n            break;\n        case XmlTokenStream.XML_END:\n            // ... (rest of the code)\n            break;\n    }\n\n    // Moved the return null statement here, to be executed for all cases except\n    // XML_ATTRIBUTE_VALUE which is handled above\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

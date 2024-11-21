@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n    //... rest of the code...\n\n    List<Position> positions = decodePositions(buf);\n\n    if (positions.isEmpty() && deviceSession != null) {\n        // If no positions were decoded but a device session was found,\n        // create a default position object to return\n        Position defaultPosition = new Position(getProtocolName());\n        defaultPosition.setDeviceId(deviceSession.getDeviceId());\n        positions.add(defaultPosition);\n    }\n\n    return positions.isEmpty() ? null : positions;\n}\n\nprivate List<Position> decodePositions(ByteBuf buf) {\n    List<Position> positions = new LinkedList<>();\n    Set<Integer> keys = new HashSet<>();\n    boolean hasLocation = false;\n    Position position = new Position(getProtocolName());\n\n    //... rest of the decoding logic...\n\n    // Add the last position to the list if it has a location\n    if (hasLocation) {\n        positions.add(position);\n    }\n\n    return positions;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

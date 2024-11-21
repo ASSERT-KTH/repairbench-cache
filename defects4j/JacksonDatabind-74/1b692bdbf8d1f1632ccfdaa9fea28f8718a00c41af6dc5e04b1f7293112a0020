@@ -1,0 +1,7 @@
+{
+    "generation": "protected Object _deserializeTypedUsingDefaultImpl(JsonParser p, DeserializationContext ctxt,\n        TokenBuffer tb) throws IOException\n{\n    if (p.currentToken() == JsonToken.START_OBJECT) {\n        p.nextToken();\n        if (p.currentToken() == JsonToken.FIELD_NAME && p.getCurrentName().equals(\"value\")) {\n            p.nextToken();\n            if (p.currentToken() == JsonToken.VALUE_STRING && p.getText().isEmpty()) {\n                return new AsPropertyWrapper(null);\n            }\n        }\n    }\n    // trying to find the default implementation deserializer\n    JsonDeserializer<Object> deser = _findDefaultImplDeserializer(ctxt);\n    if (deser != null) {\n        if (tb != null) {\n            tb.writeEndObject();\n            p = tb.asParser(p);\n            // move to point to the first token:\n            p.nextToken();\n        }\n        return deser.deserialize(p, ctxt);\n    }\n    ctxt.reportWrongTokenException(p, JsonToken.FIELD_NAME,\n            \"missing property 'value' that is to contain the value (for class \"+baseTypeName()+\")\");\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

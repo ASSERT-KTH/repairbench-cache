@@ -1,0 +1,7 @@
+{
+    "generation": "    public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n        }\n\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {\n            endIndex = -(endIndex + 1) - 1;\n        }\n\n        // If the startIndex is greater than endIndex, this means that the requested range is empty\n        if (startIndex > endIndex) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        // If startIndex or endIndex is out of the range of the data, then the result is empty range as well\n        else if (startIndex >= this.data.size() || endIndex < 0) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

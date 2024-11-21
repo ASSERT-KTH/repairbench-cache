@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    byte[] cleanedSrc = cleanInvalidUtf8Bytes(src, offset, length);\n\n    if (_dataFormatReaders != null) {\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(cleanedSrc, offset, length), false);\n    }\n    return _bindAndReadValues(_considerFilter(_parserFactory.createParser(cleanedSrc, offset, length),\n            true));\n}\n\nprivate byte[] cleanInvalidUtf8Bytes(byte[] src, int offset, int length) {\n    ByteArrayOutputStream cleanedStream = new ByteArrayOutputStream();\n\n    for (int i = offset; i < offset + length; i++) {\n        int b = src[i] & 0xff;\n\n        if ((b <= 0b11111111) ||\n            (b >= 0b11110000 && b <= 0b11110111) ||\n            (b >= 0b11100000 && b <= 0b11101111) ||\n            (b >= 0b11000000 && b <= 0b11011111)) {\n            cleanedStream.write(b);\n        } else {\n            cleanedStream.write((byte) 0x20);  // replace by default byte\n        }\n    }\n\n    return cleanedStream.toByteArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

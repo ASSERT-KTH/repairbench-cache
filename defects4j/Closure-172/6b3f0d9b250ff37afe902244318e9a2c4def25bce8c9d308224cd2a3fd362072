@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isQualifiedNameInferred(\n    String qName, Node n, JSDocInfo info,\n    Node rhsValue, JSType valueType) {\n\n  // ... existing code ...\n\n  boolean inferred = true;\n  if (info != null) {\n    // If there's an explicit @type annotation, consider it as declared\n    inferred = !info.hasType();\n  }\n\n  // If qName ends with \".prototype\" and info does not have explicit @type,\n  // consider it as inferred unless it's a function type or it's a constant type and not unknown.\n  if (qName != null && qName.endsWith(\".prototype\")) {\n    if (info != null &&\n        (FunctionTypeBuilder.isFunctionTypeDeclaration(info) ||\n        (isConstantSymbol(info, n) && valueType != null &&\n         !valueType.isUnknownType()))) {\n      return false; // It's a declared function or constant symbol.\n    } else {\n      return true; // It's inferred.\n    }\n  }\n\n  // Existing conditions to consider the assignment as inferred or declared.\n  if (inferred && rhsValue != null && rhsValue.isFunction()) {\n    // ... existing code ...\n  }\n\n  return inferred;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

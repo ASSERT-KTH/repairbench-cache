@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in)\n    throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n\n    // Verify that the clazz used to create the map is equal to\n    // the deserialized clazz. If not, throw an InvalidObjectException.\n    Class<?> deserializedClazz = (Class<?>) in.readObject();\n    if (!valueType.equals(deserializedClazz)) {\n        throw new InvalidObjectException(\"Unsafe clazz during deserialization\");\n    }\n\n    map = (Map<K, Collection<V>>) in.readObject();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

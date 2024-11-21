@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Element remove() {\n    Element removed = super.remove();\n    if (removed != null) {\n        Connection formData = formData();\n        Elements elements = select(\"input[type=hidden], input[type=text], input[type=password], input[type=file], input[type=submit], input[type=image], input[type=reset], input[type=button], textarea, select\");\n        for (Element element : elements) {\n            String name = element.attr(\"name\");\n            if (name.length() != 0) {\n                List<Connection.KeyVal> keyVals = new ArrayList<>(formData.formData().get(name));\n                keyVals.removeIf(keyVal -> keyVal.value() == null && element.equals(keyVal.input()));\n                formData.data().put(name, keyVals);\n            }\n        }\n    }\n    return removed;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

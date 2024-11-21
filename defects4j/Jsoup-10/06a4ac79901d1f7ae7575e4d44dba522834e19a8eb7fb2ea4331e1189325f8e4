@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        try {\n            URL baseURL = new URL(baseUri);\n            URL absURL = new URL(baseURL, relUrl);\n            String absStr = absURL.toExternalForm();\n\n            // workaround for Java's URL resolution behaviour\n            if (absStr.endsWith(\"?\"+absURL.getQuery())){\n                absStr = absURL.getProtocol() + \"://\" + absURL.getAuthority() + absURL.getPath() + \"?\" + absURL.getQuery();\n            }\n\n            return absStr;\n        } catch (MalformedURLException e) {\n            // relUrl might be absolute even if baseUri is not\n            try {\n                URL absURL = new URL(relUrl);\n                return absURL.toExternalForm();\n            } catch (MalformedURLException ex) {\n                return \"\";\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

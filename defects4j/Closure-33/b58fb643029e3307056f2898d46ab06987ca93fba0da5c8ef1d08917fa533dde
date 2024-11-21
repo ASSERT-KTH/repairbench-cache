@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(ObjectType constraintObj) {\n  // When the constraint object is a potential record type or function type,\n  // we want to get the property names from its template, and try to match\n  // properties on this object.\n  if (constraintObj.isRecordType() || constraintObj.isFunctionType()) {\n    for (String prop : getPropertiesFromTemplate(constraintObj)) {\n      JSType propType = constraintObj.getPropertyType(prop);\n      if (!isPropertyTypeDeclared(prop)) {\n        JSType typeToInfer = hasProperty(prop) ? getPropertyType(prop) : propType;\n        boolean inferred = !hasProperty(prop);\n        defineInferredProperty(prop, typeToInfer, inferred ? null : getJSDocInfo().getDefinitionSite());\n      }\n    }\n  }\n}\n\nprivate Collection<String> getPropertiesFromTemplate(ObjectType constraintObj) {\n  return constraintObj.isRecordType() ? constraintObj.getOwnPropertyNames() :\n      constraintObj.isFunctionType() ? Collections.singleton(\"this\") : Collections.emptyList();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

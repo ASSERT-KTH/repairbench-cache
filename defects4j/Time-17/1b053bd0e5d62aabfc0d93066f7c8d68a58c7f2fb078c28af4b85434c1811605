@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // a bit messy, but will work in all non-pathological cases\n    long instantBefore = instant - 3 * DateTimeConstants.MILLIS_PER_HOUR;\n    long instantAfter = instant + 3 * DateTimeConstants.MILLIS_PER_HOUR;\n    long localBefore = convertUTCToLocal(instantBefore);\n    long localAfter = convertUTCToLocal(instantAfter);\n    if (localBefore != localAfter) {\n        long local = convertUTCToLocal(instant);\n        long localInstant = earlierOrLater ? localAfter : localBefore;\n        return convertLocalToUTC(local, false, localInstant);\n    }\n    return instant;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

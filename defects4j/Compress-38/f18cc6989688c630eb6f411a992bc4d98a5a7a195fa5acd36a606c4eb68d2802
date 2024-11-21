@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    if (getName().endsWith(\"/\")) {\n        if (getName().startsWith(\"./\")) {\n            // The name starts with \"./\", which indicates a PAX header.\n            // Strip the \"./\" prefix, as PAX extended headers typically include it.\n            String nameWithoutPrefix = getName().substring(2);\n            if (!nameWithoutPrefix.endsWith(\"/\")) {\n                // If the name without the \"./\" prefix does not end with a \"/\",\n                // then it's probably not a directory.\n                return false;\n            }\n        }\n        // The name ends with \"/\", which usually indicates a directory.\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

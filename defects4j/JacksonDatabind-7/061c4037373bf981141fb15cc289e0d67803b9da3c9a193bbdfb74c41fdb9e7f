@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n *\n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n{\n    if (jp.currentToken() == null || jp.currentToken() == JsonToken.START_OBJECT) {\n        // if no token or current token is START_OBJECT, copyCurrentStructure will handle it.\n        copyCurrentStructure(jp);\n    } else if (jp.currentToken() == JsonToken.FIELD_NAME) {\n        // If the current token is FIELD_NAME, create a new TokenBuffer and insert a START_OBJECT token manually.\n        // Then copy the remaining structure.\n        TokenBuffer tb = new TokenBuffer(null);\n        tb.copyCurrentStructure(jp);\n        tb.insert(JsonToken.START_OBJECT);\n        return tb;\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

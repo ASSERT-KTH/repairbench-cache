@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean evaluatesToLocalValue(Node value, Predicate<Node> locals) {\n  switch (value.getType()) {\n    // ... Other cases ...\n    case Token.ASSIGN:\n      return locals.apply(value);\n    case Token.NEW:\n       // If the node is an unaliased object constructor, return true.\n       return value.getFirstChild() != null\n           && locals.apply(value.getFirstChild());\n    case Token.CALL:\n      Node function = value.getFirstChild();\n      // Check if the method is called on a local object.\n      return locals.apply(function.getParent())\n          && callHasLocalResult(value);\n    case Token.INC:\n    case Token.DEC:\n      if (value.getBooleanProp(Node.INCRDECR_PROP)) {\n        // If it's a pre-increment or pre-decrement, return the value of its operand.\n        return evaluatesToLocalValue(value.getFirstChild(), locals);\n      } else {\n        // Post-increment and post-decrement, the value before the operation is a local value.\n        return true;\n      }\n    // ... Other cases ...\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

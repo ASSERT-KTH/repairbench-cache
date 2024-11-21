@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean shouldTraverse(NodeTraversal t, Node n, Node parent) {\n\n  // Rest of the code ...\n\n  if (parent != null && parent.getType() == Token.ASSIGN) {\n    Node lhs = parent.getFirstChild();\n    Node rhs = lhs.getNext();\n\n    // Rest of the code ...\n\n    else {\n      // Only traverse the right side if it's not an assignment to a prototype\n      // property, or a subproperty that is a child of an array literal.\n      if (NodeUtil.isGet(lhs)) {\n        if (lhs.getType() == Token.GETPROP &&\n            lhs.getLastChild().getString().equals(\"prototype\")) {\n          return false;\n        }\n        Node llhs = lhs.getFirstChild();\n        // Added check for GETELEM (Array literal)\n        if ((llhs.getType() == Token.GETPROP || llhs.getType() == Token.GETELEM) &&\n            llhs.getLastChild().getString().equals(\"prototype\")) {\n          return false;\n        }\n      }\n    }\n  }\n\n  // Rest of the code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

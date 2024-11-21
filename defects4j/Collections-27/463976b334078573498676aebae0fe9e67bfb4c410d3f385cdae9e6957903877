@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\nprivate Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {\n    ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes));\n    Object object = in.readObject();\n    if (object instanceof MultiValueMap) {\n        MultiValueMap multiValueMap = (MultiValueMap) object;\n        if (multiValueMap.getCollectionType() != String.class) {\n            // unsafe class used, throw exception\n            throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n    }\n    return object;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

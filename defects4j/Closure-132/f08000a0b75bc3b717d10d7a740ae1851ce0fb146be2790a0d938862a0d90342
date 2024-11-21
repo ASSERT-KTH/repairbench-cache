@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryMinimizeIf(Node n) {\n    // ...\n\n    if (thenBranchIsExpressionBlock && elseBranchIsExpressionBlock) {\n      Node thenOp = getBlockExpression(thenBranch).getFirstChild();\n      Node elseOp = getBlockExpression(elseBranch).getFirstChild();\n\n      if (thenOp.getType() == elseOp.getType() && NodeUtil.isAssignmentOp(thenOp)) {\n        // Compare both left-hand and right-hand sides of the assignments\n        Node lhsThen = thenOp.getFirstChild();\n        Node rhsThen = thenOp.getLastChild();\n        Node lhsElse = elseOp.getFirstChild();\n        Node rhsElse = elseOp.getLastChild();\n\n        if (areNodesEqualForInlining(lhsThen, lhsElse) &&\n            areNodesEqualForInlining(rhsThen, rhsElse) &&\n            !mayEffectMutableState(lhsThen)) {\n\n          // The rest of the logic for this block remains the same\n          // ...\n        }\n      }\n      // The rest of the method remains the same\n      // ...\n    }\n    return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

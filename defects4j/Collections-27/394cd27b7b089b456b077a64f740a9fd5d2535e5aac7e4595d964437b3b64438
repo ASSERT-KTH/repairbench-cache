@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\nprivate void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {\n    s.defaultReadObject();\n    this.map = (Map<K, Collection<V>>) s.readObject();\n    this.valueClass = (Class<Collection<V>>) s.readObject();\n\n    // Validate valueClass is a permitted type\n    if (!ArrayList.class.isAssignableFrom(valueClass) &&\n        !HashSet.class.isAssignableFrom(valueClass) &&\n        !LinkedHashSet.class.isAssignableFrom(valueClass) &&\n        !TreeSet.class.isAssignableFrom(valueClass)) {\n        throw new UnsupportedOperationException(\"Unsupported value class: \" + valueClass.getName());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void decodeFragment(Position position, String fragment) {\n\n    int dataIndex = fragment.indexOf(':');\n    int index = 0;\n    String[] values;\n    if (fragment.length() == dataIndex + 1) {\n        values = new String[0];\n    } else {\n        values = fragment.substring(dataIndex + 1).split(\";\");\n    }\n\n    switch (fragment.substring(0, dataIndex)) {\n        case \"GPS\":\n            // ...\n            if (!values[index].isEmpty()) {\n                position.setSpeed(UnitsConverter.knotsFromKph(Integer.parseInt(values[index])));\n            }\n            index++;\n            position.setCourse(Integer.parseInt(values[index++]));\n            // ...\n            break;\n        case \"GSM\":\n            // ...\n            break;\n        case \"COT\":\n            // ...\n            break;\n        case \"ADC\":\n            // ...\n            break;\n        case \"DTT\":\n            // ...\n            break;\n        case \"ETD\":\n            position.set(\"eventData\", values[index++]);\n            break;\n        case \"OBD\":\n            position.set(\"obd\", values[index++]);\n            break;\n        case \"TAG\":\n            position.set(\"tagData\", values[index++]);\n            break;\n        case \"IWD\":\n            // ...\n            break;\n        default:\n            break;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

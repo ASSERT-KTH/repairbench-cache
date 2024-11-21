@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isSubtype(JSType other) {\n  if (!(other instanceof ArrowType)) {\n    return false;\n  }\n\n  ArrowType that = (ArrowType) other;\n\n  // this.returnType <: that.returnType (covariant)\n  if (!this.returnType.isSubtype(that.returnType)) {\n    return false;\n  }\n\n  // that.paramType[i] <: this.paramType[i] (contravariant)\n  Node thisParam = this.parameters.getFirstChild();\n  Node thatParam = that.parameters.getFirstChild();\n  while (thisParam != null && thatParam != null) {\n    JSType thisParamType = thisParam.getJSType();\n    JSType thatParamType = thatParam.getJSType();\n    if (thisParamType != null && thatParamType != null) {\n      if (!thatParamType.isSubtype(thisParamType)) {\n          return false;\n      }\n    }\n\n    boolean thisIsVarArgs = thisParam.isVarArgs();\n    boolean thatIsVarArgs = thatParam.isVarArgs();\n\n    // Do not advance if we have variable arguments, or if either type has variable arguments\n    if (!thisIsVarArgs && !thatIsVarArgs) {\n      thisParam = thisParam.getNext();\n      thatParam = thatParam.getNext();\n    } else if (!thisIsVarArgs) {\n      thisParam = thisParam.getNext();\n    } else if (!thatIsVarArgs) {\n      thatParam = thatParam.getNext();\n    } else {\n      break;\n    }\n  }\n\n  // \"that\" can't be a supertype, because it has more required arguments than \"this\".\n  return thatParam == null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

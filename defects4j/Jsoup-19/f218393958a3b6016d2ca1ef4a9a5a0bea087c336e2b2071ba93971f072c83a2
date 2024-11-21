@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value = el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks)\n        attr.setValue(value);\n\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (value.toLowerCase().startsWith(prot)) {\n            return true;\n        }\n    }\n\n    // Check for custom protocols\n    String attrKey = attr.getKey().toLowerCase();\n    if (attrKey.equals(\"src\")) {\n        Element parent = el.parent();\n        if (parent != null && parent.tagName().equals(\"img\")) {\n            for (Protocol protocol : protocols) {\n                String prot = protocol.toString() + \":\";\n                if (value.toLowerCase().startsWith(prot)) {\n                    return true;\n                }\n            }\n        }\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

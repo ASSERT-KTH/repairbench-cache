@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Variant called when creation of the POJO involves buffering of creator properties\n * as well as property-based creator.\n */\npublic Object complete(JsonParser p, DeserializationContext ctxt,\n        PropertyValueBuffer buffer, PropertyBasedCreator creator)\n    throws IOException\n{\n    // first things first: deserialize all data buffered:\n    final int len = _properties.length;\n    Object[] values = new Object[len];\n    for (int i = 0; i < len; ++i) {\n        String typeId = _typeIds[i];\n        final ExtTypedProperty extProp = _properties[i];\n        if (typeId == null) {\n            // ...the rest of the code shadows this section...\n\n            // If typeProp is a creator property, then deserialize and assign the typeId\n            SettableBeanProperty typeProp = extProp.getTypeProperty();\n            if ((typeProp != null) && (typeProp.getCreatorIndex() >= 0)) {\n                typeId = ctxt.handleTypeIdResolution(_beanType, typeProp, typeId);\n                buffer.assignParameter(typeProp, typeId);\n            }\n        }\n        // ...the rest of the code follows...\n    }\n    // ...the rest of the code following...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

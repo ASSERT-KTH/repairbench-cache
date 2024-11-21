@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, int nextLineTabStop, String text) {\n    int pos = findWrapPos(text, width, 0);\n\n    if (pos == -1) {\n        sb.append(rtrim(text));\n        return sb;\n    }\n\n    boolean firstLine = true;\n\n    while (true) {\n        int lastPos = pos;\n        if (!firstLine) {\n            text = createPadding(nextLineTabStop) + text.substring(pos).trim();\n        }\n        pos = findWrapPos(text, width, 0);\n\n        if (pos == -1) {\n            sb.append(text);\n            return sb;\n        } else if (pos == lastPos) {\n            throw new RuntimeException(\"Text too long for line - throwing exception to avoid infinite loop [CLI-162]: \" + text);\n        }\n\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n        firstLine = false;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n\n    ByteBuf buf = (ByteBuf) msg;\n\n    //... other parts of the code remains the same ...\n\n    for (int parameter : parameters) {\n        switch (parameter) {\n            case 0x04:\n                long timeInSeconds = buf.readUnsignedIntLE();\n                // Convert time from seconds since starting from July 6, 2015, to milliseconds since January 1, 1970\n                long epochDifferenceInSeconds = 1436073600;\n                long timeInMillis = (timeInSeconds + epochDifferenceInSeconds) * 1000;\n                position.setTime(new Date(timeInMillis));\n                break;\n\n            //... other cases remains the same ...\n\n        }\n    }\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

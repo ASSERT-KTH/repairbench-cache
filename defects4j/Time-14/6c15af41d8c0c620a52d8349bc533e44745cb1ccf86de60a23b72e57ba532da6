@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n        if (valueToAdd == 0) {\n            return values;\n        }\n        if (DateTimeUtils.isContiguous(partial)) {\n            long instant = 0L;\n            for (int i = 0, isize = partial.size(); i < isize; i++) {\n                instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n            }\n            instant = add(instant, valueToAdd);\n            return adjustForIllegalValues(partial, iChronology.get(partial, instant));\n        } else {\n            return super.add(partial, fieldIndex, values, valueToAdd);\n        }\n    }\n\n    private int[] adjustForIllegalValues(ReadablePartial partial, int[] values) {\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            int fieldValue = values[i];\n            if (!partial.getFieldType(i).getField(iChronology).isValid(partial.get(i), fieldValue)) {\n                values[i] = partial.getFieldType(i).getField(iChronology).getMaximumValue(partial.get(i));\n            }\n        }\n        return values;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static int toJavaVersionInt(String version) {\n    if (version == null || version.isEmpty()) {\n        return 0;\n    }\n\n    int major = 0;\n    int minor = 0;\n\n    int end;\n    try {\n        end = version.indexOf('.', 1);\n        major = Integer.parseInt(version.substring(0, end));\n        if (end < version.length()) {\n            int start = end + 1;\n            end = version.indexOf('.', start);\n            if (end == -1) {\n                end = version.indexOf('_', start);\n            }\n            if (end == -1) {\n                end = version.indexOf(' ', start);\n            }\n            if (end == -1) {\n                end = version.length();\n            }\n            minor = Integer.parseInt(version.substring(start, end));\n        }\n    } catch (IndexOutOfBoundsException | NumberFormatException | StringIndexOutOfBoundsException | NoSuchElementException e) {\n        return 0;\n    }\n\n    return (major * 100) + minor;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

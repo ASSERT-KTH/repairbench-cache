@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected VectorialPointValuePair doOptimize()\n        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {\n    // Initializations, same as before\n\n    // outer loop\n    while (true) {\n        // Updating iterations, pointing to previous, and updating jacobian\n        incrementIterationsCounter();\n        VectorialPointValuePair previous = new VectorialPointValuePair(point, objective);\n        updateJacobian();\n        qrDecomposition();\n\n        // Reduced version of the Rest of the code\n\n        double maxCosine = 0;\n        if (cost != 0) {\n            // Compute maxCosine, with corrections\n            for (int j = 0; j < solvedCols; ++j) { // 'j' and 'k' swapped\n                int pj = permutation[j];\n                double s = jacNorm[pj];\n                if (s != 0) {\n                    double sum = 0;\n                    for (int i = 0; i < cols; ++i) { // limit set to 'cols' instead of 'j'\n                        sum += jacobian[Math.min(i, j)][pj] * residuals[i];\n                    }\n                    maxCosine = Math.max(maxCosine, Math.abs(sum) / (s * cost));\n                }\n            }\n        }\n\n        // Remaining code omitted for brevity\n        // ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

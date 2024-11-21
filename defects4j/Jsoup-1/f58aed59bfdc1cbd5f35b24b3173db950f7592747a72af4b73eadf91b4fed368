@@ -1,0 +1,7 @@
+{
+    "generation": "// Recursively normalises the document structure.\nprivate void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n\n    // Traverse all nodes in the document\n    for (Node node: element.getAllElements()) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank()) {\n                toMove.add(tn);\n            }\n        }\n    }\n\n    for (Node node : toMove) {\n        Element parent = node.parent();\n        // Check if the parent is the root element\n        if (parent != null && parent.parent() == null) {\n            parent.removeChild(node);\n            body().prepend(new TextNode(\" \", \"\"));\n            body().prepend(node);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

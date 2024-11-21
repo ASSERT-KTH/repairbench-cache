@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    String pseudoclass = evaluators.get(0).toString().trim();\n    // Identify the scope of selection based on pseudo-class\n    if (pseudoclass.startsWith(\">\")) {\n        // Immediate child selector used\n        for (Evaluator eval : evaluators) {\n            Element parent = element.parent();\n            if (parent == null)\n                return false;\n            if (!eval.matches(root, element))\n                return false;\n            element = parent;\n        }\n    } else {\n        // Parent selector used, evaluate from last to first\n        for (int i = evaluators.size() -1; i >= 0; --i) {\n            Element parent = element.parent();\n            if (parent == null)\n                return false;\n            Evaluator eval = evaluators.get(i);\n            if (!eval.matches(root, element))\n                return false;\n            element = parent;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

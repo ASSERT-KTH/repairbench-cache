@@ -1,0 +1,7 @@
+{
+    "generation": "public char[] expandCurrentSegment()\n{\n    final char[] curr = _currentSegment;\n    final int len = curr.length;\n    int newLen = len;\n    if(len < MAX_SEGMENT_LEN) {\n        // Let's grow by 50% by default\n        newLen = len + (len >> 1);\n        // but above intended maximum, slow to increase by 25%\n        if(len >= MAX_SEGMENT_LEN/2) {\n            newLen += (MAX_SEGMENT_LEN - len) >> 2;\n        }\n        newLen = Math.min(MAX_SEGMENT_LEN, newLen);\n    } else {\n        // Reached maximum size, cannot expand\n        throw new IllegalStateException(\"Maximum size of the segment reached\");\n    }\n    return (_currentSegment = Arrays.copyOf(curr, newLen));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent.getType() == Token.FUNCTION) {\n    // For a function declaration or expression\n    handleFunctionInputs(parent);\n  } else if (n.getType() == Token.LP && parent.getType() == Token.GETPROP) {\n    // For a namespaced function, where the parent is a GETPROP node\n    Node grandParent = parent.getParent();\n    if (grandParent.getType() == Token.NAME) {\n      handleFunctionInputs(parent);\n      return;\n    }\n  }\n\n  attachLiteralTypes(n);\n\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      // Check if the function is definition or a namespaced function\n      if (parent.getType() != Token.NAME && parent.getType() != Token.GETPROP) {\n        defineDeclaredFunction(n, parent);\n      }\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n    case Token.ASSIGN:\n      // Check if the function instance is being assigned\n      if (n.getFirstChild().getType() == Token.NAME && n.getLastChild().getType() == Token.NEW) {\n        defineNewFunctionInstance(n, parent);\n      }\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

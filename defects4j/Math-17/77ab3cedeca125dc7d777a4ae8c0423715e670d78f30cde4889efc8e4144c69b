@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    if (x >= -9 && x <= 9) {\n        long product = this.getLongMantissa() * x;\n        long buffer = buffer | (Flags.OVERFLOW |\n                            (product == 0L ? Flags.ZERO : 0) |\n                            (product < 0L ? Flags.SIGN : 0));\n        int e = getLongExponent() + (x == 0 ? 0 : x < 0 ? -1 : 1);\n        return new Dfp(product, e, buffer);\n    } else {\n        return multiply(new Dfp(x));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

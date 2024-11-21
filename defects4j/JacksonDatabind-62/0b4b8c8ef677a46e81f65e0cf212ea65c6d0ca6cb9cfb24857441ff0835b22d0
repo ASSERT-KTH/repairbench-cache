@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic CollectionDeserializer createContextual(DeserializationContext ctxt,\n        BeanProperty property) throws JsonMappingException\n{\n    // May need to resolve types for delegate-based creators:\n    JsonDeserializer<Object> delegateDeser = null;\n    if (_valueInstantiator != null) {\n        if (_valueInstantiator.canCreateUsingDelegate()) {\n            JavaType delegateType = _valueInstantiator.getDelegateType(ctxt.getConfig());\n            if (delegateType == null) {\n                throw new IllegalArgumentException(\"Invalid delegate-creator definition for \"+_collectionType\n                        +\": value instantiator (\"+_valueInstantiator.getClass().getName()\n                        +\") returned true for 'canCreateUsingDelegate()', but null for 'getDelegateType()'\");\n            }\n            delegateDeser = findDeserializer(ctxt, delegateType, property);\n        } else {\n            // This is added to handle Collections.unmodifiableSet() case\n            _valueInstantiator = BeanUtil.findConstructor(ctxt.getConfig(), _collectionType.getRawClass(), true);\n        }\n    }\n    // Rest of the code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

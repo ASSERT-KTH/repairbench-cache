@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Try to fold shift operations\n */\nprivate Node tryFoldShift(Node n, Node left, Node right) {\n    if (left.getType() == Token.NUMBER && right.getType() == Token.NUMBER) {\n        long result;  // use long to handle the range of unsigned shift\n        double lval = left.getDouble();\n        double rval = right.getDouble();\n\n        // Check if the values are integers within the valid range.\n        if ((lval < Integer.MIN_VALUE || lval > Integer.MAX_VALUE || lval != (int) lval)\n            || (rval < 0 || rval >= 32 || rval != (int) rval)) {\n            return n;  // return the original expression if values are not valid\n        }\n\n        int lvalInt = (int) lval;\n        int rvalInt = (int) rval;\n\n        switch (n.getType()) {\n            case Token.LSH:\n                result = (long) lvalInt << rvalInt;\n                break;\n            case Token.RSH:\n                result = (long) lvalInt >> rvalInt;\n                break;\n            case Token.URSH:\n                result = (long) lvalInt & 0xFFFFFFFFL >>> rvalInt;\n                break;\n            default:\n                throw new AssertionError(\"Unknown shift operator: \" + Node.tokenToName(n.getType()));\n        }\n\n        Node newNumber = Node.newNumber(result);\n        n.getParent().replaceChild(n, newNumber);\n        reportCodeChange();\n\n        return newNumber;\n    }\n\n    return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

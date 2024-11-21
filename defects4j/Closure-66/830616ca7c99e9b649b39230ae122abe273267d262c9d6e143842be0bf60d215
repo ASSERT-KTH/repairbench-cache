@@ -1,0 +1,7 @@
+{
+    "generation": "public void visit(NodeTraversal t, Node n, Node parent) {\n  JSType childType;\n  JSType leftType, rightType;\n  Node left, right;\n  // To be explicitly set to false if the node is not typeable.\n  boolean typeable = true;\n\n  switch (n.getType()) {\n    // Existing cases...\n\n    case Token.OBJECTLIT:\n      if (parent.getJSType() instanceof EnumType) {\n        ensureTyped(t, n, parent.getJSType());\n      } else {\n        ensureTyped(t, n);\n      }\n      for (Node key : n.children()) {\n        visitObjLitKey(t, key, n);\n      }\n      typeable = false; // Object literal keys are not typeable\n      break;\n\n    // Existing cases...\n}\n\n  if (typeable && !inExterns) {\n    doPercentTypedAccounting(t, n);\n  }\n\n  checkNoTypeCheckSection(n, false);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

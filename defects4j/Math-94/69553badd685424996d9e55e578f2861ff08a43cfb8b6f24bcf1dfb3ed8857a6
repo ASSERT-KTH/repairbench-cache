@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    // keep original u and v for later use\n    int originalU = u;\n    int originalV = v;\n\n    if (u == 0 || v == 0) {\n        return Math.abs(u) + Math.abs(v);\n    }\n\n    // make u and v negative\n    if (u > 0) {\n        u = -u;\n    }\n    if (v > 0) {\n        v = -v;\n    }\n\n    // B1. [Find power of 2]\n    int k = 0;\n    int powerOfTwo = 1;\n    while ((originalU & powerOfTwo) == 0 && (originalV & powerOfTwo) == 0 && k < 31) {\n        powerOfTwo <<= 1;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    originalU >>= k;\n    originalV >>= k;\n\n    int t = (originalU & 1) == 1 ? originalV : -(originalU / 2);\n\n    do {\n        while ((t & 1) == 0) {\n            t /= 2;\n        }\n        if (t > 0) {\n            originalU = -t;\n        } else {\n            originalV = t;\n        }\n        t = (originalV - originalU) / 2;\n    } while (t != 0);\n\n    return -originalU * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

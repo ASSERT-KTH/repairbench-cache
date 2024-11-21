@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width,\n                                         int nextLineTabStop, String text)\n{\n    while (true) {\n        int pos = findWrapPos(text, width, 0);\n\n        if (pos == -1) {\n            if (sb.length() > 0 && !text.trim().isEmpty()) {\n                sb.append(defaultNewLine);\n            }\n            sb.append(rtrim(text));\n            return sb;\n        }\n\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n        // Reset nextLineTabStop if it's greater than width to avoid infinite loop\n        if (nextLineTabStop >= width)\n        {\n            nextLineTabStop = width - 1;\n        }\n\n        // All following lines must start after the tab stop page\n        final String padding = createPadding(nextLineTabStop);\n        text = rtrim(padding + text.substring(pos));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

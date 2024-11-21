@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void replaceChild(Node out, Node in) {\n        Validate.isTrue(out.parentNode == this);\n        Validate.notNull(in);\n        if (in.parentNode != null)\n            in.parentNode.removeChild(in);\n\n        final int index = out.siblingIndex;\n        ensureChildNodes().set(index, in);\n        in.parentNode = this;\n        in.setSiblingIndex(index);\n\n        // Update adjacent sibling relationships\n        List<Node> siblingNodes = ensureChildNodes();\n        if (index > 0) {\n            siblingNodes.get(index - 1).nextSibling = in;\n        }\n        if (index < siblingNodes.size() - 1) {\n            siblingNodes.get(index + 1).previousSibling = in;\n        }\n\n        out.parentNode = null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

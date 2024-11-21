@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Overloaded version of {@link #readValue(InputStream)}.\n */\npublic <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    if (_dataFormatReaders != null) {\n        final JsonParser parser = _parserFactory.createParser(src, offset, length);\n\n        // Validate the first character of the content to see if it's a Byte Order Mark (BOM)\n        // If it's a BOM, then skip past it as it's not part of the actual JSON content\n        if (parser.getCodec().canUseCharArrays()) {\n            char[] firstChars = ((CharTypes)parser.getCodec()).getFirstCharFromUTF8(src, offset, length);\n            if (firstChars[0] == 0xFEFF) {// BOM\n                offset += 3;\n                length -= 3;\n            }\n        }\n\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n    }\n    return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src, offset, length),\n            true));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

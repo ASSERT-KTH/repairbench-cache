@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Internal calculation method.</p>\n *\n * @param val  the calendar\n * @param field  the field constant\n * @param round  true to round, false to truncate\n * @throws ArithmeticException if the year is over 280 million\n */\nprivate static void modify(Calendar val, int field, boolean round) {\n    if (val.get(Calendar.YEAR) > 280000000) {\n        throw new ArithmeticException(\"Calendar value too large for accurate calculations\");\n    }\n\n    // truncate milliseconds\n    int millis = val.get(Calendar.MILLISECOND);\n    if (!round || millis < 500) {\n        val.set(Calendar.MILLISECOND, 0);\n    }\n\n    // truncate seconds\n    int seconds = val.get(Calendar.SECOND);\n    if (!round || seconds < 30) {\n        val.set(Calendar.SECOND, 0);\n        val.set(Calendar.MILLISECOND, 0);\n    } else if (round) {\n        val.set(Calendar.SECOND, 60);\n        val.set(Calendar.MILLISECOND, 0);\n    }\n\n    // truncate minutes\n    int minutes = val.get(Calendar.MINUTE);\n    if (!round || minutes < 30) {\n        val.set(Calendar.MINUTE, 0);\n        val.set(Calendar.SECOND, 0);\n        val.set(Calendar.MILLISECOND, 0);\n    } else if (round) {\n        val.set(Calendar.MINUTE, 60);\n        val.set(Calendar.SECOND, 0);\n        val.set(Calendar.MILLISECOND, 0);\n    }\n\n    // reset time\n    val.setTimeInMillis(val.getTimeInMillis());\n\n    ...\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

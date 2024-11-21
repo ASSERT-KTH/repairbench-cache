@@ -1,0 +1,7 @@
+{
+    "generation": "private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {\n  Node nameNode = n.getFirstChild();\n  NameInformation ns = createNameInformation(t, nameNode);\n  if (ns != null) {\n    Node parent = n.getParent();\n    if (parent.isFor() && !NodeUtil.isForIn(parent) && parent.getFirstChild().getNext() != n) {\n      recordDepScope(recordNode, ns);\n    } else {\n      Node rhsNode = n.getSecondChild();\n      if (rhsNode != null && !rhsNode.isCall()) {\n        recordDepScope(nameNode, ns);\n      } else {\n        recordDepScope(recordNode, ns);\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    TreeNode left = root.left;\n    TreeNode right = root.right;\n\n    if (root == null || root == p || root == q) {\n        return root;\n    }\n\n    boolean pIsLeft = covers(left, p);\n    boolean qIsLeft = covers(left, q);\n\n    if (pIsLeft != qIsLeft) {\n        return root;\n    }\n\n    TreeNode childSide = pIsLeft ? left : right;\n    return lowestCommonAncestor(childSide, p, q);\n}\n\nprivate boolean covers(TreeNode root, TreeNode p) {\n    if (root == null) {\n        return false;\n    }\n    if (root == p) {\n        return true;\n    }\n    return covers(root.left, p) || covers(root.right, p);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

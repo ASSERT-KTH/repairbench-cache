@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            // ... other cases ...\n\n            case \"LN\":\n                int longitude = buf.readInt();\n                // Check if the longitude is within the valid range (-180 to 180)\n                if (longitude >= -1800000000 && longitude <= 1800000000) {\n                    position.setLongitude(longitude / 10000000.0);\n                }\n                break;\n            case \"LT\":\n                int latitude = buf.readInt();\n                // Check if the latitude is within the valid range (-90 to 90)\n                if (latitude >= -900000000 && latitude <= 900000000) {\n                    position.setLatitude(latitude / 10000000.0);\n                }\n                break;\n\n            // ... other cases ...\n        }\n    }\n\n    // ... rest of the method ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

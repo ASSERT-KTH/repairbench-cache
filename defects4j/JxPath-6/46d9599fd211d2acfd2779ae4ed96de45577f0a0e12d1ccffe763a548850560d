@@ -1,0 +1,7 @@
+{
+    "generation": "protected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right)\n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        l = ((EvalContext) l).getSingleNodePointer();\n    }\n\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        r = ((EvalContext) r).getSingleNodePointer();\n    }\n\n    Iterator<?> leftIterator = null;\n\n    if (l instanceof Collection) {\n        leftIterator = ((Collection<?>) l).iterator();\n    }\n\n    if (leftIterator != null) {\n        while(leftIterator.hasNext()) {\n            if (equal(context, new JXPathBeanContext(leftIterator.next()), right)) {\n                return true;\n            }\n        }\n        // if we've gone through the entire left iterator and no match is found, return false\n        return false;\n    } else {\n        if (r instanceof Collection) {\n            r = ((Collection<?>) r).iterator();\n        }\n    }\n\n    if ((r instanceof Iterator)) {\n        while(((Iterator<?>) r).hasNext()) {\n            if (equal(context, left, new JXPathBeanContext(((Iterator<?>) r).next()))) {\n                return true;\n            }\n        }\n        // if we've gone through the entire right iterator and no match is found, return false\n        return false;\n    }\n\n    return equal(l, r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

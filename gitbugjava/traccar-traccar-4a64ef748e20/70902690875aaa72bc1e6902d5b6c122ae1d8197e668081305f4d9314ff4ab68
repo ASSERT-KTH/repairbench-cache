@@ -1,0 +1,7 @@
+{
+    "generation": "switch (extendedType) {\n    case 0x0001:\n        position.set(\"fuel1\", buf.readUnsignedShort() * 0.1);\n        buf.readUnsignedByte(); // unused\n        break;\n    case 0x0023:\n        position.set(\"fuel2\", Double.parseDouble(\n                buf.readCharSequence(6, StandardCharsets.US_ASCII).toString()));\n        break;\n    case 0x00CE:\n        position.set(Position.KEY_POWER, buf.readUnsignedShort() * 0.01);\n        break;\n    case 0x00D8:\n        Network network = new Network();\n        network.addCellTower(CellTower.from(\n                buf.readUnsignedShort(), buf.readUnsignedByte(),\n                buf.readUnsignedShort(), buf.readUnsignedInt()));\n        position.setNetwork(network);\n        break;\n    case 0xE1:\n        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n        break;\n    default:\n        buf.skipBytes(extendedLength - 2);\n        break;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

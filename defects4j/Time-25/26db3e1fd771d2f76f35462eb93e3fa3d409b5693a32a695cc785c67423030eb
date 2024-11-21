@@ -1,0 +1,7 @@
+{
+    "generation": "    public int getOffsetFromLocal(long instantLocal) {\n        final int offsetLocal = getOffset(instantLocal);\n        final long instantAdjusted = instantLocal - offsetLocal;\n        final int offsetAdjusted = getOffset(instantAdjusted);\n\n        if (offsetLocal != offsetAdjusted) {\n            final long nextTransition = nextTransition(instantAdjusted);\n            final long prevTransition = (nextTransition == Long.MAX_VALUE ? Long.MIN_VALUE : previousTransition(nextTransition));\n\n            if (instantLocal >= nextTransition || instantLocal < prevTransition) {\n                return offsetLocal;\n            }\n        }\n        return offsetAdjusted;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width,\n                                         int nextLineTabStop, String text) {\n    int offset = 0;\n\n    while (text.length() > offset) {\n        int pos = findWrapPos(text, width, offset);\n\n        if (pos == -1) {\n            sb.append(rtrim(text.substring(offset)));\n\n            return sb;\n        }\n\n        if (pos == offset) {\n            ++pos; // ensure we make some progress\n        }\n\n        sb.append(rtrim(text.substring(offset, pos)));\n\n        if (text.length() > pos) {\n            sb.append(defaultNewLine);\n\n            if (offset == 0 && nextLineTabStop > 0) { // only first line\n                sb.append(createPadding(nextLineTabStop));\n                offset = nextLineTabStop; // add padding offset\n            }\n        }\n    }\n\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

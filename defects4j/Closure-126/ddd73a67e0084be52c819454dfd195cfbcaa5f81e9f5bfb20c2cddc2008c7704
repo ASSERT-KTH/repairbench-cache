@@ -1,0 +1,7 @@
+{
+    "generation": "void tryMinimizeExits(Node n, int exitType, String labelName) {\n\n  // ... other conditions ...\n\n  // Just a 'try/catch/finally'.\n  if (n.isTry()) {\n    Node tryBlock = n.getFirstChild();\n    if (exitType != Token.BREAK || labelName == null || !NodeUtil.containsLabel(tryBlock, labelName)) {\n      // Minimize exits in the try block only if the exit is not a break inside a labeled block.\n      tryMinimizeExits(tryBlock, exitType, labelName);\n    }\n    Node allCatchNodes = NodeUtil.getCatchBlock(n);\n    if (NodeUtil.hasCatchHandler(allCatchNodes)) {\n      Preconditions.checkState(allCatchNodes.hasOneChild());\n      Node catchNode = allCatchNodes.getFirstChild();\n      Node catchCodeBlock = catchNode.getLastChild();\n      tryMinimizeExits(catchCodeBlock, exitType, labelName);\n    }\n    /* Don't try to minimize the exits of finally blocks, as this\n     * can cause problems if it changes the completion type of the finally\n     * block. See ECMA 262 Sections 8.9 & 12.14\n     */\n    if (NodeUtil.hasFinally(n)) {\n      Node finallyBlock = n.getLastChild();\n      tryMinimizeExits(finallyBlock, exitType, labelName);\n    }\n  }\n\n  // ... other conditions ...\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

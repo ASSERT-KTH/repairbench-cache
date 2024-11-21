@@ -1,0 +1,7 @@
+{
+    "generation": "package com.fasterxml.jackson.databind.type;\n\npublic class TypeFactory {\n    // ... other methods ...\n\n    public JavaType constructType(Class<?> cls) {\n        // Ensure the type is fully resolved and cached correctly\n        JavaType type = _fromClass(null, cls, TypeBindings.emptyBindings());\n        if (type instanceof ResolvedRecursiveType) {\n            ((ResolvedRecursiveType) type).resolveSelfReferences();\n        }\n        return type;\n    }\n\n    private JavaType _fromClass(TypeResolverBuilder<?> builder, Class<?> raw, TypeBindings bindings) {\n        // Existing implementation to construct the type\n        // Ensure the type is fully resolved and cached correctly\n        JavaType type = findType(raw);\n        if (type == null) {\n            type = _newType(raw);\n        }\n        return type;\n    }\n\n    private JavaType _newType(Class<?> raw) {\n        // Create a new type instance for the class\n        return new SimpleType(raw);\n    }\n\n    private JavaType findType(Class<?> raw) {\n        // Check the cache for the type\n        return _typeCache.get(raw);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

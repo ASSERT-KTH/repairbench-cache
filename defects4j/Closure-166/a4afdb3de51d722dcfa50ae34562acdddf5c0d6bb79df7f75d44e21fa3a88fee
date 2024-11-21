@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void matchConstraint(JSType constraint) {\n    if (hasReferenceName()) {\n      return;\n    }\n    if (constraint.isRecordType()) {\n      JSType possibility = constraint.getPossibility();\n      if (possibility.isUnionType()) {\n        // Handle union of record types\n        for (JSType type : possibility.getAlternates()) {\n          matchRecordTypeConstraint(type.toObjectType());\n        }\n      } else if (possibility.isRecordType()) {\n        // Handle a single record type\n        matchRecordTypeConstraint(possibility.toObjectType());\n      }\n    }\n  }\n\n  private void matchRecordTypeConstraint(JSType recordType) {\n    ObjectType objectType = recordType.toObjectType();\n    for (String property : objectType.getPropertyNames()) {\n      JSType type = objectType.getPropertyType(property);\n      if (!this.hasProperty(property)) {\n        // If the object does not have the property, add it\n        this.addProperty(property, type, true);\n      } else {\n        // If the object already has the property, merge the types\n        this.updatePropertyType(property, type);\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

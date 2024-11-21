@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean functionCallHasSideEffects(\n    Node callNode, @Nullable AbstractCompiler compiler) {\n  if (callNode.getType() != Token.CALL) {\n    throw new IllegalStateException(\n        \"Expected CALL node, got \" + Token.name(callNode.getType()));\n  }\n\n  if (callNode.isNoSideEffectsCall()) {\n    return false;\n  }\n\n  Node nameNode = callNode.getFirstChild();\n\n  // Built-in functions with no side effects.\n  if (nameNode.getType() == Token.NAME || nameNode.getType() == Token.GETPROP) {\n    Node objectNode = nameNode.getFirstChild();\n    Node propertyNode = nameNode.getLastChild();\n    if (objectNode != null && propertyNode != null) {\n      String objectName = objectNode.getString();\n      String propertyName = propertyNode.getString();\n      if (\"Math\".equals(objectName) && MATH_METHODS_WITHOUT_SIDEEFFECTS.contains(propertyName)) {\n        return false;\n      }\n    }\n  }\n\n  // Rest of the code...\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

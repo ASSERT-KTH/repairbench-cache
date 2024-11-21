@@ -1,0 +1,7 @@
+{
+    "generation": "  private void traverse(Node node) {\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    do {\n      boolean shouldRetraverse = false;\n      Node c = node.getFirstChild();\n      while(c != null) {\n        traverse(c);\n        if (shouldRetraverse(c)) { // Assuming this function checks if the child node should be revisited\n          shouldRetraverse = true;\n        }\n        Node next = c.getNext();\n        c = next;\n      }\n\n      visit(node);\n      visits++;\n\n      Preconditions.checkState(visits < 10000, \"too many interations\");\n    } while (shouldRetraverse || shouldRetraverse(node));\n\n    exitNode(node);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

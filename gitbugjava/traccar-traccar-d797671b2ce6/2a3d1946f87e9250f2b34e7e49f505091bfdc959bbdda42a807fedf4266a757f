@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeTransparent(DeviceSession deviceSession, ByteBuf buf) {\n\n    int type = buf.readUnsignedByte();\n\n    if (type == 0xF0) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        //fix: add timezone offset to the Date\n        Date time = new Date(readBigEndianInt(buf, 0) * 1000L - deviceSession.get(DeviceSession.KEY_TIMEZONE).getOffset(new Date().getTime()));\n\n        /* rest of the function remains the same */\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

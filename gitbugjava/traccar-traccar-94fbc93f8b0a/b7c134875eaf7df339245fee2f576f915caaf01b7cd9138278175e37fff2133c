@@ -1,0 +1,7 @@
+{
+    "generation": "    private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n        // ...\n        String[] keys = form.substring(1).split(\"%\");\n        for (String key : keys) {\n            switch (key) {\n                // ...\n                case \"CE\":\n                    // Assuming the value needs to be scaled by 1e6 to convert it to degrees\n                    int rawValue = buf.readUnsignedInt();\n                    double longitude = ((double) rawValue) / 1000000;\n                    if (longitude >= -180 && longitude <= 180) {\n                        cellTower.setLongitude(longitude);\n                    } else {\n                        throw new IllegalArgumentException(\"Longitude out of range: \" + longitude);\n                    }\n                    break;\n                // ...\n                case \"EH\":\n                    position.set(Position.KEY_HOURS, buf.readUnsignedInt() * 360000);\n                    break;\n                // ...\n            }\n        }\n        // ...\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

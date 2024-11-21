@@ -1,0 +1,7 @@
+{
+    "generation": "void defineSlot(Node n, Node parent, JSType type, boolean inferred) {\n  Preconditions.checkArgument(inferred || type != null);\n\n  boolean shouldDeclareOnGlobalThis = false;\n\n  if (n.getType() == Token.NAME) {\n    // ...\n    shouldDeclareOnGlobalThis = scope.isGlobal() && (parent.getType() == Token.VAR || parent.getType() == Token.FUNCTION);\n  }\n  // ...\n  String variableName = n.getQualifiedName();\n  // Extract the simple name from the qualified name\n  String simpleName = variableName.indexOf('.') != -1 ? variableName.substring(variableName.lastIndexOf('.') + 1) : variableName;\n\n  // ...\n\n  Scope scopeToDeclareIn = scope;\n\n  // Check if the unqualified variable name is already declared locally\n  if (scopeToDeclareIn.isDeclared(simpleName, false)) {\n    Var oldVar = scopeToDeclareIn.getVar(simpleName);\n    validator.expectUndeclaredVariable(sourceName, n, parent, oldVar, simpleName, type);\n  }\n  else {\n    // ...\n  }\n  // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

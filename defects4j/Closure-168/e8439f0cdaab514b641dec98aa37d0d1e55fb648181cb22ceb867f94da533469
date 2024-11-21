@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (t.inGlobalScope()) {\n    return;\n  }\n\n  if (n.isReturn() && n.getFirstChild() != null && t.getScopeDepth() > 2) {\n    data.get(t.getScopeRoot()).recordNonEmptyReturn();\n  }\n\n  if (n.isName() && NodeUtil.isLValue(n) && !NodeUtil.isBleedingFunctionName(n)) {\n    handleNameNode(t, n);\n  } else if (n.isGetProp() && n.isUnscopedQualifiedName() && NodeUtil.isLValue(n)) {\n    handleGetPropNode(t, n);\n  }\n}\n\nprivate void handleNameNode(NodeTraversal t, Node n) {\n  String name = n.getString();\n  Scope scope = t.getScope();\n  Var var = scope.getVar(name);\n  if (var != null && var.getScope().isLocal()) {\n    Scope ownerScope = var.getScope();\n    data.get(ownerScope.getRootNode()).recordAssignedName(name);\n\n    if (scope != ownerScope) {\n      data.get(ownerScope.getRootNode()).recordEscapedVarName(name);\n    }\n  }\n}\n\nprivate void handleGetPropNode(NodeTraversal t, Node n) {\n  String name = NodeUtil.getRootOfQualifiedName(n).getString();\n  Scope scope = t.getScope();\n  Var var = scope.getVar(name);\n  if (var != null && var.getScope().isLocal() && scope != var.getScope()) {\n    data.get(var.getScope().getRootNode()).recordEscapedQualifiedName(n.getQualifiedName());\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

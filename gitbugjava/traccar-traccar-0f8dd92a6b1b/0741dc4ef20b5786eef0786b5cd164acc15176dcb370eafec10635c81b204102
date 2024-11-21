@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeExtended(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n        deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    int length = buf.readUnsignedShort();\n    int type = buf.readUnsignedByte();\n\n    if (type == MSG_STRING_INFO) {\n        // Process string info\n    } else if (type == MSG_INFO) {\n        // Process info\n    } else if (type == MSG_X1_PHOTO_DATA) {\n        // Process photo data\n    } else if (type == MSG_AZ735_GPS || type == MSG_AZ735_ALARM) {\n        // Process GPS or alarm data\n    } else if (type == MSG_OBD) {\n        // Process OBD data\n    } else if (type == MSG_GPS_MODULAR) {\n        // Process GPS modular data\n    } else if (type == MSG_MULTIMEDIA) {\n        // Process multimedia data\n    } else if (type == MSG_SERIAL) {\n        // Process serial data\n    }\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

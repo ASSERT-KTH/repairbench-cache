@@ -1,0 +1,7 @@
+{
+    "generation": "// ...\n\nClass<?> currRaw = contentType.getRawClass();\ntry {\n    if (contentClass.isAssignableFrom(currRaw)) { // common case\n        contentType = tf.constructGeneralizedType(contentType, contentClass);\n    } else if (currRaw.isAssignableFrom(contentClass)) { // specialization, ok as well\n        contentType = tf.constructSpecializedType(contentType, contentClass);\n    } else {\n        // The bug was here. If the annotated class is not a super-type of the current type,\n        // we should try to widen it instead of throwing an exception.\n        contentType = tf.constructGeneralizedType(contentType, contentClass);\n    }\n} catch (IllegalArgumentException iae) { // shouldn't really happen\n    // ...\n}\n// ...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

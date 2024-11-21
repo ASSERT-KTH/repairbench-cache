@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        // handle self-closing tags both in spec and outside (for unknown tags)\n        if (startTag.isSelfClosing()) {\n            Element el = insertEmpty(startTag);\n            stack.add(el);\n            // add this line to fix the issue\n            tokeniser.emit(new Token.EndTag(startTag.name()));\n            return el;\n        }\n\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

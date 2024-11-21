@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> clazz) {\n    // Check if the type is already cached\n    JavaType type = cache.get(clazz);\n    if (type != null) {\n        return type;\n    }\n\n    // If not, create a new JavaType\n    type = new SimpleJavaType(clazz);\n\n    // Set the superclass, first checking if the superclass is already in the cache\n    Class<?> superClass = clazz.getSuperclass();\n    if (superClass != null && superClass != Object.class) {\n        JavaType superType = cache.get(superClass);\n        if (superType == null) {\n            // If the superclass is not in the cache, construct it recursively\n            superType = constructType(superClass);\n        }\n        type = TypeFactory.modifyType(type, superType, MapperFeature.USE_BASE_TYPE_AS_DEFAULT_IMPL);\n    }\n\n    // Cache the newly created type\n    cache.put(clazz, type);\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

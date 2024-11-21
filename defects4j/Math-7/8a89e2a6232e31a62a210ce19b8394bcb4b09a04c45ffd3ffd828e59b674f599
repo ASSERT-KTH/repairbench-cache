@@ -1,0 +1,7 @@
+{
+    "generation": "protected double acceptStep(final AbstractStepInterpolator interpolator,\n                            final double[] y, final double[] yDot, final double tEnd)\n    throws MaxCountExceededException, DimensionMismatchException, NoBracketingException {\n\n    double previousT = interpolator.getGlobalPreviousTime();\n    final double currentT = interpolator.getGlobalCurrentTime();\n\n    // initialize the events states if needed\n    if (! statesInitialized) {\n        for (EventState state : eventsStates) {\n            state.reinitializeBegin(interpolator);\n        }\n        statesInitialized = true;\n    }\n\n    // sort events by time\n    List<EventState> sortedEvents = new ArrayList<>(eventsStates);\n    Collections.sort(sortedEvents, (es0, es1) -> Double.compare(es0.getEventTime(), es1.getEventTime()) * (interpolator.isForward() ? +1 : -1));\n\n    while (!sortedEvents.isEmpty() && sortedEvents.get(0).getEventTime() < currentT) {\n\n        // handle the chronologically first event\n        final EventState currentEvent = sortedEvents.remove(0);\n\n        // restrict the interpolator to the first part of the step, up to the event\n        final double eventT = currentEvent.getEventTime();\n        interpolator.setSoftPreviousTime(previousT);\n        interpolator.setSoftCurrentTime(eventT);\n\n        // ... The rest of your code ...\n\n    }\n\n    // ... The rest of your code ...\n\n    return currentT;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

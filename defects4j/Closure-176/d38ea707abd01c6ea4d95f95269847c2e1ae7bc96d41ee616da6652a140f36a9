@@ -1,0 +1,7 @@
+{
+    "generation": "private void updateScopeForTypeChange(\n    FlowScope scope, Node left, JSType leftType, JSType resultType) {\n  Preconditions.checkNotNull(resultType);\n  switch (left.getType()) {\n    case Token.NAME:\n      String varName = left.getString();\n      Var var = syntacticScope.getVar(varName);\n      boolean isVarDeclaration = left.hasChildren();\n      boolean isVarTypeBetter = !isVarDeclaration || var == null || var.isTypeInferred();\n\n      if (isVarDeclaration) {\n        // If this is a variable declaration and the variable isn't null,\n        // update the type of the Node and the Var\n        if (var != null && !resultType.isSubtype(NullType.INSTANCE)) {\n          var.setType(resultType);\n          left.setJSType(resultType);\n        } else {\n          // If this is a variable declaration and the variable is null,\n          // then we should not update the type of the Node or the Var\n          left.setJSType(null);\n        }\n      } else {\n        // If this is not a variable declaration, update the type of the Node\n        left.setJSType(leftType == null ? resultType : null);\n        if (var != null && var.isTypeInferred()) {\n          var.setType(var.getType() == null ? resultType : var.getType().getLeastSupertype(resultType));\n        }\n      }\n      break;\n    case Token.GETPROP:\n      // rest of the logic remains the same\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

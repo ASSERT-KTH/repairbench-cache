@@ -1,0 +1,7 @@
+{
+    "generation": "protected final JsonDeserializer<Object> _findDeserializer(DeserializationContext ctxt, String typeId) throws IOException {\n    JsonDeserializer<Object> deser = _deserializers.get(typeId);\n    if (deser == null) {\n        JavaType type;\n        if (typeId == null || typeId.isEmpty() || (type = _idResolver.typeFromId(ctxt, typeId)) == null) {\n            // If no typeId, use default deserializer or try to infer the type based on _property\n            if (_property != null) {\n                type = _property.getType();\n            }\n            deser = ctxt.findRootValueDeserializer(type);\n        } else {\n            // If we have a typeId, try to find the corresponding deserializer\n            if (_baseType != null && _baseType.getClass() == type.getClass()) {\n                type = ctxt.getTypeFactory().constructSpecializedType(_baseType, type.getRawClass());\n            }\n            deser = ctxt.findContextualValueDeserializer(type, _property);\n        }\n        _deserializers.put(typeId, deser);\n    }\n    return deser;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

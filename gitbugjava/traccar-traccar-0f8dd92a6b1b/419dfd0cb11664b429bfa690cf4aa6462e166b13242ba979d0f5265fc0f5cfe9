@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeExtended(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n        deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedShort(); // length\n    int type = buf.readUnsignedByte();\n\n    // ... rest of the code ...\n\n    if (type == MSG_STRING_INFO) {\n        int subType = buf.readUnsignedByte();\n\n        if (subType == 0x00) {\n            position.set(Position.PREFIX_ADC + 1, buf.readUnsignedShort() * 0.01);\n            return position;\n        }\n        // ... rest of the code ...\n    }\n\n    // ... rest of the code ...\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

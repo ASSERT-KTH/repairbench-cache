@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean shouldTraverse(NodeTraversal t, Node n, Node parent) {\n\n    if (n.getType() == Token.FUNCTION) {\n      JSDocInfo jsDoc = getFunctionJsDocInfo(n);\n      if (jsDoc != null &&\n          (jsDoc.isConstructor() ||\n           jsDoc.hasThisType() ||\n           jsDoc.isOverride() ||\n           jsDoc.isInterface())) { // Added condition for interface\n        return false;\n      }\n\n      int pType = parent.getType();\n      if (!(pType == Token.BLOCK ||\n            pType == Token.SCRIPT ||\n            pType == Token.NAME ||\n            pType == Token.ASSIGN)) {\n        return false;\n      }\n    }\n\n    if (parent != null && parent.getType() == Token.ASSIGN) {\n      Node lhs = parent.getFirstChild();\n      Node rhs = lhs.getNext();\n\n      if (n == lhs) {\n        if (assignLhsChild == null) {\n          assignLhsChild = lhs;\n        }\n      } else {\n        if (lhs.getType() == Token.GETPROP && isPrototype(lhs.getLastChild())) {\n          return false;\n        }\n        if (lhs.getType() == Token.GETELEM &&\n            lhs.getFirstChild().getType() == Token.GETPROP &&\n            isPrototype(lhs.getFirstChild().getLastChild())) {\n          return false;\n        }\n      }\n    }\n\n    return true;\n  }\n\n  // Helper method to check if a node is a prototype\n  private boolean isPrototype(Node n) {\n    return n.getString().equals(\"prototype\");\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

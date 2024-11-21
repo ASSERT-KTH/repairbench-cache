@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.codec.EncoderException;\nimport org.apache.commons.codec.binary.Base64;\nimport org.apache.commons.codec.Encoder;\nimport org.apache.commons.codec.binary.BinaryEncoder;\nimport java.io.IOException;\n\npublic class Base64Codec extends Base64 implements Encoder, BinaryEncoder {\n\n    public Base64Codec() {\n        super(false);\n    }\n\n    @Override\n    public Object encode(Object source) throws EncoderException {\n        if (!(source instanceof byte[])) {\n            throw new EncoderException(\"Base64 can only encode byte array\");\n        }\n        try {\n            return encode((byte[]) source);\n        } catch (IOException e) {\n            throw new EncoderException(\"Error during encoding\", e);\n        }\n    }\n\n    @Override\n    public byte[] encode(byte[] source) {\n        return super.encode(source);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    if (c == '/') {\n        char next = r.consume();\n        if (next > 0 && !isWhitespace(next) && next != '>' && next != eof) {\n            // if '/' is not followed by '>', or eof, or whitespace and not the last character of the tag,\n            // it should be treated as part of the attribute value, so the state does not change.\n            t.tagPending.appendTagName('/');\n            return;\n        } else {\n            // if '/' is followed by '>', or eof, or whitespace, it's end of tag, so the tag is self-closing.\n            r.unconsume();\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            return;\n        }\n    } else if (c == '>') {\n        t.emitTagPending();\n        t.transition(Data);\n    } else if (c == eof) {\n        t.eofError(this);\n        t.transition(Data);\n    } else {\n        t.error(this);\n        t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

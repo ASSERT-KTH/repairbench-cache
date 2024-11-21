@@ -1,0 +1,7 @@
+{
+    "generation": "void defineSlot(Node n, Node parent, JSType type, boolean inferred) {\n  // ... existing code ...\n\n  // If we're in the global scope and this is a qualified name,\n  // also declare in the GLOBAL_THIS ObjectType.\n  if (scopeToDeclareIn.isGlobal() &&\n      n.getType() == Token.GETPROP &&\n      type != null) {\n    ObjectType globalThis =\n        typeRegistry.getNativeObjectType(JSTypeNative.GLOBAL_THIS);\n    boolean isExtern = compiler.getInput(sourceName).isExtern();\n    if (inferred) {\n      globalThis.defineInferredProperty(variableName,\n          type == null ? getNativeType(JSTypeNative.NO_TYPE) : type,\n          isExtern);\n    } else {\n      globalThis.defineDeclaredProperty(variableName, type, isExtern);\n    }\n  }\n\n  // ... remaining code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

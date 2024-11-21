@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n    ByteBuf buf = (ByteBuf) msg;\n\n    // ... other code ...\n\n    String imei = buf.readCharSequence(15, StandardCharsets.US_ASCII).toString();\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    // ... other code ...\n\n    List<Integer> parameters = getParameters(deviceSession.getDeviceId());\n\n    for (int parameter : parameters) {\n        switch (parameter) {\n            // ... other cases ...\n\n            case 0x04:\n                position.setTime(new Date(buf.readUnsignedInt() * 1000L));\n                break;\n\n            // ... other cases ...\n\n            default:\n                break;\n        }\n    }\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

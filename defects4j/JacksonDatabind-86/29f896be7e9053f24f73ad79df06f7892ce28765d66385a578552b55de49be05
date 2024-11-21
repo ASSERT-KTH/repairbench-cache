@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> rawType) {\n    return _fromClass(null, rawType, TypeBindings.emptyBindings());\n}\n\nprivate JavaType _fromClass(TypeBindings bindings, Class<?> rawType, TypeBindings prefixBindings) {\n    JavaType type = (JavaType) _cache.fetch(rawType, null);\n    if (type == null) {\n        type = _newType(rawType, bindings, null, null, prefixBindings);\n        if (!type._useCache()) {\n            return type;\n        }\n        _cache.add(rawType, null, type);\n    }\n    return type;\n}\n\nprivate JavaType _newType(Class<?> rawType, TypeBindings bindings, JavaType superClass, JavaType[] superInterfaces, TypeBindings prefixBindings) {\n    if (rawType.getSuperclass() != null) {\n        superClass = _fromClass(bindings, rawType.getSuperclass(), prefixBindings);\n    }\n    return new SimpleType(rawType, bindings, superClass, superInterfaces, prefixBindings);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

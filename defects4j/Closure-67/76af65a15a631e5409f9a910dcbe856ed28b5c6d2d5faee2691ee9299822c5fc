@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n    Node n = assign.getFirstChild();\n    if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)) {\n\n        if (n.getType() == Token.GETPROP && n.getFirstChild() != null) {\n            Node child = n.getFirstChild().getFirstChild();\n\n            // Check if the property being assigned to is \"prototype\"\n            if (child != null && child.getType() == Token.STRING\n                    && child.getString().equals(\"prototype\")) {\n                return true;\n            }\n\n            /*\n               If `child` is still a GETPROP node, it means the assignment\n               is a chained property assignment. In this case, we need to\n               check the next child of `child` to see if it's \"prototype\".\n            */\n            else if (child != null && child.getType() == Token.GETPROP) {\n\n                Node nextChild = child.getFirstChild().getNext();\n                if(nextChild != null && nextChild.getType() == Token.STRING\n                        && nextChild.getString().equals(\"prototype\")) {\n                    return true;\n                }\n            }\n        }\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

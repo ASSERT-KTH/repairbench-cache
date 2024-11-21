@@ -1,0 +1,7 @@
+{
+    "generation": "public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,\n                              int hourOfDay, int minuteOfHour,\n                              int secondOfMinute, int millisOfSecond)\n    throws IllegalArgumentException\n{\n    Chronology base;\n    if ((base = getBase()) != null) {\n        return base.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n\n    // Assume date is Julian.\n    long julianInstant = iJulianChronology.getDateTimeMillis\n        (year, monthOfYear, dayOfMonth,\n         hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n\n    // If it doesn't fall into the Julian calendar leap year rules,\n    // Check the Gregorian calendar.\n    if (julianInstant < iCutoverMillis) {\n        long gregorianInstant = iGregorianChronology.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n\n        if (gregorianInstant >= iCutoverMillis) {\n            // Okay, it's in the illegal cut-over gap.\n            throw new IllegalArgumentException(\"Specified date does not exist\");\n        }\n\n        // If the date is valid in Gregorian, use that instant.\n        return gregorianInstant;\n    }\n\n    // Otherwise, use the Julian instant.\n    return julianInstant;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

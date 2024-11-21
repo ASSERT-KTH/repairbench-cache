@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonSerializer<?> createContextual(SerializerProvider serializers,\n        BeanProperty property) throws JsonMappingException\n{\n    if (property == null) {\n        return this;\n    }\n    JsonFormat.Value format = findFormatOverrides(serializers, property, handledType());\n    if (format == null) {\n        return this;\n    }\n\n    if (format.getShape().isNumeric()) {\n        return this;\n    }\n\n    DateFormat df;\n    if (format.hasPattern()) {\n        df = new SimpleDateFormat(format.getPattern(), format.hasLocale() ? format.getLocale() : serializers.getLocale());\n    } else {\n        df = serializers.getConfig().getDateFormat();\n        if (df instanceof SimpleDateFormat) {\n            SimpleDateFormat sdf = (SimpleDateFormat) df;\n            df = (DateFormat) sdf.clone();\n            if (format.hasLocale()) {\n                ((SimpleDateFormat) df).setLocale(format.getLocale());\n            }\n        } else {\n            throw new IllegalStateException(\"Configured `DateFormat` is not an instance of `SimpleDateFormat` and does not have a clone method.\");\n        }\n    }\n\n    if (format.hasTimeZone()) {\n        df.setTimeZone(format.getTimeZone());\n    }\n\n    return new StdDelegatingSerializer(df);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

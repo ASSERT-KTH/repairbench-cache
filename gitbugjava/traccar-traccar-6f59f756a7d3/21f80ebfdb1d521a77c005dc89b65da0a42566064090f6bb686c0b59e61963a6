@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodePosition(\n        Channel channel, DeviceSession deviceSession, ByteBuf buf, int type, int index, ByteBuf imei) {\n\n    ...\n\n    int adcCount = type == MSG_GPS_2 || type == MSG_ALARM_2 ? 5 : 2;\n    for (int i = 1; i <= adcCount; i++) {\n        String value = ByteBufUtil.hexDump(buf.readSlice(2));\n        value = value.replaceFirst(\"^0+(?!$)\", \"\"); // remove leading zeros\n        if (!value.equals(\"ffff\")) {\n            position.set(Position.PREFIX_ADC + i, Integer.parseInt(value) * 0.01);\n        }\n    }\n\n    ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

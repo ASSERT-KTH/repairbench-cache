@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public void feedInput(byte[] buf, int start, int end) throws IOException\n    {\n        if (_inputPtr < _inputEnd) {\n            _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\", _inputEnd - _inputPtr);\n        }\n        if (end < start) {\n            _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n        }\n        if (_endOfInput) {\n            _reportError(\"Already closed, can not feed more input\");\n        }\n        // Time to update pointers first, adjust for already processed input\n        int alreadyProcessed = _inputEnd - _inputPtr;\n        _currInputProcessed += alreadyProcessed;\n\n        // Adjust row start to account for the past extension wrt new buffer\n        _currInputRowStart = start - alreadyProcessed;\n\n        // Update buffer settings\n        _inputBuffer = buf;\n        _inputPtr = start;\n        _inputEnd = end;\n        _origBufferLen = end - start;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static void modify(Calendar val, int field, boolean round) {\n    if (val.get(Calendar.YEAR) > 280000000) {\n        throw new ArithmeticException(\"Calendar value too large for accurate calculations\");\n    }\n\n    // truncate\n    if (field == Calendar.MILLISECOND || field >= Calendar.SECOND) {\n        val.set(Calendar.MILLISECOND, 0);\n    }\n    if (field == Calendar.SECOND || field >= Calendar.MINUTE) {\n        val.set(Calendar.SECOND, 0);\n    }\n    if (field >= Calendar.MINUTE) {\n        val.set(Calendar.MINUTE, 0);\n    }\n    if (field >= Calendar.HOUR) {\n        val.set(Calendar.HOUR_OF_DAY, 0);\n    }\n    if (field == Calendar.HOUR) {\n        val.set(Calendar.HOUR_OF_DAY, val.get(Calendar.HOUR_OF_DAY) % 12);\n    }\n\n    boolean roundUp = false;\n    for (int i = 0; i < fields.length; i++) {\n        ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

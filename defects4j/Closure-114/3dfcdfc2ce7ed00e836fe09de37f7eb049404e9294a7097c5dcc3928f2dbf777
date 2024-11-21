@@ -1,0 +1,7 @@
+{
+    "generation": "private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {\n  Node nameNode = n.getFirstChild();\n  Node parent = n.getParent();\n  NameInformation ns = createNameInformation(t, nameNode);\n  if (ns != null) {\n    Node initNode = parent.getFirstChild();\n    if (parent.isFor() && !NodeUtil.isForIn(parent) && initNode != n && initNode.getNext() != n) {\n      // Patch for assignments that appear in the init,\n      // condition or iteration part of a FOR loop.\n      recordDepScope(recordNode, ns);\n    } else if (!parent.isFor() || NodeUtil.isForIn(parent) || initNode == n || parent.getFirstChild().getNext() != n) {\n      recordDepScope(recordNode, ns);\n    } else {\n      recordDepScope(nameNode, ns);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

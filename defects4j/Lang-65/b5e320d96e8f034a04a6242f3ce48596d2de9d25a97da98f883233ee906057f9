@@ -1,0 +1,7 @@
+{
+    "generation": "private static void modify(Calendar val, int field, boolean round) {\n    if (val.get(Calendar.YEAR) > 280000000) {\n        throw new ArithmeticException(\"Calendar value too large for accurate calculations\");\n    }\n\n    // ----------------- Fix for LANG-59 ---------------------- START ---------------\n    // see http://issues.apache.org/jira/browse/LANG-59\n    //\n    // Manually truncate milliseconds, seconds and minutes, rather than using\n    // Calendar methods.\n\n    // Reset time\n    val.set(Calendar.MILLISECOND, 0);\n    if (field != Calendar.MILLISECOND && field != Calendar.SECOND && field != Calendar.MINUTE) {\n        val.set(Calendar.SECOND, 0);\n    }\n    if (field != Calendar.MILLISECOND && field != Calendar.SECOND) {\n        val.set(Calendar.MINUTE, 0);\n    }\n    // ----------------- Fix for LANG-59 ----------------------- END ----------------\n\n    // rest of method omitted for brevity\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

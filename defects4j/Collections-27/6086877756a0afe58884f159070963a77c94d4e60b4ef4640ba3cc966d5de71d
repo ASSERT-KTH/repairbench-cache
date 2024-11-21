@@ -1,0 +1,7 @@
+{
+    "generation": "private static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {\n    try (final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes))) {\n        Object result = in.readObject();\n\n        if (result instanceof MultiValueMap) {\n            MultiValueMap<?> multiValueMap = (MultiValueMap<?>) result;\n            Class<?> valueClass = multiValueMap.getValueClass();\n\n            // Replace with a check for safe classes\n            if (!isSafeClass(valueClass)) {\n                throw new UnsupportedOperationException(\"Unsafe class type provided for MultiValueMap\");\n            }\n        }\n\n        return result;\n    }\n}\n\n// Method to check if a class is safe or not, you need to implement this method according to your application's requirements\nprivate static boolean isSafeClass(Class<?> clazz) {\n    // Your implementation to check if a class is safe or not\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, int nextLineTabStop, String text)\n{\n    int pos = findWrapPos(text, width, 0);\n\n    if (pos == -1)\n    {\n        sb.append(rtrim(text));\n        return sb;\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // all following lines must be padded with nextLineTabStop space characters\n    final String padding = createPadding(nextLineTabStop);\n\n    while (true)\n    {\n        // The bug is here, the trim() method should be called before prepending the padding\n        text = text.substring(pos).trim();\n        pos = findWrapPos(padding + text, width, 0);\n\n        if (pos == -1)\n        {\n            sb.append(padding).append(text);\n            return sb;\n        }\n\n        sb.append(padding).append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n        // update the text for the next iteration\n        text = text.substring(pos);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

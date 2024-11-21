@@ -1,0 +1,7 @@
+{
+    "generation": "public void testUnsafeDeSerialization() throws Exception {\n    MultiValueMap map1 = MultiValueMap.multiValueMap(new HashMap(), ArrayList.class);\n    byte[] bytes = serialize(map1);\n    Object result = deserialize(bytes);\n    assertEquals(map1, result);\n\n    MultiValueMap map2 = MultiValueMap.multiValueMap(new HashMap(), (Class) String.class);\n    bytes = serialize(map2);\n    try {\n        Object\u0d3e result = deserialize(bytes);\n        if(!(result instanceof MultiValueMap) || !((MultiValueMap) result).getCollectionClass().equals(String.class)) {\n            throw new UnsupportedOperationException(\"Unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n        fail(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n    } catch (UnsupportedOperationException ex) {\n        // expected\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

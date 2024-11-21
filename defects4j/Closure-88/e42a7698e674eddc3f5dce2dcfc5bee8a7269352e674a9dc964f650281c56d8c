@@ -1,0 +1,7 @@
+{
+    "generation": "  private VariableLiveness isVariableReadBeforeKill(\n      Node n, String variable) {\n    if (NodeUtil.isName(n) && variable.equals(n.getString())) {\n      if (NodeUtil.isLhs(n, n.getParent())) {\n        // Check if the parent is a logical AND or SUB operation\n        if (n.getParent() instanceof BinaryOperation\n            && (n.getParent().getType() == TokenStream.AND || n.getParent().getType() == TokenStream.SUB)) {\n          // If it is, and this is the first occurrence of the variable, return KILL\n          if (n.getParent().getFirstChild() == n) {\n            return VariableLiveness.KILL;\n          } else {\n            // If it is, and this is the second occurrence of the variable, return READ\n            return VariableLiveness.READ;\n          }\n        } else {\n          // If the parent is not a logical AND or SUB operation, return KILL\n          return VariableLiveness.KILL;\n        }\n      } else {\n        // If the variable is not on the left-hand side of an assignment, return READ\n        return VariableLiveness.READ;\n      }\n    }\n\n    // The rest of the function remains unchanged\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

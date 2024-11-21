@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n\n    ByteBuf buf = (ByteBuf) msg;\n\n    // Skip unnecessary characters and read manufacturer\n    buf.skipBytes(1); // '[' header\n    String manufacturer = buf.readSlice(2).toString(StandardCharsets.US_ASCII);\n    buf.skipBytes(1); // '*' delimiter\n\n    int idIndex = buf.indexOf(buf.readerIndex(), buf.writerIndex(), (byte) '*');\n    String id = buf.readSlice(idIndex - buf.readerIndex()).toString(StandardCharsets.US_ASCII);\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, id);\n\n    // Check if deviceSession is null and handle it appropriately\n    if (deviceSession == null) {\n        // Add error logging or return statement based on your requirements\n        return null;\n    }\n\n    // Proceed with rest of the decoding...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

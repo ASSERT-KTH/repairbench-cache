@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected String buildCanonicalName()\n{\n    StringBuilder sb = new StringBuilder();\n    sb.append(_class.getName());\n    if(_referencedType != null) {\n        sb.append('<');\n        if(_referencedType instanceof ParameterizedType) {\n            ParameterizedType paramType = (ParameterizedType) _referencedType;\n            Type[] typeArgs = paramType.getActualTypeArguments();\n            for(int i = 0; i < typeArgs.length; i++) {\n                if(i > 0) sb.append(',');\n                sb.append(typeArgs[i].getTypeName());\n            }\n        } else if(_referencedType instanceof GenericArrayType) {\n            GenericArrayType arrayType = (GenericArrayType) _referencedType;\n            sb.append(arrayType.getGenericComponentType().getTypeName());\n            sb.append(\"[]\");\n        } else {\n            sb.append(_referencedType.getTypeName());\n        }\n        sb.append('>');\n    }\n    return sb.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

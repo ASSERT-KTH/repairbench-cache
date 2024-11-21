@@ -1,0 +1,7 @@
+{
+    "generation": "private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {\n    Node nameNode = n.getFirstChild();\n    Node parent = n.getParent();\n    NameInformation ns = createNameInformation(t, nameNode);\n    if (ns != null) {\n        if (isInForInitConditionOrUpdate(parent, n)) {\n            // The assignment is in the initialization, condition, or update part of a FOR loop.\n            // We need to record the dependency scope of the name node.\n            recordDepScope(nameNode, ns);\n        } else if (parent.isFor() && !NodeUtil.isForIn(parent)) {\n            // The assignment is in the body of the FOR loop.\n            if (parent.getFirstChild().getNext() != n) {\n                recordDepScope(recordNode, ns);\n            } else {\n                recordDepScope(nameNode, ns);\n            }\n        } else {\n            // The assignment is in a normal context.\n            recordDepScope(recordNode, ns);\n        }\n    }\n}\n\nprivate boolean isInForInitConditionOrUpdate(Node parent, Node n) {\n    if (parent.isFor() && !NodeUtil.isForIn(parent)) {\n        Node init = parent.getFirstChild();\n        Node condition = init.getNext();\n        Node update = condition.getNext();\n        Node body = update.getNext();\n\n        return init == n || condition == n || update == n;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

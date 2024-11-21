@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n        return;\n    }\n\n    char c = newcode.charAt(0);\n    if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(getLastChar())) {\n        append(\" \");\n    }\n\n    int slashCount = 0;\n    for (char ch : newcode.toCharArray()) {\n        if (ch == '/') {\n            slashCount++;\n        } else {\n            while (slashCount > 1) {\n                append(\" \");\n                slashCount -= 2;\n            }\n            slashCount = 0;\n        }\n        append(String.valueOf(ch));\n    }\n\n    while (slashCount > 1) {\n        append(\" \");\n        slashCount -= 2;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

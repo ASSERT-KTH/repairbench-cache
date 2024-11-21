@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory f, boolean escQuotes, boolean fieldQuoted, String expectedJson) throws IOException {\n    StringWriter sw = new StringWriter();\n    JsonGenerator gen = escQuotes ? f.createGenerator(sw).useDefaultPrettyPrinter().enable(JsonGenerator.Feature.ESCAPE_NON_ASCII) : f.createGenerator(sw);\n    if (fieldQuoted) {\n        gen.writeStartObject();\n        gen.writeFieldName(\"foo\");\n        gen.writeNumber(1);\n        gen.writeEndObject();\n    } else {\n        gen.writeStartObject();\n        gen.writeUnquotedFieldName(\"foo\");  // Unquoted field name here.\n        gen.writeNumber(1);\n        gen.writeEndObject();\n    }\n    gen.close();\n    assertEquals(expectedJson, sw.toString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

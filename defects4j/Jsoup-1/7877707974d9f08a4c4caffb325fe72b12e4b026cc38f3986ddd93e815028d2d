@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalize(Element element) {\n    if (element.tag().getName().equals(\"body\")) { // Only perform normalization for body elements\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: new ArrayList<>(element.childNodes)) { // Use a copy to avoid ConcurrentModificationException\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (tn.isBlank()) {\n                    continue; // Skip blank text nodes\n                }\n            }\n            if (!toMove.isEmpty()) { // Insert collected nodes at the beginning of the body\n                element.childNodes.addAll(0, toMove);\n                toMove.clear();\n            }\n            toMove.add(node);\n            element.removeChild(node); // Remove the node from its original position\n        }\n        if (!toMove.isEmpty()) { // Insert remaining collected nodes at the beginning of the body\n            element.childNodes.addAll(0, toMove);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

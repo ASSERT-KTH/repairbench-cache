@@ -1,0 +1,7 @@
+{
+    "generation": "public void initOptions(CompilerOptions options) {\n    // ...\n\n    // All passes must run the variable check even if symbols are not checked.\n    // This synthesizes variables later so that the compiler doesn't crash.\n    // It also checks the externs file for validity. If you don't want to warn\n    // about missing variable declarations, we shut that specific error off.\n    List<WarningsGuard> guards = Lists.newArrayList();\n    guards.add(\n        new SuppressDocWarningsGuard(\n            getDiagnosticGroups().getRegisteredGroups()));\n\n    // If symbols are not checked or the warnings guard disables CHECK_VARIABLES,\n    // disable the CHECK_VARIABLES error.\n    // However, do not disable it if the error is switched on explicitly by jscomp_error/--hide_warning.\n    CheckLevel checkVariablesLevel = CheckLevel.ON;\n    if ((!options.checkSymbols || options.disables(DiagnosticGroups.CHECK_VARIABLES))\n        && !options.getOptionOverrides().contains(\"checkVariables\")) {\n        checkVariablesLevel = CheckLevel.OFF;\n    }\n    guards.add(new DiagnosticGroupWarningsGuard(DiagnosticGroups.CHECK_VARIABLES, checkVariablesLevel));\n\n    options.getWarningsGuard().setGuard(guards);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

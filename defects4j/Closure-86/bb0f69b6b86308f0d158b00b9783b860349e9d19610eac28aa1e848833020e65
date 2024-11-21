@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean evaluatesToLocalValue(Node value, Predicate<Node> locals) {\n  switch (value.getType()) {\n    ...\n    case Token.NEW:\n      // A new local object is local, but we must check that it's not being modified\n      // or having its methods called with side effects.\n      return !value.hasChildren() || evaluatesToLocalValue(value.getFirstChild(), locals);\n    case Token.CALL:\n      // If the method is called on a local object, the result is local\n      // only if the object's properties are not being modified.\n      return callHasLocalResult(value)\n          || isToStringMethodCall(value)\n          || (locals.apply(value.getFirstChild())\n              && !modifiesLocalObject(value));\n    ...\n  }\n\n  // Add a helper function to check if a CALL node modifies a local object\n  private static boolean modifiesLocalObject(Node call) {\n    for (Node child = call.getFirstChild(); child != null; child = child.getNext()) {\n      if (child.isGetProp() || child.isSetProp()) {\n        Node object = child.getFirstChild();\n        if (object.isName() || object.isGetProp() || object.isGetElem()) {\n          if (NodeUtil.isImmutableValue(object) || locals.apply(object)) {\n            // The object is a local object, and its properties are being modified.\n            return true;\n          }\n        }\n      }\n    }\n    return false;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

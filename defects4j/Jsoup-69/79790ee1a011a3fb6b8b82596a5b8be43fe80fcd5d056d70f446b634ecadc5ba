@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    // Re-select elements and repopulate data list\n    for (Element element : select(\"input[name], textarea[name], select[name], button[name], input[type=submit]\")) {\n        if (!element.hasAttr(\"disabled\")) {\n            String name = element.attr(\"name\");\n            String type = element.attr(\"type\");\n            if (\"radio\".equalsIgnoreCase(type)) {\n                if (element.hasAttr(\"checked\")) {\n                    data.add(new Connection.KeyVal(name, element.val()));\n                }\n            } else if ((\"checkbox\".equalsIgnoreCase(type))) {\n                if (element.hasAttr(\"checked\")) {\n                    data.add(new Connection.KeyVal(name, element.val().length() > 0 ? element.val() : \"on\"));\n                }\n            } else {\n                data.add(new Connection.KeyVal(name, element.val()));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

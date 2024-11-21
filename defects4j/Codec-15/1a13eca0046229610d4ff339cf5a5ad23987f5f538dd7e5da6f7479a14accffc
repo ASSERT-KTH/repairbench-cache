@@ -1,0 +1,7 @@
+{
+    "generation": "private char getMappingCode(final String str, final int index) {\n    // map() throws IllegalArgumentException\n    final char mappedChar = this.map(str.charAt(index));\n    // HW rule check\n    if (index > 1 && mappedChar != '0') {\n        final char prevChar = str.charAt(index - 1);\n        if ('H' == prevChar || 'W' == prevChar) {\n            final char prev2Char = str.charAt(index - 2);\n            char prev2MappedChar = this.map(prev2Char);\n            if (prev2MappedChar == mappedChar || 'H' == prev2Char || 'W' == prev2Char) {\n                return '0';\n            }\n        }\n        // Add the check for HW sequence before the current index\n        else if (index > 2) {\n            final char prev2Char = str.charAt(index - 2);\n            final char prev3Char = str.charAt(index - 3);\n            char prev2MappedChar = this.map(prev2Char);\n            char prev3MappedChar = this.map(prev3Char);\n            if (('H' == prev3Char || 'W' == prev3Char) && prev2MappedChar == mappedChar) {\n                return '0';\n            }\n        }\n    }\n    return mappedChar;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

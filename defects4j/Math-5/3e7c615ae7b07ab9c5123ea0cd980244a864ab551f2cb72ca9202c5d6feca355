@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic Complex reciprocal() {\n    if (isNaN()) {\n        return this; // Bug fix: Return the NaN complex number as is\n    }\n\n    if (real == 0.0 && imaginary == 0.0) {\n        return Complex.INF; // Bug fix: Return Complex.INF instead of NaN\n    }\n\n    if (isInfinite()) {\n        return Complex.ZERO;\n    }\n\n    if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n        double q = real / imaginary;\n        double scale = 1. / (real * q + imaginary);\n        return createComplex(scale * q, -scale);\n    } else {\n        double q = imaginary / real;\n        double scale = 1. / (imaginary * q + real);\n        return createComplex(scale, -scale * q);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

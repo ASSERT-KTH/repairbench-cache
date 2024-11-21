@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used by standard deserializer.\n     *\n     * @since 2.3\n     */\n    public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n    {\n        boolean hadStartObject = false;\n\n        if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n            /*\n             * Special handling to assume a START_OBJECT preceded FIELD_NAME\n             * This will correctly transition state on the Token Buffer\n             */\n            _appendStartObject();\n            _wroteStartObject = true;\n            _appendFieldName(jp.getCurrentName());\n            hadStartObject = true;\n        } else {\n            copyCurrentStructure(jp);\n        }\n\n        /* 28-Oct-2014, tatu: As per #592, need to support a special case of starting from\n         *    FIELD_NAME, which is taken to mean that we are missing START_OBJECT, but need\n         *    to assume one did exist.\n         */\n\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

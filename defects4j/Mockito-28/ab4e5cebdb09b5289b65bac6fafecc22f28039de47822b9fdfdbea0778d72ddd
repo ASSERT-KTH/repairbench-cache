@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    Map<Field, Object> suitableMocks = new HashMap<>();\n\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Optional<Object> mock = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (mock.isPresent()) {\n            if (!suitableMocks.containsKey(field)\n                || field.getType().isAssignableFrom(suitableMocks.get(field).getClass())) {\n                suitableMocks.put(field, mock.get());\n            }\n        }\n    }\n\n    for (Map.Entry<Field, Object> entry : suitableMocks.entrySet()) {\n        mockCandidateFilter.inject(entry.getValue(), entry.getKey(), fieldInstance);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

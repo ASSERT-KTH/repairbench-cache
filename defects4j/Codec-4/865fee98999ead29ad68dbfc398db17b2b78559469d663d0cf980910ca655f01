@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.codec.binary.Base64;\n\npublic class FixedBase64 implements Encoder, BinaryEncoder {\n\n    private Base64 base64;\n\n    /**\n     * Creates a Base64 codec used for decoding (all modes) and encoding in URL-unsafe mode.\n     * <p>\n     * When encoding the line length is 0 (no chunking), and the encoding table is STANDARD_ENCODE_TABLE.\n     * </p>\n     *\n     * <p>\n     * When decoding all variants are supported.\n     * </p>\n     */\n    public FixedBase64() {\n        this.base64 = new Base64(false);\n    }\n\n    @Override\n    public Object encode(Object source) throws EncoderException {\n        if (source instanceof byte[]) {\n            return this.base64.encode((byte[]) source);\n        }\n        throw new EncoderException(\"Encoded object should be byte array\");\n    }\n\n    @Override\n    public byte[] encode(byte[] source) throws EncoderException {\n        return this.base64.encode(source);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

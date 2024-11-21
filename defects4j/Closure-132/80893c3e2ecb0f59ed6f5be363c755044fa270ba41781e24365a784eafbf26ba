@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryMinimizeIf(Node n) {\n  Node parent = n.getParent();\n  Node cond = n.getFirstChild();\n\n  if (NodeUtil.isLiteralValue(cond, true)) {\n    return n;\n  }\n\n  Node thenBranch = cond.getNext();\n  Node elseBranch = thenBranch.getNext();\n\n  if (elseBranch == null) {\n    if (isFoldableBlock(thenBranch)) {\n      Node expr = getBlockExpression(thenBranch);\n      // Further fixes...\n    }\n    // Rest of the function content with similar fixes...\n  }\n\n  // Rest of the function content...\n\n  if (isFoldableBlock(thenBranch) && isFoldableBlock(elseBranch)) {\n    Node thenOp = getBlockExpression(thenBranch);\n    Node elseOp = getBlockExpression(elseBranch);\n    if (thenOp.isAssign() && elseOp.isAssign() && areNodesEqualForInlining(thenOp.getFirstChild(), elseOp.getFirstChild())) {\n      Node thenExpr = thenOp.getLastChild();\n      Node elseExpr = elseOp.getLastChild();\n      cond.detachFromParent();\n      Node hookNode = IR.hook(cond, thenExpr, elseExpr).srcref(n);\n      thenOp.removeChildren();\n      thenOp.addChildToBack(hookNode);\n      parent.replaceChild(n, thenOp);\n      reportCodeChange();\n      return thenOp;\n    }\n  }\n\n  // Rest of the function content...\n\n  return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

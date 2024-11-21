@@ -1,0 +1,7 @@
+{
+    "generation": "public XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    if (data.startsWith(\"<?\") && data.endsWith(\"?>\")) {\n        XmlTreeBuilder builder = new XmlTreeBuilder();\n        Document doc = builder.parse(data, baseUri(), Parser.xmlParser(), Parser.xmlTreeBuilder());\n        Element root = doc.child(0);\n        if (root.nodeName().equals(\"xml\")) {\n            XmlDeclaration decl = new XmlDeclaration(root.tagName(), data.startsWith(\"!\"), baseUri(), false);\n            decl.attributes().addAll(root.attributes());\n            return decl;\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

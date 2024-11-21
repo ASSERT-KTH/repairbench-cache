@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Adjusts the offset to be the earlier or later one during an overlap.\n     *\n     * @param instant  the instant to adjust\n     * @param earlierOrLater  false for earlier, true for later\n     * @return the adjusted instant millis\n     */\n    public long adjustOffset(long instant, boolean earlierOrLater) {\n\n        int offset = getOffset(instant);\n        long transition = nextTransition(instant);\n\n        if (offset != getOffset(transition)) { // in gap or overlap\n            if (earlierOrLater && offset < getOffset(transition)) {  // in gap\n                return transition;\n            } else if (!earlierOrLater && offset > getOffset(transition)) { // in overlap\n                return transition;\n            }\n        }\n\n        return instant;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

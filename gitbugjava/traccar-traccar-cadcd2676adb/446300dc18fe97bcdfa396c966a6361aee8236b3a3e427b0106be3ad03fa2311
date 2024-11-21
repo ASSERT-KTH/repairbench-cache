@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {\n    ByteBuf buf = (ByteBuf) msg;\n\n    buf.skipBytes(2); // header\n    int type = buf.readUnsignedByte();\n    buf.readUnsignedShort(); // size\n\n    // ... rest of the code unchanged ...\n\n    if (type == MSG_ON_DEMAND || type == MSG_POSITION_UPLOAD || type == MSG_POSITION_REUPLOAD\n            || type == MSG_ALARM || type == MSG_REPLY || type == MSG_PERIPHERAL) {\n\n        Position position = new Position(getProtocolName());\n\n        // ... rest of the code unchanged ...\n\n        if (type != MSG_ALARM) {\n            int odometer = buf.readUnsignedMedium();\n            if (BitUtil.to(odometer, 16) > 0) {\n                position.set(Position.KEY_ODOMETER, odometer);\n            } else if (odometer > 0) {\n                position.set(Position.KEY_FUEL_LEVEL, BitUtil.from(odometer, 16));\n            }\n\n            position.set(Position.KEY_STATUS, buf.readUnsignedInt());\n\n            buf.readUnsignedShort();\n            int batteryLevel = buf.readUnsignedByte(); // Read battery level\n            position.set(Position.KEY_BATTERY_LEVEL, batteryLevel * 100 / 255); // Set battery level (0-100%)\n\n            position.set(Position.KEY_RESULT, String.valueOf(buf.readUnsignedByte()));\n\n            // ... rest of the code unchanged ...\n        }\n\n        return position;\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

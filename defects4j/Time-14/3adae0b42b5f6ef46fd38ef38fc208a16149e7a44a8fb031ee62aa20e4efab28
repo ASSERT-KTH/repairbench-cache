@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n\n        // Adjust the instant correctly for month and day addition\n        instant = partial.getFieldType(fieldIndex).getField(iChronology).add(instant, valueToAdd);\n        // Now we need to correct the values[] part of code after adding\n        int[] correctedValues = new int[values.length];\n        for (int i = 0; i < values.length; i++) {\n            correctedValues[i] = partial.getFieldType(i).getField(iChronology).get(instant);\n        }\n\n        return correctedValues;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

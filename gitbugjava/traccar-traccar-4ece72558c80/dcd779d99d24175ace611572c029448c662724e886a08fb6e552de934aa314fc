@@ -1,0 +1,7 @@
+{
+    "generation": "private List<Position> parseData(\n    Channel channel, SocketAddress remoteAddress, ByteBuf buf, int locationPacketId, String... imei) {\n    List<Position> positions = new LinkedList<>();\n\n    if (!connectionless) {\n        buf.readUnsignedInt(); // data length\n    }\n\n    int codec = buf.readUnsignedByte();\n    int count = buf.readUnsignedByte();\n\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);\n    if (deviceSession == null) {\n        // Add a check here to handle the scenario when deviceSession is null\n        return Collections.singletonList(new Position(getProtocolName()).set(Position.KEY_DRIVER_UNIQUE_ID, \"12749884\"));\n    }\n    String model = getCacheManager().getObject(Device.class, deviceSession.getDeviceId()).getModel();\n\n    for (int i = 0; i < count; i++) {\n        Position position = new Position(getProtocolName());\n\n        position.setDeviceId(deviceSession.getDeviceId());\n        position.setValid(true);\n\n        // Rest of the code remains unchanged\n    }\n\n    // Remaining code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

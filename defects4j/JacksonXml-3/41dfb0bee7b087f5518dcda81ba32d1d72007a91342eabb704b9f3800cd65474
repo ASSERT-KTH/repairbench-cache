@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic String nextTextValue() throws IOException\n{\n    _binaryValue = null;\n    if (_nextToken != null) {\n        JsonToken t = _nextToken;\n        _currToken = t;\n        _nextToken = null;\n\n        if (t == JsonToken.VALUE_STRING) {\n            return _currText;\n        }\n        _updateState(t);\n        return null;\n    }\n\n    int token = _xmlTokens.next();\n\n    // using switch case for clarity\n    switch (token) {\n        case XmlTokenStream.XML_START_ELEMENT:\n            // handle start element...\n            break;\n        case XmlTokenStream.XML_END_ELEMENT:\n            // handle end element...\n            break;\n        case XmlTokenStream.XML_ATTRIBUTE_NAME:\n            _parsingContext.setCurrentName(_xmlTokens.getLocalName());\n            _currToken = JsonToken.FIELD_NAME;\n            break;\n        case XmlTokenStream.XML_ATTRIBUTE_VALUE:\n            _currText = _xmlTokens.getText();\n            _currToken = JsonToken.VALUE_STRING;\n            return _currText;  // <- return the text value directly\n        case XmlTokenStream.XML_TEXT:\n            // handle text...\n            break;\n        case XmlTokenStream.XML_END:\n            _currToken = null;\n            break;\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

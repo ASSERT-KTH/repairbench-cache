@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean _hasCustomHandlers(JavaType t) {\n    if (t.isContainerType()) {\n        // First: value types may have both value and type handlers\n        JavaType ct = t.getContentType();\n        if (ct != null) {\n            if (t.getContentTypeHandler() != null) {\n                // A container type could have a custom type handler.\n                return true;\n            }\n            return (ct.getValueHandler() != null) || (ct.getTypeHandler() != null);\n        }\n        // Second: map-like types may have value handler for key (but not type; keys are untyped)\n        if (t.getKeyType() != null) {\n            KeyDeserializer keyDeserializer = t.getKeyDeserializer();\n            if ((keyDeserializer != null) && !(keyDeserializer instanceof StringKeyDeserializer)) {\n                // A map-like type could have a custom key deserializer.\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

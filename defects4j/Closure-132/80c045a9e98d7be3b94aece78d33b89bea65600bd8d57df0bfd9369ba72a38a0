@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryMinimizeIf(Node n) {\n    Node parent = n.getParent();\n    Node cond = n.getFirstChild();\n\n    if (NodeUtil.isLiteralValue(cond, true)) {\n      return n;\n    }\n\n    Node thenBranch = cond.getNext();\n    Node elseBranch = thenBranch.getNext();\n\n    if (elseBranch == null) {\n      return n;\n    }\n\n    tryRemoveRepeatedStatements(n);\n\n    boolean thenBranchIsExpressionBlock = isFoldableExpressBlock(thenBranch);\n    boolean elseBranchIsExpressionBlock = isFoldableExpressBlock(elseBranch);\n\n    if (thenBranchIsExpressionBlock && elseBranchIsExpressionBlock) {\n      Node thenOp = getBlockExpression(thenBranch).removeFirstChild();\n      Node elseOp = getBlockExpression(elseBranch).removeFirstChild();\n      cond.detachFromParent();\n\n      if (cond.isPostInc()) {\n        cond = cond.removeFirstChild();\n        thenOp.addChildToBack(IR.postInc(cond.cloneNode()).clonePropsFrom(cond).srcref(cond));\n      }\n\n      Node hookNode = IR.hook(cond, thenOp, elseOp).srcref(n);\n      Node expr = NodeUtil.newExpr(hookNode);\n      parent.replaceChild(n, expr);\n      reportCodeChange();\n\n      return expr;\n    }\n\n    // rest of the function...\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

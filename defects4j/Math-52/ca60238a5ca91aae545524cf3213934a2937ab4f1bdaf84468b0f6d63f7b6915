@@ -1,0 +1,7 @@
+{
+    "generation": "// preliminary computation\nVector3D uRef  = u1;\nVector3D vRef  = v1;\nVector3D v1Su1 = v1.subtract(u1);\nVector3D v2Su2 = v2.subtract(u2);\nVector3D k     = v1Su1.crossProduct(v2Su2);\ndouble kNormSq = k.dotProduct(k);\n\nif (kNormSq == 0) {\n  // the (q1, q2, q3) vector is close to the (u1, u2) plane\n  // we try other vectors\n  Vector3D v3 = Vector3D.crossProduct(v1, v2);\n  Vector3D v3Su3 = v3.subtract(u1.crossProduct(u2));\n  k = v1Su1.crossProduct(v3Su3);\n  kNormSq = k.dotProduct(k);\n}\n\nif (kNormSq == 0) {\n  // the (q1, q2, q3) vector is also close to the (u1, u1.crossProduct(u2)) plane,\n  // it is almost aligned with u1: we try (u2, u1.crossProduct(u2)) and (v2, v1.crossProduct(v2))\n  k = v2Su2.crossProduct(v1.crossProduct(u2));\n  kNormSq = k.dotProduct(k);\n}\n\nif (kNormSq == 0) {\n  // the (q1, q2, q3) vector is aligned with everything\n  // this is really the identity rotation\n  q0 = 1.0;\n  q1 = 0.0;\n  q2 = 0.0;\n  q3 = 0.0;\n  return;\n}\n\n// compute the vectorial part\ndouble c = FastMath.sqrt(kNormSq);\ndouble inv = 1.0 / (c + c);\nq1 = inv * k.getX();\nq2 = inv * k.getY();\nq3 = inv * k.getZ();\n\n// compute the scalar part\nk = new Vector3D(uRef.getY() * q3 - uRef.getZ() * q2,\n                  uRef.getZ() * q1 - uRef.getX() * q3,\n                  uRef.getX() * q2 - uRef.getY() * q1);\nq0 = vRef.dotProduct(k) / (2 * k.getNormSq());",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

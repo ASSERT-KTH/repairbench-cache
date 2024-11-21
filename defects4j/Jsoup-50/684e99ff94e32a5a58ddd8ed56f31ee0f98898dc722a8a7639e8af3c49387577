@@ -1,0 +1,7 @@
+{
+    "generation": "static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {\n    if (charsetName == null) {\n        byteData.mark();\n        try {\n            charsetName = determineCharset(byteData);\n        } finally {\n            byteData.reset();\n        }\n    }\n\n    byte[] bytes = new byte[byteData.remaining()];\n    byteData.get(bytes);\n\n    String docData = new String(bytes, Charset.forName(charsetName));\n    if (docData.length() > 0 && docData.charAt(0) == UNICODE_BOM) {\n        docData = docData.substring(1);\n    }\n\n    Document doc = parser.parseInput(docData, baseUri);\n    doc.outputSettings().charset(charsetName);\n\n    return doc;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

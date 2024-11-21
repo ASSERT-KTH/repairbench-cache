@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        String encodedPath = decodePart(u.getPath());\n        encodedPath = encodedPath.replace(\"+\", \"%2B\"); // encode '+' to '%2B'\n\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            IDN.toASCII(decodePart(u.getHost())), // puny-code\n            u.getPort(),\n            null, // encoded path added later to preserve it\n            null, null // query and fragment appended later so as not to encode\n        );\n\n        StringBuilder sb = StringUtil.borrowBuilder().append(uri.toASCIIString()).append(encodedPath);\n        if (q != null) {\n            sb.append('?');\n            appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n        }\n        if (u.getRef() != null) {\n            sb.append('#');\n            appendToAscii(u.getRef(), false, sb);\n        }\n        url = new URL(StringUtil.releaseBuilder(sb));\n        return url;\n    } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n        assert Validate.assertFail(e.toString());\n        return url;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

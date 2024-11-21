@@ -1,0 +1,7 @@
+{
+    "generation": "public void collect(JSModule module, Scope scope, Node n) {\n\n   // ... existing code ...\n\n   String name;\n   boolean isSet = false;\n   Name.Type type = Name.Type.OTHER;\n   boolean isPropAssign = false;\n\n   switch (n.getType()) {\n     // ... existing cases...\n\n     case Token.NAME:\n       // This might be an exception variable in a catch block.\n       if (parent != null && parent.getType() == Token.CATCH) {\n         isSet = true;\n         type = Name.Type.OTHER;\n         name = n.getString();\n         if (isGlobalNameReference(name, scope)) {\n           handleSetFromGlobal(module, scope, n, parent, name, isPropAssign, type);\n         }\n         break;\n       }\n\n       // ... remaining cases ...\n\n     default:\n       return;\n  }\n\n  // ... remaining code ...\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

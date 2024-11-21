@@ -1,0 +1,7 @@
+{
+    "generation": "public void initOptions(CompilerOptions options) {\n  // ... other code ...\n\n  // Initialize the warnings guard.\n  List<WarningsGuard> guards = Lists.newArrayList();\n  guards.add(\n      new SuppressDocWarningsGuard(\n          getDiagnosticGroups().getRegisteredGroups()));\n  guards.add(options.getWarningsGuard());\n\n  // All passes must run the variable check, unless explicitly disabled.\n  if (options.checkSymbols || warningsGuard.disables(DiagnosticGroups.CHECK_VARIABLES)) {\n    guards.add(new DiagnosticGroupWarningsGuard(\n        DiagnosticGroups.CHECK_VARIABLES, CheckLevel.OFF));\n  }\n\n  this.warningsGuard = new ComposeWarningsGuard(guards);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

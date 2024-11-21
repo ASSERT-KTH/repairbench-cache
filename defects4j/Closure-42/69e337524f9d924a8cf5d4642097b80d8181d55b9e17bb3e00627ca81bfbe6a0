@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(BaseNode loopNode) {\n    if (loopNode.isForInLoop()) {\n        // Process \"for-in\" loop nodes.\n        return newNode(\n            Token.FOR,\n            Token.VAR,\n            transform(loopNode.asForInLoop().getIterator()),\n            Token.IN,\n            transform(loopNode.asForInLoop().getIteratedObject()),\n            transformBlock(loopNode.asForInLoop().getBody()));\n    } else if (loopNode.isForEachLoop()) {\n        // Process \"for-each\" loop nodes.\n        return newNode(\n            Token.FOR,\n            Token.VAR,\n            transform(loopNode.asForEachLoop().getIterator()),\n            Token.IN,\n            transform(new Node(Token.THIS), new Node(loopNode.asForEachLoop().getIteratedObject())),\n            transformBlock(loopNode.asForEachLoop().getBody()));\n    }\n    // Throw exception for unsupported loop types.\n    throw new UnsupportedOperationException(\"Unsupported loop type: \" + loopNode.getClass().getName());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

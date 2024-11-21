@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean mayBeString(Node node, boolean recurse) {\n    if (recurse) {\n      // Check if all child nodes match the MAY_BE_STRING_PREDICATE\n      for (Node child = node.getFirstChild(); child != null; child = child.getNext()) {\n        if (!MAY_BE_STRING_PREDICATE.apply(child)) {\n          return false;\n        }\n      }\n      return true;\n    } else {\n      return mayBeStringHelper(node);\n    }\n  }\n\n  // Elementary conditional and ternary expression checks for string\n  private static boolean mayBeStringHelper(Node node) {\n    switch (node.getType()) {\n      case Token.STRING:\n        return true;\n      case Token.COND_EXPR:\n        return mayBeString(node.getFirstChild(), false) || mayBeString(node.getSecondChild(), false);\n      case Token.HOOK: // TERNARY_EXPR\n        return mayBeString(node.getFirstChild().getNext(), false) && mayBeString(node.getSecondChild(), false);\n      default:\n        return false;\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

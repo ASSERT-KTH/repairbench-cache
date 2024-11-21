@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // Work out if we're in an overlap / gap\n    long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    if (instantBefore == instantAfter) {\n        return instant;  // Not an overlap (less than is a gap, equal is normal case)\n    }\n\n    // We are in an overlap\n    long targetLocal = convertUTCToLocal(instant);\n    long potentialUTCEarlier = convertLocalToUTCEarlier(targetLocal);\n    long potentialUTCLater = convertLocalToUTCLater(targetLocal);\n\n    // Return the appropriate potential timestamp based on earlierOrLater\n    return earlierOrLater ? potentialUTCEarlier : potentialUTCLater;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

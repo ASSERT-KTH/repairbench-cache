@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        instant = add(instant, valueToAdd);\n\n        // Get the modified month and year\n        int[] modifiedValues = iChronology.get(partial, instant);\n\n        // Check if the modified month is February and day is 29\n        if (modifiedValues[0] == 2 && modifiedValues[1] == 29) {\n            // Check if the modified year is a leap year\n            if (!iChronology.year().isLeap(modifiedValues[2])) {\n                // If not, adjust the day to 28\n                modifiedValues[1] = 28;\n            }\n        }\n\n        return modifiedValues;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

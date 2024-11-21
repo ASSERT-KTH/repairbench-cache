@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\") // returned value will have type T because it is fixed by clazz\npublic static <T> T createValue(final String str, final Class<T> clazz) throws ParseException\n{\n    if (clazz == String.class) {\n        return (T) str;\n    } else if (clazz == Object.class) {\n        return (T) createObject(str);\n    } else if (Number.class.isAssignableFrom(clazz)) {\n        try {\n            // Assume createNumber method returns a Number\n            Number number = createNumber(str);\n            if (clazz.isInstance(number)) {\n                return (T) number;\n            } else {\n                throw new ParseException(\"Cannot parse value: \" + str);\n            }\n        } catch (Exception e) {\n            throw new ParseException(\"Cannot parse value: \" + str, e);\n        }\n    } else if (clazz == Date.class) {\n        return (T) createDate(str);\n    } else if (clazz == Class.class) {\n        return (T) createClass(str);\n    } else if (clazz == File.class) {\n        return (T) createFile(str);\n    } else if (ExistingFileValueChecker.class.equals(clazz)) { // Assume an ExistingFileValueChecker class exists\n        return (T) openFile(str);\n    } else if (clazz == List.class) {\n        return (T) createFiles(str);\n    } else if (clazz == URL.class) {\n        return (T) createURL(str);\n    } else {\n        throw new ParseException(\"Unsupported class: \" + clazz.getName());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

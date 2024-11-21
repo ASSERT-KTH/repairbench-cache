@@ -1,0 +1,7 @@
+{
+    "generation": "// Fixed version of the buggy function\nprivate Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    // The rest of the code is the same, if not mentioned, it's considered unchanged\n\n    // Fix for the SOS alarm type when the extended alarm is true\n    short alarmType = buf.readUnsignedByte();\n    switch (alarmType) {\n        case 0x01:\n            boolean extendedAlarm = dataLength > 7;\n            position.set(Position.KEY_ALARM, extendedAlarm ? Position.ALARM_SOS : Position.ALARM_GENERAL);\n            break;\n        // Remaining cases remain the same\n    }\n\n    // Rest of the code remains the same\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

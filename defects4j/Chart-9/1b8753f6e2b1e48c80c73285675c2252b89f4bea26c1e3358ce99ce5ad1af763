@@ -1,0 +1,7 @@
+{
+    "generation": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n    if (start == null) {\n        throw new IllegalArgumentException(\"Null 'start' argument.\");\n    }\n    if (end == null) {\n        throw new IllegalArgumentException(\"Null 'end' argument.\");\n    }\n    if (start.compareTo(end) > 0) {\n        throw new IllegalArgumentException(\n                \"Requires start on or before end.\");\n    }\n    int startIndex = getIndex(start);\n    if (startIndex < 0) {\n        startIndex = -(startIndex + 1);\n    }\n    int endIndex = getIndex(end);\n    if (endIndex < 0) {\n        endIndex = -(endIndex + 1); // this is first item AFTER end period\n        endIndex = endIndex - 1;   // but we want to include the item at endIndex in the copy\n    }\n    if (endIndex < startIndex || endIndex >= this.data.size()) {\n        // If endIndex is less than startIndex or out of bounds, return an empty copy\n        TimeSeries copy = (TimeSeries) super.clone();\n        copy.data = new java.util.ArrayList();\n        return copy;\n    } else {\n        return createCopy(startIndex, endIndex);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

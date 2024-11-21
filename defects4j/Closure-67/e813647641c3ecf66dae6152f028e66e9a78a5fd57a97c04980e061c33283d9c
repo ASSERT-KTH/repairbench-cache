@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP\n      ) {\n    // We want to exclude the assignment itself from the usage list\n    boolean isChainedProperty =\n        n.getFirstChild().getType() == Token.GETPROP;\n\n    if (isChainedProperty) {\n      Node child = n.getFirstChild().getFirstChild().getNext();\n\n      // Check for a string literal OR a expression resolving to \"prototype\"\n      if (child.getType() == Token.STRING) {\n        if (child.getString().equals(\"prototype\")) {\n          return true;\n        }\n      } else {\n        // Recursively check for subtree that may resolve to \"prototype\"\n        String subtreeString = getSubtreeStringLiteral(child);\n        if (subtreeString != null && subtreeString.equals(\"prototype\")) {\n          return true;\n        }\n      }\n    }\n  }\n\n  return false;\n}\n\nprivate String getSubtreeStringLiteral(Node node) {\n  if (node == null) {\n    return null;\n  }\n\n  if (node.getType() == Token.STRING) {\n    return node.getString();\n  }\n\n  for (Node child = node.getFirstChild(); child != null; child = child.getNext()) {\n    String subtreeString = getSubtreeStringLiteral(child);\n    if (subtreeString != null) {\n      return subtreeString;\n    }\n  }\n\n  return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

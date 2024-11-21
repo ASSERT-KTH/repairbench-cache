@@ -1,0 +1,7 @@
+{
+    "generation": "private static Node computeFollowNode(Node fromNode, Node node, ControlFlowAnalysis cfa) {\n    Node parent = node.getParent();\n    if (parent == null || parent.isFunction() ||\n        (cfa != null && node == cfa.root)) {\n      return null;\n    }\n\n    switch (parent.getType()) {\n      // ... existing cases ...\n\n      case Token.TRY:\n        if (parent.getFirstChild() == node || NodeUtil.getCatchBlock(parent) == node) {\n          if (NodeUtil.hasFinally(parent)) { // If we are inside TRY or CATCH, go to FINALLY.\n            return computeFallThrough(parent.getLastChild());\n          } else {\n            return computeFollowNode(fromNode, parent, cfa);\n          }\n        } else if (parent.getLastChild() == node){\n          if (cfa != null) {\n            for (Node finallyNode : cfa.finallyMap.get(parent)) {\n              cfa.createEdge(fromNode, Branch.UNCOND, finallyNode);\n            }\n          }\n          return computeFollowNode(fromNode, parent, cfa);\n        }\n        break;\n    }\n\n    // ... remaining code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Determines whether a function can be inlined at a particular call site.\n * If a call's arguments have side effects, the function should not be inlined.\n */\nprivate CanInlineResult canInlineReferenceDirectly(\n    Node callNode, Node fnNode) {\n  if (!isDirectCallNodeReplacementPossible(fnNode)) {\n    return CanInlineResult.NO;\n  }\n\n  Node block = fnNode.getLastChild();\n\n  Node cArg = callNode.getFirstChild();\n  if (!cArg.isName()) {\n    cArg = cArg.getNext(); // Skips call node itself\n  }\n\n  while (cArg != null) {\n    if (NodeUtil.mayHaveSideEffects(cArg, compiler)) {\n      return CanInlineResult.NO;\n    }\n    cArg = cArg.getNext();\n  }\n\n  return CanInlineResult.YES;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

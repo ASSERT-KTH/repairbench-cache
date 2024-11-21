@@ -1,0 +1,7 @@
+{
+    "generation": "void maybeDeclareQualifiedName(NodeTraversal t, JSDocInfo info,\n    Node n, Node parent, Node rhsValue) {\n\n    // ... rest of the code ...\n\n    // Function prototypes are special.\n    // It's a common JS idiom to do:\n    // F.prototype = { ... };\n    // So if F does not have an explicitly declared super type,\n    // allow F.prototype to be redefined arbitrarily.\n    if (\"prototype\".equals(propName)) {\n      Var qVar = scope.getVar(qName);\n      if (qVar != null) {\n        ObjectType qVarType = ObjectType.cast(qVar.getType());\n        if (qVarType != null &&\n            rhsValue != null &&\n            rhsValue.isObjectLit()) {\n          FunctionType superClassType = qVarType.getImplicitPrototype();\n          if (superClassType == null || superClassType.isUnknownType()) {\n            if (qVar.getScope() == scope) {\n              scope.undeclare(qVar);\n            }\n          } else {\n            typeRegistry.resetImplicitPrototype(\n                rhsValue.getJSType(), qVarType.getImplicitPrototype());\n          }\n        } else if (!qVar.isTypeInferred() &&\n                   qVarType != null &&\n                   qVarType.isNativeObjectType() &&\n                   qVar.getScope() == scope) {\n          // Only undeclare native object types from the current scope\n          scope.undeclare(qVar);\n        }\n      }\n    }\n\n    // ... rest of the code ...\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

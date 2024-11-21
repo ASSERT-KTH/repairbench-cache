@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    JavaType type = _cache.get(cls);\n    if (type == null) {\n        type = _constructType(cls);\n        _cache.put(cls, type);\n    }\n    return type;\n}\n\nprivate JavaType _constructType(Class<?> cls) {\n    if (cls == Object.class) {\n        return TypeFactory.unknownType();\n    }\n    // Construct the base type\n    JavaType baseType = constructType(cls.getSuperclass());\n    // Combine the base type properties with the current class properties\n    return baseType.withSubType(constructSimpleType(cls, null));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

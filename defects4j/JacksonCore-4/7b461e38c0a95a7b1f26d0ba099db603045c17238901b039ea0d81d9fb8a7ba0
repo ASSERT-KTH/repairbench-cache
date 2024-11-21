@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method called to expand size of the current segment, to\n     * accommodate for more contiguous content. Usually only\n     * used when parsing tokens like names if even then.\n     */\n    public char[] expandCurrentSegment()\n    {\n        final char[] curr = _currentSegment;\n        // Let's grow by 50% by default, but if already at maximum size, increase by 25%\n        final int len = curr.length;\n        int newLen = (len >= MAX_SEGMENT_LEN) ? (int) (len * 1.25) : (len + (len >> 1));\n        newLen = Math.min(MAX_SEGMENT_LEN, newLen);\n\n        if (newLen <= len) {\n            // If we calculated the new length to be less than or equal to current length, which means we're at MAX_SEGMENT_LEN\n            // and the new length would still be beyond the maximum allowed, so we increase it by just 1.\n            newLen = len + 1;\n        }\n        return (_currentSegment = Arrays.copyOf(curr, newLen));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

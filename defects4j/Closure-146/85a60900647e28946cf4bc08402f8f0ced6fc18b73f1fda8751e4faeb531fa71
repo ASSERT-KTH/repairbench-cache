@@ -1,0 +1,7 @@
+{
+    "generation": "  public TypePair getTypesUnderInequality(JSType that) {\n    // unions types\n    if (that instanceof UnionType) {\n      TypePair p = that.getTypesUnderInequality(this);\n      return new TypePair(p.typeB, p.typeA);\n    }\n\n    // equality types\n    switch (this.testForEquality(that)) {\n      case TRUE:\n        return new TypePair(NULL_TYPE, NULL_TYPE); // Change this line to fix the bug. NULL_TYPE could be an appropriate alternative for cases where VOID_TYPE is expected.\n\n      case FALSE:\n      case UNKNOWN:\n        if (this.isSingleType() && that.isSingleType() && !this.isVoidType() && !that.isVoidType()) {\n          // The bug being fixed in the test involves void types, so we update this condition to check for single types and non-void types.\n          return new TypePair(this, that);\n        }\n        // If the types are not appropriate for the inequality case, we return the original types to avoid incorrect type inference.\n        return new TypePair(this, that);\n    }\n\n    // switch case is exhaustive\n    throw new IllegalStateException();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

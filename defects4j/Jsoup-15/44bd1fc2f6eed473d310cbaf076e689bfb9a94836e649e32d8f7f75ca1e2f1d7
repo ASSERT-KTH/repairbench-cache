@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, TreeBuilder tb) {\n    switch (t.type) {\n        // ... rest of the code ...\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            if (StringUtil.in(name, \"style\", \"script\", \"noscript\", \"textarea\", \"xmp\", \"iframe\", \"noembed\")) {\n                tb.reconstructFormattingElements();\n                tb.insert(startTag);\n                tb.tokeniser.transition(TokeniserState.RAWTEXT);\n                tb.markInsertionMode();\n                tb.transition(Text);\n            }\n             // ... rest of the code ...\n\n        case EndTag:\n            Token.EndTag endTag = t.asEndTag();\n            name = endTag.name();\n            if (StringUtil.in(name, \"style\", \"script\", \"noscript\", \"textarea\", \"xmp\", \"iframe\", \"noembed\")) {\n                // Switch out of RAWTEXT mode\n                if (tb.tokeniser.state() == TokeniserState.RAWTEXT) {\n                    tb.popToMarkedInsertionMode();\n                }\n                tb.process(endTag);\n            }\n            // ... rest of the code ...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

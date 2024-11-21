@@ -1,0 +1,7 @@
+{
+    "generation": "static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {\n    String docData;\n    Document doc = null;\n\n    // look for BOM - overrides any other header or input\n    if (byteData.get(0) == (byte) 0xFF && byteData.get(1) == (byte) 0xFE) {\n        // UTF-16LE\n        charsetName = \"UTF-16LE\";\n    } else if (byteData.get(0) == (byte) 0xFE && byteData.get(1) == (byte) 0xFF) {\n        // UTF-16BE\n        charsetName = \"UTF-16BE\";\n    } else if (byteData.get(0) == (byte) 0xEF && byteData.get(1) == (byte) 0xBB && byteData.get(2) == (byte) 0xBF) {\n        // UTF-8\n        charsetName = \"UTF-8\";\n        byteData = byteData.slice(); // Create a new slice from position 3\n        byteData.putInt(0, byteData.getInt(0) & 0xFFFFFF); // Clear the BOM bytes\n    } else if ((byteData.get(0) & 0xFF) == 0xFF && (byteData.get(1) & 0xFF) == 0xFE && (byteData.get(2) & 0xFF) == 0x00 && (byteData.get(3) & 0xFF) == 0x00) {\n        // UTF-32LE\n        charsetName = \"UTF-32LE\";\n    } else if ((byteData.get(0) & 0xFF) == 0x00 && (byteData.get(1) & 0xFF) == 0x00 && (byteData.get(2) & 0xFF) == 0xFE && (byteData.get(3) & 0xFF) == 0xFF) {\n        // UTF-32BE\n        charsetName = \"UTF-32BE\";\n    }\n\n    // ... rest of the code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

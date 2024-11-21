@@ -1,0 +1,7 @@
+{
+    "generation": "private <T> void _testEmptyToNullCoercion(Class<T> type, T expectedValue) throws Exception {\n    final String json = \"\\\"\\\"\";\n    T actualValue = mapper.readValue(json, type);\n\n    if (actualValue == null) {\n        throw new AssertionFailedError(\"Should not have passed\");\n    } else if (expectedValue instanceof Number && ((Number) expectedValue).doubleValue() == 0.0) {\n        // For primitive types, we have to compare values as they cannot be null\n        if (Double.compare(((Number) actualValue).doubleValue(), ((Number) expectedValue).doubleValue()) != 0) {\n             throw new AssertionFailedError(\"Expected \" + expectedValue + \" but got \" + actualValue);\n        }\n    } else {\n        assertEquals(expectedValue, actualValue);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

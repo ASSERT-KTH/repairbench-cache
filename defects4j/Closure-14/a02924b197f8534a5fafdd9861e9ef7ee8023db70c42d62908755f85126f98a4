@@ -1,0 +1,7 @@
+{
+    "generation": "  private static Node computeFollowNode(\n      Node fromNode, Node node, ControlFlowAnalysis cfa) {\n    // ... existing code ...\n\n   // Case for handling break statement within a try block\n    if (parent.getType() == Token.TRY && node.getType() == Token.BREAK) {\n      if (NodeUtil.hasFinally(parent)) {\n        Node finallyNode = parent.getLastChild();\n        if (cfa != null) {\n          for (Node outerFinallyNode : cfa.finallyMap.get(parent)) {\n            cfa.createEdge(fromNode, Branch.UNCOND, outerFinallyNode);\n          }\n        }\n        return computeFallThrough(finallyNode);\n      }\n    }\n\n    // ... rest of the function ...\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n Add a list of allowed elements to a safelist. (If a tag is not supported, a ValidationException will be thrown.)\n\n @param tags tag names to allow\n @throws ValidationException if any of the given tags are not supported\n @return this (for chaining)\n */\npublic Safelist addTags(String... tags) throws ValidationException {\n    Validate.notNull(tags);\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        if (!TagName.isAllowed(tagName)) {\n            throw new ValidationException(\"Unsupported tag name: \" + tagName);\n        }\n        tagNames.add(TagName.valueOf(tagName));\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

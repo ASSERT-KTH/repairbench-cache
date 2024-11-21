@@ -1,0 +1,7 @@
+{
+    "generation": "    protected boolean equal(\n        EvalContext context,\n        Expression left,\n        Expression right)\n    {\n        Object l = left.compute(context);\n        Object r = right.compute(context);\n\n        if (l instanceof InitialContext || l instanceof SelfContext) {\n            l = ((EvalContext) l).getSingleNodePointer();\n        }\n\n        if (r instanceof InitialContext || r instanceof SelfContext) {\n            r = ((EvalContext) r).getSingleNodePointer();\n        }\n\n        if (l instanceof Collection || l instanceof Iterator) {\n            if (!(l instanceof Collection)) {\n                l = toCollection((Iterator) l);\n            }\n        }\n\n        if (r instanceof Collection || r instanceof Iterator) {\n            if (!(r instanceof Collection)) {\n                r = toCollection((Iterator) r);\n            }\n        }\n\n        if (l instanceof Collection && r instanceof Collection) {\n            return ((Collection) l).containsAll((Collection) r)} &&\n                   ((Collection) r).containsAll((Collection) l))\n        }\n\n        return equal(l, r);\n    }\n\n    // Helper method to convertIterator to Collection\n    private Collection toCollection(Iterator iterator) {\n        Collection list = new ArrayList();\n        while (iterator.hasNext()) {\n            list.add(iterator.next());\n        }\n        return list;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

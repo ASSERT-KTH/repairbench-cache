@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean evaluatesToLocalValue(Node value, Predicate<Node> locals) {\n  switch (value.getType()) {\n    // ... rest of the code ...\n\n    case Token.NEW:\n      Node parent = value.getParent();\n      // If NEW expression is within a constructor, it's a local value\n      return parent.isFunction() && parent.isConstructor();\n\n    case Token.THIS:\n      Node function = ASTUtils.getEnclosingFunction(value);\n      // If THIS is used within a method or a constructor, it's a local value\n      return function != null && (function.isFunction() || function.isConstructor());\n\n    // ... rest of the code ...\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

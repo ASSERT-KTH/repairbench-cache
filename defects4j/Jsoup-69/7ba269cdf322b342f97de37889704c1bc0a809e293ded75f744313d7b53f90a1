@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public List<Connection.KeyVal> formData() {\n        Validate.isFalse(isDisabled());\n        List<Connection.KeyVal> formData = new ArrayList<>();\n        Elements inputs = select(inputQuery); // select input elements\n\n        for (Element inputEl : inputs) {\n            String name = inputEl.attr(\"name\");\n            if (name.isEmpty() || inputEl.hasAttr(\"disabled\"))\n                continue;\n\n            String type = inputEl.attr(\"type\").toLowerCase();\n            if (\"radio\".equals(type) || \"checkbox\".equals(type)) {\n                if (!inputEl.hasAttr(\"checked\"))\n                    continue;\n            }\n\n            // Only add if the element is not removed\n            if (!inputEl.parent().equals(this))\n                continue;\n\n            formData.add(new Connection.KeyVal(name, inputEl.val()));\n        }\n\n        return formData;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

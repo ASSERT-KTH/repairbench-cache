@@ -1,0 +1,7 @@
+{
+    "generation": "public int read(byte[] buffer, int start, int length) throws IOException {\n    if (closed) {\n        throw new IOException(\"The stream is closed\");\n    }\n    if (inf.finished() || current == null) {\n        return -1;\n    }\n\n    if (start <= buffer.length && length >= 0 && start >= 0 && buffer.length - start >= length) {\n        if (current.getMethod() == ZipArchiveOutputStream.STORED) {\n            int csize = (int) current.getSize();\n            if (readBytesOfEntry >= csize) {\n                return -1;\n            }\n            if (offsetInBuffer >= lengthOfLastRead) {\n                offsetInBuffer = 0;\n                if ((lengthOfLastRead = in.read(buf)) == -1) {\n                    // Add this line to throw exception if end of stream is reached\n                    throw new IOException(\"Truncated ZIP file\");\n                }\n                count(lengthOfLastRead);\n                bytesReadFromStream += lengthOfLastRead;\n            }\n            // rest of the code...\n        }\n        // rest of the code...\n    }\n    throw new ArrayIndexOutOfBoundsException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  protected CompilerOptions createOptions() {\n    CompilerOptions options = new CompilerOptions();\n    options.setCodingConvention(new ClosureCodingConvention());\n    CompilationLevel level = flags.compilation_level;\n    level.setOptionsForCompilationLevel(options);\n    if (flags.debug) {\n      level.setDebugOptionsForCompilationLevel(options);\n    }\n\n    WarningLevel wLevel = flags.warning_level;\n    wLevel.setOptionsForWarningLevel(options);\n    for (FormattingOption formattingOption : flags.formatting) {\n      formattingOption.applyToOptions(options);\n    }\n\n    // Save the original value of options.closurePass\n    boolean originalClosurePass = options.closurePass;\n\n    initOptionsFromFlags(options);\n\n    // Restore the original value of options.closurePass if it has been changed\n    if (originalClosurePass != options.closurePass) {\n      options.closurePass = originalClosurePass;\n    }\n\n    // Set the closurePass option based on flags\n    if (flags.process_closure_primitives) {\n      options.closurePass = true;\n    }\n\n    return options;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

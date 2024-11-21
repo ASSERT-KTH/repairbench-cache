@@ -1,0 +1,7 @@
+{
+    "generation": "public static long skip(InputStream input, long numToSkip) throws IOException {\n    long available = numToSkip;\n    long skipped = 0;\n    while (numToSkip > 0 && (skipped = input.skip(numToSkip)) > 0) {\n        numToSkip -= skipped;\n    }\n    if (numToSkip > 0) {\n        byte[] buf = new byte[(int) Math.min(numToSkip, 4096)];\n        while (numToSkip > 0 && (skipped = input.read(buf, 0, (int) Math.min(numToSkip, buf.length))) > 0) {\n            numToSkip -= skipped;\n        }\n    }\n    return available - numToSkip;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

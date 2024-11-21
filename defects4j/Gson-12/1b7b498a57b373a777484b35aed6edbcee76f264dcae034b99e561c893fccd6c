@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void skipValue() throws IOException {\n  if (stackSize > 0) { // Add this line to prevent negative index access\n    if (peek() == JsonToken.NAME) {\n      nextName();\n      if (stackSize > 1) { // Add this line to prevent negative index access\n        pathNames[stackSize - 2] = \"null\";\n      }\n    } else {\n      popStack();\n      if (stackSize > 0) { // Add this line to prevent negative index access\n        pathNames[stackSize - 1] = \"null\";\n      }\n    }\n  }\n  if (stackSize > 0) { // Add this line to make sure we're always in a valid index range\n    pathIndices[stackSize - 1]++;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

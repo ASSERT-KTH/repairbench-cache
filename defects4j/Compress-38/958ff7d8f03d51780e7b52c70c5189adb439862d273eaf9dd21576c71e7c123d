@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    String name = getName();\n    if (name == null || name.isEmpty()) { // added null check to prevent NullPointerException\n        return false;\n    }\n\n    // added a check for if there's a continuation of the filename\n    while (name.endsWith(\"\\\\\")) {\n        String temp = getNextTarEntry().getName();\n        name = name.substring(0, name.length() - 1);\n        name += temp;\n    }\n\n    return name.endsWith(\"/\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

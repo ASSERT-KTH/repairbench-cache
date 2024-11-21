@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n\n    double lo = min;\n    double hi = max;\n    double mid;\n\n    // Check if function values at endpoints have different signs.\n    if (f.value(lo) * f.value(hi) > 0) {\n        throw new IllegalArgumentException(\"Function values at endpoints do not have different signs.\");\n    }\n\n    int iterations = 0;\n    double tolerance = getAbsoluteAccuracy();\n    while ((hi - lo) >= tolerance) {\n        iterations++;\n        if (iterations > getMaximalIterationCount()) {\n            throw new MaxIterationsExceededException(getMaximalIterationCount());\n        }\n\n        mid = (lo + hi) / 2;\n        if (f.value(mid) == 0) {\n            return mid; // Root found\n        } else if (f.value(lo) * f.value(mid) < 0) {\n            hi = mid;\n        } else {\n            lo = mid;\n        }\n    }\n\n    return (lo + hi) / 2; // Approximate root found\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

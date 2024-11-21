@@ -1,0 +1,7 @@
+{
+    "generation": "public Class<?> getGenericType(Field field) {\n    Type type = field.getGenericType();\n    return resolveType(type);\n}\n\nprivate Class<?> resolveType(Type type) {\n    if (type instanceof Class) {\n        return (Class<?>) type;\n    }\n    if (type instanceof ParameterizedType) {\n        ParameterizedType paramType = (ParameterizedType) type;\n        Type[] argTypes = paramType.getActualTypeArguments();\n        // return the first argument type for show, it's up to the caller to decide how to handle multi-arguments\n        return resolveType(argTypes[0]);\n    }\n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public JavaType constructType(Class<?> cls) {\n        // Check if the type is already in the cache\n        JavaType type = _classCache.get(cls);\n        if (type == null) {\n            // If not, construct the type and add it to the cache\n            type = new SimpleType(cls, _typeModifier, _typeHandler, false);\n            _classCache.put(cls, type);\n\n            // Make sure to also add the superclass to the cache\n            Class<?> superClass = cls.getSuperclass();\n            if (superClass != null && !Object.class.equals(superClass)) {\n                _classCache.putIfAbsent(superClass, constructType(superClass));\n            }\n        }\n        return type;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

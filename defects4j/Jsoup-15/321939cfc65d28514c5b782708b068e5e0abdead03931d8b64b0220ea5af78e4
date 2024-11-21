@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, TreeBuilder tb) {\n    switch (t.type) {\n        case Character:\n            ...\n            // No changes here.\n            ...\n\n        case Comment:\n            tb.insert(t.asComment());\n            break;\n\n        case Doctype:\n            tb.error(this);\n            return false;\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            if (name.equals(\"script\") || name.equals(\"style\")) {\n                tb.tokeniser.transition(TokeniserState.RCDATA);\n                Element element = tb.insert(startTag);\n                tb.tokeniser.markPending(new AutomaticClose(name));\n                tb.tokeniser.transition(TokeniserState.RAWTEXT);\n                break;\n            }\n            // Continue with the rest of the function...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

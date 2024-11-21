@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    tb.insert(startTag);\n\n    // The bug was here, tokeniser transition was not correct for the empty elements 'style' and 'noframes'.\n    // Tokeniser state should stay in Data state for them instead of switching to Rawtext state.\n\n    if (startTag.normalName().equals(\"style\") || startTag.normalName().equals(\"noframes\")) {\n        tb.tokeniser.transition(TokeniserState.Data);\n    } else {\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n    }\n\n    tb.markInsertionMode();\n    tb.transition(TreeBuilder.Text);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n\n    for (Element el : (elements())) {\n        if (el.tagName().equals(\"input\") || el.tagName().equals(\"button\") || el.tagName().equals(\"keygen\") ||\n            el.tagName().equals(\"select\") || el.tagName().equals(\"textarea\")) {\n\n            String name = el.attr(\"name\");\n            if (name.length() > 0 && el.baseUri().length() == 0 && el.attr(\"disabled\").length() == 0) {\n                String type = el.attr(\"type\");\n                if (\"select\".equals(el.tagName())) {\n                    Elements options = el.select(\"option[selected]\");\n                    if (options.isEmpty())\n                        options = el.select(\"option\"); // defaults to first option\n                    for (Element option : options) {\n                        data.add(Connection.KeyVal.create(name, option.val()));\n                    }\n                } else if (\"checkbox\".equalsIgnoreCase(type) || \"radio\".equalsIgnoreCase(type)) {\n                    if (el.hasAttr(\"checked\")) {\n                        data.add(Connection.KeyVal.create(name, \"on\"));\n                    }\n                } else {\n                    data.add(Connection.KeyVal.create(name, el.val()));\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

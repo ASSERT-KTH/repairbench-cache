@@ -1,0 +1,7 @@
+{
+    "generation": "      // Sort inputs based on dependencies if enabled\n      if (options.dependencyOptions.needsManagement() && options.closurePass) {\n        ... // manage dependencies code\n        repartitionInputs();\n\n        // Reorder inputs based on dependency sorting\n        List<CompilerInput> sortedInputs = new ArrayList<>(inputs);\n        Collections.sort(sortedInputs, (input1, input2) -> {\n          Set<String> dependencies = moduleGraph.getDependencies(input1);\n          return dependencies.contains(input2.getName()) ? 1 : -1;\n        });\n        inputs = sortedInputs;\n      }\n\n      // Build the AST.\n      for (CompilerInput input : inputs) {\n        Node n = input.getAstRoot(this);\n        if (n == null) {\n          continue;\n        }\n\n        // Add remaining nodes to the jsRoot, now in dependency order\n        jsRoot.addChildToBack(n);\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public Partial with(DateTimeFieldType fieldType, int value) {\n    if (fieldType == null) {\n        throw new IllegalArgumentException(\"The field type must not be null\");\n    }\n    if (contains(fieldType)) {\n        DateTimeField field = fieldType.getField(iChronology);\n        if (field.isSupported()) {\n            int index = indexOf(fieldType);\n            if (value == getValue(index)) {\n                return this;\n            }\n            int[] newValues = getValues();\n            newValues = field.set(this, index, newValues, value);\n            Partial newPartial = new Partial(this, newValues);\n            iChronology.validate(newPartial, newValues);\n            return newPartial;\n        }\n    }\n    throw new IllegalArgumentException(\"Field '\" + fieldType + \"' is not supported\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

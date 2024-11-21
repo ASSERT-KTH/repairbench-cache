@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // If the assignment is within a function call, check all blocks belonging to that function\n  if(ref.isFunctionCall()) {\n    Script script = ref.getFunction().getSourceFile().getScript();\n    for (Function function : script.getFunctions()) {\n      if (function.getScript() == ref.getFunction().getScript() && function.isLoop()) {\n        return false;\n      }\n    }\n  }\n  // If the assignment is not within a function call, check blocks belonging to the assignment\n  else {\n    for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n      if (block.isFunction) {\n        break;\n      } else if (block.isLoop && !ref.isFunctionCall()) {\n        return false;\n      }\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

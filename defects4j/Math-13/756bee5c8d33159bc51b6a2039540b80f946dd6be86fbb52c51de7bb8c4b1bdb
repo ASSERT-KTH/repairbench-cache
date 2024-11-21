@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        int n = m.getRowDimension();\n        if (m.getColumnDimension() != n) {\n            throw new IllegalArgumentException(\"Matrix must be square\");\n        }\n\n        RealMatrix y = MatrixUtils.createRealIdentityMatrix(n);\n        RealMatrix z = m.copy();\n        RealMatrix i = MatrixUtils.createRealIdentityMatrix(n);\n\n        double TOL = 1e-6; // Tolerance for convergence\n        double norm;\n\n        do {\n            RealMatrix yz = y.multiply(z);\n            RealMatrix t = yz.subtract(i).multiply(0.5);\n            y = y.subtract(t.multiply(y));\n            z = z.subtract(z.multiply(t));\n\n            norm = yz.subtract(i).getNorm();\n        } while (norm > TOL);\n\n        return y;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

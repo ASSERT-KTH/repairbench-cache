@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value = el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks) {\n        attr.setValue(value);\n    }\n\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (value.toLowerCase().startsWith(prot)) {\n            return true;\n        }\n    }\n\n    // Check if the value starts with a custom protocol\n    String[] parts = value.split(\":\", 2);\n    if (parts.length > 1 && protocols.contains(new Protocol(parts[0]))){\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

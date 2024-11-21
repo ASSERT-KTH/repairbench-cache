@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected double doSolve() {\n    ...\n    // set a practical tolerance for function value accuracy\n    double functionValueAccuracy = Math.max(1E-15, getFunctionValueAccuracy());\n\n    int evaluations = 0;\n\n    // search loop\n    while (true) {\n        ...\n\n        if (++evaluations > getMaxEvaluations()) {\n            throw new TooManyEvaluationsException(getMaxEvaluations());\n        }\n\n        // new convergence check: added use of functionValueAccuracy\n        if (((xB - xA) <= xTol) || (FastMath.max(absYA, absYB) < functionValueAccuracy)) {\n            ...\n        }\n\n        ...\n\n        // new check: stopped computation if maximum evaluations reached\n        final double nextY = computeObjectiveValue(nextX);\n        if (++evaluations > getMaxEvaluations()) {\n            throw new TooManyEvaluationsException(getMaxEvaluations());\n        }\n\n        ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

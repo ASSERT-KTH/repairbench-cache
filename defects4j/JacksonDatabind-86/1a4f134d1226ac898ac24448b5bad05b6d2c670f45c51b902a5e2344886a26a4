@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.databind.JavaType;\nimport com.fasterxml.jackson.databind.type.TypeFactory;\nimport com.fasterxml.jackson.databind.ObjectMapper;\n\n// Base and Sub classes as defined in your test cases\nclass Base {\n    public int base = 1;\n}\nclass Sub extends Base {\n    public int sub = 2;\n}\n\n// ObjectMapper configuration if needed\nprivate ObjectMapper objectMapper() {\n    // You can configure the ObjectMapper here\n    return new ObjectMapper();\n}\n\n// Test used to ensure the fix is appropriately addressing the issue.\npublic void testSuperClassWithReferencedJavaType() {\n    TypeFactory tf = objectMapper().getTypeFactory();\n\n    // Ensure the Base class is constructed separately to initialize properly\n    JavaType baseType = tf.constructType(Base.class);\n\n    // Ensure Sub class is constructed after Base class is properly setup\n    JavaType subType = tf.constructType(Sub.class);\n\n    // Ensure that the supertype of Sub is correctly set to ResolvedRecursiveType\n    JavaType baseTypeFromSub = subType.getSuperClass();\n    assertNotNull(baseTypeFromSub.getSuperClass());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

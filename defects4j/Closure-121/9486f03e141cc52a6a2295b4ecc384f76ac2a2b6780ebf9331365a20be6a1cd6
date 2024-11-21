@@ -1,0 +1,7 @@
+{
+    "generation": "  // If this variable was not inlined normally, check if we can\n  // inline an alias of it. (If the variable was inlined, then the\n  // reference data is out of sync. We're better off just waiting for\n  // the next pass.)\n  if (!maybeModifiedArguments &&\n      !staleVars.contains(v) &&\n      referenceInfo.isWellDefined() &&\n      referenceInfo.isAssignedOnceInLifetime() &&\n      v.isConstant()) {\n      // Inlining the variable based solely on well-defined and assigned\n      // once is *NOT* correct. We relax the correctness requirement if\n      // the variable is declared constant.\n    List<Reference> refs = referenceInfo.references;\n    for (int i = 1 /* start from a read */; i < refs.size(); i++) {\n      Node nameNode = refs.get(i).getNode();\n      if (aliasCandidates.containsKey(nameNode)) {\n        AliasCandidate candidate = aliasCandidates.get(nameNode);\n        if (!staleVars.contains(candidate.alias) &&\n            !isVarInlineForbidden(candidate.alias) &&\n            candidate.alias.isConstant()) {\n          Reference aliasInit;\n          aliasInit = candidate.refInfo.getInitializingReference();\n          Node value = aliasInit.getAssignedValue();\n          Preconditions.checkNotNull(value);\n          inlineWellDefinedVariable(candidate.alias,\n              value,\n              candidate.refInfo.references);\n          staleVars.add(candidate.alias);\n        }\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

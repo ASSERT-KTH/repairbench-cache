@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used to prevent both caching and cache lookups for structured\n     * types that have custom value handlers\n     *\n     * @since 2.8.11\n     */\n    private boolean _hasCustomHandlers(JavaType t) {\n        if (t.hasRawClass(Map.class, false)) {\n            // Handle map-like types separately:\n            // check if there is a key deserializer, which would indicate a custom key type\n            KeyDeserializer kd = t.getKeyDeserializer();\n            if(kd != null && !(kd instanceof BeanPropertyMapDeserializer)) {\n                return true;\n            }\n            // Then check for any custom value handlers\n            JavaType vt = t.getContentType();\n            if (vt != null && (vt.getValueHandler() != null || vt.getTypeHandler() != null)) {\n                return true;\n            }\n        } else if (t.isContainerType()) {\n            // For container types other than map, just check for any custom value handlers\n            JavaType ct = t.getContentType();\n            if (ct != null) {\n                return (ct.getValueHandler() != null) || (ct.getTypeHandler() != null);\n            }\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

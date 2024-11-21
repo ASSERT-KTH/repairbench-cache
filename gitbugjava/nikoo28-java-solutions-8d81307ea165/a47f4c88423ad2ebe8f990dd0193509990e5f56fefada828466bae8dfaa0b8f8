@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] calculateSpans(int[] prices) {\n\n    int[] spans = new int[prices.length];\n    spans[0] = 1; // Span of first element is always 1\n\n    Stack<Integer> indexStack = new Stack<>();\n\n    // Push the index of first element\n    indexStack.push(0);\n\n    for (int i = 1; i < prices.length; i++) {\n      // If the price is equal to the price at the top of the stack,\n      // we need to consider the previous days as well, so we increment by 1\n      // but we don't pop the stack.\n      if (prices[indexStack.peek()] == prices[i]) {\n        spans[i] = spans[indexStack.peek()] + 1;\n      } else {\n        // If the price is greater than the price at the top of the stack,\n        // we pop the stack until we find a price lower than the current one\n        // and then calculate the span\n        while (!indexStack.isEmpty() && prices[indexStack.peek()] < prices[i]) {\n          indexStack.pop();\n        }\n\n        // If index stack is empty, the price at index 'i'\n        // is greater than all previous values\n        if (indexStack.isEmpty())\n          spans[i] = i + 1;\n        else\n          spans[i] = i - indexStack.peek();\n      }\n\n      // Push the current index to the stack\n      indexStack.push(i);\n    }\n\n    return spans;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

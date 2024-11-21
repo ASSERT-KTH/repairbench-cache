@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(final UnivariateRealFunction f,\n                    final double min, final double max, final double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n\n    clearResult();\n    verifySequence(min, initial, max);\n\n    if (Math.abs(min - initial) < FunctionUtils.defaultEpsilon || Math.abs(max - initial) < FunctionUtils.defaultEpsilon) {\n        throw new IllegalArgumentException(\"Invalid input: Initial value must not be an endpoint.\");\n    }\n\n    // Check if the function values at the endpoints have the same sign\n    double yMin = f.value(min);\n    double yMax = f.value(max);\n    if (yMin * yMax >= 0) {\n        throw new IllegalArgumentException(\"Invalid input: No sign change in the given interval.\");\n    }\n\n    // return the initial guess if it is good enough\n    double yInitial = f.value(initial);\n    if (Math.abs(yInitial) <= functionValueAccuracy) {\n        setResult(initial, 0);\n        return result;\n    }\n\n    // Reduce interval if initial and endpoints bracket the root\n    if (yInitial * yMin < 0) {\n        return solve(f, min, yMin, initial, yInitial, min, yMin);\n    }\n\n    if (yInitial * yMax < 0) {\n        return solve(f, initial, yInitial, max, yMax, initial, yInitial);\n    }\n\n    // full Brent algorithm starting with provided initial guess\n    return solve(f, min, yMin, max, yMax, initial, yInitial);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

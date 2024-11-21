@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> scope) {\n  setResolvedTypeInternal(this);\n\n  call = (ArrowType) safeResolve(call, t, scope);\n  prototype = (FunctionPrototypeType) safeResolve(prototype, t, scope);\n\n  typeOfThis = safeResolve(typeOfThis, t, scope);\n  if (!typeOfThis.isSubtypeOf(ObjectType.getInstance())) {\n    t.report(JSError.make(\"@this type of a function must be an object\\n\"\n        + \"Actual type: \" + typeOfThis.toStringTree(), this));\n  }\n\n  boolean changed = false;\n  ImmutableList.Builder<ObjectType> resolvedInterfaces =\n  ImmutableList.builder();\n  for (ObjectType iface : implementedInterfaces) {\n    ObjectType resolvedIface = (ObjectType) safeResolve(iface, t, scope);\n    if (!(resolvedIface instanceof ObjectType)) {\n      t.report(JSError.make(\"Implemented interface type must be an object\\n\"\n        + \"Actual type: \" + resolvedIface.toStringTree(), this));\n      continue;\n    }\n    resolvedInterfaces.add(resolvedIface);\n    changed |= (resolvedIface != iface);\n  }\n  if (changed) {\n    implementedInterfaces = resolvedInterfaces.build();\n  }\n\n  if (subTypes != null) {\n    for (int i = 0; i < subTypes.size(); i++) {\n      subTypes.set(i, (FunctionType) subTypes.get(i).resolve(t, scope));\n    }\n  }\n\n  return super.resolveInternal(t, scope);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares a refined type in {@code scope} for the name represented by\n * {@code node}. It must be possible to refine the type of the given node in\n * the given scope, as determined by {@link #getTypeIfRefinable}.\n */\nprotected void declareNameInScope(FlowScope scope, Node node, JSType type) {\n  // Check for \"this\" node type first\n  if (node.getType() == Token.THIS) {  // Assuming Token.THIS is the correct type for \"this\"\n    Node thisNode = getThisNode();  // Assuming such a method exists\n    scope.inferQualifiedSlot(thisNode, \"this\", THIS_TYPE, type);\n  } else {\n    switch (node.getType()) {\n      case Token.NAME:\n        scope.inferSlotType(node.getString(), type);\n        break;\n\n      case Token.GETPROP:\n        String qualifiedName = node.getQualifiedName();\n        Preconditions.checkNotNull(qualifiedName);\n\n        JSType origType = node.getJSType();\n        origType = origType == null ? getNativeType(UNKNOWN_TYPE) : origType;\n        scope.inferQualifiedSlot(node, qualifiedName, origType, type);\n        break;\n\n      default:\n        // Throw the exception outside the switch for all other Node types\n        throw new IllegalArgumentException(\"Node cannot be refined. \\n\" +\n            node.toStringTree());\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

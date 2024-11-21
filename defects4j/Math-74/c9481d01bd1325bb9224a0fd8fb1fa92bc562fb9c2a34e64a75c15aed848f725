@@ -1,0 +1,7 @@
+{
+    "generation": "// main integration loop\nwhile (!lastStep) {\n    // previous code ...\n\n    // the step has been accepted\n    final double nextStep = stepStart + stepSize;\n    System.arraycopy(yTmp, 0, y, 0, y0.length);\n    manager.stepAccepted(nextStep, y);\n    lastStep = manager.stop();\n\n    if (lastStep) {\n        break;\n    }\n\n    // provide the step data to the step handler\n    interpolator.storeTime(nextStep);\n    for (StepHandler handler : stepHandlers) {\n        handler.handleStep(interpolator, lastStep);\n    }\n\n    // remaining code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

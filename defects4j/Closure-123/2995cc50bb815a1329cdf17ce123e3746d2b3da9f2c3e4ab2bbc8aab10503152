@@ -1,0 +1,7 @@
+{
+    "generation": "void add(Node n, Context context) {\n  // [...]\n  case Token.NAME:\n    if (first == null || first.isEmpty()) {\n      addIdentifier(n.getString());\n    } else {\n      Preconditions.checkState(childCount == 1);\n      addIdentifier(n.getString());\n      cc.addOp(\"=\", true);\n      if (first.isComma()) {\n        addExpr(first, NodeUtil.precedence(Token.ASSIGN), Context.OTHER);\n      } else if (first.isIn()) { // Bug Fix: Check for 'in' operator\n        addExpr(first.getFirstChild(),\n                NodeUtil.precedence(Token.IN),\n                Context.OTHER);\n        cc.addOp(\"in\", true);\n        addExpr(first.getLastChild(),\n                NodeUtil.precedence(Token.IN),\n                Context.OTHER);\n      } else {\n        // Add expression, consider nearby code at lowest level of\n        // precedence.\n        addExpr(first, 0, getContextForNoInOperator(context));\n      }\n    }\n    break;\n  // [...]\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

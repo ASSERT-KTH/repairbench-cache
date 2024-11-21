@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(final UnivariateRealFunction f, final double min, final double max, final double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {\n\n    clearResult();\n    verifySequence(min, initial, max);\n\n    double yInitial = f.value(initial);\n    double yMin = f.value(min);\n    double yMax = f.value(max);\n\n    if (yInitial * yMin > 0 && yInitial * yMax > 0) {\n        throw new IllegalArgumentException(\"Function values at endpoints and initial guess must have opposite signs\");\n    }\n\n    if (Math.abs(yInitial) <= functionValueAccuracy) {\n        setResult(initial, 0);\n        return result;\n    }\n\n    if (Math.abs(yMin) <= functionValueAccuracy) {\n        setResult(min, 0);\n        return result;\n    }\n\n    if (yInitial * yMin < 0) {\n        return solve(f, min, yMin, initial, yInitial, min, yMin);\n    }\n\n    if (Math.abs(yMax) <= functionValueAccuracy) {\n        setResult(max, 0);\n        return result;\n    }\n\n    if (yInitial * yMax < 0) {\n        return solve(f, initial, yInitial, max, yMax, initial, yInitial);\n    }\n\n    return solve(f, min, yMin, max, yMax, initial, yInitial);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

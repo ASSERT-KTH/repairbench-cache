@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addMethodMixIns(Class<?> targetClass, AnnotatedMethodMap methods,\n            Class<?> mixInCls, AnnotatedMethodMap mixIns)\n{\n    List<Class<?>> parents = new ArrayList<Class<?>>();\n    parents.add(mixInCls);\n    ClassUtil.findSuperTypes(mixInCls, targetClass, parents);\n    for (Class<?> mixin : parents) {\n        for (Method m : mixin.getDeclaredMethods()) {\n            if (!_isIncludableMemberMethod(m) || !_isSerializableMethod(m)) {\n                continue;\n            }\n            AnnotatedMethod am = methods.find(m);\n            /* Do we already have a method to augment (from sub-class\n             * that will mask this mixIn)? If so, add if visible\n             * without masking (no such annotation)\n             */\n            if (am != null) {\n                _addMixUnders(m, am);\n            } else {\n                mixIns.add(_constructMethod(m));\n            }\n        }\n    }\n}\n\nprivate boolean _isSerializableMethod(Method m) {\n    // Add checks here to determine if the method can be serialized.\n    // For example, you might check for the existence of getters/setters\n    // or annotations that indicate serializability.\n    // For the sake of this example, we will assume all methods are serializable.\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

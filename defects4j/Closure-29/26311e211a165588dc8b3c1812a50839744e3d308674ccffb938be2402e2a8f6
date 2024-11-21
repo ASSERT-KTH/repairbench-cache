@@ -1,0 +1,7 @@
+{
+    "generation": "// ...\n        // We're looking for object literal assignments only.\n        if (!val.isObjectLit()) {\n          continue;\n        }\n\n        // Make sure that the value is not self-refential. IOW,\n        // disallow things like x = {b: x.a}.\n        boolean selfReferential = false;\n        for (Node child = val.getFirstChild(); child != null;\n             child = child.getNext()) {\n          Node childVal = child.getFirstChild();\n          // Check if childVal is the parent of any of the passed in\n          // references, as that is how self-referential assignments\n          // will happen.\n          Node refNode = parent; // start one level up to exclude the assignment\n          while (!NodeUtil.isStatementBlock(refNode) && !NodeUtil.isFunction(refNode)) {\n            if (refNode == childVal) {\n              // There's a self-referential assignment\n              selfReferential = true;\n              break;\n            }\n            refNode = refNode.getParent();\n          }\n          if (selfReferential) {\n            break;\n          }\n        }\n        if (selfReferential) {\n          continue;\n        }\n\n        // We have found an acceptable object literal assignment. As\n        // long as there are no other assignments that mess things up,\n        // we can inline.\n        ret = true;\n    }\n    return ret;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

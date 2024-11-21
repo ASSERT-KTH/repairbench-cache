@@ -1,0 +1,7 @@
+{
+    "generation": "// issue 668: Don't inline singleton getter methods, compare the assigned value with the getNode included in the reference.\nNode value = initialization.getAssignedValue();\nNode referencedNode = reference.getNode();\nPreconditions.checkState(value != null);\nif ((value.isFunction() || (referencedNode.isCall() && referencedNode.getFirstChild().matchesQualifiedName(\"goog.addSingletonGetter\")))\n    && reference.getParent().isCall()\n    && reference.getParent().getFirstChild() == reference.getNode()) {\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

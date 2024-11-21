@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ValidatableResponse validationResponse = null;\n    Map<String, String> inputs = new LinkedHashMap<>();\n    List<Connection.KeyVal> formData = new ArrayList<>();\n\n    for (Element el : select(\"input[name], textarea[name], select[name]\")) {\n        String name = el.attr(\"name\");\n        if (name.length() != 0 && el.hasAttr(\"type\") && !\"submit\".equalsIgnoreCase(el.attr(\"type\"))) {\n            if (!inputs.containsKey(name)) {\n                String val = el.val();\n                formData.add(Connection.KeyVal.create(name, val));\n                inputs.put(name, val);\n            }\n        }\n    }\n\n    return formData;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void checkInterfaceConflictProperties(NodeTraversal t, Node n,\n    String functionName, HashMap<String, ObjectType> properties,\n    HashMap<String, ObjectType> currentProperties,\n    ObjectType interfaceType) {\n  if (interfaceType != null && interfaceType.isBoolean() && !interfaceType.getValue()) {\n    // This means interfaceType points to a non-existent object. We should ignore it.\n    return;\n  }\n\n  ObjectType implicitProto = interfaceType.getImplicitPrototype();\n  if (implicitProto == null) {\n    // This can happen if interfaceType is proxy to a non-existent object or interface.\n    return;\n  }\n\n  Set<String> currentPropertyNames = implicitProto.getOwnPropertyNames();\n  for (String name : currentPropertyNames) {\n    ObjectType oType = properties.get(name);\n    if (oType != null) {\n      if (!interfaceType.getPropertyType(name).isEquivalentTo(\n          oType.getPropertyType(name))) {\n        compiler.report(\n            t.makeError(n, INCOMPATIBLE_EXTENDED_PROPERTY_TYPE,\n                functionName, name, oType.toString(),\n                interfaceType.toString()));\n      }\n    }\n    currentProperties.put(name, interfaceType);\n  }\n  for (ObjectType iType : interfaceType.getCtorExtendedInterfaces()) {\n    checkInterfaceConflictProperties(t, n, functionName, properties,\n        currentProperties, iType);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

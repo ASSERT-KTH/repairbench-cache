@@ -1,0 +1,7 @@
+{
+    "generation": "// ... previous lines\n\n  if (parent != null && parent.getType() == Token.ASSIGN) {\n    Node lhs = parent.getFirstChild();\n    Node rhs = lhs.getNext();\n\n    if (n == lhs) {\n      if (assignLhsChild == null) {\n        assignLhsChild = lhs;\n      }\n    } else {\n      if (NodeUtil.isGet(lhs)) {\n        Node protoNode = lhs;\n        while (protoNode.getType() == Token.GETPROP && protoNode != null) {\n          if (protoNode.getLastChild().getString().equals(\"prototype\")) {\n            return true;\n          }\n          Node child = protoNode.getFirstChild();\n          if (child != null && child.getType() == Token.GETPROP) {\n            protoNode = child;\n          } else {\n            break;\n          }\n        }\n        return false;\n      }\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

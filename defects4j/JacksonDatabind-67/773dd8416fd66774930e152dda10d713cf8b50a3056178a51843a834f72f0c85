@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic KeyDeserializer modifyKeyDeserializer(DeserializationConfig config,\n        final JavaType type, KeyDeserializer deserializer)\n{\n    if (!type.isEnumType()) {\n        return deserializer;\n    }\n    return new KeyDeserializer() {\n        @Override\n        public Object deserializeKey(String key, DeserializationContext ctxt)\n                throws IOException\n        {\n            Class<? extends Enum> rawClass = (Class<Enum<?>>) type.getRawClass();\n            // Change here: convert the key to lower case before looking up the enum value\n            return Enum.valueOf(rawClass, key.toLowerCase());\n        }\n    };\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

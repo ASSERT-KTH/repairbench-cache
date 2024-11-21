@@ -1,0 +1,7 @@
+{
+    "generation": "private static void modify(Calendar val, int field, boolean round) {\n    // ... code before the modification\n\n    // Fix for LANG-59\n    Date date = val.getTime();\n    long time = date.getTime();\n    boolean done = false;\n\n    int millisecs = val.get(Calendar.MILLISECOND);\n    if (!round || millisecs < 500) {\n        time = time - millisecs;\n        if (field == Calendar.SECOND) {\n            done = true;\n        }\n    } else {\n        time = time + (1000 - millisecs);\n    }\n\n    int seconds = val.get(Calendar.SECOND);\n    if (!done && (!round || seconds < 30)) {\n        time = time - (seconds * 1000L);\n        if (field == Calendar.MINUTE) {\n            done = true;\n        }\n    } else if (!done) {\n        time = time + (60000 - (seconds * 1000L));\n    }\n\n    int minutes = val.get(Calendar.MINUTE);\n    if (!done && (!round || minutes < 30)) {\n        time = time - (minutes * 60000L);\n    } else if (!done) {\n        time = time + (3600000 - (minutes * 60000L));\n    }\n\n    if (date.getTime() != time) {\n        date.setTime(time);\n        val.setTime(date);\n    }\n\n    // ... code after the modification\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

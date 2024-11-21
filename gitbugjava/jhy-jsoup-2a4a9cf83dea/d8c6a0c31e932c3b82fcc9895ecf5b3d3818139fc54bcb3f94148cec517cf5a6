@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    Element lastMatchedSubElement = null;\n    // evaluate from last to first\n    for (int i = evaluators.size() -1; i >= 0; --i) {\n        if (element == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        Element parent = element.parent();\n        if (lastMatchedSubElement != null && parent != null && parent.childIndex(element) >= 0)\n            // if the current element is a descendant of the last matched element,\n            // continue the search with the parent of the current element;\n            // otherwise, the search should be stopped to avoid incorrect matching.\n            element = parent;\n        else\n            break;\n        lastMatchedSubElement = element;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (normally a backslash)\n    final int c = in.read();\n    switch (c) {\n    case 'r':\n        return CR;\n    case 'n':\n        return LF;\n    case 't':\n        return TAB;\n    case 'b':\n        return BACKSPACE;\n    case 'f':\n        return FF;\n    case 'N':\n        return END_OF_STREAM; // Fix for MySQL null value handling\n    case CR:\n    case LF:\n    case FF:\n    case TAB:\n    case BACKSPACE:\n    case END_OF_STREAM:\n        return c;\n    default:\n        if ((format.getEscapeChar() != '\\0') && (format.getEscapeChar() == c)) {\n            // If there is an escape character defined and the next character is the escape character,\n            // then return the escape character as is, without any escaping.\n            return c;\n        }\n        throw new IOException(\"Unexpected char while processing escape sequence: \" + (char) c);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

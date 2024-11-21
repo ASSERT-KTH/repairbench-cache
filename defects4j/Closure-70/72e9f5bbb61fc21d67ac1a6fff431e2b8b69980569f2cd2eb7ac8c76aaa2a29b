@@ -1,0 +1,7 @@
+{
+    "generation": "private void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n\n  // Create a variable to keep track of the current jsDoc parameter\n  Node jsDocParameter = null;\n  if (functionType != null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters != null) {\n      jsDocParameter = jsDocParameters.getFirstChild();\n    }\n  }\n\n  // Iterate through all the function's parameters\n  for (Node astParameter : astParameters.children()) {\n    // If a valid jsDoc parameter exists, use its type, otherwise use null\n    JSType jsType = (jsDocParameter != null) ? jsDocParameter.getJSType() : null;\n\n    defineSlot(astParameter, functionNode, jsType, true);\n\n    // Move to the next jsDoc parameter, if there is one\n    if (jsDocParameter != null) {\n      jsDocParameter = jsDocParameter.getNext();\n    }\n  }\n} // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

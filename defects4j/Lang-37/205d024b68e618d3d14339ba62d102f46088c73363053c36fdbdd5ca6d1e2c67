@@ -1,0 +1,7 @@
+{
+    "generation": "    @SuppressWarnings(\"unchecked\")\n    public static <T> T[] addAll(T[] array1, T... array2) {\n        if (array1 == null && array2 == null) {\n            return null;\n        } else if (array1 == null) {\n            return clone(array2);\n        } else if (array2 == null) {\n            return clone(array1);\n        }\n\n        final Class<?> type1 = array1.getClass().getComponentType();\n        T[] joinedArray = (T[]) Array.newInstance(type1, array1.length + array2.length);\n        System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n        try {\n            System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n        } catch (ArrayStoreException e) {\n            throw new IllegalArgumentException(\"Cannot store element of array2 into array1 due to incompatible types\");\n        }\n\n        return joinedArray;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

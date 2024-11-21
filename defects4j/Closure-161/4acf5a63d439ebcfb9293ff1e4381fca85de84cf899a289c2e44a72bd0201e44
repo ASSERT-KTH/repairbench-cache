@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldArrayAccess(Node n, Node left, Node right) {\n  Node parent = n.getParent();\n\n  if (right.getType() != Token.NUMBER) {\n    return n;\n  }\n\n  double index = right.getDouble();\n  int intIndex = (int) index;\n\n  if (intIndex != index || intIndex < 0) {\n    return n;\n  }\n\n  Node elem;\n  if (!left.hasChildren() || intIndex >= left.getChildCount()) {\n    // Index out of bounds; create a new EMPTY node\n    elem = NodeUtil.newUndefinedNode(left);\n  } else {\n    elem = left.getChildAtIndex(intIndex);\n    if (elem.getType() == Token.EMPTY) {\n      elem = NodeUtil.newUndefinedNode(elem);\n    } else {\n      left.removeChild(elem);\n    }\n  }\n\n  // Replace the entire GETELEM with the value\n  n.getParent().replaceChild(n, elem);\n  reportCodeChange();\n  return elem;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

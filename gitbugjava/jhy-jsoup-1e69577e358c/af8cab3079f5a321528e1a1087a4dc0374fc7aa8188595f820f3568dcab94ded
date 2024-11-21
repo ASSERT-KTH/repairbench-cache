@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // use the URI class to encode non-ascii in path\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            IDN.toASCII(decodePart(u.getHost())), // puny-code\n            u.getPort(),\n            null, // encoding for path should be handled later\n            null, null // query and fragment not encoded yet\n        );\n\n        StringBuilder sb = new StringBuilder(uri.toASCIIString());\n        if (u.getPath() != null) {\n            appendToAscii(decodePart(u.getPath()), true, sb); // apply encoding for path\n        }\n        if (q != null) {\n            sb.append('?');\n            appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n        }\n        if (u.getRef() != null) {\n            sb.append('#');\n            appendToAscii(u.getRef(), false, sb);\n        }\n\n        u =  new URL(sb.toString());\n        return u;\n    } catch (MalformedURLException | URISyntaxException e) {\n        // assuming exception handling mechanism\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

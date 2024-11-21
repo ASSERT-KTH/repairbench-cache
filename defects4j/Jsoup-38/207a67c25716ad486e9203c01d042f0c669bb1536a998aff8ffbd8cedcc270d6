@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    // The rest of the code remains the same...\n\n    switch (t.type) {\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            if (name.equals(\"image\")) {\n                if (tb.getStack().contains(new Element(Tag.valueOf(\"svg\"), \"\"))) {\n                    tb.insert(startTag);\n                } else {\n                    return tb.process(startTag.name(\"img\")); // change <image> to <img>, unless in svg\n                }\n            } else {\n                // The rest of the existing code for handling other start tags here...\n            }\n\n            break;\n\n        // The rest of the existing code for handling end tags, EOF, etc. here...\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

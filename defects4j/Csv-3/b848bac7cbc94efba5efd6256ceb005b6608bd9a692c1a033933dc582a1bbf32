@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    int c = in.read();\n    if (c == 'N') {\n        return END_OF_STREAM; // Consider '\\N' as a representation for null value in MySQL\n    } else if (c >= 0 && c <= 127 && Character.isISOControl(c)) {\n        return c; // Return other ASCII control characters as is\n    } else {\n        // Any character that is not a control character or 'N' needs no special handling\n        in.unread(c); // Push the recently read character back into the stream as it is not an escape sequence\n        return '\\\\'; // Return the escape character as it is not followed by an escape sequence\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

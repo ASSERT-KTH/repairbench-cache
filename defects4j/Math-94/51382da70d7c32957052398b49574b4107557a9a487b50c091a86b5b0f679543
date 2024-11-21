@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    // If both are zero, return 0\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    // If either is zero, return the absolute value of the other\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n    // Make u and v negative if they are positive\n    if (u > 0) {\n        u = -u;\n    }\n    if (v > 0) {\n        v = -v;\n    }\n    // Find the power of 2 that divides both u and v\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    // Implement Stein's algorithm\n    while (u != v) {\n        while ((u & 1) == 0) {\n            u /= 2;\n        }\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        if (u < v) {\n            v = (v - u) / 2;\n        } else {\n            u = (u - v) / 2;\n        }\n    }\n    // Multiply the result by 2^k to get the original gcd\n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

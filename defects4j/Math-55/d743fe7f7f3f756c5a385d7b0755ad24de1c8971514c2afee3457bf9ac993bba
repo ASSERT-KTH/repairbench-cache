@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    double normV2Squared = v2.dotProduct(v2);\n    double rho = 0.0;\n\n    // Before computing v3 = v1 - rho * v2, replace v1 by v1 - rho * v2 to compute rho,\n    // to minimize cancellation errors.\n    if (normV2Squared != 0.0) {\n        Vector3D cv1 = new Vector3D(v1);\n        rho = cv1.dotProduct(v2) / normV2Squared;\n        cv1.subtract(v2.scalarMultiply(rho));\n        // Now compute the cross product from cv1 (v3) and v2\n        return new Vector3D(cv1.y * v2.z - cv1.z * v2.y, cv1.z * v2.x - cv1.x * v2.z, cv1.x * v2.y - cv1.y * v2.x);\n    } else {\n        return new Vector3D(0,0,0);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

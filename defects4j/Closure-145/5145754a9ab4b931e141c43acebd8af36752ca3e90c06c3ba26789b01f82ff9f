@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isOneExactlyFunctionOrDo(Node n) {\n    // If the Node is a BLOCK, we need to ensure that a labeled FUNCTION or DO\n    // isn't generated when extraneous BLOCKs are skipped.\n    // A BLOCK is not a FUNCTION or DO, unless it has a single statement child that is.\n    if (n.getType() == Token.BLOCK) {\n        Node parent = n.getParent();\n        return parent != null && parent.getType() != Token.LABEL\n                && n.getChildCount() == 1\n                && (n.getFirstChild().getType() == Token.FUNCTION || n.getFirstChild().getType() == Token.DO);\n    }\n\n    // Otherwise, just check if the Node is a FUNCTION or DO.\n    return n.getType() == Token.FUNCTION || n.getType() == Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

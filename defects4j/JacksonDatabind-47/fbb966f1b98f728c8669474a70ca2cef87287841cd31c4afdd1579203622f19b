@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType refineSerializationType(final MapperConfig<?> config,\n        final Annotated a, final JavaType baseType) throws JsonMappingException\n{\n    JavaType type = baseType;\n    final TypeFactory tf = config.getTypeFactory();\n\n    // Ok: start by refining the main type itself; common to all types\n    Class<?> serClass = findSerializationType(a);\n    if (serClass != null) {\n        if (type.hasRawClass(serClass)) {\n            type = type.withStaticTyping();\n        } else {\n            try {\n                // Attempt to specialize the type, not widen it\n                type = tf.constructSpecializedType(type, serClass);\n            } catch (IllegalArgumentException iae) {\n                throw new JsonMappingException(null,\n                        String.format(\"Failed to narrow type %s with annotation (value %s), from '%s': %s\",\n                                type, serClass.getName(), a.getName(), iae.getMessage()),\n                                iae);\n            }\n        }\n    }\n\n    // Continue with rest of the method...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

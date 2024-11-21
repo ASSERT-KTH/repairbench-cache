@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType refineSerializationType(final MapperConfig<?> config,\n        final Annotated a, final JavaType baseType) throws JsonMappingException\n{\n    JavaType type = baseType;\n    final TypeFactory tf = config.getTypeFactory();\n\n    Class<?> serClass = findSerializationType(a);\n    if (serClass != null) {\n        if (type.hasRawClass(serClass)) {\n            type = type.withStaticTyping();\n        } else {\n            Class<?> currRaw = type.getRawClass();\n            try {\n                if (serClass.isAssignableFrom(currRaw)) { // if serClass is a subtype of currRaw, generalize the type\n                    type = tf.constructGeneralizedType(type, serClass);\n                } else if (currRaw.isAssignableFrom(serClass)) { // if serClass is a supertype of currRaw, specialize the type\n                    type = tf.constructSpecializedType(type, serClass);\n                } else { // if types are not related, throw an exception\n                    throw new JsonMappingException(null,\n                            String.format(\"Can not refine serialization type %s into %s; types not related\",\n                                    type, serClass.getName()));\n                }\n            } catch (IllegalArgumentException iae) {\n                // handle exception here...\n            }\n        }\n    }\n\n    // ... rest of the method ...\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

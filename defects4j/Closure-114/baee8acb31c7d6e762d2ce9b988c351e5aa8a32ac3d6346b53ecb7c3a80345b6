@@ -1,0 +1,7 @@
+{
+    "generation": "private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {\n  Node nameNode = n.getFirstChild();\n  Node parent = n.getParent();\n  NameInformation ns = createNameInformation(t, nameNode);\n  if (ns != null) {\n    if (parent.isFor() && !NodeUtil.isForIn(parent)) {\n      if (parent.getFirstChild().getNext() != n) {\n        recordDepScope(recordNode, ns);\n      } else {\n        recordDepScope(nameNode, ns);\n      }\n    } else if (isAncestorACallExpression(n)) {\n      recordDepScope(recordNode, ns);\n    } else {\n      recordDepScope(nameNode, ns);\n    }\n  }\n}\n\nprivate boolean isAncestorACallExpression(Node n) {\n  Node parent = n.getParent();\n  while (parent != null) {\n    if (parent.isCall() && !(parent.getParent().isFor() && !NodeUtil.isForIn(parent.getParent()))) {\n      return true;\n    }\n    parent = parent.getParent();\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

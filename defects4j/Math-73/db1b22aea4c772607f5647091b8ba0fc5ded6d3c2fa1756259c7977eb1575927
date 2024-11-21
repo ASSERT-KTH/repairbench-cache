@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(final UnivariateRealFunction f,\n                    final double min, final double max, final double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {\n\n    clearResult();\n    verifyInterval(min, max);\n    verifyInitialGuess(min, initial, max);\n\n    double yInitial = f.value(initial);\n    double yMin = f.value(min);\n    double yMax = f.value(max);\n\n    checkEndpoints(yMin, yMax, yInitial);\n\n    // rest of the function ...\n}\n\nprivate void verifyInterval(final double min, final double max) throws IllegalArgumentException {\n    if (min >= max) {\n        throw new IllegalArgumentException(\"Invalid interval: min >= max.\");\n    }\n}\n\nprivate void verifyInitialGuess(final double min, final double initial, final double max) throws IllegalArgumentException {\n    if (initial < min || initial > max) {\n        throw new IllegalArgumentException(\"Initial guess not in the interval.\");\n    }\n}\n\nprivate void checkEndpoints(final double yMin, final double yMax, final double yInitial) throws IllegalArgumentException {\n    if (yMin * yMax >= 0) {\n        throw new IllegalArgumentException(\"Endpoints must have opposite signs.\");\n    }\n\n    if (yInitial * yMin == 0) {\n        setResult(min, 0);\n        return;\n    }\n\n    if (yInitial * yMax == 0) {\n        setResult(max, 0);\n        return;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

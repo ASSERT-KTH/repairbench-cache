@@ -1,0 +1,7 @@
+{
+    "generation": "        public int parseInto(DateTimeParserBucket bucket, String text, int position) {\n            String str = text.substring(position);\n            for (String id : ALL_IDS) {\n                if (str.startsWith(id)) {\n                    bucket.setZone(DateTimeZone.forID(id));\n                    return position + id.length();\n                }\n            }\n            // Handling underscores '_' in the text as part of zone IDs\n            if (str.contains(\"_\")) {\n                for (String id : ALL_IDS) {\n                    if (str.replace(\"_\", \" \").startsWith(id)) {\n                        bucket.setZone(DateTimeZone.forID(id));\n                        return position + id.length() + 1;  // +1 because of '_'\n                    }\n                }\n            }\n            return ~position;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

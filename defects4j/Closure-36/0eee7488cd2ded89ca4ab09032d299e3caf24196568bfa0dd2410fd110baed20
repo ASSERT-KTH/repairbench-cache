@@ -1,0 +1,7 @@
+{
+    "generation": "// issue 668: Don't inline singleton getter methods\n// calls as this confused class removing logic.\nif (value instanceof GetProp) {\n  GetProp getProp = (GetProp) value;\n  Node obj = getProp.getFirstChild();\n  if (obj instanceof Name) {\n    Name name = (Name) obj;\n    String prop = getProp.getLastChild().getString();\n    if (prop.equals(\"getInstance\") && name.getString().matches(\".*\\\\.\" + prop)) {\n      return false;\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

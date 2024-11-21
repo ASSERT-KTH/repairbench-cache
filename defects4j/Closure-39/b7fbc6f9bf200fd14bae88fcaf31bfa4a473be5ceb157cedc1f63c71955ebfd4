@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nString toStringHelper(boolean forAnnotations) {\n    if (hasReferenceName()) {\n        return getReferenceName();\n    } else {\n        StringBuilder sb = new StringBuilder();\n        sb.append(\"{\");\n\n        int propertiesToPrint;\n        if (forAnnotations) {\n            propertiesToPrint = Integer.MAX_VALUE;\n        } else {\n            propertiesToPrint = MAX_PRETTY_PRINTED_PROPERTIES;\n        }\n\n        int i = 0;\n        for (ObjectType current = this;\n             current != null && !current.isNativeObjectType() && i < propertiesToPrint;\n             current = current.getImplicitPrototype()) {\n            for (String property : current.getOwnPropertyNames()) {\n                if (i > 0) {\n                    sb.append(\", \");\n                }\n\n                sb.append(property);\n                sb.append(\": \");\n\n                JSType propertyType = current.getPropertyType(property);\n                if (propertyType instanceof RecordType) {\n                    sb.append(((RecordType) propertyType).toStringHelper(forAnnotations));\n                } else {\n                    sb.append(propertyType.toString());\n                }\n\n                ++i;\n                if (i == propertiesToPrint) {\n                    sb.append(\", ...\");\n                    break;\n                }\n            }\n        }\n\n        sb.append(\"}\");\n        return sb.toString();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

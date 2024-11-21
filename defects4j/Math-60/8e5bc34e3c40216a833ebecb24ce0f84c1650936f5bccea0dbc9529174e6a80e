@@ -1,0 +1,7 @@
+{
+    "generation": "    public double cumulativeProbability(double x) throws MathException {\n        if (Double.isInfinite(x)) {\n            return x > 0 ? 1.0 : 0.0;\n        }\n\n        final double dev = x - mean;\n        try {\n            return 0.5 * (1.0 + Erf.erf((dev) /\n                        (standardDeviation * FastMath.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            if (x < (mean - 20 * standardDeviation)) {\n                return 0;\n            } else if (x > (mean + 20 * standardDeviation)) {\n                return 1;\n            } else {\n                throw ex;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

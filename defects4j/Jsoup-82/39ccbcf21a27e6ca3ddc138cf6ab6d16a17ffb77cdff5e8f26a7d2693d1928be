@@ -1,0 +1,7 @@
+{
+    "generation": "    ...\n    String docData = Charset.forName(defaultCharset).decode(firstBytes).toString();\n    doc = parser.parseInput(docData, baseUri);\n    ...\n    if (foundCharset != null && !foundCharset.equalsIgnoreCase(defaultCharset)) {\n        foundCharset = foundCharset.trim().replaceAll(\"[\\\"']\", \"\");\n        try {\n            Charset.forName(foundCharset); // tests if the charset is encodable\n            charsetName = foundCharset;\n        } catch (IllegalCharsetNameException | UnsupportedCharsetException e) {\n            charsetName = defaultCharset;\n        }\n        doc = null;\n    } else if (!fullyRead) {\n        doc = null;\n    }\n    ...\n    if (doc == null) {\n        if (charsetName == null)\n            charsetName = defaultCharset;\n        Charset usedCharset = Charset.forName(charsetName);\n        try {\n            usedCharset.newEncoder().canEncode(charsetName); // tests if the charset is encodable\n        } catch (UnsupportedOperationException e) {\n            usedCharset = Charset.forName(defaultCharset);\n            charsetName = defaultCharset;\n        }\n        BufferedReader reader = new BufferedReader(new InputStreamReader(input, usedCharset), bufferSize);\n        ...\n        doc.outputSettings().charset(usedCharset);\n    }\n    ...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

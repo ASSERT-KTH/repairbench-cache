@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFoldableExpressBlock(Node n) {\n  if (n.isBlock()) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // IE has a bug where event handlers behave differently when their return value is used vs. when their return value is in an EXPR_RESULT.\n      // It's pretty freaking weird. See: http://code.google.com/p/closure-compiler/issues/detail?id=291\n      // We try to detect this case, and not fold EXPR_RESULTs into other expressions.\n\n      // We only have to worry about methods with an implicit 'this' param, or this doesn't happen.\n\n      // Check if the child node is an expression node and not an EXPR_RESULT node.\n      return NodeUtil.isExpressionNode(maybeExpr) && maybeExpr.getType() != Token.EXPR_RESULT;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

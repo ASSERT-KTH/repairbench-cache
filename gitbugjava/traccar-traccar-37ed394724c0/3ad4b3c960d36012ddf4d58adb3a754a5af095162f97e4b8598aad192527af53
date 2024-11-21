@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n        // ...\n\n        if (type == MSG_STATUS && buf.readableBytes() == 22) {\n            getLastLocation(position, null);\n\n            buf.readUnsignedByte(); // information content\n            buf.readUnsignedShort(); // satellites\n            buf.readUnsignedByte(); // alarm\n            buf.readUnsignedByte(); // language\n\n            int batteryLevel = buf.readUnsignedByte();\n            // Fix: change the multiplication factor from 6 to divide by 255 and multiply by 100\n            position.set(Position.KEY_BATTERY_LEVEL, batteryLevel * 100 / 255);\n\n            buf.readUnsignedByte(); // working mode\n            position.set(Position.KEY_POWER, buf.readUnsignedShort() / 100.0);\n            buf.readUnsignedByte(); // reserved\n            buf.readUnsignedShort(); // working times\n            buf.readUnsignedShort(); // working time\n\n            int value = buf.readUnsignedShort();\n            double temperature = BitUtil.to(value, 15) * 0.1;\n            position.set(Position.PREFIX_TEMP + 1, BitUtil.check(value, 15) ? temperature : -temperature);\n        }\n\n        // ...\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

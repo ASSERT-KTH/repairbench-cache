@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Try to fold an array join: ['a', 'b', 'c'].join('') -> 'abc';\n */\nvoid tryFoldStringJoin(NodeTraversal t, Node n, Node left, Node right, Node parent) {\n  if (!NodeUtil.isGetProp(left) || !NodeUtil.isImmutableValue(right)) {\n    return;\n  }\n\n  Node arrayNode = left.getFirstChild();\n  Node functionName = arrayNode.getNext();\n\n  if ((arrayNode.getType() != Token.ARRAYLIT) || !functionName.getString().equals(\"join\")) {\n    return;\n  }\n\n  String joinString = NodeUtil.getStringValue(right);\n  StringBuilder sb = new StringBuilder();\n  Node elem = arrayNode.getFirstChild();\n  // Merges adjacent String nodes.\n  while (elem != null) {\n    if (elem == arrayNode.getFirstChild() && NodeUtil.isImmutableValue(elem) && joinString.isEmpty()) {\n      sb.append(NodeUtil.getStringValue(elem));\n    } else if (NodeUtil.isImmutableValue(elem)) {\n      sb.append(joinString).append(NodeUtil.getStringValue(elem));\n    } else {\n      // Non-string literal node, can't fold.\n      return;\n    }\n    elem = elem.getNext();\n  }\n\n  Node foldedStringNode = Node.newString(sb.toString());\n  int originalSize = InlineCostEstimator.getCost(n);\n  int foldedSize = InlineCostEstimator.getCost(foldedStringNode);\n\n  if (originalSize <= foldedSize) {\n    return;\n  }\n\n  arrayNode.detachChildren();\n  parent.replaceChild(n, foldedStringNode);\n  t.getCompiler().reportCodeChange();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

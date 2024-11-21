@@ -1,0 +1,7 @@
+{
+    "generation": "private void moveClassLevelUp(Outline outline, JDefinedClass clazz) {\n    JDefinedClass parent = (JDefinedClass) clazz.parentContainer();\n    JClassContainer grandParent = parent.parentContainer();\n    Map<String, JDefinedClass> classes;\n\n    if (grandParent.isClass()) {\n        // ...\n    } else {\n        JPackage grandParentPackage = (JPackage) grandParent;\n\n        writeSummary(\"\\tMoving inner class \" + clazz.fullName() + \" to package \" + grandParentPackage.name());\n\n        classes = getPrivateField(grandParentPackage, \"classes\");\n\n        if ((clazz.mods().getValue() & JMod.STATIC) == JMod.STATIC) {\n            setPrivateField(clazz.mods(), \"mods\", Integer.valueOf(clazz.mods().getValue() & ~JMod.STATIC));\n        }\n\n        // ...\n    }\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

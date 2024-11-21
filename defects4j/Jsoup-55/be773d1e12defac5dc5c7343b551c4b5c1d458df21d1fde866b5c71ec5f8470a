@@ -1,0 +1,7 @@
+{
+    "generation": "    void read(Tokeniser t, CharacterReader r) {\n        char c = r.consume();\n        switch (c) {\n            case '>':\n                t.tagPending.selfClosing = true;\n                t.emitTagPending();\n                t.transition(Data);\n                break;\n            case '/':\n                String lastAttributeName = t.tagPending.attributes.lastAttributeName();\n                if (lastAttributeName != null && lastAttributeName.endsWith(\"/\")) {\n                    t.tagPending.attributes.lastAttributeName(lastAttributeName.substring(0, lastAttributeName.length() - 1));\n                } else {\n                    r.unconsume();\n                    t.error(this);\n                    t.transition(BeforeAttributeName);\n                }\n                break;\n            case eof:\n                t.eofError(this);\n                t.transition(Data);\n                break;\n            default:\n                t.error(this);\n                t.transition(BeforeAttributeName);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

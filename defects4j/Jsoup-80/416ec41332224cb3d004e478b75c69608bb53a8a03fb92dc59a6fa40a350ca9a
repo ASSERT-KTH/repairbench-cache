@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) {\n        String data = comment.getData();\n        if (data.length() > 1 && (data.startsWith(\"!\") || data.startsWith(\"?\"))) {\n           int start = 1;\n           int end = data.length() - 1;\n           if (data.startsWith(\"!--\")) { start += 2; } // handle comment tags\n           if (data.endsWith(\"-->\")) { end -= 2; } // handle comment tags\n           Document doc = Jsoup.parse(\"<root>\" + data.substring(start, end) + \"</root>\", baseUri, Parser.xmlParser());\n           Elements els = doc.children(); // change from child(0) to children()\n           if (!els.isEmpty()) { // check if there are any children\n               Element el = els.get(0);\n               insert = new XmlDeclaration(settings.normalizeTag(el.tagName()), data.startsWith(\"!\"));\n               insert.attributes().addAll(el.attributes());\n           }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n        if (n.hasOneChild()) {\n            Node maybeExpr = n.getFirstChild();\n            if (maybeExpr.getType() == Token.EXPR_RESULT) {\n                Node potentialCall = maybeExpr.getFirstChild();\n                if (potentialCall.getType() == Token.CALL) {\n                    Node function = potentialCall.getFirstChild();\n                    if (function.getType() == Token.GETPROP) {\n                        Node object = function.getFirstChild();\n                        if (object.getType() == Token.THIS) {\n                            return false;\n                        }\n                    }\n                }\n            }\n            return NodeUtil.isExpressionNode(maybeExpr);\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n    RecordType otherRecordType = that.toMaybeRecordType();\n\n    for (String property : properties.keySet()) {\n      if (otherRecordType.hasProperty(property) &&\n          otherRecordType.getPropertyType(property).isEquivalentTo(\n              getPropertyType(property))) {\n        builder.addProperty(property, getPropertyType(property),\n            getPropertyNode(property));\n      } else {\n        // Add properties that only exist in one of the types\n        if (!otherRecordType.hasProperty(property)) {\n          builder.addProperty(property, getPropertyType(property),\n              getPropertyNode(property));\n        } else if (!this.hasProperty(property)){\n          builder.addProperty(property, otherRecordType.getPropertyType(property),\n              otherRecordType.getPropertyNode(property));\n        }\n      }\n    }\n\n    for (String property : otherRecordType.getProperties().keySet()) {\n      if (!this.hasProperty(property)) {\n        builder.addProperty(property, otherRecordType.getPropertyType(property),\n            otherRecordType.getPropertyNode(property));\n      }\n    }\n\n    return builder.build();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

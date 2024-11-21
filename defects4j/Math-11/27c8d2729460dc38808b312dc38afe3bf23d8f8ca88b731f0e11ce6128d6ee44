@@ -1,0 +1,7 @@
+{
+    "generation": "public double density(final double[] vals) throws DimensionMismatchException {\n    final int dim = getDimension();\n    if (vals.length != dim) {\n        throw new DimensionMismatchException(vals.length, dim);\n    }\n\n    // The expectation term for a univariate normal distribution is equal to (x - \u03bc)\u00b2 / (2\u03c3\u00b2)\n    // While the exponent term in the original code was not defined for univariate case,\n    // the correct term should be substituted instead of it.\n    double exponentTerm;\n    if(dim == 1) { // Check if the distribution is univariate\n        exponentTerm = -0.5 * ((vals[0] - this.mean()[0]) * (vals[0] - this.mean()[0]) / this.covariance()[0][0]);\n    } else {\n        exponentTerm = getExponentTerm(vals);\n    }\n\n    return FastMath.exp(exponentTerm) / FastMath.sqrt(2 * FastMath.PI * this.covariance()[0][0]);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

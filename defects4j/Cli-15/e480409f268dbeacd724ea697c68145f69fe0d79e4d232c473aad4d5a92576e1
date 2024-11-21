@@ -1,0 +1,7 @@
+{
+    "generation": "public List<String> getValues(final Option option, List<String> defaultValues) {\n    // initialize the return list\n    List<String> valueList = new ArrayList<>();\n\n    // grab the values from the map\n    if (values.containsKey(option)) {\n        valueList = new ArrayList<>(values.get(option));\n    }\n\n    // add the default values if no values from the map\n    if (valueList.isEmpty()) {\n        if (defaultValues != null && !defaultValues.isEmpty()) {\n            valueList.addAll(defaultValues);\n        }\n        // if no default values, use this.defaultValues that matched the option.\n        else if (this.defaultValues.containsKey(option)) {\n            valueList.addAll(this.defaultValues.get(option));\n        }\n    }\n    // ensure there are enough values, adding the rest of the default values if necessary\n    while (valueList.size() < option.getArgument().getMaximum()) {\n        if (this.defaultValues.containsKey(option) && this.defaultValues.get(option).size() > valueList.size()) {\n            valueList.add(this.defaultValues.get(option).get(valueList.size()));\n        } else {\n            break; // break if no more default values or some other unexpected situation\n        }\n    }\n\n    return valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructType(Type t) {\n    Class<?> rawClass = (t instanceof Class<?>) ? (Class<?>) t : TypeFactory.rawClass(t);\n    return _fromClass(null, rawClass, TypeBindings.emptyBindings());\n}\n\nprotected JavaType _fromClass(TypeBindings bindings, Class<?> raw, JavaType superType) {\n    JavaType superClass = super.findSuperTypeChain(raw);\n    JavaType[] interfaces = _findInterfaces(raw, bindings);\n    return new SimpleType(raw, bindings, superClass, interfaces);\n}\n\nprotected JavaType findSuperTypeChain(Class<?> raw) {\n    Class<?> superClass = raw.getSuperclass();\n    if (superClass == null || superClass == Object.class) {\n        return null;\n    }\n    return _fromClass(null, superClass, TypeBindings.emptyBindings());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    if (data.startsWith(\"<\") && data.endsWith(\">\")) {\n        data = data.substring(1, data.length() -1);\n    }\n    Document doc = Jsoup.parse(\"<dummy>\" + data + \"</dummy>\", baseUri(), Parser.xmlParser());\n    XmlDeclaration decl = null;\n    if (doc.childNodeSize() > 0) {\n        Element el = doc.child(0).child(0);\n        if (el != null) {\n            decl = new XmlDeclaration(NodeUtils.parser(doc).settings().normalizeTag(el.tagName()), data.startsWith(\"!\"));\n            decl.attributes().addAll(el.attributes());\n        }\n    }\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

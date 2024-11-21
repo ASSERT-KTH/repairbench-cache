@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        case Character: {\n            Token.Character c = t.asCharacter();\n            if (c.getData().equals(nullString)) {\n                tb.error(this);\n                return false;\n            } else if (tb.framesetOk() && isWhitespace(c)) {\n                tb.reconstructFormattingElements();\n                tb.insert(c);\n            } else {\n                tb.reconstructFormattingElements();\n                tb.insert(c);\n                tb.framesetOk(false);\n            }\n            break;\n        }\n        ...\n\n        // Add fix: Handle newline character for pre tag\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            if (startTag.normalName().equals(\"pre\")) {\n                tb.markPreTag();\n            }\n            Token.EndTag endTag = t.asEndTag();\n            if (endTag.normalName().equals(\"pre\")) {\n                tb.clearPreTag();\n            }\n            ...\n\n        case EOF:\n            // Clear pre tag mark if it was set\n            tb.clearPreTag();\n            ...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

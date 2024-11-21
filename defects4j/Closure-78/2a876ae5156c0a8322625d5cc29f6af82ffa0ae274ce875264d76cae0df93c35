@@ -1,0 +1,7 @@
+{
+    "generation": "private Node performArithmeticOp(int opType, Node left, Node right) {\n  if (opType == Token.ADD && (NodeUtil.mayBeString(left, false) || NodeUtil.mayBeString(right, false))) {\n    return null;\n  }\n\n  Double lValObj = NodeUtil.getNumberValue(left);\n  if (lValObj == null) {\n    return null;\n  }\n  Double rValObj = NodeUtil.getNumberValue(right);\n  if (rValObj == null) {\n    return null;\n  }\n\n  double lval = lValObj;\n  double rval = rValObj;\n  double result;\n\n  switch (opType) {\n    // ... other operations ...\n\n    case Token.DIV:\n      if (rval == 0) {\n        result = (lval >= 0) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;\n      } else {\n        result = lval / rval;\n      }\n      break;\n\n    case Token.MOD:\n      if (rval == 0) {\n        return null; // it's still an error to compute modulo by zero\n      }\n      result = lval % rval;\n      break;\n\n    // ... other operations ...\n  }\n\n  if (Math.abs(result) <= MAX_FOLD_NUMBER) {\n    Node newNumber = Node.newNumber(result);\n    return newNumber;\n  } else if (Double.isNaN(result)) {\n    return Node.newString(Token.NAME, \"NaN\");\n  } else if (result == Double.POSITIVE_INFINITY) {\n    return Node.newString(Token.NAME, \"Infinity\");\n  } else if (result == Double.NEGATIVE_INFINITY) {\n    return new Node(Token.NEG, Node.newString(Token.NAME, \"Infinity\"));\n  }\n\n  return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

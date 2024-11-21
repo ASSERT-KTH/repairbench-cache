@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // If either operand is zero, return the other operand\n    if (u == 0) return v;\n    if (v == 0) return u;\n\n    // keep u and v negative, as negative integers range down to\n    // -2^31, while positive numbers can only be as large as 2^31-1\n    if (u > 0) { u = -u; } // make u negative\n    if (v > 0) { v = -v; } // make v negative\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n        u >>= 1; v >>= 1; k++; // cast out twos.\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least\n    //     one is odd.\n    int t = ((u & 1) == 1) ? v : -(u >> 1);\n\n    do {\n        // B4/B3: cast out twos from t.\n        while ((t & 1) == 0) t >>= 1;\n\n        // B5 [reset max(u,v)]\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        // B6/B3. at this point both u and v should be odd.\n        t = (v - u) >> 1;\n    } while (t != 0);\n    // Return the greatest common divisor, never zero\n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

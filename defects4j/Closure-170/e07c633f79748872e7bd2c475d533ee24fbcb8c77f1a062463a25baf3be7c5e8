@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          // If the node is the RHS of an assignment and it's not the LHS of the top-level assignment chain\n          if ((parent.isAssign() && parent.getFirstChild() != n && parent.getSecondChild() == n) &&\n              n.isName() && n.getString().equals(varName)) {\n              numUsesWithinCfgNode++;\n          }\n        }\n\n      };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

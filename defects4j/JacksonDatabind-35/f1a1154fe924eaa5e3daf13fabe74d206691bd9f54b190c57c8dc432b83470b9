@@ -1,0 +1,7 @@
+{
+    "generation": "private final Object _deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // previous code...\n\n    if (p.getCurrentToken() != JsonToken.START_OBJECT) {\n        throw ctxt.wrongTokenException(p, JsonToken.START_OBJECT,\n                \"need JSON Object to contain As.WRAPPER_OBJECT type information for class \"+baseTypeName());\n    }\n\n    if (p.nextToken() != JsonToken.FIELD_NAME) {\n        throw ctxt.wrongTokenException(p, JsonToken.FIELD_NAME,\n                \"need JSON String that contains type id (for subtype of \"+baseTypeName()+\")\");\n    }\n    final String typeId = p.getText();\n    // Consume the FIELD_NAME and expect the following value to be START_OBJECT\n    if (p.nextToken() != JsonToken.START_OBJECT) {\n        throw ctxt.wrongTokenException(p, JsonToken.START_OBJECT,\n                \"Expected START_OBJECT after type id\");\n    }\n\n    JsonDeserializer<Object> deser = _findDeserializer(ctxt, typeId);\n    Object value = deser.deserialize(p, ctxt);\n\n    // Check for END_OBJECT after deserialization\n    if (p.nextToken() != JsonToken.END_OBJECT) {\n        throw ctxt.wrongTokenException(p, JsonToken.END_OBJECT,\n                \"expected closing END_OBJECT after type information and deserialized value\");\n    }\n\n    return value;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

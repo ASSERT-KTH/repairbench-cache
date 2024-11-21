@@ -1,0 +1,7 @@
+{
+    "generation": "public static Number createNumber(final String str) throws NumberFormatException {\n    if (str == null) {\n        return null;\n    }\n    if (StringUtils.isBlank(str)) {\n        throw new NumberFormatException(\"A blank string is not a valid number\");\n    }\n\n    final String[] hex_prefixes = {\"0x\", \"0X\", \"-0x\", \"-0X\", \"#\", \"-#\"};\n    int pfxLen = 0;\n    for (final String pfx : hex_prefixes) {\n        if (str.startsWith(pfx)) {\n            pfxLen = pfx.length();\n            break;\n        }\n    }\n\n    if (pfxLen > 0) {\n        final int hexDigits = str.length() - pfxLen;\n        final String validHex = str.substring(pfxLen).replaceAll(\"^0+\", \"\"); // Removing the leading zeros after the hex prefix\n        if (hexDigits > 16) {\n            return new BigInteger(validHex, 16);\n        } else if (hexDigits > 8) {\n            return Long.parseLong(validHex, 16);\n        } else {\n            return Integer.parseInt(validHex, 16);\n        }\n    }\n\n    // The rest of your function follows...\n    // I am omitting it since it didn't seem to be related to the issue at hand\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

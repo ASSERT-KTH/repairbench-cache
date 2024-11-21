@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<Connection.KeyVal>();\n\n    for (Element el : elements) {\n        if (!el.tag().isFormSubmittable()) continue;\n        String name = el.attr(\"name\");\n        if (name.isBlank()) continue;\n        String type = el.attr(\"type\");\n\n        if (\"select\".equals(el.tagName())) {\n            Elements options = el.select(\"option[selected]\");\n            if (!options.isEmpty()) {\n                for (Element option : options) {\n                    data.add(HttpConnection.KeyVal.create(name, option.val()));\n                }\n            } else {\n                Element firstOption = el.select(\"option\").first();\n                if (firstOption != null)\n                    data.add(HttpConnection.KeyVal.create(name, firstOption.val()));\n            }\n        } else if (\"checkbox\".equalsIgnoreCase(type) || \"radio\".equalsIgnoreCase(type)) {\n            if (el.hasAttr(\"checked\")) {\n                String val = el.hasAttr(\"value\") ? el.val() : \"on\";\n                data.add(HttpConnection.KeyVal.create(name, val));\n            }\n        } else if (!el.hasAttr(\"disabled\")) {\n            data.add(HttpConnection.KeyVal.create(name, el.val()));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

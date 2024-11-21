@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // Use a stack to store parent elements\n    Stack<Element> parents = new Stack<>();\n    parents.push(element);\n\n    // evaluate from last to first\n    for (int i = evaluators.size() - 1; i >= 0; --i) {\n        if (parents.isEmpty())\n            return false;\n        element = parents.pop();\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        // Push immediate parents back to the stack\n        parents.push(element.parent());\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

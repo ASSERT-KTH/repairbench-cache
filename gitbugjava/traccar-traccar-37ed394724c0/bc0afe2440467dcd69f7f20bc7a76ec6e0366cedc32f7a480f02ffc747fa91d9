@@ -1,0 +1,7 @@
+{
+    "generation": "// Fixed version of the buggy function\nprivate Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    // ...\n    if (type == MSG_STATUS && buf.readableBytes() == 22) {\n        // ...\n        int value = buf.readUnsignedShort();\n        boolean negative = BitUtil.check(value, 15);\n        double temperature = BitUtil.to(value, 15) * 0.1;\n        position.set(Position.PREFIX_TEMP + 1, negative ? -temperature : temperature);\n    }\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

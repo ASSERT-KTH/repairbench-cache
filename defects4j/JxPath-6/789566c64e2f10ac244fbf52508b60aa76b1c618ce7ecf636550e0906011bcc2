@@ -1,0 +1,7 @@
+{
+    "generation": "protected boolean equal(EvalContext context, Expression left, Expression right) {\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        l = ((EvalContext) l).getSingleNodePointer();\n    }\n\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        r = ((EvalContext) r).getSingleNodePointer();\n    }\n\n    if (l instanceof Collection) {\n        return contains(((Collection) l).iterator(), r);\n    }\n\n    if (r instanceof Collection) {\n        return contains(((Collection) r).iterator(), l);\n    }\n\n    return Objects.equals(l, r);\n}\n\nprivate boolean contains(Iterator<?> iterator, Object object) {\n    while (iterator.hasNext()) {\n        if (Objects.equals(iterator.next(), object)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

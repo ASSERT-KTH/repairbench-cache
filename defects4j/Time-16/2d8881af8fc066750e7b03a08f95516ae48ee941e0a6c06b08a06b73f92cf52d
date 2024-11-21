@@ -1,0 +1,7 @@
+{
+    "generation": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    Chronology chrono = selectChronology(instant.getChronology());\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(instant.getMillis(), chrono, iLocale, iPivotYear, iDefaultYear, iZone);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setChronology(bucket.resolve(instant, text, this));\n    instant.setMillis(bucket.computeMillis(false, text));\n\n    if (newPos >= 0) {\n        int year = bucket.getYear();\n        if (year == null) {\n            year = bucket.getWeekyear();\n        }\n        if (year != null) {\n            long instantMillis = instant.getMillis();\n            instant.setMillis(instant.getChronology().withZone(DateTimeZone.UTC).set(instantMillis, DateTimeFieldType.year(), year).getMillis());\n        }\n\n        if (iZone != null) {\n            instant.setZone(iZone);\n        }\n    }\n\n    return newPos;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

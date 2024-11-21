@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Rescale both vectors to ensure their norms are of the same order of magnitude\n    final double mx = FastMath.max(FastMath.abs(v1.getX()), FastMath.max(FastMath.abs(v1.getY()), FastMath.max(FastMath.abs(v1.getZ()), FastMath.max(FastMath.abs(v2.getX()), FastMath.max(FastMath.abs(v2.getY()), FastMath.abs(v2.getZ()))))));\n    final Vector3D sv1 = new Vector3D(v1.getX() / mx, v1.getY() / mx, v1.getZ() / mx);\n    final Vector3D sv2 = new Vector3D(v2.getX() / mx, v2.getY() / mx, v2.getZ() / mx);\n\n    // Compute rho as an 8-bit approximation of sv1 . sv2 / sv2 . sv2\n    final double rho = ((int) (sv1.dotProduct(sv2) / sv2.dotProduct(sv2) * 256)) / 256.0;\n\n    // Compute v3 = sv1 - rho * sv2\n    final Vector3D v3 = new Vector3D(sv1.getX() - rho * sv2.getX(), sv1.getY() - rho * sv2.getY(), sv1.getZ() - rho * sv2.getZ());\n\n    // Compute cross product from v3 and sv2 instead of v1 and v2\n    return new Vector3D(\n        v3.getY() * sv2.getZ() - v3.getZ() * sv2.getY(),\n        v3.getZ() * sv2.getX() - v3.getX() * sv2.getZ(),\n        v3.getX() * sv2.getY() - v3.getY() * sv2.getX()\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

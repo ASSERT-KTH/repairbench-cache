@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldArrayAccess(Node n, Node left, Node right) {\n    Node parent = n.getParent();\n    // If GETPROP/GETELEM is used as assignment target, fail fast\n    // because the array literal is acting as a temporary we can't fold it here:\n    //    \"[][0] += 1\"\n    if (parent.getType() == Token.ASSIGN ||\n        (parent.getType() == Token.ASSIGN_BITOR && parent.getParent().getType() != Token.EXPR_RESULT)) {\n      return n;\n    }\n\n    if (right.getType() != Token.NUMBER) {\n      // Sometimes people like to use complex expressions to index into\n      // arrays, or strings to index into array methods.\n      return n;\n    }\n\n    double index = right.getDouble();\n    int intIndex = (int) index;\n    if (intIndex != index || intIndex < 0) {\n      return n;\n    }\n\n    Node elem;\n    if (left.isEmpty()) {\n      // Indexing an empty array should return undefined\n      elem = NodeUtil.newUndefinedNode(left);\n    } else {\n      elem = left.getFirstChild();\n      for (int i = 0; elem != null && i < intIndex; i++) {\n        elem = elem.getNext();\n      }\n      if (elem == null) {\n        // Index is greater than array's length, return undefined\n        elem = NodeUtil.newUndefinedNode(left);\n      } else {\n        left.removeChild(elem);\n      }\n    }\n\n    // Replace the entire GETELEM with the value\n    n.getParent().replaceChild(n, elem);\n    reportCodeChange();\n    return elem;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

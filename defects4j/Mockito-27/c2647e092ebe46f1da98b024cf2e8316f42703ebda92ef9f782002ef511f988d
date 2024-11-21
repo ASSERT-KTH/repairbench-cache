@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> void resetMock(T mock) {\n    MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n    if (oldMockHandler instanceof MockHandler) {\n        MockSettings oldMockSettings = (((MockHandler<T>) oldMockHandler).getMockSettings());\n        MockHandler<T> newMockHandler = new MockHandler<T>(oldMockSettings);\n        MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, oldMockSettings.getDefaultAnswer());\n        ((Factory) mock).setCallback(0, newFilter);\n    } else {\n        throw new RuntimeException(\"Unsupported mock handler type\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

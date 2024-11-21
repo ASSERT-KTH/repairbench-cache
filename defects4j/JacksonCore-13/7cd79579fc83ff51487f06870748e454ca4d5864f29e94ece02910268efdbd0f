@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory factory, boolean escapeNonAscii, boolean quoted, String expected) throws IOException {\n    StringWriter sw = new StringWriter();\n    JsonGenerator g = factory.createGenerator(sw);\n    if (!escapeNonAscii) {\n        g.setHighestNonEscapedChar(127);\n    }\n    g.writeStartObject();\n    g.useDefaultPrettyPrinter();\n    if (quoted) {\n        g.writeFieldName(\"foo\");\n    } else {\n        g.writeRawField(\"foo\", false);\n    }\n    g.writeNumber(1);\n    g.writeEndObject();\n    g.close();\n    assertEquals(expected, sw.toString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

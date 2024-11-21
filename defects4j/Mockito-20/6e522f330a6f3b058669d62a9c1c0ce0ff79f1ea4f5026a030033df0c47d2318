@@ -1,0 +1,7 @@
+{
+    "generation": "   // Add constructor checking logic for nested or inner classes\n   if (mockedProxyType.isMemberClass() && !Modifier.isStatic(mockedProxyType.getModifiers())) {\n     try {\n       Constructor<? extends T> ctor = mockedProxyType.getDeclaredConstructor(mockedProxyType.getEnclosingClass());\n       ctor.setAccessible(true);\n       mockInstance = ctor.newInstance(settings.getOuterInstance());\n     } catch (Exception e) {\n       throw new MockitoException(\"Unable to create mock instance of type '\" + mockedProxyType.getSimpleName() + \"'\", e);\n     }\n   } else {\n     try {\n       Constructor<? extends T> ctor = mockedProxyType.getDeclaredConstructor();\n       ctor.setAccessible(true);\n       mockInstance = ctor.newInstance();\n     } catch (Exception e) {\n       throw new MockitoException(\"Unable to create mock instance of type '\" + mockedProxyType.getSimpleName() + \"'. Please ensure that the target class has a no-args constructor.\", e);\n     }\n   }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

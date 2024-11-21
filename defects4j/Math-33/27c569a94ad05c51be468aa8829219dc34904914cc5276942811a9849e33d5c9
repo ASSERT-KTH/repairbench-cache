@@ -1,0 +1,7 @@
+{
+    "generation": "protected void dropPhase1Objective() {\n    if (getNumObjectiveFunctions() != 1) {\n        throw new IllegalStateException(\"Expected there to be one objective function.\");\n    }\n\n    List<Integer> columnsToDrop = new ArrayList<Integer>();\n\n    // Add the phase-1 objective function column to drop\n    columnsToDrop.add(0);\n\n    // Add positive cost non-artificial variables and non-basic artificial variables\n    for (int i = 1; i < getWidth(); i++) {\n        if ((i < getArtificialVariableOffset() && tableau.getEntry(0, i) > 0) ||\n            (i >= getArtificialVariableOffset() && getBasicRow(i) == null)) {\n            columnsToDrop.add(i);\n        }\n    }\n\n    double[][] matrix = new double[getHeight() - 1][getWidth() - columnsToDrop.size()];\n    for (int i = 1; i < getHeight(); i++) {\n        int col = 0;\n        for (int j = 0; j < getWidth(); j++) {\n            if (!columnsToDrop.contains(j)) {\n                matrix[i - 1][col++] = tableau.getEntry(i, j);\n            }\n        }\n    }\n\n    for (int i = columnsToDrop.size() - 1; i >= 0; i--) {\n        columnLabels.remove((int) columnsToDrop.get(i));\n    }\n\n    this.tableau = new Array2DRowRealMatrix(matrix);\n    this.numArtificialVariables = 0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

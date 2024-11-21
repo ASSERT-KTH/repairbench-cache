@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeTransparent(DeviceSession deviceSession, ByteBuf buf) {\n\n    int type = buf.readUnsignedByte();\n\n    if (type == 0xF0) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        int year = readShort(buf);\n        if (year <= 99) { // Handle years less than or equal to 1999\n            year += 2000;\n        } else {\n            year += 1900;\n        }\n        int month = buf.readUnsignedByte();\n        int day = buf.readUnsignedByte();\n        int hour = buf.readUnsignedByte();\n        int minute = buf.readUnsignedByte();\n        int second = buf.readUnsignedByte();\n\n        Date time = assembleDateTime(year, month, day, hour, minute, second, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n\n        if (buf.readUnsignedByte() > 0) {\n            position.set(Position.KEY_ARCHIVE, true);\n        }\n\n        buf.readUnsignedByte(); // vehicle type\n\n        int count;\n        int subtype = buf.readUnsignedByte();\n        // Rest of the code...\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

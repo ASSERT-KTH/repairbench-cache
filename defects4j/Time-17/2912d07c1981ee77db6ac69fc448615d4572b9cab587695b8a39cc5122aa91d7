@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // a bit messy, but will work in all non-pathological cases\n\n    // evaluate 3 hours before and after to work out if anything is happening\n    long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    if (instantBefore == instantAfter) {\n        return instant;  // not an overlap (less than is a gap, equal is normal case)\n    }\n\n    long local = convertUTCToLocal(instant);\n    long[] offsets = getOffsetValues(local);\n\n    if (offsets.length == 2) {\n        // if there is a DST transition, choose the earlier or later offset based on the input parameter\n        return convertLocalToUTC(local, false, earlierOrLater ? offsets[1] : offsets[0]);\n    }\n\n    return convertLocalToUTC(local, false, offsets[0]);\n}\n\nprivate long[] getOffsetValues(long local) {\n    long[] offsets = new long[getOffset(local)];\n    for (int i = 0; i < offsets.length; i++) {\n        offsets[i] = getOffset(local, i);\n    }\n    return offsets;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

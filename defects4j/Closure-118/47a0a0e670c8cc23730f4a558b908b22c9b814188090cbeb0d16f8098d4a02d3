@@ -1,0 +1,7 @@
+{
+    "generation": "private void handleObjectLit(NodeTraversal t, Node n) {\n  for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {\n    String name = child.getString();\n    T type = typeSystem.getType(getScope(), n, name);\n\n    Property prop = getProperty(name);\n    if (!prop.scheduleRenaming(child)) {\n      if (propertiesToErrorFor.containsKey(name)) {\n        // Modify the error message to include more information for debugging\n        compiler.report(JSError.make(\n            t.getSourceName(), child, propertiesToErrorFor.get(name),\n            Warnings.INVALIDATION, name,\n            (type == null ? \"null\" : type.toString()), n.toString(),\n            \"Renaming schedule failed for property '\" + name + \"'\"));\n      }\n    } else {\n      // Try to get the type of the property after it's been successfully renamed\n      T renamedType = typeSystem.getType(getScope(), n, prop.getName());\n      processProperty(t, prop, renamedType, null);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

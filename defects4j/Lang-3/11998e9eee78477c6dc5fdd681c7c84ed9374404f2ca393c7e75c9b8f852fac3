@@ -1,0 +1,7 @@
+{
+    "generation": "public static Number createNumber(final String str) throws NumberFormatException {\n    ...\n\n    int numDecimals = 0; // Check required precision\n    if (decPos > -1) { // there is a decimal point\n        dec = str.substring(decPos + 1);\n        numDecimals = dec.length(); // get number of digits past the decimal\n    }\n\n    ...\n\n    //User doesn't have a preference on the return type, so let's determine it based on the precision\n    if (dec == null && exp == null) { // no decimal point and no exponent\n        //Must be an Integer, Long, BigInteger\n        ...\n        //Remainder of the method\n    } else {\n        //Must be a Float, Double, BigDecimal\n        final boolean allZeros = isAllZeros(mant) && isAllZeros(exp);\n        try {\n            final Float f = createFloat(str);\n            if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros)) && numDecimals <= 6) {\n                return f;\n            }\n        } catch (final NumberFormatException nfe) { // NOPMD\n            // ignore the bad number\n        }\n        try {\n            final Double d = createDouble(str);\n            if (!(d.isInfinite() || (d.doubleValue() == 0.0D && !allZeros)) && numDecimals <= 15) {\n                return d;\n            }\n        } catch (final NumberFormatException nfe) { // NOPMD\n            // ignore the bad number\n        }\n        return createBigDecimal(str);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME && parent.getParent().getType() != Token.GETPROP) {\n        defineNamespacedFunction(n, parent);\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}\n\nprivate void defineNamespacedFunction(Node n, Node parent) {\n  JSDocInfo info = n.getJSDocInfo();\n  ObjectType type = new ObjectType(info != null ? info.getParameterCount() : 0, compiler.getNativeType(NATIVE_FUNCTION_TYPE));\n  Node rootNode = scope.getRootNode();\n  if (rootNode.getType() == Token.ASSIGN) {\n    Node grandParent = rootNode.getParent();\n    if (grandParent.getType() != Token.EXPR_RESULT) {\n      grandParent = grandParent.getLastChild();\n    }\n    if (grandParent == parent) {\n      ((ObjectType) findNameType(parent.getString(), scope.getParent()).getType()).addProperty(parent.getString(), type);\n      return;\n    }\n  }\n  ((ObjectType) findNameType(parent.getParent().getString(), scope).getType()).addProperty(parent.getString(), type);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n    if (f == null) {\n        throw new IllegalArgumentException(\"Function must not be null\");\n    }\n\n    double m = initial;\n    double y = f.value(m);\n\n    // This is a very basic implementation of the bisection method\n    // Please adjust it according to your needs\n    while (!closeEnough(y, 0.0)) {\n        if (y > 0) {\n            max = m;\n        } else {\n            min = m;\n        }\n        m = (min + max) / 2.0;\n        y = f.value(m);\n    }\n\n    return m;\n}\n\nprivate boolean closeEnough(double a, double b) {\n    return Math.abs(a - b) < getAbsoluteAccuracy();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

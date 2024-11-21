@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // Other cases...\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            if (name.equals(\"image\")) {\n                if (tb.inSvg()) {\n                    return tb.process(startTag); // keep as <image> if in svg\n                } else {\n                    return tb.process(startTag.name(\"img\")); // change <image> to <img>, unless in svg\n                }\n            }\n            // Other cases...\n        // Other cases...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected List<Rule> parsePattern() {\n    List<Rule> rules = new ArrayList<Rule>();\n    int length = mPattern.length();\n    int[] indexRef = new int[1];\n\n    for (int i = 0; i < length; i++) {\n        indexRef[0] = i;\n        String token = parseToken(mPattern, indexRef);\n        i = indexRef[0];\n\n        int tokenLen = token.length();\n        if (tokenLen == 0) {\n            break;\n        }\n\n        Rule rule;\n        char c = token.charAt(0);\n\n        switch (c) {\n            case 'G': // era designator (text)\n                int era = mCalendar.get(Calendar.ERA);\n                String[] ERAs = mCalendar.getEras();\n                rule = new TextField(Calendar.ERA, new String[]{ERAs[era]});\n                break;\n            // continue rest of the cases...\n        }\n\n        rules.add(rule);\n    }\n\n    return rules;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

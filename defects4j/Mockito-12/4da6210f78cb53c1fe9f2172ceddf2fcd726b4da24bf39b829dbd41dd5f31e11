@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class.\n *\n * @param field\n * @return\n */\npublic Class<?> getGenericType(Field field) {\n    Type generic = field.getGenericType();\n    if (generic != null) {\n        if (generic instanceof ParameterizedType) {\n            Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n            return (Class<?>) getRawType(actual);\n        } else if (generic instanceof GenericArrayType) {\n            Type componentType = ((GenericArrayType) generic).getGenericComponentType();\n            Class<?> componentClass = getRawType(componentType);\n            return Array.newInstance(componentClass, 0).getClass();\n        }\n    }\n\n    return Object.class;\n}\n\nprivate Type getRawType(Type type) {\n    if (type instanceof ParameterizedType) {\n        return getRawType(((ParameterizedType) type).getRawType());\n    } else {\n        return (Class<?>) type;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonToken nextToken() throws IOException\n{\n    // ... (other parts of the function remain the same)\n\n    case ID_FIELD_NAME:\n        {\n            final String name = delegate.getCurrentName();\n            // note: this will also set 'needToHandleName'\n            f = _headContext.setFieldName(name);\n            if (f == TokenFilter.INCLUDE_ALL) {\n                _itemFilter = f;\n                if (!_includePath) {\n                    // Minor twist here: if parent NOT included, may need to induce output of\n                    // surrounding START_OBJECT/END_OBJECT\n                    if (_includeImmediateParent && !_headContext.isStartHandled()) {\n                        t = _headContext.nextTokenToRead(); // returns START_OBJECT but also marks it handled\n                        _exposedContext = _headContext;\n                    }\n                }\n                // Fix: Return the token immediately if match is found and multipleMatches is false\n                if (!_allowMultipleMatches) {\n                    return (_currToken = t);\n                }\n            }\n            // ... (other parts of the function remain the same)\n        }\n\n    // ... (other parts of the function remain the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

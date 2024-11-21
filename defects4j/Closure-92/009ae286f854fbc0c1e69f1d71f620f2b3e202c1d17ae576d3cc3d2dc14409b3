@@ -1,0 +1,7 @@
+{
+    "generation": "void replace() {\n  // You can't 'replace' if there's no existing node.\n  if (firstNode == null || candidateDefinition == null) {\n    replacementNode = candidateDefinition;\n    return;\n  }\n\n  // Remove any explicit definition of the namespace.\n  if (explicitNode != null) {\n    explicitNode.detachFromParent();\n    compiler.reportCodeChange();\n  }\n\n  // Handle the case where there's not a duplicate definition.\n  replacementNode = createDeclarationNode();\n\n  // If a definition exists, replace it with the new declaration.\n  // If not, insert the new declaration at an appropriate position.\n  if (firstNode.getParent() != null) {\n    firstNode.getParent().replaceChild(firstNode, replacementNode);\n  } else {\n    compiler.getNodeForCodeInsertion(minimumModule).addChildToBack(replacementNode);\n  }\n\n  compiler.reportCodeChange();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

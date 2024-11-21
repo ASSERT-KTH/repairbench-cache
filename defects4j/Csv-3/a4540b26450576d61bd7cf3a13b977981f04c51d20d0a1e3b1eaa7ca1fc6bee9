@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    final int c = in.read();\n    switch (c) {\n    case 'r':\n        return CR;\n    case 'n':\n        return LF;\n    case 't':\n        return TAB;\n    case 'b':\n        return BACKSPACE;\n    case 'f':\n        return FF;\n    case CR:\n    case LF:\n    case FF:\n    case TAB:\n    case BACKSPACE:\n    case '\\\\': // Escape character should be treated as is, not as an escape for other characters\n    case END_OF_STREAM:\n        return c;\n    default:\n        // Now check for meta-characters\n        if (isNonPrintableChar(c)) {\n            throw new IOException(\"Invalid escape sequence \\\\\" + (char) c);\n        }\n        return c;\n    }\n}\n\nprivate boolean isNonPrintableChar(int c) {\n    return c < 0x20 || c > 0x7E;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

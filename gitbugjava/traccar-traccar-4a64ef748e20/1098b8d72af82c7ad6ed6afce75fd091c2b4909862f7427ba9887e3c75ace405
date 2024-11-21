@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeLocation(DeviceSession deviceSession, ByteBuf buf) {\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedInt()));\n\n    // ... other decoding sections ...\n\n    while (buf.readableBytes() > 2) {\n        int subtype = buf.readUnsignedByte();\n        int length = buf.readUnsignedByte();\n        int endIndex = buf.readerIndex() + length;\n        String stringValue;\n        switch (subtype) {\n            // ... other decoding cases ...\n\n            case 0xE6:\n                while (buf.readerIndex() < endIndex) {\n                    int sensorIndex = buf.readUnsignedByte();\n                    buf.skipBytes(6); // mac\n                    position.set(Position.PREFIX_TEMP + sensorIndex, decodeCustomDouble(buf));\n\n                    int humidityData = buf.readUnsignedShort(); // correct this line\n                    double humidity = humidityData / 10.0;\n                    position.set(\"humidity\" + sensorIndex, humidity);\n                }\n                break;\n\n            // ... other decoding cases ...\n        }\n        buf.readerIndex(endIndex);\n    }\n\n    return position;\n}\n\nprivate double decodeCustomDouble(ByteBuf buf) {\n    // Implementation of decodeCustomDouble\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {\n    int cache = 0;\n    int shift = 7;\n    for (int i = 0; i < length; i++) {\n        cache |= ((bits.get(i) ? 1 : 0) << shift);\n        // shift left instead of right\n        if (--shift < 0) {\n            header.write(cache);\n            shift = 7;\n            cache = 0;\n        }\n    }\n    // Ensure that the remaining bits are written if shift is not zero\n    if (shift != 7) {\n        header.write(cache);\n    }\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

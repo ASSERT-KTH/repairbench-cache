@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\n@Override\npublic double integrate(final FirstOrderDifferentialEquations equations,\n                       final double t0, final double[] y0,\n                       final double t, final double[] y)\n    throws DerivativeException, IntegratorException {\n\n    // The rest of the function remains the same ...\n\n    while (!lastStep) {\n\n        // The previous steps, such as computing derivatives, estimating errors, etc., remain the same ...\n\n        if (manager.evaluateStep(interpolator)) {\n            final double dt = manager.getEventTime() - stepStart;\n            if (Math.abs(dt) <= Math.ulp(stepStart)) {\n                // rejecting the step would lead to a too small next step, we accept it\n                loop = false;\n            } else {\n                // reject the step to match exactly the next switch time\n                hNew = dt;\n            }\n        } else {\n            // accept the step\n            loop = false;\n        }\n\n        // The rest of the loop remains the same ...\n    }\n\n    if (nSteps >= 4) {\n        assertTrue(integ.getEvaluations() <= 90);\n    } else {\n        assertTrue(integ.getEvaluations() > 140);\n    }\n\n    // The rest of the function remains the same ...\n\n    return stopTime;\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

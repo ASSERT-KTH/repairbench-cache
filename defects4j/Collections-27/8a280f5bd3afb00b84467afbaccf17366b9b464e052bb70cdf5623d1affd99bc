@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n\n    if (!ArrayList.class.isAssignableFrom(this.collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe class type for collectionClass: \" + this.collectionClass.getName());\n    }\n\n    this.map = (Map)in.readObject();\n\n    for (Object value : map.values()) {\n        try {\n            if (!collectionClass.isInstance(value)) {\n                throw new UnsupportedOperationException(\"Unsafe value type: \" + value.getClass().getName());\n            }\n        } catch (ClassCastException e) {\n            throw new UnsupportedOperationException(\"Unsafe value type: \" + value.getClass().getName(), e);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

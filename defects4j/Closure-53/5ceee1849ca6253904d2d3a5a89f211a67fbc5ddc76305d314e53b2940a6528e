@@ -1,0 +1,7 @@
+{
+    "generation": "private void replaceAssignmentExpression(Var v, Reference ref, Map<String, String> varmap) {\n    // Compute all of the assignments necessary\n    List<Node> nodes = Lists.newArrayList();\n    Node val = ref.getAssignedValue();\n    blacklistVarReferencesInTree(val, v.scope);\n    Preconditions.checkState(val.getType() == Token.OBJECTLIT);\n    if (val.getFirstChild() == null) {\n        // No assignments to make as the object literal is empty.\n        return;\n    }\n    Set<String> all = Sets.newLinkedHashSet(varmap.keySet());\n    for (Node key = val.getFirstChild(); key != null;\n         key = key.getNext()) {\n        String var = key.getString();\n        Node value = key.removeFirstChild();\n        // ... rest of the code ...\n    }\n    // ... rest of the code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

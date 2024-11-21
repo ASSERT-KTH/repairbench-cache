@@ -1,0 +1,7 @@
+{
+    "generation": "  private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n    Node property = n.getLastChild();\n    Node objNode = n.getFirstChild();\n    JSType childType = getJSType(objNode);\n\n    // Modify the condition to check if the child type is null or undefined as well.\n    if (childType.isDict() || childType.isNullType() || childType.isUndefinedType()) {\n      report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict or null/undefined\");\n    } else if (n.getJSType() != null && parent.isAssign()) {\n      return;\n    } else if (validator.expectNotNullOrUndefined(t, n, childType,\n        \"No properties on this expression\", getNativeType(OBJECT_TYPE))) {\n      checkPropertyAccess(childType, property.getString(), t, n);\n    }\n    ensureTyped(t, n);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

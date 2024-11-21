@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    int len = str.length();\n    if (len < 2 || (len != 5 && len != 7 && len != 8)) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    char ch0 = str.charAt(0);\n    char ch1 = str.charAt(1);\n    if (ch0 < 'a' || ch0 > 'z' || ch1 < 'a' || ch1 > 'z') {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    String language = str.substring(0, 2);\n    String country = \"\";\n    String variant = \"\";\n\n    if (len > 2 && str.charAt(2) != '_') {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    if (len > 3) {\n        if (len < 7 || (len == 7 && str.charAt(5) != '_')) {\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        }\n        char ch3 = str.charAt(3);\n        char ch4 = str.charAt(4);\n        if (ch3 != '_' || (ch4 != '_' && !(ch3 < 'A' || ch3 > 'Z' || ch4 < 'A' || ch4 > 'Z'))) {\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        }\n        country = len == 7 ? \"\" : str.substring(3, 5);\n        variant = len == 7 ? str.substring(6) : str.substring(6, 8);\n    }\n\n    return new Locale(language, country, variant);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

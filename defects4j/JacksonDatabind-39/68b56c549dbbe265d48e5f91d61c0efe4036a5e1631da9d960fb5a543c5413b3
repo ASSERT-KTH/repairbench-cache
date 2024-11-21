@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonNode node = p.readValueAsTree();\n    JsonNode typeNode = node.get(\"type\");\n    if (typeNode != null && typeNode.isTextual()) {\n        JavaType type = ctxt.getTypeFactory().constructType(\n                TypeFactory.defaultInstance().constructFromCanonical(typeNode.asText()));\n        JsonParser typeParser = new TreeTraversingParser(node, p);\n        return ctxt.readValue(typeParser, type);\n    } else {\n        return null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

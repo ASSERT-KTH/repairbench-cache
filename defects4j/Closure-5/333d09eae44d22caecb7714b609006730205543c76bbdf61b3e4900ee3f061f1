@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlinableObject(List<Reference> refs) {\n  boolean ret = false;\n  Set<String> validProperties = Sets.newHashSet();\n  Set<String> deletedProperties = Sets.newHashSet();\n\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    // ...\n\n    if (parent.isGetProp()) {\n      String propName = parent.getLastChild().getString();\n      if (deletedProperties.contains(propName)) {\n        return false;\n      }\n      // ...\n\n    }\n\n    if (parent.isDelProp()) {\n      String propName = parent.getLastChild().getString();\n      deletedProperties.add(propName);\n      validProperties.remove(propName);\n      continue;\n    }\n\n    // ...\n\n  }\n  return ret;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

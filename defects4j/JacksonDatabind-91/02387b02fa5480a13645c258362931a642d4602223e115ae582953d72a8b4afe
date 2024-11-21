@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean _hasCustomHandlers(JavaType t) {\n    if (t.isMapLikeType()) { // Change from isContainerType() to isMapLikeType()\n        // First: value types may have both value and type handlers\n        JavaType ct = t.getContentType();\n        if (ct != null) {\n            // Consider both value and key handlers\n            return (ct.getValueHandler() != null) || (ct.getTypeHandler() != null) || (t.getKeyType() != null && t.getKeyType().getValueHandler() != null);\n        } else {\n            // If content type is null, check for key type handler\n            return (t.getKeyType() != null && t.getKeyType().getValueHandler() != null);\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

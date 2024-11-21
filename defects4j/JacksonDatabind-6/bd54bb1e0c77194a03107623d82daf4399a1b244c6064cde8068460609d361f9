@@ -1,0 +1,7 @@
+{
+    "generation": "protected Date parseAsISO8601(String dateStr, ParsePosition pos) {\n    int len = dateStr.length();\n\n    // Check if seconds are missing and add them if necessary\n    int indexOfT = dateStr.lastIndexOf('T');\n    int timeLen = len - indexOfT - 1;\n    if (timeLen <= 9) { // seconds and optional milliseconds are missing\n        StringBuilder sb = new StringBuilder(dateStr);\n        if (timeLen <= 5) { // only minutes and optional timezone are present\n            sb.insert(len-2, \":00\"); // add seconds\n        }\n        if (timeLen <= 6) { // milliseconds are not present, add them\n            sb.insert(len-2, \".000\");\n        }\n        dateStr = sb.toString();\n    }\n\n    // Continue with the rest of the function as before\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

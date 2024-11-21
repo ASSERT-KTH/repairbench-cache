@@ -1,0 +1,7 @@
+{
+    "generation": "protected String[] flatten(Options options, String[] arguments, boolean stopAtNonOption) {\n    List<String> tokens = new ArrayList<String>();\n\n    boolean eatTheRest = false;\n\n    for (String arg : arguments) {\n        if (\"--\".equals(arg)) {\n            eatTheRest = true;\n            tokens.add(arg);\n        } else if (\"-\".equals(arg)) {\n            tokens.add(arg);\n        } else if (arg.startsWith(\"-\")) {\n            String opt = arg;\n            String value = null;\n            int eqIdx = arg.indexOf(\"=\");\n\n            if (eqIdx != -1) {\n                opt = arg.substring(0, eqIdx);\n                value = arg.substring(eqIdx + 1);\n            }\n\n            if (options.hasOption(opt.replace(\"-\", \"\"))) {\n                tokens.add(opt);\n                if (value != null) {\n                    tokens.add(value);\n                }\n            } else {\n                eatTheRest = stopAtNonOption;\n                tokens.add(arg);\n            }\n        } else {\n            tokens.add(arg);\n        }\n\n        if (eatTheRest) {\n            break;\n        }\n    }\n\n    if (eatTheRest) {\n        for (int i = tokens.size(); i < arguments.length; i++) {\n            tokens.add(arguments[i]);\n        }\n    }\n\n    return tokens.toArray(new String[0]);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlinableObject(List<Reference> refs) {\n  boolean ret = false;\n  Set<String> validProperties = Sets.newHashSet();\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    // Deleting a property has different semantics from deleting a variable,\n    // so deleted properties should not be inlined.\n    if (parent.isDelProp() && parent.getFirstChild() == name) {\n      return false;\n    }\n\n    if (parent.isGetProp()) {\n      Preconditions.checkState(parent.getFirstChild() == name);\n      if (gramps.isCall() && gramps.getFirstChild() == parent) {\n        return false;\n      }\n\n      String propName = parent.getLastChild().getString();\n      if (!validProperties.contains(propName) && !NodeUtil.isVarOrSimpleAssignLhs(parent, gramps)) {\n        return false;\n      }\n      continue;\n    }\n\n    if (!isVarOrAssignExprLhs(name)) {\n       return false;\n    }\n\n    // Rest of the function remains the same...\n  }\n  // return statement remains the same\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

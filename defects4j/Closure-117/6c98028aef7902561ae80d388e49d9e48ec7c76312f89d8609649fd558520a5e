@@ -1,0 +1,7 @@
+{
+    "generation": "String getReadableJSTypeName(Node n, boolean dereference) {\n    if (n.isGetProp()) {\n      Node objectNode = n.getFirstChild();\n      if (objectNode.isName() && \"this\".equals(objectNode.getString()) &&\n          n.getGrandparent() != null && n.getGrandparent().isFunction()) {\n        // If the GETPROP node is accessing a property of 'this' within a function,\n        // check if the property belongs to a private field of the class.\n        Node grandparent = n.getGrandparent();\n        Node c2Node = grandparent.getFirstChild().getNext();\n        if (c2Node != null && c2Node.getString().equals(n.getLastChild().getString())) {\n          // This is a private field, so get the type of the private field.\n          ObjectType objectType = getJSType(c2Node.getFirstChild()).dereference();\n          // Rest of the code...\n        }\n      }\n      // Rest of the code...\n    }\n    // Rest of the function...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements elements = select(\"input:not([type=submit]), textarea, select\");\n    for (Element element : elements) {\n        if (element.hasAttr(\"name\")) {\n            String name = element.attr(\"name\");\n            if (element.tag().getName().equals(\"select\")) {\n                Elements options = element.select(\"option[selected]\");\n                for (Element option : options) {\n                    if (option.hasAttr(\"value\")) {\n                        data.add(new Connection.KeyVal(name, option.attr(\"value\"), null));\n                    } else {\n                        data.add(new Connection.KeyVal(name, option.text(), null));\n                    }\n                }\n            } else if (element.tag().getName().equals(\"textarea\")) {\n                data.add(new Connection.KeyVal(name, element.text(), null));\n            } else {\n                data.add(new Connection.KeyVal(name, element.attr(\"value\"), null));\n            }\n        }\n    }\n    return Collections.unmodifiableList(data);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

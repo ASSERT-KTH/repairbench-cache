@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // try to resolve relative urls to abs, and optionally update the attribute so output html has abs.\n    // rels without a baseuri get removed\n    String value = el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks)\n        attr.setValue(value);\n\n    // Extract protocol from the value\n    String protocolFromValue = \"\";\n    int indexOfColon = value.indexOf(\":\");\n    if (indexOfColon > 0) {\n        protocolFromValue = value.substring(0, indexOfColon).toLowerCase();\n    }\n\n    // Check if protocol from value is in the set of allowed protocols\n    for (Protocol protocol : protocols) {\n        if (protocolFromValue.equals(protocol.toString())) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

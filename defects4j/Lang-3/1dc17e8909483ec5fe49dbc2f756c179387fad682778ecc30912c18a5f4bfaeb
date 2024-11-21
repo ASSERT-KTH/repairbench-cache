@@ -1,0 +1,7 @@
+{
+    "generation": "public static Number createNumber(final String str) throws NumberFormatException {\n    if (str == null) {\n        return null;\n    }\n    if (StringUtils.isBlank(str)) {\n        throw new NumberFormatException(\"A blank string is not a valid number\");\n    }\n\n    // ... rest of the function ...\n\n    // Check if the string can be parsed to a Double without losing precision\n    boolean hasPrecisionLoss = false;\n    try {\n        Double d = createDouble(str);\n        hasPrecisionLoss = d.toString().equals(str) == false;\n    } catch (final NumberFormatException nfe) { // NOPMD\n        // ignore the bad number\n        hasPrecisionLoss = true;\n    }\n\n    if (hasPrecisionLoss) {\n        return createBigDecimal(str);\n    } else {\n        // ... rest of the function ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

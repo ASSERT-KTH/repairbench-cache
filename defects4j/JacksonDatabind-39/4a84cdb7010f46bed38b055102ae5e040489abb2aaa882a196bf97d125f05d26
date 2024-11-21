@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // Adding a check for field names and handling them accordingly\n        JsonToken currentToken = p.getCurrentToken();\n        while (currentToken != null) {\n            if (currentToken == JsonToken.START_OBJECT) {\n                currentToken = p.nextToken(); // Move to the next token\n                if (currentToken == JsonToken.FIELD_NAME) {\n                    String fieldName = p.getCurrentName();\n                    if (\"location\".equals(fieldName)) {\n                        p.nextToken(); // Skip the value\n                    } else {\n                        p.skipChildren();// Skipping non-fieldname token\n                    }\n                } else {\n                    p.skipChildren(); // Skipping non-fieldname token\n                }\n            } else {\n                p.skipChildren(); // Skipping non-START_OBJECT token\n            }\n            currentToken = p.nextToken(); // Move to the next token\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

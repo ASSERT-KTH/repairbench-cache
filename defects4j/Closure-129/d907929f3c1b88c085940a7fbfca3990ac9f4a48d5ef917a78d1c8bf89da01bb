@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  // Check if any node in the structure is a GET node, if not, then it's a free call.\n  if (!isNodeOrDescendantGet(n)) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  // Keep track of the context in which eval is called.\n  Node first = n.getFirstChild();\n  if (first.isName() && \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}\n\n// Recursive helper function to check if a node or any of its descendants is a GET node\nprivate boolean isNodeOrDescendantGet(Node n) {\n  if (NodeUtil.isGet(n)) {\n    return true;\n  }\n\n  for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n    if (isNodeOrDescendantGet(child)) {\n      return true;\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

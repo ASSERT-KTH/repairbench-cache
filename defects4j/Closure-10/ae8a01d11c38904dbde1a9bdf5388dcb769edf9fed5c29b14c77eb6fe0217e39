@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse && n.isOp()) {\n        switch (n.getOp()) {\n            // If the operation is addition and any of the operands may be a string, then the result may also be a string.\n            case ADD:\n            case SUB:\n                return mayBeString(n.getFirstChild(), true) || mayBeString(n.getSecondChild(), true);\n            default:\n                return mayBeStringHelper(n);\n        }\n    } else {\n        return mayBeStringHelper(n);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
