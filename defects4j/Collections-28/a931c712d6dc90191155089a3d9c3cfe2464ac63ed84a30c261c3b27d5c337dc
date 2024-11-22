@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K prefix) {\n    final SortedMap<K, V> subMap = super.prefixMap(prefix);\n\n    return new AbstractSortedMap<K, V>() {\n        @Override\n        public Set<Entry<K, V>> entrySet() {\n            return subMap.entrySet();\n        }\n\n        @Override\n        public void clear() {\n            // Ensure that clearing the prefix map removes the entries from the backing trie.\n            Iterator<K> iterator = subMap.keySet().iterator();\n            while (iterator.hasNext()) {\n                PatriciaTrie.this.remove(iterator.next());\n            }\n        }\n\n        @Override\n        public Comparator<? super K> comparator() {\n            return subMap.comparator();\n        }\n\n        @Override\n        public K firstKey() {\n            return subMap.firstKey();\n        }\n\n        @Override\n        public K lastKey() {\n            return subMap.lastKey();\n        }\n\n        @Override\n        public SortedMap<K, V> headMap(K toKey) {\n            return subMap.headMap(toKey);\n        }\n\n        @Override\n        public SortedMap<K, V> subMap(K fromKey, K toKey) {\n            return subMap.subMap(fromKey, toKey);\n        }\n\n        @Override\n        public SortedMap<K, V> tailMap(K fromKey) {\n            return subMap.tailMap(fromKey);\n        }\n    };\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

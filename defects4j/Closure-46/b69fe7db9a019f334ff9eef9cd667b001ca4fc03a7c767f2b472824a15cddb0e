@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n  RecordType thatRecordType = that.toMaybeRecordType();\n\n  // Combine properties from both record types\n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  Set<String> allProperties = new HashSet<>();\n  allProperties.addAll(this.properties.keySet());\n  allProperties.addAll(thatRecordType.getProperties().keySet());\n\n  for (String property : allProperties) {\n    boolean thisHasProperty = this.hasProperty(property);\n    boolean thatHasProperty = thatRecordType.hasProperty(property);\n\n    if (thisHasProperty && thatHasProperty) {\n      // If both have the property, union the types\n      JSType thisPropType = this.getPropertyType(property);\n      JSType thatPropType = thatRecordType.getPropertyType(property);\n      JSType unifiedType = registry.createUnionType(thisPropType, thatPropType);\n      builder.addProperty(property, unifiedType, null);\n    } else if (thisHasProperty) {\n      // If only this has the property, add it\n      builder.addProperty(property, this.getPropertyType(property), null);\n    } else if (thatHasProperty) {\n      // If only that has the property, add it\n      builder.addProperty(property, thatRecordType.getPropertyType(property), null);\n    }\n  }\n\n  return builder.build();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

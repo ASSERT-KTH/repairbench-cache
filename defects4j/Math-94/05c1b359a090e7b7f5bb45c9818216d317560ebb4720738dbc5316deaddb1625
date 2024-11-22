@@ -1,0 +1,7 @@
+{
+    "generation": "    public static int gcd(int u, int v) {\n        // Handle special cases\n        if (u == 0) {\n            return Math.abs(v);\n        }\n        if (v == 0) {\n            return Math.abs(u);\n        }\n\n        // Ensure u and v are positive\n        u = Math.abs(u);\n        v = Math.abs(v);\n\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n            u /= 2;\n            v /= 2;\n            k++; // cast out twos.\n        }\n\n        // B2. Make u odd (if it is even)\n        while ((u & 1) == 0) {\n            u /= 2;\n        }\n\n        do {\n            // B3. Make v odd (if it is even)\n            while ((v & 1) == 0) {\n                v /= 2;\n            }\n\n            // B4. Ensure u <= v (swap if necessary)\n            if (u > v) {\n                int temp = u;\n                u = v;\n                v = temp;\n            }\n\n            // B5. Subtract u from v (v = v - u)\n            v -= u;\n        } while (v != 0);\n\n        // Restore common factors of 2\n        return u * (1 << k);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

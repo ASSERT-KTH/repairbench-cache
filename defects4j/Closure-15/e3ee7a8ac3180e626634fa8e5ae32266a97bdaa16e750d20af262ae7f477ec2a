@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without a return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // We only care about calls to functions that\n        // pass one of the dependent variables to a non-side-effect-free function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n        // Handle 'in' expressions explicitly, which previously weren\u2019t considered.\n        // The 'in' operator doesn't count as a side effect on its own and shouldn't be misidentified.\n        if (n.isIn()) { \n          // Check if the left-hand or right-hand side of the 'in' operator contains problematic effects.\n          for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n            if (apply(c)) {\n              return true;\n            }\n          }\n          return false; // If 'in' itself has no issues, do not consider it causing a side effect.\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

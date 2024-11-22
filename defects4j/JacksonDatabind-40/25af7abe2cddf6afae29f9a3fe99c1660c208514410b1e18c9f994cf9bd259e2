@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Check for empty string during deserialization\n    if (p.getCurrentToken() == JsonToken.VALUE_STRING && p.getText().trim().isEmpty()) {\n        // For primitives, returning null would typically cause issues\n        if (_valueClass.isPrimitive()) {\n            throw ctxt.mappingException(\"Cannot coerce empty string to primitive type: \" + _valueClass.getName());\n        }\n        // For non-primitive types, return null\n        return null;\n    }\n    // Delegate to the default deserialization behavior if the value is not empty string\n    return super.deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

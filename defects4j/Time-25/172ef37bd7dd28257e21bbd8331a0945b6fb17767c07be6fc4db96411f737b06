@@ -1,0 +1,7 @@
+{
+    "generation": "    public int getOffsetFromLocal(long instantLocal) {\n        // Get the offset at instantLocal (first estimate)\n        final int offsetLocal = getOffset(instantLocal);\n        // Adjust instantLocal using the estimate and recalculate the offset\n        final long instantAdjusted = instantLocal - offsetLocal;\n        final int offsetAdjusted = getOffset(instantAdjusted);\n\n        // If the offsets differ, we must be near a DST boundary\n        if (offsetLocal != offsetAdjusted) {\n            // Check whether we're in an overlap or gap situation\n            if (instantLocal - offsetLocal < nextTransition(instantLocal - offsetLocal)) {\n                // In overlap, prefer the offset that is larger (favoring daylight time)\n                return Math.max(offsetLocal, offsetAdjusted);\n            } else {\n                // In a gap, prefer the offset that allows local time to fall after the transition\n                return Math.min(offsetLocal, offsetAdjusted);\n            }\n        }\n        return offsetAdjusted;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

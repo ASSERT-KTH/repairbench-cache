@@ -1,0 +1,7 @@
+{
+    "generation": "    public long readBits(final int count) throws IOException {\n        if (count < 0 || count > MAXIMUM_CACHE_SIZE) {\n            throw new IllegalArgumentException(\"count must not be negative or greater than \" + MAXIMUM_CACHE_SIZE);\n        }\n        while (bitsCachedSize < count) {\n            final long nextByte = in.read();\n            if (nextByte < 0) {\n                return -1; // Return -1 if the end of the stream is reached\n            }\n            if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n                bitsCached |= (nextByte & 0xFFL) << bitsCachedSize; // Avoid overflow by masking nextByte with 0xFF\n            } else {\n                bitsCached = (bitsCached << 8) | (nextByte & 0xFFL); // Avoid overflow by masking nextByte with 0xFF\n            }\n            bitsCachedSize += 8;\n        }\n\n        final long bitsOut;\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            bitsOut = bitsCached & MASKS[count];\n            bitsCached >>>= count;\n        } else {\n            bitsOut = (bitsCached >>> (bitsCachedSize - count)) & MASKS[count];\n        }\n        bitsCachedSize -= count;\n        return bitsOut;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

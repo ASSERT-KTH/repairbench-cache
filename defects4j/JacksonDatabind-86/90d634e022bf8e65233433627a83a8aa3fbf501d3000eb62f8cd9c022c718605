@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _fromClass(ClassStack context, Class<?> rawType, TypeBindings bindings) {\n    ResolvedRecursiveType recursiveType = _findExistingRecursiveType(context, rawType, bindings);\n    if (recursiveType != null) {\n        return recursiveType;\n    }\n\n    if (context.isSelfReference(rawType)) {\n        recursiveType = new ResolvedRecursiveType(rawType, bindings);\n        context.addSelfReference(rawType, recursiveType);\n        return recursiveType;\n    }\n\n    JavaType resolvedType = super._fromClass(context, rawType, bindings);\n    if (resolvedType.isRecursive()) {\n        recursiveType = new ResolvedRecursiveType(rawType, bindings);\n        recursiveType.setReference(resolvedType);\n        _cacheResolvedType(rawType, bindings, recursiveType);\n        return recursiveType;\n    }\n\n    return resolvedType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

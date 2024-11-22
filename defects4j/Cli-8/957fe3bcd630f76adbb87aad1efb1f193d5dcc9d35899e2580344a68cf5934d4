@@ -1,0 +1,7 @@
+{
+    "generation": "    protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                             int nextLineTabStop, String text)\n    {\n        String[] lines = text.split(defaultNewLine); // Split the text into lines using defaultNewLine\n        final String padding = createPadding(nextLineTabStop); // Padding for indented lines\n        \n        for (int i = 0; i < lines.length; i++) {\n            String currentLine = lines[i].trim(); // Trim leading/trailing spaces from each line\n            \n            if (i > 0) { // For lines after the first, apply padding\n                sb.append(defaultNewLine).append(padding);\n            }\n            \n            while (!currentLine.isEmpty()) {\n                int wrapPos = findWrapPos(currentLine, width, (i > 0 ? nextLineTabStop : 0));\n                \n                if (wrapPos == -1) { // No more wrapping needed\n                    sb.append(currentLine);\n                    currentLine = \"\";\n                } else {\n                    sb.append(rtrim(currentLine.substring(0, wrapPos))).append(defaultNewLine);\n                    currentLine = padding + currentLine.substring(wrapPos).trim();\n                }\n            }\n        }\n        \n        return sb;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

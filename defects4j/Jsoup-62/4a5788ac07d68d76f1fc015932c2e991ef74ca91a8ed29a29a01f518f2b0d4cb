@@ -1,0 +1,7 @@
+{
+    "generation": "        boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {\n            String name = t.asEndTag().normalName();\n            ArrayList<Element> stack = tb.getStack();\n            for (int pos = stack.size() - 1; pos >= 0; pos--) {\n                Element node = stack.get(pos);\n                // Check if matching tag name (exact case as required by ParseSettings)\n                if (node.nodeName().equals(name)) {\n                    tb.generateImpliedEndTags(name);\n                    if (!name.equals(tb.currentElement().nodeName()))\n                        tb.error(this);\n                    tb.popStackToClose(name);\n                    return true; // Correctly handled the end tag\n                } else {\n                    // If a special node is encountered before finding the target node, stop\n                    if (tb.isSpecial(node)) {\n                        tb.error(this);\n                        return false;\n                    }\n                }\n            }\n            tb.error(this); // If no matching node was found in the stack\n            return false;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    // Validate that the value type is safe before proceeding\n    if (valueClazz != null && !Collection.class.isAssignableFrom(valueClazz)) {\n        throw new UnsupportedOperationException(\"Deserialization of MultiValueMap with unsafe value class is not allowed: \" + valueClazz.getName());\n    }\n    // Rebuild the underlying collection factory after deserialization\n    factory = new ReflectionFactory<>(valueClazz);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

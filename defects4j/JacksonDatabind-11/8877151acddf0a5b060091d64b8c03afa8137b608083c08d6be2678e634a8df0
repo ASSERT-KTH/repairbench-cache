@@ -1,0 +1,7 @@
+{
+    "generation": "    protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n    {\n        final String name = type.getName();\n        // 19-Mar-2015: Without context, all we can check are bounds.\n        if (context == null || !context.hasPlaceholder(name)) {\n            // And to prevent infinite loops, now need this:\n            return _unknownType();\n        } else {\n            // Use context to resolve the type variable if possible\n            JavaType actualType = context.findType(name);\n            if (actualType != null) {\n                return actualType;\n            }\n        }\n\n        /* 29-Jan-2010, tatu: We used to throw an exception here for bound type\n         * variables, but instead, we handle generic bases and recursive bounds safely.\n         */\n        Type[] bounds = type.getBounds();\n        \n        // Check if bounds exist, default to Object.class if empty\n        if (bounds == null || bounds.length == 0) {\n            return _unknownType();\n        }\n\n        /* To handle recursive types, add a placeholder before constructing the type\n         * based on bounds to avoid infinite loops (e.g., T extends Comparable<T>).\n         */\n        if (!context.hasPlaceholder(name)) {\n            context._addPlaceholder(name);\n        }\n\n        // Construct JavaType from the first bound (bounds[0])\n        return _constructType(bounds[0], context);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

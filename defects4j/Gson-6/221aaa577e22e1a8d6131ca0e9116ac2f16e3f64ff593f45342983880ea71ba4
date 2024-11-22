@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\") // Casts guarded by conditionals.\nstatic TypeAdapter<?> getTypeAdapter(ConstructorConstructor constructorConstructor, Gson gson,\n    TypeToken<?> fieldType, JsonAdapter annotation) {\n  Class<?> value = annotation.value();\n  Object instance;\n  \n  try {\n    instance = constructorConstructor.get(TypeToken.get(value)).construct();\n  } catch (Exception e) {\n    throw new IllegalArgumentException(\n        \"@JsonAdapter value must be TypeAdapter or TypeAdapterFactory reference and must have a no-arguments constructor.\", e);\n  }\n  \n  if (instance instanceof TypeAdapter) {\n    TypeAdapter<?> typeAdapter = (TypeAdapter<?>) instance;\n    return typeAdapter.nullSafe();\n  } else if (instance instanceof TypeAdapterFactory) {\n    TypeAdapterFactory typeAdapterFactory = (TypeAdapterFactory) instance;\n    return typeAdapterFactory.create(gson, fieldType).nullSafe();\n  } else {\n    throw new IllegalArgumentException(\n        \"@JsonAdapter value must be TypeAdapter or TypeAdapterFactory reference.\");\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

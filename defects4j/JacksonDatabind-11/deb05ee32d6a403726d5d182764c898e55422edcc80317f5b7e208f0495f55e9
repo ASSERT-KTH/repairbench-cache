@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    // 19-Mar-2015: Without context, all we can check are bounds.\n    if (context == null) {\n        // And to prevent infinite loops, now need this:\n        return _unknownType();\n    } else {\n        // Check if type can be resolved from the context\n        JavaType actualType = context.findType(name);\n        if (actualType != null) {\n            return actualType;\n        }\n    }\n\n    // Check bounds to find a potential fallback type\n    Type[] bounds = type.getBounds();\n    if (bounds == null || bounds.length == 0) {\n        // No bounds, fallback to Object (default implicit bound)\n        return _constructType(Object.class, context);\n    }\n\n    /* Place a placeholder to handle recursive types\n     * (e.g., T extends Comparable<T>)\n     */\n    context._addPlaceholder(name);\n\n    // Return the first bound as the fallback type\n    return _constructType(bounds[0], context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

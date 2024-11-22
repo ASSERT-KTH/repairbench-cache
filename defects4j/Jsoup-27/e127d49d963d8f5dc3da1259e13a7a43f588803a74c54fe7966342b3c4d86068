@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n     * will kick in.)\n     * @param contentType e.g. \"text/html; charset=EUC-JP\"\n     * @return Charset, lowercased or uppercased as per RFC conformity, or null if not found. Quoted charsets are handled.\n     */\n    static String getCharsetFromContentType(String contentType) {\n        if (contentType == null) return null;\n        Matcher m = charsetPattern.matcher(contentType);\n        if (m.find()) {\n            String charset = m.group(1).trim().replaceAll(\"^\\\"|\\\"$\", \"\"); // Remove any surrounding quotes\n            try {\n                return Charset.forName(charset).name(); // Ensure charset is valid and normalize to canonical name\n            } catch (UnsupportedCharsetException | IllegalCharsetNameException e) {\n                return null; // Return null for unsupported or invalid charsets\n            }\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

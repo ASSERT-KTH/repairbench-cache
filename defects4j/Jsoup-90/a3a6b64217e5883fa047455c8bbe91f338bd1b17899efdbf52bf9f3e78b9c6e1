@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean looksLikeUtf8(byte[] input) {\n    int i = 0;\n    // BOM:\n    if (input.length >= 3 && (input[0] & 0xFF) == 0xEF\n        && (input[1] & 0xFF) == 0xBB && (input[2] & 0xFF) == 0xBF) {\n        i = 3;\n    }\n\n    while (i < input.length) {\n        int o = input[i] & 0xFF; // Ensure unsigned interpretation\n        if ((o & 0x80) == 0) {\n            i++; // ASCII character, continue to the next byte\n            continue;\n        }\n\n        int end;\n        // UTF-8 leading byte checks:\n        if ((o & 0xE0) == 0xC0) {\n            end = i + 1;\n        } else if ((o & 0xF0) == 0xE0) {\n            end = i + 2;\n        } else if ((o & 0xF8) == 0xF0) {\n            end = i + 3;\n        } else {\n            return false; // Not a valid UTF-8 leading byte\n        }\n\n        if (end >= input.length) {\n            return false; // Not enough bytes remaining for a complete character\n        }\n\n        // Check continuation bytes:\n        for (int k = i + 1; k <= end; k++) {\n            if (k >= input.length || (input[k] & 0xC0) != 0x80) {\n                return false; // Invalid continuation byte\n            }\n        }\n\n        i = end + 1; // Move to the next character\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

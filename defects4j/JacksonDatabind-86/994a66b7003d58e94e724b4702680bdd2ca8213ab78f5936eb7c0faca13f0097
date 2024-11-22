@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic synchronized JavaType constructType(Class<?> cls) {\n    if (cls == null) {\n        throw new IllegalArgumentException(\"Class must not be null\");\n    }\n    \n    // First, check cache for previously resolved types\n    JavaType cachedType = _typeCache.get(cls);\n    if (cachedType != null) {\n        return cachedType;\n    }\n    \n    // Avoid infinite recursion by using a partially resolved type for recursive structures\n    ResolvedRecursiveType recursiveType = new ResolvedRecursiveType(cls, this);\n    _typeCache.put(cls, recursiveType);\n\n    JavaType resolvedType;\n    if (cls.isArray()) {\n        resolvedType = constructArrayType(cls.getComponentType());\n    } else if (cls.isEnum()) {\n        resolvedType = new SimpleType(cls);\n    } else if (cls.isInterface()) {\n        resolvedType = new SimpleType(cls);\n    } else {\n        resolvedType = new SimpleType(cls);\n    }\n    \n    // Properly finalize the recursive type if applicable\n    if (recursiveType.getSelfType() == null) {\n        recursiveType.setSelfType(resolvedType);\n    }\n\n    // Update cache with the fully resolved type\n    _typeCache.put(cls, resolvedType);\n\n    return resolvedType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

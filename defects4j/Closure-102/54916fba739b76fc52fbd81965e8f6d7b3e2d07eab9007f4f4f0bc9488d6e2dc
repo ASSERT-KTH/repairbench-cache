@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n      NodeTraversal t = new NodeTraversal(compiler, renamer);\n      t.traverseRoots(externs, root);\n    }\n    removeDuplicateDeclarations(root);\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n\n    // Fix: Restore the \"arguments\" variable if shadowed after process\n    restoreShadowedArguments(root);\n  }\n\n  private void restoreShadowedArguments(Node root) {\n    NodeTraversal.traverse(compiler, root, new NodeTraversal.Callback() {\n      @Override\n      public boolean shouldTraverse(NodeTraversal t, Node n, Node parent) {\n        return true;\n      }\n\n      @Override\n      public void visit(NodeTraversal t, Node n, Node parent) {\n        if (n.isName() && \"arguments\".equals(n.getString())) {\n          // Perform necessary fix to restore the original \"arguments\"\n          n.putBooleanProp(Node.IS_ARGUMENTS, true);\n        }\n      }\n    });\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

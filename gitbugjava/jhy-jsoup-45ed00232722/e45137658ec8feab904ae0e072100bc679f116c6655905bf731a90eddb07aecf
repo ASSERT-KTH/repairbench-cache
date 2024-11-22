@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n        u = punyUrl(u);\n        try {\n            // Encode the raw URL components properly\n            String protocol = u.getProtocol();\n            String host = u.getHost();\n            int port = u.getPort();\n            String path = u.getPath() != null ? new URI(null, null, u.getPath(), null).getRawPath() : null;\n            String query = u.getQuery() != null ? new URI(null, null, null, u.getQuery(), null).getRawQuery() : null;\n            String fragment = u.getRef() != null ? new URI(null, null, null, null, u.getRef()).getRawFragment() : null;\n            \n            // Construct the final encoded URL string\n            StringBuilder urlBuilder = new StringBuilder();\n            urlBuilder.append(protocol).append(\"://\").append(host);\n            if (port != -1) urlBuilder.append(\":\").append(port);\n            if (path != null) urlBuilder.append(path);\n            if (query != null) urlBuilder.append(\"?\").append(query);\n            if (fragment != null) urlBuilder.append(\"#\").append(fragment);\n\n            return new URL(urlBuilder.toString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // Give up and return the original input\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

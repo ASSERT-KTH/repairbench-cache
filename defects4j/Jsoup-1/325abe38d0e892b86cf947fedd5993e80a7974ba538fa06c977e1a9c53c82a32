@@ -1,0 +1,7 @@
+{
+    "generation": "    private void normalise(Element element) {\n        List<TextNode> textNodes = new ArrayList<>();\n        \n        // Collect contiguous TextNodes and remove blanks\n        for (Node node : element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank()) {\n                    textNodes.add(tn);\n                } else {\n                    node.remove(); // Remove blank TextNodes\n                }\n            }\n        }\n        \n        if (!textNodes.isEmpty()) {\n            // Combine collected TextNodes into a single one\n            StringBuilder combinedText = new StringBuilder();\n            for (TextNode tn : textNodes) {\n                combinedText.append(tn.getWholeText());\n                tn.remove(); // Remove the original TextNode from its parent\n            }\n\n            // Prepend the combined text to the element\n            TextNode finalTextNode = new TextNode(combinedText.toString(), \"\");\n            element.prependChild(finalTextNode);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

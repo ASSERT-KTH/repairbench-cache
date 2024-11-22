@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used by standard deserializer.\n     * \n     * @since 2.3\n     */\n    public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n    {\n        // Create a new TokenBuffer instance to hold the result\n        TokenBuffer tb = new TokenBuffer(jp.getCodec(), jp.isEnabled(JsonParser.Feature.IGNORE_UNDEFINED));\n\n        // Handle the special case for FIELD_NAME (missing START_OBJECT)\n        if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n            tb.writeStartObject(); // Assume missing START_OBJECT\n        }\n\n        // Copy the current structure\n        tb.copyCurrentStructure(jp);\n\n        // If FIELD_NAME special case was handled, close the object\n        if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n            tb.writeEndObject();\n        }\n\n        return tb;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

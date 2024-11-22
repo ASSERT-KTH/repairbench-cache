@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * For this distribution, {@code X}, this method returns {@code P(X < x)}.\n     * If {@code x} is more than 20 standard deviations from the mean, 0 or 1 is returned,\n     * as in these cases the actual value is effectively 0 or 1.\n     *\n     * @param x Value at which the CDF is evaluated.\n     * @return CDF evaluated at {@code x}.\n     * @throws MathException if the algorithm fails to converge\n     */\n    public double cumulativeProbability(double x) throws MathException {\n        final double dev = x - mean;\n\n        // Shortcut for extreme values to ensure convergence issues are avoided\n        if (x < (mean - 20 * standardDeviation)) { // Extremely far left\n            return 0.0;\n        } else if (x > (mean + 20 * standardDeviation)) { // Extremely far right\n            return 1.0;\n        }\n\n        try {\n            return 0.5 * (1.0 + Erf.erf((dev) /\n                        (standardDeviation * FastMath.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            throw new MathException(\"Failed to compute cumulative probability due to non-convergence\", ex);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

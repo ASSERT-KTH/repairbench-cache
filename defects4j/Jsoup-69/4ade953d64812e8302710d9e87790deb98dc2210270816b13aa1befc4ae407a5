@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements) {\n        if (!el.hasAttr(\"name\")) continue; // skip inputs without a name attribute\n        if (!el.is(\"input, textarea, select, button\")) continue; // ensure it's a form control element\n        if (!el.hasParent() || !el.parents().contains(this)) continue; // ensure the element is still part of the form\n\n        String name = el.attr(\"name\");\n        String value = el.val();\n        data.add(Connection.KeyVal.create(name, value));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

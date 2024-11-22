@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Skipping unknown tokens while properly handling FIELD_NAME cases\n    while (!p.isClosed()) {\n        JsonToken token = p.nextToken();\n        if (token == JsonToken.FIELD_NAME) {\n            p.nextToken(); // Skip the value for the unrecognized field\n        } else if (token == JsonToken.START_OBJECT || token == JsonToken.START_ARRAY) {\n            p.skipChildren(); // Skip nested structures\n        } else if (token == null || token == JsonToken.END_OBJECT || token == JsonToken.END_ARRAY) {\n            break; // End of input or structure\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

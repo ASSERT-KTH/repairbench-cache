@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // if there are no values, use default values\n    if (valueList == null || valueList.isEmpty()) {\n        valueList = defaultValues;\n    }\n\n    // if defaultValues is still null or empty, fallback to the global default values\n    List globalDefaultValues = (List) this.defaultValues.get(option);\n    if (valueList == null || valueList.isEmpty()) {\n        valueList = globalDefaultValues;\n    } else if (globalDefaultValues != null && !globalDefaultValues.isEmpty()) {\n        // Merge valueList with globalDefaultValues, but avoid duplicates\n        Set combinedSet = new LinkedHashSet(valueList);\n        combinedSet.addAll(globalDefaultValues);\n        valueList = new ArrayList(combinedSet);\n    }\n\n    // return the list or an empty list if still null\n    return valueList == null ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

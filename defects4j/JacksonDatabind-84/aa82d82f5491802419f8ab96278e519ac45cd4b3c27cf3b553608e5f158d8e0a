@@ -1,0 +1,7 @@
+{
+    "generation": "// Ensure the correct inheritance relationships are registered during the type construction\npublic JavaType constructType(Class<?> clazz) {\n    JavaType type = _typeCache.get(clazz);\n    if (type == null) {\n        // Check for inheritance relationship\n        if (Base.class.isAssignableFrom(clazz)) {\n            /* If the class is a subclass of Base, ensure the base type properties \n             * are included in the serialization process properly.\n             */\n            type = _constructSpecializedType(constructType(Base.class), clazz);\n        } else {\n            type = _constructSimple(clazz);\n        }\n        _typeCache.put(clazz, type);\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

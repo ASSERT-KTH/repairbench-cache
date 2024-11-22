@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected void _writeFieldName(String name, boolean commaBefore) throws IOException\n{\n    if (commaBefore) {\n        _writer.write(',');\n    }\n    if (_cfgPrettyPrinter != null) {\n        _cfgPrettyPrinter.writeObjectEntrySeparator(_writer);\n    }\n\n    // Fix: Check if quoting of field names is enabled\n    if (_cfgFeatureEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n        _writer.write('\"');\n        _writer.write(name);\n        _writer.write('\"');\n    } else {\n        // Ensure field names are valid JSON identifiers if not quoted\n        if (!CharTypes.isValidFieldName(name)) {\n            throw new JsonGenerationException(\"Unquoted field name [\" + name + \"] contains invalid characters for JSON\", this);\n        }\n        _writer.write(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

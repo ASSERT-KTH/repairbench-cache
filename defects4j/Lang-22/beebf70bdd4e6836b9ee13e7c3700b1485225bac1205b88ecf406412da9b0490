@@ -1,0 +1,7 @@
+{
+    "generation": "    private static int greatestCommonDivisor(int u, int v) {\n        if (u == 0 || v == 0) {\n            throw new ArithmeticException(\"Cannot calculate GCD of zero.\");\n        }\n        \n        // Handle special case for Integer.MIN_VALUE to prevent overflow\n        if (u == Integer.MIN_VALUE && v == Integer.MIN_VALUE) {\n            return Integer.MIN_VALUE; // GCD of Integer.MIN_VALUE and Integer.MIN_VALUE is itself.\n        }\n        if (u == Integer.MIN_VALUE) {\n            return Math.abs(greatestCommonDivisor(Integer.MIN_VALUE + Math.abs(v), Math.abs(v)));\n        }\n        if (v == Integer.MIN_VALUE) {\n            return Math.abs(greatestCommonDivisor(Math.abs(u), Integer.MIN_VALUE + Math.abs(u)));\n        }\n\n        u = Math.abs(u);\n        v = Math.abs(v);\n\n        while (v != 0) {\n            int temp = v;\n            // Perform safe remainder operation\n            v = u % v;\n            u = temp;\n        }\n        return u;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

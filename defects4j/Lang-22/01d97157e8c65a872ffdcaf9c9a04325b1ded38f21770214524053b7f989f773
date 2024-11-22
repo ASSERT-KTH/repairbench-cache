@@ -1,0 +1,7 @@
+{
+    "generation": "    private static int greatestCommonDivisor(int u, int v) {\n        if (u == 0 || v == 0) {\n            throw new ArithmeticException(\"GCD is undefined for zero\");\n        }\n        // Convert inputs to their absolute values to handle negative numbers correctly\n        u = Math.abs(u);\n        v = Math.abs(v);\n\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n            u >>= 1;\n            v >>= 1;\n            k++;\n        }\n\n        // B2. Ensure one of them is odd now\n        while ((u & 1) == 0) {\n            u >>= 1; // make u odd\n        }\n\n        // B3. Use the binary GCD algorithm\n        while (v != 0) {\n            while ((v & 1) == 0) {\n                v >>= 1; // make v odd\n            }\n            if (u > v) {\n                int temp = u; // ensure u <= v\n                u = v;\n                v = temp;\n            }\n            v -= u; // v = v - u (v becomes even here)\n        }\n\n        return u << k; // Reapply the common factor of 2^k\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

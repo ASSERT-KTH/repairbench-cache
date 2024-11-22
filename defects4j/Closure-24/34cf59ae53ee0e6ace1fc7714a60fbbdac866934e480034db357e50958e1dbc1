@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n    Scope scope = t.getScope();\n    for (Var v : scope.getVarIterable()) {\n        Node n = v.getNode();\n        int type = n.getType();\n        Node parent = n.getParent();\n        if (parent.isVar()) {\n            if (n.hasChildren() && n.getFirstChild().isQualifiedName()) {\n                String name = n.getString();\n                Var aliasVar = scope.getVar(name);\n                aliases.put(name, aliasVar);\n\n                String qualifiedName = aliasVar.getInitialValue().getQualifiedName();\n                transformation.addAlias(name, qualifiedName);\n                // Bleeding functions already get a BAD_PARAMETERS error, so just do nothing.\n                // Parameters of the scope function also get a BAD_PARAMETERS error.\n            } else if (n.hasChildren() || (n.getFirstChild() != null && !n.getFirstChild().isQualifiedName())) {\n                // Directly report local variables that are not valid aliases.\n                report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n            }\n        } else {\n            // Unknown or unsupported parent node type; no action needed for now.\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

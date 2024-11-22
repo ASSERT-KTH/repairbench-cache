@@ -1,0 +1,7 @@
+{
+    "generation": "    public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n\n        int startIndex = getIndex(start);\n        int endIndex = getIndex(end);\n\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1); // First item after 'start' if 'start' is not found\n        }\n        if (endIndex < 0) {\n            endIndex = -(endIndex + 1) - 1; // Last item before 'end' if 'end' is not found\n        }\n\n        // Adjusting the range to account for cases where end is before start\n        if (startIndex > endIndex) {\n            return new TimeSeries(getKey(), getDomainDescription(), getRangeDescription());\n        }\n\n        return createCopy(startIndex, endIndex);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

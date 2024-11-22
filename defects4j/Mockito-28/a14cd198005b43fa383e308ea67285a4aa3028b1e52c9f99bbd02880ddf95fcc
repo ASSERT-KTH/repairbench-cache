@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        if (fieldInstance.getClass().equals(field.getType())) {\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n            return; // Stop once a matching type is found and injected\n        }\n    }\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        if (field.getType().isAssignableFrom(fieldInstance.getClass())) {\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n            return; // Stop once the best matching ancestor type is found and injected\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

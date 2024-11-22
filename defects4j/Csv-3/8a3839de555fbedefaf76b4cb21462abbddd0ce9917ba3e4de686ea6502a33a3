@@ -1,0 +1,7 @@
+{
+    "generation": "    int readEscape() throws IOException {\n        // the escape char has just been read (normally a backslash or user-defined escape char)\n        final int c = in.read();\n        switch (c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case '\\\\':\n            return '\\\\'; // Escaped backslash\n        case 'N': \n            return 'N'; // Support for MySQL \\N (null value representation)\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c; // Return these as they are valid escaped characters\n        case END_OF_STREAM:\n            throw new IOException(\"EOF whilst processing escape sequence\");\n        default:\n            // Keep the escape + character as is if the sequence is unrecognized\n            in.unread(c); // Push the character back into the stream\n            return '\\\\';  // Return the escape character itself\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the node is a block with a single statement that is\n   *     an expression and can be safely folded.\n   */\n  private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n      if (n.hasOneChild()) {\n        Node maybeExpr = n.getFirstChild();\n        if (maybeExpr.getType() == Token.EXPR_RESULT) {\n          Node expr = maybeExpr.getFirstChild();\n          if (expr != null && NodeUtil.isCallOrNew(expr)) {\n            Node target = expr.getFirstChild();\n            if (target != null && target.isGetProp() && target.getLastChild().isString()) {\n              String propName = target.getLastChild().getString();\n              if (\"onchange\".equals(propName) || \"onsubmit\".equals(propName)) {\n                return false; // Case where folding should not occur due to IE bug.\n              }\n            }\n          }\n        }\n        return NodeUtil.isExpressionNode(maybeExpr);\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

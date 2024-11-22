@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException {\n    // Determine whether to quote based on feature configuration\n    boolean quoteFieldNames = _cfgPrettyPrinter != null \n        || isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    \n    if (quoteFieldNames) {\n        _writer.write('\\\"');\n        _writer.write(name);\n        _writer.write('\\\"');\n    } else {\n        // Only validate field name syntax when not quoting\n        if (!isEnabled(JsonGenerator.Feature.ALLOW_UNQUOTED_FIELD_NAMES)) {\n            if (!CharTypes.isValidJsonFieldName(name)) {\n                throw new JsonGenerationException(\"Unquoted field names are not valid JSON names: \" + name, this);\n            }\n        }\n        _writer.write(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Determines whether a variable is read before it is killed in the current node or its descendants.\n   * \n   * It returns READ if the first reference of the variable is a read, KILL if the first reference \n   * of the variable is an assignment, and MAYBE_LIVE otherwise.\n   */\n  private VariableLiveness isVariableReadBeforeKill(Node n, String variable) {\n    if (NodeUtil.isName(n) && variable.equals(n.getString())) {\n      if (NodeUtil.isLhsOfAssign(n)) {\n        // A variable on the LHS of an assignment is \"killed\".\n        return VariableLiveness.KILL;\n      } else {\n        // Any other reference to the variable is considered a \"read\".\n        return VariableLiveness.READ;\n      }\n    }\n\n    // Explore children nodes in left-to-right, depth-first order.\n    for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n      if (!ControlFlowGraph.isEnteringNewCfgNode(child)) {\n        VariableLiveness childState = isVariableReadBeforeKill(child, variable);\n        if (childState != VariableLiveness.MAYBE_LIVE) {\n          return childState;\n        }\n      }\n    }\n\n    // Default case: if no definitive read or kill was found, return MAYBE_LIVE.\n    return VariableLiveness.MAYBE_LIVE;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public static String abbreviate(String str, int lower, int upper, String appendToEnd) {\n        // initial parameter checks\n        if (str == null) {\n            return null;\n        }\n        if (str.length() == 0) {\n            return \"\";\n        }\n\n        // ensure lower and upper bounds are valid\n        if (lower > str.length()) {\n            return \"\";\n        }\n        if (upper == -1 || upper > str.length()) {\n            upper = str.length();\n        }\n        if (upper < lower) {\n            upper = lower;\n        }\n\n        StringBuilder result = new StringBuilder();\n        boolean isAbbreviated = false;\n\n        if (lower > 0) {\n            if (lower < str.length()) {\n                str = str.substring(lower);\n            } else {\n                return \"\";\n            }\n        }\n\n        int spaceIndex = str.indexOf(\" \");\n        if (spaceIndex == -1 || spaceIndex > upper - lower) {\n            result.append(str, 0, Math.min(upper - lower, str.length()));\n            isAbbreviated = upper - lower < str.length();\n        } else {\n            result.append(str, 0, spaceIndex);\n            isAbbreviated = true;\n        }\n\n        // Append appendToEnd only if the string was abbreviated\n        if (isAbbreviated) {\n            result.append(appendToEnd == null ? \"\" : appendToEnd);\n        }\n\n        return result.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean isJSIdentifier(String s) {\n        int length = s.length();\n\n        // An identifier cannot be empty\n        if (length == 0) {\n            return false;\n        }\n\n        // The first character must be a valid start for a JavaScript identifier\n        if (!Character.isJavaIdentifierStart(s.charAt(0)) || !isValidJSCharacter(s.charAt(0))) {\n            return false;\n        }\n\n        // The remaining characters must be valid parts of a JavaScript identifier\n        for (int i = 1; i < length; i++) {\n            if (!Character.isJavaIdentifierPart(s.charAt(i)) || !isValidJSCharacter(s.charAt(i))) {\n                return false;\n            }\n        }\n\n        return true;\n    }\n\n    private static boolean isValidJSCharacter(char c) {\n        // Additional checks for characters that are allowed in Java but not in JavaScript\n        // disallow ASCII control characters (0x00-0x1F) and delete (0x7F)\n        if (c <= 0x1F || c == 0x7F) {\n            return false;\n        }\n\n        // JavaScript identifiers allow Unicode letters and digits, \n        // but restrict some characters like '\\u1D17A' (phonetic extensions)\n        if (Character.isLetterOrDigit(c) || c == '$' || c == '_') {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

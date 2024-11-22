@@ -1,0 +1,7 @@
+{
+    "generation": "// Fix for type resolution in TypeFactory or related method:\n@Override\nprotected JavaType _fromClass(Class<?> raw, TypeBindings bindings, JavaType superClass) {\n    // Ensure caching of recursive types for correctness\n    if (_bindingCache.containsKey(raw)) {\n        return _bindingCache.get(raw);\n    }\n    \n    // Mark this type as being resolved to avoid circular references during resolution\n    ResolvedRecursiveType recursiveType = new ResolvedRecursiveType(raw, _typeFactory());\n    _bindingCache.put(raw, recursiveType);\n    \n    try {\n        // Ensure proper resolution of superclass, filling in all necessary details\n        if (superClass == null && raw.getSuperclass() != null) {\n            TypeBindings superBindings = bindings.resolveBindings(raw.getSuperclass());\n            superClass = constructType(raw.getSuperclass(), superBindings);\n        }\n        \n        // Create resolved type including superclass and other components\n        JavaType resultType = new ResolvedType(raw, bindings, superClass);\n\n        // Update the recursive type once resolution is complete\n        recursiveType.setReference(resultType);\n        \n        return resultType;\n    } finally {\n        _bindingCache.remove(raw);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

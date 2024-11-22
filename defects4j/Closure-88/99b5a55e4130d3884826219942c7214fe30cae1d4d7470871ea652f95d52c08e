@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Give an expression and a variable. It returns READ, if the first\n   * reference of that variable is a read. It returns KILL, if the first\n   * reference of that variable is an assignment. It returns MAYBE_LIVE otherwise.\n   */\n  private VariableLiveness isVariableReadBeforeKill(\n      Node n, String variable) {\n    if (NodeUtil.isName(n) && variable.equals(n.getString())) {\n      if (NodeUtil.isLhsOfAssign(n)) {\n        // The variable is being assigned, so it is a KILL.\n        return VariableLiveness.KILL;\n      } else {\n        // The variable is being read, so it is a READ.\n        return VariableLiveness.READ;\n      }\n    }\n\n    // Expressions are evaluated left-right, depth first.\n    for (Node child = n.getFirstChild();\n        child != null; child = child.getNext()) {\n      if (!ControlFlowGraph.isEnteringNewCfgNode(child)) { // Skip new control flow nodes like FUNCTION\n        VariableLiveness state = isVariableReadBeforeKill(child, variable);\n        if (state == VariableLiveness.READ || state == VariableLiveness.KILL) {\n          // If a READ or KILL is found, propagate it up immediately.\n          return state;\n        }\n      }\n    }\n\n    // If no READ or KILL is found, variable remains in MAYBE_LIVE state.\n    return VariableLiveness.MAYBE_LIVE;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

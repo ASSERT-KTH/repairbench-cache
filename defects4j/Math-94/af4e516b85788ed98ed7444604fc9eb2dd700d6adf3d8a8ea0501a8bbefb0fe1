@@ -1,0 +1,7 @@
+{
+    "generation": "    public static int gcd(int u, int v) {\n        if (u == 0 && v == 0) {\n            throw new ArithmeticException(\"gcd(0, 0) is undefined\");\n        }\n        if (u == 0) {\n            return Math.abs(v);\n        }\n        if (v == 0) {\n            return Math.abs(u);\n        }\n        \n        // Make u and v always positive for computation\n        u = Math.abs(u);\n        v = Math.abs(v);\n\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0) { // while u and v are both even...\n            u >>>= 1; // divide u by 2\n            v >>>= 1; // divide v by 2\n            k++;      // increment power of 2 factor\n        }\n\n        // B2. Make u odd (if it's even)\n        while ((u & 1) == 0) {\n            u >>>= 1; // divide u by 2\n        }\n\n        // B3. Process v until it becomes 0\n        do {\n            // Make v odd (if it's even)\n            while ((v & 1) == 0) {\n                v >>>= 1; // divide v by 2\n            }\n\n            // B4. Subtract the smaller number from the larger one\n            if (u > v) {\n                int temp = u;\n                u = v;\n                v = temp;\n            }\n            v = v - u; // v = |v - u|\n\n        } while (v != 0);\n\n        // Return gcd\n        return u << k; // multiply by the common factor of 2\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

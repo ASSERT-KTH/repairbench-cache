@@ -1,0 +1,7 @@
+{
+    "generation": "    public static int gcd(int u, int v) {\n        if (u == 0 && v == 0) {\n            return 0; // gcd(0, 0) is undefined, return 0 as per the test\n        }\n        if (u == 0) {\n            return Math.abs(v); // gcd(0, v) is |v|\n        }\n        if (v == 0) {\n            return Math.abs(u); // gcd(u, 0) is |u|\n        }\n\n        // Make u and v positive to use the algorithm safely\n        u = Math.abs(u);\n        v = Math.abs(v);\n\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0) { // while both u and v are even\n            u >>= 1;\n            v >>= 1;\n            k++; // remove common factors of 2\n        }\n\n        // Reduce u to an odd number (v will become odd in the loop below)\n        while ((u & 1) == 0) {\n            u >>= 1;\n        }\n\n        // B2. Main loop\n        while (v != 0) {\n            // Reduce v to an odd number\n            while ((v & 1) == 0) {\n                v >>= 1;\n            }\n\n            // Ensure u <= v, swap if necessary\n            if (u > v) {\n                int temp = u;\n                u = v;\n                v = temp;\n            }\n\n            // Subtract smaller number from the larger (v becomes even)\n            v = v - u;\n        }\n\n        // Restore common factors of 2\n        return u << k;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        // handle empty unknown tags\n        if (startTag.isSelfClosing()) {\n            Element el = insertEmpty(startTag);\n            // Don't add self-closing empty tag to the stack, spec doesn't require it\n            tokeniser.emit(new Token.EndTag(el.tagName())); // Ensure end tag for processing\n            return el;\n        }\n        \n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        stack.add(el); // Add to the stack since it's not self-closing\n        insert(el);\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

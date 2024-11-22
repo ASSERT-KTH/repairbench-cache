@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the node is a block with a single statement that is\n   *     an expression, but not an EXPR_RESULT where the expression might\n   *     have observable side effects in IE.\n   */\n  private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n      if (n.hasOneChild()) {\n        Node maybeExpr = n.getFirstChild();\n        if (maybeExpr.getType() == Token.EXPR_RESULT) {\n          Node inner = maybeExpr.getFirstChild();\n          // Detect cases where the expression might have side effects in IE.\n          // Specifically, cases where the expression is a method call with an\n          // implicit 'this' (e.g., `f.onchange()`).\n          if (NodeUtil.isGet(inner)) {\n            return false;\n          }\n        }\n        return NodeUtil.isExpressionNode(maybeExpr);\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

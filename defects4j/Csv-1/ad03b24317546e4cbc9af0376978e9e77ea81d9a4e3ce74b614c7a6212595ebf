@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int read() throws IOException {\n    int current = super.read();\n    if (current == '\\n' || current == '\\r') {\n        lineCounter++;\n        // Handle cases where CR ('\\r') is followed by LF ('\\n') to avoid double-counting\n        if (current == '\\r' && super.read() == '\\n') {\n            // Do nothing, as the lineCounter should only increment once for CRLF sequences\n        } else {\n            // Rewind the stream by one character if it's not a part of CRLF\n            super.unread(current);\n        }\n    }\n    lastChar = current;\n    return lastChar;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

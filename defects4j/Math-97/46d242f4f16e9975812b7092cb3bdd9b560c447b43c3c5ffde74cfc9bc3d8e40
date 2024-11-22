@@ -1,0 +1,7 @@
+{
+    "generation": "    public double solve(double min, double max) throws MaxIterationsExceededException, \n        FunctionEvaluationException {\n        \n        clearResult();\n        verifyInterval(min, max);\n        \n        double ret = Double.NaN;\n        \n        double yMin = f.value(min);\n        double yMax = f.value(max);\n        \n        // Verify bracketing\n        double sign = yMin * yMax;\n        if (sign > 0) {\n            // neither value is close to zero and min and max do not bracket root.\n            throw new IllegalArgumentException\n                (\"Function values at endpoints do not have different signs.\" +\n                        \"  Endpoints: [\" + min + \",\" + max + \"]\" + \n                        \"  Values: [\" + yMin + \",\" + yMax + \"]\");\n        } else if (yMin == 0.0) {\n            // if min is a root\n            setResult(min, 0);\n            return min;\n        } else if (yMax == 0.0) {\n            // if max is a root\n            setResult(max, 0);\n            return max;\n        } else {\n            // solve using the provided interval\n            ret = solve(min, yMin, max, yMax, min, yMin);\n        }\n\n        return ret;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

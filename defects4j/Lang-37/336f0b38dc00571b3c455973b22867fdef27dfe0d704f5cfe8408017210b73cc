@@ -1,0 +1,7 @@
+{
+    "generation": "    @SuppressWarnings(\"unchecked\")\n    public static <T> T[] addAll(T[] array1, T... array2) {\n        if (array1 == null && array2 == null) {\n            return null;\n        } else if (array1 == null) {\n            return clone(array2);\n        } else if (array2 == null) {\n            return clone(array1);\n        }\n\n        // Determine the common superclass or interface of both arrays' component types\n        Class<?> type1 = array1.getClass().getComponentType();\n        Class<?> type2 = array2.getClass().getComponentType();\n\n        // Check compatibility of the array types and find the most specific common type\n        if (!type1.isAssignableFrom(type2) && !type2.isAssignableFrom(type1)) {\n            throw new IllegalArgumentException(\"Incompatible array types: \" + type1 + \" and \" + type2);\n        }\n\n        Class<?> joinedType = type1.isAssignableFrom(type2) ? type2 : type1;\n\n        // Create the new array with the correct component type\n        T[] joinedArray = (T[]) Array.newInstance(joinedType, array1.length + array2.length);\n        System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n\n        return joinedArray;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

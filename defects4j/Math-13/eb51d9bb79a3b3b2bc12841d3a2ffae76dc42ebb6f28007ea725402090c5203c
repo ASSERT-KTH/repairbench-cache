@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        // Ensure EigenDecomposition is computed with caching to optimize memory usage\n        final EigenDecomposition dec = new EigenDecomposition(m);\n\n        // Obtain eigenvalues and eigenvectors\n        double[] eigenValues = dec.getRealEigenvalues();\n        RealMatrix eigenVectors = dec.getV();\n\n        // Compute the square root of the eigenvalues\n        for (int i = 0; i < eigenValues.length; i++) {\n            if (eigenValues[i] <= 0) {\n                throw new IllegalArgumentException(\"Matrix is not positive definite.\");\n            }\n            eigenValues[i] = Math.sqrt(eigenValues[i]);\n        }\n\n        // Recompose the matrix: V * sqrt(D) * V^T\n        RealMatrix sqrtEigenValuesMatrix = MatrixUtils.createRealDiagonalMatrix(eigenValues);\n        return eigenVectors.multiply(sqrtEigenValuesMatrix).multiply(eigenVectors.transpose());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

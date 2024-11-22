@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    @Override\n    protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)\n        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {\n\n        boolean converged = false;\n\n        while (!converged) {\n            incrementIterationsCounter();\n\n            // save the original vertex\n            final RealPointValuePair[] original = simplex.clone();\n            final RealPointValuePair best = original[0];\n\n            // perform a reflection step\n            final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);\n            if (comparator.compare(reflected, best) < 0) {\n                // compute the expanded simplex\n                final RealPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);\n                if (comparator.compare(reflected, expanded) <= 0) {\n                    // accept the reflected simplex\n                    converged = checkConvergence(simplex, reflectedSimplex, comparator);\n                    simplex = reflectedSimplex;\n                } else {\n                    // accept the expanded simplex\n                    converged = checkConvergence(simplex, expandedSimplex, comparator);\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

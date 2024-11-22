@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        try {\n            URL base = new URL(baseUri);\n            // Ensure that relUrl is properly resolved even with query parameters\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            // If baseUri is invalid or relUrl is already absolute but malformed\n            try {\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            } catch (MalformedURLException ignored) {\n                return \"\"; // Return empty string if everything fails\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

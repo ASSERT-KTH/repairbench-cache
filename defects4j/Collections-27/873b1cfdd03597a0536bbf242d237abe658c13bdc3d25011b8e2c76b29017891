@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\nprivate void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    if (!(valueClazz instanceof Class) || !(Collection.class.isAssignableFrom((Class<?>) valueClazz))) {\n        throw new UnsupportedOperationException(\"Deserialization is not supported for unsafe value class: \" + valueClazz);\n    }\n    map = in.readObject() instanceof Map ? (Map<K, Collection<V>>) in.readObject() : null;\n    if (map == null) {\n        throw new IOException(\"Invalid serialized object\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

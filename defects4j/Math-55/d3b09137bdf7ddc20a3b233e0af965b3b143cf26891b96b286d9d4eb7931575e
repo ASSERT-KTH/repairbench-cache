@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      // rescale both vectors without losing precision,\n      // to ensure their norm are the same order of magnitude\n      double normV1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);\n      double normV2 = Math.sqrt(v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);\n      double scale = Math.max(normV1, normV2);\n\n      Vector3D scaledV1 = new Vector3D(v1.x / scale, v1.y / scale, v1.z / scale);\n      Vector3D scaledV2 = new Vector3D(v2.x / scale, v2.y / scale, v2.z / scale);\n\n      // compute cross product from scaled vectors to reduce precision issues\n      double x = scaledV1.y * scaledV2.z - scaledV1.z * scaledV2.y;\n      double y = scaledV1.z * scaledV2.x - scaledV1.x * scaledV2.z;\n      double z = scaledV1.x * scaledV2.y - scaledV1.y * scaledV2.x;\n\n      // rescale back the result to original magnitude\n      return new Vector3D(x * scale * scale, y * scale * scale, z * scale * scale);\n\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

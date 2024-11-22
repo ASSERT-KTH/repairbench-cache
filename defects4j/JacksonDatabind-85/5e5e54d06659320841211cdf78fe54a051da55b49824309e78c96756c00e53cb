@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonSerializer<?> createContextual(SerializerProvider serializers,\n        BeanProperty property) throws JsonMappingException {\n    if (property == null) {\n        return this;\n    }\n    JsonFormat.Value format = findFormatOverrides(serializers, property, handledType());\n    if (format == null) {\n        return this;\n    }\n\n    JsonFormat.Shape shape = format.getShape();\n    if (shape.isNumeric()) {\n        return withFormat(Boolean.TRUE, null);\n    }\n\n    // Handle the custom format options\n    if ((shape == JsonFormat.Shape.STRING) || format.hasPattern() || format.hasLocale() || format.hasTimeZone()) {\n        TimeZone tz = format.getTimeZone();\n        final String pattern = format.hasPattern()\n                ? format.getPattern()\n                : serializers.getConfig().getDefaultDateFormat().toPattern();\n        final Locale loc = format.hasLocale()\n                ? format.getLocale()\n                : serializers.getLocale();\n        SimpleDateFormat df = new SimpleDateFormat(pattern, loc);\n        if (tz == null) {\n            tz = serializers.getTimeZone();\n        }\n        df.setTimeZone(tz);\n        return withFormat(Boolean.FALSE, df);\n    }\n\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

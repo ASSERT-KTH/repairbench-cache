@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read();\n        if (current == '\\n' || current == '\\r') {\n            lineCounter++;\n        }\n        if (current == '\\r') {\n            // Peek the next character to handle '\\r\\n'\n            int next = super.read();\n            if (next != '\\n') {\n                // Return the peeked character to the stream if not '\\n'\n                if (next != -1) {\n                    // Assuming a push-back mechanism exists for the superclass, otherwise refactor\n                    ((PushbackReader) in).unread(next);\n                }\n            }\n        }\n        lastChar = current;\n        return lastChar;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

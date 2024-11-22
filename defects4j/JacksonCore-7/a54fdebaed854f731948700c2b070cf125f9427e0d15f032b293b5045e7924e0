@@ -1,0 +1,7 @@
+{
+    "generation": "    public int writeValue() {\n        // Value-writing is only allowed within an Object, Array or Root.\n        if (_type == TYPE_OBJECT) {\n            if (!_gotName) {\n                throw new IllegalStateException(\"Cannot write a value, expecting a field name\");\n            }\n            _gotName = false;\n            ++_index;\n            return STATUS_OK_AFTER_COLON;\n        }\n\n        // Ok, array?\n        if (_type == TYPE_ARRAY) {\n            int ix = _index;\n            ++_index;\n            return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n        }\n        \n        // Writing in root context, must ensure valid structure\n        if (_type == TYPE_ROOT) {\n            if (_index > 0) {\n                throw new IllegalStateException(\"Cannot write multiple values in the root context\");\n            }\n            ++_index;\n            return STATUS_OK_AS_IS;\n        }\n        \n        throw new IllegalStateException(\"Cannot write a value, context type not defined\");\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

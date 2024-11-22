@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException {\n    if (_cfgPrettyPrinter != null) {\n        _cfgPrettyPrinter.writeObjectFieldValueSeparator(this);\n    }\n\n    if (_cfgNumbersAsStrings) {\n        writeString(name);\n        return;\n    }\n    \n    boolean quoteFieldNames = isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n\n    if (quoteFieldNames) {\n        writeString(name);\n    } else {\n        if (!_isValidUnquotedFieldName(name)) {\n            throw new JsonGenerationException(\"Attempted to write a field name '\" + name + \"' as unquoted, but it is not a valid unquoted name\", this);\n        }\n        _writeUnquotedFieldName(name);\n    }\n}\n\nprivate boolean _isValidUnquotedFieldName(String name) {\n    if (name.isEmpty()) {\n        return false;\n    }\n    int len = name.length();\n    for (int i = 0; i < len; ++i) {\n        char c = name.charAt(i);\n        if (!Character.isLetterOrDigit(c) && c != '_') {\n            return false;\n        }\n    }\n    return true;\n}\n\nprivate void _writeUnquotedFieldName(String name) throws IOException {\n    if (_outputTail + name.length() > _outputEnd) {\n        _flushBuffer();\n    }\n\n    name.getChars(0, name.length(), _outputBuffer, _outputTail);\n    _outputTail += name.length();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

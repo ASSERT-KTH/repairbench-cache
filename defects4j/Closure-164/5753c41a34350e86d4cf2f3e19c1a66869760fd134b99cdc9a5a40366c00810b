@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isSubtype(JSType other) {\n  if (!(other instanceof ArrowType)) {\n    return false;\n  }\n\n  ArrowType that = (ArrowType) other;\n\n  // Check return type covariance\n  if (!this.returnType.isSubtype(that.returnType)) {\n    return false;\n  }\n\n  Node thisParam = parameters.getFirstChild();\n  Node thatParam = that.parameters.getFirstChild();\n\n  while (thisParam != null || thatParam != null) {\n    JSType thisParamType = thisParam != null ? thisParam.getJSType() : null;\n    JSType thatParamType = thatParam != null ? thatParam.getJSType() : null;\n\n    boolean thisIsVarArgs = thisParam != null && thisParam.isVarArgs();\n    boolean thatIsVarArgs = thatParam != null && thatParam.isVarArgs();\n\n    if (thisParamType != null) {\n      if (thatParamType == null || !thatParamType.isSubtype(thisParamType)) {\n        return false;\n      }\n    } else if (thatParamType != null) {\n      // \"that\" can't be a supertype, because it's missing a corresponding argument in \"this\"\n      return false;\n    }\n\n    // Both var_args indicates the end of comparison\n    if (thisIsVarArgs && thatIsVarArgs) {\n      break;\n    }\n\n    // Only advance pointers when not dealing with var_args\n    if (!thisIsVarArgs) {\n      thisParam = thisParam != null ? thisParam.getNext() : null;\n    }\n    if (!thatIsVarArgs) {\n      thatParam = thatParam != null ? thatParam.getNext() : null;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

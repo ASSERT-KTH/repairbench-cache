@@ -1,0 +1,7 @@
+{
+    "generation": "    // Fixed version with proper normalisation.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        \n        // Iterate through the child nodes and collect text nodes or blank nodes to move.\n        for (Node node : element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank()) {\n                    toMove.add(tn);\n                }\n            } else if (node instanceof Element) {\n                normalise((Element) node); // Recurse into child elements for further normalisation.\n            }\n        }\n\n        // Move the collected nodes to the start of the body element.\n        for (Node node : toMove) {\n            element.removeChild(node);\n            body().insertChildren(0, node);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

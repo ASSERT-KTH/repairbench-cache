@@ -1,0 +1,7 @@
+{
+    "generation": "    public List getValues(final Option option,\n                          List defaultValues) {\n        // initialize the return list\n        List valueList = (List) values.get(option);\n\n        // grab the correct default values\n        if ((valueList == null) || valueList.isEmpty()) {\n            valueList = defaultValues;\n        }\n\n        // augment the list with the default values if they are defined\n        List storedDefaults = (List) this.defaultValues.get(option);\n        if (storedDefaults != null && !storedDefaults.isEmpty()) {\n            if (valueList == null || valueList.isEmpty()) {\n                valueList = new ArrayList(storedDefaults);\n            } else {\n                Set uniqueValues = new LinkedHashSet(valueList);\n                uniqueValues.addAll(storedDefaults);\n                valueList = new ArrayList(uniqueValues);\n            }\n        }\n        \n        return valueList == null ? Collections.EMPTY_LIST : valueList;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

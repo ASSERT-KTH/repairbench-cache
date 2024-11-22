@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        if (linkFlag == LF_GNUTYPE_LONGLINK || linkFlag == LF_PAX_GLOBAL || linkFlag == LF_PAX_EXTENDED_HEADER) {\n            return false; // Ensure non-directory metadata entries are not treated as directories\n        }\n\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructSpecializedType(JavaType baseType, Class<?> subclass) {\n    // Existing logic for specialized types\n    if (baseType.getRawClass() == subclass) {\n        return baseType;\n    }\n    // Proper handling for base and sub-type\n    if (baseType.getRawClass().isAssignableFrom(subclass)) {\n        JavaType subType = constructType(subclass);\n        if (subType instanceof SimpleType && baseType instanceof SimpleType) {\n            ((SimpleType) subType).setSuperType((SimpleType) baseType);\n        }\n        return subType;\n    }\n    throw new IllegalArgumentException(\"Class \" + subclass.getName() + \n                                       \" not a subtype of \" + baseType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

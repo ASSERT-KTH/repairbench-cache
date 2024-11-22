@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Compares two values\n     */\n    protected boolean equal(\n        EvalContext context,\n        Expression left,\n        Expression right) \n    {\n        Object l = left.compute(context);\n        Object r = right.compute(context);\n\n        if (l instanceof InitialContext || l instanceof SelfContext) {\n            l = ((EvalContext) l).getSingleNodePointer();\n        }\n\n        if (r instanceof InitialContext || r instanceof SelfContext) {\n            r = ((EvalContext) r).getSingleNodePointer();\n        }\n\n        if (l instanceof Collection) {\n            l = ((Collection) l).iterator();\n        }\n\n        if (r instanceof Collection) {\n            r = ((Collection) r).iterator();\n        }\n\n        if ((l instanceof Iterator) && !(r instanceof Iterator)) {\n            return findMatch((Iterator) l, Collections.singleton(r).iterator());\n        }\n        if (!(l instanceof Iterator) && (r instanceof Iterator)) {\n            return findMatch(Collections.singleton(l).iterator(), (Iterator) r);\n        }\n        if (l instanceof Iterator && r instanceof Iterator) {\n            return findMatch((Iterator) l, (Iterator) r);\n        }\n        return Objects.equals(l, r); // Replaced recursive call with Objects.equals\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

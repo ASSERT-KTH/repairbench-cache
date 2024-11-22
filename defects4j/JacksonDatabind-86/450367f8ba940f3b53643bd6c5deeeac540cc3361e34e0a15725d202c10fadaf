@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _fromClass(Class<?> raw, TypeBindings bindings, JavaType superClass, JavaType[] superInterfaces) {\n    ResolvedRecursiveType recursiveType = _findExistingRecursiveType(raw, bindings);\n    if (recursiveType != null) {\n        // If we already resolved this as a recursive type, avoid further processing\n        return recursiveType;\n    }\n\n    // First, let's create a RecursiveType placeholder\n    ResolvedRecursiveType placeholderType = new ResolvedRecursiveType(raw, bindings, _typeFactory);\n    _addRecursiveType(raw, bindings, placeholderType);\n\n    // Process super class and interfaces\n    if (superClass == null && raw.getSuperclass() != null) {\n        // Assign the superclass only if we know it exists\n        superClass = _constructSuperClass(raw, bindings);\n    }\n    if (superInterfaces == null && raw.getInterfaces() != null) {\n        superInterfaces = _constructSuperInterfaces(raw, bindings);\n    }\n\n    // Now, resolve the type fully\n    JavaType resolvedType = super._fromClass(raw, bindings, superClass, superInterfaces);\n    placeholderType.setReference(resolvedType);\n    return resolvedType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

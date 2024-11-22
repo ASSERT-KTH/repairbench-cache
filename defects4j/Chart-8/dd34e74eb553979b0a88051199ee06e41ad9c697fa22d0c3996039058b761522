@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Creates a time period for the week in which the specified date/time\n     * falls, calculated relative to the specified time zone.\n     *\n     * @param time  the date/time (<code>null</code> not permitted).\n     * @param zone  the time zone (<code>null</code> not permitted).\n     *\n     * @deprecated As of 1.0.7, use {@link #Week(Date, TimeZone, Locale)}.\n     */\n    public Week(Date time, TimeZone zone) {\n        if (time == null) {\n            throw new IllegalArgumentException(\"Null 'time' argument.\");\n        }\n        if (zone == null) {\n            throw new IllegalArgumentException(\"Null 'zone' argument.\");\n        }\n        Calendar calendar = Calendar.getInstance(zone);\n        calendar.setTime(time);\n        int week = calendar.get(Calendar.WEEK_OF_YEAR);\n        int year = calendar.get(Calendar.YEAR);\n\n        // Check for week adjustment due to year boundary\n        if (calendar.get(Calendar.MONTH) == Calendar.JANUARY && week > 50) {\n            year--;\n        } else if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && week == 1) {\n            year++;\n        }\n\n        this.week = week;\n        this.year = year;\n        this.firstDay = calendar.getFirstDayOfWeek();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
