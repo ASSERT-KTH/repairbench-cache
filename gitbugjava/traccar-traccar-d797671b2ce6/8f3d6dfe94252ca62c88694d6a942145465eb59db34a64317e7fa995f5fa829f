@@ -1,0 +1,7 @@
+{
+    "generation": "private Date readDate(ByteBuf buf, String timezone) {\n    int year = buf.readUnsignedShort(); // Assuming year is two bytes\n    int month = buf.readUnsignedByte();\n    int day = buf.readUnsignedByte();\n    int hour = buf.readUnsignedByte();\n    int minute = buf.readUnsignedByte();\n    int second = buf.readUnsignedByte();\n\n    Calendar calendar = new GregorianCalendar();\n    calendar.setLenient(false);\n    calendar.clear();\n    calendar.setTimeZone(TimeZone.getTimeZone(timezone));\n    calendar.set(year, month - 1, day, hour, minute, second);\n    calendar.set(Calendar.MILLISECOND, 0);\n\n    return calendar.getTime();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

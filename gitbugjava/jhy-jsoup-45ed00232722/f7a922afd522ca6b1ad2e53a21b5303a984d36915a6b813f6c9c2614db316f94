@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.UnsupportedEncodingException;\nimport java.net.URLEncoder;\nimport java.net.URL;\nimport java.net.MalformedURLException;\n\nstatic URL encodeUrl(URL u) {\n    try {\n        // Encode path and query\n        String scheme = u.getProtocol();\n        String authority = u.getAuthority();\n        String path = u.getPath();\n        String query = u.getQuery();\n        String fragment = u.getRef();\n\n        // Encode path and query\n        String encodedPath = URLEncoder.encode(path, \"UTF-8\").replace(\"+\", \"%20\");\n        String encodedQuery = (query != null) ? URLEncoder.encode(query, \"UTF-8\").replace(\"+\", \"%20\") : null;\n\n        // Reconstruct the URL\n        StringBuilder urlS = new StringBuilder();\n        urlS.append(scheme).append(\"://\").append(authority);\n        if (encodedPath != null && !encodedPath.isEmpty()) {\n            urlS.append(encodedPath);\n        }\n        if (encodedQuery != null && !encodedQuery.isEmpty()) {\n            urlS.append(\"?\").append(encodedQuery);\n        }\n        if (fragment != null && !fragment.isEmpty()) {\n            urlS.append(\"#\").append(fragment);\n        }\n\n        // Create a new URL from the encoded string\n        return new URL(urlS.toString());\n    } catch (UnsupportedEncodingException | MalformedURLException e) {\n        // Give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

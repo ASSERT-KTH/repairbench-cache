@@ -1,0 +1,7 @@
+{
+    "generation": "case 0x0001:\n    int coolantTemperature = buf.readUnsignedByte() - 40;\n    if (coolantTemperature <= 215) {\n        position.set(Position.KEY_COOLANT_TEMP, coolantTemperature);\n    }\n    int rpm = buf.readUnsignedShort();\n    if (rpm <= 65535) {\n        position.set(Position.KEY_RPM, rpm);\n    }\n    position.set(\"averageSpeed\", buf.readUnsignedByte());\n    buf.readUnsignedShort(); // interval fuel consumption\n    position.set(Position.KEY_FUEL_CONSUMPTION, buf.readUnsignedShort() * 0.01);\n    position.set(Position.KEY_ODOMETER_TRIP, buf.readUnsignedShort());\n    position.set(Position.KEY_POWER, buf.readUnsignedShort() * 0.01);\n    position.set(Position.KEY_FUEL_LEVEL, buf.readUnsignedByte() * 0.4);\n    buf.readUnsignedInt(); // trip id\n    if (buf.readerIndex() < endIndex) {\n        position.set(\"adBlueLevel\", buf.readUnsignedByte() * 0.4);\n    }\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

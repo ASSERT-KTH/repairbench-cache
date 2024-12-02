@@ -1,0 +1,7 @@
+{
+    "generation": "if ((content == null) || (content.length == 0)) {\n    return new SimpleRobotRules(RobotRulesMode.ALLOW_ALL);\n}\n\nint bytesLen = content.length;\nint offset = 0;\nCharset encoding = StandardCharsets.US_ASCII;\n\n// Check for a UTF-8 BOM at the beginning (EF BB BF)\nif ((bytesLen >= 3) && (content[0] == (byte) 0xEF) && (content[1] == (byte) 0xBB) && (content[2] == (byte) 0xBF)) {\n    offset = 3;\n    bytesLen -= 3;\n    encoding = StandardCharsets.UTF_8;\n}\n// Check for UTF-16LE BOM at the beginning (FF FE)\nelse if ((bytesLen >= 2) && (content[0] == (byte) 0xFF) && (content[1] == (byte) 0xFE)) {\n    offset = 2;\n    bytesLen -= 2;\n    encoding = StandardCharsets.UTF_16LE;\n}\n// Check for UTF-16BE BOM at the beginning (FE FF)\nelse if ((bytesLen >= 2) && (content[0] == (byte) 0xFE) && (content[1] == (byte) 0xFF)) {\n    offset = 2;\n    bytesLen -= 2;\n    encoding = StandardCharsets.UTF_16BE;\n}\n\nString contentAsStr = new String(content, offset, bytesLen, encoding);",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

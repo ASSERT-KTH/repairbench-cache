@@ -1,0 +1,7 @@
+{
+    "generation": "\nprivate void decodeCoordinates(Position position, ByteBuf buf) {\n\n    int latInt = buf.readInt();\n\n    int lonInt = buf.readInt();\n\n    double lat = (double) latInt / 1000000; // assuming the device sends lat * 1e6\n\n    double lon = (double) lonInt / 1000000;\n\n    if (lat < -90 || lat > 90) {\n\n        throw new IllegalArgumentException(\"Latitude out of range: \" + lat);\n\n    }\n\n    if (lon < -180 || lon > 180) {\n\n        throw new IllegalArgumentException(\"Longitude out of range: \" + lon);\n\n    }\n\n    position.setLatitude(lat);\n\n    position.setLongitude(lon);\n\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

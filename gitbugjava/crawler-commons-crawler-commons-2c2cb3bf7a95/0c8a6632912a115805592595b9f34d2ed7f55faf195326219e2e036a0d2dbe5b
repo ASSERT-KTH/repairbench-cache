@@ -1,0 +1,7 @@
+{
+    "generation": "if ((bytesLen >= 3) && (content[0] == (byte) 0xEF) && (content[1] == (byte) 0xBB) && (content[2] == (byte) 0xBF)) {\n    offset = 3;\n    bytesLen -= 3;\n    encoding = StandardCharsets.UTF_8;\n}\nelse if ((bytesLen >= 2) && (content[0] == (byte) 0xFF) && (content[1] == (byte) 0xFE)) {\n    offset = 2;\n    bytesLen -= 2;\n    encoding = StandardCharsets.UTF_16LE;\n}\nelse if ((bytesLen >= 2) && (content[0] == (byte) 0xFE) && (content[1] == (byte) 0xFF)) {\n    offset = 2;\n    bytesLen -= 2;\n    encoding = StandardCharsets.UTF_16BE;\n}\nelse {\n    encoding = StandardCharsets.UTF_8; // Change default encoding to UTF-8\n}\n\ncontentAsStr = new String(content, offset, bytesLen, encoding);",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

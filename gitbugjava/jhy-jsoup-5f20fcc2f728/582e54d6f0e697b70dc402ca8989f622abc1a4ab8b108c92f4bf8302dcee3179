@@ -1,0 +1,7 @@
+{
+    "generation": "public Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    List<String> invalidTags = new ArrayList<>();\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        try {\n            TagName.valueOf(tagName);\n        } catch (IllegalArgumentException e) {\n            invalidTags.add(tagName);\n        }\n    }\n\n    if (!invalidTags.isEmpty()) {\n        throw new ValidationException(\"Unsupported tags: \" + String.join(\", \", invalidTags));\n    }\n\n    for (String tagName : tags) {\n        tagNames.add(TagName.valueOf(tagName));\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

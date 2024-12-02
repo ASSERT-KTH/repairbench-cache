@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.UnsupportedEncodingException;\nimport java.net.URI;\nimport java.net.URISyntaxException;\nimport java.net.URL;\nimport java.net.URLDecoder;\nimport java.net.URLEncoder;\n\nstatic URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String urlS = u.toExternalForm();\n        URI uri = new URI(urlS);\n        String encodedPath = uri.getPath() != null ? URLEncoder.encode(uri.getPath(), \"UTF-8\").replace(\"+\", \"%20\") : null;\n        String encodedQuery = uri.getQuery() != null ? URLEncoder.encode(uri.getQuery(), \"UTF-8\").replace(\"+\", \"%20\") : null;\n        URI encodedUri = new URI(uri.getScheme(), uri.getAuthority(), encodedPath, encodedQuery, uri.getFragment());\n        return new URL(encodedUri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e) {\n        // Handle exception, possibly log or provide a default action\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

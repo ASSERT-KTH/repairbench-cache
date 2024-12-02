@@ -1,0 +1,7 @@
+{
+    "generation": "@Test\npublic void spectatorIsInSpectatorList() throws Exception {\n    Ensemble ensemble = EnsembleFactory.withIdOf1AndOneDayInTheFuture();\n    TestMemberBuilder memberBuilder = new TestMemberBuilder();\n    Member member = memberBuilder\n            .withFirstName(\"name\")\n            .withGithubUsername(\"participant_username\")\n            .buildAndSave();\n    ensemble.joinAsSpectator(member.getId());\n\n    EnsembleSummaryView ensembleSummaryView = EnsembleSummaryView\n            .toView(ensemble, member.getId(), memberBuilder.memberService());\n\n    assertThat(ensembleSummaryView.spectators())\n            .containsExactly(MemberView.from(member));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

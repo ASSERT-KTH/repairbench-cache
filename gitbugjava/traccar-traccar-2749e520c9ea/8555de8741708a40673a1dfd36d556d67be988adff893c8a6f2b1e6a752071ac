@@ -1,0 +1,7 @@
+{
+    "generation": "if (buf.readableBytes() >= 7) { // 1 byte for length + 6 bytes for data\n    int gyroLength = buf.readUnsignedByte();\n    if (gyroLength == 6) {\n        byte[] gyroBytes = new byte[6];\n        buf.readBytes(gyroBytes);\n        position.set(\"gyro\", Bytes.toHexString(gyroBytes));\n    } else {\n        // If the length is not 6, skip the bytes accordingly\n        buf.readerIndex(buf.readerIndex() + gyroLength);\n    }\n} else {\n    // Not enough data for gyro, ignore\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

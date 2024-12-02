@@ -1,0 +1,7 @@
+{
+    "generation": "public static Appendable render(final String input, Appendable target) throws IOException {\n    int i = 0;\n    while (true) {\n        int j = input.indexOf(BEGIN_TOKEN, i);\n        int k = input.indexOf(END_TOKEN, i);\n        \n        if (k < j && j != -1) {\n            throw new IllegalArgumentException(\"END_TOKEN before BEGIN_TOKEN\");\n        } else if (j == -1) {\n            if (k != -1) {\n                throw new IllegalArgumentException(\"END_TOKEN without BEGIN_TOKEN\");\n            }\n            // No more BEGIN_TOKEN and no END_TOKEN, append the rest\n            target.append(input.substring(i));\n            return target;\n        } else if (j != -1 && k == -1) {\n            throw new IllegalArgumentException(\"BEGIN_TOKEN without END_TOKEN\");\n        } else {\n            // Both j and k found, and j <= k\n            target.append(input.substring(i, j));\n            int startSpec = j + BEGIN_TOKEN_LEN;\n            int endSpec = k;\n            String spec = input.substring(startSpec, endSpec);\n            String[] items = spec.split(CODE_TEXT_SEPARATOR, 2);\n            if (items.length != 2) {\n                throw new IllegalArgumentException(\"Invalid spec format\");\n            }\n            String replacement = render(items[1], items[0].split(CODE_LIST_SEPARATOR));\n            target.append(replacement);\n            i = k + END_TOKEN_LEN;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
