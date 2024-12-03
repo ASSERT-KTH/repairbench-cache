@@ -1,0 +1,7 @@
+{
+    "generation": "\npublic static Try<Done> registerCallContext(\n\n    final ActorRef<CallContextProviderMessage> callContextProvider,\n\n    final String callContext,\n\n    final AriCommand ariCommand\n\n) {\n\n    CommandType commandType = ariCommand.extractCommandType();\n\n    if (!commandType.isCreationCommand()) {\n\n        return Try.success(Done.done());\n\n    }\n\n    Option<AriResource> maybeResource =\n\n        ariCommand.extractResourceRelations()\n\n            .filter(AriResourceRelation::isCreated)\n\n            .map(AriResourceRelation::getResource)\n\n            .find(Option::isDefined)\n\n            .orElse(Option.none());\n\n    if (maybeResource.isEmpty()) {\n\n        return Try.failure(\n\n            new RuntimeException(\n\n                String.format(\n\n                    \"Failed to extract resourceId from command '%s'\", ariCommand.toString()\n\n                )\n\n            )\n\n        );\n\n    }\n\n    AriResource resource = maybeResource.get();\n\n    callContextProvider.tell(new RegisterCallContext(resource.getId(), callContext));\n\n    return Try.success(Done.done());\n\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

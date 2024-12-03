@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.safety.Safelist;\nimport org.jsoup.safety.TagName;\nimport org.jsoup.util.Validate;\nimport org.jsoup.exception.ValidationException;\n\nimport java.util.EnumSet;\nimport java.util.Set;\n\npublic class FixedSafelist extends Safelist {\n    // Define a set of unsafe tags that cannot be added to any safelist\n    private static final Set<TagName> UNSAFE_TAGS = EnumSet.of(\n        TagName.SCRIPT,\n        TagName.STYLE,\n        TagName.LINK,\n        TagName.META,\n        TagName.IMG,\n        TagName.NOSCRIPT\n        // Add other potentially unsafe tags as needed\n    );\n\n    /**\n     * Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n     *\n     * @param tags tag names to allow\n     * @return this (for chaining)\n     */\n    @Override\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags, \"Tags must not be null\");\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName, \"Tag name must not be empty\");\n            TagName tag = TagName.valueOf(tagName.toUpperCase());\n            if (UNSAFE_TAGS.contains(tag)) {\n                throw new ValidationException(\"Tag \" + tag + \" is unsupported.\");\n            }\n            tagNames.add(tag);\n        }\n        return this;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

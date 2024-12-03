@@ -1,0 +1,7 @@
+{
+    "generation": "case \"hf\":\ncase \"loc\":\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    position.setValid(true);\n\n    // Use modern Java time classes for better thread safety\n    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSSX\");\n    ZonedDateTime zdt = ZonedDateTime.parse(json.getString(\"ts\"), formatter);\n    position.setTime(Date.from(zdt.toInstant()));\n\n    JsonObject location = json.getJsonObject(\"location\");\n    position.setLatitude(location.getJsonNumber(\"lat\").doubleValue());\n    position.setLongitude(location.getJsonNumber(\"lon\").doubleValue());\n\n    position.setCourse(json.getInt(\"bear\"));\n    position.setSpeed(UnitsConverter.knotsFromCps(json.getInt(\"spd\")));\n\n    position.set(Position.KEY_IGNITION, json.getString(\"ign\").equals(\"on\"));\n\n    return position;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

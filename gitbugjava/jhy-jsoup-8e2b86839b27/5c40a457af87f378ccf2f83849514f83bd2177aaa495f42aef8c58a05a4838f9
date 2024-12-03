@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    String display = getDisplayStyle();\n    if (display != null) {\n        if (display.equals(\"block\")) {\n            return true;\n        } else if (display.equals(\"inline\")) {\n            return false;\n        }\n    }\n    // Fallback to tag default behavior\n    boolean tagIsBlock = tag.formatAsBlock();\n    boolean parentIsBlock = parent() != null && parent().tag().formatAsBlock();\n    boolean outline = out.outline();\n    return tagIsBlock || parentIsBlock || outline;\n}\n\nprivate String getDisplayStyle() {\n    String style = attr(\"style\");\n    if (style == null) {\n        return null;\n    }\n    String[] pairs = style.split(\";\");\n    for (String pair : pairs) {\n        String[] parts = pair.split(\":\");\n        if (parts.length == 2 && parts[0].trim().equals(\"display\")) {\n            return parts[1].trim();\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

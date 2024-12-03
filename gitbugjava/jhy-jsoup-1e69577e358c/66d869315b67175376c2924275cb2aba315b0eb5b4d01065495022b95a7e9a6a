@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.helper.URLUtil;\n\nURL build() {\n    try {\n        String path = u.getPath();\n        String query = u.getQuery();\n        String ref = u.getRef();\n\n        // Encode non-ASCII characters in path while preserving existing percent encoding\n        path = URLUtil.urlEncode(path, \"UTF-8\", URLUtil.URL_PART_PATH);\n\n        String urlStr = u.getProtocol() + \"://\"\n                + IDN.toASCII(u.getHost())\n                + (u.getPort() > 0 ? \":\" + u.getPort() : \"\")\n                + path;\n\n        if (query != null) {\n            urlStr += \"?\" + query;\n        }\n        if (ref != null) {\n            urlStr += \"#\" + ref;\n        }\n\n        u = new URL(urlStr);\n        return u;\n    } catch (MalformedURLException | UnsupportedEncodingException e) {\n        // Handle exception\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

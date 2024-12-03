@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.safety.Safelist;\nimport org.jsoup.safety.TagName;\nimport org.jsoup.helper.Validate;\nimport org.jsoup.exceptions.ValidationException;\nimport java.util.Set;\nimport java.util.stream.Collectors;\nimport java.util.Arrays;\n\npublic class Safelist {\n    // Static set of forbidden tags\n    private static final Set<String> FORBIDDEN_TAGS = Set.of(\"NOSCRIPT\");\n\n    private Set<TagName> tagNames = new HashSet<>();\n\n    /**\n     * Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n     *\n     * @param tags tag names to allow\n     * @return this (for chaining)\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            String uppercaseTagName = tagName.toUpperCase();\n            if (FORBIDDEN_TAGS.contains(uppercaseTagName)) {\n                throw new ValidationException(\"Unsupported tag: \" + tagName);\n            }\n            try {\n                tagNames.add(TagName.valueOf(uppercaseTagName));\n            } catch (IllegalArgumentException e) {\n                throw new ValidationException(\"Unsupported tag: \" + tagName);\n            }\n        }\n        return this;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

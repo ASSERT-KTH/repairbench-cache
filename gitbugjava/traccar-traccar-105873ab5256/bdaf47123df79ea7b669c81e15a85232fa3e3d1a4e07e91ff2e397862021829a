@@ -1,0 +1,7 @@
+{
+    "generation": "case 0x21:\n    int mcc = buf.readUnsignedShortLE();\n    int mnc = buf.readUnsignedByte();\n    if (position.getNetwork() == null) {\n        position.setNetwork(new Network());\n    }\n    while (buf.readerIndex() < endIndex) {\n        int rssi = buf.readByte();\n        String mac = ByteBufUtil.hexDump(buf.readSlice(6)).replaceAll(\"(..)\", \"$1:\");\n        position.getNetwork().addCellTower(CellTower.from(\n                mcc, mnc, buf.readUnsignedShortLE(), buf.readUnsignedShortLE(), rssi));\n    }\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

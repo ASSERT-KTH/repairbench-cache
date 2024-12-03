@@ -1,0 +1,7 @@
+{
+    "generation": "while (buf.isReadable()) {\n    int currentReaderIndex = buf.readerIndex();\n    int lengthByte = buf.readUnsignedByte();\n    int endIndex = lengthByte + currentReaderIndex;\n    \n    // Check if endIndex is beyond the buffer's capacity\n    if (endIndex > buf.writerIndex()) {\n        break; // Or handle the error appropriately\n    }\n    \n    int key = buf.readUnsignedByte();\n\n    if (keys.contains(key)) {\n        if (!hasLocation) {\n            getLastLocation(position, null);\n        }\n        positions.add(position);\n        keys.clear();\n        hasLocation = false;\n        position = new Position(getProtocolName());\n    }\n    keys.add(key);\n\n    switch (key) {\n        // existing switch cases\n    }\n    buf.readerIndex(endIndex);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

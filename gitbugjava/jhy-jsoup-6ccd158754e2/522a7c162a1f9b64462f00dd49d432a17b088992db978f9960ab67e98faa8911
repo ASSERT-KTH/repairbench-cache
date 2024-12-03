@@ -1,0 +1,7 @@
+{
+    "generation": "private static void appendToAscii(String s, boolean spaceAsPlus, StringBuilder sb) {\n    for (int i = 0; i < s.length(); ) {\n        int c = s.codePointAt(i);\n        if (c == ' ') {\n            sb.append(spaceAsPlus ? '+' : \"%20\");\n        } else if (c > 127) {\n            sb.append(percentEncodeUtf8(c));\n        } else {\n            sb.append((char) c);\n        }\n        i += Character.charCount(c);\n    }\n}\n\nprivate static String percentEncodeUtf8(int codePoint) {\n    byte[] bytes = Character.toString(codePoint).getBytes(StandardCharsets.UTF_8);\n    StringBuilder encoded = new StringBuilder();\n    for (byte b : bytes) {\n        encoded.append('%')\n               .append(String.format(\"%02X\", b));\n    }\n    return encoded.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

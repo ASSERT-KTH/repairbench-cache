@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // Use the URI class to handle non-ASCII characters in the path\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            IDN.toASCII(u.getHost()), // Convert internationalized domain names to ASCII\n            u.getPort(),\n            u.getPath(), // Pass the path directly to preserve encoding\n            null, null // Query and fragment are appended later to avoid re-encoding\n        );\n\n        String normUrl = uri.toASCIIString();\n        if (q != null || u.getRef() != null) {\n            StringBuilder sb = new StringBuilder(normUrl);\n            if (q != null) {\n                sb.append('?').append(q);\n            }\n            if (u.getRef() != null) {\n                sb.append('#').append(u.getRef());\n            }\n            normUrl = sb.toString();\n        }\n        u = new URL(normUrl);\n        return u;\n    } catch (MalformedURLException | URISyntaxException e) {\n        // Handle exceptions appropriately\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

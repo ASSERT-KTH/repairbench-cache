@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.nodes.TagName;\nimport org.jsoup.safety.Safelist;\nimport org.jsoup.helper.Validate;\nimport java.util.Set;\n\npublic Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    // Define forbidden tags\n    Set<String> forbiddenTags = Set.of(\"NOSCRIPT\"); // Add other forbidden tags here if needed\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n\n        // Convert to uppercase for case-insensitive comparison\n        String upperTagName = tagName.toUpperCase();\n\n        // Check if the tag is forbidden\n        if (forbiddenTags.contains(upperTagName)) {\n            throw new ValidationException(\"Tag '\" + upperTagName + \"' is unsupported.\");\n        }\n\n        // Add the tag to the safelist\n        tagNames.add(TagName.valueOf(upperTagName));\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

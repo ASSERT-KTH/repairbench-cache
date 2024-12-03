@@ -1,0 +1,7 @@
+{
+    "generation": "if (type != MSG_ALARM) {\n\n    int odometer = buf.readUnsignedMedium();\n    if (BitUtil.to(odometer, 16) > 0) {\n        position.set(Position.KEY_ODOMETER, odometer);\n    } else if (odometer > 0) {\n        position.set(Position.KEY_FUEL_LEVEL, BitUtil.from(odometer, 16));\n    }\n\n    position.set(Position.KEY_STATUS, buf.readUnsignedInt());\n\n    buf.readUnsignedShort(); // Read an unsigned short\n\n    // Read battery level and set it in the position object\n    int batteryLevel = buf.readUnsignedByte();\n    position.set(Position.KEY_BATTERY_LEVEL, batteryLevel / 2.04);\n\n    buf.readUnsignedByte();\n    buf.readUnsignedByte();\n    buf.readUnsignedByte();\n    buf.readUnsignedByte();\n\n    position.set(Position.KEY_RESULT, String.valueOf(buf.readUnsignedByte()));\n\n    if (type == MSG_PERIPHERAL) {\n        // Handle peripheral data\n    }\n} else {\n    // Handle alarm message\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

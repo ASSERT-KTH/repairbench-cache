@@ -1,0 +1,7 @@
+{
+    "generation": "\nThis version treats commas as delimiters between sub-selectors and includes all other tokens, including combinators, in the sub-query.\n\nI think this should fix the test case issue by correctly parsing each sub-selector separated by commas.\n\n**Final Solution**\n\nTo fix the `consumeSubQuery` method, we need to ensure that it correctly handles the consumption of sub-queries in a way that respects the separation of different parts of the selector, particularly those divided by commas. The method should build a sub-query by consuming tokens from the token queue (`tq`), handling balanced parentheses and brackets, and correctly identifying when to stop consuming based on the presence of a comma.\n\nThe original method had a flaw in how it handled combinators, which caused it to break the loop prematurely, leading to incorrect selector parsing.\n\n### Approach\n\n1. **Initialization**: Start by borrowing a `StringBuilder` to build the sub-query.\n2. **Token Consumption Loop**:\n   - **Parentheses and Brackets**: If the current token is an opening parenthesis or bracket, consume the balanced group and append it to the sub-query.\n   - **Comma**: If the current token is a comma, break the loop as it indicates the end of the current sub-query.\n   - **Other Tokens**: Append all other tokens to the sub-query.\n3. **Return the Result**: Release the `StringBuilder` and return the constructed sub-query.\n\n### Solution Code\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

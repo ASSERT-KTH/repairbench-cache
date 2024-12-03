@@ -1,0 +1,7 @@
+{
+    "generation": "while (buf.readableBytes() > 4) {\n    int subtype = buf.readUnsignedShort();\n    int length = buf.readUnsignedShort() - 4;\n    if (length < 0) {\n        LOG.warning(\"Invalid length \" + length + \" for subtype \" + subtype + \", skipping.\");\n        continue;\n    }\n    if (buf.readableBytes() < length) {\n        LOG.warning(\"Not enough bytes to read for subtype \" + subtype + \", expected \" + length + \", but have \" + buf.readableBytes());\n        continue;\n    }\n    switch (subtype) {\n        // various cases handling different subtypes\n        default:\n            buf.skipBytes(length);\n            break;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

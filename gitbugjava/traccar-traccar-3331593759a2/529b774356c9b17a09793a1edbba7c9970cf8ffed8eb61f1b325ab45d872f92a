@@ -1,0 +1,7 @@
+{
+    "generation": "private void decodeCoordinates(Position position, ByteBuf buf) {\n    if (buf.readableBytes() < 8) { // 4 bytes for lat and 4 for lon\n        LOG.warn(\"Not enough bytes to read coordinates\");\n        return;\n    }\n\n    int latInt = buf.readInt();\n    int lonInt = buf.readInt();\n\n    if (latInt < -90000000 || latInt > 90000000 || lonInt < -180000000 || lonInt > 180000000) {\n        LOG.warn(\"Invalid coordinates: lat=\" + latInt + \", lon=\" + lonInt);\n        return;\n    }\n\n    double latitude = latInt / 1e6;\n    double longitude = lonInt / 1e6;\n\n    position.setLatitude(latitude);\n    position.setLongitude(longitude);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

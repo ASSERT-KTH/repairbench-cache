@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.UnsupportedEncodingException;\nimport java.net.MalformedURLException;\nimport java.net.URL;\nimport java.net.URLEncoder;\nimport java.net.URI;\n\npublic class HttpConnection {\n    static URL encodeUrl(URL u) {\n        u = punyUrl(u);\n        try {\n            URI uri = u.toURI();\n\n            String scheme = uri.getScheme();\n            String authority = uri.getAuthority();\n            String path = uri.getPath();\n            String query = uri.getQuery();\n            String fragment = uri.getFragment();\n\n            String encodedPath = (path != null) ? URLEncoder.encode(path, \"UTF-8\").replace(\"%2F\", \"/\") : null;\n            String encodedQuery = (query != null) ? URLEncoder.encode(query, \"UTF-8\").replace(\"%2F\", \"/\") : null;\n\n            URI encodedUri = new URI(scheme, authority, encodedPath, encodedQuery, fragment);\n            return encodedUri.toURL();\n        } catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e) {\n            return u;\n        }\n    }\n\n    // Assuming punyUrl is a method that converts domain names to Punycode if necessary\n    private static URL punyUrl(URL u) {\n        // Implementation of punyUrl\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    List<Element> path = new ArrayList<>();\n    while (element != null && element != root) {\n        path.add(element);\n        element = element.parent();\n    }\n    // Add the root to the path\n    if (element == root) {\n        path.add(root);\n    } else {\n        // If we didn't reach the root, it's not a matching path\n        return false;\n    }\n    \n    if (path.size() != evaluators.size()) {\n        return false;\n    }\n    \n    // Check each element against the corresponding evaluator\n    for (int i = path.size() -1; i >= 0; --i) {\n        Element el = path.get(i);\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, el)) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
