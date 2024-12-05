@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            // existing cases...\n            case \"LNG\":\n                double longitude = buf.readDouble();\n                if (longitude >= -180 && longitude <= 180) {\n                    position.setLongitude(longitude);\n                } else {\n                    // Handle invalid longitude value\n                    // For example, log an error or skip setting it\n                }\n                break;\n            case \"LAT\":\n                double latitude = buf.readDouble();\n                if (latitude >= -90 && latitude <= 90) {\n                    position.setLatitude(latitude);\n                } else {\n                    // Handle invalid latitude value\n                }\n                break;\n            // other cases...\n        }\n    }\n\n    if (cellTower.getMobileCountryCode() != null\n        && cellTower.getMobileNetworkCode() != null\n        && cellTower.getCellId() != null && cellTower.getCellId() != 0\n        && cellTower.getLocationAreaCode() != null) {\n        position.setNetwork(new Network(cellTower));\n    } else if (cellTower.getSignalStrength() != null) {\n        position.set(Position.KEY_RSSI, cellTower.getSignalStrength());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

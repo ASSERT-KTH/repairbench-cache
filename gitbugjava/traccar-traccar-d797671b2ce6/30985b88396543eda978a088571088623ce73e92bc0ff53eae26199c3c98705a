@@ -1,0 +1,7 @@
+{
+    "generation": "protected Date readDate(ByteBuf buf, String timezone) {\n    int year = buf.readUnsignedByte();\n    int month = buf.readUnsignedByte();\n    int day = buf.readUnsignedByte();\n    int hour = buf.readUnsignedByte();\n    int minute = buf.readUnsignedByte();\n    int second = buf.readUnsignedByte();\n\n    // Interpret year: 00-99 -> 2000-2099\n    year += 2000;\n\n    Calendar calendar = new GregorianCalendar();\n    calendar.set(year, month - 1, day, hour, minute, second);\n    calendar.setLenient(false);\n\n    if (timezone != null) {\n        TimeZone tz = TimeZone.getTimeZone(timezone);\n        calendar.setTimeZone(tz);\n    }\n\n    return calendar.getTime();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

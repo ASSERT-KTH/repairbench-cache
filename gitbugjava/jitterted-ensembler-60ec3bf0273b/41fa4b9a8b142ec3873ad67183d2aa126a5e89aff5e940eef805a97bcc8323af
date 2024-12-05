@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.HashSet;\nimport java.util.Set;\nimport java.util.Collections;\n\npublic class Ensemble {\n    private Set<MemberId> membersAsSpectators = new HashSet<>();\n    private Set<MemberId> membersWhoAccepted = new HashSet<>();\n    private Set<MemberId> membersWhoDeclined = new HashSet<>();\n\n    public void joinAsSpectator(MemberId memberId) {\n        membersAsSpectators.add(memberId);\n        membersWhoAccepted.remove(memberId);\n        membersWhoDeclined.remove(memberId);\n    }\n\n    public void declinedBy(MemberId memberId) {\n        membersWhoDeclined.add(memberId);\n    }\n\n    public Set<MemberId> declinedMembers() {\n        return Collections.unmodifiableSet(membersWhoDeclined);\n    }\n\n    public Set<MemberId> spectators() {\n        return Collections.unmodifiableSet(membersAsSpectators);\n    }\n}\n\nclass MemberId {\n    private final int id;\n\n    public MemberId(int id) {\n        this.id = id;\n    }\n\n    public static MemberId of(int id) {\n        return new MemberId(id);\n    }\n\n    // Assume necessary methods like equals and hashCode are implemented\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

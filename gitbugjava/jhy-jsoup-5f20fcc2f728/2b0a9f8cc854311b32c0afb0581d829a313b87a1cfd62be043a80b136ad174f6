@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.safety.Safelist;\nimport org.jsoup.safety.TagName;\nimport org.jsoup.helper.Validate;\nimport java.util.Set;\nimport java.util.HashSet;\n\npublic Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        String upperCaseTagName = tagName.toUpperCase();\n\n        if (DISALLOWED_TAGS.contains(upperCaseTagName)) {\n            throw new ValidationException(\"Tag '\" + tagName + \"' is unsupported.\");\n        }\n\n        try {\n            tagNames.add(TagName.valueOf(upperCaseTagName));\n        } catch (IllegalArgumentException e) {\n            throw new ValidationException(\"Invalid tag: \" + tagName, e);\n        }\n    }\n    return this;\n}\n\nprivate static final Set<String> DISALLOWED_TAGS = Set.of(\"NOSCRIPT\");",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

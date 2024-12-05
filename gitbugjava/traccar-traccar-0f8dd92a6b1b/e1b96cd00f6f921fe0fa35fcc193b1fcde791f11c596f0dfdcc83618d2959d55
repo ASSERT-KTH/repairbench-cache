@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeExtended(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);\n    if (deviceSession == null) {\n        System.out.println(\"Device session is null\");\n        return null;\n    }\n\n    if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n        deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedShort(); // length\n    int type = buf.readUnsignedByte();\n\n    System.out.println(\"Processing type: \" + type);\n\n    if (type == MSG_STRING_INFO) {\n        // existing code\n    } else if (type == MSG_INFO) {\n        // existing code\n    } else if (type == MSG_X1_PHOTO_DATA) {\n        // existing code\n    } else if (type == MSG_AZ735_GPS || type == MSG_AZ735_ALARM) {\n        // existing code\n    } else if (type == MSG_OBD) {\n        // existing code\n    } else if (type == MSG_GPS_MODULAR) {\n        // existing code\n    } else if (type == MSG_MULTIMEDIA) {\n        // existing code\n    } else if (type == MSG_SERIAL) {\n        // existing code\n    } else {\n        System.out.println(\"Unhandled type: \" + type);\n    }\n\n    if (position == null) {\n        System.out.println(\"Position is null\");\n    }\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

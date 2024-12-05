@@ -1,0 +1,7 @@
+{
+    "generation": "public static Try<Done> registerCallContext(\n    final ActorRef<CallContextProviderMessage> callContextProvider,\n    final String callContext,\n    final AriCommand ariCommand) {\n\n  // Check if the command is not a creation command\n  if (!ariCommand.extractCommandType().isCreationCommand()) {\n    return Try.success(Done.done());\n  }\n\n  // Extract the resource relation that is created\n  final Option<AriResourceRelation> maybeResourceRelation =\n      ariCommand\n          .extractResourceRelations()\n          .find(AriResourceRelation::isCreated);\n\n  // If no created resource relation is found, fail with an exception\n  if (maybeResourceRelation.isEmpty()) {\n    return Try.failure(\n        new RuntimeException(\n            String.format(\n                \"Failed to extract resourceId from command '%s'\", ariCommand.toString())));\n  }\n\n  // Get the resource from the relation\n  final AriResource resource = maybeResourceRelation.get().getResource();\n\n  // Register the call context with the provider\n  callContextProvider.tell(new RegisterCallContext(resource.getId(), callContext));\n\n  // Return success\n  return Try.success(Done.done());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

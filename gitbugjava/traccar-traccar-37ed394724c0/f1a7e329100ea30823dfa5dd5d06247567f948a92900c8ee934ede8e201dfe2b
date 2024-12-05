@@ -1,0 +1,7 @@
+{
+    "generation": "if (hasStatus(type)) {\n    decodeStatus(position, buf);\n    if (variant == Variant.OBD6) {\n        int signal = buf.readUnsignedShort();\n        int satellites = BitUtil.between(signal, 10, 15) + BitUtil.between(signal, 5, 10);\n        position.set(Position.KEY_SATELLITES, satellites);\n        position.set(Position.KEY_RSSI, BitUtil.to(signal, 5));\n        position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));\n        buf.readUnsignedByte(); // language\n        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n        buf.readUnsignedByte(); // working mode\n        position.set(Position.KEY_POWER, buf.readUnsignedShort() / 100.0);\n    } else {\n        // Directly set the battery level without scaling\n        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n        position.set(Position.KEY_RSSI, buf.readUnsignedByte());\n        short alarmExtension = buf.readUnsignedByte();\n        if (variant != Variant.VXT01) {\n            position.set(Position.KEY_ALARM, decodeAlarm(alarmExtension));\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

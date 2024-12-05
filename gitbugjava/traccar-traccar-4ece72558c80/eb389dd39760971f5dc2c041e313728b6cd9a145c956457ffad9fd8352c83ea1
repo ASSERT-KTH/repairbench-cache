@@ -1,0 +1,7 @@
+{
+    "generation": "if (codec == CODEC_13) {\n    buf.readUnsignedByte(); // type\n    int length = buf.readInt() - 4;\n    getLastLocation(position, new Date(buf.readUnsignedInt() * 1000));\n    if (isPrintable(buf, length)) {\n        String result = buf.readCharSequence(length, StandardCharsets.US_ASCII).toString().trim();\n        position.set(Position.KEY_RESULT, result);\n        \n        // Split the result by '|' and extract the driver unique ID\n        String[] fields = result.split(\"\\\\|\");\n        if (fields.length >= 4) {\n            position.set(Position.KEY_DRIVER_UNIQUE_ID, fields[3]);\n        }\n    } else {\n        String hexDump = ByteBufUtil.hexDump(buf.readSlice(length));\n        position.set(Position.KEY_RESULT, hexDump);\n        // Assuming driver unique ID is not present in non-printable data\n    }\n} else if (codec == CODEC_12) {\n    decodeSerial(channel, remoteAddress, deviceSession, position, buf);\n} else {\n    decodeLocation(position, buf, codec, model);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

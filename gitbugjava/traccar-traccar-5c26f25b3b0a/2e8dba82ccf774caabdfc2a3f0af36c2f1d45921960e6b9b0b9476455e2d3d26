@@ -1,0 +1,7 @@
+{
+    "generation": "paramCount = buf.readUnsignedByte();\nfor (int j = 0; j < paramCount; j++) {\n    boolean extension = buf.getUnsignedByte(buf.readerIndex()) == 0xFE;\n    int id = extension ? buf.readUnsignedShort() : buf.readUnsignedByte();\n    int length = buf.readUnsignedByte();\n    switch (id) {\n        // Other cases...\n        case 0xFEA8:\n            int battery1Status = buf.readUnsignedByte();\n            if (battery1Status > 0) {\n                position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n            } else {\n                buf.readUnsignedByte();\n            }\n            int battery2Status = buf.readUnsignedByte();\n            int battery2Level = buf.readUnsignedByte();\n            position.set(\"battery2Level\", battery2Level); // Set battery2Level\n            int battery3Status = buf.readUnsignedByte();\n            int battery3Level = buf.readUnsignedByte();\n            position.set(\"battery3Level\", battery3Level); // Set battery3Level\n            int batteryAlert = buf.readUnsignedByte();\n            break;\n        // Other cases...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "if (codec == CODEC_8_EXT) {\n    int cnt = buf.readUnsignedShort();\n    for (int j = 0; j < cnt; j++) {\n        int id = buf.readUnsignedShort();\n        int length = buf.readUnsignedShort();\n        if (id == 1) { // Assuming ID 1 corresponds to \"tag1Battery\"\n            position.set(\"tag1Battery\", buf.readUnsignedShort());\n        } else if (id == 256) {\n            position.set(Position.KEY_VIN, buf.readSlice(length).toString(StandardCharsets.US_ASCII));\n        } else if (id == 281) {\n            position.set(Position.KEY_DTCS, buf.readSlice(length).toString(StandardCharsets.US_ASCII).replace(',', ' '));\n        } else if (id == 385) {\n            ByteBuf data = buf.readSlice(length);\n            // Existing logic for beacon data\n        } else {\n            position.set(Position.PREFIX_IO + id, ByteBufUtil.hexDump(buf.readSlice(length)));\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

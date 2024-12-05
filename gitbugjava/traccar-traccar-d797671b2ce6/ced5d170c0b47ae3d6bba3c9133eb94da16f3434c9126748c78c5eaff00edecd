@@ -1,0 +1,7 @@
+{
+    "generation": "private Date readDate(ByteBuf buf, String timezone) {\n    int year = buf.readUnsignedByte(); // Assuming year is one byte in two-digit BCD format\n    int month = buf.readUnsignedByte();\n    int day = buf.readUnsignedByte();\n    int hour = buf.readUnsignedByte();\n    int minute = buf.readUnsignedByte();\n    int second = buf.readUnsignedByte();\n\n    // Convert two-digit year to four-digit year\n    if (year < 70) {\n        year += 2000;\n    } else {\n        year += 1900;\n    }\n\n    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone));\n    calendar.set(year, month - 1, day, hour, minute, second);\n    calendar.setLenient(false);\n    return calendar.getTime();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
