@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    String json = \"\";\n    ObjectMapper mapper = new ObjectMapper();\n    // Configure mapper to coerce empty strings to null\n    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);\n    JavaType valueType = mapper.getTypeFactory().constructSimpleType(type, null);\n    Object result = mapper.readValue(json, valueType);\n    if (type.isPrimitive()) {\n        // For primitives, the default value should be used instead of null\n        assertEquals(defaultValue, result);\n    } else {\n        // For non-primitives, null should be returned\n        assertNull(result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

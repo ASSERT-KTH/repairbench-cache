@@ -1,0 +1,7 @@
+{
+    "generation": "private String format(JSError error, boolean warning) {\n    // Extract source excerpt\n    SourceExcerptProvider source = getSource();\n    String sourceExcerpt = source == null ? null :\n        excerpt.get(source, error.getSourceName(), error.getLineNumber(), excerptFormatter);\n\n    // Formatting the message\n    StringBuilder b = new StringBuilder();\n    if (error.getSourceName() != null) {\n        b.append(error.getSourceName());\n        if (error.getLineNumber() > 0) {\n            b.append(':').append(error.getLineNumber());\n        }\n        b.append(\": \");\n    }\n\n    b.append(getLevelName(warning ? CheckLevel.WARNING : CheckLevel.ERROR));\n    b.append(\" - \");\n    b.append(error.getDescription());\n    b.append('\\n');\n\n    if (sourceExcerpt != null) {\n        b.append(sourceExcerpt);\n        b.append('\\n');\n        int charno = error.getCharno();\n\n        // Handle caret positioning\n        if (excerpt.equals(LINE) && 0 <= charno && charno <= sourceExcerpt.length()) {\n            for (int i = 0; i < charno; i++) {\n                char c = sourceExcerpt.charAt(i);\n                if (Character.isWhitespace(c)) {\n                    b.append(c);\n                } else {\n                    b.append(' ');\n                }\n            }\n            b.append(\"^\\n\");\n        }\n    }\n    return b.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

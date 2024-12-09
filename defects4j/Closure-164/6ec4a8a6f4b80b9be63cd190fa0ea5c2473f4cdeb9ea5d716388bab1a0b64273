@@ -1,0 +1,7 @@
+{
+    "generation": "Node thisParam = parameters.getFirstChild();\nNode thatParam = that.parameters.getFirstChild();\nwhile (thisParam != null && thatParam != null) {\n  JSType thisParamType = thisParam.getJSType();\n  JSType thatParamType = thatParam.getJSType();\n  if (thisParamType != null) {\n    if (thatParamType == null ||\n        !thatParamType.isSubtype(thisParamType)) {\n      return false;\n    }\n  }\n\n  boolean thisIsVarArgs = thisParam.isVarArgs();\n  boolean thatIsVarArgs = thatParam.isVarArgs();\n\n  if (!thisIsVarArgs) {\n    thisParam = thisParam.getNext();\n  }\n  if (!thatIsVarArgs) {\n    thatParam = thatParam.getNext();\n  }\n\n  if (thisIsVarArgs && thatIsVarArgs) {\n    thisParam = null;\n    thatParam = null;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

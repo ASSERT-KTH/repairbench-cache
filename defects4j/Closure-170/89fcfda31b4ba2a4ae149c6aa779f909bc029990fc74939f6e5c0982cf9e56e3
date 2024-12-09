@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb = new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // Check if this is a use and not an assignment\n        if (!isAssignmentTarget(n, parent)) {\n          numUsesWithinCfgNode++;\n        }\n      }\n    }\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}\n\n// Helper method to determine if a node is the target of an assignment\nprivate boolean isAssignmentTarget(Node n, Node parent) {\n  return parent.isAssign() && parent.getFirstChild() == n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

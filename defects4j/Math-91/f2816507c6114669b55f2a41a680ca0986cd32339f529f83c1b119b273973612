@@ -1,0 +1,7 @@
+{
+    "generation": "import java.math.BigInteger;\n\npublic class Fraction implements Comparable<Fraction> {\n    private final BigInteger numerator;\n    private final BigInteger denominator;\n\n    public Fraction(int num, int den) {\n        this(new BigInteger(Integer.toString(num)), new BigInteger(Integer.toString(den)));\n    }\n\n    public Fraction(BigInteger num, BigInteger den) {\n        this.numerator = num;\n        this.denominator = den;\n    }\n\n    @Override\n    public int compareTo(Fraction object) {\n        BigInteger a = this.numerator;\n        BigInteger b = this.denominator;\n        BigInteger c = object.numerator;\n        BigInteger d = object.denominator;\n\n        // Cross-multiplication to compare a/b and c/d\n        BigInteger ad = a.multiply(d);\n        BigInteger bc = b.multiply(c);\n\n        int comparison = ad.compareTo(bc);\n        if (comparison < 0) {\n            return -1;\n        } else if (comparison > 0) {\n            return 1;\n        } else {\n            return 0;\n        }\n    }\n\n    public double doubleValue() {\n        return numerator.doubleValue() / denominator.doubleValue();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

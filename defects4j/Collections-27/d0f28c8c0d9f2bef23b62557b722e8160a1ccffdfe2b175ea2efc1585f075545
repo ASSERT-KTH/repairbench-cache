@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.*;\nimport org.apache.commons.collections4.map.MultiValueMap;\n\npublic class FixedMultiValueMap extends MultiValueMap implements Serializable {\n\n    private static final long serialVersionUID = 1L;\n\n    // Constructors and other methods remain the same as in MultiValueMap\n\n    // Implement readObject to add custom deserialization logic\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n\n        // Add safety check for the collection class\n        if (collectionClass != null && !isValidCollectionClass(collectionClass)) {\n            throw new UnsupportedOperationException(\"Unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n    }\n\n    // Method to validate the collection class\n    private boolean isValidCollectionClass(Class<?> clazz) {\n        // Implement logic to determine if the class is safe\n        // For example, only allow certain collection types\n        return clazz == ArrayList.class;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // Ensure that both u and v are positive\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    // Base cases\n    if (u == 0) return v;\n    if (v == 0) return u;\n    if (u == v) return u;\n    if (u == 1 || v == 1) return 1;\n\n    // Binary GCD algorithm\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    // Make u odd\n    while ((u & 1) == 0) {\n        u /= 2;\n    }\n\n    // Main loop\n    do {\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        if (u > v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n        v -= u;\n    } while (v != 0);\n\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  if (functionType != null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters != null) {\n      Node jsDocParameter = jsDocParameters.getFirstChild();\n      for (Node astParameter : astParameters.children()) {\n        JSType parameterType = null;\n        if (jsDocParameter != null) {\n          parameterType = jsDocParameter.getJSType();\n          jsDocParameter = jsDocParameter.getNext();\n        }\n        // Define the parameter in the local scope with the appropriate type and mark as readOnly\n        defineSlot(astParameter, functionNode, parameterType, true);\n      }\n    } else {\n      for (Node astParameter : astParameters.children()) {\n        // If no JSDoc parameters, use the inferred type\n        defineSlot(astParameter, functionNode, astParameter.getJSType(), true);\n      }\n    }\n  } else {\n    for (Node astParameter : astParameters.children()) {\n      // If no function type, use the inferred type\n      defineSlot(astParameter, functionNode, astParameter.getJSType(), true);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

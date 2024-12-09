@@ -1,0 +1,7 @@
+{
+    "generation": "\nfunction containsAny(cs, searchChars):\n\nif cs is null or empty or searchChars is null or empty:\n\nreturn false\n\n// Build a set of code points from searchChars\n\nsearchSet = new set()\n\ni = 0\n\nwhile i < length of searchChars:\n\nchar = searchChars[i]\n\nif isHighSurrogate(char) and i + 1 < length of searchChars:\n\nnextChar = searchChars[i + 1]\n\nif isLowSurrogate(nextChar):\n\n// It's a surrogate pair\n\ncodePoint = toCodePoint(char, nextChar)\n\nsearchSet.add(codePoint)\n\ni += 2\n\nelse:\n\n// Not a low surrogate, treat char as a single code point\n\nsearchSet.add(char)\n\ni += 1\n\nelse:\n\n// Not a high surrogate, treat char as a single code point\n\nsearchSet.add(char)\n\ni += 1\n\n// Iterate through cs by code points\n\nindex = 0\n\nwhile index < length of cs:\n\ncodePoint = cs.codePointAt(index)\n\nif codePoint in searchSet:\n\nreturn true\n\nindex += Character.charCount(codePoint)\n\nreturn false\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

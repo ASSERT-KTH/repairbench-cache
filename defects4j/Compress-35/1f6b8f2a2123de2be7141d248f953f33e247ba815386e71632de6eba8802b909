@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    if (header.length < CHKSUM_OFFSET + CHKSUMLEN) {\n        throw new IllegalArgumentException(\"Header is too short to contain the checksum\");\n    }\n\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    int digits = 0;\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            if (b >= '0' && b <= '7' && digits < 6) {\n                storedSum = storedSum * 8 + (b - '0');\n                digits++;\n            } else if (digits > 0) {\n                // If non-octal character is found after starting digits, stop counting\n                break;\n            }\n            // Treat checksum bytes as spaces for sum calculation\n            b = ' ';\n        }\n        unsignedSum += (0xff & b);\n        signedSum += b;\n    }\n\n    // Additionally, handle cases where storedSum might have leading zeros\n    // or other non-digit characters\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

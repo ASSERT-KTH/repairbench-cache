@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute the dot product of v1 and v2\n    double dot = v1.getX() * v2.getX() + v1.getY() * v2.getY() + v1.getZ() * v2.getZ();\n    \n    // Compute the squared norm of v2\n    double norm2Squared = v2.getX() * v2.getX() + v2.getY() * v2.getY() + v2.getZ() * v2.getZ();\n    \n    // Compute rho as an 8-bit approximation of dot / norm2Squared\n    double rho = (norm2Squared != 0) ? FastMath.round(dot / norm2Squared * 256) / 256 : 0;\n    \n    // Compute v3 = v1 - rho * v2\n    double v3x = v1.getX() - rho * v2.getX();\n    double v3y = v1.getY() - rho * v2.getY();\n    double v3z = v1.getZ() - rho * v2.getZ();\n    \n    // Compute the cross product of v3 and v2\n    double cx = v3y * v2.getZ() - v3z * v2.getY();\n    double cy = v3z * v2.getX() - v3x * v2.getZ();\n    double cz = v3x * v2.getY() - v3y * v2.getX();\n    \n    return new Vector3D(cx, cy, cz);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

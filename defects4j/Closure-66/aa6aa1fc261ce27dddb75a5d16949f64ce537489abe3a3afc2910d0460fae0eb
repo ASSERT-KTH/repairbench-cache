@@ -1,0 +1,7 @@
+{
+    "generation": "case Token.OBJECTLIT:\n  ensureTyped(t, n);\n  // If this is an enum, give that type to the objectlit as well.\n  if (n.getJSType() instanceof EnumType) {\n    ensureTyped(t, n, n.getJSType());\n  } else {\n    ensureTyped(t, n);\n  }\n  for (Node key : n.children()) {\n    visitObjLitKey(t, key, n);\n    // Mark object literal keys as typeable if they are part of an enum\n    if (n.getJSType() instanceof EnumType) {\n      doPercentTypedAccounting(t, key);\n    }\n  }\n  break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

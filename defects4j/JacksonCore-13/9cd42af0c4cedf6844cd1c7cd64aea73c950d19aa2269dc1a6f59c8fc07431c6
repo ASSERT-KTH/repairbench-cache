@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory jsonFactory, boolean useWriter, boolean quoteFieldNames, String expectedJson) throws IOException {\n    // Configure the JSON factory to match the quoteFieldNames setting\n    JsonGenerator generator;\n    if (useWriter) {\n        StringWriter stringWriter = new StringWriter();\n        generator = jsonFactory.createGenerator(stringWriter);\n    } else {\n        generator = jsonFactory.createGenerator(new ByteArrayOutputStream(), JsonEncoding.UTF8);\n    }\n\n    try {\n        generator.useDefaultPrettyPrinter(); // Ensure consistent formatting\n        generator.writeStartObject();\n        generator.writeNumberField(\"foo\", 1);\n        generator.writeEndObject();\n        generator.flush();\n\n        String resultJson;\n        if (useWriter) {\n            resultJson = stringWriter.getBuffer().toString();\n        } else {\n            resultJson = new String(((ByteArrayOutputStream) generator.getOutput()).toByteArray(), StandardCharsets.UTF_8);\n        }\n\n        // Trim any extra whitespace\n        resultJson = resultJson.replaceAll(\"\\\\s+\", \"\");\n\n        // Compare with expected JSON, also trimmed\n        expectedJson = expectedJson.replaceAll(\"\\\\s+\", \"\");\n        assertEquals(expectedJson, resultJson);\n    } finally {\n        generator.close();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.*;\nimport org.apache.commons.collections4.MapIterator;\nimport org.apache.commons.collections4.MultiValuedMap;\nimport org.apache.commons.collections4.functors.InstantiateFactory;\n\npublic class FixedMultiValueMap implements MultiValuedMap, Serializable {\n\n    private static final long serialVersionUID = 1L;\n\n    private transient MapIterator mapIterator;\n    private transient Map map;\n    private transient CollectionFactory collectionFactory;\n\n    // Existing constructors and methods...\n\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        // Assuming collectionFactory is read from the stream\n        CollectionFactory factory = (CollectionFactory) in.readObject();\n        if (!factory.getClass().equals(collectionFactory.getClass())) {\n            throw new UnsupportedOperationException(\"Unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n        // Proceed with deserialization using the validated factory\n        // ...\n    }\n\n    // Existing writeObject method...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

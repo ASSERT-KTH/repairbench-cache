@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n        nextName();\n        // Ensure stackSize is at least 2 before accessing pathNames[stackSize - 2]\n        if (stackSize >= 2) {\n            pathNames[stackSize - 2] = \"null\";\n        } else {\n            // Handle the case where stackSize is less than 2\n            // Perhaps throw an exception or set a default value\n            throw new IllegalStateException(\"Insufficient stack size\");\n        }\n    } else {\n        popStack();\n        // Ensure stackSize is at least 1 before accessing pathNames[stackSize - 1]\n        if (stackSize >= 1) {\n            pathNames[stackSize - 1] = \"null\";\n        } else {\n            // Handle the case where stackSize is less than 1\n            // Perhaps throw an exception or set a default value\n            throw new IllegalStateException(\"Insufficient stack size\");\n        }\n    }\n    // Ensure stackSize is at least 1 before accessing pathIndices[stackSize - 1]\n    if (stackSize >= 1) {\n        pathIndices[stackSize - 1]++;\n    } else {\n        // Handle the case where stackSize is less than 1\n        // Perhaps throw an exception or set a default value\n        throw new IllegalStateException(\"Insufficient stack size\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

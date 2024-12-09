@@ -1,0 +1,7 @@
+{
+    "generation": "if (!base64.hasData()) {\n    byte[] buf = new byte[doEncode ? 4096 : 8192];\n    int c = in.read(buf);\n    if (c > 0 && b.length == len) {\n        base64.setInitialBuffer(b, offset, len);\n    }\n    if (doEncode) {\n        base64.encode(buf, 0, c);\n    } else {\n        base64.decode(buf, 0, c);\n    }\n}\nint readLen = base64.readResults(b, offset, len);\nwhile (readLen == 0 && !base64.endOfStream()) {\n    // Try to read more data from the input stream\n    byte[] buf = new byte[doEncode ? 4096 : 8192];\n    int c = in.read(buf);\n    if (c == -1) {\n        // End of stream\n        break;\n    }\n    if (doEncode) {\n        base64.encode(buf, 0, c);\n    } else {\n        base64.decode(buf, 0, c);\n    }\n    readLen = base64.readResults(b, offset, len);\n}\nreturn readLen;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

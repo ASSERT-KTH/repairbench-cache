@@ -1,0 +1,7 @@
+{
+    "generation": "for (; t == JsonToken.FIELD_NAME; t = p.nextToken()) {\n    String propName = p.getCurrentName();\n    p.nextToken(); // to point to value\n    // creator property?\n    SettableBeanProperty creatorProp = creator.findCreatorProperty(propName);\n    if (creatorProp != null) {\n        // ...\n    }\n    // Object Id property?\n    if (buffer.readIdProperty(propName)) {\n        continue;\n    }\n    // regular property? needs buffering\n    SettableBeanProperty prop = _beanProperties.find(propName);\n    if (prop != null) {\n        buffer.bufferProperty(prop, _deserializeWithErrorWrapping(p, ctxt, prop));\n        continue;\n    }\n    // Things marked as ignorable should not be passed to any setter\n    if (_ignorableProps != null && _ignorableProps.contains(propName)) {\n        handleIgnoredProperty(p, ctxt, handledType(), propName);\n        continue;\n    }\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

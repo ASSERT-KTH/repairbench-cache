@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    // Check if the link flag indicates a directory\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Check if the name ends with a slash, indicating a directory\n    String name = getName();\n    if (name != null && name.endsWith(\"/\")) {\n        return true;\n    }\n\n    // Additionally, check if the entry has zero size and is not a symlink or other special file\n    // This is a common indicator for directories in Tar archives\n    if (size == 0 && linkFlag != LF_SYMLINK && linkFlag != LFhardlink) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

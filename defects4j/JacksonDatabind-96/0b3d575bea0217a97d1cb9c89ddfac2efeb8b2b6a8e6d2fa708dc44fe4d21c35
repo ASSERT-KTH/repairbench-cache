@@ -1,0 +1,7 @@
+{
+    "generation": "// If there's injection or explicit name, should be properties-based\nboolean useProps = (paramName != null) || (injectId != null);\nif (!useProps && (paramDef != null)) {\n    // One more thing: if implicit name matches property with a getter\n    // or field, we'll consider it property-based as well\n\n    // 25-May-2018, tatu: as per [databind#2051], looks like we have to get\n    //    not implicit name, but name with possible strategy-based-rename\n//            paramName = candidate.findImplicitParamName(0);\n    paramName = candidate.findImplicitParamName(0);\n    useProps = (paramName != null) && paramDef.couldSerialize();\n}\nif (useProps) {\n    SettableBeanProperty[] properties = new SettableBeanProperty[] {\n            constructCreatorProperty(ctxt, beanDesc, paramName, 0, param, injectId)\n    };\n    creators.addPropertyCreator(candidate.creator(), true, properties);\n    return;\n}\n_handleSingleArgumentCreator(creators, candidate.creator(), true, true);\n\n// one more thing: sever link to creator property, to avoid possible later\n// problems with \"unresolved\" constructor property\nif (paramDef != null) {\n    ((POJOPropertyBuilder) paramDef).removeConstructors();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

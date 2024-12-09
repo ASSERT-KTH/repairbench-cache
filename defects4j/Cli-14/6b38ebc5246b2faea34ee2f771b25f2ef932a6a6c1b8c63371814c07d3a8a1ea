@@ -1,0 +1,7 @@
+{
+    "generation": "public void testFileValidator() {\n    final DefaultOptionBuilder obuilder = new DefaultOptionBuilder();\n    final ArgumentBuilder abuilder = new ArgumentBuilder();\n    final GroupBuilder gbuilder = new GroupBuilder();\n    DefaultOption fileNameOption = obuilder.withShortName(\"f\")\n            .withLongName(\"file-name\").withRequired(true).withDescription(\n                    \"name of an existing file\").withArgument(\n                    abuilder.withName(\"file-name\").withValidator(\n                            FileValidator.getExistingFileInstance())\n                            .create()).create();\n    Group options = gbuilder.withName(\"options\").withOption(fileNameOption)\n            .create();\n    Parser parser = new Parser();\n    parser.setHelpTrigger(\"--help\");\n    parser.setGroup(options);\n\n    final String fileName = \"src/test/org/apache/commons/cli2/bug/BugCLI144Test.java\";\n    CommandLine cl = parser\n            .parseAndHelp(new String[] { \"--file-name\", fileName });\n    assertNotNull(cl);\n    File expectedFile = new File(fileName);\n    Object actualValue = cl.getValue(fileNameOption);\n    assertTrue(\"Expected a File object\", actualValue instanceof File);\n    assertEquals(\"Wrong file path\", expectedFile.getAbsolutePath(), ((File) actualValue).getAbsolutePath());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

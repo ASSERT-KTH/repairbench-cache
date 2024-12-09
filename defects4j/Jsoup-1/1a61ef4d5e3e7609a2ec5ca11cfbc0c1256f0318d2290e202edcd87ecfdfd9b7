@@ -1,0 +1,7 @@
+{
+    "generation": "// Recursively normalizes the elements.\nprivate void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        } else if (node instanceof Element) {\n            // Recurse into child elements\n            normalise((Element) node);\n        }\n    }\n\n    for (Node node : toMove) {\n        element.removeChild(node);\n        Element body = body();\n        body.appendChild(new TextNode(\" \", \"\"));\n        body.appendChild(node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

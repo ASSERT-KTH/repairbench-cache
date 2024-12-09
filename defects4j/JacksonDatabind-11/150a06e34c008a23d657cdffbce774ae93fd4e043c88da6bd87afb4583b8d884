@@ -1,0 +1,7 @@
+{
+    "generation": "\nprotected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n\n    final String name = type.getName();\n\n    if (context == null) {\n\n        return _unknownType();\n\n    } else {\n\n        JavaType actualType = context.findType(name);\n\n        if (actualType != null) {\n\n            return actualType;\n\n        }\n\n        // If not found in context, resolve bounds\n\n        Type[] bounds = type.getBounds();\n\n        // Recursively resolve the first bound\n\n        JavaType boundType = _resolveType(bounds[0], context);\n\n        return boundType;\n\n    }\n\n}\n\n// Helper method to resolve any type, including type variables\n\nprivate JavaType _resolveType(Type ty, TypeBindings context) {\n\n    if (ty instanceof TypeVariable) {\n\n        return _fromVariable((TypeVariable<?>) ty, context);\n\n    } else if (ty instanceof Class) {\n\n        return _constructType((Class<?>) ty, context);\n\n    } else if (ty instanceof ParameterizedType) {\n\n        return _fromParameterizedType((ParameterizedType) ty, context);\n\n    }\n\n    // Handle other types if necessary\n\n    return _unknownType();\n\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

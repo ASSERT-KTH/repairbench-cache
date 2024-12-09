@@ -1,0 +1,7 @@
+{
+    "generation": "if (current.getMethod() == ZipArchiveOutputStream.STORED) {\n    int csize = (int) current.getSize();\n    if (readBytesOfEntry >= csize) {\n        return -1;\n    }\n    if (offsetInBuffer >= lengthOfLastRead) {\n        offsetInBuffer = 0;\n        if ((lengthOfLastRead = in.read(buf)) == -1) {\n            return -1;\n        }\n        count(lengthOfLastRead);\n        bytesReadFromStream += lengthOfLastRead;\n    }\n    int toRead = length > lengthOfLastRead\n        ? lengthOfLastRead - offsetInBuffer\n        : length;\n    if ((csize - readBytesOfEntry) < toRead) {\n        toRead = csize - readBytesOfEntry;\n    }\n    System.arraycopy(buf, offsetInBuffer, buffer, start, toRead);\n    offsetInBuffer += toRead;\n    readBytesOfEntry += toRead;\n    crc.update(buffer, start, toRead);\n    return toRead;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    ParametricRealFunction gaussianWithPositiveSigma = new ParametricRealFunction() {\n        private final ParametricRealFunction gaussian = new Gaussian.Parametric();\n\n        @Override\n        public double value(double x, double... parameters) {\n            // Ensure sigma is positive\n            double[] params = parameters.clone();\n            params[2] = FastMath.abs(params[2]);\n            return gaussian.value(x, params);\n        }\n\n        @Override\n        public double[] gradient(double x, double... parameters) {\n            // Ensure sigma is positive in the gradient calculation\n            double[] params = parameters.clone();\n            params[2] = FastMath.abs(params[2]);\n            return gaussian.gradient(x, params);\n        }\n    };\n    return fit(gaussianWithPositiveSigma, guess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

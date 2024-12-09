@@ -1,0 +1,7 @@
+{
+    "generation": "// ----------------- Fix for LANG-59 ---------------------- START ---------------\n// see http://issues.apache.org/jira/browse/LANG-59\n//\n// Manually truncate milliseconds, seconds and minutes, rather than using\n// Calendar methods.\n\nDate date = val.getTime();\nlong time = date.getTime();\n\n// truncate milliseconds\nint millisecs = val.get(Calendar.MILLISECOND);\nif (!round || millisecs < 500) {\n    time -= millisecs;\n} else {\n    time += (1000 - millisecs); // round up to next second\n}\ndate.setTime(time);\nval.setTime(date);\n\nif (field == Calendar.SECOND) {\n    return;\n}\n\n// truncate seconds\nint seconds = val.get(Calendar.SECOND);\nif (!round || seconds < 30) {\n    time -= seconds * 1000L;\n} else {\n    time += (60 - seconds) * 1000L; // round up to next minute\n}\ndate.setTime(time);\nval setTime(date);\n\nif (field == Calendar.MINUTE) {\n    return;\n}\n\n// truncate minutes\nint minutes = val.get(Calendar.MINUTE);\nif (!round || minutes < 30) {\n    time -= minutes * 60000L;\n} else {\n    time += (60 - minutes) * 60000L; // round up to next hour\n}\ndate.setTime(time);\nval.setTime(date);\n// ----------------- Fix for LANG-59 ----------------------- END ----------------",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

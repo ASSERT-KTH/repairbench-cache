@@ -1,0 +1,7 @@
+{
+    "generation": "public class LogGaussian Parametric implements ParametricRealFunction {\n    @Override\n    public double value(double x, double... parameters) {\n        double A = parameters[0];\n        double mu = parameters[1];\n        double log_sigma = parameters[2];\n        double sigma = Math.exp(log_sigma);\n        return A * Math.exp(-Math.pow(x - mu, 2) / (2 * sigma * sigma));\n    }\n\n    @Override\n    public double[] gradient(double x, double... parameters) {\n        double A = parameters[0];\n        double mu = parameters[1];\n        double log_sigma = parameters[2];\n        double sigma = Math.exp(log_sigma);\n        double exponent = -Math.pow(x - mu, 2) / (2 * sigma * sigma);\n        double gaussianValue = A * Math.exp(exponent);\n\n        // d/dA\n        double dA = Math.exp(exponent);\n\n        // d/dmu\n        double dmu = A * (x - mu) / (sigma * sigma) * Math.exp(exponent);\n\n        // d/dlog_sigma\n        // Since sigma = exp(log_sigma), dsigma/dlog_sigma = exp(log_sigma) = sigma\n        // Therefore, d/dlog_sigma = d/dsigma * dsigma/dlog_sigma = d/dsigma * sigma\n        // d/dsigma = A * exp(exponent) * (x - mu)^2 / (sigma^3)\n        double dsigma = A * Math.exp(exponent) * Math.pow(x - mu, 2) / (Math.pow(sigma, 3));\n        double dlog_sigma = dsigma * sigma;  // chain rule\n\n        return new double[]{dA, dmu, dlog_sigma};\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

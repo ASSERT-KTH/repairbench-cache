@@ -1,0 +1,7 @@
+{
+    "generation": "if (Character.isHighSurrogate(c)) {\n    // Check if there is a next character and it's a low surrogate\n    if (i + 1 < len && Character.isLowSurrogate(str.charAt(i + 1))) {\n        // Combine them into a code point\n        int codePoint = Character.toCodePoint(c, str.charAt(i + 1));\n        // Escape as a single numerical entity\n        writer.write(\"&#\");\n        writer.write(Integer.toString(codePoint, 10));\n        writer.write(';');\n        // Skip the next character\n        i++;\n    } else {\n        // Handle invalid surrogate pair, maybe just escape the high surrogate as is?\n        writer.write(\"&#\");\n        writer.write(Integer.toString(c, 10));\n        writer.write(';');\n    }\n} else {\n    // Existing logic for characters <= 0x7F or low surrogates without high surrogates\n    if (c > 0x7F) {\n        writer.write(\"&#\");\n        writer.write(Integer.toString(c, 10));\n        writer.write(';');\n    } else {\n        writer.write(c);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

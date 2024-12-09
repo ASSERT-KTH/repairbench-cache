@@ -1,0 +1,7 @@
+{
+    "generation": "\nSet<Integer> searchCodePoints = new HashSet<>();\n\nint searchIndex = 0;\n\nwhile (searchIndex < searchChars.length) {\n\n    char high = searchChars[searchIndex];\n\n    if (Character.isHighSurrogate(high) && searchIndex + 1 < searchChars.length) {\n\n        char low = searchChars[searchIndex + 1];\n\n        if (Character.isLowSurrogate(low)) {\n\n            int codePoint = Character.toCodePoint(high, low);\n\n            searchCodePoints.add(codePoint);\n\n            searchIndex += 2;\n\n        } else {\n\n            // Invalid surrogate pair: treat high surrogate as a single char\n\n            searchCodePoints.add(high);\n\n            searchIndex++;\n\n        }\n\n    } else {\n\n        searchCodePoints.add(high);\n\n        searchIndex++;\n\n    }\n\n}\n\n// Now iterate over the CharSequence's code points\n\nint csIndex = 0;\n\nwhile (csIndex < cs.length()) {\n\n    int codePoint = cs.codePointAt(csIndex);\n\n    if (searchCodePoints.contains(codePoint)) {\n\n        return true;\n\n    }\n\n    csIndex += Character.charCount(codePoint);\n\n}\n\nreturn false;\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

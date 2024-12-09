@@ -1,0 +1,7 @@
+{
+    "generation": "\nSet<String> allProperties = new HashSet<>(this.properties.keySet());\n\nallProperties.addAll(thatRecord.properties.keySet());\n\nRecordTypeBuilder builder = new RecordTypeBuilder(registry);\n\nfor (String property : allProperties) {\n\n  JSType typeThis = this.properties.get(property);\n\n  JSType typeThat = thatRecord.properties.get(property);\n\n  if (typeThis != null && typeThat != null) {\n\n    // Both have the property, get least supertype\n\n    JSType supertype = typeThis.getLeastSupertype(typeThat);\n\n    Node propertyNode = this.getPropertyNode(property);\n\n    builder.addProperty(property, supertype, propertyNode);\n\n  } else if (typeThis != null) {\n\n    // Only this has the property\n\n    builder.addProperty(property, typeThis, getPropertyNode(property));\n\n  } else {\n\n    // Only that has the property\n\n    builder.addProperty(property, typeThat, that.getPropertyNode(property));\n\n  }\n\n}\n\nreturn builder.build();\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public Document clean(Document dirtyDocument) {\n    Validate.notNull(dirtyDocument);\n\n    Document clean = Document.createShell(dirtyDocument.baseUri());\n\n    // Check if the dirty document has a body element\n    Element body = dirtyDocument.body();\n    if (body != null) {\n        copySafeNodes(body, clean.body());\n    } else {\n        // Handle frameset documents\n        Element frameset = dirtyDocument.selectFirst(\"frameset\");\n        if (frameset != null) {\n            copySafeNodes(frameset, clean.body());\n        }\n    }\n\n    return clean;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

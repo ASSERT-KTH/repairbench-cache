@@ -1,0 +1,7 @@
+{
+    "generation": "\npublic static boolean equal(GeneralPath p1, GeneralPath p2) {\n\n    if (p1 == null) {\n\n        return (p2 == null);\n\n    }\n\n    if (p2 == null) {\n\n        return false;\n\n    }\n\n    if (p1.getWindingRule() != p2.getWindingRule()) {\n\n        return false;\n\n    }\n\n    PathIterator iterator1 = p1.getPathIterator(null);\n\n    PathIterator iterator2 = p2.getPathIterator(null); // Fixed here\n\n    double[] d1 = new double[6];\n\n    double[] d2 = new double[6];\n\n    boolean done = iterator1.isDone() && iterator2.isDone();\n\n    while (!done) {\n\n        if (iterator1.isDone() != iterator2.isDone()) {\n\n            return false;\n\n        }\n\n        int seg1 = iterator1.currentSegment(d1);\n\n        int seg2 = iterator2.currentSegment(d2);\n\n        if (seg1 != seg2) {\n\n            return false;\n\n        }\n\n        if (!Arrays.equals(d1, d2)) {\n\n            return false;\n\n        }\n\n        iterator1.next();\n\n        iterator2.next();\n\n        done = iterator1.isDone() && iterator2.isDone();\n\n    }\n\n    return true;\n\n}\n",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

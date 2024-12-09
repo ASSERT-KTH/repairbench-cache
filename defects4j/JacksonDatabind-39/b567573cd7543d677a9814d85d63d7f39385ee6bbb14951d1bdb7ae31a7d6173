@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    CallRecord callRecord = new CallRecord();\n\n    while (p.nextToken() != JsonToken.END_OBJECT) {\n        String fieldName = p.getCurrentName();\n        p.nextToken(); // Move to the field value\n\n        if (\"version\".equals(fieldName)) {\n            callRecord.version = p.getDoubleValue();\n        } else if (\"application\".equals(fieldName)) {\n            callRecord.application = p.getText();\n        } else if (\"item\".equals(fieldName)) {\n            callRecord.item = deserializeItem(p, ctxt);\n        } else if (\"item2\".equals(fieldName)) {\n            callRecord.item2 = deserializeItem(p, ctxt);\n        } else {\n            // Ignore unknown fields if configured to do so\n            if (ctxt.isEnabled(DeserializationFeature.IGNORE_UNKNOWN_PROPERTIES)) {\n                p.skipChildren();\n            } else {\n                throw new UnrecognizedPropertyException(\"Unrecognized field '\" + fieldName + \"'\", p.getCurrentLocation());\n            }\n        }\n    }\n\n    return callRecord;\n}\n\nprivate Event deserializeItem(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Assuming Event is the base class for polymorphic types\n    return ctxt.readValue(p, Event.class);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

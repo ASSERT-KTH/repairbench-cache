@@ -1,0 +1,7 @@
+{
+    "generation": "case StartTag:\n    Token.StartTag startTag = t.asStartTag();\n    String name = startTag.name();\n    if (name.equals(\"html\")) {\n        // ... existing code ...\n    } else if (name.equals(\"p\")) {\n        // If an <a> tag is open, close it before starting the <p>\n        if (tb.getActiveFormattingElement(\"a\") != null) {\n            tb.error(this);\n            tb.process(new Token.EndTag(\"a\"));\n            // Remove the closed <a> from active formatting elements if still present\n            Element remainingA = tb.getFromStack(\"a\");\n            if (remainingA != null) {\n                tb.removeFromActiveFormattingElements(remainingA);\n                tb.removeFromStack(remainingA);\n            }\n        }\n        if (tb.inButtonScope(\"p\")) {\n            tb.process(new Token.EndTag(\"p\"));\n        }\n        tb.insert(startTag);\n    } else if (StringUtil.in(name, \"address\", \"article\", \"aside\", \"blockquote\", \"center\", \"details\", \"dir\", \"div\", \"dl\", \"fieldset\", \"figcaption\", \"figure\", \"footer\", \"header\", \"hgroup\", \"menu\", \"nav\", \"ol\", \"p\", \"section\", \"summary\", \"ul\")) {\n        // ... existing code ...\n    }\n    // ... rest of the start tag cases ...\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

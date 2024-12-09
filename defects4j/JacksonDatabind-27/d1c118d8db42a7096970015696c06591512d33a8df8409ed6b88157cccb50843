@@ -1,0 +1,7 @@
+{
+    "generation": "for (; t == JsonToken.FIELD_NAME; t = p.nextToken()) {\n    String propName = p.getCurrentName();\n    p.nextToken(); // to point to value\n    // creator property?\n    SettableBeanProperty creatorProp = creator.findCreatorProperty(propName);\n    if (creatorProp != null) {\n        // handling creator properties\n    }\n    // Object Id property?\n    if (buffer.readIdProperty(propName)) {\n        continue;\n    }\n    // regular property? needs buffering\n    SettableBeanProperty prop = _beanProperties.find(propName);\n    if (prop != null) {\n        buffer.bufferProperty(prop, prop.deserialize(p, ctxt));\n        continue;\n    }\n    // external type id (or property that depends on it)?\n    if (ext.handlePropertyValue(p, ctxt, propName, null)) {\n        continue;\n    }\n    // handle ignorable properties and any setter\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

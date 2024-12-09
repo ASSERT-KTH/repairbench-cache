@@ -1,0 +1,7 @@
+{
+    "generation": "JsonFormat.Value format = findFormatOverrides(serializers, property, handledType());\nif (format == null) {\n    return this;\n}\nJsonFormat.Shape shape = format.getShape();\nif (shape.isNumeric()) {\n    return withFormat(Boolean.TRUE, null);\n}\n\nif (format.hasPattern()) {\n    final Locale loc = format.hasLocale() ? format.getLocale() : serializers.getLocale();\n    SimpleDateFormat df = new SimpleDateFormat(format.getPattern(), loc);\n    TimeZone tz = format.hasTimeZone() ? format.getTimeZone() : serializers.getTimeZone();\n    df.setTimeZone(tz);\n    return withFormat(Boolean.FALSE, df);\n}\n\nfinal boolean hasLocale = format.hasLocale();\nfinal boolean hasTZ = format.hasTimeZone();\nfinal boolean asString = (shape == JsonFormat.Shape.STRING);\n\nif (!hasLocale && !hasTZ && !asString) {\n    return this;\n}\n\n// Further configuration of date format",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

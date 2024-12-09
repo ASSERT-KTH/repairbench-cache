@@ -1,0 +1,7 @@
+{
+    "generation": "case StartTag:\n    Token.StartTag startTag = t.asStartTag();\n    String name = startTag.name();\n    if (name.equals(\"image\")) {\n        // Check if the current node is in the SVG namespace\n        Element current = tb.currentElement();\n        boolean inSVGContext = current != null && current.tag().isSvg();\n        if (!inSVGContext) {\n            // Convert <image> to <img>\n            tb.process(new Token.StartTag(\"img\", startTag.attributes()));\n            return false; // Prevent further processing of this token\n        }\n    }\n    // Continue with other start tag processing\n    // ... (rest of the start tag cases)\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

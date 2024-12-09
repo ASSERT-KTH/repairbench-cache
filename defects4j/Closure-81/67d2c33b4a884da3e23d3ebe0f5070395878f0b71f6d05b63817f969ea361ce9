@@ -1,0 +1,7 @@
+{
+    "generation": "if (name == null) {\n  name = new Name();\n  name.setIdentifier(\"\");\n  isUnnamedFunction = true;\n}\nNode node = newNode(Token.FUNCTION);\nNode newName = transform(name);\nif (isUnnamedFunction) {\n  // Old Rhino tagged the empty name node with the line number of the\n  // declaration.\n  newName.setLineno(functionNode.getLineno());\n  // TODO(bowdidge) Mark line number of paren correctly.\n  // Same problem as below - the left paren might not be on the same line as\n  // the function keyword.\n  int lpColumn = functionNode.getAbsolutePosition() +\n      functionNode.getLp();\n  newName.setCharno(position2charno(lpColumn));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

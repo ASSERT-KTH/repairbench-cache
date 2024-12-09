@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // Get the local time for the given instant\n    long local = convertUTCToLocal(instant);\n    \n    // Find the previous and next transitions around the instant\n    long previousTransition = findPreviousTransition(instant);\n    long nextTransition = findNextTransition(instant);\n    \n    // Determine the offsets before and after the instant\n    long offsetBefore = getOffset(previousTransition);\n    long offsetAfter = getOffset(nextTransition);\n    \n    // If the offsets are the same, it's not an overlap\n    if (offsetBefore == offsetAfter) {\n        return instant;\n    }\n    \n    // Find the UTC instants for the local time with both offsets\n    long earlierInstant = convertLocalToUTC(local, true);\n    long laterInstant = convertLocalToUTC(local, false);\n    \n    // Choose the appropriate instant based on the flag\n    return earlierOrLater ? laterInstant : earlierInstant;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

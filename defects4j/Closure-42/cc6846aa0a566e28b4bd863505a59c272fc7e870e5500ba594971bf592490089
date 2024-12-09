@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n    // Check if this is a \"for each\" loop\n    if (isForEachLoop(loopNode)) {\n        // Transform \"for each\" loop into \"for...of\" loop\n        return transformForEachLoop(loopNode);\n    } else {\n        // For standard \"for-in\" loops, proceed as before\n        return newNode(\n            Token.FOR_IN,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody())\n        );\n    }\n}\n\nprivate boolean isForEachLoop(ForInLoop loopNode) {\n    // Implement logic to determine if this is a \"for each\" loop\n    // This might involve checking the loop's structure or specific tokens\n    // For example, checking if the loop starts with \"for each\"\n    // This is pseudo-code and needs to be adapted to the actual AST structure\n    return loopNode.isForEach(); // Assuming there's a method to check this\n}\n\nprivate Node transformForEachLoop(ForInLoop loopNode) {\n    // Transform \"for each\" loop into \"for...of\" loop\n    // Assuming the loop is of the form: for each (var declarator in object) { body }\n    // Transform it to: for (var declarator of object) { body }\n    Node forOfNode = newNode(Token.FOR_OF,\n        transform(loopNode.getIterator()),\n        transform(loopNode.getIteratedObject()),\n        transformBlock(loopNode.getBody())\n    );\n    return forOfNode;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

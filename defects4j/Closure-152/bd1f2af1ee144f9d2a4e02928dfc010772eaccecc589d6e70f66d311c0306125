@@ -1,0 +1,7 @@
+{
+    "generation": "JSType resolvedTypeOfThis = safeResolve(typeOfThis, t, scope);\n\nif (resolvedTypeOfThis.isUnionType()) {\n  UnionType union = (UnionType) resolvedTypeOfThis;\n  List<JSType> objectTypes = new ArrayList<>();\n  for (JSType.componentType : union.getTypes()) {\n    if (componentType.isObject()) {\n      objectTypes.add(componentType);\n    } else {\n      // Handle non-object types, perhaps report an error\n      t.report(typeOfThis.getSourceNode(), \"Non-object type in union for @this\");\n    }\n  }\n  if (!objectTypes.isEmpty()) {\n    typeOfThis = union.createWithTypes(objectTypes);\n  } else {\n    // All component types were not object types, handle this case\n    typeOfThis = someDefaultObjectType; // Need to decide what to set here\n  }\n} else {\n  typeOfThis = (ObjectType) resolvedTypeOfThis;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "     /** @constructor */\n     var Type = function () {\n     };\n     Type.prototype.doIt = function(obj) {\n       this.prop = obj.unknownProp;\n     };\n     ```\n   - Expected Warning: \"Property unknownProp never defined on obj\"\n   - Current Issue: The test expects a warning but doesn't receive one.\n\n### Solution\n\nTo address these issues, we need to ensure that:\n\n1. Accessing properties on `null` or `undefined` is correctly flagged.\n2. Accessing undefined properties on objects is correctly flagged.\n\nWe need to adjust the conditions in the `visitGetProp` function to cover these scenarios.\n\n#### Fixed Function\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

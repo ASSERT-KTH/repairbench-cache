@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    boolean inQuote = false;\n    char quoteChar = 0;\n    StringBuilder sb = new StringBuilder();\n\n    while (!isEmpty()) {\n        char c = consume();\n        sb.append(c);\n\n        if (inQuote) {\n            if (c == quoteChar) {\n                inQuote = false;\n            }\n            continue;\n        } else {\n            if (c == '\"' || c == '\\'') {\n                inQuote = true;\n                quoteChar = c;\n                continue;\n            }\n        }\n\n        if (c == '\\\\') {\n            if (!isEmpty()) {\n                char next = consume();\n                sb.append(next);\n                continue; // Skip the escaped character\n            }\n        }\n\n        if (c == open) {\n            depth++;\n            if (start == -1) {\n                start = pos - sb.length(); // Adjust start position\n            }\n        } else if (c == close) {\n            depth--;\n            if (depth < 0) {\n                throw new IllegalStateException(\"Unbalanced closer\");\n            }\n        }\n\n        if (depth == 0) {\n            end = pos; // Position right before the closer\n            break;\n        }\n    }\n\n    if (start >= 0 && end >= 0) {\n        return queue.substring(start, end);\n    } else {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "case StartTag:\n    Token.StartTag startTag = t.asStartTag();\n    String name = startTag.name();\n    if (name.equals(\"style\") || name.equals(\"script\")) {\n        tb.reconstructFormattingElements();\n        tb.insert(startTag);\n        tb.tokeniser.transition(TokeniserState.RAWTEXT);\n        tb.markInsertionMode();\n        tb.transition(InHead);\n    } else if (name.equals(\"textarea\")) {\n        tb.insert(startTag);\n        tb.tokeniser.transition(TokeniserState.Rcdata);\n        tb.markInsertionMode();\n        tb.framesetOk(false);\n        tb.transition(Text);\n    } else {\n        // existing code for other start tags\n    }\n    break;\n\ncase EndTag:\n    Token.EndTag endTag = t.asEndTag();\n    name = endTag.name();\n    if (name.equals(\"style\") || name.equals(\"script\")) {\n        if (tb.inScope(name)) {\n            tb.generateImpliedEndTags();\n            if (!tb.currentElement().nodeName().equals(name))\n                tb.error(this);\n            tb.popStackToClose(name);\n            tb.tokeniser.transition(TokeniserState.PCData);\n            tb.resetInsertionMode();\n        } else {\n            tb.error(this);\n            return false;\n        }\n    } else {\n        // existing code for other end tags\n    }\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

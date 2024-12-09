@@ -1,0 +1,7 @@
+{
+    "generation": "if (nameNode.getType() == Token.GETPROP) {\n  if (callNode.hasOneChild()\n      && OBJECT_METHODS_WITHOUT_SIDEEFFECTS.contains(\n            nameNode.getLastChild().getString())) {\n    return false;\n  }\n\n  if (callNode.isOnlyModifiesThisCall()\n      && evaluatesToLocalValue(nameNode.getFirstChild())) {\n    return false;\n  }\n\n  // Functions in the \"Math\" namespace have no side effects.\n\n  if (compiler != null && !compiler.hasRegExpGlobalReferences()) {\n    if (nameNode.getFirstChild().getType() == Token.REGEXP\n        && REGEXP_METHODS.contains(nameNode.getLastChild().getString())) {\n      return false;\n    } else if (nameNode.getFirstChild().getType() == Token.STRING\n        && STRING_REGEXP_METHODS.contains(\n            nameNode.getLastChild().getString())) {\n      Node param = nameNode.getNext();\n      if (param != null &&\n          (param.getType() == Token.STRING\n              || param.getType() == Token.REGEXP))\n        return false;\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

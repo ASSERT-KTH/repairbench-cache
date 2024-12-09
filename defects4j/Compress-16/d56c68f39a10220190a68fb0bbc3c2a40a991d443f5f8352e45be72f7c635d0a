@@ -1,0 +1,7 @@
+{
+    "generation": "if (TarArchiveInputStream.matches(tarheader, signatureLength)) {\n    return new TarArchiveInputStream(in);\n}\n// COMPRESS-117 - improve auto-recognition\nif (signatureLength >= 512) {\n    try {\n        TarArchiveInputStream tais = new TarArchiveInputStream(new ByteArrayInputStream(tarheader));\n        // COMPRESS-191 - verify the header checksum\n        tais.getNextEntry();\n        return new TarArchiveInputStream(in);\n    } catch (Exception e) { // NOPMD\n        // can generate IllegalArgumentException as well\n        // as IOException\n        // autodetection, simply not a TAR\n        // ignored\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

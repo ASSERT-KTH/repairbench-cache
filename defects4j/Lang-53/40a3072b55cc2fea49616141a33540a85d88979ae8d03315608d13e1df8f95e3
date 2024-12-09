@@ -1,0 +1,7 @@
+{
+    "generation": "if (field == Calendar.MILLISECOND) {\n    return;\n}\n\n// ... Fix for LANG-59 ...\n\nDate date = val.getTime();\nlong time = date.getTime();\nboolean done = false;\n\n// truncate milliseconds\nint millisecs = val.get(Calendar.MILLISECOND);\nif (!round || millisecs < 500) {\n    time = time - millisecs;\n    if (field == Calendar.SECOND) {\n        done = true;\n    }\n}\n\n// truncate seconds\nint seconds = val.get(Calendar.SECOND);\nif (!done && (!round || seconds < 30)) {\n    time = time - (seconds * 1000L);\n    if (field == Calendar.MINUTE) {\n        done = true;\n    }\n}\n\n// truncate minutes\nint minutes = val.get(Calendar.MINUTE);\nif (!done && (!round || minutes < 30)) {\n    time = time - (minutes * 60000L);\n}\n\n// reset time\nif (date.getTime() != time) {\n    date.setTime(time);\n    val.setTime(date);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

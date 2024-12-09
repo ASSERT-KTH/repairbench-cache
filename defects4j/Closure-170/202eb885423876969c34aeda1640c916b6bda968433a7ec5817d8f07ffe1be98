@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb = new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // Exclude the left-hand side of top-level assignment statements\n        if (parent.isAssign() && parent.getFirstChild() == n) {\n          return;\n        }\n        // Exclude the variable in positions where it's being assigned in conditional expressions\n        if (isExcludedPosition(parent)) {\n          return;\n        }\n        numUsesWithinCfgNode++;\n      }\n    }\n  };\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}\n\nprivate boolean isExcludedPosition(Node node) {\n  // Implement logic to determine if the node is in an excluded position\n  // For example, inside a conditional expression where assignment happens\n  // This is a placeholder for the actual implementation\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

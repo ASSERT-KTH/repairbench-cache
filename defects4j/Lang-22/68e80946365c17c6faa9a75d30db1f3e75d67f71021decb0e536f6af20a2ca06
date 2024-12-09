@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // Handle zero values\n    if (u == 0) return Math.abs(v);\n    if (v == 0) return Math.abs(u);\n    \n    // Convert to positive to handle negative numbers\n    u = Math.abs(u);\n    v = Math.abs(v);\n    \n    // From Commons Math:\n    // if either operand is abs 1, return 1:\n    if (u <= 1 || v <= 1) {\n        return 1;\n    }\n    \n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    \n    // B2. Initialize: u and v have been divided by 2^k and at least\n    // one is odd.\n    int t = (u & 1) == 1 ? v : u / 2; // B3\n    // t replaces v if u is odd, otherwise u/2 replaces u\n    do {\n        // B4/B3: cast out twos from t.\n        while ((t & 1) == 0) {\n            t /= 2;\n        }\n        // B5 [reset max(u,v)]\n        if (t > 0) {\n            u = t;\n        } else {\n            v = t;\n        }\n        // B6/B3. at this point both u and v should be odd.\n        t = v - u;\n        // |u| larger: t negative (replace v)\n        // |v| larger: t positive (replace u)\n    } while (t != 0);\n    \n    return u << k; // gcd is u*2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

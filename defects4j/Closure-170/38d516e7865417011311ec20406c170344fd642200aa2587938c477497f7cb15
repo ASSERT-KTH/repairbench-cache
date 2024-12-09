@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb = new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // Check if the name node is on the left-hand side of an assignment\n        if (parent.isAssign() && parent.getFirstChild() == n) {\n          // Skip counting if it's the LHS of an assignment\n          return;\n        }\n        // Check for other cases where the variable might be assigned in a chain\n        // For example, in a sequence like a = b = c\n        if (parent.isAssign() && parent.getSecondChild() == n) {\n          // This is the RHS of an assignment, count it\n          numUsesWithinCfgNode++;\n        } else {\n          // Other uses of the variable, count them\n          numUsesWithinCfgNode++;\n        }\n      }\n    }\n  };\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

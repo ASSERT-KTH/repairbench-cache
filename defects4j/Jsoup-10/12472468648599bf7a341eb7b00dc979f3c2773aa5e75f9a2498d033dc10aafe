@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    }\n\n    try {\n        URL base = new URL(baseUri);\n        URL abs;\n\n        // Workaround for relative URLs starting with a query parameter\n        if (relUrl.startsWith(\"?\")) {\n            String basePath = base.getPath();\n            if (basePath.isEmpty() || basePath.endsWith(\"/\")) {\n                abs = new URL(base, base.getPath() + relUrl);\n            } else {\n                // Remove the last part of the path and add the query\n                int lastSlashIndex = basePath.lastIndexOf('/');\n                String directoryPath = basePath.substring(0, lastSlashIndex + 1);\n                abs = new URL(base, directoryPath + relUrl);\n            }\n        } else {\n            abs = new URL(base, relUrl);\n        }\n\n        return abs.toExternalForm();\n    } catch (MalformedURLException e) {\n        // If baseUri is invalid, try to parse relUrl as an absolute URL\n        try {\n            URL abs = new URL(relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e2) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

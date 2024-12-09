@@ -1,0 +1,7 @@
+{
+    "generation": "public void escape(Writer writer, String str) throws IOException {\n    int len = str.length();\n    for (int i = 0; i < len; i++) {\n        char c = str.charAt(i);\n        if (c >= 0xD800 && c <= 0xDBFF) { // high surrogate\n            if (i + 1 < len) {\n                char next = str.charAt(i + 1);\n                if (next >= 0xDC00 && next <= 0xDFFF) { // low surrogate\n                    // Combine into code point\n                    int codePoint = ((c - 0xD800) * 0x400) + (next - 0xDC00) + 0x10000;\n                    // Write numeric character reference\n                    writer.write(\"&#\");\n                    writer.write(Integer.toString(codePoint, 10));\n                    writer.write(';');\n                    // Skip the next character\n                    i++;\n                    continue;\n                }\n            }\n        }\n        // Handle single char\n        String entityName = this.entityName(c);\n        if (entityName == null) {\n            if (c > 0x7F) {\n                writer.write(\"&#\");\n                writer.write(Integer.toString(c, 10));\n                writer.write(';');\n            } else {\n                writer.write(c);\n            }\n        } else {\n            writer.write('&');\n            writer.write(entityName);\n            writer.write(';');\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

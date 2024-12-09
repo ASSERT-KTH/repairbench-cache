@@ -1,0 +1,7 @@
+{
+    "generation": "   case XmlTokenStream.XML_ATTRIBUTE_VALUE:\n       _currText = _xmlTokens.getText();\n       _currToken = JsonToken.VALUE_STRING;\n       break;\n   ```\n   This sets `_currToken` to `JsonToken.VALUE_STRING` and `_currText` to the text of the attribute value.\n\n3. **Determine when `nextTextValue()` returns `_currText`**: The method returns `_currText` in certain conditions, but it's possible that in the case of attributes, it's not returning the value as expected.\n\n4. **Check the state transitions**: Ensure that after processing an attribute name, the parser correctly moves to the attribute value and sets the appropriate tokens.\n\n5. **Consider the test flow**: In the test, after encountering the start object (`<data>`), it should encounter field names (`max` and `offset`), and then their corresponding values.\n\n6. **Verify the parser state**: Make sure that when `nextTextValue()` is called after a field name, it correctly retrieves the value associated with that field.\n\nGiven these considerations, here's a revised version of the `nextTextValue()` method that should fix the issue:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

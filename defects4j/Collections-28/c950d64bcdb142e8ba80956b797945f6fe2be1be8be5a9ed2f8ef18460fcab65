@@ -1,0 +1,7 @@
+{
+    "generation": "public class PatriciaTrie<K, V> implements Trie<K, V> {\n    // Other methods and fields...\n\n    public SortedMap<K, V> prefixMap(final K prefix) {\n        // Assuming K is Comparable and appropriate methods to traverse the trie by prefix\n        return new SortedMap<K, V>() {\n            // Implement sorted map methods, delegating to the underlying trie with the prefix\n\n            @Override\n            public V put(K key, V value) {\n                if (!((Comparable<K>)key).compareTo(prefix) >= 0) {\n                    throw new IllegalArgumentException(\"Key does not start with prefix\");\n                }\n                return PatriciaTrie.this.put(key, value);\n            }\n\n            @Override\n            public V remove(Object key) {\n                if (!((Comparable<K>)key).compareTo(prefix) >= 0) {\n                    throw new IllegalArgumentException(\"Key does not start with prefix\");\n                }\n                return PatriciaTrie.this.remove(key);\n            }\n\n            @Override\n            public void clear() {\n                // Implement bulk removal for keys starting with the prefix\n                for (K key : keySet()) {\n                    PatriciaTrie.this.remove(key);\n                }\n            }\n\n            // Other delegate methods...\n        };\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

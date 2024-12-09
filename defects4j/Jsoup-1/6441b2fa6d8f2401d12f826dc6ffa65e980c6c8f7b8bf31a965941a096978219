@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank()) {\n                toMove.add(tn);\n            }\n        } else if (node instanceof Element) {\n            // Recurse into child elements to normalize their text nodes as well\n            normalise((Element) node);\n        }\n    }\n\n    for (Node node : toMove) {\n        element.removeChild(node);\n        body().appendChild(node); // Append the text node directly without adding extra spaces\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

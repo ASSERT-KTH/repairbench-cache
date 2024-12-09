@@ -1,0 +1,7 @@
+{
+    "generation": "if (dec == null && exp == null) { // no decimal point and no exponent\n    //Must be an Integer, Long, Biginteger\n    try {\n        return createInteger(str);\n    } catch (final NumberFormatException nfe) { // NOPMD\n        // ignore the bad number\n    }\n    try {\n        return createLong(str);\n    } catch (final NumberFormatException nfe) { // NOPMD\n        // ignore the bad number\n    }\n    return createBigInteger(str);\n}\n\n//Must be a Float, Double, BigDecimal\nfinal boolean allZeros = isAllZeros(mant) && isAllZeros(exp);\ntry {\n    final Float f = createFloat(str);\n    if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {\n        return f;\n    }\n} catch (final NumberFormatException nfe) { // NOPMD\n    // ignore the bad number\n}\ntry {\n    final Double d = createDouble(str);\n    if (!(d.isInfinite() || (d.doubleValue() == 0.0D && !allZeros))) {\n        return d;\n    }\n} catch (final NumberFormatException nfe) { // NOPMD\n    // ignore the bad number\n}\n\nreturn createBigDecimal(str);",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

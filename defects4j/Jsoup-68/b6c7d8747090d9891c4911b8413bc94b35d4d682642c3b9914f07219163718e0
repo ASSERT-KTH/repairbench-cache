@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n    // Define the maximum depth to search to prevent deep recursion issues\n    final int maxDepth = Math.min(stack.size() - 1, MaxScopeSearchDepth);\n    \n    // Define the starting and ending points for the loop\n    int bottom = maxDepth;\n    int top = Math.max(0, bottom - MaxScopeSearchDepth);\n    \n    // Iterate from bottom to top\n    for (int pos = bottom; pos >= top; pos--) {\n        String elName = stack.get(pos).nodeName();\n        if (inSorted(elName, targetNames)) {\n            return true;\n        }\n        if (inSorted(elName, baseTypes)) {\n            return false;\n        }\n        if (extraTypes != null && inSorted(elName, extraTypes)) {\n            return false;\n        }\n    }\n    // If no matching element is found in the scope, return false\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "if (options.dependencyOptions.needsManagement() &&\n    !options.skipAllPasses &&\n    options.closurePass) {\n  for (CompilerInput input : inputs) {\n    for (String provide : input.getProvides()) {\n      getTypeRegistry().forwardDeclareType(provide);\n    }\n  }\n\n  try {\n    inputs = (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph)\n             .manageDependencies(options.dependencyOptions, inputs);\n    staleInputs = true;\n  } catch (CircularDependencyException e) {\n    report(JSError.make(JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));\n    if (hasErrors()) {\n      return null;\n    }\n  } catch (MissingProvideException e) {\n    report(JSError.make(MISSING_ENTRY_ERROR, e.getMessage()));\n    if (hasErrors()) {\n      return null;\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

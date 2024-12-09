@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        // Sanitize the attribute key to remove invalid characters for XML\n        String key = attribute.getKey();\n        if (!isValidXmlName(key)) {\n            continue; // Skip invalid attribute names\n        }\n        el.setAttribute(key, attribute.getValue());\n    }\n}\n\n// Helper method to check if a string is a valid XML name\nprivate boolean isValidXmlName(String name) {\n    if (name == null || name.isEmpty()) {\n        return false;\n    }\n    char ch = name.charAt(0);\n    if (!XMLName.isNameStartChar(ch)) {\n        return false;\n    }\n    for (int i = 1; i < name.length(); i++) {\n        ch = name.charAt(i);\n        if (!XMLName.isNameChar(ch)) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public Period normalizedStandard(PeriodType type) {\n    type = DateTimeUtils.getPeriodType(type);\n    long millis = getMillis();\n    millis += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));\n    millis += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));\n    millis += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));\n    millis += (((long) getDays()) * ((long) DateTimeConstants.MILLIS_PER_DAY));\n    millis += (((long) getWeeks()) * ((long) DateTimeConstants.MILLIS_PER_WEEK));\n    Period result = new Period(millis, type, ISOChronology.getInstanceUTC());\n    \n    int years = getYears();\n    int months = getMonths();\n    if (years != 0 || months != 0) {\n        years = FieldUtils.safeAdd(years, months / 12);\n        months = months % 12;\n        \n        // Only set years and months if the PeriodType supports them\n        if (type.getYearsSupported()) {\n            result = result.withYears(years);\n        }\n        if (type.getMonthsSupported()) {\n            result = result.withMonths(months);\n        }\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void findCalledFunctions(Node node, Set<String> changed) {\n  Preconditions.checkArgument(changed != null);\n  // For each referenced function, add a new reference\n  if (node.getType() == Token.CALL) {\n    Node callee = node.getFirstChild();\n    if (callee.getType() == Token.NAME) {\n      changed.add(callee.getString());\n    }\n    // Recursively check arguments for any function calls\n    for (Node c = callee.getNext(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  } else {\n    // Recursively check all children\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

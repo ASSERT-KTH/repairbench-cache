@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    // Handle the case where both u and v are zero\n    if (u == 0 && v == 0) {\n        return 0; // By definition, GCD(0, 0) is 0\n    }\n    // Ensure u and v are non-negative\n    u = Math.abs(u);\n    v = Math.abs(v);\n    // If one of the numbers is zero, return the other number\n    if (u == 0) {\n        return v;\n    }\n    if (v == 0) {\n        return u;\n    }\n    // Find the greatest power of 2 that divides both u and v\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    // Make u odd\n    while ((u & 1) == 0) {\n        u /= 2;\n    }\n    // Main loop\n    int t = 0;\n    do {\n        // Make v odd\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        // At this point both u and v are odd\n        if (u >= v) {\n            t = u - v;\n            u = t;\n        } else {\n            t = v - u;\n            v = t;\n        }\n        // u or v could be zero now\n    } while (t != 0);\n    // The GCD is u * 2^k\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

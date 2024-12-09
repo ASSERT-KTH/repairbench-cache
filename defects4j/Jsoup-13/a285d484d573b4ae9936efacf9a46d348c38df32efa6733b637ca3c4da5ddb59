@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Test if this element has an attribute.\n * @param attributeKey The attribute key to check.\n * @return true if the attribute exists, false if not.\n */\npublic boolean hasAttr(String attributeKey) {\n    Validate.notNull(attributeKey);\n\n    if (attributeKey.startsWith(\"abs:\")) {\n        String realAttr = attributeKey.substring(4);\n        if (\"href\".equals(realAttr)) {\n            // For href, check if it has a value and if it's absolute\n            String href = attr(\"href\");\n            if (href != null && !href.isEmpty()) {\n                // Attempt to resolve the absolute URL\n                String absHref = absUrl(\"href\");\n                return absHref != null && !absHref.isEmpty();\n            }\n            return false;\n        }\n        // Add handling for other attributes that can have absolute values if needed\n        // For now, assume only href can have abs: prefix\n        return false;\n    } else {\n        return attributes.hasKey(attributeKey);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

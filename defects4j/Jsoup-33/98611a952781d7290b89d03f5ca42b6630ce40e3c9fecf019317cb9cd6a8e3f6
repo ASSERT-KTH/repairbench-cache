@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // Check if the tag is known to be empty\n    if (Tag.valueOf(startTag.name()).isEmpty()) {\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        // Do not push empty elements onto the stack\n        return el;\n    }\n\n    // Handle self-closing tags for non-empty elements\n    if (startTag.isSelfClosing()) {\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        // Push the element onto the stack\n        stack.add(el);\n        // Emit an end tag to ensure we close it\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n\n    // Normal start tag insertion\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    stack.add(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

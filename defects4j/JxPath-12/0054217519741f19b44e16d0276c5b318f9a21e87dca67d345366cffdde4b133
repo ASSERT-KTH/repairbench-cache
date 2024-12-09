@@ -1,0 +1,7 @@
+{
+    "generation": "if (test instanceof NodeNameTest) {\n    if (node.getNodeType() != Node.ELEMENT_NODE) {\n        return false;\n    }\n\n    NodeNameTest nodeNameTest = (NodeNameTest) test;\n    QName testName = nodeNameTest.getNodeName();\n    String namespaceURI = nodeNameTest.getNamespaceURI();\n    boolean wildcard = nodeNameTest.isWildcard();\n    String testPrefix = testName.getPrefix();\n    if (wildcard && testPrefix == null) {\n        return true;\n    }\n    if (wildcard\n        || testName.getName()\n                .equals(DOMNodePointer.getLocalName(node))) {\n        String nodeNS = DOMNodePointer.getNamespaceURI(node);\n        return equalStrings(namespaceURI, nodeNS);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

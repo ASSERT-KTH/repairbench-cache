@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // Handle infinite cases directly\n    if (Double.isInfinite(x)) {\n        return (x > 0) ? 1 : 0;\n    }\n    \n    final double dev = x - mean;\n    final double normalizedDev = dev / (standardDeviation * Math.sqrt(2));\n    \n    // Check if x is more than 40 standard deviations from the mean\n    if (Math.abs(normalizedDev) > 40) {\n        return (dev > 0) ? 1 : 0;\n    }\n    \n    try {\n        return 0.5 * (1.0 + Erf.erf(normalizedDev));\n    } catch (ConvergenceException ex) {\n        // If convergence fails, and x is beyond 40 standard deviations, return 0 or 1\n        if (dev < 0) {\n            return 0;\n        } else {\n            return 1;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

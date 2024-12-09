@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.math3.exception.NotStrictlyPositiveException;\nimport org.apache.commons.math3.util.LocalizedFormats;\n\nimport java.lang.reflect.Array;\nimport java.util.List;\nimport java.util.ArrayList;\n\n/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n * positive.\n */\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                sampleSize);\n    }\n\n    // Determine the component type for the array\n    Class<?> componentType = Object.class;\n    if (!singletons.isEmpty()) {\n        componentType = singletons.get(0).getClass();\n    }\n\n    // Create an array of type T[]\n    final T[] out = (T[]) Array.newInstance(componentType, sampleSize);\n\n    for (int i = 0; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

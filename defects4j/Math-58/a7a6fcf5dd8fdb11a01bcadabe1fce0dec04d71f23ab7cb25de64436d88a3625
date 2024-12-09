@@ -1,0 +1,7 @@
+{
+    "generation": "public static class GaussianPositive implements Parametric {\n    @Override\n    public double value(double x, double... parameters) {\n        double norm = parameters[0];\n        double mean = parameters[1];\n        double sigma = Math.exp(parameters[2]); // Ensure sigma is positive\n        return norm * Math.exp(-Math.pow((x - mean), 2) / (2 * sigma * sigma));\n    }\n\n    @Override\n    public double[] gradient(double x, double... parameters) {\n        double norm = parameters[0];\n        double mean = parameters[1];\n        double lsigma = parameters[2];\n        double sigma = Math.exp(lsigma);\n        double dev = (x - mean) / sigma;\n        double dev2 = dev * dev;\n        double normFact = norm / (sigma * Math.sqrt(2 * Math.PI));\n        double expTerm = Math.exp(-0.5 * dev2);\n\n        double dn = expTerm;\n        double dm = dev * dn;\n        double dlsigma = (dev2 - 1) * dn;\n\n        return new double[]{dn, dm, dlsigma};\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

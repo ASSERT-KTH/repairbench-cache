@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Find the best matching mock for the field\n        Optional<Object> bestMock = mocks.stream()\n            .filter(mock -> field.getType().isAssignableFrom(mock.getClass()))\n            .max(Comparator.comparingInt(mock -> getPriority(field.getType(), mock.getClass())));\n\n        bestMock.ifPresent(mock -> {\n            try {\n                field.set(fieldInstance, mock);\n            } catch (IllegalAccessException e) {\n                throw new RuntimeException(\"Failed to set field value\", e);\n            }\n        });\n    }\n}\n\n// Helper method to determine the priority of a mock based on its type match with the field\nprivate int getPriority(Class<?> fieldType, Class<?> mockType) {\n    if (fieldType.equals(mockType)) {\n        return 2; // Exact match has highest priority\n    } else if (fieldType.isAssignableFrom(mockType)) {\n        return 1; // Assignable but not exact match\n    }\n    return 0; // Not assignable\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

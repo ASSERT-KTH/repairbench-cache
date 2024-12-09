@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      if (NodeUtil.isExpressionNode(maybeExpr)) {\n        // Check if the expression is a method call that could trigger the IE bug.\n        // Specifically, check if it's a call to a property of an object.\n        if (maybeExpr.getType() == Token.CALL) {\n          Node receiver = maybeExpr.getFirstChild();\n          if (receiver != null && receiver.getType() == Token.GETPROP) {\n            // This is a method call like f.onchange(), which could be problematic.\n            return false;\n          }\n        }\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

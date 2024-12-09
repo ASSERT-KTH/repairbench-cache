@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.Iterator;\nimport java.util.List;\nimport some.utility.package.IteratorUtils; // assuming toList is there\n\nprotected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right) \n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        l = ((EvalContext) l).getSingleNodePointer();\n    }\n\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        r = ((EvalContext) r).getSingleNodePointer();\n    }\n\n    if (l instanceof Collection) {\n        l = ((Collection) l).iterator();\n    }\n\n    if (r instanceof Collection) {\n        r = ((Collection) r).iterator();\n    }\n\n    if (l instanceof Iterator) {\n        l = IteratorUtils.toList((Iterator) l);\n    }\n\n    if (r instanceof Iterator) {\n        r = IteratorUtils.toList((Iterator) r);\n    }\n\n    if (l instanceof List && !(r instanceof List)) {\n        return contains((List) l, r);\n    }\n    if (!(l instanceof List) && r instanceof List) {\n        return contains((List) r, l);\n    }\n    if (l instanceof List && r instanceof List) {\n        return findMatch((List) l, (List) r);\n    }\n    return equal(l, r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> raw) {\n    if (raw == null) {\n        return null;\n    }\n    // Check cache first\n    JavaType type = _typeCache.get(raw);\n    if (type != null) {\n        return type;\n    }\n    // Construct new type\n    type = buildType(raw);\n    // Cache the new type\n    _typeCache.put(raw, type);\n    return type;\n}\n\nprivate JavaType buildType(Class<?> raw) {\n    if (raw.isInterface()) {\n        return new ResolvedManagedReferenceType(this, raw, _handledType(raw));\n    }\n    if (raw.isArray()) {\n        return new ArrayType(this, constructType(raw.getComponentType()), raw);\n    }\n    if (raw.isEnum()) {\n        return new SimpleType(this, raw);\n    }\n    // For classes, create ResolvedRecursiveType to handle potential recursion\n    return new ResolvedRecursiveType(this, raw);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static String abbreviate(String str, int lower, int upper, String appendToEnd) {\n    // initial parameter checks\n    if (str == null) {\n        return null;\n    }\n    if (str.length() == 0) {\n        return StringUtils.EMPTY;\n    }\n\n    // Adjust upper limit\n    if (upper == -1) {\n        upper = str.length();\n    } else if (upper < lower) {\n        upper = lower;\n    }\n\n    // If upper limit is beyond the string length, set it to the string length\n    if (upper > str.length()) {\n        upper = str.length();\n    }\n\n    int spaceIndex = StringUtils.indexOf(str, \" \", lower);\n\n    if (spaceIndex == -1) {\n        // No space found after lower limit, abbreviate at upper\n        String result = str.substring(0, upper);\n        if (upper < str.length()) {\n            result += StringUtils.defaultString(appendToEnd);\n        }\n        return result;\n    } else {\n        if (spaceIndex >= upper) {\n            // Space index is beyond upper limit, abbreviate at upper\n            String result = str.substring(0, upper);\n            result += StringUtils.defaultString(appendToEnd);\n            return result;\n        } else {\n            // Abbreviate at the space index\n            String result = str.substring(0, spaceIndex);\n            result += StringUtils.defaultString(appendToEnd);\n            return result;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

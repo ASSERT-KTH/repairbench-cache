@@ -1,0 +1,7 @@
+{
+    "generation": "if (tag.isData()) {\n    // Chomp from the current position to the end tag, including the end tag\n    String dataWithEndTag = tq.chompTo(\"</\" + tagName + \">\");\n    \n    // Extract the data content excluding the end tag\n    int endTagStart = dataWithEndTag.indexOf(\"</\" + tagName + \">\");\n    String data = dataWithEndTag.substring(0, endTagStart);\n    \n    // Consume the end tag\n    tq.chompTo(\">\");\n    \n    // Create the data node\n    Node dataNode;\n    if (tag.equals(titleTag) || tag.equals(textareaTag)) {\n        dataNode = TextNode.createFromEncoded(data, baseUri);\n    } else {\n        dataNode = new DataNode(data, baseUri);\n    }\n    child.appendChild(dataNode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

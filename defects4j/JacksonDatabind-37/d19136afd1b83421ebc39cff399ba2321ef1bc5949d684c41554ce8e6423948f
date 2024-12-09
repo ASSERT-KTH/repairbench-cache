@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass) {\n    if (_class == subclass) {\n        return this;\n    }\n    // Ensure that subclass is indeed a subclass of _class\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName() + \" not sub-type of \" + _class.getName());\n    }\n    // Create a new SimpleType instance with updated class and bindings\n    // Assuming _bindings need to be adjusted for the subclass\n    JavaType[] parametized = _bindings.getparametized();\n    JavaType[] newParametized = new JavaType[parametized.length];\n    for (int i = 0; i < parametized.length; i++) {\n        newParametized[i] = parametized[i]._narrow(parametized[i].getRawClass());\n    }\n    TypeBindings newBindings = TypeBindings.create(subclass, newParametized);\n    // Recursively narrow super class and super interfaces if necessary\n    JavaType newSuperClass = (_superClass == null) ? null : _superClass.narrowBy(subclass.getSuperclass());\n    JavaType[] newSuperInterfaces = new JavaType[_superInterfaces.length];\n    for (int i = 0; i < _superInterfaces.length; i++) {\n        newSuperInterfaces[i] = _superInterfaces[i].narrowBy(subclass.getInterfaces()[i]);\n    }\n    return new SimpleType(subclass, newBindings, newSuperClass, newSuperInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

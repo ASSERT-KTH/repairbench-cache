@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    u = Math.abs(u);\n    v = Math.abs(v);\n    if (u == 0) {\n        return v;\n    }\n    if (v == 0) {\n        return u;\n    }\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    int t = (u & 1) == 1 ? -v : -u / 2;\n    while (t != 0) {\n        while ((t & 1) == 0) {\n            t /= 2;\n        }\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        t = (v - u) / 2;\n    }\n    int gcd = u < 0 ? -u : u;\n    return gcd << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

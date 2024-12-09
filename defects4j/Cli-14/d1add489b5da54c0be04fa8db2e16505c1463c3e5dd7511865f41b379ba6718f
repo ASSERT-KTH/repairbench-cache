@@ -1,0 +1,7 @@
+{
+    "generation": "DefaultOption fileNameOption = obuilder.withShortName(\"f\")\n        .withLongName(\"file-name\").withRequired(true).withDescription(\n                \"name of an existing file\").withArgument(\n                abuilder.withName(\"file-name\").withValidator(\n                        FileValidator.getExistingFileInstance())\n                        .create()).create();\nGroup options = gbuilder.withName(\"options\").withOption(fileNameOption)\n        .create();\nParser parser = new Parser();\nparser.setHelpTrigger(\"--help\");\nparser.setGroup(options);\n\nfinal String fileName = \"src/test/org/apache/commons/cli2/bug/BugCLI144Test.java\";\nCommandLine cl = parser\n        .parseAndHelp(new String[] { \"--file-name\", fileName });\nassertNotNull(cl);\nassertEquals(\"Wrong file\", new File(fileName), cl.getValue(fileNameOption));",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

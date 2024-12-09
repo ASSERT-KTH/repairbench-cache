@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  Scope scope = t.getScope();\n\n  if (t.inGlobalScope()) {\n    return;\n  }\n\n  if (n.isReturn() && n.getFirstChild() != null) {\n    data.get(t.getScopeRoot()).recordNonEmptyReturn();\n  }\n\n  // Remove the arbitrary scope depth check and handle all scopes appropriately\n\n  if (n.isName() && NodeUtil.isLValue(n) && !NodeUtil.isBleedingFunctionName(n)) {\n    String name = n.getString();\n    Var var = scope.getVar(name);\n    if (var != null) {\n      Scope ownerScope = var.getScope();\n      if (ownerScope.isLocal()) {\n        // Record that this local variable is assigned in this scope\n        data.get(ownerScope.getRootNode()).recordAssignedName(name);\n        // If the assignment is in an inner scope, mark the variable as escaped\n        if (scope.getParent() != ownerScope) {\n          data.get(ownerScope.getRootNode()).recordEscapedVarName(name);\n        }\n      }\n    }\n  } else if (n.isGetProp() && n.isUnscopedQualifiedName() && NodeUtil.isLValue(n)) {\n    String name = NodeUtil.getRootOfQualifiedName(n).getString();\n    Var var = scope.getVar(name);\n    if (var != null) {\n      Scope ownerScope = var.getScope();\n      if (scope != ownerScope && ownerScope.isLocal()) {\n        data.get(ownerScope.getRootNode()).recordEscapedQualifiedName(n.getQualifiedName());\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

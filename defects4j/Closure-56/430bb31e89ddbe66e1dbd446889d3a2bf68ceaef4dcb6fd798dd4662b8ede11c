@@ -1,0 +1,7 @@
+{
+    "generation": "public String getLine(int lineNumber) {\n    String js = \"\";\n    try {\n        js = getCode();\n    } catch (IOException e) {\n        return null;\n    }\n\n    int pos = 0;\n    int startLine = 1;\n\n    // Use caching to optimize sequential access\n    if (lineNumber >= lastLine) {\n        pos = lastOffset;\n        startLine = lastLine;\n    }\n\n    // Find the starting position of the requested line\n    for (int n = startLine; n < lineNumber; n++) {\n        int nextPos = js.indexOf('\\n', pos);\n        if (nextPos == -1) {\n            return null; // No more lines\n        }\n        pos = nextPos + 1;\n    }\n\n    // Update cache\n    lastOffset = pos;\n    lastLine = lineNumber;\n\n    // Find the end position of the line\n    int endPos = js.indexOf('\\n', pos);\n    if (endPos == -1) {\n        // If no more newlines, return the rest of the string\n        if (pos < js.length()) {\n            return js.substring(pos);\n        } else {\n            return null; // End of file\n        }\n    } else {\n        return js.substring(pos, endPos);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // Get the local time for the instant\n    long localTime = convertUTCToLocal(instant);\n    \n    // Get the offsets before and after the instant\n    long offsetBefore = getOffset(instant - 1);\n    long offsetAfter = getOffset(instant + 1);\n    \n    // Check if there is an overlap\n    if (offsetBefore != offsetAfter) {\n        // There is an overlap or gap\n        if (earlierOrLater) {\n            // Return the instant with the later offset\n            return instant + (offsetAfter - getOffset(instant));\n        } else {\n            // Return the instant with the earlier offset\n            return instant + (offsetBefore - getOffset(instant));\n        }\n    } else {\n        // No overlap or gap, return the original instant\n        return instant;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

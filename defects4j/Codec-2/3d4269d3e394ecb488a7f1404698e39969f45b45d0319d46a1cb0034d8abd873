@@ -1,0 +1,7 @@
+{
+    "generation": "if (inAvail < 0) {\n    eof = true;\n    if (buf == null || buf.length - pos < encodeSize) {\n        resizeBuf();\n    }\n    switch (modulus) {\n        case 1:\n            buf[pos++] = encodeTable[(x >> 2) & MASK_6BITS];\n            buf[pos++] = encodeTable[(x << 4) & MASK_6BITS];\n            if (encodeTable == STANDARD_ENCODE_TABLE) {\n                buf[pos++] = PAD;\n                buf[pos++] = PAD;\n            }\n            break;\n\n        case 2:\n            buf[pos++] = encodeTable[(x >> 10) & MASK_6BITS];\n            buf[pos++] = encodeTable[(x >> 4) & MASK_6BITS];\n            buf[pos++] = encodeTable[(x << 2) & MASK_6BITS];\n            if (encodeTable == STANDARD_ENCODE_TABLE) {\n                buf[pos++] = PAD;\n            }\n            break;\n    }\n    if (lineLength > 0) {\n        System.arraycopy(lineSeparator, 0, buf, pos, lineSeparator.length);\n        pos += lineSeparator.length;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

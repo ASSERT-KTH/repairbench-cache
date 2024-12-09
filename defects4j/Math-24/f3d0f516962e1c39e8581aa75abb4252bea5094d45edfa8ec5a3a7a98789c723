@@ -1,0 +1,7 @@
+{
+    "generation": "double fu = computeObjectiveValue(u);\nif (!isMinim) {\n    fu = -fu;\n}\n\n// User-defined convergence checker.\nprevious = current;\ncurrent = new UnivariatePointValuePair(u, isMinim ? fu : -fu);\n\nif (checker != null) {\n    if (checker.converged(iter, previous, current)) {\n        return current;\n    }\n}\n\n// Update a, b, v, w and x.\nif (fu <= fx) {\n    if (u < x) {\n        b = x;\n    } else {\n        a = x;\n    }\n    v = w;\n    fv = fw;\n    w = x;\n    fw = fx;\n    x = u;\n    fx = fu;\n} else {\n    if (u < x) {\n        a = u;\n    } else {\n        b = u;\n    }\n    if (fu <= fw ||\n        Precision.equals(w, x)) {\n        v = w;\n        fv = fw;\n        w = u;\n        fw = fu;\n    } else if (fu <= fv ||\n               Precision.equals(v, x) ||\n               Precision.equals(v, w)) {\n        v = u;\n        fv = fu;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

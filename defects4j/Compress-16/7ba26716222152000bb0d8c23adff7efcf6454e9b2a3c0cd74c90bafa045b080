@@ -1,0 +1,7 @@
+{
+    "generation": "// Tar needs an even bigger buffer to check the signature; read the first block\nfinal byte[] tarheader = new byte[512];\nin.mark(tarheader.length);\nsignatureLength = in.read(tarheader);\nin.reset();\nif (TarArchiveInputStream.matches(tarheader, signatureLength)) {\n    try {\n        TarArchiveInputStream tais = new TarArchiveInputStream(new ByteArrayInputStream(tarheader));\n        // Verify the header checksum\n        tais.getNextEntry();\n        return new TarArchiveInputStream(in);\n    } catch (Exception e) {\n        // If an exception occurs during header verification, it's not a valid TAR archive\n        // So, we ignore this and proceed to the next archiver or throw an exception\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

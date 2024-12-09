@@ -1,0 +1,7 @@
+{
+    "generation": "protected BasePeriod(long duration) {\n    this(duration, null, null);\n    // Fix for bug [3264409]\n    if (getPeriodType().equals(PeriodType.time())) {\n        long days = getValues()[PeriodType.day.getFieldIndex()];\n        long hours = getValues()[PeriodType.hour.getFieldIndex()];\n        long minutes = getValues()[PeriodType.minute.getFieldIndex()];\n        long seconds = getValues()[PeriodType.second.getFieldIndex()];\n        long millis = getValues()[PeriodType.millisecond.getFieldIndex()];\n        \n        // Convert days to hours\n        hours += days * 24;\n        \n        // Set the updated values\n        setValues(new long[] {\n            0, 0, 0, 0, hours, minutes, seconds, millis\n        });\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

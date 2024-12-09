@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(final UnivariateRealFunction f,\n                    final double min, final double max, final double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n\n    clearResult();\n    verifySequence(min, initial, max);\n\n    // Compute function values at the endpoints and initial guess\n    double yMin = f.value(min);\n    double yMax = f.value(max);\n    double yInitial = f.value(initial);\n\n    // Check if initial guess is good enough\n    if (Math.abs(yInitial) <= functionValueAccuracy) {\n        setResult(initial, 0);\n        return result;\n    }\n\n    // Check if min is good enough\n    if (Math.abs(yMin) <= functionValueAccuracy) {\n        setResult(min, 0);\n        return result;\n    }\n\n    // Check if max is good enough\n    if (Math.abs(yMax) <= functionValueAccuracy) {\n        setResult(max, 0);\n        return result;\n    }\n\n    // Check if initial guess brackets with min\n    if (yInitial * yMin < 0) {\n        return solve(f, min, yMin, initial, yInitial, min, yMin);\n    }\n\n    // Check if initial guess brackets with max\n    if (yInitial * yMax < 0) {\n        return solve(f, initial, yInitial, max, yMax, initial, yInitial);\n    }\n\n    // If neither endpoint brackets with initial guess, throw exception\n    throw new IllegalArgumentException(\"Function values at endpoints and initial guess do not bracket the root.\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

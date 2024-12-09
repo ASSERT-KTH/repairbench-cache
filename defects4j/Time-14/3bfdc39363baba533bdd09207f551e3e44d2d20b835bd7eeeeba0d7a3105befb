@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    \n    // Use a full date to handle the addition, as partials don't handle date arithmetic well\n    Chronology chrono = iChronology;\n    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0, chrono); // arbitrary year, but consistent\n    \n    // Set the month and day from the partial\n    for (int i = 0; i < partial.size(); i++) {\n        dt = dt.withField(partial.getFieldType(i), values[i]);\n    }\n    \n    // Add the specified value to the field\n    DateTime adjustedDt;\n    if (fieldIndex == DateTimeConstants.MONTH_OF_YEAR) {\n        adjustedDt = dt.plusMonths(valueToAdd);\n    } else if (fieldIndex == DateTimeConstants.DAY_OF_MONTH) {\n        adjustedDt = dt.plusDays(valueToAdd);\n    } else {\n        // For other fields, delegate to superclass\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n    \n    // Extract the month and day from the adjusted date\n    int[] result = new int[partial.size()];\n    for (int i = 0; i < partial.size(); i++) {\n        result[i] = adjustedDt.get(partial.getFieldType(i));\n    }\n    \n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

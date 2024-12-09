@@ -1,0 +1,7 @@
+{
+    "generation": "public int writeValue() {\n    // Check if we are in an object context\n    if (_type == TYPE_OBJECT) {\n        // Ensure that a field name has been written before the value\n        if (!_gotName) {\n            throw new JsonGenerationException(\"writeString() called without a preceding writeFieldName() in object context\");\n        }\n        _gotName = false; // Reset for next value\n        ++_index;\n        return STATUS_OK_AFTER_COLON;\n    }\n\n    // Check if we are in an array context\n    if (_type == TYPE_ARRAY) {\n        int ix = _index;\n        ++_index;\n        return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n    }\n\n    // Handle root context\n    ++_index;\n    return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

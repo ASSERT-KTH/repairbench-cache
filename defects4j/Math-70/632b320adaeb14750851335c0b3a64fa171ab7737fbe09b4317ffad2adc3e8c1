@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n    \n    // Validate parameters\n    if (f == null) {\n        throw new IllegalArgumentException(\"Function is null\");\n    }\n    if (min >= max) {\n        throw new IllegalArgumentException(\"min >= max\");\n    }\n    double fMin = f.value(min);\n    double fMax = f.value(max);\n    if (fMin * fMax >= 0) {\n        throw new IllegalArgumentException(\"Function does not change sign over the interval\");\n    }\n    \n    // Initialize variables\n    int maxIter = getMaxEvaluations();\n    int iterations = 0;\n    \n    double a = min;\n    double b = max;\n    double c = 0;\n    double fC = 0;\n    \n    while (iterations < maxIter) {\n        c = (a + b) / 2;\n        fC = f.value(c);\n        iterations++;\n        \n        if (fC == 0 || (b - a) / 2 < getAbsoluteAccuracy()) {\n            return c;\n        }\n        \n        if (f(a) * fC < 0) {\n            b = c;\n        } else {\n            a = c;\n        }\n    }\n    \n    throw new MaxIterationsExceededException(maxIter);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

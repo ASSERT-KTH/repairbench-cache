@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n    // Check if the node is null, which indicates reaching an implicit return\n    if (n == null) {\n        return false;\n    }\n\n    // Check if the node is a function call with side effects\n    if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n        return true;\n    }\n\n    // Check if the node is a constructor call with side effects\n    if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n        return true;\n    }\n\n    // Traverse children, considering control flow graph node entries\n    for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n        // Check if entering a new CFG node and handle accordingly\n        if (!ControlFlowGraph.isEnteringNewCfgNode(c)) {\n            if (apply(c)) {\n                return true;\n            }\n        } else {\n            // Handle new CFG nodes appropriately, ensuring no side effects are missed\n            if (apply(c)) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private JSType resolveWithCycleDetection(\n    ErrorReporter t, StaticScope<JSType> enclosing, Set<JSType> resolvedTypes) {\n  if (resolvedTypes.contains(this)) {\n    handleTypeCycle(t);\n    returnErrorType(); // or some appropriate error type\n  }\n  resolvedTypes.add(this);\n  try {\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (resolved) {\n      super.resolveInternal(t, enclosing);\n      finishPropertyContinuations();\n      return registry.isLastGeneration() ? getReferencedType() : this;\n    } else {\n      resolveViaProperties(t, enclosing);\n      super.resolveInternal(t, enclosing);\n      if (isResolved()) {\n        finishPropertyContinuations();\n      }\n      return registry.isLastGeneration() ? getReferencedType() : this;\n    }\n  } finally {\n    resolvedTypes.remove(this);\n  }\n}\n\n@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n  return resolveWithCycleDetection(t, enclosing, new HashSet<>());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

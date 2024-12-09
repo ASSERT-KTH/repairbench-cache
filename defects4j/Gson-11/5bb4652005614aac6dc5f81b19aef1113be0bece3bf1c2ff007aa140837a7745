@@ -1,0 +1,7 @@
+{
+    "generation": "\n@Override\n\npublic Number read(JsonReader in) throws IOException {\n\n  JsonToken jsonToken = in.peek();\n\n  switch (jsonToken) {\n\n    case NULL:\n\n      in.nextNull();\n\n      return null;\n\n    case NUMBER:\n\n      return in.nextDouble(); // or in.nextInt(), but double can handle both\n\n    case STRING:\n\n      String numberStr = in.nextString();\n\n      try {\n\n        return Integer.parseInt(numberStr);\n\n      } catch (NumberFormatException e) {\n\n        try {\n\n          return Double.parseDouble(numberStr);\n\n        } catch (NumberFormatException ex) {\n\n          throw new JsonSyntaxException(\"Invalid number format: \" + numberStr);\n\n        }\n\n      }\n\n    default:\n\n      throw new JsonSyntaxException(\"Expecting number, got: \" + jsonToken);\n\n  }\n\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

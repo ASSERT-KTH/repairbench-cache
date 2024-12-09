@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        String key = attribute.getKey();\n        String sanitizedKey = sanitizeAttributeKey(key);\n        if (!sanitizedKey.isEmpty()) {\n            el.setAttribute(sanitizedKey, attribute.getValue());\n        }\n    }\n}\n\nprivate String sanitizeAttributeKey(String key) {\n    if (key == null || key.isEmpty()) {\n        return \"\";\n    }\n\n    StringBuilder sanitized = new StringBuilder();\n    char firstChar = key.charAt(0);\n    if (!Character.isLetter(firstChar) && firstChar != '_') {\n        sanitized.append(\"attr\");\n    } else {\n        sanitized.append(firstChar);\n    }\n\n    for (int i = 1; i < key.length(); i++) {\n        char c = key.charAt(i);\n        if (Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_') {\n            sanitized.append(c);\n        } else {\n            sanitized.append('_');\n        }\n    }\n\n    return sanitized.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

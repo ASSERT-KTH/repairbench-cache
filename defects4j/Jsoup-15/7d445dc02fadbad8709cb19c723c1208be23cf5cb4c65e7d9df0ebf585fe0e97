@@ -1,0 +1,7 @@
+{
+    "generation": "case StartTag:\n    Token.StartTag startTag = t.asStartTag();\n    String name = startTag.name();\n    if (name.equals(\"style\") || name.equals(\"script\")) {\n        handleRawtext(startTag, tb);\n    } else if (name.equals(\"html\")) {\n        tb.error(this);\n        // merge attributes onto real html\n        Element html = tb.getStack().getFirst();\n        for (Attribute attribute : startTag.getAttributes()) {\n            if (!html.hasAttr(attribute.getKey()))\n                html.attributes().put(attribute);\n        }\n    } else if (StringUtil.in(name, \"base\", \"basefont\", \"bgsound\", \"command\", \"link\", \"meta\", \"noframes\", \"style\", \"title\")) {\n        return tb.process(t, InHead);\n    }\n    // ... rest of the StartTag handling ...\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

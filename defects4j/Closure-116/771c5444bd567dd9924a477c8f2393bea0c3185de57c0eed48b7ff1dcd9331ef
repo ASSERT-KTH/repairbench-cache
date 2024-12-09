@@ -1,0 +1,7 @@
+{
+    "generation": "\n// For each named parameter check if a mutable argument use more than one.\n\nif (fnParam != null) {\n\n  if (cArg != null) {\n\n    // Check for arguments that are evaluated more than once.\n\n    // Note: Unlike block inlining, there it is not possible that a\n\n    // parameter reference will be in a loop.\n\n    if (NodeUtil.mayEffectMutableState(cArg, compiler)\n\n        && NodeUtil.getNameReferenceCount(block, fnParam.getString()) > 1) {\n\n      return CanInlineResult.NO;\n\n    }\n\n  }\n\n  // Move to the next name.\n\n  fnParam = fnParam.getNext();\n\n}\n\n// For every call argument check for side-effects, even if there\n\n// isn't a named parameter to match.\n\nif (cArg != null) {\n\n  if (NodeUtil.mayHaveSideEffects(cArg, compiler)) {\n\n    return CanInlineResult.NO;\n\n  }\n\n  cArg = cArg.getNext();\n\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

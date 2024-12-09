@@ -1,0 +1,7 @@
+{
+    "generation": "if (Double.isInfinite(cN) || Double.isInfinite(q2)) {\n    double scaleFactor = 1d;\n    double lastScaleFactor = 1d;\n    final int maxPower = 5;\n    final double scale = FastMath.max(a,b);\n    if (scale <= 0) {  // Can't scale\n        throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);\n    }\n    for (int i = 0; i < maxPower; i++) {\n        lastScaleFactor = scaleFactor;\n        scaleFactor *= scale;\n        if (a != 0.0 && a > b) {\n            cN = hPrev / lastScaleFactor + (b / scaleFactor * p0);\n            q2 = q1 / lastScaleFactor + (b / scaleFactor * dPrev);\n        } else if (b != 0) {\n            cN = (a / scaleFactor * hPrev) + p0 / lastScaleFactor;\n            q2 = (a / scaleFactor * q1) + dPrev / lastScaleFactor;\n        }\n        if (!(Double.isInfinite(cN) || Double.isInfinite(q2))) {\n            break;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

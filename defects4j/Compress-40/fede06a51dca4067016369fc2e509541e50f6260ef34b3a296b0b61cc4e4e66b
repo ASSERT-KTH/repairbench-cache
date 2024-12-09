@@ -1,0 +1,7 @@
+{
+    "generation": "public long readBits(final int count) throws IOException {\n    if (count < 0 || count > MAXIMUM_CACHE_SIZE) {\n        throw new IllegalArgumentException(\"count must not be negative or greater than \" + MAXIMUM_CACHE_SIZE);\n    }\n    while (bitsCachedSize < count) {\n        final int nextByte = in.read();\n        if (nextByte < 0) {\n            // If end of stream is reached before reading enough bits, return -1\n            return -1;\n        }\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            // For little endian, the next byte is shifted left by the current bitsCachedSize\n            bitsCached |= ((long) nextByte) << bitsCachedSize;\n        } else {\n            // For big endian, the current bits are shifted left by 8 bits and the new byte is OR'ed in\n            bitsCached <<= 8;\n            bitsCached |= nextByte;\n        }\n        bitsCachedSize += 8;\n    }\n    long bitsOut;\n    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n        // Extract the least significant 'count' bits\n        bitsOut = bitsCached & MASKS[count];\n        // Remove the extracted bits from the cache\n        bitsCached >>>= count;\n    } else {\n        // Extract the most significant 'count' bits\n        bitsOut = (bitsCached >> (bitsCachedSize - count)) & MASKS[count];\n    }\n    bitsCachedSize -= count;\n    return bitsOut;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

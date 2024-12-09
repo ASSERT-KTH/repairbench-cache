@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  // Only handle get property nodes.\n  if (!node.isGetProp()) {\n    return false; // or throw an exception, depending on requirements\n  }\n  \n  // Move to the first child, which should be the object of the getprop.\n  node = node.getFirstChild();\n  if (node.isName() && isNameAssignedTo(node.getString(), replacement)) {\n    return false;\n  }\n  \n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

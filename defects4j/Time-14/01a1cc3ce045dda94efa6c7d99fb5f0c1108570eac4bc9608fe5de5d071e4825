@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n\n    // Determine indices for month and day fields\n    int monthFieldIndex = -1;\n    int dayFieldIndex = -1;\n    for (int i = 0; i < partial.size(); i++) {\n        DateTimeFieldType ft = partial.getFieldType(i);\n        if (ft == DateTimeFieldType.monthOfYear()) {\n            monthFieldIndex = i;\n        } else if (ft == DateTimeFieldType.dayOfMonth()) {\n            dayFieldIndex = i;\n        }\n    }\n    if (monthFieldIndex == -1 || dayFieldIndex == -1) {\n        throw new IllegalArgumentException(\"Partial must contain monthOfYear and dayOfMonth fields\");\n    }\n\n    // Create MonthDay object\n    MonthDay md = new MonthDay(values[monthFieldIndex], values[dayFieldIndex], iChronology);\n\n    // Perform addition based on fieldIndex\n    if (fieldIndex == monthFieldIndex) {\n        md = md.plusMonths(valueToAdd);\n    } else if (fieldIndex == dayFieldIndex) {\n        md = md.plusDays(valueToAdd);\n    } else {\n        // Handle other fields if necessary\n        throw new IllegalArgumentException(\"Unsupported field index\");\n    }\n\n    // Extract new values\n    int[] newValues = values.clone();\n    newValues[monthFieldIndex] = md.getMonthOfYear();\n    newValues[dayFieldIndex] = md.getDayOfMonth();\n    return newValues;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

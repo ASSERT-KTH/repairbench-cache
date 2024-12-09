@@ -1,0 +1,7 @@
+{
+    "generation": "   /** @enum {number} */ keys = {A: 1,B: 2,C: 3};\n   ```\n\n   This defines an enum with numeric values. The expectation is that all parts of this definition are typed.\n\n2. `testGetTypedPercent6`:\n\n   ```javascript\n   a = {TRUE: 1, FALSE: 0};\n   ```\n\n   This assigns an object with properties `TRUE` and `FALSE` having numeric values. Again, the expectation is that all parts are typed.\n\nIn both cases, it seems that not all nodes are being marked as typed, leading to a lower percentage.\n\nI need to identify which nodes are not being considered typed in these cases and ensure that they are properly accounted for.\n\nLooking at the `visit` method, there are several places where `typeable` is set to `false`, which would exclude those nodes from the typed percentage calculation.\n\nFor example:\n\n- `case Token.VAR:` sets `typeable = false;`\n\n- `case Token.FUNCTION:` calls `visitFunction`, which might set `typeable` based on the function's properties.\n\n- `case Token.OBJECTLIT:` has special handling, and if type inference is not run, it might not be marked as typed.\n\nGiven that these tests involve object literals, I suspect that the object literal nodes are not being properly marked as typed.\n\nLooking specifically at the `OBJECTLIT` case:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

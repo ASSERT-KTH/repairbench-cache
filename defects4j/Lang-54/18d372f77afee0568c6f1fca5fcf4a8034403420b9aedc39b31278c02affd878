@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    String[] parts = str.split(\"_\");\n    switch (parts.length) {\n        case 1:\n            if (parts[0].length() == 2 && parts[0].matches(\"[a-z]{2}\")) {\n                return new Locale(parts[0], \"\");\n            }\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        case 2:\n            if (parts[0].length() == 2 && parts[0].matches(\"[a-z]{2}\") &&\n                parts[1].length() == 2 && parts[1].matches(\"[A-Z]{2}\")) {\n                return new Locale(parts[0], parts[1]);\n            }\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        case 3:\n            if (parts[0].length() == 2 && parts[0].matches(\"[a-z]{2}\") &&\n                (parts[1].length() == 2 && parts[1].matches(\"[A-Z]{2}\") || parts[1].isEmpty()) &&\n                parts[2] != null) { // variant can be empty\n                return new Locale(parts[0], parts[1].isEmpty() ? \"\" : parts[1], parts[2]);\n            }\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        default:\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

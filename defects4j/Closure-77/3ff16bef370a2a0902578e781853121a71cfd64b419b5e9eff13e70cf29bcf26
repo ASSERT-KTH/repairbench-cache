@@ -1,0 +1,7 @@
+{
+    "generation": "switch (c) {\n    case '\\n': sb.append(\"\\\\n\"); break;\n    case '\\r': sb.append(\"\\\\r\"); break;\n    case '\\t': sb.append(\"\\\\t\"); break;\n    case '\\\\': sb.append(backslashEscape); break;\n    case '\\\"': sb.append(doublequoteEscape); break;\n    case '\\'': sb.append(singlequoteEscape); break;\n    case '>': \n        // Handling for -->\n        if (i >= 2 && (s.charAt(i - 1) == '-' && s.charAt(i - 2) == '-')) {\n            sb.append(\"\\\\>\");\n        } else {\n            sb.append(c);\n        }\n        break;\n    case '<':\n        // Handling for </script and <!--\n        final String END_SCRIPT = \"/script\";\n        final String START_COMMENT = \"!--\";\n        if (s.regionMatches(true, i + 1, END_SCRIPT, 0, END_SCRIPT.length())) {\n            sb.append(\"<\\\\\");\n        } else if (s.regionMatches(false, i + 1, START_COMMENT, 0, START_COMMENT.length())) {\n            sb.append(\"<\\\\\");\n        } else {\n            sb.append(c);\n        }\n        break;\n    default:\n        if (outputCharsetEncoder != null) {\n            if (outputCharsetEncoder.canEncode(c)) {\n                sb.append(c);\n            } else {\n                appendHexJavaScriptRepresentation(sb, c);\n            }\n        } else {\n            if (c > 0x1f && c <= 0x7f) {\n                sb.append(c);\n            } else {\n                appendHexJavaScriptRepresentation(sb, c);\n            }\n        }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

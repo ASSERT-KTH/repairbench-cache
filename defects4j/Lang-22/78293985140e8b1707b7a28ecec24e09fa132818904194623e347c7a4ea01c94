@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // Handle special cases\n    if (u == 0) return Math.abs(v);\n    if (v == 0) return Math.abs(u);\n    \n    // Make both u and v negative to handle overflow for Integer.MIN_VALUE\n    if (u > 0) u = -u;\n    if (v > 0) v = -v;\n    \n    // Find common factors of 2\n    int shift;\n    for (shift = 0; ((u | v) & 1) == 0 && shift < 31; shift++) {\n        u /= 2;\n        v /= 2;\n    }\n    \n    // Ensure u is negative or zero\n    if (u > v) {\n        int temp = u;\n        u = v;\n        v = temp;\n    }\n    \n    // Main loop\n    while (v != 0) {\n        // u and v are both negative or zero\n        // v is made half of (v - u) if v > u, else (u - v)\n        int t = u - v;\n        if (t < 0) {\n            v = t / 2;\n        } else {\n            v = (t + 1) / 2;\n        }\n    }\n    \n    // Restore common factors of 2\n    u *= (1 << shift);\n    \n    // Ensure the GCD is positive\n    return u < 0 ? -u : u;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

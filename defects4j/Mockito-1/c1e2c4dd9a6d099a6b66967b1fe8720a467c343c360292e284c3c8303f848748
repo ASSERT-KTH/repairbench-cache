@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation invocation) {\n    if (invocation.getMethod().isVarArgs()) {\n        Object[] rawArgs = invocation.getRawArguments();\n        int varargIndex = rawArgs.length - 1;\n        Object varargArray = rawArgs[varargIndex];\n        \n        for (int position = 0; position < matchers.size(); position++) {\n            Matcher m = matchers.get(position);\n            if (m instanceof CapturesArguments) {\n                if (position == varargIndex) {\n                    // Handle varargs as an array\n                    ((CapturesArguments) m).captureFrom(varargArray);\n                } else {\n                    // Handle regular arguments\n                    ((CapturesArguments) m).captureFrom(rawArgs[position]);\n                }\n            }\n        }\n    } else {\n        for (int position = 0; position < matchers.size(); position++) {\n            Matcher m = matchers.get(position);\n            if (m instanceof CapturesArguments) {\n                ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(position, Object.class));\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

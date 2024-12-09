@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n    if (callTarget != null && callTarget.isName() && callTarget.getString().equals(\"String\")) {\n        // Ensure there is exactly one argument\n        Node value = callTarget.getNext();\n        if (value != null && value.getNext() == null) {\n            // Check if the argument is an immutable literal\n            switch (value.getToken()) {\n                case STRING:\n                case NUMBER:\n                case BOOLEAN:\n                case NULL:\n                case VOID\u96f6:\n                    // Fold String(a) to '' + (a) for immutable literals\n                    Node addition = IR.add(\n                            IR.string(\"\").srcref(callTarget),\n                            value.detachFromParent());\n                    n.getParent().replaceChild(n, addition);\n                    reportCodeChange();\n                    return addition;\n                default:\n                    // Do not transform if argument is not an immutable literal\n                    return n;\n            }\n        }\n    }\n    return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "if (i < chars.length) {\n    if (chars[i] >= '0' && chars[i] <= '9') {\n        // no type qualifier, OK\n        return true;\n    }\n    if (chars[i] == 'e' || chars[i] == 'E') {\n        // can't have an E at the last byte\n        return false;\n    }\n    if (chars[i] == '.') {\n        if (hasDecPoint || hasExp) {\n            // two decimal points or dec in exponent\n            return false;\n        }\n        // single trailing decimal point after non-exponent is ok\n        return foundDigit;\n    }\n    if (!allowSigns\n        && (chars[i] == 'd'\n            || chars[i] == 'D'\n            || chars[i] == 'f'\n            || chars[i] == 'F')) {\n        return foundDigit;\n    }\n    if (chars[i] == 'l'\n        || chars[i] == 'L') {\n        // not allowing L with an exponent or decimal point\n        return foundDigit && !hasExp;\n    }\n    // last character is illegal\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void rehash() {\n    final Entry[] oldHashArea = _hashArea;\n    final int oldCapacity = oldHashArea.length;\n    final int newCapacity = oldCapacity << 1; // double the size\n    _hashArea = new Entry[newCapacity];\n\n    for (int i = 0; i < oldCapacity; i++) {\n        Entry current = oldHashArea[i];\n        while (current != null) {\n            Entry next = current.next;\n            int index = current.hash & (newCapacity - 1);\n            current.next = _hashArea[index];\n            _hashArea[index] = current;\n            current = next;\n        }\n    }\n    _needRehash = false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

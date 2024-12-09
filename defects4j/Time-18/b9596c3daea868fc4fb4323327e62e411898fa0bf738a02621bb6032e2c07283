@@ -1,0 +1,7 @@
+{
+    "generation": "private static final int CUTOVER_YEAR = 1582;\nprivate static final int CUTOVER_MONTH = 10;\nprivate static final int CUTOVER_DAY = 15;\n\npublic long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,\n                              int hourOfDay, int minuteOfHour,\n                              int secondOfMinute, int millisOfSecond)\n        throws IllegalArgumentException\n{\n    Chronology base;\n    if ((base = getBase()) != null) {\n        return base.getDateTimeMillis(year, monthOfYear, dayOfMonth,\n                hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n\n    if (isBeforeCutover(year, monthOfYear, dayOfMonth)) {\n        return iJulianChronology.getDateTimeMillis(year, monthOfYear, dayOfMonth,\n                hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    } else {\n        return iGregorianChronology.getDateTimeMillis(year, monthOfYear, dayOfMonth,\n                hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n}\n\nprivate boolean isBeforeCutover(int year, int monthOfYear, int dayOfMonth) {\n    if (year < CUTOVER_YEAR) {\n        return true;\n    } else if (year == CUTOVER_YEAR) {\n        if (monthOfYear < CUTOVER_MONTH) {\n            return true;\n        } else if (monthOfYear == CUTOVER_MONTH) {\n            return dayOfMonth < CUTOVER_DAY;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

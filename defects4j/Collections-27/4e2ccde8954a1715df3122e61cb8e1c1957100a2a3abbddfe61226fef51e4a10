@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.collections4.Factory;\nimport org.apache.commons.collections4.map.AbstractReferenceMap;\nimport org.apache.commons.collections4.map.LRUMap;\n\nimport java.io.*;\nimport java.util.*;\n\npublic class MultiValueMap<K, V> extends AbstractReferenceMap<K, Collection<V>> implements Serializable {\n\n    private static final long serialVersionUID = 1L;\n\n    private final Factory<? extends Collection<V>> factory;\n\n    // Constructor and other methods...\n\n    @SuppressWarnings(\"unchecked\")\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (!(factory instanceof Serializable)) {\n            throw new InvalidClassException(\"Factory is not serializable\");\n        }\n        // Additional safety checks can be performed here\n        // For example, checking if the factory produces safe collections\n    }\n\n    // Other methods...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

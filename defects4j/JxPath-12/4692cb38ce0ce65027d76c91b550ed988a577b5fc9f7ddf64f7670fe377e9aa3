@@ -1,0 +1,7 @@
+{
+    "generation": "if (test instanceof NodeNameTest) {\n    if (node.getNodeType() != Node.ELEMENT_NODE) {\n        return false;\n    }\n\n    NodeNameTest nodeNameTest = (NodeNameTest) test;\n    QName testName = nodeNameTest.getNodeName();\n    String testNamespaceURI = nodeNameTest.getNamespaceURI();\n    boolean wildcard = nodeNameTest.isWildcard();\n    String testPrefix = testName.getPrefix();\n\n    String nodeNamespaceURI = DOMNodePointer.getNamespaceURI(node);\n    String nodeLocalName = DOMNodePointer.getLocalName(node);\n\n    if (wildcard) {\n        // If wildcard and no namespace specified, match any namespace\n        if (testNamespaceURI == null) {\n            return true;\n        }\n        // If wildcard and namespace specified, match nodes with that namespace\n        return equalStrings(testNamespaceURI, nodeNamespaceURI);\n    } else {\n        // Match both local name and namespace URI\n        return equalStrings(testName.getName(), nodeLocalName)\n                && equalStrings(testNamespaceURI, nodeNamespaceURI);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

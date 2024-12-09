@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty()) {\n        // In some cases, like entries of size zero, the list might be empty.\n        // Instead of throwing an exception, return null or handle it differently.\n        // For this fix, we'll return null, assuming the caller can handle this case.\n        return null;\n    }\n    \n    while (deferredBlockStreams.size() > 1) {\n        // In solid compression mode, decompress leading folder streams.\n        // Skip and close them to access the desired entry.\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    \n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) {\n    final double dev = x - mean;\n    final double devStd = dev / standardDeviation;\n    \n    // Check for extreme deviations\n    if (devStd < -40) {\n        return 0.0;\n    } else if (devStd > 40) {\n        return 1.0;\n    }\n    \n    // Handle infinite inputs\n    if (Double.isInfinite(x)) {\n        return x < 0 ? 0.0 : 1.0;\n    }\n    \n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / (standardDeviation * Math.sqrt(2.0))));\n    } catch (MaxIterationsExceededException ex) {\n        // If erf fails to converge, return the closest bound\n        if (x < mean) {\n            return 0.0;\n        } else {\n            return 1.0;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element elt : this.select(\"input, textarea, select, button, [name]\")) {\n        if (!elt.isConnected()) continue; // Skip elements that have been removed\n        data.addAll(elt.attributesMap().entrySet().stream()\n            .filter(entry -> entry.getKey().equals(\"name\"))\n            .map(entry -> new Connection.KeyVal(entry.getValue(), elt.val()))\n            .collect(Collectors.toList()));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(double min, double max) throws MaxIterationsExceededException, FunctionEvaluationException {\n    clearResult();\n    verifyInterval(min, max);\n    \n    double ret = Double.NaN;\n    \n    double yMin = f.value(min);\n    double yMax = f.value(max);\n    \n    double epsilon = getAbsoluteAccuracy();\n    \n    if (FastMath.abs(yMin) < epsilon) {\n        return min;\n    } else if (FastMath.abs(yMax) < epsilon) {\n        return max;\n    } else if (yMin * yMax >= 0) {\n        throw new IllegalArgumentException(\"Function values at endpoints do not have different signs.  Endpoints: [\" + min + \",\" + max + \"]\" + \"  Values: [\" + yMin + \",\" + yMax + \"]\");\n    } else {\n        ret = solve(min, yMin, max, yMax, min, yMin);\n    }\n    \n    return ret;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

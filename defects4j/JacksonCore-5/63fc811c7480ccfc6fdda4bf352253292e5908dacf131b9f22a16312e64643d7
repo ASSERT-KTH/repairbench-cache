@@ -1,0 +1,7 @@
+{
+    "generation": "private final static int _parseIndex(String str) {\n    final int len = str.length();\n    // Check for empty string or strings longer than 10 characters\n    if (len == 0 || len > 10) {\n        return -1;\n    }\n    // Check each character to ensure it is a digit\n    for (int i = 0; i < len; ++i) {\n        char c = str.charAt(i);\n        if (c < '0' || c > '9') {\n            return -1;\n        }\n    }\n    // For strings of length 10, ensure they don't represent a number larger than Integer.MAX_VALUE\n    if (len == 10) {\n        try {\n            long l = Long.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                return -1;\n            }\n        } catch (NumberFormatException e) {\n            return -1;\n        }\n    }\n    // Parse the integer value\n    try {\n        return Integer.parseInt(str);\n    } catch (NumberFormatException e) {\n        return -1;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

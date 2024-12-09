@@ -1,0 +1,7 @@
+{
+    "generation": "if (len <= 0) {\n    // always quote an empty token that is the first\n    // on the line, as it may be the only thing on the\n    // line. If it were not quoted in that case,\n    // an empty line has no tokens.\n    if (newRecord) {\n        quote = true;\n    }\n} else {\n    char c = value.charAt(pos);\n\n    // RFC4180 (https://tools.ietf.org/html/rfc4180) TEXTDATA =  %x20-21 / %x23-2B / %x2D-7E\n    if (newRecord && (c < '0' || c > '9' && c < 'A' || c > 'Z' && c < 'a' || c > 'z')) {\n        quote = true;\n    } else if (c <= COMMENT) {\n        // Some other chars at the start of a value caused the parser to fail, so for now\n        // encapsulate if we start in anything less than '#'. We are being conservative\n        // by including the default comment char too.\n        quote = true;\n    } else {\n        while (pos < end) {\n            c = value.charAt(pos);\n            if (c == LF || c == CR || c == quoteChar || c == delimChar) {\n                quote = true;\n                break;\n            }\n            pos++;\n        }\n\n        if (!quote) {\n            pos = end - 1;\n            c = value.charAt(pos);\n            // Some other chars at the end caused the parser to fail, so for now\n            // encapsulate if we end in anything less than ' '\n            if (c <= SP) {\n                quote = true;\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

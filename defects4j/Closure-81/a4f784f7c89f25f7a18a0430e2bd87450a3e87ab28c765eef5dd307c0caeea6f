@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processFunctionNode(FunctionNode functionNode) {\n  Name name = functionNode.getFunctionName();\n  boolean isUnnamedFunction = (name == null);\n  if (isUnnamedFunction) {\n    name = new Name();\n    name.setIdentifier(\"\");\n    // Set the line number and character number for the unnamed function\n    name.setLineno(functionNode.getLineno());\n    int nameCharno = functionNode.getAbsolutePosition() + functionNode.getFunctionTokenOffset();\n    name.setCharno(position2charno(nameCharno));\n  }\n  Node node = newNode(Token.FUNCTION);\n  Node newName = transform(name);\n  node.addChildToBack(newName);\n  \n  Node lp = newNode(Token.LP);\n  // Determine the line number for the left parenthesis\n  if (isUnnamedFunction) {\n    lp.setLineno(functionNode.getLineno());\n  } else {\n    lp.setLineno(name.getLineno());\n  }\n  // Set character number for the left parenthesis\n  int lparenCharno = functionNode.getAbsolutePosition() + functionNode.getLp();\n  lp.setCharno(position2charno(lparenCharno));\n  \n  for (AstNode param : functionNode.getParams()) {\n    lp.addChildToBack(transform(param));\n  }\n  node.addChildToBack(lp);\n  \n  Node bodyNode = transform(functionNode.getBody());\n  parseDirectives(bodyNode);\n  node.addChildToBack(bodyNode);\n  \n  return node;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

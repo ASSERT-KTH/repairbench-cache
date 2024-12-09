@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Render the specified text and return the rendered options in a StringBuffer.\n *\n * @param sb The StringBuffer to place the rendered text into.\n * @param width The number of characters to display per line.\n * @param nextLineTabStop The position on the next line for the first tab.\n * @param text The text to be rendered.\n * @return the StringBuffer with the rendered options contents.\n */\nprotected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    int startPos = 0;\n    while (startPos < text.length()) {\n        int pos = findWrapPos(text, width, startPos);\n        if (pos == -1) {\n            // If the remaining text is shorter than the width, append it directly.\n            sb.append(rtrim(text.substring(startPos)));\n            break;\n        }\n        sb.append(rtrim(text.substring(startPos, pos))).append(defaultNewLine);\n        // Calculate the next start position\n        startPos = pos;\n        // All following lines must be padded with nextLineTabStop space characters\n        final String padding = createPadding(nextLineTabStop);\n        // Trim the text and prepend padding\n        text = padding + text.substring(startPos).trim();\n        startPos = 0; // Reset start position for the new text\n    }\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

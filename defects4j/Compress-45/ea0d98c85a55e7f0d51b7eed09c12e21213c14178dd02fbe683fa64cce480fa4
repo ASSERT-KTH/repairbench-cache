@@ -1,0 +1,7 @@
+{
+    "generation": "public static int formatLongOctalOrBinaryBytes(\n    final long value, final byte[] buf, final int offset, final int length) {\n\n    // Determine the maximum value that can be represented as octal in the given length\n    final long maxAsOctalChar = (length == TarConstants.UIDLEN) ? TarConstants.MAXID : TarConstants.MAXSIZE;\n\n    final boolean negative = value < 0;\n    if (!negative && value <= maxAsOctalChar) {\n        // Value can be stored as octal chars\n        return formatLongOctalBytes(value, buf, offset, length);\n    }\n\n    // If the value is negative or too large for octal representation, use binary format\n    if (length < 8) {\n        // Ensure the buffer is at least 8 bytes for binary representation\n        throw new IllegalArgumentException(\"Buffer length must be at least 8 bytes for binary representation.\");\n    }\n\n    // Write the value in binary format\n    for (int i = 0; i < 8; i++) {\n        int byteIndex = offset + length - 1 - i;\n        buf[byteIndex] = (byte) (int) (value & 0xff);\n        value >>= 8;\n    }\n\n    // Handle negative values by setting the highest byte to 0xff or 0x80\n    if (negative) {\n        buf[offset] = (byte) 0xff;\n    } else {\n        buf[offset] = (byte) 0x80;\n    }\n\n    return offset + length;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

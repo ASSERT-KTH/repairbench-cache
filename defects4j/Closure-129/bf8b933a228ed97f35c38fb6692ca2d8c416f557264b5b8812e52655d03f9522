@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n    Preconditions.checkState(n.isCall());\n\n    // Keep track of the \"this\" context of a call. A call without an explicit \"this\" is a free call.\n    Node receiver = n.getFirstChild();\n    if (receiver == null) {\n        // Handle the case where the receiver is missing.\n        n.putBooleanProp(Node.FREE_CALL, true);\n        return;\n    }\n\n    // Determine if the call is a free call.\n    if (receiver.isName() || receiver.isString()) {\n        // If the receiver is a name or string, it's likely a free call.\n        n.putBooleanProp(Node.FREE_CALL, true);\n    } else if (receiver.isGet()) {\n        // If it's a get node, it's not a free call.\n        n.putBooleanProp(Node.FREE_CALL, false);\n    } else {\n        // Handle other cases as needed.\n        n.putBooleanProp(Node.FREE_CALL, true);\n    }\n\n    // Keep track of the context in which eval is called.\n    if (receiver.isName() && \"eval\".equals(receiver.getString())) {\n        receiver.putBooleanProp(Node.DIRECT_EVAL, true);\n    } else if (receiver.isGet() && receiver.getLastChild().isString()) {\n        String propertyName = receiver.getLastChild().getString();\n        if (\"eval\".equals(propertyName)) {\n            receiver.putBooleanProp(Node.DIRECT_EVAL, true);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

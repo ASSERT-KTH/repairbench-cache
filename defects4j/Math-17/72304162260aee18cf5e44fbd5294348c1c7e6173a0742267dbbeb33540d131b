@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    if (x == 0) {\n        // Multiplying by zero results in zero with the sign based on the current object's sign.\n        return zeroWithSign(this.sign);\n    } else if (x == 1) {\n        // Multiplying by one results in the original number.\n        return this.copy();\n    } else if (x == -1) {\n        // Multiplying by negative one results in the negation of the original number.\n        return this.negate();\n    } else if (x < 0) {\n        // For negative integers other than -1, multiply the absolute value and negate the result.\n        return this.multiply(Math.abs(x)).negate();\n    } else {\n        // For positive integers, perform the multiplication.\n        Dfp result = this.copy();\n        for (int i = 1; i < x; i++) {\n            result = result.add(this);\n            if (result.isInfinite()) {\n                // If the result is infinite, set the overflow flag.\n                field.setOverflowFlag();\n                break;\n            }\n        }\n        return result;\n    }\n}\n\nprivate Dfp zeroWithSign(int sign) {\n    Dfp zero = field.newDfp(0);\n    zero.sign = sign;\n    return zero;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

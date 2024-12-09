@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    // Protect from ArrayIndexOutOfBoundsException\n    if (index >= input.length() - 1 || input.charAt(index) != '&' || input.charAt(index + 1) != '#') {\n        return 0;\n    }\n\n    int start = index + 2;\n    boolean isHex = false;\n\n    char firstChar = input.charAt(start);\n    if (firstChar == 'x' || firstChar == 'X') {\n        start++;\n        isHex = true;\n    }\n\n    int end = start;\n    while (end < input.length() && input.charAt(end) != ';') {\n        end++;\n    }\n\n    if (end >= input.length() || input.charAt(end) != ';') {\n        return 0; // No valid entity found\n    }\n\n    String entityStr = input.subSequence(start, end).toString();\n    int entityValue;\n    try {\n        if (isHex) {\n            entityValue = Integer.parseInt(entityStr, 16);\n        } else {\n            entityValue = Integer.parseInt(entityStr, 10);\n        }\n    } catch (NumberFormatException nfe) {\n        return 0;\n    }\n\n    // Handle characters outside the BMP\n    char[] chars = Character.toChars(entityValue);\n    for (char c : chars) {\n        out.write(c);\n    }\n\n    // Calculate the number of characters consumed\n    int consumed = end - index + 1; // From '&' to ';'\n    if (isHex) {\n        consumed++; // Account for 'x' or 'X'\n    }\n    return consumed;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

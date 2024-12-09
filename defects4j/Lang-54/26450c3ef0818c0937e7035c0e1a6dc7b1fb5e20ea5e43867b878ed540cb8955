@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    \n    String[] parts = str.split(\"_\", -1);\n    int numParts = parts.length;\n    \n    if (numParts < 1 || numParts > 3) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    \n    String language = \"\";\n    String country = \"\";\n    String variant = \"\";\n    \n    // Validate language part\n    if (parts[0].length() == 2 && isLowerCase(parts[0])) {\n        language = parts[0];\n    } else {\n        throw new IllegalArgumentException(\"Invalid language code: \" + parts[0]);\n    }\n    \n    if (numParts >= 2) {\n        String secondPart = parts[1];\n        if (secondPart.length() == 2 && isUpperCase(secondPart)) {\n            country = secondPart;\n        } else {\n            variant = secondPart;\n        }\n    }\n    \n    if (numParts == 3) {\n        country = parts[1];\n        variant = parts[2];\n        if (country.length() != 2 || !isUpperCase(country)) {\n            throw new IllegalArgumentException(\"Invalid country code: \" + country);\n        }\n    }\n    \n    return new Locale(language, country, variant);\n}\n\nprivate static boolean isLowerCase(String s) {\n    return s.equals(s.toLowerCase()) && !s.equals(s.toUpperCase());\n}\n\nprivate static boolean isUpperCase(String s) {\n    return s.equals(s.toUpperCase()) && !s.equals(s.toLowerCase());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

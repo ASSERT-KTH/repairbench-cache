@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (cs == null || cs.length() == 0 || searchChars == null || searchChars.length == 0) {\n        return false;\n    }\n    int csLength = cs.length();\n    int searchLength = searchChars.length;\n    for (int i = 0; i < csLength; ) {\n        int codePoint = cs.charAt(i);\n        if (Character.isHighSurrogate(codePoint) && i + 1 < csLength) {\n            codePoint = Character.toCodePoint(codePoint, cs.charAt(i + 1));\n            i += 2; // Skip the surrogate pair\n        } else {\n            i += 1;\n        }\n        for (int j = 0; j < searchLength; j++) {\n            int searchCodePoint = searchChars[j];\n            if (searchCodePoint == codePoint) {\n                return true;\n            }\n            // Handle if searchChar is a high surrogate\n            if (Character.isHighSurrogate(searchCodePoint) && j + 1 < searchLength) {\n                int nextSearchCodePoint = searchChars[j + 1];\n                if (Character.isLowSurrogate(nextSearchCodePoint)) {\n                    int combinedSearchCodePoint = Character.toCodePoint(searchCodePoint, nextSearchCodePoint);\n                    if (combinedSearchCodePoint == codePoint) {\n                        return true;\n                    }\n                    j++; // Skip the low surrogate\n                }\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

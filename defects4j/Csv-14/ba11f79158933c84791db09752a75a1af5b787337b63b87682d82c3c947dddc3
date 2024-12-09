@@ -1,0 +1,7 @@
+{
+    "generation": "case MINIMAL:\n    if (len <= 0) {\n        // always quote an empty token that is the first\n        // on the line, as it may be the only thing on the\n        // line. If it were not quoted in that case,\n        // an empty line has no tokens.\n        if (newRecord) {\n            quote = true;\n        }\n    } else {\n        char c = value.charAt(pos);\n\n        // Check if the first character is a control character or a delimiter\n        if (c <= SP || c == delimChar) {\n            quote = true;\n        } else {\n            while (pos < end) {\n                c = value.charAt(pos);\n                if (c == LF || c == CR || c == quoteChar || c == delimChar) {\n                    quote = true;\n                    break;\n                }\n                pos++;\n            }\n\n            if (!quote) {\n                pos = end - 1;\n                c = value.charAt(pos);\n                // Check if the last character is a control character\n                if (c <= SP) {\n                    quote = true;\n                }\n            }\n        }\n    }\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

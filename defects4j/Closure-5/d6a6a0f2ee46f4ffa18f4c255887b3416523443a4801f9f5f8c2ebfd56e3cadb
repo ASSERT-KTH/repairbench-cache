@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlinableObject(List<Reference> refs) {\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    if (parent.isGetProp()) {\n      if (gramps.isDelete()) {\n        return false;\n      }\n      // Existing checks for call nodes and property assignments.\n      if (gramps.isCall() && gramps.getFirstChild() == parent) {\n        return false;\n      }\n      // Further existing logic...\n    }\n\n    // Existing checks for var or assign expressions.\n    if (!isVarOrAssignExprLhs(name)) {\n      return false;\n    }\n\n    // Additional existing logic...\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

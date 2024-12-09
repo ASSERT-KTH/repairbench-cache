@@ -1,0 +1,7 @@
+{
+    "generation": "\nElement insert(Token.StartTag startTag) {\n    Tag tag = Tag.valueOf(startTag.name());\n    boolean isVoid = tag.isVoid(); // Assume this method checks if the tag is void\n\n    if (startTag.isSelfClosing()) {\n        if (isVoid) {\n            Element el = new Element(tag, baseUri, startTag.attributes);\n            insert(el);\n            return el;\n        } else {\n            Element el = insertEmpty(startTag);\n            stack.add(el);\n            tokeniser.emit(new Token.EndTag(el.tagName()));  // ensure we get out of whatever state we are in. emitted for yielded processing\n            return el;\n        }\n    } else {\n        Element el = new Element(tag, baseUri, startTag.attributes);\n        insert(el);\n        return el;\n    }\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

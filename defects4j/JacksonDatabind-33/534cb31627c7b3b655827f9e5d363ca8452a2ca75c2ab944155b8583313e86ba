@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a) {\n    String name = null;\n\n    // Check for JsonGetter annotation first\n    JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n    if (jg != null) {\n        name = jg.value();\n    } else {\n        // If JsonGetter is not present, check for JsonProperty annotation\n        JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n        if (pann != null) {\n            name = pann.value();\n        } else {\n            // Check for other annotations that might indicate serialization\n            if (_hasAnnotation(a, JsonSerialize.class)\n                    || _hasAnnotation(a, JsonView.class)\n                    || _hasAnnotation(a, JsonRawValue.class)) {\n                name = \"\";\n            } else {\n                // If none of the above annotations are present, return null\n                return null;\n            }\n        }\n    }\n\n    // Construct and return the PropertyName object\n    return PropertyName.construct(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

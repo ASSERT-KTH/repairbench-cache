@@ -1,0 +1,7 @@
+{
+    "generation": "SettableBeanProperty creatorProp = creator.findCreatorProperty(propName);\nif (creatorProp != null) {\n    if (buffer.assignParameter(creatorProp, creatorProp.deserialize(p, ctxt))) {\n        t = p.nextToken();\n        Object bean;\n        try {\n            bean = creator.build(ctxt, buffer);\n        } catch (Exception e) {\n            wrapAndThrow(e, _beanType.getRawClass(), propName, ctxt);\n            continue;\n        }\n        while (t == JsonToken.FIELD_NAME) {\n            p.nextToken();\n            tokens.copyCurrentStructure(p);\n            t = p.nextToken();\n        }\n        tokens.writeEndObject();\n        if (bean.getClass() != _beanType.getRawClass()) {\n            ctxt.reportMappingException(\"Can not create polymorphic instances with unwrapped values\");\n            return null;\n        }\n        return _unwrappedPropertyHandler.processUnwrapped(p, ctxt, bean, tokens);\n    }\n    continue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

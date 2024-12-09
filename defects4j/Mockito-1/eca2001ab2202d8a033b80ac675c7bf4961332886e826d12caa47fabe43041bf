@@ -1,0 +1,7 @@
+{
+    "generation": "\nif (method.isVarArgs()) {\n\n    int requiredParameterCount = method.getParameterTypes().length - 1;\n\n    for (int position = 0; position < matchers.size(); position++) {\n\n        Matcher m = matchers.get(position);\n\n        if (m instanceof CapturesArguments) {\n\n            if (position < requiredParameterCount) {\n\n                // Capture the individual argument\n\n                ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(position, Object.class));\n\n            } else {\n\n                // Capture the vararg array as a whole\n\n                ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(requiredParameterCount, Object.class));\n\n            }\n\n        }\n\n    }\n\n} else {\n\n    // Non-varargs method\n\n    for (int position = 0; position < matchers.size(); position++) {\n\n        Matcher m = matchers.get(position);\n\n        if (m instanceof CapturesArguments) {\n\n            ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(position, Object.class));\n\n        }\n\n    }\n\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

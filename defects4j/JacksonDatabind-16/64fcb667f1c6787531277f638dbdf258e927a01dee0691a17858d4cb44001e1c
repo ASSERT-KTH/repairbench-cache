@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean annotationsEqual(Annotation a1, Annotation a2) {\n    if (a1.annotationType() != a2.annotationType()) {\n        return false;\n    }\n    for (Method method : a1.annotationType().getDeclaredMethods()) {\n        try {\n            Object val1 = method.invoke(a1);\n            Object val2 = method.invoke(a2);\n            if (!Objects.equals(val1, val2)) {\n                return false;\n            }\n        } catch (IllegalAccessException | InvocationTargetException e) {\n            throw new RuntimeException(\"Unable to access annotation element: \" + method, e);\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

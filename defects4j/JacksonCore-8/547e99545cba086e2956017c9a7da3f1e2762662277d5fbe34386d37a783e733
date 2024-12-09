@@ -1,0 +1,7 @@
+{
+    "generation": "public char[] getTextBuffer() {\n    // Handle the empty state explicitly\n    if (_inputStart < 0 && _resultArray == null && _resultString == null && !_hasSegments) {\n        return new char[0];\n    }\n    \n    // Are we just using shared input buffer?\n    if (_inputStart >= 0) return _inputBuffer;\n    \n    // Check if _resultArray is already available\n    if (_resultArray != null) return _resultArray;\n    \n    // If _resultString is available, convert it to array and cache it\n    if (_resultString != null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    \n    // Check if there are segments\n    if (!_hasSegments) return _currentSegment;\n    \n    // If none of the above, create a non-segmented array\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

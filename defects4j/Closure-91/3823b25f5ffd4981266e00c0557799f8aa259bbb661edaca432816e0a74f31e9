@@ -1,0 +1,7 @@
+{
+    "generation": "if (n.getType() == Token.FUNCTION) {\n  JSDocInfo jsDoc = getFunctionJsDocInfo(n);\n  if (jsDoc != null && (jsDoc.isConstructor() || jsDoc.isInterface() || jsDoc.hasThisType() || jsDoc.isOverride())) {\n    return false;\n  }\n\n  // Check if the function is part of an object literal with @lends\n  Node ancestor = n.getParent();\n  while (ancestor != null) {\n    if (ancestor.getType() == Token.OBJECTLIT) {\n      JSDocInfo ancestorJsDoc = ancestor.getJSDocInfo();\n      if (ancestorJsDoc != null && ancestorJsDoc.getLendsType() != null) {\n        return false; // Skip traversal, this is bound to the lent object\n      }\n      break;\n    }\n    ancestor = ancestor.getParent();\n  }\n\n  int pType = parent.getType();\n  if (!(pType == Token.BLOCK ||\n        pType == Token.SCRIPT ||\n        pType == Token.NAME ||\n        pType == Token.ASSIGN ||\n        pType == Token.STRING ||\n        pType == Token.NUMBER)) {\n    return false;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

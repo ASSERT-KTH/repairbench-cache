@@ -1,0 +1,7 @@
+{
+    "generation": "   /** @constructor */\n   function Foo() {}\n   Foo.prototype = {'a': 0};\n   /** @type Foo */\n   var F = new Foo;\n   F['a'] = 0;\n   ```\n\n   Expected output: `{}`\n\n2. `testTwoTypes4`:\n\n   ```javascript\n   /** @constructor */\n   function Foo() {}\n   Foo.prototype = {a: 0};\n   /** @type Foo */\n   var F = new Foo;\n   F.a = 0;\n   /** @constructor */\n   function Bar() {}\n   Bar.prototype = {'a': 0};\n   /** @type Bar */\n   var B = new Bar;\n   B['a'] = 0;\n   ```\n\n   Expected output:\n\n   ```javascript\n   function Foo(){}\n   Foo.prototype = {a: 0};\n   var F=new Foo;\n   F.a=0;\n   function Bar() {}\n   Bar.prototype = {'a': 0};\n   var B=new Bar;\n   B['a']=0;\n   ```\n\n   And property set: `{a=[[Foo.prototype]]}`\n\nFrom these tests, it seems like the compiler is supposed to handle property access both via dot notation (`F.a`) and bracket notation (`F['a']`), and correctly identify that these are the same property.\n\nThe error in the `handleObjectLit` function likely lies in how it handles different types of property keys (string, number, computed properties) and ensures that properties are correctly mapped and renamed without conflicts.\n\nLooking at the function:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

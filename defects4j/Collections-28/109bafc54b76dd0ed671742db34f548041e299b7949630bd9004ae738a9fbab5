@@ -1,0 +1,7 @@
+{
+    "generation": "def Bug(arr):\n    n = len(arr)\n    valleys = []\n    \n    # Find all valleys\n    for i in range(1, n-1):\n        if arr[i-1] > arr[i] < arr[i+1]:\n            valleys.append(arr[i])\n    \n    # Check for unique heights\n    if len(valleys) != len(set(valleys)):\n        return 0\n    \n    # Sort the valleys\n    valleys_sorted = sorted(valleys)\n    \n    count = 0\n    for i in range(len(valleys_sorted)):\n        # For the first valley, it's always valid\n        if i == 0:\n            count += 1\n        else:\n            # Check if the current valley is <= half of the previous one\n            if valleys_sorted[i] <= valleys_sorted[i-1] / 2:\n                count += 1\n    \n    return count",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

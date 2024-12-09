@@ -1,0 +1,7 @@
+{
+    "generation": "public static long parseOctal(final byte[] buffer, final int offset, final int length) {\n    long result = 0;\n    int end = offset + length;\n    int start = offset;\n\n    if (length < 2) {\n        throw new IllegalArgumentException(\"Length \" + length + \" must be at least 2\");\n    }\n\n    if (buffer[start] == 0) {\n        return 0L;\n    }\n\n    // Skip leading spaces\n    while (start < end) {\n        if (buffer[start] == ' ') {\n            start++;\n        } else {\n            break;\n        }\n    }\n\n    // Find the end of the numeric part by looking for trailing spaces or NULs\n    int numericEnd = end - 1;\n    while (numericEnd >= start) {\n        if (buffer[numericEnd] == 0 || buffer[numericEnd] == ' ') {\n            numericEnd--;\n        } else {\n            break;\n        }\n    }\n\n    // Check for embedded spaces or NULs within the numeric part\n    for (int i = start; i <= numericEnd; i++) {\n        byte b = buffer[i];\n        if (b == ' ' || b == 0) {\n            throw new IllegalArgumentException(\"embedded space or NUL\");\n        }\n        if (b < '0' || b > '7') {\n            throw new IllegalArgumentException(exceptionMessage(buffer, offset, length, i, b));\n        }\n    }\n\n    // Parse the octal digits\n    for (int i = start; i <= numericEnd; i++) {\n        result = (result << 3) + (buffer[i] - '0');\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

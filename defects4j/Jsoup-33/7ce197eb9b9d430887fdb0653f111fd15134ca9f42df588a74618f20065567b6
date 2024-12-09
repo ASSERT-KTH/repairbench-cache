@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // List of known HTML empty elements\n    Set<String> emptyElements = new HashSet<String>() {{\n        add(\"area\");\n        add(\"base\");\n        add(\"br\");\n        add(\"col\");\n        add(\"embed\");\n        add(\"hr\");\n        add(\"img\");\n        add(\"input\");\n        add(\"keygen\");\n        add(\"link\");\n        add(\"meta\");\n        add(\"param\");\n        add(\"source\");\n        add(\"track\");\n        add(\"wbr\");\n    }};\n    \n    // Check if the tag is known to be empty or is marked as self-closing\n    boolean isSelfClosing = startTag.isSelfClosing() || emptyElements.contains(startTag.name().toLowerCase());\n    \n    if (isSelfClosing) {\n        Element el = insertEmpty(startTag);\n        stack.add(el);\n        // Emit a synthetic end tag to ensure the parser moves on\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n    \n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

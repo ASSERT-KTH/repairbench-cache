@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  // The first child of a call node is the function being called.\n  Node first = n.getFirstChild();\n\n  // Determine if the call is a free call.\n  // A free call is one where the function is not accessed via a property.\n  if (!NodeUtil.isGet(first)) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  // Check for direct calls to eval.\n  // A direct call to eval is when the function is simply 'eval' without any qualification.\n  if (first.isName() && \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

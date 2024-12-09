@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.regex.Matcher;\nimport java.util.regex.Pattern;\nimport java.util.Locale;\n\npublic class DataUtil {\n    private static final Pattern charsetPattern = Pattern.compile(\";\\\\s*charset=\\\\s*\\\"?([\\\\w\\\\-]+)\\\"?\", Pattern.CASE_INSENSITIVE);\n\n    /**\n     * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n     * will kick in.)\n     * @param contentType e.g. \"text/html; charset=EUC-JP\"\n     * @return \"EUC-JP\", or null if not found. Charset is trimmed but not altered in case.\n     */\n    static String getCharsetFromContentType(String contentType) {\n        if (contentType == null) return null;\n        Matcher m = charsetPattern.matcher(contentType);\n        if (m.find()) {\n            String charset = m.group(1).trim();\n            return charset;\n        }\n        return null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

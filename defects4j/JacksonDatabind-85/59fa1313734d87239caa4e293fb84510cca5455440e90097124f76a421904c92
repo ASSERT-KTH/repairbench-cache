@@ -1,0 +1,7 @@
+{
+    "generation": "if (format.hasPattern()) {\n    pattern = format.getPattern();\n    loc = format.hasLocale() ? format.getLocale() : serializers.getLocale();\n    tz = format.getTimeZone();\n} else {\n    DateFormat df = serializers.getFormattingConfiguration().getDateFormat();\n    if (df instanceof SimpleDateFormat) {\n        SimpleDateFormat sdf = (SimpleDateFormat) df;\n        pattern = sdf.toPattern();\n        loc = sdf.getLocale();\n        tz = sdf.getTimeZone();\n    } else {\n        // Fallback to default ISO-8601 format\n        pattern = StdDateFormat.DATE_FORMAT_STR_ISO8601;\n        loc = serializers.getLocale();\n        tz = serializers.getTimeZone();\n    }\n}\ndf = new SimpleDateFormat(pattern, loc);\nif (tz != null) {\n    df.setTimeZone(tz);\n} else {\n    df.setTimeZone(serializers.getTimeZone());\n}\nreturn withFormat(Boolean.FALSE, df);",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

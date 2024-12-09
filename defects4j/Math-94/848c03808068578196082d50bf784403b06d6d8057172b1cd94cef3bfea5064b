@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0) return Math.abs(v);\n    if (v == 0) return Math.abs(u);\n    \n    // Ensure u and v are positive\n    u = Math.abs(u);\n    v = Math.abs(v);\n    \n    // Find the greatest power of 2 that divides both u and v\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    \n    // Now u and v are both odd\n    while (v != 0) {\n        while ((v & 1) == 0) { // v is even\n            v /= 2;\n        }\n        // Now v is odd, ensure u is larger than v\n        if (u < v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n        // u >= v, both odd\n        u -= v;\n        // u might be even now, so we can divide by 2\n        while ((u & 1) == 0) {\n            u /= 2;\n        }\n    }\n    \n    // u is now the GCD of the original u and v, before dividing by 2^k\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

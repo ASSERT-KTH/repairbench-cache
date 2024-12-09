@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n        return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    //\n    // param constraint {{prop: (number|undefined)}}\n    // function f(constraint) {}\n    // f({});\n    //\n    // We want to modify the object literal to match the constraint, by\n    // taking each property on the record and trying to match\n    // properties on this object.\n    if (constraint.isRecordType()) {\n        matchRecordTypeConstraint(constraint.toObjectType());\n    }\n}\n\nprivate void matchRecordTypeConstraint(JSTypeObject constraint) {\n    for (String propName : constraint.getPropertyNames()) {\n        Property property = constraint.getProperty(propName);\n        if (property.isOptional()) {\n            // For optional properties, add the property with the type or undefined.\n            addProperty(propName, property.getType().union(getNativeType(JSTypeNative.UNDEFINED_TYPE)));\n        } else {\n            // For required properties, add the property with its type.\n            addProperty(propName, property.getType());\n        }\n    }\n}\n\nprivate void addProperty(String name, JSType type) {\n    // Implement the logic to add a property to the current object's type.\n    // This is a placeholder for the actual implementation.\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

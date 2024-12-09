@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * ContextTypeExpression := BasicTypeExpression | '?'\n * For expressions on the right hand side of a this: or new:\n */\nprivate Node parseContextTypeExpression(JsDocToken token) {\n    Node typeName = parseTypeName(token);\n    if (typeName == null) {\n        return null;\n    }\n    \n    // Check for '?' token\n    if (token.getType() == JsDocTokenTypes.QUESTION) {\n        token.getNext(); // Consume the '?' token\n        // Create a new node representing the optional type\n        Node optionalNode = new Node(Token.OPTIONAL_TYPE);\n        optionalNode.addChildToBack(typeName);\n        return optionalNode;\n    }\n    \n    return typeName;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

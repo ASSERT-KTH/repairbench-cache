@@ -1,0 +1,7 @@
+{
+    "generation": "public XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Ensure the data is properly formatted before parsing\n    if (!data.startsWith(\"<!--\") || !data.endsWith(\"-->\")) {\n        return null; // Not a valid XML declaration comment\n    }\n    \n    // Remove the comment delimiters\n    String xmlData = data.substring(4, data.length() - 3);\n    \n    try {\n        // Parse the XML data\n        Document doc = Jsoup.parse(\"<\" + xmlData + \">\", baseUri(), Parser.xmlParser());\n        \n        // Check if there are any child nodes\n        if (doc.childNodeSize() > 0) {\n            Element el = doc.child(0);\n            String tagName = NodeUtils.parser(doc).settings().normalizeTag(el.tagName());\n            boolean isDeclaration = data.startsWith(\"<!--!\");\n            XmlDeclaration decl = new XmlDeclaration(tagName, isDeclaration);\n            decl.attributes().addAll(el.attributes());\n            return decl;\n        }\n    } catch (Exception e) {\n        // Parsing failed, return null\n        return null;\n    }\n    \n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

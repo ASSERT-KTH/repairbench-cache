@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // Try to resolve relative URLs to absolute, and optionally update the attribute so output HTML has absolute URLs.\n    // relative URLs without a base URI get removed\n    String value = el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks)\n        attr.setValue(value);\n    \n    // Check if the value is empty or null\n    if (value == null || value.isEmpty()) {\n        return false;\n    }\n    \n    // Extract the protocol from the value\n    int colonIndex = value.indexOf(':');\n    if (colonIndex == -1) {\n        // No protocol found, check if it's a relative URL\n        return false;\n    }\n    \n    String prot = value.substring(0, colonIndex).toLowerCase();\n    for (Protocol protocol : protocols) {\n        if (prot.equals(protocol.toString().toLowerCase())) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

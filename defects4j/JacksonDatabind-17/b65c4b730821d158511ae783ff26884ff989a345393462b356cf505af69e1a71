@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean useForType(JavaType t)\n{\n    switch (_appliesFor) {\n        case NON_CONCRETE_AND_ARRAYS:\n            if (t.isArrayType()) {\n                t = t.getContentType();\n                return useForType(t); // Recurse for content type\n            }\n            // fall through to OBJECT_AND_NON_CONCRETE handling\n        case OBJECT_AND_NON_CONCRETE:\n            Class<?> rawClass = t.getRawClass();\n            return (rawClass == Object.class)\n                    || (!t.isConcrete()\n                    && !TreeNode.class.isAssignableFrom(rawClass));\n        case NON_FINAL:\n            if (t.isArrayType()) {\n                t = t.getContentType();\n            }\n            rawClass = t.getRawClass();\n            return !t.isFinal() && !TreeNode.class.isAssignableFrom(rawClass);\n        default:\n        case JAVA_LANG_OBJECT:\n            return (t.getRawClass() == Object.class);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

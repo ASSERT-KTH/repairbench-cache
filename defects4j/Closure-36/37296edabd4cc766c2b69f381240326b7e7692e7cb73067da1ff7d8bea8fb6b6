@@ -1,0 +1,7 @@
+{
+    "generation": "   if (value.isGetProp() && reference.getParent().isCall() && reference.getParent().getFirstChild() == reference.getNode()) {\n       return false;\n   }\n   ```\n   This prevents inlining when the reference is being called as a function, which is necessary to preserve the correct context (`this` binding). However, this might be too broad and preventing valid inlinings in other scenarios.\n\n3. **Refining the Condition**: To fix the bug, we need to make sure that inlining doesn't occur in cases where it would alter the behavior of the code, such as changing the context in which a function is called. For singleton getters, inlining might interfere with the intended lazy initialization and instance management.\n\n4. **Enhancing the Check**: Instead of blanket disallowing inlining into call nodes, we should check more precisely whether inlining would affect the semantics. One way is to ensure that inlining doesn't change the evaluation order or side effects.\n\n5. **Implementing the Fix**: Modify the condition to only disallow inlining when it would change the context or evaluation order. For instance, if the reference is being called as a function and it's a getter or has side effects, inlining should be avoided.\n\n### Solution Code\n\nHere is the revised `canInline` function with the necessary adjustments:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

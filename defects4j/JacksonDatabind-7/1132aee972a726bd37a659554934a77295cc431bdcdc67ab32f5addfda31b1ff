@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n *\n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {\n    // Check if the current token is FIELD_NAME, which indicates a missing START_OBJECT\n    if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n        // Assume that there is an implied START_OBJECT\n        // Create a new TokenBuffer and add the implied START_OBJECT\n        TokenBuffer buffer = new TokenBuffer(jp.getCodec());\n        buffer.writeStartObject();\n        // Copy the current structure starting from FIELD_NAME\n        copyCurrentStructure(jp, buffer);\n        // Add the implied END_OBJECT\n        buffer.writeEndObject();\n        return buffer;\n    } else {\n        // Normal case: copy the current structure as is\n        copyCurrentStructure(jp);\n        return this;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

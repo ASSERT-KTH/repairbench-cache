@@ -1,0 +1,7 @@
+{
+    "generation": "public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n    if (width > 0) {\n        // Calculate the required capacity and ensure it's available\n        int requiredCapacity = size + width;\n        ensureCapacity(requiredCapacity);\n\n        String str = (obj == null ? getNullText() : obj.toString());\n        int strLen = str.length();\n\n        if (strLen >= width) {\n            // If the string is longer than the width, append only the leftmost characters\n            int charsToCopy = width;\n            str.getChars(0, charsToCopy, buffer, size);\n            size += charsToCopy;\n        } else {\n            // If the string is shorter than the width, append the string and pad with padChar\n            str.getChars(0, strLen, buffer, size);\n            size += strLen;\n            int padLen = width - strLen;\n            for (int i = 0; i < padLen; i++) {\n                buffer[size++] = padChar;\n            }\n        }\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "   DateTimeParserBucket bucket = new DateTimeParserBucket(\n       instantLocal, chrono, iLocale, iPivotYear, iDefaultYear);\n   ```\n   Here, `instantLocal` is the local millis of the instant, which includes the entire datetime. When parsing partial dates, the parser should use this as the base and only update the specified fields.\n\n2. **Parsing into the bucket**:\n   ```java\n   int newPos = parser.parseInto(bucket, text, position);\n   ```\n   This calls the parser to fill the bucket based on the text.\n\n3. **Computing the new millis**:\n   ```java\n   instant.setMillis(bucket.computeMillis(false, text));\n   ```\n   This computes the new millis based on the bucket's fields, potentially overwriting unspecified fields.\n\nThe problem likely lies in how `computeMillis` handles unspecified fields. It seems that it's not correctly retaining the original values for unspecified fields, especially the year.\n\n### Solution\n\nTo fix this, we need to ensure that when computing the new millis, the unspecified fields are retained from the original `instant`. One way to achieve this is by merging the parsed fields with the original fields in the `instant`.\n\nHere's the modified version of the `parseInto` method:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

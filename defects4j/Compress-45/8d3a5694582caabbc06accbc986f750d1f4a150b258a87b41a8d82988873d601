@@ -1,0 +1,7 @@
+{
+    "generation": "public static int formatLongOctalOrBinaryBytes(final long value, final byte[] buf, final int offset, final int length) {\n    // Determine the maximum value that can be represented as octal in the given length\n    final long maxAsOctalChar = (length == TarConstants.UIDLEN) ? TarConstants.MAXID : TarConstants.MAXSIZE;\n    \n    final boolean negative = value < 0;\n    \n    if (!negative && value <= maxAsOctalChar) {\n        // Value is non-negative and fits in octal representation\n        return formatLongOctalBytes(value, buf, offset, length);\n    }\n    \n    // For negative values or values too large for octal, use binary representation\n    if (length < 8) {\n        throw new IllegalArgumentException(\"Value \" + value + \" cannot fit in \" + length + \" byte field.\");\n    }\n    \n    // Write the value in binary format\n    // Assuming big-endian for consistency with other Tar utilities\n    for (int i = 0; i < 8; i++) {\n        int shift = (7 - i) * 8;\n        buf[offset + i] = (byte) ((value >> shift) & 0xFF);\n    }\n    \n    // Return the updated offset\n    return offset + 8;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

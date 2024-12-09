@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic KeyDeserializer createKeyDeserializer(DeserializationContext ctxt, JavaType type)\n        throws JsonMappingException {\n    final DeserializationConfig config = ctxt.getConfig();\n    KeyDeserializer deser = null;\n    if (_factoryConfig.hasKeyDeserializers()) {\n        BeanDescription beanDesc = config.introspectClassAnnotations(type.getRawClass());\n        for (KeyDeserializers d : _factoryConfig.keyDeserializers()) {\n            deser = d.findKeyDeserializer(type, config, beanDesc);\n            if (deser != null) {\n                break;\n            }\n        }\n    }\n    // Apply custom deserializer for enum types\n    if (deser == null && type.isEnumType()) {\n        deser = _createEnumKeyDeserializer(ctxt, type);\n    }\n    // Fallback to string-based deserializer if still null\n    if (deser == null) {\n        deser = StdKeyDeserializers.findStringBasedKeyDeserializer(config, type);\n    }\n    // Apply deserializer modifiers if any\n    if (deser != null && _factoryConfig.hasDeserializerModifiers()) {\n        for (BeanDeserializerModifier mod : _factoryConfig.deserializerModifiers()) {\n            deser = mod.modifyKeyDeserializer(config, type, deser);\n        }\n    }\n    return deser;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

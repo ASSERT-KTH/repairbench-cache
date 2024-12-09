@@ -1,0 +1,7 @@
+{
+    "generation": "private double calculateAsymptoticPValue(final double Umin,\n                                         final int n1,\n                                         final int n2)\n    throws ConvergenceException, MaxCountExceededException {\n\n    final int n1n2prod = n1 * n2;\n\n    // Expected value of U\n    final double EU = n1n2prod / 2.0;\n    // Variance of U\n    final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n\n    // Continuity correction\n    final double correction = Umin < EU ? -0.5 : 0.5;\n    final double z = (Umin - EU + correction) / FastMath.sqrt(VarU);\n\n    // Using the standard normal distribution\n    final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n    // Calculate two-sided p-value\n    final double pValue = 2 * (1 - standardNormal.cumulativeProbability(FastMath.abs(z)));\n\n    return pValue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

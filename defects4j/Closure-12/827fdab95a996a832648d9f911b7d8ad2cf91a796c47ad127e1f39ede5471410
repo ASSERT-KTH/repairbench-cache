@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  Node parent = cfgNode.getParent();\n  while (parent != null) {\n    if (parent.isTry()) {\n      // Check if the cfgNode is within the try block\n      Node tryBlock = parent.getFirstChild();\n      if (tryBlock.contains(cfgNode)) {\n        // There is a catch block following the try block\n        Node catchBlock = tryBlock.getNext();\n        if (catchBlock.isCatch()) {\n          return true;\n        }\n      }\n    }\n    cfgNode = parent;\n    parent = cfgNode.getParent();\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

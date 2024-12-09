@@ -1,0 +1,7 @@
+{
+    "generation": "public Rotation(Vector3D u1, Vector3D u2, Vector3D v1, Vector3D v2) {\n\n    // Normalize input vectors to unit length for numerical stability\n    u1 = u1.normalize();\n    u2 = u2.normalize();\n    v1 = v1.normalize();\n    v2 = v2.normalize();\n\n    // Compute dot products\n    double u1u2 = u1.dotProduct(u2);\n    double v1v2 = v1.dotProduct(v2);\n\n    // Compute the rotation quaternion\n    Vector3D w = u1.crossProduct(v1);\n    double wNorm = w.getNorm();\n    double theta = Math.acos(u1.dotProduct(v1));\n    double sinTheta = Math.sin(theta);\n\n    if (sinTheta == 0) {\n        // Vectors are aligned; no rotation needed\n        q0 = 1.0;\n        q1 = 0.0;\n        q2 = 0.0;\n        q3 = 0.0;\n        return;\n    }\n\n    double q0Temp = Math.cos(theta / 2);\n    Vector3D axis = w.multiply(Math.sin(theta / 2) / sinTheta);\n\n    q0 = q0Temp;\n    q1 = axis.getX();\n    q2 = axis.getY();\n    q3 = axis.getZ();\n\n    // Additional checks and adjustments can be added here if necessary\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

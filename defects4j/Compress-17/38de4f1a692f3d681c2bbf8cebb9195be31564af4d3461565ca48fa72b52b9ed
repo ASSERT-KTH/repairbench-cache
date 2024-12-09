@@ -1,0 +1,7 @@
+{
+    "generation": "public static long parseOctal(final byte[] buffer, final int offset, final int length) {\n    long result = 0;\n    int end = offset + length;\n    int start = offset;\n\n    if (length < 2) {\n        throw new IllegalArgumentException(\"Length \" + length + \" must be at least 2\");\n    }\n\n    if (buffer[start] == 0) {\n        return 0L;\n    }\n\n    // Skip leading spaces\n    while (start < end) {\n        if (buffer[start] == ' ') {\n            start++;\n        } else {\n            break;\n        }\n    }\n\n    // Parse octal digits until a non-octal digit is encountered\n    for (int i = start; i < end; i++) {\n        byte currentByte = buffer[i];\n        if (currentByte >= '0' && currentByte <= '7') {\n            result = (result << 3) + (currentByte - '0');\n        } else {\n            // Stop parsing upon encountering a non-octal digit\n            end = i;\n            break;\n        }\n    }\n\n    // Ensure there is at least one trailing space or NUL\n    if (end < offset + length) {\n        byte trailer = buffer[end];\n        if (trailer != 0 && trailer != ' ') {\n            throw new IllegalArgumentException(\n                    exceptionMessage(buffer, offset, length, end, trailer));\n        }\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

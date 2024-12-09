@@ -1,0 +1,7 @@
+{
+    "generation": "    for (int offset = pos; offset < length; offset++) {\n        if (startChar != input[offset])\n            while(++offset < length && startChar != input[offset]);\n        int i = offset + 1;\n        int last = i + seq.length()-1;\n        if (offset < length) {\n            for (int j = 1; i < last && seq.charAt(j) == input[i]; i++, j++);\n            if (i == last) // found full sequence\n                return offset - pos;\n        }\n    }\n    ```\n    - The outer loop iterates from `pos` to `length - 1`.\n    - If the current character does not match `startChar`, it skips to the next occurrence of `startChar`.\n    - Then, it checks if the substring starting from `offset + 1` matches the rest of the sequence.\n\n2. **Potential Issues**:\n    - The inner `while` loop increments `offset` beyond `length` without checking.\n    - The calculation of `last` might exceed `length`.\n    - The inner `for` loop might access indices beyond `length`.\n\n### Solution\n\nTo fix these issues, we need to ensure that all index accesses are within the bounds of the array. Here's the revised version of the method:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

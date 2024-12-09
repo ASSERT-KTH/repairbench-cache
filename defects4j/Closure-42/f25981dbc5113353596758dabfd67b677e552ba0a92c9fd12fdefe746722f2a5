@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n    // Check if the loop is actually a \"for each\" loop\n    if (isForEachLoop(loopNode)) {\n        throw createUnsupportedError(\"for each\");\n    }\n\n    // Return the bare minimum to put the AST in a valid state for for-in loops.\n    return newNode(\n        Token.FOR,\n        transform(loopNode.getIterator()),\n        transform(loopNode.getIteratedObject()),\n        transformBlock(loopNode.getBody()));\n}\n\nprivate boolean isForEachLoop(ForInLoop loopNode) {\n    // Implement logic to check if the loop is a \"for each\" loop\n    // This is a placeholder; actual implementation depends on the parser's representation\n    return loopNode.isForEach(); // Assuming such a method exists\n}\n\nprivate UnsupportedDiagnostic createUnsupportedError(String feature) {\n    return UnsupportedDiagnostic.create(getLineno(), feature);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

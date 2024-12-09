@@ -1,0 +1,7 @@
+{
+    "generation": "public long readBits(final int count) throws IOException {\n    if (count < 0 || count > 63) {\n        throw new IllegalArgumentException(\"count must be between 1 and 63\");\n    }\n    while (bitsCachedSize < count) {\n        final int nextByte = in.read();\n        if (nextByte < 0) {\n            if (bitsCachedSize == 0) {\n                return -1;\n            }\n            break;\n        }\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            bitsCached |= ((long) nextByte) << bitsCachedSize;\n        } else {\n            bitsCached = (bitsCached << 8) | nextByte;\n        }\n        bitsCachedSize += 8;\n    }\n    if (bitsCachedSize < count) {\n        return -1;\n    }\n    long bitsOut;\n    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n        bitsOut = (bitsCached & MASKS[count]);\n        bitsCached >>>= count;\n    } else {\n        bitsOut = (bitsCached >> (bitsCachedSize - count)) & MASKS[count];\n        bitsCached &= MASKS[bitsCachedSize - count];\n    }\n    bitsCachedSize -= count;\n    return bitsOut;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,\n                              int hourOfDay, int minuteOfHour,\n                              int secondOfMinute, int millisOfSecond)\n        throws IllegalArgumentException\n{\n    Chronology base;\n    if ((base = getBase()) != null) {\n        return base.getDateTimeMillis\n                (year, monthOfYear, dayOfMonth,\n                 hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n\n    // Determine the chronology to use based on the year and month\n    Chronology chronology;\n    if (year < iCutoverYear ||\n            (year == iCutoverYear && monthOfYear < iCutoverMonth) ||\n            (year == iCutoverYear && monthOfYear == iCutoverMonth && dayOfMonth < iCutoverDay)) {\n        chronology = iJulianChronology;\n    } else {\n        chronology = iGregorianChronology;\n    }\n\n    long instant = chronology.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n\n    // Check if the date exists in the chosen chronology\n    if (instant < 0) {\n        throw new IllegalArgumentException(\"Specified date does not exist\");\n    }\n\n    return instant;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

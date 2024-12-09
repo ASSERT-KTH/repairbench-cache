@@ -1,0 +1,7 @@
+{
+    "generation": "in = new PushbackInputStream(inputStream, 4); // buffer size of 4 to hold the signature\n\n// Read the first 4 bytes to check the signature\nbyte[] signature = new byte[4];\nint read = in.read(signature);\nif (read != 4 || Arrays.equals(signature, new byte[]{0x50, 0x4b, 0x03, 0x04})) { // ZIP local file header signature in little-endian\n    // Correct signature, push back the bytes\n    in.unread(signature);\n} else {\n    throw new IOException(\"Not a ZIP file or local file header not found\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

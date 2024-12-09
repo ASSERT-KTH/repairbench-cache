@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Appends an object to the builder padding on the right to a fixed length.\n * The <code>toString</code> of the object is used.\n * If the object is larger than the length, the right hand side is lost.\n * If the object is null, null text value is used.\n * \n * @param obj  the object to append, null uses null text\n * @param width  the fixed field width, zero or negative has no effect\n * @param padChar  the pad character to use\n * @return this, to enable chaining\n */\npublic StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n    if (width <= 0) {\n        return this; // No effect for zero or negative width\n    }\n\n    ensureCapacity(size + width);\n\n    String str = (obj == null ? getNullText() : obj.toString());\n    int strLen = str.length();\n\n    if (strLen >= width) {\n        // If string is longer or equal to width, truncate to width\n        str.getChars(0, width, buffer, size);\n        size += width;\n    } else {\n        // If string is shorter than width, pad with padChar\n        str.getChars(0, strLen, buffer, size);\n        for (int i = strLen; i < width; i++) {\n            buffer[size + i] = padChar;\n        }\n        size += width;\n    }\n\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

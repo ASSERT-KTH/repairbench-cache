@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // Check if the child is an expression\n      if (NodeUtil.isExpressionNode(maybeExpr)) {\n        // Exclude EXPR_RESULT nodes to work around IE bug\n        if (maybeExpr.getType() == Token.EXPR_RESULT) {\n          return false;\n        }\n        // Additional checks can be added here if needed\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

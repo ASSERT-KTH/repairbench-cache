@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // Handle special cases where either u or v is 1 or -1\n    if (Math.abs(u) == 1 || Math.abs(v) == 1) {\n        return 1;\n    }\n    \n    // Convert to positive values to simplify the algorithm\n    u = Math.abs(u);\n    v = Math.abs(v);\n    \n    // If both u and v are zero, GCD is zero\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    \n    // If one of u or v is zero, return the other number\n    if (u == 0) {\n        return v;\n    }\n    if (v == 0) {\n        return u;\n    }\n    \n    // Find the greatest power of 2 that divides both u and v\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    \n    // Make u odd\n    while ((u & 1) == 0) {\n        u /= 2;\n    }\n    \n    // Main loop of the algorithm\n    while (v != 0) {\n        // Make v odd\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        \n        // Now u and v are both odd, swap if necessary to make u <= v\n        if (u > v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n        \n        // Subtract u from v\n        v -= u;\n    }\n    \n    // Restore the common factors of 2\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    final double dev = x - mean;\n    final double fortySigmasBelow = mean - 40 * standardDeviation;\n    final double fortySigmasAbove = mean + 40 * standardDeviation;\n\n    // Directly return 0 or 1 for values more than 40 standard deviations from the mean\n    if (x < fortySigmasBelow) {\n        return 0.0;\n    } else if (x > fortySigmasAbove) {\n        return 1.0;\n    } else {\n        try {\n            return 0.5 * (1.0 + Erf.erf(dev / (standardDeviation * FastMath.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            // If Erf calculation fails to converge, check how many sigmas away we are\n            final double twentySigmasBelow = mean - 20 * standardDeviation;\n            final double twentySigmasAbove = mean + 20 * standardDeviation;\n            if (x < twentySigmasBelow) {\n                return 0.0;\n            } else if (x > twentySigmasAbove) {\n                return 1.0;\n            } else {\n                // Re-throw the exception if we're within 20 sigmas\n                throw ex;\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos) {\n    // Check for newline or tab within width limit\n    int pos;\n    if (((pos = text.indexOf('\\n', startPos)) != -1 && pos <= startPos + width)\n            || ((pos = text.indexOf('\\t', startPos)) != -1 && pos <= startPos + width)) {\n        return pos + 1;\n    }\n    // Check if startPos + width is beyond text length\n    if (startPos + width >= text.length()) {\n        return -1;\n    }\n    // Look for the last whitespace character before startPos + width\n    int lastSpace = -1;\n    for (int i = startPos; i < startPos + width && i < text.length(); i++) {\n        char c = text.charAt(i);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            lastSpace = i;\n        }\n    }\n    // Return the last space position if found, else startPos + width\n    return lastSpace >= startPos ? lastSpace : startPos + width;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "void writePaxHeaders(String entryName, Map<String, String> headers) throws IOException {\n    String name = \"./PaxHeaders.X/\" + stripTo7Bits(entryName);\n    if (name.length() >= TarConstants.NAMELEN) {\n        name = name.substring(0, TarConstants.NAMELEN - 1);\n    }\n    TarArchiveEntry pex = new TarArchiveEntry(name, TarConstants.LF_PAX_EXTENDED_HEADER_LC);\n\n    ByteArrayOutputStream baos = new ByteArrayOutputStream();\n    for (Map.Entry<String, String> h : headers.entrySet()) {\n        String key = h.getKey();\n        String value = h.getValue();\n        String line = key + \"=\" + value + \"\\n\";\n        byte[] lineBytes = line.getBytes(CharsetNames.UTF_8);\n        int len = lineBytes.length;\n        String lenString = len + \" \" + line;\n        byte[] lenLineBytes = lenString.getBytes(CharsetNames.UTF_8);\n        baos.write(lenLineBytes);\n    }\n    byte[] data = baos.toByteArray();\n    pex.setSize(data.length);\n    putArchiveEntry(pex);\n    write(data);\n    closeArchiveEntry();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    // Insert the start tag into the current tree.\n    tb.insert(startTag);\n    \n    // Transition the tokeniser to the RAWTEXT state.\n    tb.tokeniser.transition(TokeniserState.RAWTEXT);\n    \n    // Mark the current insertion mode.\n    tb.markInsertionMode();\n    \n    // Transition to the TEXT insertion mode.\n    tb.transition(Text);\n    \n    // Additionally, handle the end tag for elements like <style> and <noframes>\n    // by inserting the end tag and adjusting the parser state.\n    if (startTag.tagName.equals(\"style\") || startTag.tagName.equals(\"noframes\")) {\n        // Insert the end tag for the element.\n        tb.insert(new Token.EndTag(startTag.tagName));\n        \n        // Reset the tokeniser and insertion modes.\n        tb.tokeniser.reset();\n        tb.resetInsertionMode();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    Set<Object> injectedMocks = new HashSet<>();\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Class<?> fieldType = field.getType();\n        Optional<Object> exactMatchMock = mocks.stream()\n                .filter(mock -> mock.getClass().equals(fieldType))\n                .findFirst();\n        if (exactMatchMock.isPresent() && !injectedMocks.contains(exactMatchMock.get())) {\n            // Inject the exact match mock\n            mockCandidateFilter.filterCandidate(exactMatchMock.get(), field, fieldInstance).thenInject();\n            injectedMocks.add(exactMatchMock.get());\n        } else {\n            // Look for ancestor matches if no exact match is found\n            Optional<Object> ancestorMatchMock = mocks.stream()\n                    .filter(mock -> fieldType.isAssignableFrom(mock.getClass()))\n                    .findFirst();\n            if (ancestorMatchMock.isPresent() && !injectedMocks.contains(ancestorMatchMock.get())) {\n                // Inject the ancestor match mock\n                mockCandidateFilter.filterCandidate(ancestorMatchMock.get(), field, fieldInstance).thenInject();\n                injectedMocks.add(ancestorMatchMock.get());\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

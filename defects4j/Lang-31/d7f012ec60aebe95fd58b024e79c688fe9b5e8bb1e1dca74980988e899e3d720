@@ -1,0 +1,7 @@
+{
+    "generation": "private static Set<Integer> getSearchCodePoints(char[] searchChars) {\n    Set<Integer> codePoints = new HashSet<>();\n    if (searchChars == null) {\n        return codePoints;\n    }\n    int len = searchChars.length;\n    int i = 0;\n    while (i < len) {\n        char ch = searchChars[i];\n        if (Character.isHighSurrogate(ch) && i + 1 < len && Character.isLowSurrogate(searchChars[i + 1])) {\n            int codePoint = Character.toCodePoint(ch, searchChars[i + 1]);\n            codePoints.add(codePoint);\n            i += 2;\n        } else {\n            codePoints.add((int) ch);\n            i++;\n        }\n    }\n    return codePoints;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

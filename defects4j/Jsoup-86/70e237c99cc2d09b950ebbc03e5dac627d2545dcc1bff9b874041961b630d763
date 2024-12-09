@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Ensure the data is properly formatted before parsing\n    if (data == null || data.length() < 3 || !data.startsWith(\"!?\")) {\n        return null;\n    }\n    try {\n        // Adjust the substring to exclude the first and last characters correctly\n        String adjustedData = data.substring(2, data.length() -1);\n        Document doc = Jsoup.parse(\"<\" + adjustedData + \">\", baseUri(), Parser.xmlParser());\n        if (doc.childNodeSize() > 0) {\n            Element el = doc.child(0);\n            String tagName = NodeUtils.parser(doc).settings().normalizeTag(el.tagName());\n            boolean startsWithExclamation = data.startsWith(\"!\");\n            XmlDeclaration decl = new XmlDeclaration(tagName, startsWithExclamation);\n            decl.attributes().addAll(el.attributes());\n            return decl;\n        }\n    } catch (Exception e) {\n        // Log the exception if needed\n        // e.printStackTrace();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

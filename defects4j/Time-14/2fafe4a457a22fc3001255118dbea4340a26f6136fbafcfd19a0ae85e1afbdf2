@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    // Check if partial is contiguous, e.g., month-day\n    if (DateTimeUtils.isContiguous(partial)) {\n        int year = iChronology.year().get(values[0]);\n        int month = partial.getFieldType(0).get(values[0]);\n        int day = partial.getFieldType(1).get(values[1]);\n        \n        // Calculate new month and year after addition\n        int newMonth = month + valueToAdd;\n        int newYear = year + (newMonth - 1) / 12;\n        newMonth = (newMonth - 1) % 12 + 1;\n        \n        // Get the length of the new month\n        int daysInNewMonth = iChronology.daysPerMonthMaximum(newYear, newMonth);\n        \n        // Adjust day if it exceeds the new month's days\n        if (day > daysInNewMonth) {\n            day = daysInNewMonth;\n        }\n        \n        // Create new values array with adjusted day\n        int[] newValues = new int[partial.size()];\n        newValues[0] = iChronology.monthOfYear().set(values[0], newMonth);\n        newValues[1] = iChronology.dayOfMonth().set(values[1], day);\n        \n        return newValues;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

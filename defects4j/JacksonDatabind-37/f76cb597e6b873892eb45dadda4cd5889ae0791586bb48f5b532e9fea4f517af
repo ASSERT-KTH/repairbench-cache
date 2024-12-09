@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass) {\n    if (_class == subclass) {\n        return this;\n    }\n    // Ensure that subclass is indeed a subclass (or the same as) _class\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName() + \" not subtype of \" + _class.getName());\n    }\n    // Re-resolve type bindings based on the subclass\n    TypeBindings bindings = _bindings.narrow(subclass);\n    // Determine super class and interfaces for the subclass\n    JavaType superClass = _resolver.resolveSuperClass(subclass);\n    JavaType[] superInterfaces = _resolver.resolveSuperInterfaces(subclass);\n    // Create a new SimpleType with the updated information\n    return new SimpleType(subclass, bindings, superClass, superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
