@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock block = ref.getBasicBlock();\n       block!= null; block = block.getParent()) {\n    if (block.isFunction) {\n      break;\n    } else if (block.isLoop || hasMultipleExecutions(ref)) {\n      return false;\n    }\n  }\n\n  // Check if there's only one assignment in the entire code.\n  return getAssignments().size() == 1;\n}\n\n// Helper function to check if a reference has multiple executions.\nprivate boolean hasMultipleExecutions(Reference ref) {\n  // This is a simplified version and may need to be adapted to the actual codebase.\n  // It's also possible that this function already exists in the codebase.\n  return ref.getBasicBlock().getPredecessors().size() > 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

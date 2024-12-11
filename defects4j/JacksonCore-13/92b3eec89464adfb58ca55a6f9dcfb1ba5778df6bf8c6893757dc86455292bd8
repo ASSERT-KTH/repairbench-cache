@@ -1,0 +1,7 @@
+{
+    "generation": "// assuming the buggy function is _testFieldNameQuotingEnabled\nprivate void _testFieldNameQuotingEnabled(JsonFactory factory, boolean useStdFeatures, boolean quotingEnabled, String expectedResult) throws IOException\n{\n    JsonGenerator gen = factory.createGenerator(new StringWriter());\n    if (useStdFeatures) {\n        if (quotingEnabled) {\n            gen.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        } else {\n            gen.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        }\n    }\n    gen.writeStartObject();\n    gen.writeObjectFieldStart(\"foo\");\n    gen.writeNumber(1);\n    gen.writeEndObject();\n    gen.writeEndObject();\n    gen.close();\n\n    String result = gen.toString();\n    if (quotingEnabled) {\n        assertEquals(result, expectedResult);\n    } else {\n        // when quoting is disabled, ensure there are no quotes around field name\n        assertTrue(\"Expected no quotes around field name\", result.contains(\"{foo:1}\"));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Object bestMatch = null;\n        for (Object mock : mocks) {\n            if (field.getType().isInstance(mock)) {\n                if (bestMatch == null || isBetterMatch(mock, bestMatch, field.getType())) {\n                    bestMatch = mock;\n                }\n            }\n        }\n        if (bestMatch!= null) {\n            try {\n                field.set(fieldInstance, bestMatch);\n            } catch (IllegalAccessException e) {\n                throw new RuntimeException(e);\n            }\n        }\n    }\n}\n\nprivate boolean isBetterMatch(Object mock, Object bestMatch, Class<?> fieldType) {\n    if (mock.getClass().equals(fieldType)) {\n        return true;\n    }\n    if (bestMatch.getClass().equals(fieldType)) {\n        return false;\n    }\n    return isDirectAncestor(mock.getClass(), fieldType) &&!isDirectAncestor(bestMatch.getClass(), fieldType);\n}\n\nprivate boolean isDirectAncestor(Class<?> mockClass, Class<?> fieldType) {\n    return fieldType.isAssignableFrom(mockClass) &&!mockClass.equals(fieldType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

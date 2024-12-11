@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType getSuperClass() {\n    // We need to resolve the recursive type for the superclass\n    if (_class == null) {\n        _class = _resolveSuperClass();\n    }\n    if (_superClass == null) {\n        if (_class == null) {\n            throw new IllegalStateException(\"Unable to resolve superclass for \" + getClass());\n        }\n        JavaType superType = _typeFactory._fromClass(null, _class.getSuperclass(), _typeVariableImplemintations);\n        // Need to handle recursion explicitly\n        if (superType.isRecursive()) {\n            ((ResolvedRecursiveType) superType).setReference(this);\n        }\n        _superClass = superType;\n    }\n    return _superClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "// Note: The original code snippet was empty, \n// so I'm providing a general example of how to fix the testEmptyToNullCoercionForPrimitives test.\n// The actual fix may vary depending on the original code.\n\nprivate void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    // Create an ObjectMapper instance\n    ObjectMapper mapper = new ObjectMapper();\n    \n    // Configure the ObjectMapper to coerce empty strings to null\n    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n    \n    // Test the coercion for the given type\n    String json = \"{\\\"value\\\":\\\"\\\"}\";\n    try {\n        // Attempt to deserialize the JSON string\n        Object obj = mapper.readValue(json, type);\n        \n        // If the deserialization succeeds, check if the result is the default value\n        if (obj!= null &&!obj.equals(defaultValue)) {\n            throw new AssertionFailedError(\"Should not have passed\");\n        }\n    } catch (Exception e) {\n        // If an exception occurs, it means the coercion failed\n        throw new AssertionFailedError(\"Coercion failed\", e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

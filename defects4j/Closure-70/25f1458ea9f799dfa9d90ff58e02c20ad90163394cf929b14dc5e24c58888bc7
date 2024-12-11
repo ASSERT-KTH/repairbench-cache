@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  if (functionType!= null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters!= null) {\n      Node jsDocParameter = jsDocParameters.getFirstChild();\n      for (Node astParameter : astParameters.children()) {\n        if (jsDocParameter!= null) {\n          // Check if the variable is already declared in the scope\n          if (functionNode.hasChildWithName(astParameter.getString())) {\n            // If it's already declared, report a warning\n            reportWarningForNode(astParameter, \"JSC_DUP_VAR_DECLARATION\", \"variable \" + astParameter.getString() + \" redefined with type \" + jsDocParameter.getJSType() + \", original definition at \" + functionNode.getLineno() + \" with type \" + functionNode.getJSType());\n          }\n          defineSlot(astParameter, functionNode,\n              jsDocParameter.getJSType(), true);\n          jsDocParameter = jsDocParameter.getNext();\n        } else {\n          // If no @param is provided for this argument, use the inferred type\n          defineSlot(astParameter, functionNode, astParameter.getJSType(), true);\n        }\n      }\n    }\n  }\n} // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

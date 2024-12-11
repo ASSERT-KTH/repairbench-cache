@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n * \n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = jp.getCurrentToken();\n    if (t == JsonToken.FIELD_NAME) {\n        // As per #592, need to support a special case of starting from FIELD_NAME,\n        // which is taken to mean that we are missing START_OBJECT, but need to assume one did exist.\n        jp.clearCurrentToken();\n        jp.setCurrentToken(JsonToken.START_OBJECT);\n    } else if (t == JsonToken.START_OBJECT) {\n        // make sure we have valid token to start with\n        jp.nextToken();\n    }\n    copyCurrentStructure(jp);\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

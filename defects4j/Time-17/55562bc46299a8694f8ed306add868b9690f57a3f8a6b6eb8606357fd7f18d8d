@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Adjusts the offset to be the earlier or later one during an overlap.\n * \n * @param instant  the instant to adjust\n * @param earlierOrLater  false for earlier, true for later\n * @return the adjusted instant millis\n */\npublic long adjustOffset(long instant, boolean earlierOrLater) {\n    // a bit messy, but will work in all non-pathological cases\n    \n    // evaluate 3 hours before and after to work out if anything is happening\n    long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    if (instantBefore == instantAfter) {\n        return instant;  // not an overlap (less than is a gap, equal is normal case)\n    }\n    \n    // work out range of instants that have duplicate local times\n    long localBefore = convertUTCToLocal(instant - 1);\n    long localAfter = convertUTCToLocal(instant + 1);\n    long local = convertUTCToLocal(instant);\n    \n    if (earlierOrLater) {\n        // later offset\n        if (local == localBefore) {\n            return convertLocalToUTC(local, false, instantAfter);\n        }\n    } else {\n        // earlier offset\n        if (local == localAfter) {\n            return convertLocalToUTC(local, false, instantBefore);\n        }\n    }\n    \n    return instant;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

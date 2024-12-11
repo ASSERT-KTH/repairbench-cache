@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * If the stack contains an element with this tag's name, pop up the stack to remove all occurrences until the first found.\n *\n * @param endTag tag to close\n */\nprivate void popStackToClose(Token.EndTag endTag) {\n    String elName = endTag.name();\n    int firstFoundPos = -1;\n\n    // find the position of the first occurrence of the element in the stack\n    for (int pos = stack.size() - 1; pos >= 0; pos--) {\n        Element next = stack.get(pos);\n        if (next.nodeName().equals(elName)) {\n            firstFoundPos = pos;\n            break;\n        }\n    }\n    if (firstFoundPos == -1)\n        return; // not found, skip\n\n    // remove all elements from the stack until the first occurrence is found\n    while (stack.size() > firstFoundPos) {\n        stack.remove(stack.size() - 1);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected String doFormat(final String code, final LineEnding ending) throws IOException {\n\n    final var source = new InputSource(new StringReader(code));\n    final var parser = new CSSOMParser(new SACParserCSS3());\n    final var sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);\n    var formattedCode = sheet.getCssText(this.formatter);\n\n    // Remove the IE 7,8, and 9 hack patch, as it seems to be altering the code in an undesired way\n    // The correct approach would be to handle the line endings properly instead of patching the code\n\n    // Normalize the line endings to the system's default line ending\n    if (LineEnding.LF.isSystem() && formattedCode.contains(\"\\r\\n\")) {\n        formattedCode = formattedCode.replace(\"\\r\\n\", \"\\n\");\n    } else if (LineEnding.CRLF.isSystem() && formattedCode.contains(\"\\n\")) {\n        formattedCode = formattedCode.replace(\"\\n\", \"\\r\\n\");\n    }\n\n    if (code.equals(formattedCode)) {\n        return null;\n    }\n    return formattedCode;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

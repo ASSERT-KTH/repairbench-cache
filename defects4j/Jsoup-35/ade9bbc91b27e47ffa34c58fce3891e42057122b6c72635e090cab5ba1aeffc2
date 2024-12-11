@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        //...\n        case EndTag:\n            Token.EndTag endTag = t.asEndTag();\n            String name = endTag.name();\n            if (StringUtil.in(name, \"a\", \"b\", \"big\", \"code\", \"em\", \"font\", \"i\", \"nobr\", \"s\", \"small\", \"strike\", \"strong\", \"tt\", \"u\")) {\n                // Adoption Agency Algorithm.\n                OUTER:\n                for (int i = 0; i < 8; i++) {\n                    Element formatEl = tb.getActiveFormattingElement(name);\n                    if (formatEl == null) {\n                        // Fix: break out of OUTER loop when formatEl is null\n                        break OUTER;\n                    }\n                    //...\n                }\n                // Fix: handle the case when formatEl is null\n                if (tb.getActiveFormattingElement(name) == null) {\n                    return anyOtherEndTag(t, tb);\n                }\n            }\n            //...\n        //...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

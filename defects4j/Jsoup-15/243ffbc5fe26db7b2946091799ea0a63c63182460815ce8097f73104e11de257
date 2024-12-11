@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, TreeBuilder tb) {\n    switch (t.type) {\n        //...\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            //...\n\n            else if (StringUtil.in(name, \"script\", \"style\")) {\n                tb.insert(startTag);\n                tb.tokeniser.transition(TokeniserState.Rcdata);\n                tb.markInsertionMode();\n                tb.framesetOk(false);\n                // Ignore any newlines after the opening tag\n                if (tb.nextToken().isCharacter() && tb.nextToken().asCharacter().getData().equals(\"\\n\")) {\n                    tb.nextToken();\n                }\n            }\n\n            //...\n\n            break;\n\n        //...\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

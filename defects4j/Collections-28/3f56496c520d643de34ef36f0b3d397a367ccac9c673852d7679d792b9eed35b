@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(K prefix) {\n    if (prefix == null) {\n        throw new NullPointerException(\"Prefix cannot be null\");\n    }\n\n    // Create a tree map to store the prefix map\n    SortedMap<K, V> prefixMap = new TreeMap<>();\n\n    // Recursively traverse the trie and add entries to the prefix map\n    traverse(this.root, prefix, prefixMap);\n\n    return prefixMap;\n}\n\n// Helper method to recursively traverse the trie\nprivate void traverse(Node<K, V> node, K prefix, SortedMap<K, V> prefixMap) {\n    if (node == null) {\n        return;\n    }\n\n    // If the node's key starts with the prefix, add it to the prefix map\n    if (node.getKey()!= null && node.getKey().startsWith((String) prefix)) {\n        prefixMap.put(node.getKey(), node.getValue());\n    }\n\n    // Recursively traverse the child nodes\n    for (Node<K, V> child : node.getChildren()) {\n        traverse(child, prefix, prefixMap);\n    }\n}\n\n// Node class representing a node in the trie\nprivate class Node<K, V> {\n    private K key;\n    private V value;\n    private List<Node<K, V>> children;\n\n    public Node(K key, V value) {\n        this.key = key;\n        this.value = value;\n        this.children = new ArrayList<>();\n    }\n\n    public K getKey() {\n        return key;\n    }\n\n    public V getValue() {\n        return value;\n    }\n\n    public List<Node<K, V>> getChildren() {\n        return children;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

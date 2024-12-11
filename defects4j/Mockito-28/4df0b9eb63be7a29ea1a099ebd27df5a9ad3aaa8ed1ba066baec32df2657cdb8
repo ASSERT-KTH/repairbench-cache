@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Class<?> fieldType = field.getType();\n        Object bestMatchingMock = null;\n        int bestMatchDistance = Integer.MAX_VALUE;\n        \n        for (Object mock : mocks) {\n            int distance = getDistance(fieldType, mock.getClass());\n            if (distance < bestMatchDistance) {\n                bestMatchingMock = mock;\n                bestMatchDistance = distance;\n            }\n        }\n        \n        if (bestMatchingMock!= null) {\n            mockCandidateFilter.filterCandidate(Collections.singleton(bestMatchingMock), field, fieldInstance).thenInject();\n        }\n    }\n}\n\n// assuming getDistance method exists to calculate distance between two classes\n// the distance represents how close two classes are in the class hierarchy\nprivate int getDistance(Class<?> fieldType, Class<?> mockType) {\n    if (fieldType.equals(mockType)) return 0;\n    if (fieldType.isAssignableFrom(mockType)) return 1;\n    if (mockType.isAssignableFrom(fieldType)) return 2;\n    // calculate distance based on the class hierarchy\n    // this method should be implemented based on the actual class hierarchy\n    // for now, return a default value\n    return 3;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

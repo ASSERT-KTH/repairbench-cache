@@ -1,0 +1,7 @@
+{
+    "generation": "// Since there is no function provided in the prompt, \n// we will assume that the function to be fixed is the _testFieldNameQuotingEnabled function.\nprivate void _testFieldNameQuotingEnabled(JsonFactory jf, boolean useStdJsonOut, boolean quotingExpected, String expectedResult) throws IOException {\n    JsonGenerator gen;\n    if (useStdJsonOut) {\n        gen = jf.createGenerator(System.out);\n    } else {\n        ByteArrayOutputStream bytes = new ByteArrayOutputStream();\n        gen = jf.createGenerator(bytes);\n        gen.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n    gen.writeObject(Collections.singletonMap(\"foo\", 1));\n    if (!useStdJsonOut) {\n        String result = bytes.toString();\n        if (quotingExpected) {\n            assertEquals(\"{\" + (jf.isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)? \"\\\"\" : \"\") + \"foo\" + (jf.isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)? \"\\\"\" : \"\") + \":1}\", result);\n        } else {\n            assertEquals(\"{foo:1}\", result);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

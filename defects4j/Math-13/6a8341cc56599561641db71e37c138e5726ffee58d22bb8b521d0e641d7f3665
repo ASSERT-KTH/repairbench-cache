@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // Check if the matrix is singular (determinant close to zero)\n    if (FastMath.abs(m.getDeterminant()) < 1e-12) {\n        // If the matrix is singular, it does not have a real square-root\n        // We can either throw an exception or return a special value\n        // Here, we choose to throw an exception\n        throw new SingularMatrixException();\n    }\n\n    final EigenDecomposition dec = new EigenDecomposition(m);\n    return dec.getSquareRoot();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

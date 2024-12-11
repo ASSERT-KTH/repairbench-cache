@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    if (!data.startsWith(\"<?\") ||!data.endsWith(\"?>\")) {\n        return null;\n    }\n    String xmlDecl = data.substring(2, data.length() - 1);\n    String[] parts = xmlDecl.split(\"\\\\s+\");\n    if (parts.length < 1 ||!parts[0].equals(\"xml\")) {\n        return null;\n    }\n    XmlDeclaration decl = new XmlDeclaration(NodeUtils.parser().settings().normalizeTag(\"xml\"), true);\n    for (int i = 1; i < parts.length; i++) {\n        String part = parts[i];\n        if (part.contains(\"=\")) {\n            String[] keyValue = part.split(\"=\");\n            if (keyValue.length == 2) {\n                decl.attributes().put(keyValue[0], keyValue[1].replaceAll(\"^\\\"|\\\"$\", \"\"));\n            }\n        }\n    }\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

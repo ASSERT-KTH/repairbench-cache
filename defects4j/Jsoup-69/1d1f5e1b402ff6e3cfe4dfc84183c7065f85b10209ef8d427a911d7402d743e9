@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements elements = this.getElementsByTag(\"input\");\n    for (Element element : elements) {\n        if (!element.attr(\"type\").equals(\"submit\")) {\n            data.add(new Connection.KeyVal(element.attr(\"name\"), element.attr(\"value\")));\n        }\n    }\n    elements = this.getElementsByTag(\"textarea\");\n    for (Element element : elements) {\n        data.add(new Connection.KeyVal(element.attr(\"name\"), element.text()));\n    }\n    elements = this.getElementsByTag(\"select\");\n    for (Element element : elements) {\n        Elements selectedOptions = element.select(\"option[selected]\");\n        for (Element option : selectedOptions) {\n            data.add(new Connection.KeyVal(element.attr(\"name\"), option.attr(\"value\")));\n        }\n    }\n    // Filter out removed elements\n    data.removeIf(keyVal -> keyVal.key() == null || keyVal.key().isEmpty());\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

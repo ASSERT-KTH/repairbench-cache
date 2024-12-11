@@ -1,0 +1,7 @@
+{
+    "generation": "public Object _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n    String json = \"{\\\"value\\\":\\\"\\\"}\";\n    String expected = \"{\\\"value\\\":null}\";\n    Object result = mapper.readValue(json, type);\n    if (type == int.class || type == long.class || type == double.class || type == float.class) {\n        // null is not a valid value for primitives, so we expect the default value\n        assertEquals(defaultValue, result);\n    } else {\n        // for non-primitive types, we expect null\n        assertNull(result);\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

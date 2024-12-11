@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n        return super.getLeastSupertype(that);\n    }\n    RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n    RecordType thatRecordType = that.toMaybeRecordType();\n    for (String property : properties.keySet()) {\n        if (thatRecordType.hasProperty(property)) {\n            builder.addProperty(property, getLeastSupertypeOfProperties(\n                    getPropertyType(property), thatRecordType.getPropertyType(property)),\n                    getPropertyNode(property));\n        }\n    }\n    for (String property : thatRecordType.Properties().keySet()) {\n        if (!properties.containsKey(property)) {\n            builder.addProperty(property, thatRecordType.getPropertyType(property),\n                    thatRecordType.getPropertyNode(property));\n        }\n    }\n    return builder.build();\n}\n\n// Helper function to get the least supertype of two property types.\nprivate JSType getLeastSupertypeOfProperties(JSType type1, JSType type2) {\n    if (type1.isEquivalentTo(type2)) {\n        return type1;\n    } else {\n        return registry.createUnionType(type1, type2);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

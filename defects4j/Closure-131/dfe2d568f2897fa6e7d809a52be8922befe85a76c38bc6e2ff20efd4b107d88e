@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n  int length = s.length();\n\n  if (length == 0 ||\n     !Character.isJavaIdentifierStart(s.charAt(0))) {\n    return false;\n  }\n\n  for (int i = 1; i < length; i++) {\n    if (\n       !Character.isJavaIdentifierPart(s.charAt(i)) || \n        Character.getType(s.charAt(i)) == Character.SURROGATE) {\n      return false;\n    }\n  }\n\n  // In JavaScript, identifiers cannot contain escape sequences that form a surrogate pair\n  // So, we need to check for surrogate pairs and reject them\n  return!containsSurrogatePair(s);\n}\n\n// Helper function to check if a string contains a surrogate pair\nprivate static boolean containsSurrogatePair(String s) {\n  int length = s.length();\n  for (int i = 0; i < length - 1; i++) {\n    char c1 = s.charAt(i);\n    char c2 = s.charAt(i + 1);\n    if (Character.isHighSurrogate(c1) && Character.isLowSurrogate(c2)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

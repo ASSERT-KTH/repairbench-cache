@@ -1,0 +1,7 @@
+{
+    "generation": "@Override \npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        // Updated logic to handle namespaced function declarations\n        String namespace = parent.getName();\n        String functionName = n.getFirstChild().getString();\n        defineNamespacedFunction(namespace, functionName, n, parent);\n      } else {\n        defineDeclaredFunction(n, parent);\n      }\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}\n\n// New function to handle namespaced function declarations\nprivate void defineNamespacedFunction(String namespace, String functionName, Node n, Node parent) {\n  // Implement logic to define namespaced function\n  ObjectType namespaceType = (ObjectType) scope.getVar(namespace).getType();\n  JSType functionType = extractFunctionTypeFromJSDoc(n);\n  namespaceType.defineProperty(functionName, functionType, true, null);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

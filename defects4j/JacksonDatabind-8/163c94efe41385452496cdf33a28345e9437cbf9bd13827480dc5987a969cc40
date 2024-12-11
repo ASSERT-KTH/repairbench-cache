@@ -1,0 +1,7 @@
+{
+    "generation": "protected void verifyNonDup(AnnotatedWithParams newOne, int typeIndex, boolean explicit)\n{\n    final int mask = (1 << typeIndex);\n    _hasNonDefaultCreator = true;\n    AnnotatedWithParams oldOne = _creators[typeIndex];\n    // already had an explicitly marked one?\n    if (oldOne!= null) {\n\n        if ((_explicitCreators & mask)!= 0) { // already had explicitly annotated, leave as-is\n            // but skip, if new one not annotated\n            if (!explicit) {\n                return;\n            }\n            // both explicit: verify\n            // otherwise only verify if neither explicitly annotated.\n        }\n\n        // one more thing: ok to override in sub-class\n        if (oldOne.getClass() == newOne.getClass()) {\n            // [databind#667]: avoid one particular class of bogus problems\n            // Allow overriding of old creator with new one if it has the same class\n            _creators[typeIndex] = _fixAccess(newOne);\n            if (explicit) {\n                _explicitCreators |= mask;\n            }\n            return;\n        }\n    }\n    // If we reach here, then oldOne is null or oldOne's class is not the same as newOne's class\n    _creators[typeIndex] = _fixAccess(newOne);\n    if (explicit) {\n        _explicitCreators |= mask;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

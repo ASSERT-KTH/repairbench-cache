@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression and is not an event handler (e.g. onchange, onclick).\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // IE has a bug where event handlers behave differently when\n      // their return value is used vs. when their return value is in\n      // an EXPR_RESULT. It's pretty freaking weird. See:\n      // http://code.google.com/p/closure-compiler/issues/detail?id=291\n      // We try to detect this case, and not fold EXPR_RESULTs\n      // into other expressions.\n\n      // We only have to worry about methods with an implicit 'this'\n      // param, or this doesn't happen.\n\n      return NodeUtil.isExpressionNode(maybeExpr) &&!isEventHandler(maybeExpr);\n    }\n  }\n\n  return false;\n}\n\n// Additional helper function to check if a node represents an event handler\nprivate boolean isEventHandler(Node node) {\n  if (node!= null && node.getType() == Token.CALL) {\n    Node func = node.getFirstChild();\n    if (func.getType() == Token.GETPROP) {\n      String propName = func.getString();\n      return propName!= null && propName.startsWith(\"on\");\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

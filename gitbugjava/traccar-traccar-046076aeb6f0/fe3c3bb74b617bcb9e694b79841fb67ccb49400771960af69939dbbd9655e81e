@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    // existing code...\n\n    if (type == MSG_GPS_LBS_3) {\n        int module = buf.readUnsignedShort();\n        int subLength = buf.readUnsignedByte();\n        switch (module) {\n            case 0x0027:\n                position.set(Position.KEY_POWER, buf.readUnsignedShort() * 0.01);\n                break;\n            case 0x002E:\n                position.set(Position.KEY_ODOMETER, buf.readUnsignedInt());\n                break;\n            case 0x003B:\n                if (buf.readableBytes() >= subLength) {\n                    position.setAccuracy(buf.readUnsignedShort() * 0.01);\n                }\n                break;\n            default:\n                if (buf.readableBytes() >= subLength) {\n                    buf.skipBytes(subLength);\n                }\n                break;\n        }\n    }\n\n    // existing code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

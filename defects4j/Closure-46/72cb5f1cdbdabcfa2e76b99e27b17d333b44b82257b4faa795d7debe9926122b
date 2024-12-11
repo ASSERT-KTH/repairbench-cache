@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n  RecordType thisRecordType = toMaybeRecordType();\n  RecordType thatRecordType = that.toMaybeRecordType();\n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  for (String property : unionOfProperties(thisRecordType, thatRecordType)) {\n    if (thisRecordType.hasProperty(property)) {\n      builder.addProperty(property, thisRecordType.getPropertyType(property), thisRecordType.getPropertyNode(property));\n    } else if (thatRecordType.hasProperty(property)) {\n      builder.addProperty(property, thatRecordType.getPropertyType(property), thatRecordType.getPropertyNode(property));\n    }\n  }\n  return builder.build();\n}\n\n// Helper function to get the union of properties from two record types\nprivate Set<String> unionOfProperties(RecordType type1, RecordType type2) {\n  Set<String> union = new HashSet<>(type1.getProperties().keySet());\n  union.addAll(type2.getProperties().keySet());\n  return union;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

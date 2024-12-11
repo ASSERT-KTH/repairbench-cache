@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        int offset = _primaryOffset;\n        int M = _hashArea.length;\n        _hashArea = Arrays.copyOf(_hashArea, M * 2);\n        _names = Arrays.copyOf(_names, M * 2);\n        _hashShared = false;\n        // If there's need to rehash, must resize\n        if (_needRehash) {\n            _rehash();\n        } else {\n            // Must rehash anyway, since we effectively lost sharing\n            System.arraycopy(_hashArea, 0, _hashArea, offset, M);\n        }\n    } else if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

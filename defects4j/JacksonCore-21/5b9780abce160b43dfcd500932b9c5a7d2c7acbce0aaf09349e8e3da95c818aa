@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonToken nextToken() throws IOException\n{\n    //... (rest of the function remains the same until here)\n\n    // If not, need to read more. If we got any:\n    JsonToken t = delegate.nextToken();\n    if (t == null) {\n        // BUG FIX: Return END_OBJECT instead of null when reaching the end of the document\n        if (_currToken!= null && (_currToken.isStructStart() || _currToken.isScalarValue())) {\n            _currToken = JsonToken.END_OBJECT;\n            return _currToken;\n        }\n        // no strict need to close, since we have no state here\n        _currToken = t;\n        return t;\n    }\n\n    //... (rest of the function remains the same)\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

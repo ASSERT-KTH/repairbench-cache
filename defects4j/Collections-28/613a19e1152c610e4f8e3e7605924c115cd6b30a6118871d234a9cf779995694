@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(K prefix) {\n    NavigableSet<K> keySet = new TreeSet<>();\n    for (K key : keySet()) {\n        if (key.toString().startsWith(prefix.toString())) {\n            keySet.add(key);\n        }\n    }\n    return new TreeMap<K, V>() {\n        @Override\n        public V put(K key, V value) {\n            throw new UnsupportedOperationException();\n        }\n\n        @Override\n        public V remove(Object key) {\n            throw new UnsupportedOperationException();\n        }\n\n        @Override\n        public void putAll(Map<? extends K,? extends V> m) {\n            throw new UnsupportedOperationException();\n        }\n\n        @Override\n        public void clear() {\n            for (K key : keySet) {\n                PatriciaTrie.this.remove(key);\n            }\n        }\n\n        @Override\n        public Set<K> keySet() {\n            return keySet;\n        }\n\n        @Override\n        public Collection<V> values() {\n            List<V> values = new ArrayList<>();\n            for (K key : keySet) {\n                values.add(PatriciaTrie.this.get(key));\n            }\n            return values;\n        }\n    };\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

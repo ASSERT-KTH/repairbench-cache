@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // Check if the input matrix is null or not symmetric\n    if (m == null) {\n        throw new NullPointerException(\"Input matrix is null\");\n    }\n    if (!m.operate(m.transpose()).equals(m)) {\n        throw new IllegalArgumentException(\"Input matrix is not symmetric\");\n    }\n\n    // Check if the input matrix is singular\n    if (new LUDecomposition(m).getDeterminant() == 0) {\n        throw new ArithmeticException(\"Input matrix is singular\");\n    }\n\n    final EigenDecomposition dec = new EigenDecomposition(m);\n    // Check if the eigenvalues are non-negative\n    RealVector eigenvalues = dec.getRealEigenvalues();\n    for (int i = 0; i < eigenvalues.getDimension(); i++) {\n        if (eigenvalues.getEntry(i) < 0) {\n            throw new ArithmeticException(\"Input matrix is not positive-definite\");\n        }\n    }\n\n    // Compute the square-root of the matrix\n    RealMatrix sqrt = dec.getSquareRoot();\n\n    // Check if the computed square-root is valid\n    if (sqrt == null) {\n        throw new ArithmeticException(\"Failed to compute square-root of matrix\");\n    }\n\n    // Reduce memory usage by releasing the eigen decomposition object\n    dec.getV().getDataRef();\n    return sqrt;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

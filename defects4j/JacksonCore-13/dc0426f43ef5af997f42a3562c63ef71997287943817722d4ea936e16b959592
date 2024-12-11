@@ -1,0 +1,7 @@
+{
+    "generation": "// Assuming the function _testFieldNameQuotingEnabled is the buggy function\nprivate void _testFieldNameQuotingEnabled(JsonFactory f, boolean useStdWr, boolean quoting, String exp) throws IOException {\n    // Fix the comparison to ignore expected quotes around field names\n    JsonGenerator gen = f.createGenerator(new StringWriter());\n    if (quoting) {\n        gen.useDefaultPrettyPrinter();\n    } else {\n        gen.setQuoteFieldNames(false); // Ensure quoting is disabled\n    }\n    gen.writeObject(Collections.singletonMap(\"foo\", 1));\n    gen.close();\n    assertEquals(exp, gen.getOutputTarget().toString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

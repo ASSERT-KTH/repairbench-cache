@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input\")) {\n        String name = input.attr(\"name\");\n        if (!name.isEmpty()) {\n            if (input.attr(\"type\").equals(\"checkbox\") || input.attr(\"type\").equals(\"radio\")) {\n                if (input.hasAttr(\"checked\")) {\n                    data.add(new Connection.KeyVal(name, input.attr(\"value\")));\n                }\n            } else if (!input.attr(\"type\").equals(\"submit\") &&!input.attr(\"type\").equals(\"reset\") &&!input.attr(\"type\").equals(\"button\")) {\n                data.add(new Connection.KeyVal(name, input.attr(\"value\")));\n            }\n        }\n    }\n    for (Element textarea : select(\"textarea\")) {\n        String name = textarea.attr(\"name\");\n        if (!name.isEmpty()) {\n            data.add(new Connection.KeyVal(name, textarea.text()));\n        }\n    }\n    for (Element select : select(\"select\")) {\n        String name = select.attr(\"name\");\n        if (!name.isEmpty()) {\n            for (Element option : select.select(\"option[selected]\")) {\n                data.add(new Connection.KeyVal(name, option.attr(\"value\")));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,\n                              int hourOfDay, int minuteOfHour,\n                              int secondOfMinute, int millisOfSecond)\n    throws IllegalArgumentException\n{\n    Chronology base;\n    if ((base = getBase())!= null) {\n        return base.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n\n    // First, try to get the date as if it's Gregorian.\n    long instantGregorian;\n    instantGregorian = iGregorianChronology.getDateTimeMillis\n        (year, monthOfYear, dayOfMonth,\n         hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n\n    // Check if this date is valid in the Julian calendar.\n    long instantJulian;\n    try {\n        instantJulian = iJulianChronology.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n        if (instantJulian < iCutoverMillis) {\n            return instantJulian;\n        } else {\n            return instantGregorian;\n        }\n    } catch (IllegalArgumentException e) {\n        // It's not a valid date in the Julian calendar, so try it as a Gregorian date.\n        return instantGregorian;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

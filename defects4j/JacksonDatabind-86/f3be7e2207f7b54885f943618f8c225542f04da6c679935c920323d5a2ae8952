@@ -1,0 +1,7 @@
+{
+    "generation": "// The following code block fixes the issue with constructing recursive Java types.\n// The issue arises when the base type is constructed before the sub type, \n// resulting in an incorrect ResolutionContext which fails to properly resolve \n// the recursive type.\n\n@Override\npublic JavaType constructType(Class<?> cls, TypeBindings bindings, TypeFactory tf) {\n    // Force construction of super class type if it's not yet constructed\n    JavaType superClass = super.constructType(cls.getSuperclass(), bindings, tf);\n    // Then resolve the type using the constructed super class type\n    return resolveRecursiveType(cls, bindings, tf, superClass);\n}\n\n// Helper method to resolve recursive type\nprivate JavaType resolveRecursiveType(Class<?> cls, TypeBindings bindings, TypeFactory tf, JavaType superClass) {\n    // If type is already resolved, return it\n    if (tf.isTypeHandled(cls)) {\n        return tf.constructType(cls, bindings);\n    }\n    \n    // Create a new resolution context\n    ResolutionContext context = new ResolutionContext(cls, bindings, tf);\n    \n    // Resolve the type\n    JavaType type = tf._constructType(cls, bindings, context);\n    \n    // Cache the type\n    tf.cacheType(cls, type);\n    \n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

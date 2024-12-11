@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // grab the correct default values\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = defaultValues;\n    }\n\n    // check if the list length is less than the minimum required\n    if (valueList!= null && valueList.size() < option.getArgument().getMinimum()) {\n        // augment the list with the default values\n        List defaultList = (List) this.defaultValues.get(option);\n        if (defaultList!= null) {\n            // copy the list first\n            ListaugmentedList = new ArrayList<>(valueList);\n            for (Object defaultVal : defaultList) {\n                if (augmentedList.size() < option.getArgument().getMaximum()) {\n                    augmentedList.add(defaultVal);\n                } else {\n                    break;\n                }\n            }\n            valueList = augmentedList;\n        }\n    }\n\n    return valueList == null? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

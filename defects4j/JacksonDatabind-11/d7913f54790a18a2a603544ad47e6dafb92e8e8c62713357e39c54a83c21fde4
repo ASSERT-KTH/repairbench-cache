@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    if (context == null) {\n        Type[] bounds = type.getBounds();\n        if (bounds.length > 0) {\n            return _constructType(bounds[0], context);\n        } else {\n            return _unknownType();\n        }\n    } else {\n        JavaType actualType = context.findType(name);\n        if (actualType!= null) {\n            return actualType;\n        }\n    }\n\n    Type[] bounds = type.getBounds();\n\n    // With type variables we must use bound information.\n    // Theoretically this gets tricky, as there may be multiple\n    // bounds (\"... extends A & B\"); and optimally we might\n    // want to choose the best match. Also, bounds are optional;\n    // but here we are lucky in that implicit \"Object\" is\n    // added as bounds if so.\n    // Either way let's just use the first bound, for now, and\n    // worry about better match later on if there is need.\n\n    context._addPlaceholder(name);\n    if (bounds.length > 0) {\n        return _constructType(bounds[0], context);\n    } else {\n        return _unknownType();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

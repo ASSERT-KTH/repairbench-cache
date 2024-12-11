@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            //... existing code remains the same...\n\n            case \"EH\":\n                position.set(Position.KEY_HOURS, buf.readUnsignedInt() * 360000);\n                break;\n            //... existing code remains the same...\n\n            case \"EO\":\n                // modify this line to ensure latitude and longitude ranges\n                position.set(Position.KEY_ODOMETER, UnitsConverter.metersFromMiles(buf.readInt() < -180000 || buf.readInt() > 180000? 0 : buf.readInt()));\n                break;\n            //... existing code remains the same...\n\n            default:\n                break;\n        }\n    }\n\n    //... existing code remains the same...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

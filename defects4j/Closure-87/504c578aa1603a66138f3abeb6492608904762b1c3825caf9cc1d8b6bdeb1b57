@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, but not a function call with 'on' prefix.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      if (NodeUtil.isExpressionNode(maybeExpr)) {\n        if (maybeExpr.getType() == Token.CALL) {\n          Node callTarget = maybeExpr.getFirstChild();\n          if (callTarget.getType() == Token.GETPROP) {\n            Node propName = callTarget.getLastChild();\n            if (propName.getType() == Token.STRING) {\n              String propNameStr = propName.getString();\n              if (propNameStr.startsWith(\"on\")) {\n                return false; // Avoid folding on* handlers\n              }\n            }\n          }\n        }\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

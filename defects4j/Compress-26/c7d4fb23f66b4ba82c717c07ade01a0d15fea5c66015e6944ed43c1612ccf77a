@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Skips the given number of bytes by repeatedly invoking skip on\n * the given input stream if necessary.\n *\n * <p>In a case where the stream's skip() method returns 0 before\n * the requested number of bytes has been skip this implementation\n * will fall back to using the read() method.</p>\n *\n * <p>This method will only skip less than the requested number of\n * bytes if the end of the input stream has been reached.</p>\n *\n * @param input stream to skip bytes in\n * @param numToSkip the number of bytes to skip\n * @return the number of bytes actually skipped\n * @throws IOException\n */\npublic static long skip(InputStream input, long numToSkip) throws IOException {\n    long skipped = 0;\n    while (numToSkip > 0) {\n        long skip = input.skip(numToSkip);\n        if (skip > 0) {\n            skipped += skip;\n            numToSkip -= skip;\n        } else {\n            int ch = input.read();\n            if (ch == -1) {\n                break;\n            }\n            skipped++;\n            numToSkip--;\n        }\n    }\n    return skipped;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

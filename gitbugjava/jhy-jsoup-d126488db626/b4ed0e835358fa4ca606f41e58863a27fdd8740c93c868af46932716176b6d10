@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    int consumed = 0;\n    while (consumed < tq.length()) {\n        if (tq.matches(\"(\"))\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        else if (tq.matches(\"[\"))\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        else if (tq.matchesAny(Combinators))\n            if (sq.length() > 0)\n                break;\n            else {\n                sq.append(tq.consume());\n                consumed++;\n            }\n        else {\n            sq.append(tq.consume());\n            consumed++;\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  if (s == null || s.isEmpty()) {\n    return false;\n  }\n  int len = s.length();\n  if (s.charAt(0) == '0' && len > 1 && s.charAt(1)!= '.') {\n    return false;\n  }\n  boolean isFloatingPoint = false;\n  boolean isExponent = false;\n  for (int index = 0; index < len; index++) {\n    char c = s.charAt(index);\n    if (c >= '0' && c <= '9') {\n      continue;\n    } else if (c == '.') {\n      if (isFloatingPoint) {\n        return false;\n      }\n      isFloatingPoint = true;\n    } else if (c == '+' || c == '-') {\n      if (index!= 0 && s.charAt(index - 1)!= 'e' && s.charAt(index - 1)!= 'E') {\n        return false;\n      }\n      if (isExponent) {\n        return false;\n      }\n      isExponent = true;\n    } else if (c == 'e' || c == 'E') {\n      if (isExponent) {\n        return false;\n      }\n      isExponent = true;\n    } else {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

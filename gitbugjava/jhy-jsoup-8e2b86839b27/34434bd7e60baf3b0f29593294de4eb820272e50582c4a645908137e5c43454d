@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    if (out.indentAmount == 0) {\n        // when pretty printing, inline elements that contain block elements should not be formatted as a block,\n        // unless the parent element is also a block element\n        if (tag.formatAsBlock() || (parent()!= null && parent().tag().formatAsBlock())) {\n            return true;\n        }\n        // however when printing to a string, inline elements containing block elements should be formatted as a block\n        // unless they're wrapped in a block element\n        if (parent() == null ||!parent().tag().formatAsBlock()) {\n            return hasBlockElementChildren();\n        }\n    }\n    return tag.formatAsBlock() || (parent()!= null && parent().tag().formatAsBlock()) || out.outline();\n}\n\n// assuming the existence of a hasBlockElementChildren() function\nprivate boolean hasBlockElementChildren() {\n    for (Node child : childNodes()) {\n        if (child instanceof Element && ((Element) child).isFormatAsBlock(new Document.OutputSettings())) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

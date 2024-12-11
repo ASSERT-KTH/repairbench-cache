@@ -1,0 +1,7 @@
+{
+    "generation": "// does not recurse.\nprivate void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node: element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    List<Node> newOrder = new ArrayList<Node>(body().childNodes);\n    for (Node node: toMove) {\n        element.removeChild(node);\n    }\n    for (int i = 0; i < toMove.size(); i++) {\n        Node node = toMove.get(i);\n        if (i > 0) {\n            body().appendChild(new TextNode(\" \", \"\"));\n        }\n        body().appendChild(node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

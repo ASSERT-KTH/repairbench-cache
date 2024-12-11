@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression and is not an event handler.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      return NodeUtil.isExpressionNode(maybeExpr) &&!isEventHandlerCall(maybeExpr);\n    }\n  }\n  return false;\n}\n\n// Helper function to check if the given node represents an event handler call\nprivate boolean isEventHandlerCall(Node n) {\n  if (n.getType() == Token.CALL) {\n    Node callee = n.getFirstChild();\n    if (callee.getType() == Token.GETPROP) {\n      Node prop = callee.getLastChild();\n      return prop.getString().equals(\"onchange\") || prop.getString().equals(\"onfocus\");\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
