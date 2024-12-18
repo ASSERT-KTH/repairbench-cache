@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n\n        double x0 = min;\n        double x1 = max;\n        double f0 = f.value(x0);\n        double f1 = f.value(x1);\n        double x = initial;\n        double fx = f.value(x);\n\n        int i = 0;\n        while (i < maximalIterationCount) {\n            if (f0 * fx < 0) {\n                x1 = x;\n                f1 = fx;\n            } else {\n                x0 = x;\n                f0 = fx;\n            }\n            x = (x0 + x1) / 2;\n            fx = f.value(x);\n            i++;\n            if (Math.abs(x1 - x0) <= absoluteAccuracy) {\n                return x;\n            }\n        }\n        throw new MaxIterationsExceededException(maximalIterationCount);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

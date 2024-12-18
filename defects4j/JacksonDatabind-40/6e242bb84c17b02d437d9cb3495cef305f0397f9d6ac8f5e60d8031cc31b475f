@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.VALUE_STRING) {\n        String text = p.getText().trim();\n        if (text.isEmpty()) {\n            if (_primitive) {\n                // For primitives, return default values instead of null\n                if (_valueClass == int.class) {\n                    return Integer.valueOf(0);\n                } else if (_valueClass == long.class) {\n                    return Long.valueOf(0L);\n                } else if (_valueClass == double.class) {\n                    return Double.valueOf(0.0);\n                } else if (_valueClass == float.class) {\n                    return Float.valueOf(0.0f);\n                }\n            }\n            // For non-primitive types, return null\n            return null;\n        }\n    }\n    // Handle other token types as before\n    return super.deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

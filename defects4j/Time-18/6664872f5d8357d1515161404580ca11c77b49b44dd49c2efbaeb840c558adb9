@@ -1,0 +1,7 @@
+{
+    "generation": "public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,\n                              int hourOfDay, int minuteOfHour,\n                              int secondOfMinute, int millisOfSecond)\n    throws IllegalArgumentException\n{\n    Chronology base;\n    if ((base = getBase()) != null) {\n        return base.getDateTimeMillis(year, monthOfYear, dayOfMonth,\n                                      hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n\n    long instantGregorian = iGregorianChronology.getDateTimeMillis(year, monthOfYear, dayOfMonth,\n                                                                   hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    if (instantGregorian < iCutoverMillis) {\n        long instantJulian = iJulianChronology.getDateTimeMillis(year, monthOfYear, dayOfMonth,\n                                                                 hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n        if (instantJulian >= iCutoverMillis) {\n            throw new IllegalArgumentException(\"Specified date does not exist\");\n        }\n        return instantJulian;\n    }\n    return instantGregorian;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

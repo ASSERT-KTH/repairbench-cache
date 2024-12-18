@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n * positive.\n */\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                sampleSize);\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(getCommonElementType(), sampleSize);\n\n    for (int i = 0; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n\n    return out;\n}\n\n// Helper method to determine the common element type\nprivate Class<?> getCommonElementType() {\n    if (singletons.isEmpty()) {\n        return Object.class; // Default to Object if no singletons\n    }\n    Class<?> commonType = singletons.get(0).getClass();\n    for (T element : singletons) {\n        if (!commonType.isAssignableFrom(element.getClass())) {\n            return Object.class; // Use Object if not all elements are of the same type or subtype\n        }\n    }\n    return commonType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

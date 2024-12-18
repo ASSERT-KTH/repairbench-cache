@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    // ... (previous code remains unchanged)\n\n    if (type == MSG_INFO) {\n\n        getLastLocation(position, null);\n\n        // The problematic line:\n        position.set(Position.KEY_POWER, buf.readShort() * 0.01);\n\n        // Fix: Change KEY_POWER to KEY_BATTERY_LEVEL and adjust the calculation\n        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n\n        return position;\n\n    }\n\n    // ... (rest of the code remains unchanged)\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    if (s.isEmpty()) {\n        return false;\n    }\n    \n    int len = s.length();\n    boolean hasDigit = false;\n    boolean hasLeadingZero = false;\n    boolean hasDecimalPoint = false;\n    \n    for (int index = 0; index < len; index++) {\n        char c = s.charAt(index);\n        \n        if (c == '.') {\n            if (hasDecimalPoint || index == 0 || index == len - 1) {\n                return false;\n            }\n            hasDecimalPoint = true;\n        } else if (c == 'x' || c == 'X') {\n            if (index != 1 || s.charAt(0) != '0') {\n                return false;\n            }\n        } else if (c >= '0' && c <= '9') {\n            if (c != '0' || index > 0) {\n                hasDigit = true;\n            }\n            if (c == '0' && index == 0 && len > 1) {\n                hasLeadingZero = true;\n            }\n        } else {\n            return false;\n        }\n    }\n    \n    return hasDigit && !(hasLeadingZero && !hasDecimalPoint && !s.startsWith(\"0x\") && !s.startsWith(\"0X\"));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private Attribute parseAttribute() {\n    tq.consumeWhitespace();\n    if (tq.isEmpty()) return null; // Handle case where there's nothing left to parse\n\n    String key = tq.consumeAttributeKey();\n    String value = \"\";\n\n    if (key.isEmpty()) {\n        // If key is empty, consume until we find a space or end of tag\n        while (!tq.isEmpty() && !tq.matchesWhitespace() && !tq.matchesAny(\"<\", \"/>\", \">\")) {\n            tq.consume();\n        }\n        return null; // No valid attribute, return null\n    }\n\n    tq.consumeWhitespace();\n    if (tq.matchChomp(\"=\")) {\n        tq.consumeWhitespace();\n\n        if (tq.matchChomp(\"'\")) {\n            value = tq.chompTo(\"'\");\n        } else if (tq.matchChomp(\"\\\"\")) {\n            value = tq.chompTo(\"\\\"\");\n        } else {\n            StringBuilder valueAccum = new StringBuilder();\n            // no ' or \" to look for, so scan to end tag or space (or end of stream)\n            while (!tq.matchesAny(\"<\", \"/>\", \">\") && !tq.matchesWhitespace() && !tq.isEmpty()) {\n                valueAccum.append(tq.consume());\n            }\n            value = valueAccum.toString().trim();\n        }\n        tq.consumeWhitespace();\n    }\n\n    return Attribute.createFromEncoded(key, value);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

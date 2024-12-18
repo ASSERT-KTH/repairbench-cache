@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix using the Denman-Beavers algorithm.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    int maxIterations = 100;\n    double tolerance = 1e-6;\n\n    RealMatrix y = m.copy();\n    RealMatrix z = RealMatrixFactory.createIdentityMatrix(m.getRowDimension());\n\n    for (int i = 0; i < maxIterations; i++) {\n        RealMatrix yNext = 0.5 * (y.add(z.inverse()));\n        RealMatrix zNext = 0.5 * (z.add(y.inverse()));\n\n        if (yNext.subtract(y).getNorm() < tolerance && zNext.subtract(z).getNorm() < tolerance) {\n            return yNext;\n        }\n\n        y = yNext;\n        z = zNext;\n    }\n\n    // If we reach here, the algorithm didn't converge within maxIterations\n    throw new ConvergenceException(\"Denman-Beavers algorithm did not converge\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

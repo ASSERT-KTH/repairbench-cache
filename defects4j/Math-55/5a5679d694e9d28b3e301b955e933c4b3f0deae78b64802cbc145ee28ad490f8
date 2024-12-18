@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector3D\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // Compute dot products\n    double v1DotV2 = v1.dotProduct(v2);\n    double v2DotV2 = v2.dotProduct(v2);\n\n    // Compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    double rho = Double.longBitsToDouble(((long) Double.doubleToRawLongBits(v1DotV2 / v2DotV2)) & 0xFFFFFFFF00000000L);\n\n    // Compute preconditioned vector v3 = v1 - rho v2\n    Vector3D v3 = v1.subtract(v2.scalarMultiply(rho));\n\n    // Compute cross product using v3 and v2\n    double c1 = v3.y * v2.z - v3.z * v2.y;\n    double c2 = v3.z * v2.x - v3.x * v2.z;\n    double c3 = v3.x * v2.y - v3.y * v2.x;\n\n    // Scale the result to compensate for the preconditioning\n    double scale = 1.0 / (1.0 - 2.0 * rho * v1DotV2 / v2DotV2 + rho * rho * v2DotV2);\n    return new Vector3D(scale * c1, scale * c2, scale * c3);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    u = Math.abs(u);\n    v = Math.abs(v);\n    if (u == 0) {\n        return v;\n    }\n    if (v == 0) {\n        return u;\n    }\n\n    // keep u and v non-zero\n    int k = 0;\n    while (((u | v) & 1) == 0) {\n        u >>= 1;\n        v >>= 1;\n        k++;\n    }\n    while ((u & 1) == 0) {\n        u >>= 1;\n    }\n    do {\n        while ((v & 1) == 0) {\n            v >>= 1;\n        }\n        if (u < v) {\n            v -= u;\n        } else {\n            int d = u - v;\n            u = v;\n            v = d;\n        }\n        v >>= Integer.numberOfTrailingZeros(v);\n    } while (v != 0);\n\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

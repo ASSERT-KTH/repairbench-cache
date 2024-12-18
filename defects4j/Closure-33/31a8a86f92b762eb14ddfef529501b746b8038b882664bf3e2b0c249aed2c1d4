@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(ObjectType constraintObj) {\n    // We only want to match constraints on anonymous types.\n\n    // Handle the case where the constraint object is a record type.\n    if (constraintObj.isRecordType()) {\n        for (String prop : constraintObj.getOwnPropertyNames()) {\n            JSType propType = constraintObj.getPropertyType(prop);\n            \n            // If the property is not declared, we need to infer its type\n            if (!isPropertyTypeDeclared(prop)) {\n                JSType typeToInfer = propType;\n                \n                // If the property doesn't exist, we need to handle it differently\n                if (!hasProperty(prop)) {\n                    // For nested objects, we need to recursively apply the constraint\n                    if (propType.isObjectType()) {\n                        ObjectType nestedConstraint = (ObjectType) propType;\n                        defineInferredProperty(prop, getNativeType(JSTypeNative.OBJECT_TYPE), null);\n                        getPropertyType(prop).matchConstraint(nestedConstraint);\n                    } else {\n                        typeToInfer = getNativeType(JSTypeNative.VOID_TYPE).getLeastSupertype(propType);\n                    }\n                }\n                \n                // Define the inferred property\n                defineInferredProperty(prop, typeToInfer, null);\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

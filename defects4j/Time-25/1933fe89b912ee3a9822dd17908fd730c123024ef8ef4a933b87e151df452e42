@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    // Get the offset at instantLocal (first estimate)\n    final int offsetLocal = getOffset(instantLocal);\n    // Adjust instantLocal using the estimate and recalc the offset\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n    \n    // If the offsets differ, we must be near a DST boundary\n    if (offsetLocal != offsetAdjusted) {\n        // Check if we're in a DST overlap\n        if (offsetLocal > offsetAdjusted) {\n            // During a DST overlap, return the earlier offset\n            return offsetAdjusted;\n        } else {\n            // We're in a DST gap, need to ensure time is after the gap\n            long nextLocal = nextTransition(instantAdjusted);\n            long nextAdjusted = nextTransition(instantLocal - offsetAdjusted);\n            if (nextLocal == nextAdjusted) {\n                // If transitions match, we're before the gap, use adjusted offset\n                return offsetAdjusted;\n            } else {\n                // If transitions differ, we're in the gap, use local offset\n                return offsetLocal;\n            }\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

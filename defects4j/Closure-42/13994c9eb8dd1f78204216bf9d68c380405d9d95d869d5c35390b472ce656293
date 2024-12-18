@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n    Token loopType = loopNode.isForEach() ? Token.FOR : Token.FOR_IN;\n    \n    // Create a new node based on whether it's a 'for...in' or 'for each...in' loop\n    Node result = newNode(\n        loopType,\n        transform(loopNode.getIterator()),\n        loopNode.isForEach() ? createStringNode(\"each\") : null,\n        transform(loopNode.getIteratedObject()),\n        transformBlock(loopNode.getBody()));\n    \n    // If it's not a 'for each' loop, remove the null 'each' node\n    if (!loopNode.isForEach()) {\n        result.removeChild(result.getChildAtIndex(2));\n    }\n    \n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

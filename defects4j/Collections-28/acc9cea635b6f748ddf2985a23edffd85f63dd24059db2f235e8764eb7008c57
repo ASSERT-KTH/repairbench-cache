@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K prefix) {\n    if (prefix == null) {\n        throw new NullPointerException(\"Prefix must not be null\");\n    }\n\n    final PatriciaTrie<K, V> result = new PatriciaTrie<>(this.keyAnalyzer);\n    final Iterator<Map.Entry<K, V>> iterator = entrySet().iterator();\n    while (iterator.hasNext()) {\n        final Map.Entry<K, V> e = iterator.next();\n        if (keyAnalyzer.isPrefix(prefix, e.getKey())) {\n            result.put(e.getKey(), e.getValue());\n        }\n    }\n\n    // Override clear to properly handle removal from the original trie\n    result.overrideClear = new Runnable() {\n        @Override\n        public void run() {\n            final Iterator<Map.Entry<K, V>> iter = result.entrySet().iterator();\n            while (iter.hasNext()) {\n                final Map.Entry<K, V> entry = iter.next();\n                PatriciaTrie.this.remove(entry.getKey());\n                iter.remove();\n            }\n        }\n    };\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

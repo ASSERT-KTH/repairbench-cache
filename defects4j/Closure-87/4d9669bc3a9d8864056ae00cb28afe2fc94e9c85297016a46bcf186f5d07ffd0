@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n        if (n.hasOneChild()) {\n            Node maybeExpr = n.getFirstChild();\n            // Check if the node is an EXPR_RESULT\n            if (maybeExpr.getType() == Token.EXPR_RESULT) {\n                Node child = maybeExpr.getFirstChild();\n                // Only allow folding if it's not a method call on an object\n                // This addresses the IE issue with event handlers\n                if (child.getType() != Token.CALL || \n                    child.getFirstChild().getType() != Token.GETPROP) {\n                    return NodeUtil.isExpressionNode(child);\n                }\n            } else {\n                // If it's not an EXPR_RESULT, check as before\n                return NodeUtil.isExpressionNode(maybeExpr);\n            }\n        }\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

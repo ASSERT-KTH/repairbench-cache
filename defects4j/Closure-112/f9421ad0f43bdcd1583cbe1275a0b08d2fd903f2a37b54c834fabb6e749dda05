@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * For functions with function(this: T, ...) and T as parameters, type\n   * inference will set the type of this on a function literal argument to the\n   * the actual type of T.\n   */\n  private boolean inferTemplatedTypesForCall(\n      Node n, FunctionType fnType) {\n    final ImmutableList<TemplateType> keys = fnType.getTemplateTypeMap()\n        .getTemplateKeys();\n    if (keys.isEmpty()) {\n      return false;\n    }\n\n    // Try to infer the template types\n    Map<TemplateType, JSType> inferred =\n        inferTemplateTypesFromParameters(fnType, n);\n\n    // Create a copy of the function type to avoid modifying the original\n    FunctionType newFnType = fnType.cloneWithoutTemplateKeys();\n\n    // Replace all template types. If we couldn't find a replacement, we\n    // use the original template type instead of UNKNOWN.\n    TemplateTypeReplacer replacer = new TemplateTypeReplacer(\n        registry, inferred, true /* preserveUnknownTypes */);\n    FunctionType replacementFnType = newFnType.visit(replacer)\n        .toMaybeFunctionType();\n    if (replacementFnType == null) {\n      // If the replacement fails, use the original function type\n      replacementFnType = fnType;\n    }\n\n    Node callTarget = n.getFirstChild();\n    callTarget.setJSType(replacementFnType);\n    n.setJSType(replacementFnType.getReturnType());\n\n    return replacer.madeChanges;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

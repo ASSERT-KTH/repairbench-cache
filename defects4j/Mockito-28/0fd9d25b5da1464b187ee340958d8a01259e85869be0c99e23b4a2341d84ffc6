@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    Map<Field, Object> bestMatches = new HashMap<>();\n    \n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Optional<Object> bestMatch = mockCandidateFilter.findBestMatch(mocks, field);\n        bestMatch.ifPresent(match -> bestMatches.put(field, match));\n    }\n    \n    for (Map.Entry<Field, Object> entry : bestMatches.entrySet()) {\n        Field field = entry.getKey();\n        Object mock = entry.getValue();\n        mockCandidateFilter.injectMock(field, fieldInstance, mock);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

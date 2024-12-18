@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Optional<Injection> injection = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (injection.isPresent()) {\n            Injection bestMatch = injection.get();\n            if (bestMatch.isExactMatch() || !hasBetterMatch(awaitingInjectionClazz, mocks, field, fieldInstance)) {\n                bestMatch.inject();\n            }\n        }\n    }\n}\n\nprivate boolean hasBetterMatch(Class<?> awaitingInjectionClazz, Set<Object> mocks, Field field, Object fieldInstance) {\n    for (Field otherField : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        if (otherField != field) {\n            Optional<Injection> otherInjection = mockCandidateFilter.filterCandidate(mocks, otherField, fieldInstance);\n            if (otherInjection.isPresent() && otherInjection.get().isExactMatch()) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

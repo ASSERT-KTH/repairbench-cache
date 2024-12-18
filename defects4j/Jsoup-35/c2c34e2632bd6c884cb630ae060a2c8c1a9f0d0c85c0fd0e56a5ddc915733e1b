@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // ... (other cases remain unchanged)\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            // ... (other cases remain unchanged)\n\n            else if (name.equals(\"a\")) {\n                if (tb.getActiveFormattingElement(\"a\") != null) {\n                    tb.error(this);\n                    tb.process(new Token.EndTag(\"a\"));\n\n                    // Process end tag for any unclosed 'a' tags on the stack\n                    Element remainingA = tb.getFromStack(\"a\");\n                    while (remainingA != null) {\n                        tb.removeFromActiveFormattingElements(remainingA);\n                        tb.removeFromStack(remainingA);\n                        remainingA = tb.getFromStack(\"a\");\n                    }\n                }\n                tb.reconstructFormattingElements();\n                Element a = tb.insert(startTag);\n                tb.pushActiveFormattingElements(a);\n            }\n\n            // ... (rest of the cases remain unchanged)\n\n        // ... (rest of the function remains unchanged)\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n            throws MaxIterationsExceededException, FunctionEvaluationException {\n        double a = min;\n        double b = max;\n        double fa = f.value(a);\n        double fb = f.value(b);\n        \n        // Check if the function has opposite signs at the endpoints\n        if (fa * fb >= 0) {\n            throw new IllegalArgumentException(\"Function values at the endpoints must have opposite signs.\");\n        }\n\n        // Use the initial guess if it is within the interval\n        double c = initial;\n        if (c < a || c > b) {\n            c = a + (b - a) / 2.0; // Use the midpoint if the initial guess is out of bounds\n        }\n\n        double fc = f.value(c);\n\n        while (Math.abs(b - a) > getAbsoluteAccuracy()) {\n            if (fa * fc < 0) {\n                b = c;\n                fb = fc;\n            } else {\n                a = c;\n                fa = fc;\n            }\n            c = a + (b - a) / 2.0;\n            fc = f.value(c);\n        }\n\n        return c;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

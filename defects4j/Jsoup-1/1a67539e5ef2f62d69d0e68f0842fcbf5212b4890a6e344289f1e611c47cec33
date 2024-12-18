@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node: element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // Move nodes in reverse order to maintain the original sequence\n    for (int i = toMove.size() - 1; i >= 0; i--) {\n        Node node = toMove.get(i);\n        element.removeChild(node);\n        body().prependChild(node); // Use prependChild instead of appendChild\n    }\n\n    // Add a single space at the beginning of the body\n    if (!toMove.isEmpty()) {\n        body().prependChild(new TextNode(\" \", \"\"));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _constructType(Type type, TypeBindings bindings, JavaType parent, TypeFactory.Config config) {\n    JavaType result = super._constructType(type, bindings, parent, config);\n\n    // Handle recursive types\n    if (result instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType recType = (ResolvedRecursiveType) result;\n        if (recType.hasSelfReference()) {\n            JavaType selfRef = recType.getSelfReference();\n            if (selfRef instanceof ClassType && ((ClassType) selfRef).getRawClass() == type) {\n                // Reconstruct with proper superclass reference\n                recType.fixSelfRecursiveType(selfRef);\n            }\n        }\n    }\n\n    // Handle superclass\n    JavaType superClass = result.getSuperClass();\n    if (superClass != null && superClass instanceof ClassType) {\n        Class<?> raw = ((ClassType) superClass).getRawClass();\n        if (raw != Object.class) {\n            JavaType constructedSuper = _constructType(raw, bindings, result, config);\n            if (constructedSuper != superClass) {\n                result = result.withSuperClass(constructedSuper);\n            }\n        }\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

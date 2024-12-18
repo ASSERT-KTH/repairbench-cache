@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    return fit(new Gaussian.Parametric(), new GaussianParameterValidator(guess));\n}\n\n// Inner class to validate Gaussian parameters\nprivate static class GaussianParameterValidator implements ParameterValidator {\n    private final double[] initialGuess;\n\n    public GaussianParameterValidator(double[] initialGuess) {\n        this.initialGuess = initialGuess.clone();\n    }\n\n    @Override\n    public double[] validate(double[] params) {\n        // Ensure sigma is positive\n        if (params[2] <= 0) {\n            params[2] = initialGuess[2];\n        }\n        return params;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

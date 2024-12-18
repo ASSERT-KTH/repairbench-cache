@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n\n    // Compare method names\n    if (!m1.getName().equals(m2.getName())) {\n        return false;\n    }\n\n    // Compare parameter types\n    Class<?>[] p1 = m1.getParameterTypes();\n    Class<?>[] p2 = m2.getParameterTypes();\n    if (p1.length != p2.length) {\n        return false;\n    }\n    for (int i = 0; i < p1.length; i++) {\n        if (!p1[i].equals(p2[i]) && !p1[i].isAssignableFrom(p2[i]) && !p2[i].isAssignableFrom(p1[i])) {\n            return false;\n        }\n    }\n\n    // Compare return types\n    Class<?> r1 = m1.getReturnType();\n    Class<?> r2 = m2.getReturnType();\n    if (!r1.equals(r2) && !r1.isAssignableFrom(r2) && !r2.isAssignableFrom(r1)) {\n        return false;\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

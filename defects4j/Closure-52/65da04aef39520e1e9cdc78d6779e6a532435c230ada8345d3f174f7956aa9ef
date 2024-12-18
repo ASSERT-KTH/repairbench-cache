@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    if (s == null || s.isEmpty()) {\n        return false;\n    }\n\n    int len = s.length();\n    int start = 0;\n    boolean isHex = false;\n    boolean isOctal = false;\n\n    // Check for hex prefix\n    if (len > 2 && s.charAt(0) == '0' && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {\n        start = 2;\n        isHex = true;\n    } \n    // Check for octal prefix\n    else if (len > 1 && s.charAt(0) == '0') {\n        start = 1;\n        isOctal = true;\n    }\n\n    for (int index = start; index < len; index++) {\n        char c = s.charAt(index);\n        if (isHex) {\n            if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {\n                return false;\n            }\n        } else if (isOctal) {\n            if (c < '0' || c > '7') {\n                return false;\n            }\n        } else {\n            if (c < '0' || c > '9') {\n                return false;\n            }\n        }\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

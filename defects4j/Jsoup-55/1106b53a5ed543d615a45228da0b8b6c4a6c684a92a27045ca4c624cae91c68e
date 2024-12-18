@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case '/':\n            // If the next character is '>', it's a self-closing tag\n            if (r.matches('>')) {\n                r.consume();\n                t.tagPending.selfClosing = true;\n                t.emitTagPending();\n                t.transition(Data);\n            } else {\n                // Otherwise, treat '/' as part of an attribute name\n                t.tagPending.appendTagName(c);\n                t.transition(BeforeAttributeName);\n            }\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.tagPending.appendTagName(c);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

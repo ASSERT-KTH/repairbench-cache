@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, TypeBindings bindings)\n{\n    // ... existing code ...\n\n    if (resolved instanceof Class<?>) {\n        Class<?> cls = (Class<?>) resolved;\n        if (cls.isArray()) {\n            JavaType componentType = _constructType(cls.getComponentType(), bindings);\n            return TypeFactory.constructArrayType(componentType);\n        }\n        if (cls.isEnum()) {\n            _checkMutableEnum(cls);\n        }\n        if (cls == String.class) {\n            return TypeFactory.STRING_TYPE;\n        }\n        if (cls == Integer.TYPE) {\n            return TypeFactory.INT_TYPE;\n        }\n        // ... other primitive type checks ...\n\n        // Add this block to handle recursive types\n        if (_typeCache.hasPendingType(cls)) {\n            // We have a recursive type, return a placeholder\n            return new ResolvedRecursiveType(cls, bindings);\n        }\n        _typeCache.putPendingType(cls, new SimpleType(cls));\n        JavaType result = _fromClass(cls, bindings);\n        _typeCache.removePendingType(cls);\n        return result;\n    }\n\n    // ... rest of the existing code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

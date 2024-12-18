@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    // ... other methods ...\n\n    public JavaType constructType(Class<?> cls) {\n        _initStdTypes();\n        JavaType type = _fromClass(cls, null);\n        if (type == null) {\n            throw new IllegalArgumentException(\"Class \" + cls.getName() + \" not supported for type construction\");\n        }\n        return type;\n    }\n\n    protected JavaType _fromClass(Class<?> cls, TypeBindings bindings) {\n        JavaType type = _constructType(cls, bindings);\n        if (type != null) {\n            return type;\n        }\n        // If type is not yet resolved and it's a subtype, try to resolve it with the base type\n        Class<?> superclass = cls.getSuperclass();\n        if (superclass != null && superclass != Object.class) {\n            JavaType superType = _fromClass(superclass, bindings);\n            if (superType != null) {\n                return superType.refine(cls, bindings, null, null);\n            }\n        }\n        return null;\n    }\n\n    // ... other methods ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

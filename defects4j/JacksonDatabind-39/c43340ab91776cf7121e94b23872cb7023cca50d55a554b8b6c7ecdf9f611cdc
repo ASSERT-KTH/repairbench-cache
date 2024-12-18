@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Initialize the target object\n    Object target = ctxt.getBeanDescription().getBeanClass().newInstance();\n\n    // Start processing the JSON object\n    if (p.getCurrentToken() == JsonToken.START_OBJECT) {\n        p.nextToken();\n        while (p.getCurrentToken() != JsonToken.END_OBJECT) {\n            String fieldName = p.getCurrentName();\n            p.nextToken(); // Move to the value\n\n            // Handle known fields\n            if (\"version\".equals(fieldName)) {\n                ((CallRecord) target).version = p.getDoubleValue();\n            } else if (\"application\".equals(fieldName)) {\n                ((CallRecord) target).application = p.getText();\n            } else if (\"item\".equals(fieldName)) {\n                ((CallRecord) target).item = ctxt.readValue(p, CallRecordItem.class);\n            } else if (\"item2\".equals(fieldName)) {\n                ((CallRecord) target).item2 = ctxt.readValue(p, CallRecordItem.class);\n            } else {\n                // Skip unknown fields\n                p.skipChildren();\n            }\n\n            p.nextToken(); // Move to the next field or END_OBJECT\n        }\n    }\n\n    return target;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

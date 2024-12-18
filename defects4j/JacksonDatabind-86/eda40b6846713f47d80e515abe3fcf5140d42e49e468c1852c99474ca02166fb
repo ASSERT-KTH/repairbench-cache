@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, TypeBindings bindings) {\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        if (cls.isArray()) {\n            return constructArrayType(cls.getComponentType(), bindings);\n        }\n        if (cls.isPrimitive()) {\n            return constructPrimitiveType(cls);\n        }\n        if (cls.isEnum()) {\n            return constructEnumType(cls);\n        }\n        // Handle recursive types\n        JavaType result = _fromClass(cls, bindings);\n        if (result instanceof ResolvedRecursiveType) {\n            // Ensure the type is resolved properly\n            result = ((ResolvedRecursiveType) result).getSelfReferencedType();\n        }\n        return result;\n    }\n    if (type instanceof ParameterizedType) {\n        return constructType((ParameterizedType) type, bindings);\n    }\n    if (type instanceof GenericArrayType) {\n        return constructType((GenericArrayType) type, bindings);\n    }\n    if (type instanceof TypeVariable<?>) {\n        return constructType((TypeVariable<?>) type, bindings);\n    }\n    if (type instanceof WildcardType) {\n        return constructType((WildcardType) type, bindings);\n    }\n    throw new IllegalArgumentException(\"Unrecognized Type: \"+type);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

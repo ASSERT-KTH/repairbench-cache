@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Resolve the referenced type within the enclosing scope.\n */\n@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    boolean resolved = false;\n    Set<JSType> visited = new HashSet<>();\n\n    while (!resolved) {\n        resolved = resolveViaRegistry(t, enclosing);\n        if (resolved) break;\n\n        if (detectImplicitPrototypeCycle(visited)) {\n            handleTypeCycle(t);\n            break;\n        }\n\n        resolved = resolveViaProperties(t, enclosing);\n    }\n\n    super.resolveInternal(t, enclosing);\n    if (isResolved()) {\n        finishPropertyContinuations();\n    }\n\n    return registry.isLastGeneration() ? getReferencedType() : this;\n}\n\n/**\n * Detects an implicit prototype cycle.\n * \n * @param visited A set of visited types to avoid infinite recursion.\n * @return true if a cycle is detected, false otherwise.\n */\nprivate boolean detectImplicitPrototypeCycle(Set<JSType> visited) {\n    if (visited.contains(this)) {\n        return true;\n    }\n    visited.add(this);\n\n    // Check for cycle in prototype chain\n    JSType prototype = getPrototype();\n    while (prototype != null) {\n        if (visited.contains(prototype)) {\n            return true;\n        }\n        visited.add(prototype);\n        prototype = prototype.getPrototype();\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processFunctionNode(FunctionNode functionNode) {\n  Name name = functionNode.getFunctionName();\n  boolean isUnnamedFunction = name == null;\n  if (isUnnamedFunction) {\n    name = new Name();\n    name.setIdentifier(\"\");\n  }\n  Node node = newNode(Token.FUNCTION);\n  Node newName = transform(name);\n  \n  if (isUnnamedFunction) {\n    // For unnamed function statements, we need to set the line number\n    // to the function keyword's line number, not the left parenthesis.\n    newName.setLineno(functionNode.getLineno());\n    newName.setCharno(functionNode.getPosition());\n  } else {\n    newName.setLineno(name.getLineno());\n    newName.setCharno(name.getPosition());\n  }\n\n  node.addChildToBack(newName);\n\n  Node lp = newNode(Token.LP);\n  lp.setLineno(functionNode.getLineno());\n  int lparenCharno = functionNode.getLp() + functionNode.getAbsolutePosition();\n  lp.setCharno(position2charno(lparenCharno));\n\n  for (AstNode param : functionNode.getParams()) {\n    lp.addChildToBack(transform(param));\n  }\n  node.addChildToBack(lp);\n\n  Node bodyNode = transform(functionNode.getBody());\n  parseDirectives(bodyNode);\n  node.addChildToBack(bodyNode);\n\n  // Set the node type to FUNCTION without a name for unnamed function statements\n  if (isUnnamedFunction && functionNode.getParent().getType() == Token.EXPR_RESULT) {\n    node.setType(Token.FUNCTION);\n  }\n\n  return node;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

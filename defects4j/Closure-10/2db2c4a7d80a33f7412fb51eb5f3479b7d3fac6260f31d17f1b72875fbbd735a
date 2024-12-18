@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n  if (recurse) {\n    return allResultsMatch(n, MAY_BE_STRING_PREDICATE) || mayContainString(n);\n  } else {\n    return mayBeStringHelper(n) || mayContainString(n);\n  }\n}\n\n// Helper method to check if a node might contain a string\nstatic boolean mayContainString(Node n) {\n  if (n.isOr() || n.isAnd() || n.isHook()) {\n    for (Node child : n.children()) {\n      if (mayBeString(child, false)) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory\n{\n    private final TypeParser _parser;\n\n    public TypeFactory(TypeParser p) {\n        _parser = p;\n    }\n\n    public static TypeFactory defaultInstance() {\n        return new TypeFactory(new TypeParser());\n    }\n\n    public JavaType constructType(Class<?> cls) {\n        return _parser.parse(cls);\n    }\n\n    public static class TypeParser {\n        private final Map<Class<?>, JavaType> _types = new HashMap<>();\n\n        public JavaType parse(Class<?> cls) {\n            if (_types.containsKey(cls)) {\n                return _types.get(cls);\n            }\n\n            JavaType type = new SimpleType(cls);\n            _types.put(cls, type);\n\n            // Handle inheritance\n            Class<?> superClass = cls.getSuperclass();\n            if (superClass != null && superClass != Object.class) {\n                JavaType superType = parse(superClass);\n                type = type.withSuperClass(superType);\n            }\n\n            return type;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

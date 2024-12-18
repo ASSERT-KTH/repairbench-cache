@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory jf, boolean useStream, boolean quoteNames, String expOutput)\n    throws IOException\n{\n    JsonGenerator g = useStream\n        ? jf.createGenerator(new ByteArrayOutputStream())\n        : jf.createGenerator(new StringWriter());\n    try {\n        g.writeStartObject();\n        if (jf.isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES) == quoteNames) {\n            g.writeFieldName(\"foo\");\n        } else {\n            g.writeRaw(quoteNames ? \"\\\"foo\\\"\" : \"foo\");\n        }\n        g.writeNumber(1);\n        g.writeEndObject();\n        g.flush();\n        String json = useStream\n            ? ((ByteArrayOutputStream) g.getOutputTarget()).toString(\"UTF-8\")\n            : ((StringWriter) g.getOutputTarget()).toString();\n        assertEquals(expOutput, json);\n    } finally {\n        g.close();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

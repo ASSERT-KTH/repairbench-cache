@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute rho as an 8-bit approximation of v1.v2 / v2.v2\n    double s = v2.getX();\n    double t = v2.getY();\n    double u = v2.getZ();\n    double sum = s * s + t * t + u * u;\n    double rho = 0.0;\n    if (sum > 0) {\n        int q = (int) ((v1.getX() * s + v1.getY() * t + v1.getZ() * u) / sum);\n        rho = q / 256.0;\n        if (q < 0 && q != -256) {\n            rho = (q + 1) / 256.0;\n        } else if (q > 0) {\n            rho = (q - 1) / 256.0;\n        }\n    }\n\n    // Compute v3 = v1 - rho * v2\n    Vector3D v3 = new Vector3D(1, v1, -rho, v2);\n\n    // Compute cross product using v3 and v2\n    return new Vector3D(\n        v3.getY() * v2.getZ() - v3.getZ() * v2.getY(),\n        v3.getZ() * v2.getX() - v3.getX() * v2.getZ(),\n        v3.getX() * v2.getY() - v3.getY() * v2.getX()\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

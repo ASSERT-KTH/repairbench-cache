@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object expected) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configOverride(type).setCoercion(emptyStringAsNullCoercion(type));\n\n    String json = \"\\\"\\\"\";\n    JsonNode node = mapper.readTree(json);\n    Object actual = mapper.treeToValue(node, type);\n\n    if (type.isPrimitive()) {\n        assertEquals(expected, actual);\n    } else {\n        assertNull(actual);\n    }\n}\n\nprivate CoercionConfig emptyStringAsNullCoercion(Class<?> type) {\n    if (type.isPrimitive()) {\n        return CoercionConfig.empty().setAcceptBlankAsEmpty(false);\n    }\n    return CoercionConfig.empty().setAcceptBlankAsEmpty(true);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

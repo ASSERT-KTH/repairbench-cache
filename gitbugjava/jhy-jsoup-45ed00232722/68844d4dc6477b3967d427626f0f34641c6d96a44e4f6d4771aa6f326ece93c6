@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String urlS = u.toExternalForm();\n        URI uri = new URI(urlS);\n        \n        // Encode each part of the URI separately\n        String scheme = uri.getScheme();\n        String authority = uri.getAuthority();\n        String path = uri.getPath() != null ? encodeURIComponent(uri.getPath()) : null;\n        String query = uri.getQuery() != null ? encodeURIComponent(uri.getQuery()) : null;\n        String fragment = uri.getFragment() != null ? encodeURIComponent(uri.getFragment()) : null;\n\n        // Reconstruct the URI\n        URI encodedUri = new URI(scheme, authority, path, query, fragment);\n        \n        return new URL(encodedUri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException e) {\n        // If encoding fails, return the original input\n        return u;\n    }\n}\n\n// Helper method to encode URI components\nprivate static String encodeURIComponent(String component) {\n    try {\n        return java.net.URLEncoder.encode(component, \"UTF-8\")\n            .replaceAll(\"\\\\+\", \"%20\")\n            .replaceAll(\"%21\", \"!\")\n            .replaceAll(\"%27\", \"'\")\n            .replaceAll(\"%28\", \"(\")\n            .replaceAll(\"%29\", \")\")\n            .replaceAll(\"%7E\", \"~\");\n    } catch (UnsupportedEncodingException e) {\n        throw new RuntimeException(\"UTF-8 not supported\", e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static void appendToAscii(String s, boolean spaceAsPlus, StringBuilder sb) throws UnsupportedEncodingException {\n    // minimal normalization of Unicode -> Ascii, and space normal. Existing escapes are left as-is.\n    for (int i = 0; i < s.length(); i++) {\n        int c = s.codePointAt(i);\n        if (Character.isBmpCodePoint(c)) {\n            // Handle single code point characters\n            if (c == ' ') {\n                sb.append(spaceAsPlus ? '+' : \"%20\");\n            } else if (c > 127) { // out of ascii range\n                sb.append(URLEncoder.encode(Character.toString((char) c), \"UTF-8\"));\n            } else {\n                sb.append((char) c);\n            }\n            i += Character.charCount(c) - 1; // Move past any trailing surrogate\n        } else {\n            // Handle supplementary characters (non-BMP)\n            String charString = new String(Character.toChars(c));\n            sb.append(URLEncoder.encode(charString, \"UTF-8\"));\n            i += Character.charCount(c) - 1; // Move past the surrogate pair\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

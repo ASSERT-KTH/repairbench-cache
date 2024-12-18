@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    \n    Class<?> collectionClass = (Class<?>) in.readObject();\n    if (!Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"Invalid collection class: \" + collectionClass.getName());\n    }\n    \n    this.map = new HashMap<>();\n    this.collectionClass = collectionClass;\n    int size = in.readInt();\n    for (int i = 0; i < size; i++) {\n        Object key = in.readObject();\n        int collectionSize = in.readInt();\n        Collection<Object> collection = (Collection<Object>) collectionClass.getDeclaredConstructor().newInstance();\n        for (int j = 0; j < collectionSize; j++) {\n            collection.add(in.readObject());\n        }\n        this.map.put(key, collection);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

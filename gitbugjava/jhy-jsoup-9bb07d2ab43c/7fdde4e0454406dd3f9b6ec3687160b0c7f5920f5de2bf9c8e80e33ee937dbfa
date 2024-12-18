@@ -1,0 +1,7 @@
+{
+    "generation": "protected void replaceChild(Node out, Node in) {\n    Validate.isTrue(out.parentNode == this);\n    Validate.notNull(in);\n    if (in.parentNode != null && in != out)\n        in.parentNode.removeChild(in);\n\n    final int index = out.siblingIndex;\n    ensureChildNodes().set(index, in);\n    in.parentNode = this;\n    in.setSiblingIndex(index);\n    if (in != out) {\n        out.parentNode = null;\n        // Update siblings\n        if (index > 0) {\n            Node prev = ensureChildNodes().get(index - 1);\n            prev.nextSibling = in;\n            in.prevSibling = prev;\n        } else {\n            in.prevSibling = null;\n        }\n        if (index < childNodeSize() - 1) {\n            Node next = ensureChildNodes().get(index + 1);\n            next.prevSibling = in;\n            in.nextSibling = next;\n        } else {\n            in.nextSibling = null;\n        }\n    } else {\n        // If out == in, we need to update the siblings around it\n        if (index > 0) {\n            Node prev = ensureChildNodes().get(index - 1);\n            prev.nextSibling = in;\n        }\n        if (index < childNodeSize() - 1) {\n            Node next = ensureChildNodes().get(index + 1);\n            next.prevSibling = in;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

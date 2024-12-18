@@ -1,0 +1,7 @@
+{
+    "generation": "public class PatriciaTrie<K, V> extends AbstractMap<K, V> implements Trie<K, V>, Serializable {\n    // ... other fields and methods ...\n\n    @Override\n    public SortedMap<K, V> prefixMap(final K prefix) {\n        final PatriciaTrie<K, V> map = new PatriciaTrie<K, V>(this.keyAnalyzer);\n        map.prefix = prefix;\n        map.root = getNearestNode(this.root, prefix, this.keyAnalyzer);\n        return map;\n    }\n\n    // ... other methods ...\n\n    @Override\n    public void clear() {\n        if (this.prefix != null) {\n            removeEntriesWithPrefix(this.root, this.prefix, this.keyAnalyzer);\n        } else {\n            super.clear();\n        }\n    }\n\n    private void removeEntriesWithPrefix(final TrieNode<K, V> node, final K prefix, final KeyAnalyzer<? super K> keyAnalyzer) {\n        if (node == null) {\n            return;\n        }\n        if (keyAnalyzer.isPrefix(prefix, node.key)) {\n            // Remove this node and all its children\n            node.removeSelfAndChildren();\n        } else {\n            for (final TrieNode<K, V> child : node.children) {\n                removeEntriesWithPrefix(child, prefix, keyAnalyzer);\n            }\n        }\n    }\n\n    // ... other methods ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType _fromClass(Class<?> clz, TypeBindings bindings)\n{\n    // Existing code...\n    \n    // New code to handle recursive types\n    if (_incompleteType) {\n        // If we're already constructing a type, we might be dealing with a recursive type\n        JavaType existing = _getTypeCache().get(clz);\n        if (existing != null) {\n            return existing;\n        }\n    }\n    \n    // Existing code...\n    \n    // When constructing the super class type, pass the current incomplete type flag\n    if (superClass != null) {\n        JavaType parent = _fromClass(superClass, bindings);\n        if (parent != null) {\n            result = result.withSuperClass(_incompleteType, parent);\n        }\n    }\n    \n    // Existing code...\n    \n    // Cache the result to handle potential recursive references\n    _getTypeCache().put(clz, result);\n    \n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

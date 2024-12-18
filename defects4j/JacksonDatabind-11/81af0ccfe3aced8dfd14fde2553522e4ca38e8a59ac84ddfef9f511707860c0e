@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    if (context == null) {\n        return _unknownType();\n    }\n\n    JavaType actualType = context.findType(name);\n    if (actualType != null) {\n        return actualType;\n    }\n\n    // If we can't resolve the type variable directly from the context,\n    // we need to use the bounds information\n    Type[] bounds = type.getBounds();\n    if (bounds.length == 0) {\n        // If there are no bounds, use Object as the default bound\n        return _constructType(Object.class, context);\n    }\n\n    // Use a placeholder to handle recursive types\n    context._addPlaceholder(name);\n\n    // Create a type from the first bound\n    JavaType boundType = _constructType(bounds[0], context);\n\n    // If there are multiple bounds, we should create an intersection type\n    if (bounds.length > 1) {\n        JavaType[] boundTypes = new JavaType[bounds.length];\n        boundTypes[0] = boundType;\n        for (int i = 1; i < bounds.length; i++) {\n            boundTypes[i] = _constructType(bounds[i], context);\n        }\n        return TypeFactory.constructFromCanonical(\"com.fasterxml.jackson.databind.type.IntersectionType\");\n    }\n\n    return boundType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

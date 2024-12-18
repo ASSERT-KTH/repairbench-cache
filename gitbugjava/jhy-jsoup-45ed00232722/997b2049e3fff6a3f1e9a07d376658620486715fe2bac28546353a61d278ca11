@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String urlS = u.toExternalForm();\n        // Use URLEncoder to properly encode spaces and other special characters\n        urlS = java.net.URLEncoder.encode(urlS, \"UTF-8\");\n        // Replace %2F with / to preserve path separators\n        urlS = urlS.replace(\"%2F\", \"/\");\n        // Replace %3A with : to preserve the scheme separator\n        urlS = urlS.replace(\"%3A\", \":\");\n        // Replace %3F with ? to preserve the query string separator\n        urlS = urlS.replace(\"%3F\", \"?\");\n        // Replace %23 with # to preserve the fragment separator\n        urlS = urlS.replace(\"%23\", \"#\");\n        // Replace %3D with = to preserve query parameter separators\n        urlS = urlS.replace(\"%3D\", \"=\");\n        // Replace %26 with & to preserve query parameter separators\n        urlS = urlS.replace(\"%26\", \"&\");\n        final URI uri = new URI(urlS);\n        return new URL(uri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

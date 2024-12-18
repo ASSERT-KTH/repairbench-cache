@@ -1,0 +1,7 @@
+{
+    "generation": "case 0xD5:\n    if (length == 2) {\n        position.set(Position.KEY_BATTERY, buf.readUnsignedShort() * 0.01);\n    } else {\n        int count = buf.readUnsignedByte();\n        for (int i = 1; i <= count; i++) {\n            position.set(\"lock\" + i + \"Id\", ByteBufUtil.hexDump(buf.readSlice(5)));\n            position.set(\"lock\" + i + \"Card\", ByteBufUtil.hexDump(buf.readSlice(5)));\n            position.set(\"lock\" + i + \"Battery\", buf.readUnsignedByte());\n            int status = buf.readUnsignedShort();\n            position.set(\"lock\" + i + \"Locked\", !BitUtil.check(status, 5));\n        }\n    }\n    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

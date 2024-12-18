@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        final Gaussian.Parametric gaussian = new Gaussian.Parametric();\n        \n        // Define a custom optimizer that ensures sigma is positive\n        final LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer() {\n            @Override\n            protected void computeCostJacobian(double[] params, double[] costJacobian) {\n                // Ensure sigma is positive\n                params[2] = Math.abs(params[2]);\n                super.computeCostJacobian(params, costJacobian);\n            }\n            \n            @Override\n            protected void doOptimize() {\n                super.doOptimize();\n                // Ensure sigma is positive in the final result\n                double[] result = getPoint();\n                result[2] = Math.abs(result[2]);\n                setPoint(result);\n            }\n        };\n        \n        return fit(gaussian, guess, optimizer);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

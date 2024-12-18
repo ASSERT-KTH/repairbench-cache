@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        return mayBeStringHelper(n) || mayBeStringFromTernary(n);\n    }\n}\n\n// Add this helper method to handle ternary expressions\nprivate static boolean mayBeStringFromTernary(Node n) {\n    if (n.isHook()) {\n        Node trueCase = n.getSecondChild();\n        Node falseCase = n.getLastChild();\n        return mayBeStringHelper(trueCase) || mayBeStringHelper(falseCase);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

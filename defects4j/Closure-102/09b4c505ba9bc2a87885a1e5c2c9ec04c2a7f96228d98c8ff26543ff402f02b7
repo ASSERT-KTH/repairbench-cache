@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n        MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n        NodeTraversal t = new NodeTraversal(compiler, renamer);\n        t.traverseRoots(externs, root);\n    }\n    removeDuplicateDeclarations(root);\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n    \n    // Add this line to preserve the 'var' keyword for 'arguments'\n    preserveVarKeywordForArguments(root);\n}\n\n// Add this new method to the class\nprivate void preserveVarKeywordForArguments(Node root) {\n    NodeTraversal.traverse(compiler, root, new NodeTraversal.AbstractPostOrderCallback() {\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n            if (n.isVar() && n.getFirstChild() != null && n.getFirstChild().getString().equals(\"arguments\")) {\n                n.getFirstChild().putBooleanProp(Node.IS_CONSTANT_NAME, true);\n            }\n        }\n    });\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

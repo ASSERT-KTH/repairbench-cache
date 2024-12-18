@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    int len = str.length();\n    if (len < 2) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    String[] parts = str.split(\"_\", -1);\n    if (parts.length > 3) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    String language = parts[0];\n    if (language.length() != 2 || language.charAt(0) < 'a' || language.charAt(0) > 'z' || language.charAt(1) < 'a' || language.charAt(1) > 'z') {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    String country = parts.length > 1 ? parts[1] : \"\";\n    if (!country.isEmpty() && (country.length() != 2 || country.charAt(0) < 'A' || country.charAt(0) > 'Z' || country.charAt(1) < 'A' || country.charAt(1) > 'Z')) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    String variant = parts.length > 2 ? parts[2] : \"\";\n    \n    return new Locale(language, country, variant);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

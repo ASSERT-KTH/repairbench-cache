@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processFunctionNode(FunctionNode functionNode) {\n    Name name = functionNode.getFunctionName();\n    boolean isUnnamedFunction = name == null;\n    boolean isStatement = functionNode.getParent() instanceof ScriptNode ||\n                          functionNode.getParent() instanceof Block;\n\n    Node node = newNode(Token.FUNCTION);\n    \n    if (!isUnnamedFunction) {\n        Node newName = transform(name);\n        node.addChildToBack(newName);\n    }\n\n    Node lp = newNode(Token.LP);\n    int lparenCharno = functionNode.getLp() + functionNode.getAbsolutePosition();\n    lp.setCharno(position2charno(lparenCharno));\n\n    // Set the line number for the left parenthesis\n    if (!isUnnamedFunction) {\n        lp.setLineno(name.getLineno());\n    } else {\n        lp.setLineno(functionNode.getLineno());\n    }\n\n    for (AstNode param : functionNode.getParams()) {\n        lp.addChildToBack(transform(param));\n    }\n    node.addChildToBack(lp);\n\n    Node bodyNode = transform(functionNode.getBody());\n    parseDirectives(bodyNode);\n    node.addChildToBack(bodyNode);\n\n    // Handle unnamed function statements as errors\n    if (isUnnamedFunction && isStatement) {\n        reportError(\"unnamed function statement\", functionNode);\n    }\n\n    return node;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

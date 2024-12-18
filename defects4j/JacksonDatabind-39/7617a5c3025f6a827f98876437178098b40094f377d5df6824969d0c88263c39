@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Start the object\n    p.nextToken(); // Move to the first field\n\n    Object result = null;\n\n    while (p.getCurrentToken() != JsonToken.END_OBJECT) {\n        if (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n            String fieldName = p.getCurrentName();\n            p.nextToken(); // Move to the value\n\n            // If the field is not recognized, skip it\n            if (!ctxt.getBeanDescription().findProperty(fieldName).isPresent()) {\n                p.skipChildren();\n            } else {\n                // Handle known fields here if needed\n                // For this example, we're just showing how to skip unknown fields\n            }\n        }\n        p.nextToken(); // Move to the next field or end of object\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

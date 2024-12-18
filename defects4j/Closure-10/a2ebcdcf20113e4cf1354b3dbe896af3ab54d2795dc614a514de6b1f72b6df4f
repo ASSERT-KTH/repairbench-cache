@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        return mayBeStringHelper(n) || isConditionalWithStringBranch(n);\n    }\n}\n\nstatic boolean isConditionalWithStringBranch(Node n) {\n    if (n.isOr() || n.isHook()) {\n        for (Node child : n.children()) {\n            if (mayBeStringHelper(child)) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

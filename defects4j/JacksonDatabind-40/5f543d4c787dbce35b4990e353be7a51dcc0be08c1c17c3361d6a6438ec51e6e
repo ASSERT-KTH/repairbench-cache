@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configOverride(type).setSetterInfo(\n        JsonSetter.Value.forValueNulls(Nulls.AS_EMPTY));\n    \n    String json = \"\\\"\\\"\";\n    Object result = mapper.readerFor(type).readValue(json);\n    \n    if (type.isPrimitive()) {\n        assertEquals(defaultValue, result);\n    } else {\n        assertNull(result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

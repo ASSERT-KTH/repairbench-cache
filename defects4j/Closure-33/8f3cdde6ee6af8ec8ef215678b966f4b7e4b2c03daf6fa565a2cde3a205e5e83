@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(ObjectType constraintObj) {\n    // We only want to match constraints on anonymous types.\n\n    // Handle the case where the constraint object is a record type.\n    if (constraintObj.isRecordType()) {\n        for (String prop : constraintObj.getOwnPropertyNames()) {\n            JSType propType = constraintObj.getPropertyType(prop);\n            if (!isPropertyTypeDeclared(prop)) {\n                JSType typeToInfer = propType;\n                if (!hasProperty(prop)) {\n                    // For union types, we need to get the least supertype that includes VOID_TYPE\n                    typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)\n                        .getLeastSupertype(propType);\n                }\n                defineInferredProperty(prop, typeToInfer, null);\n            } else {\n                // If the property is already declared, we need to update its type\n                // to be the union of the existing type and the constraint type\n                JSType existingType = getPropertyType(prop);\n                JSType newType = existingType.getLeastSupertype(propType);\n                setPropertyType(prop, newType);\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

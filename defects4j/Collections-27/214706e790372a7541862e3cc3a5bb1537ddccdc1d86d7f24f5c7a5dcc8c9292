@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    \n    // Read the serialized map and collection class\n    Map<Object, Object> map = (Map<Object, Object>) in.readObject();\n    Class<?> collectionClass = (Class<?>) in.readObject();\n    \n    // Check if the collection class is safe\n    if (!isSafeCollectionClass(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe collection class: \" + collectionClass.getName());\n    }\n    \n    // Initialize the decorated map with the deserialized map and collection class\n    this.decoratedMap = MultiValueMap.multiValueMap(map, collectionClass);\n}\n\nprivate boolean isSafeCollectionClass(Class<?> collectionClass) {\n    // Only allow ArrayList and LinkedList for safety\n    return ArrayList.class.isAssignableFrom(collectionClass) || LinkedList.class.isAssignableFrom(collectionClass);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

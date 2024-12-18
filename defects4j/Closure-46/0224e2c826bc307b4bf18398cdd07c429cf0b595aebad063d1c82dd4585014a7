@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n\n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  Set<String> allProperties = new HashSet<>(properties.keySet());\n  allProperties.addAll(that.toMaybeRecordType().getOwnPropertyNames());\n\n  for (String property : allProperties) {\n    JSType thisPropertyType = hasProperty(property) ? getPropertyType(property) : getNativeType(JSTypeNative.VOID_TYPE);\n    JSType thatPropertyType = that.toMaybeRecordType().hasProperty(property) ? \n        that.toMaybeRecordType().getPropertyType(property) : \n        getNativeType(JSTypeNative.VOID_TYPE);\n\n    JSType unionType = registry.createUnionType(thisPropertyType, thatPropertyType);\n    builder.addProperty(property, unionType, null);\n  }\n\n  return builder.build();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

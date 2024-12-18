@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void appendToAscii(String s, boolean spaceAsPlus, StringBuilder sb) throws UnsupportedEncodingException {\n        // minimal normalization of Unicode -> Ascii, and space normal. Existing escapes are left as-is.\n        int i = 0;\n        while (i < s.length()) {\n            int c = s.codePointAt(i);\n            if (Character.isSupplementaryCodePoint(c)) {\n                // Handle supplementary characters (4-byte UTF-8 encoding)\n                sb.append(String.format(\"%%%02X%%%02X%%%02X%%%02X\",\n                    (c >> 18) & 0x7,\n                    (c >> 12) & 0x3F,\n                    (c >> 6) & 0x3F,\n                    c & 0x3F));\n                i += 2; // Supplementary characters use two code units\n            } else if (c == ' ') {\n                sb.append(spaceAsPlus ? '+' : \"%20\");\n                i++;\n            } else if (c > 127) { // out of ascii range, but not supplementary\n                sb.append(URLEncoder.encode(new String(Character.toChars(c)), UTF_8.name()));\n                i++;\n            } else {\n                sb.append((char) c);\n                i++;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

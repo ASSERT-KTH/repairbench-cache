@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n    Elements inputs = this.select(\"input[name], select[name], textarea[name]\");\n    for (Element el : inputs) {\n        if (!el.tag().isFormSubmittable()) continue; // textarea and select not submittable in some cases\n        String name = el.attr(\"name\");\n        if (name.length() == 0) continue;\n        String type = el.attr(\"type\").toLowerCase();\n        if (\"password\".equals(type)) continue; // Do not include password fields in form data\n\n        if (\"checkbox\".equals(type) || \"radio\".equals(type)) {\n            if (el.hasAttr(\"checked\")) {\n                data.add(HttpConnection.KeyVal.create(name, el.val()));\n            }\n        } else if (\"submit\".equals(type)) {\n            if (hasAttr(\"clicked\") && getElementsByAttributeValue(\"name\", name).size() > 1) {\n                data.add(HttpConnection.KeyVal.create(name, el.val()));\n            }\n        } else {\n            data.add(HttpConnection.KeyVal.create(name, el.val()));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

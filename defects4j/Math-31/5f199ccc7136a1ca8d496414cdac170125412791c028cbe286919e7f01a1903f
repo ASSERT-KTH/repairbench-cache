@@ -1,0 +1,7 @@
+{
+    "generation": "public double evaluate(double x, double epsilon, int maxIterations) {\n    final double small = 1e-50;\n    double hPrev = getA(0, x);\n\n    // use the value of small as epsilon criteria for zero checks\n    if (Precision.equals(hPrev, 0.0, small)) {\n        hPrev = small;\n    }\n\n    int n = 1;\n    double dPrev = 0.0;\n    double cPrev = hPrev;\n    double hN = hPrev;\n\n    while (n < maxIterations) {\n        final double a = getA(n, x);\n        final double b = getB(n, x);\n\n        double cN = a + b / cPrev;\n        if (Double.isInfinite(cN)) {\n            cN = a;\n        }\n\n        double deltaN = 1.0 / cN;\n        double hNNew = hPrev * deltaN;\n\n        if (Double.isInfinite(hNNew) || Double.isNaN(hNNew)) {\n            // Handle overflow by rescaling\n            if (hNNew < 0) {\n                hNNew = Double.MAX_VALUE;\n            } else {\n                hNNew = Double.MIN_VALUE;\n            }\n        }\n\n        if (FastMath.abs(deltaN - 1.0) < epsilon) {\n            hN = hNNew;\n            break;\n        }\n\n        cPrev = cN;\n        hPrev = hNNew;\n        hN = hNNew;\n        n++;\n    }\n\n    if (n >= maxIterations) {\n        throw new MaxCountExceededException(LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,\n                                            maxIterations, x);\n    }\n\n    return hN;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    int len = str.length();\n    if (len < 2) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    String[] parts = str.split(\"_\");\n    if (parts.length > 3) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    String language = parts[0];\n    if (language.length() != 2 || !language.matches(\"[a-z]{2}\")) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    String country = (parts.length > 1) ? parts[1] : \"\";\n    if (!country.isEmpty() && (country.length() != 2 || !country.matches(\"[A-Z]{2}\"))) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    String variant = (parts.length > 2) ? parts[2] : \"\";\n    if (variant.isEmpty() && parts.length == 2 && !country.isEmpty()) {\n        return new Locale(language, country);\n    } else if (variant.isEmpty() && parts.length == 2 && country.isEmpty()) {\n        return new Locale(language);\n    } else if (variant.isEmpty() && parts.length == 1) {\n        return new Locale(language);\n    } else {\n        return new Locale(language, country, variant);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

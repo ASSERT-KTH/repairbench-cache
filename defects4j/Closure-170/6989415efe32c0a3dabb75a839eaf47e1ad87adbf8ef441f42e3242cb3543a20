@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and store it in\n * numUseWithinUseCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // Check if the parent is an assignment and the name node is the left-hand side\n        boolean isLhsOfAssignment = parent.isAssign() && parent.getFirstChild() == n;\n        \n        // Check if we're inside a conditional expression (hook, OR, AND)\n        boolean insideConditional = parent.isHook() || parent.isOr() || parent.isAnd();\n        \n        // Count the use if it's not the left-hand side of an assignment,\n        // or if it's inside a conditional expression\n        if (!isLhsOfAssignment || insideConditional) {\n          numUsesWithinCfgNode++;\n        }\n      }\n    }\n\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

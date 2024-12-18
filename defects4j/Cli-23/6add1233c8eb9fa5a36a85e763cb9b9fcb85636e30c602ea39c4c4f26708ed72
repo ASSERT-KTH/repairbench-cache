@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    int pos = findWrapPos(text, width, 0);\n\n    if (pos == -1)\n    {\n        sb.append(rtrim(text));\n        return sb;\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // all following lines must be padded with nextLineTabStop space \n    // characters\n    final String padding = createPadding(nextLineTabStop);\n\n    String remainingText = text.substring(pos).trim();\n    while (!remainingText.isEmpty())\n    {\n        remainingText = padding + remainingText;\n        pos = findWrapPos(remainingText, width, 0);\n\n        if (pos == -1)\n        {\n            // If we can't find a wrap position, force a break at the width\n            pos = width;\n        }\n\n        String line = rtrim(remainingText.substring(0, pos));\n        sb.append(line).append(defaultNewLine);\n        remainingText = remainingText.substring(pos).trim();\n    }\n\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

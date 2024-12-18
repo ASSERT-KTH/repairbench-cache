@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    ObjectCodec oc = p.getCodec();\n    JsonNode node = oc.readTree(p);\n    \n    if (node instanceof ObjectNode) {\n        ObjectNode objectNode = (ObjectNode) node;\n        Iterator<String> fieldNames = objectNode.fieldNames();\n        while (fieldNames.hasNext()) {\n            String fieldName = fieldNames.next();\n            if (ctxt.getBeanProperty() != null && !ctxt.getBeanProperty().getMember().hasFieldAnnotation(JsonIgnore.class)) {\n                objectNode.remove(fieldName);\n            }\n        }\n    }\n    \n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

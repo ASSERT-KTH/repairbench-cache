@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n\n    // keep u and v non-negative\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u >>= 1;\n        v >>= 1;\n        k++;\n    }\n\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least\n    // one is odd.\n    int t = ((u & 1) == 1) ? v : u >> 1;\n\n    // B3/B4: cast out twos from t.\n    while ((t & 1) == 0) {\n        t >>= 1;\n    }\n\n    // B5 [reset max(u,v)]\n    if (u > v) {\n        u = t;\n    } else {\n        v = t;\n    }\n\n    // B6/B3. at this point both u and v should be odd.\n    while (v != 0) {\n        t = u - v;\n        u = v;\n        v = Math.abs(t);\n\n        // B3/B4: cast out twos from v.\n        while ((v & 1) == 0) {\n            v >>= 1;\n        }\n    }\n\n    return u << k; // gcd is u*2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

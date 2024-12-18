@@ -1,0 +1,7 @@
+{
+    "generation": "  public void visit(NodeTraversal t, Node n, Node parent) {\n    JSType childType;\n    JSType leftType, rightType;\n    Node left, right;\n    // To be explicitly set to false if the node is not typeable.\n    boolean typeable = true;\n\n    switch (n.getType()) {\n      // ... (previous cases remain unchanged)\n\n      case Token.OBJECTLIT:\n        if (n.getJSType() != null) { // If we didn't run type inference.\n          ensureTyped(t, n);\n          typeable = true;\n        } else {\n          // If this is an enum, then give that type to the objectlit as well.\n          if (parent.getJSType() instanceof EnumType) {\n            ensureTyped(t, n, parent.getJSType());\n            typeable = true;\n          } else {\n            // For regular object literals, consider them typeable\n            // but don't assign a specific type\n            ensureTyped(t, n);\n            typeable = true;\n          }\n        }\n        for (Node key : n.children()) {\n          visitObjLitKey(t, key, n);\n        }\n        break;\n\n      // ... (remaining cases remain unchanged)\n    }\n\n    // ... (rest of the function remains unchanged)\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

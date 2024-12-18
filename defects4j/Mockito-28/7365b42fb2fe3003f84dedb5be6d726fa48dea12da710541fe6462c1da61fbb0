@@ -1,0 +1,7 @@
+{
+    "generation": "    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n        List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n        for(Field field : fields) {\n            List<Object> potentialMocks = new ArrayList<>(mocks);\n            // Sort potential mocks by type compatibility, with exact matches first\n            potentialMocks.sort((m1, m2) -> {\n                int m1Compat = typeCompatibility(field.getType(), m1.getClass());\n                int m2Compat = typeCompatibility(field.getType(), m2.getClass());\n                return Integer.compare(m1Compat, m2Compat);\n            });\n            \n            for (Object potentialMock : potentialMocks) {\n                if (mockCandidateFilter.filterCandidate(Collections.singleton(potentialMock), field, fieldInstance).inject()) {\n                    break; // Injection successful, move to next field\n                }\n            }\n        }\n    }\n\n    private int typeCompatibility(Class<?> fieldType, Class<?> mockType) {\n        if (fieldType.equals(mockType)) {\n            return 0; // Exact match\n        }\n        if (fieldType.isAssignableFrom(mockType)) {\n            return 1; // Ancestor match\n        }\n        return Integer.MAX_VALUE; // No match\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();\n    \n    // Add a parameter validator to ensure sigma remains positive\n    optimizer = optimizer.withParameterValidator(new ParameterValidator() {\n        @Override\n        public double[] validate(double[] params) {\n            // Ensure sigma (params[2]) is positive\n            params[2] = Math.max(params[2], 1e-10); // Use a small positive value as lower bound\n            return params;\n        }\n    });\n    \n    return fit(new Gaussian.Parametric(), guess, optimizer);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean isReduceableFunctionExpression(Node n) {\n    if (NodeUtil.isFunctionExpression(n)) {\n        Node parent = n.getParent();\n        if (parent != null && parent.isGetProp()) {\n            Node grandParent = parent.getParent();\n            if (grandParent != null && grandParent.isAssign()) {\n                Node left = grandParent.getFirstChild();\n                if (left != null && left.isGetProp()) {\n                    String propName = left.getLastChild().getString();\n                    return propName.startsWith(\"get\") || propName.startsWith(\"set\");\n                }\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

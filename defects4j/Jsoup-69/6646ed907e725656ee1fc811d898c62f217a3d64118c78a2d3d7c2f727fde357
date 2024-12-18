@@ -1,0 +1,7 @@
+{
+    "generation": "public class FormElement extends Element {\n    private final Elements elements = new Elements();\n\n    @Override\n    public Element remove() {\n        super.remove();\n        elements.remove(this);\n        return this;\n    }\n\n    public List<Connection.KeyVal> formData() {\n        ArrayList<Connection.KeyVal> data = new ArrayList<>();\n        for (Element el: elements) {\n            if (el instanceof FormElement) {\n                data.addAll(((FormElement) el).formData());\n            } else if (el instanceof Element) {\n                if (el.tag().isFormSubmittable()) {\n                    String name = el.attr(\"name\");\n                    if (name.length() > 0) {\n                        String value = el.val();\n                        data.add(HttpConnection.KeyVal.create(name, value));\n                    }\n                }\n            }\n        }\n        return data;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

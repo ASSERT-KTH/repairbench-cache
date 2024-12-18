@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object expectedValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);\n    mapper.configure(JsonDeserializer.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, false);\n\n    String json = \"{}\";\n    JsonNode tree = mapper.readTree(json);\n\n    JsonNode valueNode = tree.get(\"value\");\n    if (valueNode == null || valueNode.isNull()) {\n        if (type.isPrimitive()) {\n            assertEquals(expectedValue, mapper.treeToValue(tree, type));\n        } else {\n            assertNull(mapper.treeToValue(tree, type));\n        }\n    } else {\n        fail(\"Expected null or missing value, but got: \" + valueNode);\n    }\n\n    // Test with empty string\n    json = \"{\\\"value\\\":\\\"\\\"}\";\n    tree = mapper.readTree(json);\n    valueNode = tree.get(\"value\");\n    if (valueNode != null && valueNode.isTextual() && valueNode.asText().isEmpty()) {\n        if (type.isPrimitive()) {\n            assertEquals(expectedValue, mapper.treeToValue(tree, type));\n        } else {\n            assertNull(mapper.treeToValue(tree, type));\n        }\n    } else {\n        fail(\"Expected empty string, but got: \" + valueNode);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

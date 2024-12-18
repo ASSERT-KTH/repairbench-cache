@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected String doFormat(final String code, final LineEnding ending) throws IOException {\n    final var source = new InputSource(new StringReader(code));\n    final var parser = new CSSOMParser(new SACParserCSS3());\n    final var sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);\n    var formattedCode = sheet.getCssText(this.formatter);\n\n    // Patch converted 'tab' back to '\\9' for IE 7,8, and 9 hack. Cssparser switches it to 'tab'.\n    // Use regex to replace only at the end of the property value\n    formattedCode = formattedCode.replaceAll(\"\\t(?=[;}])\", \"\\\\\\\\9\");\n\n    // Ensure correct line endings\n    formattedCode = ending.fix(formattedCode);\n\n    if (code.equals(formattedCode)) {\n        return null;\n    }\n    return formattedCode;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

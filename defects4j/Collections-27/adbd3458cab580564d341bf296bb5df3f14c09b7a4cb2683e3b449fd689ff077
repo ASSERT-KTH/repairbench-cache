@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    map = (Map<K, ? extends Collection<V>>) in.readObject();\n    collectionType = (Class<? extends Collection<?>>) in.readObject();\n\n    // Validate the collection type\n    if (!ArrayList.class.equals(collectionType) && !HashSet.class.equals(collectionType)) {\n        throw new UnsupportedOperationException(\"Unsupported collection type: \" + collectionType.getName());\n    }\n\n    // Create a new instance of the map with the validated collection type\n    Map<K, Collection<V>> newMap = MultiValueMap.multiValueMap(new HashMap<>(), collectionType).map;\n    for (Map.Entry<K, ? extends Collection<V>> entry : map.entrySet()) {\n        Collection<V> newCollection = newCollectionInstance();\n        newCollection.addAll(entry.getValue());\n        newMap.put(entry.getKey(), newCollection);\n    }\n    map = newMap;\n}\n\nprivate Collection<V> newCollectionInstance() {\n    try {\n        return collectionType.getDeclaredConstructor().newInstance();\n    } catch (Exception e) {\n        throw new RuntimeException(\"Unable to instantiate collection: \" + collectionType.getName(), e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

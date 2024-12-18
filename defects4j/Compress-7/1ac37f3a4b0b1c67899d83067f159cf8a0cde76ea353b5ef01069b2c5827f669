@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        int end = offset + length;\n        int nameLength = 0;\n\n        for (int i = offset; i < end; ++i) {\n            if (buffer[i] == 0) {\n                break;\n            }\n            nameLength++;\n        }\n\n        try {\n            return new String(buffer, offset, nameLength, \"ISO-8859-1\");\n        } catch (java.io.UnsupportedEncodingException e) {\n            // This should never happen as ISO-8859-1 is a standard charset\n            throw new RuntimeException(\"ISO-8859-1 charset not supported\", e);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

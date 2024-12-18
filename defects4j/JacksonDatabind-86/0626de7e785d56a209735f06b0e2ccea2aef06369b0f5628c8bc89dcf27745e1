@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // Check if the type is already in the cache\n    JavaType type = _fromClass(null, cls, TypeBindings.emptyBindings());\n    \n    // If the type is a subtype, we need to ensure its supertype is resolved correctly\n    if (type != null && type.getSuperClass() != null) {\n        JavaType superType = type.getSuperClass();\n        if (superType instanceof ResolvedRecursiveType) {\n            // If the supertype is a ResolvedRecursiveType, we need to resolve it\n            ((ResolvedRecursiveType) superType).resolve(type);\n        }\n    }\n    \n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

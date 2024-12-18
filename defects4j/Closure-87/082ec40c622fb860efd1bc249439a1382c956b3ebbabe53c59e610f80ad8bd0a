@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, excluding cases with EXPR_RESULT for event handlers.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n        if (n.hasOneChild()) {\n            Node maybeExpr = n.getFirstChild();\n            if (maybeExpr.getType() == Token.EXPR_RESULT) {\n                Node expr = maybeExpr.getFirstChild();\n                if (expr.getType() == Token.CALL) {\n                    Node callee = expr.getFirstChild();\n                    if (callee.getType() == Token.GETPROP) {\n                        Node prop = callee.getLastChild();\n                        if (prop.getString().equals(\"onchange\")) {\n                            return false; // Don't fold onchange event handlers\n                        }\n                    }\n                }\n            }\n            return NodeUtil.isExpressionNode(maybeExpr);\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "final void newAttribute() {\n    if (attributes == null)\n        attributes = new Attributes();\n\n    if (pendingAttributeName != null) {\n        // Remove control characters from the attribute name instead of trimming\n        String sanitizedAttributeName = pendingAttributeName.replaceAll(\"\\\\p{Cntrl}\", \"\");\n        if (!sanitizedAttributeName.isEmpty()) {\n            Attribute attribute;\n            if (hasPendingAttributeValue)\n                attribute = new Attribute(sanitizedAttributeName,\n                    pendingAttributeValue.length() > 0 ? pendingAttributeValue.toString() : pendingAttributeValueS);\n            else if (hasEmptyAttributeValue)\n                attribute = new Attribute(sanitizedAttributeName, \"\");\n            else\n                attribute = new BooleanAttribute(sanitizedAttributeName);\n            attributes.put(attribute);\n        }\n    }\n    pendingAttributeName = null;\n    hasEmptyAttributeValue = false;\n    hasPendingAttributeValue = false;\n    reset(pendingAttributeValue);\n    pendingAttributeValueS = null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

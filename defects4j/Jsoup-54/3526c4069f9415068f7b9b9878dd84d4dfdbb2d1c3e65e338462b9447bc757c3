@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        String key = attribute.getKey();\n        String value = attribute.getValue();\n        \n        // Check if the key contains invalid XML characters\n        if (key.matches(\".*[^a-zA-Z_:][^-a-zA-Z0-9_:.]\")) {\n            // If invalid, create a new key that's valid for XML\n            StringBuilder validKey = new StringBuilder();\n            for (int i = 0; i < key.length(); i++) {\n                char c = key.charAt(i);\n                if (i == 0 && Character.isLetter(c) || c == '_') {\n                    validKey.append(c);\n                } else if (c == '-' || c == '.' || (c >= '0' && c <= '9') || c == ':' || c == '_') {\n                    validKey.append(c);\n                }\n            }\n            if (validKey.length() == 0) {\n                // If no valid characters, use a default name\n                validKey.append(\"attr\");\n            }\n            // Append a number if the key already exists\n            int counter = 1;\n            String finalKey = validKey.toString();\n            while (el.hasAttribute(finalKey)) {\n                finalKey = validKey + counter++;\n            }\n            el.setAttribute(finalKey, value);\n        } else {\n            // If valid, use the original key\n            el.setAttribute(key, value);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

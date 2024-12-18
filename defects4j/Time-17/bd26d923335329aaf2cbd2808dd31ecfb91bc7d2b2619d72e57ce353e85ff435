@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Adjusts the offset to be the earlier or later one during an overlap.\n * \n * @param instant  the instant to adjust\n * @param earlierOrLater  false for earlier, true for later\n * @return the adjusted instant millis\n */\npublic long adjustOffset(long instant, boolean earlierOrLater) {\n    // Evaluate 3 hours before and after to work out if anything is happening\n    long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    \n    if (instantBefore == instantAfter) {\n        return instant;  // Not an overlap (less than is a gap, equal is normal case)\n    }\n    \n    // Check if we're in an overlap situation\n    long local = convertUTCToLocal(instant);\n    long earlierUTC = convertLocalToUTC(local, false, instantBefore);\n    long laterUTC = convertLocalToUTC(local, false, instantAfter);\n    \n    if (earlierUTC == laterUTC) {\n        return instant;  // Not actually an overlap, just a normal transition\n    }\n    \n    // We are in an overlap, choose the appropriate offset\n    return earlierOrLater ? laterUTC : earlierUTC;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

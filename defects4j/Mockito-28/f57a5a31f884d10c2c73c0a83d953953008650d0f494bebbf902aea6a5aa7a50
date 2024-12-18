@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n    Collections.sort(fields, new Comparator<Field>() {\n        @Override\n        public int compare(Field f1, Field f2) {\n            // Sort in descending order of specificity (more specific types come first)\n            return f2.getType().isAssignableFrom(f1.getType()) ? -1 : \n                   f1.getType().isAssignableFrom(f2.getType()) ? 1 : 0;\n        }\n    });\n\n    for (Field field : fields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

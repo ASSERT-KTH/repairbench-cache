@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            // ... (all other cases remain the same)\n\n            case \"PC\":\n                long countValue = buf.readUnsignedInt();\n                position.set(Position.PREFIX_COUNT + 1, countValue);\n                break;\n\n            // ... (all other cases remain the same)\n        }\n    }\n\n    // Add a check for longitude values before setting them\n    if (position.getLongitude() != null) {\n        double longitude = position.getLongitude();\n        if (longitude < -180 || longitude > 180) {\n            // Adjust longitude to be within the valid range\n            longitude = ((longitude + 180) % 360 + 360) % 360 - 180;\n            position.setLongitude(longitude);\n        }\n    }\n\n    if (cellTower.getMobileCountryCode() != null\n        && cellTower.getMobileNetworkCode() != null\n        && cellTower.getCellId() != null && cellTower.getCellId() != 0\n        && cellTower.getLocationAreaCode() != null) {\n        position.setNetwork(new Network(cellTower));\n    } else if (cellTower.getSignalStrength() != null) {\n        position.set(Position.KEY_RSSI, cellTower.getSignalStrength());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

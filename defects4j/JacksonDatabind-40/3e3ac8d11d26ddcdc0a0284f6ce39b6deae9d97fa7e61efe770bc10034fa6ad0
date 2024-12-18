@@ -1,0 +1,7 @@
+{
+    "generation": "public class CustomPrimitiveDeserializer<T> extends JsonDeserializer<T> {\n    private final Class<T> targetClass;\n\n    public CustomPrimitiveDeserializer(Class<T> targetClass) {\n        this.targetClass = targetClass;\n    }\n\n    @Override\n    public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n        String value = p.getText();\n        if (value != null && value.trim().isEmpty()) {\n            return null;\n        }\n\n        if (targetClass == int.class || targetClass == Integer.class) {\n            return (T) Integer.valueOf(value);\n        } else if (targetClass == long.class || targetClass == Long.class) {\n            return (T) Long.valueOf(value);\n        } else if (targetClass == double.class || targetClass == Double.class) {\n            return (T) Double.valueOf(value);\n        } else if (targetClass == float.class || targetClass == Float.class) {\n            return (T) Float.valueOf(value);\n        } else {\n            throw ctxt.instantiationException(targetClass, \"Unsupported primitive type\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    String checksumString = new String(header, CHKSUM_OFFSET, CHKSUMLEN).trim();\n    if (checksumString.length() > 6) {\n        checksumString = checksumString.substring(0, 6);\n    }\n    try {\n        storedSum = Long.parseLong(checksumString, 8);\n    } catch (NumberFormatException e) {\n        return false;\n    }\n\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' ';\n        }\n        unsignedSum += b & 0xff;\n        signedSum += b;\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

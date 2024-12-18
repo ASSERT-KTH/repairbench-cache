@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Element remove() {\n    // Remove the element from the DOM\n    super.remove();\n\n    // If this is a form element, update the form data\n    if (this instanceof FormElement) {\n        FormElement form = (FormElement) this;\n        form.updateFormData();\n    } else if (parent() instanceof FormElement) {\n        FormElement form = (FormElement) parent();\n        form.updateFormData();\n    }\n\n    return this;\n}\n\n// Add this helper method to the FormElement class\nprivate void updateFormData() {\n    formData = new ArrayList<>();\n    Elements inputs = select(\"input[name], select[name], textarea[name], button[name]\");\n    for (Element input : inputs) {\n        if (input.hasAttr(\"name\")) {\n            String name = input.attr(\"name\");\n            String value = input.val();\n            formData.add(HttpConnection.KeyVal.create(name, value));\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

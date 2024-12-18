@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * There are two types of calls we are interested in: calls without explicit\n * \"this\" values (what we call \"free\" calls) and direct calls to eval.\n */\nprivate void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  // Keep track of the \"this\" context of a call. A call without an\n  // explicit \"this\" is a free call.\n  Node first = n.getFirstChild();\n\n  // ignore cast nodes.\n\n  if (!NodeUtil.isGet(first)) {\n    // If the first child is not a GET, and it's not a function name either,\n    // then it's a free call.\n    if (!first.isName() || !first.getString().equals(\"eval\")) {\n      n.putBooleanProp(Node.FREE_CALL, true);\n    }\n  } else {\n    // If it's a GET, we need to check if it's a property access on an object\n    Node object = first.getFirstChild();\n    if (object != null && object.isNew()) {\n      // If the object is a NEW expression, it's not a free call\n      n.putBooleanProp(Node.FREE_CALL, false);\n    } else if (!NodeUtil.isGetProp(first)) {\n      // If it's not a property access, it's a free call\n      n.putBooleanProp(Node.FREE_CALL, true);\n    }\n  }\n\n  // Keep track of the context in which eval is called. It is important\n  // to distinguish between \"(0, eval)()\" and \"eval()\".\n  if (first.isName() &&\n      \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

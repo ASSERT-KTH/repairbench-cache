@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns true iff they are equal as defined by\n * {@link #equals(double,double,int) equals(x, y, 1)}.\n *\n * @param x first value\n * @param y second value\n * @return {@code true} if the values are equal.\n */\npublic static boolean equals(double x, double y) {\n    return equals(x, y, 1);\n}\n\n/**\n * Returns true if both numbers are equal to the given precision.\n *\n * @param x first value\n * @param y second value\n * @param maxUlps maximum number of ULPs (Units in the Last Place) between x and y\n * @return {@code true} if there are less than {@code maxUlps} floating point values between x and y\n */\npublic static boolean equals(double x, double y, int maxUlps) {\n    if (Double.isNaN(x) && Double.isNaN(y)) {\n        return true;\n    }\n    if (Double.isInfinite(x) && Double.isInfinite(y) && (x > 0) == (y > 0)) {\n        return true;\n    }\n    long xInt = Double.doubleToRawLongBits(x);\n    long yInt = Double.doubleToRawLongBits(y);\n    if (xInt < 0) {\n        xInt = Long.MIN_VALUE - xInt;\n    }\n    if (yInt < 0) {\n        yInt = Long.MIN_VALUE - yInt;\n    }\n    return Math.abs(xInt - yInt) <= maxUlps;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

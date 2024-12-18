@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    // ... other methods ...\n\n    public JavaType constructType(Class<?> cls) {\n        if (cls == null) {\n            throw new IllegalArgumentException(\"Class to construct type for cannot be null\");\n        }\n        JavaType type = _fromClass(cls, null);\n        if (type == null) {\n            throw new IllegalArgumentException(\"Class \" + cls.getName() + \" not recognized as valid type\");\n        }\n        return type;\n    }\n\n    protected JavaType _fromClass(Class<?> clz, TypeBindings bindings) {\n        if (clz == null) {\n            return null;\n        }\n        JavaType result = _constructType(clz, bindings);\n        if (result == null) {\n            // If the type is null, it might be because the class is not yet fully loaded.\n            // Try to force loading and retry.\n            try {\n                Class.forName(clz.getName(), true, clz.getClassLoader());\n            } catch (ClassNotFoundException e) {\n                // Ignore, we'll handle the null result\n            }\n            result = _constructType(clz, bindings);\n        }\n        return result;\n    }\n\n    protected JavaType _constructType(Class<?> rawType, TypeBindings bindings) {\n        // Implementation details for constructing the type\n        // ...\n    }\n\n    // ... other methods ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void remove() {\n    super.remove();\n    if (this instanceof FormElement) {\n        FormElement form = (FormElement) this;\n        form.clearFormData();\n    } else if (parent() instanceof FormElement) {\n        ((FormElement) parent()).removeFromFormData(this);\n    }\n}\n\nprivate void clearFormData() {\n    formData.clear();\n    for (Element el : getAllElements()) {\n        if (el instanceof FormElement) {\n            ((FormElement) el).clearFormData();\n        }\n    }\n}\n\nprivate void removeFromFormData(Element element) {\n    String name = element.attr(\"name\");\n    if (name.length() > 0) {\n        formData.removeIf(keyVal -> keyVal.key().equals(name));\n    }\n    for (Element el : getAllElements()) {\n        if (el instanceof FormElement) {\n            ((FormElement) el).removeFromFormData(element);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Traverse the control flow graph upwards\n  BasicBlock block = ref.getBasicBlock();\n  while (block != null) {\n    if (block.isFunction) {\n      // If we've reached the top-level function, the variable is assigned once\n      return true;\n    } else if (block.isLoop) {\n      // If the assignment is inside a loop, it's not single-assigned\n      return false;\n    } else if (block.isFunctionCall) {\n      // If we encounter a function call, the variable is not single-assigned\n      return false;\n    }\n    block = block.getParent();\n  }\n\n  // If we've reached this point, something went wrong\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public class FormElement extends Element {\n    // ... other code ...\n\n    @Override\n    public Element remove() {\n        super.remove();\n        // Remove this element from the form data if it's an input element\n        if (this instanceof FormElement) {\n            List<Connection.KeyVal> formData = ((FormElement) this).formData;\n            formData.removeIf(keyVal -> keyVal.key().equals(this.attr(\"name\")));\n        } else if (this.parent() instanceof FormElement) {\n            List<Connection.KeyVal> formData = ((FormElement) this.parent()).formData;\n            formData.removeIf(keyVal -> keyVal.key().equals(this.attr(\"name\")));\n        }\n        return this;\n    }\n\n    // ... other code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  if (functionType != null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters != null) {\n      Node jsDocParameter = jsDocParameters.getFirstChild();\n      for (Node astParameter : astParameters.children()) {\n        if (jsDocParameter != null) {\n          // Check if the parameter already exists in the scope\n          String paramName = astParameter.getString();\n          Node existingVar = scope.search(paramName, false);\n          if (existingVar != null) {\n            // If the variable already exists, report an error\n            reportRedeclaration(astParameter, existingVar);\n          } else {\n            // Define the new slot\n            defineSlot(astParameter, functionNode, jsDocParameter.getJSType(), true);\n          }\n          jsDocParameter = jsDocParameter.getNext();\n        } else {\n          defineSlot(astParameter, functionNode, null, true);\n        }\n      }\n    }\n  }\n} // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

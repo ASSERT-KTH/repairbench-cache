@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    \n    // Read the collectionType\n    String collectionTypeName = (String) in.readObject();\n    \n    // Validate the collectionType\n    Class<?> collectionType;\n    try {\n        collectionType = Class.forName(collectionTypeName);\n    } catch (ClassNotFoundException e) {\n        throw new IOException(\"Unable to deserialize MultiValueMap: Collection type class not found: \" + collectionTypeName, e);\n    }\n    \n    if (!Collection.class.isAssignableFrom(collectionType)) {\n        throw new IOException(\"Unable to deserialize MultiValueMap: Invalid collection type: \" + collectionType.getName());\n    }\n    \n    // Create a new instance of the collection\n    this.collectionType = collectionType;\n    this.map = new HashMap<>();\n    \n    // Read the size of the map\n    int size = in.readInt();\n    \n    // Read the entries\n    for (int i = 0; i < size; i++) {\n        Object key = in.readObject();\n        int listSize = in.readInt();\n        Collection<Object> collection = (Collection<Object>) collectionType.getDeclaredConstructor().newInstance();\n        for (int j = 0; j < listSize; j++) {\n            collection.add(in.readObject());\n        }\n        this.map.put(key, collection);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

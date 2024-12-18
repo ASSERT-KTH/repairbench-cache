@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    // Recursively normalize all child elements first\n    for (Node child : element.childNodes) {\n        if (child instanceof Element) {\n            normalise((Element) child);\n        }\n    }\n\n    List<Node> textNodes = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank()) {\n                textNodes.add(tn);\n            }\n        }\n    }\n\n    if (!textNodes.isEmpty()) {\n        // Remove all non-blank text nodes from their current position\n        for (Node textNode : textNodes) {\n            element.removeChild(textNode);\n        }\n\n        // Insert a space at the beginning of the body\n        Element body = body();\n        body.prependChild(new TextNode(\" \", \"\"));\n\n        // Insert all non-blank text nodes at the beginning of the body\n        for (int i = textNodes.size() - 1; i >= 0; i--) {\n            body.prependChild(textNodes.get(i));\n        }\n\n        // If we're not already in the body, add a space at the end of the current element\n        if (element != body) {\n            element.appendChild(new TextNode(\" \", \"\"));\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

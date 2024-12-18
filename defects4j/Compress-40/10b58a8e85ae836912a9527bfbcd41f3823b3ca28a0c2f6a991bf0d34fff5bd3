@@ -1,0 +1,7 @@
+{
+    "generation": "public long readBits(final int count) throws IOException {\n    if (count < 0 || count > MAXIMUM_CACHE_SIZE) {\n        throw new IllegalArgumentException(\"count must not be negative or greater than \" + MAXIMUM_CACHE_SIZE);\n    }\n    long bitsOut = 0;\n    int bitsRead = 0;\n\n    while (bitsRead < count) {\n        if (bitsCachedSize == 0) {\n            final int nextByte = in.read();\n            if (nextByte < 0) {\n                return -1; // End of stream\n            }\n            bitsCached = nextByte;\n            bitsCachedSize = 8;\n        }\n\n        int bitsToRead = Math.min(count - bitsRead, bitsCachedSize);\n        long bits;\n\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            bits = bitsCached & MASKS[bitsToRead];\n            bitsCached >>>= bitsToRead;\n        } else {\n            bits = (bitsCached >> (bitsCachedSize - bitsToRead)) & MASKS[bitsToRead];\n            bitsCached <<= bitsToRead;\n            bitsCached &= MASKS[bitsCachedSize - bitsToRead];\n        }\n\n        bitsCachedSize -= bitsToRead;\n        bitsRead += bitsToRead;\n\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            bitsOut |= (bits << bitsRead - bitsToRead);\n        } else {\n            bitsOut = (bitsOut << bitsToRead) | bits;\n        }\n    }\n\n    return bitsOut;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

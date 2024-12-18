@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class. \n * \n * @param field\n * @return\n */\npublic Class getGenericType(Field field) {        \n    Type generic = field.getGenericType();\n    if (generic != null && generic instanceof ParameterizedType) {\n        Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n        if (actual instanceof Class) {\n            return (Class) actual;\n        } else if (actual instanceof ParameterizedType) {\n            // Handle nested generic types\n            return (Class) ((ParameterizedType) actual).getRawType();\n        } else if (actual instanceof WildcardType) {\n            // Handle wildcard types\n            Type[] upperBounds = ((WildcardType) actual).getUpperBounds();\n            if (upperBounds.length > 0 && upperBounds[0] instanceof Class) {\n                return (Class) upperBounds[0];\n            }\n        } else if (actual instanceof TypeVariable) {\n            // Handle type variables\n            Type[] bounds = ((TypeVariable) actual).getBounds();\n            if (bounds.length > 0 && bounds[0] instanceof Class) {\n                return (Class) bounds[0];\n            }\n        }\n    }\n    \n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
