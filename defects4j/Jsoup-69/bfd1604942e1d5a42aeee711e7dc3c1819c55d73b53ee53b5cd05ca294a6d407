@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element element : elements) {\n        if (element.isFormSubmittable() && !element.isRemoved()) {\n            String name = element.attr(\"name\");\n            if (name.length() == 0) continue;\n            String type = element.attr(\"type\");\n            if (\"button\".equalsIgnoreCase(type)) continue;\n            if (\"submit\".equalsIgnoreCase(type)) {\n                if (element.hasAttr(\"value\")) {\n                    data.add(new HttpConnection.KeyVal(name, element.attr(\"value\")));\n                }\n            } else {\n                data.add(new HttpConnection.KeyVal(name, element.val()));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

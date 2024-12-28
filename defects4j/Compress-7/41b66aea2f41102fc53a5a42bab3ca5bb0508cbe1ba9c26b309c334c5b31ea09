@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        int end = offset + length;\n        int actualLength = 0;\n\n        // Find the actual length up to the first NUL or the end\n        for (int i = offset; i < end; ++i) {\n            if (buffer[i] == 0) {\n                break;\n            }\n            actualLength++;\n        }\n\n        // Create a new byte array with the actual length and copy the bytes\n        byte[] nameBytes = new byte[actualLength];\n        System.arraycopy(buffer, offset, nameBytes, 0, actualLength);\n\n        // Decode the bytes using the platform's default charset\n        return new String(nameBytes);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

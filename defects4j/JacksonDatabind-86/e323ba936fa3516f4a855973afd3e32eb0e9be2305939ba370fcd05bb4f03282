@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    // ... other methods ...\n\n    public JavaType constructType(Class<?> clazz) {\n        if (clazz == null) {\n            return null;\n        }\n        // Check if the type is already cached\n        JavaType type = _typeCache.get(clazz);\n        if (type != null) {\n            return type;\n        }\n        \n        // Handle superclass first to ensure proper inheritance\n        Class<?> superClass = clazz.getSuperclass();\n        JavaType superType = null;\n        if (superClass != null && superClass != Object.class) {\n            superType = constructType(superClass);\n        }\n        \n        // Create the type with proper superclass reference\n        type = _constructSimpleType(clazz, superType);\n        \n        // Cache the type for future reference\n        _typeCache.put(clazz, type);\n        return type;\n    }\n\n    private JavaType _constructSimpleType(Class<?> clazz, JavaType superType) {\n        // Implementation of simple type construction\n        // This should properly handle the superclass reference\n        return new SimpleType(clazz, superType);\n    }\n\n    // ... other methods ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

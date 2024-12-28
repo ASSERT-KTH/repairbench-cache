@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n        MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n        NodeTraversal t = new NodeTraversal(compiler, renamer);\n        t.traverseRoots(externs, root);\n    }\n    removeDuplicateDeclarations(root);\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n    \n    // Additional fix: Ensure 'arguments' is not redeclared\n    NodeTraversal.traverse(compiler, root, new AbstractPostOrderCallback() {\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n            if (n.isVar() && n.getFirstChild().getString().equals(\"arguments\")) {\n                // Convert the var declaration to a simple assignment\n                Node expr = IR.exprResult(IR.assign(n.getFirstChild().detach(), n.getFirstChild().detach()));\n                parent.replaceChild(n, expr);\n                compiler.reportCodeChange();\n            }\n        }\n    });\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

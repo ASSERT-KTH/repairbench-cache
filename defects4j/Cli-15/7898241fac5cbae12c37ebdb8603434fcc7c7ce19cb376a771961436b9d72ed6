@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // if no values were provided, use the default values\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = defaultValues;\n    }\n\n    // get the default values for this option\n    List optionDefaults = (List) this.defaultValues.get(option);\n\n    // if there are default values and the current list is smaller than the defaults\n    if (optionDefaults != null && !optionDefaults.isEmpty() && \n        (valueList == null || valueList.size() < optionDefaults.size())) {\n        \n        // create a new list to hold the merged values\n        List mergedList = new ArrayList();\n        \n        // add the provided values first\n        if (valueList != null) {\n            mergedList.addAll(valueList);\n        }\n        \n        // add the remaining default values\n        for (int i = valueList != null ? valueList.size() : 0; i < optionDefaults.size(); i++) {\n            mergedList.add(optionDefaults.get(i));\n        }\n        \n        valueList = mergedList;\n    }\n\n    return valueList == null ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    \n    final Class<?> type1 = array1.getClass().getComponentType();\n    final Class<?> type2 = array2.getClass().getComponentType();\n    \n    // Determine the common supertype\n    Class<?> commonType = type1;\n    if (!type1.isAssignableFrom(type2)) {\n        if (!type2.isAssignableFrom(type1)) {\n            // If neither type is assignable to the other, use the closest common supertype\n            commonType = type1.getSuperclass();\n            while (commonType != null && !commonType.isAssignableFrom(type2)) {\n                commonType = commonType.getSuperclass();\n            }\n            if (commonType == null) {\n                throw new IllegalArgumentException(\"Incompatible array types: \" + type1.getName() + \" and \" + type2.getName());\n            }\n        } else {\n            commonType = type2;\n        }\n    }\n    \n    T[] joinedArray = (T[]) Array.newInstance(commonType, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    \n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

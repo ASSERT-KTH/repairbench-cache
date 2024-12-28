@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // evaluate from last to first\n    for (int i = evaluators.size() - 1; i >= 0; --i) {\n        if (element == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        // Only consider direct parent if the evaluator is a direct child evaluator\n        if (eval instanceof Evaluator.ImmediateParentEvaluator) {\n            element = element.parent();\n        } else {\n            // For other evaluators, continue with the parent chain\n            element = element.parent();\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

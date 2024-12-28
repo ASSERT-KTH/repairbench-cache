@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        // Check if this class has a superclass that needs to be resolved\n        if (cls.getSuperclass() != null) {\n            // Construct the superclass type first to ensure it's in the cache\n            constructType(cls.getSuperclass());\n        }\n        // Now construct the actual type\n        return _fromClass(cls, TypeBindings.emptyBindings());\n    }\n    // Handle other types (ParameterizedType, GenericArrayType, etc.)\n    return _fromAny(null, type, TypeBindings.emptyBindings());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

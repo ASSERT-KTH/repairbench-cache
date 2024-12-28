@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    if (type instanceof Class<?>) {\n        return _fromClass((Class<?>) type, TypeBindings.emptyBindings());\n    }\n    if (type instanceof ParameterizedType) {\n        return _fromParamType((ParameterizedType) type);\n    }\n    if (type instanceof GenericArrayType) {\n        return _fromArrayType((GenericArrayType) type);\n    }\n    if (type instanceof TypeVariable<?>) {\n        return _fromVariable((TypeVariable<?>) type, TypeBindings.emptyBindings());\n    }\n    if (type instanceof WildcardType) {\n        return _fromWildcard((WildcardType) type, TypeBindings.emptyBindings());\n    }\n    // Handle recursive types\n    if (type instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType rrt = (ResolvedRecursiveType) type;\n        JavaType resolved = rrt.getSelfReferencedType();\n        if (resolved != null) {\n            return resolved;\n        }\n        // If not resolved, return the base type\n        return _fromClass(Object.class, TypeBindings.emptyBindings());\n    }\n    throw new IllegalArgumentException(\"Unrecognized type: \" + type.getClass().getName());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

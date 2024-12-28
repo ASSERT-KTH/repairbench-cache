@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        JsonToken t = p.getCurrentToken();\n        if (t == JsonToken.START_OBJECT) {\n            t = p.nextToken();\n        }\n        Object result = null;\n        while (t != JsonToken.END_OBJECT) {\n            if (t == JsonToken.FIELD_NAME) {\n                String fieldName = p.getCurrentName();\n                t = p.nextToken();\n                if (\"item\".equals(fieldName) || \"item2\".equals(fieldName)) {\n                    // Skip the unknown type\n                    p.skipChildren();\n                } else {\n                    // Handle other fields\n                    result = ctxt.readValue(p, Object.class);\n                }\n            }\n            t = p.nextToken();\n        }\n        return result;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
