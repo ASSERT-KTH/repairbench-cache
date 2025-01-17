@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory f, boolean usePrettyPrinter, boolean quoteFieldNames, String exp) throws IOException\n{\n    JsonGenerator g = f.createGenerator(new StringWriter());\n    if (quoteFieldNames) {\n        g.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        g.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n\n    if (usePrettyPrinter) {\n        g.setPrettyPrinter(new DefaultPrettyPrinter());\n    }\n\n    g.writeStartObject();\n    g.writeFieldName(\"foo\");\n    g.writeNumber(1);\n    g.writeEndObject();\n    g.close();\n\n    String result = g.getOutputTarget().toString();\n    if (!result.equals(exp)) {\n        throw new ComparisonFailure(\"expected:<\" + exp + \"> but was:<\" + result + \">\", exp, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

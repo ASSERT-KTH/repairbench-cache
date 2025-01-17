@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonTypeInfo;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.SerializationFeature;\n\n@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = \"@class\")\nclass Base {\n    public int base = 1;\n}\n\nclass Sub extends Base {\n    public int sub = 2;\n}\n\npublic class TestTypeFactoryWithRecursiveTypes {\n    public void testBasePropertiesIncludedWhenSerializingSubWhenSubTypeLoadedAfterBaseType() throws IOException {\n        TypeFactory tf = TypeFactory.defaultInstance();\n        tf.constructType(Base.class);\n        tf.constructType(Sub.class);\n        Sub sub = new Sub();\n        ObjectMapper objectMapper = new ObjectMapper();\n        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);\n        String serialized = objectMapper.writeValueAsString(sub);\n        assertEquals(\"{\\\"base\\\":1,\\\"sub\\\":2}\", serialized);\n    }\n\n    public static void main(String[] args) throws IOException {\n        new TestTypeFactoryWithRecursiveTypes().testBasePropertiesIncludedWhenSerializingSubWhenSubTypeLoadedAfterBaseType();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        instant = add(instant, valueToAdd);\n        int[] newValues = iChronology.get(partial, instant);\n\n        // Adjust for leap years and end of month\n        for (int i = 0; i < partial.size(); i++) {\n            int fieldType = partial.getFieldType(i).getField(iChronology).getType();\n            if (fieldType == DateTimeFieldType.dayOfMonth().getType()) {\n                int maxDays = partial.getChronology().dayOfMonth().getMaximumValue(newValues[DateTimeFieldType.monthOfYear().getType() - 1]);\n                if (newValues[i] > maxDays) {\n                    newValues[i] = maxDays;\n                }\n            }\n        }\n\n        return newValues;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

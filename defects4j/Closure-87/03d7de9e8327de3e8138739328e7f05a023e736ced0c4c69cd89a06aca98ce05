@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n\n      // Check if the node is an EXPR_RESULT and if it's a method call with an implicit 'this' param\n      if (maybeExpr.getType() == Token.EXPR_RESULT && maybeExpr.hasOneChild()) {\n        Node expr = maybeExpr.getFirstChild();\n        if (expr.getType() == Token.CALL && expr.hasChildren()) {\n          Node callee = expr.getFirstChild();\n          if (callee.getType() == Token.GETPROP && callee.hasChildren()) {\n            Node target = callee.getFirstChild();\n            if (target.getType() == Token.THIS) {\n              return false;\n            }\n          }\n        }\n      }\n\n      return NodeUtil.isExpressionNode(maybeExpr);\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

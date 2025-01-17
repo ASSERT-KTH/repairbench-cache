@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    double[] fitParams = fit(new Gaussian.Parametric(), guess);\n\n    // Ensure that sigma is positive\n    if (fitParams[2] <= 0) {\n        fitParams[2] = Double.MIN_VALUE; // Set to a very small positive value\n    }\n\n    return fitParams;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

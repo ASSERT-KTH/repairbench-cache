@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    if (instantBefore == instantAfter) {\n        return instant;  // not an overlap (less than is a gap, equal is normal case)\n    }\n\n    long local = convertUTCToLocal(instant);\n    if (earlierOrLater) {\n        return convertLocalToUTC(local, false, instantAfter);\n    } else {\n        return convertLocalToUTC(local, false, instantBefore);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

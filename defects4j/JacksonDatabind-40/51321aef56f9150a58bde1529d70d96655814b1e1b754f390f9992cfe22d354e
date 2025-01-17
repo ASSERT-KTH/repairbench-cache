@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);\n\n    String json = \"{}\";\n    JsonNode root = mapper.readTree(json);\n\n    try {\n        Object value = mapper.treeToValue(root, type);\n        fail(\"Should not have passed\");\n    } catch (JsonMappingException e) {\n        // Expected exception\n    }\n\n    json = \"{\\\"value\\\":\\\"\\\"}\";\n    root = mapper.readTree(json);\n\n    try {\n        Object value = mapper.treeToValue(root, type);\n        assertEquals(defaultValue, value);\n    } catch (JsonMappingException e) {\n        fail(\"Should not have thrown an exception\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

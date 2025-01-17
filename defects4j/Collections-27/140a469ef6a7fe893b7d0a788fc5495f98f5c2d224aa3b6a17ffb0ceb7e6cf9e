@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.IOException;\nimport java.io.ObjectInputStream;\nimport java.io.ObjectOutputStream;\nimport java.io.Serializable;\nimport java.util.HashMap;\n\npublic class MultiValueMap implements Serializable {\n    private HashMap map;\n    private Class valueClass;\n\n    public MultiValueMap(HashMap map, Class valueClass) {\n        this.map = map;\n        this.valueClass = valueClass;\n    }\n\n    public static MultiValueMap multiValueMap(HashMap map, Class valueClass) {\n        return new MultiValueMap(map, valueClass);\n    }\n\n    private void writeObject(ObjectOutputStream out) throws IOException {\n        out.defaultWriteObject();\n    }\n\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (!isSafeClass(valueClass)) {\n            throw new UnsupportedOperationException(\"Unsafe class type detected during deserialization\");\n        }\n    }\n\n    private boolean isSafeClass(Class<?> clazz) {\n        // Define the safe classes here, for example:\n        return clazz == ArrayList.class || clazz == String.class;\n    }\n\n    // Other methods and fields...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

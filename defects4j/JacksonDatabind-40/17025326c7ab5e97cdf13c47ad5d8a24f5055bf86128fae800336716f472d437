@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> rawType, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n\n    // Create a JSON string with an empty string for the given type\n    String json = \"{\\\"value\\\":\\\"\\\"}\";\n\n    // Create a POJO class with a field of the given type\n    Class<?> pojoClass = Proxy.newProxyInstance(\n        rawType.getClassLoader(),\n        new Class<?>[] { rawType },\n        (proxy, method, args) -> {\n            if (method.getName().equals(\"getValue\")) {\n                return defaultValue;\n            }\n            return null;\n        }\n    ).getClass();\n\n    // Deserialize the JSON string to the POJO\n    Object pojo = mapper.readValue(json, pojoClass);\n\n    // Verify that the field is null\n    Object value = pojoClass.getMethod(\"getValue\").invoke(pojo);\n    assertNull(value);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<String, V> prefixMap(String prefix) {\n    if (prefix == null) {\n        throw new NullPointerException(\"Prefix cannot be null\");\n    }\n\n    SortedMap<String, V> result = new TreeMap<>();\n    Node<V> node = getNode(prefix);\n    if (node != null) {\n        collectPrefixMap(node, prefix, result);\n    }\n    return result;\n}\n\nprivate void collectPrefixMap(Node<V> node, String prefix, SortedMap<String, V> result) {\n    if (node.value != null) {\n        result.put(prefix, node.value);\n    }\n    for (Map.Entry<Character, Node<V>> entry : node.children.entrySet()) {\n        collectPrefixMap(entry.getValue(), prefix + entry.getKey(), result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

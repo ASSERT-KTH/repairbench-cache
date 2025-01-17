@@ -1,0 +1,7 @@
+{
+    "generation": "public SortedMap<String, V> prefixMap(String prefix) {\n    if (prefix == null) {\n        throw new NullPointerException(\"Prefix cannot be null\");\n    }\n    SortedMap<String, V> result = new TreeMap<>();\n    Node<V> node = getNode(prefix);\n    if (node != null) {\n        collectPrefixMap(node, prefix, result);\n    }\n    return result;\n}\n\nprivate void collectPrefixMap(Node<V> node, String prefix, SortedMap<String, V> result) {\n    if (node.value != null) {\n        result.put(prefix, node.value);\n    }\n    for (Node<V> child : node.children.values()) {\n        collectPrefixMap(child, prefix + child.bit, result);\n    }\n}\n\nprivate Node<V> getNode(String key) {\n    Node<V> node = root;\n    for (int i = 0; i < key.length(); i++) {\n        char bit = key.charAt(i);\n        node = node.children.get(bit);\n        if (node == null) {\n            return null;\n        }\n    }\n    return node;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

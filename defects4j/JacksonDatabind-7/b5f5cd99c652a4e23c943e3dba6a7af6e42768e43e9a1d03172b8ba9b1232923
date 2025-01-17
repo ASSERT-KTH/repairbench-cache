@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used by standard deserializer.\n     *\n     * @since 2.3\n     */\n    public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n    {\n        if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n            // If the current token is FIELD_NAME, we need to simulate a START_OBJECT\n            jp = jp.getCodec().createParser(jp.getCodec().treeAsTokens(jp.readValueAsTree()));\n            jp.nextToken(); // Move to the first token which should be START_OBJECT\n        }\n        copyCurrentStructure(jp);\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

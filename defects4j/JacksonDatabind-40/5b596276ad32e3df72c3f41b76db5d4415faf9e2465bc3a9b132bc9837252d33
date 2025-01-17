@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);\n    mapper.enable(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS);\n    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);\n\n    String json = mapper.writeValueAsString(null);\n\n    try {\n        Object result = mapper.readValue(json, type);\n        fail(\"Should not have passed: \" + result);\n    } catch (JsonMappingException e) {\n        // Expected exception\n    }\n\n    json = mapper.writeValueAsString(\"\");\n    try {\n        Object result = mapper.readValue(json, type);\n        assertEquals(defaultValue, result);\n    } catch (JsonMappingException e) {\n        fail(\"Should not have failed: \" + e.getMessage());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

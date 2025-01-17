@@ -1,0 +1,7 @@
+{
+    "generation": "  public String getLine(int lineNumber) {\n    String js = \"\";\n    try {\n      js = getCode();\n    } catch (IOException e) {\n      return null;\n    }\n\n    int pos = 0;\n    int startLine = 1;\n\n    if (lineNumber >= lastLine) {\n      pos = lastOffset;\n      startLine = lastLine;\n    }\n\n    for (int n = startLine; n < lineNumber; n++) {\n      int nextpos = js.indexOf('\\n', pos);\n      if (nextpos == -1) {\n        return null;\n      }\n      pos = nextpos + 1;\n    }\n\n    lastOffset = pos;\n    lastLine = lineNumber;\n\n    int nextNewLinePos = js.indexOf('\\n', pos);\n    if (nextNewLinePos == -1) {\n      return js.substring(pos);\n    } else {\n      return js.substring(pos, nextNewLinePos);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

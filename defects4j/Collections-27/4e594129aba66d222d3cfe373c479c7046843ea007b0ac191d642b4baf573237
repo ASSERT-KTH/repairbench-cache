@@ -1,0 +1,7 @@
+{
+    "generation": "private static final long serialVersionUID = 20150712L;\n\nprivate final Class<?> valueClass;\n\npublic static MultiValueMap multiValueMap(Map map, Class<?> valueClass) {\n    return new MultiValueMap(map, valueClass);\n}\n\nprivate MultiValueMap(Map map, Class<?> valueClass) {\n    super(map);\n    this.valueClass = valueClass;\n}\n\nprivate void writeObject(ObjectOutputStream out) throws IOException {\n    out.defaultWriteObject();\n    out.writeObject(valueClass);\n}\n\nprivate void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<?> clazz = (Class<?>) in.readObject();\n    if (!valueClass.equals(clazz)) {\n        throw new UnsupportedOperationException(\"Unsafe class type detected during deserialization\");\n    }\n    this.valueClass = clazz;\n}\n\npublic Class<?> getValueClass() {\n    return valueClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

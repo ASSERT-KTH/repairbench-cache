@@ -1,0 +1,7 @@
+{
+    "generation": "public void testBasePropertiesIncludedWhenSerializingSubWhenSubTypeLoadedAfterBaseType() throws IOException {\n    TypeFactory tf = TypeFactory.defaultInstance();\n    tf.constructType(Base.class);\n    tf.constructType(Sub.class);\n\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.registerModule(new JavaTimeModule()); // Ensure proper module registration if needed\n    mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL); // Enable default typing\n\n    Sub sub = new Sub();\n    String serialized = mapper.writeValueAsString(sub);\n    assertEquals(\"{\\\"base\\\":1,\\\"sub\\\":2}\", serialized);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static class MultiValueMap<K, V> extends AbstractMap<K, Collection<V>> implements Serializable {\n    // Other fields and methods...\n\n    private static final long serialVersionUID = 1L;\n\n    private transient Class<? extends Collection> collectionClass;\n\n    // Constructor and other methods...\n\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        Class<?> clazz = (Class<?>) in.readObject();\n        if (!Collection.class.isAssignableFrom(clazz)) {\n            throw new UnsupportedOperationException(\"Unsupported collection class: \" + clazz);\n        }\n        collectionClass = (Class<? extends Collection>) clazz;\n    }\n\n    private void writeObject(ObjectOutputStream out) throws IOException {\n        out.defaultWriteObject();\n        out.writeObject(collectionClass);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

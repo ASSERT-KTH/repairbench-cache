@@ -1,0 +1,7 @@
+{
+    "generation": "private Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {\n    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes)) {\n        @Override\n        protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {\n            if (!desc.getName().equals(\"java.util.HashMap\")) {\n                throw new UnsupportedOperationException(\"Unsafe class type: \" + desc.getName());\n            }\n            return super.resolveClass(desc);\n        }\n    };\n    return ois.readObject();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

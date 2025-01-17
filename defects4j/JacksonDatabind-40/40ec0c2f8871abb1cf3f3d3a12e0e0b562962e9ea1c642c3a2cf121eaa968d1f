@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);\n\n    String json = \"{}\";\n    JsonNode root = mapper.readTree(json);\n    JsonNode valueNode = root.get(\"value\");\n\n    try {\n        Object value = mapper.convertValue(valueNode, type);\n        if (valueNode == null) {\n            assertEquals(defaultValue, value);\n        } else {\n            assertEquals(valueNode.asText(), value);\n        }\n    } catch (JsonMappingException e) {\n        if (type.isPrimitive()) {\n            assertEquals(defaultValue, e.getValue());\n        } else {\n            throw e;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
