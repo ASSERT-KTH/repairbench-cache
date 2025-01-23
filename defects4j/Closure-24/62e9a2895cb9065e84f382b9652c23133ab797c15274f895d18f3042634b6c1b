@@ -1,0 +1,7 @@
+{
+    "generation": "    private void findAliases(NodeTraversal t) {\n      Scope scope = t.getScope();\n      for (Var v : scope.getVarIterable()) {\n        // Skip parameters as they are handled elsewhere\n        if (v.isParam()) {\n          continue;\n        }\n        Node n = v.getNode();\n        if (v.hasInitialValue()) {\n          Node initialValue = v.getInitialValue();\n          if (initialValue.isQualifiedName()) {\n            String name = n.getString();\n            Var aliasVar = scope.getVar(name);\n            aliases.put(name, aliasVar);\n            String qualifiedName = initialValue.getQualifiedName();\n            transformation.addAlias(name, qualifiedName);\n            // Bleeding functions already get a BAD_PARAMETERS error, so just\n            // do nothing.\n          } else {\n            report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n          }\n        } else {\n          // Report variables without initializers (e.g., var x;)\n          report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n        }\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

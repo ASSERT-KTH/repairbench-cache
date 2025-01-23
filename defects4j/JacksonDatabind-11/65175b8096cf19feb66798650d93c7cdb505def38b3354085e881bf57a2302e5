@@ -1,0 +1,7 @@
+{
+    "generation": "    protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n    {\n        final String name = type.getName();\n        if (context == null) {\n            return _unknownType();\n        } else {\n            JavaType actualType = context.findType(name);\n            if (actualType != null) {\n                return actualType;\n            }\n        }\n\n        Type[] bounds = type.getBounds();\n        context._addPlaceholder(name);\n\n        // Resolve all bounds to JavaTypes\n        JavaType[] resolvedBounds = new JavaType[bounds.length];\n        for (int i = 0; i < bounds.length; i++) {\n            resolvedBounds[i] = _constructType(bounds[i], context);\n        }\n\n        // Construct a TypeVariable type with resolved bounds\n        return _typeFactory.constructTypeVariable(_baseType, name, resolvedBounds);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private void annotateCalls(Node n) {\n      Preconditions.checkState(n.isCall());\n\n      // Keep track of the \"this\" context of a call. A call without an\n      // explicit \"this\" is a free call.\n      Node first = n.getFirstChild();\n\n      // Unwrap cast and parenthesized nodes for free call check\n      Node freeCallCheckFirst = first;\n      while (freeCallCheckFirst != null && \n             (freeCallCheckFirst.isCast() || freeCallCheckFirst.isParenthesized())) {\n          freeCallCheckFirst = freeCallCheckFirst.getFirstChild();\n      }\n\n      if (freeCallCheckFirst == null || !NodeUtil.isGet(freeCallCheckFirst)) {\n          n.putBooleanProp(Node.FREE_CALL, true);\n      }\n\n      // Unwrap cast and parenthesized nodes for direct eval check\n      Node evalCheckFirst = first;\n      while (evalCheckFirst != null && \n             (evalCheckFirst.isCast() || evalCheckFirst.isParenthesized())) {\n          evalCheckFirst = evalCheckFirst.getFirstChild();\n      }\n\n      if (evalCheckFirst != null && evalCheckFirst.isName() &&\n          \"eval\".equals(evalCheckFirst.getString())) {\n          evalCheckFirst.putBooleanProp(Node.DIRECT_EVAL, true);\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

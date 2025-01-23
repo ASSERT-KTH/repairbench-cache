@@ -1,0 +1,7 @@
+{
+    "generation": "public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    if (p.currentToken() == JsonToken.VALUE_STRING) {\n        String text = p.getText().trim();\n        if (text.isEmpty()) {\n            if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n                if (ctxt.getContextualType() != null && ctxt.getContextualType().isPrimitive()) {\n                    throw ctxt.mappingException(\"Cannot coerce empty String to null for primitive type\");\n                }\n                return null;\n            }\n        }\n        try {\n            return Integer.parseInt(text);\n        } catch (NumberFormatException e) {\n            throw ctxt.mappingException(\"Cannot coerce String '%s' to %s\", text, _valueClass.getName());\n        }\n    }\n    return _parseInt(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

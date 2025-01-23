@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used to prevent both caching and cache lookups for structured\n     * types that have custom value handlers\n     *\n     * @since 2.8.11\n     */\n    private boolean _hasCustomHandlers(JavaType t) {\n        if (t.isContainerType()) {\n            // Check content type (value) handlers\n            JavaType ct = t.getContentType();\n            boolean contentHandled = (ct != null) \n                && (ct.getValueHandler() != null || ct.getTypeHandler() != null);\n            \n            // Check key type handler for Map-like types\n            boolean keyHandled = false;\n            if (t instanceof MapType) {\n                JavaType kt = t.getKeyType();\n                keyHandled = (kt != null) && (kt.getValueHandler() != null);\n            }\n            \n            return contentHandled || keyHandled;\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

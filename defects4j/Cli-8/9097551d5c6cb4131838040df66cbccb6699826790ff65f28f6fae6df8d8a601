@@ -1,0 +1,7 @@
+{
+    "generation": "    protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                             int nextLineTabStop, String text)\n    {\n        String[] lines = text.split(defaultNewLine, -1);\n        String padding = createPadding(nextLineTabStop);\n\n        for (int i = 0; i < lines.length; i++) {\n            String line = lines[i];\n            if (i > 0) {\n                sb.append(defaultNewLine);\n                line = padding + line.trim();\n            }\n            renderLine(sb, width, i > 0 ? nextLineTabStop : 0, line);\n        }\n\n        return sb;\n    }\n\n    private void renderLine(StringBuffer sb, int width, int currentLineTabStop, String line) {\n        int pos = findWrapPos(line, width, currentLineTabStop);\n\n        if (pos == -1) {\n            sb.append(rtrim(line));\n            return;\n        }\n\n        sb.append(rtrim(line.substring(0, pos))).append(defaultNewLine);\n        String remaining = line.substring(pos).trim();\n\n        while (true) {\n            remaining = createPadding(currentLineTabStop) + remaining;\n            pos = findWrapPos(remaining, width, currentLineTabStop);\n\n            if (pos == -1) {\n                sb.append(remaining);\n                return;\n            }\n\n            sb.append(rtrim(remaining.substring(0, pos))).append(defaultNewLine);\n            remaining = remaining.substring(pos).trim();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

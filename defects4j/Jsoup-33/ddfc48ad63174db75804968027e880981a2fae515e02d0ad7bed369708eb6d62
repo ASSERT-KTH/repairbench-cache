@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        if (startTag.isSelfClosing()) {\n            Tag tag = Tag.valueOf(startTag.name());\n            if (tag.isEmpty()) { // handles void tags\n                Element el = insertEmpty(startTag);\n                tokeniser.emit(new Token.EndTag(el.tagName()));\n                return el;\n            } else {\n                // treat as a normal tag, even if self-closing\n                Element el = new Element(tag, baseUri, startTag.attributes);\n                insert(el);\n                tokeniser.emit(new Token.EndTag(tag.getName()));\n                return el;\n            }\n        }\n        \n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

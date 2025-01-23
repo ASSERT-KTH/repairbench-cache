@@ -1,0 +1,7 @@
+{
+    "generation": "public class IntegerDeserializer extends StdDeserializer<Integer> {\n    public IntegerDeserializer() {\n        super(int.class);\n    }\n\n    @Override\n    public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n        if (p.currentToken() == JsonToken.VALUE_STRING) {\n            String text = p.getText().trim();\n            if (text.isEmpty()) {\n                throw ctxt.mappingException(\"Cannot coerce empty String to primitive int\");\n            }\n            try {\n                return Integer.parseInt(text);\n            } catch (NumberFormatException e) {\n                throw ctxt.mappingException(\"Cannot parse empty String to int\");\n            }\n        }\n        return ctxt.handleUnexpectedToken(int.class, p);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

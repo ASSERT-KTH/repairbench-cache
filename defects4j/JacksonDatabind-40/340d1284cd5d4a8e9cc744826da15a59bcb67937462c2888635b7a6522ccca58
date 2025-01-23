@@ -1,0 +1,7 @@
+{
+    "generation": "public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    if (p.currentToken() == JsonToken.VALUE_STRING) {\n        String text = p.getText().trim();\n        if (text.isEmpty()) {\n            JavaType type = getValueType(ctxt);\n            if (type.isPrimitive()) {\n                // For primitives, cannot coerce empty to null; use default value\n                Class<?> primClass = type.getRawClass();\n                if (primClass == int.class) return 0;\n                if (primClass == long.class) return 0L;\n                if (primClass == double.class) return 0.0;\n                if (primClass == float.class) return 0.0f;\n                // Handle other primitives as needed\n            }\n            // For non-primitives, proceed with null coercion if configured\n            return null;\n        }\n        // Proceed with normal deserialization for non-empty strings\n    }\n    return super.deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

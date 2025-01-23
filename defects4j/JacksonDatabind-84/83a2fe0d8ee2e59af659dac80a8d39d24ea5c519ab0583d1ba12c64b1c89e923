@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type instanceof Class<?>) {\n        Class<?> clazz = (Class<?>) type;\n        ClassKey key = new ClassKey(clazz);\n        JavaType cached = _typeCache.get(key);\n        if (cached != null) {\n            return cached;\n        }\n\n        // Resolve superclass type using the same TypeFactory to ensure caching\n        Class<?> superClass = clazz.getSuperclass();\n        JavaType superType = (superClass == null || superClass == Object.class) \n            ? null \n            : constructType(superClass);\n\n        List<JavaType> superInterfaces = new ArrayList<>();\n        for (Class<?> ifc : clazz.getInterfaces()) {\n            superInterfaces.add(constructType(ifc));\n        }\n\n        // Resolve type parameters\n        TypeVariable<?>[] typeParams = clazz.getTypeParameters();\n        JavaType[] paramTypes = new JavaType[typeParams.length];\n        for (int i = 0; i < typeParams.length; i++) {\n            paramTypes[i] = _fromType(typeParams[i], TypeBindings.emptyBindings());\n        }\n\n        JavaType newType = new SimpleType(clazz, paramTypes, superType, superInterfaces);\n        _typeCache.put(key, newType);\n        return newType;\n    }\n    // Handle other types (ParameterizedType, GenericArrayType, etc.)\n    return _fromAny(null, type, TypeBindings.emptyBindings());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns the remainder of the line.\n   */\n  private String getRemainingJSDocLine() {\n    StringBuilder result = new StringBuilder();\n    boolean isFirstLine = true;\n    while (true) {\n      String line = stream.getRemainingJSDocLine();\n      if (line == null) {\n        break;\n      }\n      if (!isFirstLine) {\n        // Skip leading '*' and whitespace in continuation lines\n        int i = 0;\n        while (i < line.length() && Character.isWhitespace(line.charAt(i))) {\n          i++;\n        }\n        if (i < line.length() && line.charAt(i) == '*') {\n          i++;\n          while (i < line.length() && Character.isWhitespace(line.charAt(i))) {\n            i++;\n          }\n        }\n        line = line.substring(i);\n      } else {\n        isFirstLine = false;\n      }\n      int endIndex = line.indexOf(\"*/\");\n      if (endIndex != -1) {\n        line = line.substring(0, endIndex);\n        result.append(line);\n        break;\n      }\n      result.append(line);\n    }\n    return result.toString().trim();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

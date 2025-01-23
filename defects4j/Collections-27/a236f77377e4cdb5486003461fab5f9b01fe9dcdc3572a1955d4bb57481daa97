@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.IOException;\nimport java.io.ObjectInputStream;\nimport java.util.Collection;\nimport java.util.HashMap;\n\npublic class MultiValueMap extends AbstractMapDecorator {\n\n    protected Class<? extends Collection> collectionClass;\n\n    public static MultiValueMap multiValueMap(final Map map, final Class<? extends Collection> collectionClass) {\n        return new MultiValueMap(map, collectionClass);\n    }\n\n    protected MultiValueMap(final Map map, final Class<? extends Collection> collectionClass) {\n        super(map);\n        this.collectionClass = collectionClass;\n        if (collectionClass != null && !Collection.class.isAssignableFrom(collectionClass)) {\n            throw new IllegalArgumentException(\"Collection class is not a Collection subclass.\");\n        }\n    }\n\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (collectionClass != null && !Collection.class.isAssignableFrom(collectionClass)) {\n            throw new UnsupportedOperationException(\"The collection class is not a Collection type.\");\n        }\n    }\n\n    // Other existing methods...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

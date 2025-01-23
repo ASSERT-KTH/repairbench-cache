@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Processes a OBJECTLIT node.\n     */\n    private void handleObjectLit(NodeTraversal t, Node n) {\n      Node parent = n.getParent();\n      T ownerType = null;\n\n      // Determine the owner type by checking if the object literal is the RHS of an assignment.\n      if (parent != null && parent.isAssign()) {\n        Node ownerNode = parent.getFirstChild();\n        ownerType = typeSystem.getType(getScope(), ownerNode, null);\n      } else {\n        ownerType = typeSystem.getType(getScope(), n, null);\n      }\n\n      for (Node child = n.getFirstChild();\n          child != null;\n          child = child.getNext()) {\n        // Maybe STRING, GET, SET\n\n        // We should never see a mix of numbers and strings.\n        String name = child.getString();\n\n        Property prop = getProperty(name);\n        if (!prop.scheduleRenaming(child,\n                                   processProperty(t, prop, ownerType, null))) {\n          // TODO(user): It doesn't look like the user can do much in this\n          // case right now.\n          if (propertiesToErrorFor.containsKey(name)) {\n            compiler.report(JSError.make(\n                t.getSourceName(), child, propertiesToErrorFor.get(name),\n                Warnings.INVALIDATION, name,\n                (ownerType == null ? \"null\" : ownerType.toString()), n.toString(), \"\"));\n          }\n        }\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

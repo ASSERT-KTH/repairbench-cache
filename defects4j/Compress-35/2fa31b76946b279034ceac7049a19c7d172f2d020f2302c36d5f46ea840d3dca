@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean verifyCheckSum(byte[] header) {\n        long storedSum = 0;\n        long unsignedSum = 0;\n        long signedSum = 0;\n\n        int digits = 0;\n        boolean skipLeadingSpace = true;\n\n        for (int i = 0; i < header.length; i++) {\n            byte b = header[i];\n            boolean inChecksumArea = (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN);\n\n            if (inChecksumArea) {\n                if (skipLeadingSpace) {\n                    if (b == ' ') {\n                        // Skip leading space\n                        b = ' ';\n                        unsignedSum += 0xff & b;\n                        signedSum += b;\n                        continue;\n                    } else {\n                        skipLeadingSpace = false;\n                    }\n                }\n\n                if (digits < 6) {\n                    if (b >= '0' && b <= '7') {\n                        storedSum = storedSum * 8 + (b - '0');\n                        digits++;\n                    } else {\n                        // Stop parsing after non-octal digit\n                        digits = 6;\n                    }\n                }\n                b = ' ';\n            }\n\n            unsignedSum += 0xff & b;\n            signedSum += b;\n        }\n        return storedSum == unsignedSum || storedSum == signedSum;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

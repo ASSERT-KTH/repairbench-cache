@@ -1,0 +1,7 @@
+{
+    "generation": "    protected JavaType _typeFromId(String id, DatabindContext ctxt) throws IOException\n    {\n        TypeFactory tf = ctxt.getTypeFactory();\n        if (id.indexOf('<') > 0) {\n            JavaType t = tf.constructFromCanonical(id);\n            if (!t.isSubTypeOf(_baseType)) {\n                if (ctxt instanceof DeserializationContext) {\n                    DeserializationContext dctxt = (DeserializationContext) ctxt;\n                    return dctxt.handleUnknownTypeId(_baseType, id, this, \"not subtype of\");\n                }\n                return null;\n            }\n            return t;\n        }\n        Class<?> cls;\n        try {\n            cls =  tf.findClass(id);\n        } catch (ClassNotFoundException e) {\n            if (ctxt instanceof DeserializationContext) {\n                DeserializationContext dctxt = (DeserializationContext) ctxt;\n                return dctxt.handleUnknownTypeId(_baseType, id, this, \"no such class found\");\n            }\n            return null;\n        } catch (Exception e) {\n            throw new IllegalArgumentException(\"Invalid type id '\"+id+\"' (for id type 'Id.class'): \"+e.getMessage(), e);\n        }\n        return tf.constructSpecializedType(_baseType, cls);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

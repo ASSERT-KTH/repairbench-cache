@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild();\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {\n        // Traverse the left-hand side to check for prototype in the chain\n        Node current = n.getFirstChild();\n        while (current != null) {\n          if (current.getType() == Token.GETPROP) {\n            Node prop = current.getFirstChild().getNext();\n            if (prop != null && prop.getType() == Token.STRING &&\n                prop.getString().equals(\"prototype\")) {\n              return true;\n            }\n            current = current.getFirstChild();\n          } else {\n            // Not a GETPROP, so exit traversal\n            current = null;\n          }\n        }\n      }\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

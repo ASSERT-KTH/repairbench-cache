@@ -1,0 +1,7 @@
+{
+    "generation": "  @SuppressWarnings(\"unchecked\") // Casts guarded by conditionals.\n  static TypeAdapter<?> getTypeAdapter(ConstructorConstructor constructorConstructor, Gson gson,\n      TypeToken<?> fieldType, JsonAdapter annotation) {\n    Class<?> value = annotation.value();\n    TypeAdapter<?> typeAdapter;\n    if (TypeAdapter.class.isAssignableFrom(value)) {\n      Class<TypeAdapter<?>> typeAdapterClass = (Class<TypeAdapter<?>>) value;\n      typeAdapter = constructorConstructor.get(TypeToken.get(typeAdapterClass)).construct();\n      if (typeAdapter == null) {\n        throw new IllegalArgumentException(\"TypeAdapter \" + value.getName() + \" could not be initialized.\");\n      }\n    } else if (TypeAdapterFactory.class.isAssignableFrom(value)) {\n      Class<TypeAdapterFactory> typeAdapterFactory = (Class<TypeAdapterFactory>) value;\n      TypeAdapterFactory factory = constructorConstructor.get(TypeToken.get(typeAdapterFactory)).construct();\n      typeAdapter = factory.create(gson, fieldType);\n      if (typeAdapter == null) {\n        throw new IllegalArgumentException(\"TypeAdapterFactory \" + value.getName() + \" returned null for type \" + fieldType);\n      }\n    } else {\n      throw new IllegalArgumentException(\n          \"@JsonAdapter value must be TypeAdapter or TypeAdapterFactory reference.\");\n    }\n    typeAdapter = typeAdapter.nullSafe();\n    return typeAdapter;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

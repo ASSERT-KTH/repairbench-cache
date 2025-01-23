@@ -1,0 +1,7 @@
+{
+    "generation": "    public XmlDeclaration asXmlDeclaration() {\n        String data = getData();\n        Document doc = Jsoup.parse(\"<\" + data.substring(1, data.length() - 1) + \">\", baseUri(), Parser.xmlParser());\n        XmlDeclaration decl = null;\n        Elements children = doc.children();\n        if (!children.isEmpty()) {\n            Element el = children.first();\n            decl = new XmlDeclaration(NodeUtils.parser(doc).settings().normalizeTag(el.tagName()), data.startsWith(\"!\"));\n            decl.attributes().addAll(el.attributes());\n        }\n        return decl;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

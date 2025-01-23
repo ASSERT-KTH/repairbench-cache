@@ -1,0 +1,7 @@
+{
+    "generation": "  void addNumber(double x) {\n    char prev = getLastChar();\n    boolean negativeZero = isNegativeZero(x);\n    String numberStr;\n\n    if ((long) x == x && !negativeZero) {\n      long value = (long) x;\n      long mantissa = value;\n      int exp = 0;\n      if (Math.abs(x) >= 100) {\n        while (mantissa / 10 * Math.pow(10, exp + 1) == value) {\n          mantissa /= 10;\n          exp++;\n        }\n      }\n      if (exp > 2) {\n        numberStr = Long.toString(mantissa) + \"E\" + Integer.toString(exp);\n      } else {\n        numberStr = Long.toString(value);\n      }\n    } else {\n      numberStr = String.valueOf(x);\n    }\n\n    // Check if the formatted number starts with '-'\n    boolean isNegative = !numberStr.isEmpty() && numberStr.charAt(0) == '-';\n    if (isNegative && prev == '-') {\n      add(\" \");\n    }\n\n    add(numberStr);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

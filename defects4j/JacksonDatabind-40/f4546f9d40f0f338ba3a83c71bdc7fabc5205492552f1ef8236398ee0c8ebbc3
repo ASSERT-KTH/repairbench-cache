@@ -1,0 +1,7 @@
+{
+    "generation": "public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    if (p.currentToken() == JsonToken.VALUE_STRING) {\n        String value = p.getText().trim();\n        if (value.isEmpty()) {\n            if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n                // Check if target type is primitive; if so, throw exception\n                if (_valueClass.isPrimitive()) {\n                    throw ctxt.weirdStringException(value, _valueClass, \"Cannot coerce empty String to null for primitive type\");\n                }\n                return null;\n            } else {\n                throw ctxt.weirdStringException(value, _valueClass, \"Empty String is not a valid value\");\n            }\n        }\n        // Proceed to parse the non-empty value\n        return _parseInteger(p, ctxt);\n    }\n    // Handle other token types as before\n    return super.deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

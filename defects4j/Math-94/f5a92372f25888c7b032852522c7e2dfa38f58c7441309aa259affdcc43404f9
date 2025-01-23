@@ -1,0 +1,7 @@
+{
+    "generation": "    public static int gcd(int u, int v) {\n        if (u == 0 || v == 0) {\n            return Math.abs(u) + Math.abs(v);\n        }\n        // Make u and v negative to handle Integer.MIN_VALUE correctly\n        u = (u > 0) ? -u : u;\n        v = (v > 0) ? -v : v;\n        // B1. Find the common power of 2\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n            u /= 2;\n            v /= 2;\n            k++;\n        }\n        if (k == 31) {\n            throw new ArithmeticException(\"overflow: gcd is 2^31\");\n        }\n        // B2. Initialize t\n        int t = ((u & 1) == 1) ? v : -(u / 2);\n        do {\n            // B3/B4. Halve t until it's odd\n            while ((t & 1) == 0) {\n                t /= 2;\n            }\n            // B5. Reset max(u, v)\n            if (t > 0) {\n                u = -t;\n            } else {\n                v = t;\n            }\n            // B6. Compute new t\n            t = (v - u) / 2;\n        } while (t != 0);\n        return -u * (1 << k);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

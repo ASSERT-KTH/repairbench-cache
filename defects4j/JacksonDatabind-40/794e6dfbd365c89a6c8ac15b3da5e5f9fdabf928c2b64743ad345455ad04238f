@@ -1,0 +1,7 @@
+{
+    "generation": "public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    if (p.currentToken() == JsonToken.VALUE_STRING) {\n        String text = p.getText().trim();\n        if (text.isEmpty()) {\n            CoercionAction act = ctxt.findCoercionAction(LogicalType.Integer, handledType(), CoercionInputShape.EmptyString);\n            if (act == CoercionAction.AsNull) {\n                if (_isPrimitive) {\n                    throw ctxt.inputCoercionException(p, \"Cannot coerce empty String to null for primitive int\");\n                }\n                return null;\n            } else if (act == CoercionAction.AsEmpty) {\n                return _coerceEmptyString(ctxt);\n            }\n            throw ctxt.inputCoercionException(p, \"Cannot coerce empty String to Integer\");\n        }\n        return Integer.parseInt(text);\n    }\n    return super.deserialize(p, ctxt);\n}\n\nprivate Integer _coerceEmptyString(DeserializationContext ctxt) throws JsonMappingException {\n    return 0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

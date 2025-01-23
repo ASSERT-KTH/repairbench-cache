@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, TypeBindings context) {\n    // Existing code to determine the class and handle other cases\n    Class<?> rawClass = _classFromType(type, context);\n    ClassStack parentContext = context.getCurrentStack();\n    ClassStack currStack = new ClassStack(rawClass, parentContext);\n\n    if (_containsClassStack(currStack, rawClass)) {\n        return _handleRecursiveType(rawClass, currStack);\n    }\n\n    context = context.child(currStack);\n    JavaType superType = null;\n    Class<?> superClass = rawClass.getSuperclass();\n    if (superClass != null) {\n        superType = constructType(superClass, context);\n        // Resolve ResolvedRecursiveType if present\n        while (superType instanceof ResolvedRecursiveType) {\n            ResolvedRecursiveType rrt = (ResolvedRecursiveType) superType;\n            superType = rrt.getSelfReferencedType();\n        }\n    }\n\n    // Existing code to handle interfaces and build the JavaType\n    JavaType[] interfaceTypes = _constructInterfaces(rawClass, context);\n    JavaType result = new ClassJavaType(rawClass, _baseType, superType, interfaceTypes, _asStatic);\n\n    _cachedTypes.put(rawClass, result);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

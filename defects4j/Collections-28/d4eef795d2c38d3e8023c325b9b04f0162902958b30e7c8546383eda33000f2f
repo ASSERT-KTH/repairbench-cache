@@ -1,0 +1,7 @@
+{
+    "generation": "public void testPrefixMapClear() {\n    Trie<String, Integer> trie = new PatriciaTrie<Integer>();\n    trie.put(\"Anna\", 1);\n    trie.put(\"Anael\", 2);\n    trie.put(\"Analu\", 3);\n    trie.put(\"Andreas\", 4);\n    trie.put(\"Andrea\", 5);\n    trie.put(\"Andres\", 6);\n    trie.put(\"Anatole\", 7);\n    SortedMap<String, Integer> prefixMap = trie.prefixMap(\"And\");\n    assertEquals(new HashSet<String>(Arrays.asList(\"Andrea\", \"Andreas\", \"Andres\")), prefixMap.keySet());\n    assertEquals(Arrays.asList(5, 4, 6), new ArrayList<Integer>(prefixMap.values()));\n\n    // Use iterator to clear to avoid ConcurrentModification issues\n    Iterator<Map.Entry<String, Integer>> it = prefixMap.entrySet().iterator();\n    while (it.hasNext()) {\n        it.next();\n        it.remove();\n    }\n    \n    assertTrue(prefixMap.isEmpty());\n    assertTrue(prefixMap.keySet().isEmpty());\n    assertTrue(prefixMap.values().isEmpty());\n    assertEquals(new HashSet<String>(Arrays.asList(\"Anael\", \"Analu\", \"Anatole\", \"Anna\")), trie.keySet());\n    assertEquals(Arrays.asList(2, 3, 7, 1), new ArrayList<Integer>(trie.values()));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

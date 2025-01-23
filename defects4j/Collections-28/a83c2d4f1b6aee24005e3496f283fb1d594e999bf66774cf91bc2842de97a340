@@ -1,0 +1,7 @@
+{
+    "generation": "public SortedMap<String, Integer> prefixMap(String prefix) {\n    return new PrefixRangeMap(prefix);\n}\n\nprivate final class PrefixRangeMap extends RangeMap {\n    private final String prefix;\n    \n    PrefixRangeMap(String prefix) {\n        this.prefix = prefix;\n        this.fromInclusive = true;\n        this.toInclusive = false;\n        this.fromKey = prefix;\n        this.toKey = prefix + (char) (prefix.charAt(prefix.length() - 1) + 1);\n    }\n\n    @Override\n    protected Iterator<Map.Entry<String, Integer>> entryIterator() {\n        return new PrefixRangeEntryIterator(this);\n    }\n}\n\nprivate final class PrefixRangeEntryIterator extends EntryIterator {\n    private final String prefix;\n    private final int length;\n\n    PrefixRangeEntryIterator(PrefixRangeMap rangeMap) {\n        super(rangeMap.fromKey, rangeMap.fromInclusive, rangeMap.toKey, rangeMap.toInclusive);\n        this.prefix = rangeMap.prefix;\n        this.length = prefix.length();\n    }\n\n    @Override\n    protected boolean inRange(String key) {\n        return key.startsWith(prefix);\n    }\n\n    @Override\n    protected boolean inFromRange(String key, boolean includeInclusive) {\n        return key.startsWith(prefix);\n    }\n\n    @Override\n    protected boolean inToRange(String key, boolean includeInclusive) {\n        return key.startsWith(prefix);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

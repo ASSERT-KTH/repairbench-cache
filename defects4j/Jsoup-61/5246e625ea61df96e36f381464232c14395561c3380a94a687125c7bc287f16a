@@ -1,0 +1,7 @@
+{
+    "generation": "    // performance sensitive\n    public boolean hasClass(String className) {\n        final String classAttr = attributes.get(\"class\");\n        final int len = classAttr.length();\n        final int wantLen = className.length();\n\n        if (len == 0 || wantLen == 0 || len < wantLen) {\n            return false;\n        }\n\n        boolean inClass = false;\n        int start = 0;\n\n        for (int i = 0; i <= len; i++) {\n            // Check if we're at the end of the string or at a whitespace character\n            if (i == len || Character.isWhitespace(classAttr.charAt(i))) {\n                if (inClass) {\n                    int currentLen = i - start;\n                    if (currentLen == wantLen && classAttr.regionMatches(true, start, className, 0, wantLen)) {\n                        return true;\n                    }\n                    inClass = false;\n                }\n            } else {\n                if (!inClass) {\n                    start = i;\n                    inClass = true;\n                }\n            }\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

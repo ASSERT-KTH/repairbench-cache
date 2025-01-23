@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    List<Field> allFields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n    Set<Class<?>> mockTypes = mocks.stream().map(Object::getClass).collect(java.util.stream.Collectors.toSet());\n    \n    java.util.LinkedHashMap<Class<?>, java.util.List<Field>> fieldsByClass = new java.util.LinkedHashMap<>();\n    for (Field field : allFields) {\n        Class<?> declaringClass = field.getDeclaringClass();\n        fieldsByClass.computeIfAbsent(declaringClass, k -> new java.util.ArrayList<>()).add(field);\n    }\n    \n    for (java.util.List<Field> classFields : fieldsByClass.values()) {\n        java.util.List<Field> exactMatchFields = new java.util.ArrayList<>();\n        java.util.List<Field> remainingFields = new java.util.ArrayList<>();\n        for (Field field : classFields) {\n            if (mockTypes.contains(field.getType())) {\n                exactMatchFields.add(field);\n            } else {\n                remainingFields.add(field);\n            }\n        }\n        for (Field field : exactMatchFields) {\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        }\n        for (Field field : remainingFields) {\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    if (type instanceof Class<?>) {\n        return _fromClass((Class<?>) type, TypeBindings.emptyBindings());\n    }\n    // Other type handling logic remains unchanged\n    // ...\n}\n\nprotected JavaType _fromClass(Class<?> clazz, TypeBindings context) {\n    // Check for primitives, enums, etc., then:\n\n    JavaType superType = null;\n    Class<?> superCls = clazz.getSuperclass();\n    if (superCls != null && superCls != Object.class) {\n        superType = constructType(superCls);\n    }\n    // Ensure that superType is correctly resolved and cached\n    return _cacheType(new SimpleType(clazz, superType, null, null, null, null), clazz);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

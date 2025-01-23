@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean decodeLbs(Position position, ByteBuf buf, int type, boolean hasLength) {\n\n        int length = 0;\n        if (hasLength) {\n            length = buf.readUnsignedByte();\n            if (length == 0) {\n                buf.skipBytes(Math.min(buf.readableBytes(), 45));\n                return false;\n            }\n        }\n\n        int mcc = buf.readUnsignedShort();\n        int mnc;\n        if (BitUtil.check(mcc, 15) || type == MSG_GPS_LBS_6) {\n            mnc = buf.readUnsignedShort();\n        } else {\n            mnc = buf.readUnsignedByte();\n        }\n        int lac;\n        if (type == MSG_LBS_ALARM) {\n            lac = buf.readInt();\n        } else {\n            lac = buf.readUnsignedShort();\n        }\n        long cid;\n        if (type == MSG_LBS_ALARM || type == MSG_GPS_LBS_7) {\n            cid = buf.readLong();\n        } else if (type == MSG_GPS_LBS_6) {\n            cid = buf.readUnsignedInt();\n        } else {\n            cid = buf.readUnsignedMedium();\n        }\n\n        position.setNetwork(new Network(CellTower.from(BitUtil.to(mcc, 15), mnc, lac, cid)));\n\n        if (length > 9) {\n            buf.skipBytes(length - 9);\n        }\n\n        return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

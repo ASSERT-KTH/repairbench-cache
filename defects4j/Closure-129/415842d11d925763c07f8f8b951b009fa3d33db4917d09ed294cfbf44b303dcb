@@ -1,0 +1,7 @@
+{
+    "generation": "    private void annotateCalls(Node n) {\n      Preconditions.checkState(n.isCall());\n\n      Node first = n.getFirstChild();\n\n      // Skip over cast nodes to find the actual call target\n      while (first != null && NodeUtil.isCast(first)) {\n        first = first.getFirstChild();\n      }\n\n      // Determine if the call is a free call (no explicit \"this\")\n      if (first == null || !NodeUtil.isGet(first)) {\n        n.putBooleanProp(Node.FREE_CALL, true);\n      }\n\n      // Check for direct eval calls after skipping casts\n      if (first != null && first.isName() &&\n          \"eval\".equals(first.getString())) {\n        first.putBooleanProp(Node.DIRECT_EVAL, true);\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n    {\n        final String name = type.getName();\n        // Check if context is available and if the type is found in the context\n        if (context != null) {\n            JavaType actualType = context.findType(name);\n            if (actualType != null) {\n                return actualType;\n            }\n        }\n\n        Type[] bounds = type.getBounds();\n        // If there are no bounds, return unknown type (though Java adds Object as a bound)\n        if (bounds.length == 0) {\n            return _unknownType();\n        }\n\n        // Add placeholder to prevent infinite loops if context is available\n        if (context != null) {\n            context._addPlaceholder(name);\n        }\n\n        // Use the first bound to resolve the type variable\n        return _constructType(bounds[0], context);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

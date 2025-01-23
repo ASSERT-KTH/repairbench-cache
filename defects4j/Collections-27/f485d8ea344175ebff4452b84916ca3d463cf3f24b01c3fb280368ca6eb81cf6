@@ -1,0 +1,7 @@
+{
+    "generation": "import java.io.IOException;\nimport java.io.ObjectInputStream;\nimport java.util.Collection;\nimport java.util.HashMap;\n\npublic class MultiValueMap<K, V> extends AbstractMapDecorator<K, Object> {\n\n    private Class<? extends Collection> collectionClass;\n\n    private MultiValueMap(final Map<K, Object> map, final Class<? extends Collection> collectionClass) {\n        super(map);\n        this.collectionClass = collectionClass;\n    }\n\n    public static <K, V> MultiValueMap<K, V> multiValueMap(final Map<K, Object> map,\n                                                           final Class<? extends Collection> collectionClass) {\n        return new MultiValueMap<>(map, collectionClass);\n    }\n\n    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        if (!Collection.class.isAssignableFrom(collectionClass)) {\n            throw new UnsupportedOperationException(\"Deserialization failed: collection class is not a valid Collection type.\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

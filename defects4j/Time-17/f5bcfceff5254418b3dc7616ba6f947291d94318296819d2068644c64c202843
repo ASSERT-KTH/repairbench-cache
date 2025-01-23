@@ -1,0 +1,7 @@
+{
+    "generation": "    public long adjustOffset(long instant, boolean earlierOrLater) {\n        // Evaluate 3 hours before and after in UTC to check for overlap\n        long instantBeforeUTC = instant - 3 * DateTimeConstants.MILLIS_PER_HOUR;\n        long instantAfterUTC = instant + 3 * DateTimeConstants.MILLIS_PER_HOUR;\n        long instantBeforeLocal = convertUTCToLocal(instantBeforeUTC);\n        long instantAfterLocal = convertUTCToLocal(instantAfterUTC);\n        if (instantBeforeLocal == instantAfterLocal) {\n            return instant;  // No overlap detected\n        }\n        \n        // Determine the local time of the current instant\n        long local = convertUTCToLocal(instant);\n        // Use UTC-based transition points for resolving the ambiguity\n        return convertLocalToUTC(local, false, earlierOrLater ? instantAfterUTC : instantBeforeUTC);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

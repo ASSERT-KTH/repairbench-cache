@@ -1,0 +1,7 @@
+{
+    "generation": "public void _testEmptyToNullCoercion(Class<?> cls, Object expValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n    \n    // For primitive types, coercion to null should not be allowed\n    if (cls.isPrimitive()) {\n        try {\n            Object value = mapper.readValue(\"\\\"\\\"\", cls);\n            fail(\"Should not have passed for primitive type \"+cls.getName()+\", got: \"+value);\n        } catch (MismatchedInputException e) {\n            verifyException(e, \"Cannot coerce empty String\");\n        }\n    } else {\n        Object value = mapper.readValue(\"\\\"\\\"\", cls);\n        assertEquals(\"Coercion failed for \"+cls.getName(), expValue, value);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

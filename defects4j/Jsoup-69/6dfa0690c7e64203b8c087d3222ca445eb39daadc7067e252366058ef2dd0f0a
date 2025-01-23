@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n\n    for (Element el : elements()) {\n        if (el.tag().isFormSubmittable() && !el.hasAttr(\"disabled\")) {\n            String name = el.attr(\"name\");\n            if (name.length() == 0) continue;\n\n            String type = el.attr(\"type\").toLowerCase();\n            if (\"submit\".equals(type) && data.size() > 0) {\n                continue; // Skip other submit buttons if already processing one\n            }\n\n            if (el instanceof TextArea) {\n                TextArea textarea = (TextArea) el;\n                data.add(Connection.KeyVal.create(name, textarea.val()));\n            } else if (el instanceof Select) {\n                Select select = (Select) el;\n                List<OptionElement> options = select.selectedOptions();\n                for (OptionElement option : options) {\n                    data.add(Connection.KeyVal.create(name, option.val()));\n                }\n            } else if (el instanceof InputElement) {\n                InputElement input = (InputElement) el;\n                String value = input.val();\n                data.add(Connection.KeyVal.create(name, value));\n            }\n        }\n    }\n\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public boolean hasSameMethod(Invocation candidate) {        \n        Method m1 = invocation.getMethod();\n        Method m2 = candidate.getMethod();\n        \n        m1 = getActualMethod(m1);\n        m2 = getActualMethod(m2);\n        \n        return m1.equals(m2);\n    }\n\n    private Method getActualMethod(Method method) {\n        if (!method.isBridge()) {\n            return method;\n        }\n        Class<?> clazz = method.getDeclaringClass();\n        while (clazz != null) {\n            for (Method m : clazz.getDeclaredMethods()) {\n                if (m.getName().equals(method.getName()) \n                    && Arrays.equals(m.getParameterTypes(), method.getParameterTypes())\n                    && !m.isBridge()) {\n                    return m;\n                }\n            }\n            clazz = clazz.getSuperclass();\n        }\n        return method;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

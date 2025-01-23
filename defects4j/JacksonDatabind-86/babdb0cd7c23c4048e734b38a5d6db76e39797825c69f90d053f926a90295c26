@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, Class<?> context) {\n    // ... existing code ...\n\n    if (rawClass.isArray()) {\n        return _fromArrayType(rawClass, type, context);\n    }\n    if (rawClass.isEnum()) {\n        return _fromEnumType(rawClass, type, context);\n    }\n    // Check if we have a non-trivial (non-Object) superclass\n    JavaType superType = null;\n    Class<?> superCls = rawClass.getSuperclass();\n    if (superCls != null && superCls != Object.class) {\n        superType = constructType(superCls, context);\n        // Resolve any ResolvedRecursiveType to ensure the superclass is fully resolved\n        while (superType instanceof ResolvedRecursiveType) {\n            ResolvedRecursiveType rrt = (ResolvedRecursiveType) superType;\n            JavaType resolved = rrt.getSelfReferencedType();\n            if (resolved == null) {\n                break; // Avoid infinite loop if not yet resolved\n            }\n            superType = resolved;\n        }\n    }\n\n    // ... remaining code to construct and return the JavaType ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

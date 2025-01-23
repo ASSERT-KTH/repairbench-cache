@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * @return Whether the variable is only assigned a value once for its\n     *     lifetime.\n     */\n    boolean isAssignedOnceInLifetime() {\n      Reference ref = getOneAndOnlyAssignment();\n      if (ref == null) {\n        return false;\n      }\n\n      // Make sure this assignment is not in a loop.\n      BasicBlock functionBlock = null;\n      for (BasicBlock block = ref.getBasicBlock();\n           block != null; block = block.getParent()) {\n        if (block.isFunction) {\n          functionBlock = block;\n          break;\n        } else if (block.isLoop) {\n          return false;\n        }\n      }\n\n      // If the assignment is inside a function, check if the variable is declared outside it.\n      if (functionBlock != null) {\n        Scope varScope = getScope().getParentScope();\n        Scope functionScope = functionBlock.getScope();\n        while (varScope != null && varScope != functionScope) {\n          varScope = varScope.getParent();\n        }\n        if (varScope != functionScope) {\n          return false;\n        }\n      }\n\n      return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

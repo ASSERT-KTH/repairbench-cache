@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the node is a block with a single statement that is\n   *     an expression.\n   */\n  private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n      if (n.hasOneChild()) {\n        Node maybeExpr = n.getFirstChild();\n        if (NodeUtil.isExpressionNode(maybeExpr)) {\n          Node exprChild = maybeExpr.getFirstChild();\n          // Check if the expression is a call to an event handler method with implicit 'this'\n          if (exprChild != null && exprChild.getType() == Token.CALL) {\n            Node function = exprChild.getFirstChild();\n            if (function != null && function.getType() == Token.GETPROP) {\n              String methodName = function.getLastChild().getString();\n              if (methodName.startsWith(\"on\")) {\n                // Avoid folding due to IE bug\n                return false;\n              }\n            }\n          }\n          return true;\n        }\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

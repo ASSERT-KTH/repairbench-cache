@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, Class<?> context) {\n    // ... existing code to handle different type cases ...\n\n    if (rawType.isInterface()) {\n        type = _mapType(rawType);\n    } else {\n        // Check if we have a cached superclass type\n        JavaType superType = null;\n        Class<?> superClass = rawType.getSuperclass();\n        if (superClass != null && superClass != Object.class) {\n            // Fix: Use constructType to resolve the superclass, leveraging the cache\n            superType = constructType(superClass, context);\n        }\n        // Proceed to construct the type with the resolved superType\n        type = _fromClass(rawType, TypeBindings.emptyBindings(), superType);\n    }\n\n    // ... remaining existing code ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, TypeBindings context) {\n    JavaType result;\n\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        result = _fromClass(cls, context);\n    } else {\n        // existing handling for other types\n        result = _fromAny(null, type, context);\n    }\n\n    // After constructing the type, ensure ResolvedRecursiveType placeholders are replaced\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        JavaType cached = _cache.get(cls);\n        if (cached instanceof ResolvedRecursiveType) {\n            ResolvedRecursiveType placeholder = (ResolvedRecursiveType) cached;\n            if (placeholder.getSelfReferencedType() != null) {\n                _cache.put(cls, placeholder.getSelfReferencedType());\n            }\n        }\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
