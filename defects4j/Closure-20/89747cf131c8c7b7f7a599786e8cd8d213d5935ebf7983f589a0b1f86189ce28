@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n    if (callTarget != null && callTarget.isName() &&\n          callTarget.getString().equals(\"String\") &&\n          n.getChildrenCount() == 2) {  // Check for exactly one argument\n      Node value = callTarget.getNext();\n      if (value != null && isSafeLiteral(value)) {  // Check if argument is a safe literal\n        Node addition = IR.add(\n            IR.string(\"\").srcref(callTarget),\n            value.detachFromParent());\n        n.getParent().replaceChild(n, addition);\n        reportCodeChange();\n        return addition;\n      }\n    }\n    return n;\n}\n\nprivate boolean isSafeLiteral(Node node) {\n    return node.isStringLit() || node.isNumberLit() || node.isBooleanLit() || node.isNullLit() || node.isUndefinedLit();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

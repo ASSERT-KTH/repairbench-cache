@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    JsonNode node = p.get_valueAsTree();\n    ObjectCodec codec = p.getCodec();\n    Object mappings = codec.treeToValue(node, ctxt);\n    if (mappings instanceof Map) {\n        Map<String, Object> map = (Map<String, Object>) mappings;\n        // Extract only known properties, skip any unknown ones\n        CallRecord result = new CallRecord();\n        if (map.containsKey(\"version\")) {\n            result.version = (Double) map.get(\"version\");\n        }\n        if (map.containsKey(\"application\")) {\n            result.application = (String) map.get(\"application\");\n        }\n        if (map.containsKey(\"item\")) {\n            result.item = (Item) map.get(\"item\");\n        }\n        if (map.containsKey(\"item2\")) {\n            result.item2 = (Item) map.get(\"item2\");\n        }\n        return result;\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

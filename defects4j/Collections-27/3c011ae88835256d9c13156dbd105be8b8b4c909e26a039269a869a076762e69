@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Object tmp = in.readObject();\n    if (tmp instanceof Map) {\n        @SuppressWarnings(\"unchecked\")\n        Map<Object, Object> map = (Map<Object, Object>) tmp;\n        init(map);\n    } else {\n        @SuppressWarnings(\"unchecked\")\n        Map<Object, Collection<Object>> map = (Map<Object, Collection<Object>>) tmp;\n        this.map = map;\n    }\n    \n    // Validate collectionClass\n    if (collectionClass == null || !Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsupported collection class: \" + collectionClass);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /* (non-Javadoc)\n     * @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock)\n     */\n    public Object answer(InvocationOnMock invocation) {\n        if (methodsGuru.isToString(invocation.getMethod())) {\n            Object mock = invocation.getMock();\n            MockName name = mockUtil.getMockName(mock);\n            if (name.isDefault()) {\n                return \"Mock for \" + mockUtil.getMockSettings(mock).getTypeToMock().getSimpleName() + \", hashCode: \" + mock.hashCode();\n            } else {\n                return name.toString();\n            }\n        } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {\n            // For compareTo, return 0 if comparing to self, else 1\n            Object argument = invocation.getArguments() != null && invocation.getArguments().length > 0 ? invocation.getArguments()[0] : null;\n            if (argument != null && argument == invocation.getMock()) {\n                return 0;\n            } else {\n                return 1;\n            }\n        }\n        \n        Class<?> returnType = invocation.getMethod().getReturnType();\n        return returnValueFor(returnType);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {        \n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n    \n    return Matchers.anyOf(\n        () -> m1.equals(m2),\n        () -> {\n            if (!m2.isBridge()) {\n                return false;\n            }\n            try {\n                return m1.equals(m2.getDeclaringClass().getDeclaredMethod(\n                    m2.getName(), m2.getParameterTypes()));\n            } catch (NoSuchMethodException e) {\n                return false;\n            }\n        });\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

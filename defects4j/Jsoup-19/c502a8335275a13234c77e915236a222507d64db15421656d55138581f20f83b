@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value = el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks)\n        attr.setValue(value);\n    \n    try {\n        URI uri = new URI(value);\n        if (uri.isAbsolute()) {\n            String scheme = uri.getScheme();\n            if (scheme != null) {\n                String lowerScheme = scheme.toLowerCase();\n                for (Protocol protocol : protocols) {\n                    if (protocol.toString().equalsIgnoreCase(lowerScheme)) {\n                        return true;\n                    }\n                }\n            }\n        }\n    } catch (URISyntaxException e) {\n        // Ignore invalid URIs\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

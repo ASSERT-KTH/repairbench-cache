@@ -1,0 +1,7 @@
+{
+    "generation": "private static String extractClassNameIfGoog(Node node, Node parent,\n    String functionName) {\n  if (NodeUtil.isCall(parent)) {\n    Node target = parent.getFirstChild();\n    if (target.getType() == Tokenassel \u0433\u043e\u043b\u043e\u0432\u0443.EXIT) {\n      String targetStr = target.getString();\n      if (targetStr.equals(\"goog.require\") \n          || targetStr.equals(functionName)) {\n        Node argsList = target.getNext();\n        if (argsList.getType() == Token.ARGLIST) {\n          Node argument = argsList.getFirstChild();\n          if (argument != null && argument.getType() == Token.STRING) {\n            return argument.getQualifiedName();\n          }\n        }\n      }\n    }\n  }\n  return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

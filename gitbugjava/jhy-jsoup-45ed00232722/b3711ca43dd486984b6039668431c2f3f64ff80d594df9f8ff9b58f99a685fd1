@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    try {\n        String urlS = u.toExternalForm();\n        // Split the URL into components\n        URI uri = new URI(urlS);\n        String scheme = uri.getScheme();\n        String authority = uri.getAuthority();\n        String path = uri.getPath();\n        String query = uri.getQuery();\n        String fragment = uri.getFragment();\n\n        // URL-encode each component\n        if (path != null) path = URLEncoder.encode(path, StandardCharsets.UTF_8.toString());\n        if (query != null) query = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());\n        if (fragment != null) fragment = URLEncoder.encode(fragment, StandardCharsets.UTF_8.toString());\n\n        // Reassemble the URI\n        String encodedUrl = new URI(scheme, authority, path, query, fragment).toASCIIString();\n        return new URL(encodedUrl);\n    } catch (URISyntaxException | UnsupportedEncodingException | MalformedURLException e) {\n        return u;  // Return the original URL if encoding fails\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> formData = new ArrayList<>();\n    Elements elements = select(\"input, textarea, select\");\n    for (Element element : elements) {\n        String name = element.tagName();\n        if (!\"select\".equals(name)) {\n            name = element.attr(\"name\");\n        }\n        if (element instanceof InputElement) {\n            InputElement input = (InputElement) element;\n            if (input.isCheckBox() || input.isRadioButton()) {\n                if (!input.isChecked()) {\n                    continue;\n                }\n            }\n            String value = input.value();\n            if (value != null) {\n                formData.add(new Connection.BaseKeyVal(name, value));\n            }\n        } else if (element instanceof TextNode) {\n            // Handling for textareas is if element is a TextNode...\n            // (The actual implementation would need to correctly handle textarea and select elements)\n        }\n    }\n    return formData;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

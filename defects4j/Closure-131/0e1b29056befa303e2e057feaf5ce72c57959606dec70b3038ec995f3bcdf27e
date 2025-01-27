@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n    int length = s.length();\n\n    if (length == 0) {\n        return false;\n    }\n\n    if (!isJSIdentifierStart(s.charAt(0))) {\n        return false;\n    }\n\n    for (int i = 1; i < length; i++) {\n        if (!isJSIdentifierPart(s.charAt(i))) {\n            return false;\n        }\n    }\n\n    return true;\n}\n\nprivate static boolean isJSIdentifierStart(char c) {\n    return Character.isLetter(c) || c == '_' || c == '$' ||\n            (c >= 0x00200 && c <= 0x002FF) || // Encompasses some Unicode ranges\n            (c >= 0x0370 && c <= 0x037D) ||\n            (c >= 0x037F && c <= 0x1FFF) ||\n            (c >= 0x200C && c <= 0x200D) ||\n            (c >= 0x2070 && c <= 0x218F) ||\n            (c >= 0x2C00 && c <= 0x2FEF) ||\n            (c >= 0x3001 && c <= 0xD7FF) ||\n            (c >= 0xF900 && c <= 0xFDCF) ||\n            (c >= 0xFDF0 && c <= 0xFFFD) ||\n            (c >= 0x10000 && c <= 0xEFFFF);\n}\n\nprivate static boolean isJSIdentifierPart(char c) {\n    return isJSIdentifierStart(c) || Character.isDigit(c) || \n            (c >= 0x0300 && c <= 0x036F) || // Combining marks\n            (c >= 0x1DC0 && c <= 0x1DFF) ||\n            (c >= 0x20D0 && c <= 0x20FF) ||\n            (c >= 0xFE00 && c <= 0xFE2F) ||\n            (c >= 0xFEFF && c <= 0xFEFF);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

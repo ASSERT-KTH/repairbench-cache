@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Skips the given number of bytes by first using the stream's skip()\n     * method if possible, and falling back to reading individual bytes if\n     * skip() returns 0 before all bytes are skipped.\n     *\n     * @param input the input stream\n     * @param numToSkip the number of bytes to skip\n     * @return the number of bytes actually skipped\n     * @throws IOException\n     */\n    public static long skip(InputStream input, long numToSkip) throws IOException {\n        long available = numToSkip;\n        // First try to skip as much as possible using input.skip()\n        while (numToSkip > 0) {\n            long skipped = input.skip(numToSkip);\n            if (skipped == 0) {\n                // Fallback to reading one byte at a time\n                break;\n            }\n            numToSkip -= skipped;\n        }\n        // If after using skip, there are still bytes left to skip, use read()\n        if (numToSkip > 0) {\n            byte[] buffer = new byte[1];\n            while (numToSkip > 0) {\n                int read = input.read(buffer);\n                if (read == -1) {\n                    break; // End of stream reached\n                }\n                numToSkip--;\n            }\n        }\n        return available - numToSkip;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

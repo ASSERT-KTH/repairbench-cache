@@ -1,0 +1,7 @@
+{
+    "generation": "public static Number createNumber(final String str) throws NumberFormatException {\n    if (str == null) {\n        return null;\n    }\n    if (StringUtils.isBlank(str)) {\n        throw new NumberFormatException(\"A blank string is not a valid number\");\n    }\n    // Deal with all possible hex prefixes\n    final String[] hex_prefixes = {\"0x\", \"0X\", \"-0x\", \"-0X\", \"#\", \"-#\"};\n    int hexLength = 0;\n    for (final String pfx : hex_prefixes) {\n        if (str.startsWith(pfx)) {\n            hexLength = pfx.length();\n            break;\n        }\n    }\n    if (hexLength > 0) { // It's a hex number\n        final int hexDigits = str.length() - hexLength;\n        if (hexDigits > 16) { // More than 16 digits for BigInteger\n            return createBigInteger(str);\n        } else if (hexDigits > 8) { // More than 8 digits for Long\n            return createLong(str);\n        } else { // 8 or fewer digits for Integer\n            return createInteger(str);\n        }\n    }\n    // Rest of the original logic...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

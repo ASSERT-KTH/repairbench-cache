@@ -1,0 +1,7 @@
+{
+    "generation": "protected BasePeriod(long duration) {\n    this(duration, null, null);\n    // Fix the bug by correctly parsing the milliseconds into hours, minutes, etc.\n    // Create a new period without considering zone\n    DateTimeZone zone = DateTimeZone.getDefault();\n    try {\n        DateTimeZone.setDefault(DateTimeZone.UTC);\n        ReadablePartial partial = TimeFieldshlas.readPartial(duration);\n       Period p = new Period(partial, PeriodType.standard());\n        p.getFields(this);\n    } finally {\n        DateTimeZone.setDefault(zone);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

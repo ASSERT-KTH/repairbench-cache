@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean inferTemplatedTypesForCall(\n    Node n, FunctionType fnType) {\n  final ImmutableList<TemplateType> keys = fnType.getTemplateTypeMap()\n      .getTemplateKeys();\n  if (keys.isEmpty()) {\n    return false;\n  }\n\n  // Try to infer the template types\n  Map<TemplateType, JSType> inferred =\n      inferTemplateTypesFromParameters(fnType, n);\n\n  // Replace all template types. If we couldn't find a replacement, we\n  // replace it with UNKNOWN.\n  TemplateTypeReplacer replacer = new TemplateTypeReplacer(\n      registry, inferred);\n  Node callTarget = n.getFirstChild();\n\n  if (callTarget.hasJSType()) {\n    FunctionType originalType = callTarget.getJSType().toMaybeFunctionType();\n    if (originalType != null) {\n      FunctionType replacedType = originalType.visit(replacer).toMaybeFunctionType();\n      if (replacedType != originalType) {\n        callTarget.setJSType(replacedType);\n      }\n    }\n  }\n\n  n.setJSType(callTarget.getJSType());\n\n  // Now process the function type to replace template types in the return type\n  FunctionType replacedFnType = fnType.visit(replacer).toMaybeFunctionType();\n  Preconditions.checkNotNull(replacedFnType);\n\n  // Ensure the return type is set only if it was changed\n  if (!replacedFnType.equals(fnType)) {\n    n.setJSType(replacedFnType.getReturnType());\n  }\n\n  return replacer.madeChanges;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

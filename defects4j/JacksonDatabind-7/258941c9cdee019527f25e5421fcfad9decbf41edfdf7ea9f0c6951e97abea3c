@@ -1,0 +1,7 @@
+{
+    "generation": "public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {\n    // Since we're deserializing from a field name, we start by creating a new TokenBuffer\n    // that we'll initialize with a START_OBJECT token to wrap the existing structure.\n    TokenBuffer buffer = new TokenBuffer(null, false);\n    // We need to check the current token of the provided JsonParser to determine how to initialize the buffer.\n    JsonToken currentToken = jp.getCurrentToken();\n    if (currentToken == JsonToken.FIELD_NAME) {\n        // If starting with a FIELD_NAME, we need to pretend that a START_OBJECT was present.\n        buffer.resetWithStartObject();\n        // Next, add the existing field name to the buffer.\n        String fieldName = jp.getText();\n        buffer.writeFieldName(fieldName);\n        // Now, advance the parser to the next token (the value associated with the field).\n        jp.nextToken();\n    } else {\n        // For other cases, just copy the current structure into the buffer.\n        copyCurrentStructure(jp);\n    }\n    return buffer;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

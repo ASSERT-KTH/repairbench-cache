@@ -1,0 +1,7 @@
+{
+    "generation": "protected void verifyNonDup(AnnotatedWithParams newOne, int typeIndex, boolean explicit) {\n    final int mask = (1 << typeIndex);\n    _hasNonDefaultCreator = true;\n    AnnotatedWithParams oldOne = _creators[typeIndex];\n\n    if (oldOne != null) {\n        if ((_explicitCreators & mask) != 0) { // oldOne is explicitly marked\n            if (explicit) {\n                throw new IllegalArgumentException(\"Conflicting \" + TYPE_DESCS[typeIndex] \n                        + \" creators: already had explicitly marked \" + oldOne \n                        + \", encountered \" + newOne);\n            } else {\n                return; // newOne is not explicit, skip\n            }\n        } else if (explicit) {\n            _explicitCreators |= mask; // newOne is explicit, update the flag\n        }\n    }\n    _creators[typeIndex] = _fixAccess(newOne);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

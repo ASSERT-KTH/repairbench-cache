@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isValidDefineValue(Node val, Set<String> defines) {\n  switch (val.getType()) {\n    case Token.STRING:\n    case Token.NUMBER:\n    case Token.TRUE:\n    case Token.FALSE:\n      return true;\n\n    // Binary operators: check both left and right children.\n    case Token.ADD:\n    case Token.SUB:\n    case Token.MUL:\n    case Token.DIV:\n    case Token.MOD:\n    case Token.EQ:\n    case Token.NEQ:\n    case Token.LT:\n    case Token.GT:\n    case Token.LE:\n    case Token.GE:\n    case Token.EQ3:\n    case Token.NEQ3:\n    case Token.LT3:\n    case Token.GT3:\n    case Token.LE3:\n    case Token.GE3:\n    case Token.BITAND:\n    case Token.BITNOT:\n    case Token.BITXOR:\n    case Token.BITOR:\n    case Token.AND:\n    case Token.OR:\n    case Token.NAND:\n    case Token.NOR:\n    case Token.SHR:\n    case Token.SAR:\n    case Token.SHL:\n    {\n      Node left = val.getFirstChild();\n      Node right = left.getNext();\n      return isValidDefineValue(left, defines) && isValidDefineValue(right, defines);\n    }\n\n    // Unary operators: check the single child.\n    case Token.NOT:\n    case Token.NEG:\n      return isValidDefineValue(val.getFirstChild(), defines);\n\n    // Names and GETPROP are valid only if they are defines.\n    case Token.NAME:\n    case Token.GETPROP:\n      if (val.isQualifiedName()) {\n        return defines.contains(val.getQualifiedName());\n      }\n      break;\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

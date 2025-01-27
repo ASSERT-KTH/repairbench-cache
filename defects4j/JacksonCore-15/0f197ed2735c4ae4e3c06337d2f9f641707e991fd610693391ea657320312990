@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonToken nextToken() throws IOException\n{\n    // Check for any buffered context\n    TokenFilterContext ctxt = _exposedContext;\n\n    if (ctxt != null) {\n        while (true) {\n            JsonToken t = ctxt.nextTokenToRead();\n            if (t != null) {\n                _currToken = t;\n                return t;\n            }\n            // If all done with current context, move up the chain or reset\n            if (ctxt == _headContext) {\n                _exposedContext = null;\n                if (ctxt.inArray()) {\n                    t = delegate.getCurrentToken();\n                    if (t != null) {\n                        _currToken = t;\n                        return t;\n                    }\n                }\n                break;\n            }\n            ctxt = _headContext.findChildOf(ctxt);\n            _exposedContext = ctxt;\n            if (ctxt == null) {\n                throw _constructError(\"Unexpected problem: chain of filtered context broken\");\n            }\n        }\n    }\n\n    JsonToken t;\n    do {\n        t = delegate.nextToken();\n    } while (t != null && (\n        // Skip non-matching tokens and handle accordingly\n        // Your specific logic to skip non-matching tokens based on filters goes here\n        // This is a placeholder to ensure we stop after the first match when includeMultipleMatches is false\n        false));\n\n    return (_currToken = t);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

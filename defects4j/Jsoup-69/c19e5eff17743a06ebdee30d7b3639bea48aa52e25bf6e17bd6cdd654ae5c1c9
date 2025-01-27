@@ -1,0 +1,7 @@
+{
+    "generation": "List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element input : select(\"input, select, textarea\")) {\n        String name = input.attr(\"name\");\n        if (input.tagName().equals(\"input\")) {\n            String type = input.attr(\"type\");\n            if (!type.toLowerCase().matches(\"radio|checkbox\")) {\n                data.add(new Connection.KeyVal(name, input.attr(\"value\")));\n            }\n        } else if (input.tagName().equals(\"select\")) {\n            for (Element option : input.select(\"option[selected]\")) {\n                data.add(new Connection.KeyVal(name, option.attr(\"value\")));\n            }\n        } else if (input.tagName().equals(\"textarea\")) {\n            data.add(new Connection.KeyVal(name, input.html()));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    Object bestCandidate = null;\n    Field bestField = null;\n\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Find the best candidate for the field\n        Object candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (candidate != null) {\n            // If the field's type matches exactly, it's the best possible candidate\n            if (field.getType().equals(candidate.getClass())) {\n                bestCandidate = candidate;\n                bestField = field;\n                break; // No need to check further once exact match is found\n            } else {\n                // If no exact match yet, keep the first ancestor match\n                if (bestCandidate == null) {\n                    bestCandidate = candidate;\n                    bestField = field;\n                }\n            }\n        }\n    }\n\n    if (bestCandidate != null && bestField != null) {\n        mockCandidateFilter.thenInject(bestCandidate, bestField, fieldInstance);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

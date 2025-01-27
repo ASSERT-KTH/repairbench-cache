@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n     * will kick in.)\n     * @param contentType e.g. \"text/html; charset=EUC-JP\"\n     * @return The charset value, preserving case, or null if not found.\n     */\n    static String getCharsetFromContentType(String contentType) {\n        if (contentType == null) return null;\n        String[] parts = contentType.split(\";\");\n        for (String part : parts) {\n            String trimmed = part.trim();\n            if (trimmed.toLowerCase().startsWith(\"charset=\")) {\n                String value = trimmed.substring(7).trim();\n                if (value.startsWith(\"\\\"\") && value.endsWith(\"\\\"\")) {\n                    value = value.substring(1, value.length() - 1);\n                } else if (value.startsWith(\"'\") && value.endsWith(\"'\")) {\n                    value = value.substring(1, value.length() - 1);\n                }\n                return value;\n            }\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

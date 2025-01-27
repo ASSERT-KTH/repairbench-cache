@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n        return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    if (constraint.isRecordType()) {\n        matchRecordTypeConstraint(constraint.toObjectType());\n    } else if (constraint.isUnionType()) {\n        // Check each constituent of the union type\n        for (JSType constituent : constraint.toUnionType().getDottedTypes()) {\n            if (constituent.isRecordType()) {\n                matchRecordTypeConstraint(constituent.toObjectType());\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

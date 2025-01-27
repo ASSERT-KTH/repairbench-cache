@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Set<Object> candidates = mockCandidateFilter.filterCandidates(mocks, field, fieldInstance);\n        \n        if (candidates.size() == 1) {\n            doInject(field, fieldInstance, candidates.iterator().next());\n        } else if (candidates.size() > 1) {\n            Object bestCandidate = findBestMatchingCandidate(candidates, field);\n            doInject(field, fieldInstance, bestCandidate);\n        } else {\n            // Logging if no candidates found\n        }\n    }\n}\n\nprivate Object findBestMatchingCandidate(Set<Object> candidates, Field field) {\n    return candidates.stream()\n        .max(Comparator.comparingInt(c -> getMultiplicity field.getType(), c.getClass())))\n        .orElseThrow();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

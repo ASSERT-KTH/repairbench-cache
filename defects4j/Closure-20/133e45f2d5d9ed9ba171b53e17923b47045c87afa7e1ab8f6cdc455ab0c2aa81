@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldSimpleFunctionCall(Node n) {\n  Preconditions.checkState(n.isCall());\n  Node callTarget = n.getFirstChild();\n  if (callTarget != null && callTarget.isName() &&\n        callTarget.getString().equals(\"String\")) {\n    // Fold String(...) to '' + ... which allows further optimizations;\n    // handles multiple arguments by chaining the add operations.\n    NodeParentNode parent = n.getParent();\n    Node next = callTarget.getNext();\n    if (next != null) {\n      // Collect all arguments into a list to chain their addition.\n      List<Node> args = new ArrayList<>();\n      for (Node arg = next; arg != null; arg = arg.getNext()) {\n        args.add(arg.detachFromParent());\n      }\n      \n      // Create the chain of additions: '' + arg1 + arg2 + ... + argN\n      Node addition = IR.add(\n          IR.string(\"\").srcref(callTarget),\n          args.get(0));\n      for (int i = 1; i < args.size(); i++) {\n        addition = IR.add(addition, args.get(i)).srcref(addition);\n      }\n      \n      parent.replaceChild(n, addition);\n      reportCodeChange();\n      return addition;\n    }\n  }\n  return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

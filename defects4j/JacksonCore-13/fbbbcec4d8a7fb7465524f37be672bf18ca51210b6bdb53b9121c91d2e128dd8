@@ -1,0 +1,7 @@
+{
+    "generation": "public void writeFieldName(String name) throws IOException {\n    if (_features & (JsonGenerator.Feature.QUOTE_FIELD_NAMES.getMask())) != 0) {\n        _writeFieldName(name, true);\n    } else {\n        _writeFieldName(name, false);\n    }\n}\n\n// Or within _writeFieldName, the condition determines whether to add quotes.\n\nAlternatively, the functions that write field names should check the current configuration and apply quotes accordingly.\n\nI think the key is that the write methods are not correctly respecting the QUOTE_FIELD_NAMES feature, causing the test to fail.\nThe issue arises because the `QUOTE_FIELD_NAMES` feature isn't correctly applied when generating field names. To fix this, ensure that field names are properly quoted based on the feature configuration.\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

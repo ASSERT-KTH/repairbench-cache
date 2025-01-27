@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testFieldNameQuotingEnabled(JsonFactory factory, boolean quotingFeatures, boolean quotesExplicitly, String expected)\n    throws IOException\n{\n    StringWriter sw = new StringWriter();\n    JsonGenerator gen = null;\n    try {\n        gen = factory.createGenerator(sw);\n        if (quotingFeatures) {\n            gen.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        } else {\n            gen.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        }\n        gen.writeStartObject();\n        // Explicitly pass 'quotesExplicitly' to writeFieldName\n        gen.writeFieldName(\"foo\", quotesExplicitly);\n        gen.writeNumber(1);\n        gen.writeEndObject();\n    } finally {\n        if (gen != null) {\n            gen.close();\n        }\n    }\n    String json = sw.toString();\n    assertEquals(expected, json);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

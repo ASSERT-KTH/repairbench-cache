@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        if (p.getCurrentToken() != JsonToken.START_OBJECT) {\n            return null;\n        }\n        String typeId = null;\n        while (p.nextToken() != JsonToken.END_OBJECT) {\n            String fieldName = p.getCurrentName();\n            if (\"type\".equals(fieldName) || \"typeid\".equals(fieldName)) {\n                p.nextToken();\n                typeId = p.getText();\n            } else {\n                p.skipChildren();\n            }\n        }\n        if (typeId == null || !_types.containsKey(typeId)) {\n            return null;\n        }\n        JavaType type = _types.get(typeId);\n        return ctxt.findInjectableValueId(null)\n                .withId(null)\n                .inPullParser(p)\n                .deserialize(p, ctxt, type);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

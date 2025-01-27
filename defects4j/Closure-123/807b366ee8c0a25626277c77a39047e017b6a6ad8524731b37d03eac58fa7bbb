@@ -1,0 +1,7 @@
+{
+    "generation": "void add(Node n, Context context) {\n    if (!cc.continueProcessing()) {\n        return;\n    }\n\n    int type = n.getType();\n    String opstr = NodeUtil.opToStr(type);\n    int childCount = n.getChildCount();\n    Node first = n.getFirstChild();\n    Node last = n.getLastChild();\n\n    if (opstr != null && first != last) {\n        // ... (previous binary operator handling remains unchanged) ...\n    }\n\n    cc.startSourceMapping(n);\n\n    switch (type) {\n        case Token.HOOK: {\n            Preconditions.checkState(childCount == 3);\n            int p = NodeUtil.precedence(type);\n            Context rhsContext = Context.OTHER;\n            addExpr(first, p + 1, context);\n            cc.addOp(\"?\", true);\n            addExpr(first.getNext(), 1, rhsContext);\n            cc.addOp(\":\", true);\n            // Check if the else part (third child) starts with 'in' and wrap with parentheses if necessary\n            Node elsePart = last;\n            if (elsePart.getType() == Token.IN) {\n                cc.addOp(\"(\", true);\n                addExpr(elsePart, 1, rhsContext);\n                cc.addOp(\")\", true);\n            } else {\n                addExpr(last, 1, rhsContext);\n            }\n            break;\n        }\n        // ... (other cases remain unchanged) ...\n    }\n\n    cc.endSourceMapping(n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

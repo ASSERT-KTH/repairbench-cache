@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        instant = add(instant, valueToAdd);\n        return iChronology.get(partial, instant);\n    } else {\n        int[] newValues = new int[values.length];\n        System.arraycopy(values, 0, newValues, 0, values.length);\n        if (fieldIndex == MONTH_OF_YEAR) {\n            newValues[MONTH_OF_YEAR] += valueToAdd;\n            if (newValues[MONTH_OF_YEAR] < 1) {\n                newValues[MONTH_OF_YEAR] += 12;\n            }\n            newValues[MONTH_OF_YEAR] %= 12;\n        } else if (fieldIndex == DAY_OF_MONTH) {\n            newValues[DAY_OF_MONTH] += valueToAdd;\n        }\n        if (newValues[DAY_OF_MONTH] > iChronology.getMaximumDayOfMonth(newValues[MONTH_OF_YEAR])) {\n            newValues[DAY_OF_MONTH] = iChronology.getMaximumDayOfMonth(newValues[MONTH_OF_YEAR]);\n        }\n        return newValues;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n    int length = s.length();\n    if (length == 0) {\n        return false;\n    }\n\n    for (int i = 0; i < length; ) {\n        int codePoint = s.codePointAt(i);\n        int charCount = Character.charCount(codePoint);\n        if (i == 0) {\n            // The first character must be a letter, $, or _\n            if (!(codePoint == '_' || codePoint == '$' || Character.isLetter(codePoint))) {\n                return false;\n            }\n        } else {\n            // Subsequent characters must be a letter, digit, $, _, or allowed combining mark\n            if (!(codePoint == '_' || codePoint == '$' || Character.isLetterOrDigit(codePoint) \n                  || codePoint == '\\u200C' || codePoint == '\\u200D')) {\n                return false;\n            }\n        }\n\n        // Ensure the codePoint is not a control character, except for allowed combining marks\n        if (Character.getType(codePoint) == Character.CONTROL \n            && !(codePoint == '\\u200C' || codePoint == '\\u200D')) {\n            return false;\n        }\n\n        i += charCount;\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

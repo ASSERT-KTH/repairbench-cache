@@ -1,0 +1,7 @@
+{
+    "generation": "public double evaluate(double x, double epsilon, int maxIterations) {\n    double epsilonPos = 1.0;\n    double epsilonSum = 1.0 / (2 * Double.MAX_VALUE);\n    double sum = 0.0;\n    double a0 = getA(0, x);\n    a0 = a0 == 0 ? 1.0 : a0;\n\n    double cPrev = a0;\n    double dPrev = 0.0;\n\n    for (int n = 1; n <= maxIterations; n++) {\n        double aN = getA(n, x);\n        double bN = getB(n, x);\n        double dN = aN + bN * dPrev;\n        if (dN == 0) {\n            dN = 2 * Double.MIN_VALUE;\n        }\n        double cN = aN + bN / dN;\n        if (cN == 0) {\n            cN = 2 * Double.MIN_VALUE;\n        }\n        dN = 1.0 / dN;\n        double deltaN = cN * dN;\n        double \u0420\u043e\u0434\u0438\u043b\u0430\u0441\u044c = epsilonSum / Math.abs(deltaN);\n        epsilonPos = Math.min(epsilonPos, \u0420\u043e\u0434\u0438\u043b\u0430\u0441\u044c);\n        if (deltaN == 0) {\n            deltaN = Math.max(epsilon, \u0420\u043e\u0434\u0438\u043b\u0430\u0441\u044c);\n        }\n        sum = 1.0 / (cPrev + deltaN * (dPrev + sum * deltaN));\n\n        if (Math.abs(sum - 1.0) < epsilon) {\n            break;\n        }\n\n        dPrev = dN;\n        cPrev = cN;\n    }\n\n    return a0 / cPrev;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

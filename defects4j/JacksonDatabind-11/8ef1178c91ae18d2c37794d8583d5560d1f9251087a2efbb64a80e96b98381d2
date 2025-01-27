@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n    final String name = type.getName();\n    if (context == null) {\n        return _unknownType();\n    } else {\n        JavaType actualType = context.findType(name);\n        if (actualType != null) {\n            return actualType;\n        }\n    }\n\n    Type[] bounds = type.getBounds();\n    if (bounds.length == 0) {\n        return _unknownType();\n    }\n\n    Type firstBound = bounds[0];\n    JavaType resolvedType = context._resolveVariable(firstBound);\n    if (resolvedType instanceof JavaType) {\n        context._addPlaceholder(name);\n        return _constructType(firstBound, context);\n    }\n\n    context._addPlaceholder(name);\n    return _constructType(firstBound, context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

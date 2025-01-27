@@ -1,0 +1,7 @@
+{
+    "generation": "private double calculateAsymptoticPValue(final double Umin,\n                                         final int n1,\n                                         final int n2)\n    throws ConvergenceException, MaxCountExceededException {\n\n    final int n1n2prod = n1 * n2;\n\n    // Corrected variance calculation based on tie-corrected Mann-Whitney U statistic\n    final double EU = n1n2prod / 2.0;\n\n    // Calculate the variance with tie correction\n    final double t = countTies(d1, d2);\n    final double VarU = ((n1 * n2) * (n1 + n2 + 1 - (t / (n1 + n2)))) / (12.0 * (n1 + n2));\n\n    final double z = (Umin - EU) / FastMath.sqrt(VarU);\n\n    final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n    return 2 * standardNormal.cumulativeProbability(-Math.abs(z));\n}\n\nprivate int countTies(final double[] d1, final double[] d2) {\n    final Map<Double, Integer> ties = new HashMap<>();\n    for (double d : d1) {\n        ties.put(d, ties.getOrDefault(d, 0) + 1);\n    }\n    for (double d : d2) {\n        ties.put(d, ties.getOrDefault(d, 0) + 1);\n    }\n    int t = 0;\n    for (int count : ties.values()) {\n        if (count > 1) {\n            t += count * (count - 1);\n        }\n    }\n    return t;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

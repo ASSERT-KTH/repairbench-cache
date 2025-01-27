@@ -1,0 +1,7 @@
+{
+    "generation": "public static Number createNumber(final String str) throws NumberFormatException {\n    if (str == null) {\n        return null;\n    }\n    if (StringUtils.isBlank(str)) {\n        throw new NumberFormatException(\"A blank string is not a valid number\");\n    }\n    final String[] hex_prefixes = {\"0x\", \"0X\", \"-0x\", \"-0X\", \"#\", \"-#\"};\n    int pfxLen = 0;\n    for(final String pfx : hex_prefixes) {\n        if (str.startsWith(pfx)) {\n            pfxLen = pfx.length();\n            break;\n        }\n    }\n    if (pfxLen > 0) {\n        String hexPart = str.substring(pfxLen);\n        int hexDigits = hexPart.length();\n        if (hexDigits > 16) {\n            return createBigInteger(str);\n        }\n        try {\n            long hexValue = Long.parseLong(hexPart, 16);\n            if (str.startsWith(\"-\")) {\n                hexValue = -hexValue;\n            }\n            if (hexValue > Integer.MAX_VALUE || hexValue < Integer.MIN_VALUE) {\n                return Long.valueOf(hexValue);\n            } else {\n                return Integer.valueOf((int) hexValue);\n            }\n        } catch (NumberFormatException ex) {\n            return createBigInteger(str);\n        }\n    }\n    // Rest of the method remains unchanged\n    // [Original code continues here...]\n    // ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    int nullIndex = -1;\n\n    // Find the first NUL byte within the range\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            nullIndex = i;\n            break;\n        }\n    }\n\n    // If NUL found within the range, adjust end to nullIndex, else use original end\n    int endIndex = (nullIndex != -1 && nullIndex < end) ? nullIndex : end;\n\n    // Create a subarray up to the endIndex and decode it using ISO-8859-1\n    return new String(Arrays.copyOfRange(buffer, offset, endIndex), StandardCharsets.ISO_8859_1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

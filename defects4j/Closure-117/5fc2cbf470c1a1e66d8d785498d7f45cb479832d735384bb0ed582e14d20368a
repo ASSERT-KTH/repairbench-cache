@@ -1,0 +1,7 @@
+{
+    "generation": "String getReadableJSTypeName(Node n, boolean dereference) {\n    if (n.isGetProp()) {\n        String propName = n.getLastChild().getString();\n        JSType recvType = getJSType(n.getFirstChild());\n        ObjectType objType = recvType.toMaybeObjectType();\n        if (objType != null && dereference) {\n            objType = objType.dereference();\n        }\n        while (objType != null && !objType.hasOwnProperty(propName)) {\n            objType = objType.getImplicitPrototype();\n        }\n        if (objType != null) {\n            return objType.getConstructor() != null ? objType.getConstructor().getName() + \".\" + propName : \"?\" + propName;\n        }\n    }\n\n    JSType type = getJSType(n);\n    if (dereference) {\n        ObjectType dereferenced = type.dereference();\n        if (dereferenced != null) {\n            type = dereferenced;\n        }\n    }\n    if (type.isFunctionPrototypeType() || (type.toObjectType() != null && type.toObjectType().getConstructor() != null)) {\n        return type.toString();\n    }\n    String qualifiedName = n.getQualifiedName();\n    if (qualifiedName != null) {\n        return qualifiedName;\n    } else if (type.isFunctionType()) {\n        return \"function\";\n    } else {\n        return type.toString();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

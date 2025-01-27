@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    public static TypeFactory defaultInstance() {\n        return new TypeFactory();\n    }\n\n    public JavaType constructType(Class<?> cls) {\n        // Ensure that super classes are considered when building the type\n        return _constructType(cls, new HashMap<>());\n    }\n\n    private JavaType _constructType(Class<?> cls, Map<Class<?>, JavaType> seen) {\n        if (seen.containsKey(cls)) {\n            return seen.get(cls);\n        }\n        JavaType type = constructSimpleType(cls, seen);\n        seen.put(cls, type);\n        return type;\n    }\n\n    private JavaType constructSimpleType(Class<?> cls, Map<Class<?>, JavaType> seen) {\n        // Implementation ensuring all super types are recursively included\n        // ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

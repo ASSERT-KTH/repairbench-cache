@@ -1,0 +1,7 @@
+{
+    "generation": "    protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n        final String name = type.getName();\n        if (context == null) {\n            return _unknownType();\n        } else {\n            JavaType actualType = context.findType(name);\n            if (actualType != null) {\n                return actualType;\n            }\n        }\n\n        // Proceed to handle cases where the type variable is not found in the context\n        Type[] bounds = type.getBounds();\n        context._addPlaceholder(name);\n\n        // Check if the type is an array or parameterized type\n        if (bounds.length == 0) {\n            JavaType fallback = _unknownType();\n            return new SimpleType(type, fallback, null, null);\n        }\n\n        // Try to find a suitable type within the context\n        for (Type bound : bounds) {\n            JavaType resolved = _fromType(bound, context);\n            if (resolved != null) {\n                return resolved;\n            }\n        }\n\n        // If all else fails, construct type using the first bound\n        return _constructType(bounds[0], context);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

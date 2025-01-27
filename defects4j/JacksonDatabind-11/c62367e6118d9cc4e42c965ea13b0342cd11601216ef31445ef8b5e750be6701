@@ -1,0 +1,7 @@
+{
+    "generation": "    protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n    {\n        final String name = type.getName();\n        if (context == null) {\n            return _unknownType();\n        } else {\n            JavaType actualType = context.findType(name);\n            if (actualType != null) {\n                return actualType;\n            }\n        }\n\n        // Couldn't find type in context, use the bound as a fallback\n        Type[] bounds = type.getBounds();\n        JavaType fallback = _unknownType();\n        if (bounds.length > 0) {\n            fallback = _constructType(bounds[0], context);\n        }\n        return fallback;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    List<Field> applicableFields = collectApplicableFields(awaitingInjectionClazz, fieldInstance.getClass());\n    applicableFields.sort(Comparator.comparing(f -> f.getType().equals(fieldInstance.getClass()) ? 0 : 1));\n    for (Field field : applicableFields) {\n        if (mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject()) {\n            break;\n        }\n    }\n}\n\nprivate List<Field> collectApplicableFields(Class<?> clazz, Class<?> mockType) {\n    List<Field> fields = new ArrayList<>();\n    do {\n        fields.addAll(Arrays.stream(clazz.getDeclaredFields())\n                .filter(field -> mockType.isAssignableFrom(field.getType()))\n                .collect(Collectors.toList()));\n    } while ((clazz = clazz.getSuperclass()) != Object.class);\n    return fields;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

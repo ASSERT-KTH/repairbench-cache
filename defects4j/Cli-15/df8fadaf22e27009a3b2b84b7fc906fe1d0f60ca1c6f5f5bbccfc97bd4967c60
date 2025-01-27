@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    List valueList = (List) values.get(option);\n\n    // If there are no existing values, check if default values are provided\n    if (valueList == null) {\n        valueList = defaultValues != null ? new ArrayList(defaultValues) : new ArrayList();\n    }\n\n    // If the current list is still empty, try getting defaults from Option\n    if (valueList.isEmpty()) {\n        valueList = (List) this.defaultValues.get(option);\n        // If still empty, use the provided default values\n        if (valueList == null || valueList.isEmpty()) {\n            valueList = defaultValues != null ? new ArrayList(defaultValues) : new ArrayList();\n        }\n    }\n\n    // Check if we need to augment with default values\n    Argument arg = (Argument) option.getArguments().get(0);\n    int min = arg.getMinimum();\n    int max = arg.getMaximum();\n\n    if (max > valueList.size() && defaultValues != null) {\n        List defaults = new ArrayList(defaultValues);\n        while (valueList.size() < max) {\n            int nextIndex = valueList.size();\n            Object defaultValue = defaults.size() > nextIndex ? defaults.get(nextIndex) : null;\n            if (defaultValue != null) {\n                valueList.add(defaultValue);\n            } else {\n                break;\n            }\n        }\n    }\n\n    return valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

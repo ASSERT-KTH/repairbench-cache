@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        final double[] fit = fit(new Gaussian.Parametric(), guess);\n        double[] parameters = new double[3];\n        \n        // Ensure all parameters are positive\n        parameters[0] = Math.abs(fit[0]);\n        parameters[1] = Math.abs(fit[1]);\n        parameters[2] = Math.abs(fit[2]);\n        \n        // Set bounds to ensure positive sigma\n        double[] bounds = {0, Double.MAX_VALUE};\n        \n        return new GaussianFitter(new LevenbergMarquardtOptimizer()).fit(parameters, bounds);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

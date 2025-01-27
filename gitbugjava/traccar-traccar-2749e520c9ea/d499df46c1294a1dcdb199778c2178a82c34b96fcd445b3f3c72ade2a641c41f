@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeLocation2(DeviceSession deviceSession, ByteBuf buf, int type) {\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    Jt600ProtocolDecoder.decodeBinaryLocation(buf, position);\n    position.setValid(type != MSG_LOCATION_REPORT_BLIND);\n\n    position.set(Position.KEY_RSSI, buf.readUnsignedByte());\n    position.set(Position.KEY_SATELLITES, buf.readUnsignedByte());\n    position.set(Position.KEY_ODOMETER, buf.readUnsignedInt() * 1000L);\n\n    int battery = buf.readUnsignedByte();\n    if (battery <= 100) {\n        position.set(Position.KEY_BATTERY_LEVEL, battery);\n    } else if (battery == 0xAA) {\n        position.set(Position.KEY_CHARGE, true);\n    }\n\n    if (buf.readableBytes() > 0) { // Continue reading additional attributes\n        int cid = buf.readUnsignedShort();\n        switch (cid) {\n            case 0x20:\n                position.set(\"gyro\", buf.readUnsignedInt());\n                break;\n            // Add cases for other potential attributes if needed\n        }\n    }\n\n    // The rest of the existing code continues here if needed...\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

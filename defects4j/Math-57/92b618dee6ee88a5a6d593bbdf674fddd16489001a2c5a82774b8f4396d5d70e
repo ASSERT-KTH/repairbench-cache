@@ -1,0 +1,7 @@
+{
+    "generation": "private static <T extends Clusterable<T>> List<Cluster<T>>\nchooseInitialCenters(final Collection<T> points, final int k, final Random random) {\n\n    final List<T> pointSet = new ArrayList<T>(points);\n    final List<Cluster<T>> resultSet = new ArrayList<Cluster<T>>();\n\n    // Choose one center uniformly at random from among the data points.\n    final T firstPoint = pointSet.remove(random.nextInt(pointSet.size()));\n    resultSet.add(new Cluster<T>(firstPoint));\n\n    while (resultSet.size() < k) {\n\n        int numPoints = pointSet.size();\n        float[] dx2 = new float[numPoints];\n        float sum = 0.0f;\n\n        // Compute distances and accumulate squared distances\n        for (int i = 0; i < numPoints; i++) {\n            final T p = pointSet.get(i);\n            final Cluster<T> nearest = getNearestCluster(resultSet, p);\n            final double distance = p.distanceFrom(nearest.getCenter());\n            final float d = (float) distance;\n            sum += d * d;\n            dx2[i] = sum;\n        }\n\n        // Select a new center based on the computed probabilities\n        final float r = random.nextFloat() * sum;\n        for (int i = 0; i < numPoints; i++) {\n            if (dx2[i] >= r) {\n                final T p = pointSet.remove(i);\n                resultSet.add(new Cluster<T>(p));\n                break;\n            }\n        }\n    }\n\n    return resultSet;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

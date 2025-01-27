@@ -1,0 +1,7 @@
+{
+    "generation": "public class PatriciaTrie<K extends Serializable, V extends Serializable> implements Trie<K, V> {\n    private final Node<V> root;\n\n    public PatriciaTrie() {\n        this.root = new Node<>(null);\n        root.parent = root; // Points to itself to indicate the end of a string\n    }\n\n    @Override\n    public V get(K key) {\n        Node<V> node = root;\n        String currentKey = (String) key;\n        int startIndex = 0;\n\n        do {\n            String nodeKey = node.getKey();\n            int cmp = currentKey.compareTo(nodeKey);\n            if (cmp < 0) {\n                node = node.left;\n                startIndex += nodeKey.length();\n            } else if (cmp > 0) {\n                node = node.right;\n                startIndex = 0;\n            } else {\n                break;\n            }\n        } while (node != null);\n\n        return node != null ? node.value : null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

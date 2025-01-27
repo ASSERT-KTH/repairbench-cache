@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n\n    Set<Integer> searchCodePoints = new HashSet<>();\n    int j = 0;\n    while (j < searchChars.length) {\n        char c = searchChars[j];\n        if (Character.isHighSurrogate(c) && j + 1 < searchChars.length) {\n            char nextC = searchChars[j + 1];\n            if (Character.isLowSurrogate(nextC)) {\n                int codePoint = Character.toCodePoint(c, nextC);\n                searchCodePoints.add(codePoint);\n                j += 2;\n                continue;\n            }\n        }\n        searchCodePoints.add((int) c);\n        j++;\n    }\n\n    int offset = 0;\n    while (offset < cs.length()) {\n        int codePoint = cs.codePointAt(offset);\n        if (searchCodePoints.contains(codePoint)) {\n            return true;\n        }\n        offset += Character.charCount(codePoint);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

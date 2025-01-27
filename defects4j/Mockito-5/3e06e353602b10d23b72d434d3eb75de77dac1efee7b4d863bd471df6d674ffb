@@ -1,0 +1,7 @@
+{
+    "generation": "public void verify(VerificationData data) {\n    AssertionError error = null;\n\n    timer.start();\n    while (timer.isCounting()) {\n        try {\n            delegate.verify(data);\n\n            if (returnOnSuccess) {\n                return;\n            } else {\n                error = null;\n            }\n        } catch (Exception e) {\n            if (e instanceof MockitoAssertionError) {\n                error = handleVerifyException((MockitoAssertionError) e);\n            } else {\n                error = handleException(e);\n            }\n        }\n    }\n\n    if (error != null) {\n        throw error;\n    }\n}\n\nprivate AssertionError handleException(Exception e) {\n    return new MockitoAssertionError(e);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected BeanPropertyWriter buildWriter(SerializerProvider prov,\n        BeanPropertyDefinition propDef, JavaType declaredType, JsonSerializer<?> ser,\n        TypeSerializer typeSer, TypeSerializer contentTypeSer,\n        AnnotatedMember am, boolean defaultUseStaticTyping)\n    throws JsonMappingException\n{\n    // ... existing code ...\n\n    switch (inclusion) {\n    case NON_DEFAULT:\n        if (_useRealPropertyDefaults) {\n            if (prov.isEnabled(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)) {\n                am.fixAccess(_config.isEnabled(MapperFeature.OVERRIDE_PUBLIC_ACCESS_MODIFIERS));\n            }\n            valueToSuppress = getPropertyDefaultValue(propDef.getName(), am, actualType);\n            // Fix: Check if default value is null and set suppressNulls accordingly\n            if (valueToSuppress == null) {\n                suppressNulls = true;\n            } else {\n                if (valueToSuppress.getClass().isArray()) {\n                    valueToSuppress = ArrayBuilders.getArrayComparator(valueToSuppress);\n                }\n            }\n        } else {\n            valueToSuppress = getDefaultValue(actualType);\n            if (valueToSuppress == null) {\n                suppressNulls = true;\n            }\n        }\n        break;\n    // ... rest of the code ...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

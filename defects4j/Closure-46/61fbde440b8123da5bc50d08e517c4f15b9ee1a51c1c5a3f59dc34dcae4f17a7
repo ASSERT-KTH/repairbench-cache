@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n        return super.getLeastSupertype(that);\n    }\n\n    RecordType thisRecord = this.toMaybeRecordType().orElseThrow();\n    RecordType thatRecord = that.toMaybeRecordType().orElseThrow();\n\n    if (isSupertype(thisRecord, thatRecord)) {\n        return this;\n    } else if (isSupertype(thatRecord, thisRecord)) {\n        return that;\n    } else {\n        return registry.createUnionType(this, that);\n    }\n}\n\nprivate boolean isSupertype(RecordType a, RecordType b) {\n    for (Map.Entry<String, JSType> entry : b.getPropertyMap().entrySet()) {\n        String prop = entry.getKey();\n        JSType bType = entry.getValue();\n        if (!a.hasProperty(prop)) {\n            return false;\n        }\n        JSType aType = a.getPropertyType(prop);\n        if (!aType.isSupertypeOf(bType)) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public int getOffsetFromLocal(long instantLocal) {\n        // Initial offset calculation\n        int offsetLocal = getOffset(instantLocal);\n        long adjustedInstant = instantLocal - offsetLocal;\n        int adjustedOffset = getOffset(adjustedInstant);\n\n        // Check if the offsets are different\n        if (offsetLocal != adjustedOffset) {\n            // Determine the next transition after the adjusted instant\n            long nextTransition = nextTransition(adjustedInstant);\n            \n            // If the next transition is beyond the adjusted instant, we're in DST\n            if (nextTransition > adjustedInstant) {\n                // Calculate the offset at nextTransition\n                int nextOffset = getOffset(nextTransition);\n                \n                // If the adjustedOffset is before nextTransition, use nextOffset\n                if (adjustedInstant + adjustedOffset <= nextTransition) {\n                    return nextOffset;\n                }\n            }\n        }\n\n        return adjustedOffset;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

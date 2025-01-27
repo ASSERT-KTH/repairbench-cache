@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    int csLength = cs.length();\n    int searchLength = searchChars.length;\n    for (int i = 0; i < csLength; i++) {\n        char ch = cs.charAt(i);\n        // Check for supplementary characters by looking ahead one more character\n        if (i + 1 < csLength) {\n            char nextCh = cs.charAt(i + 1);\n            for (int j = 0; j < searchLength; j++) {\n                if (searchChars[j] == ch || searchChars[j] == nextCh) {\n                    return true;\n                }\n            }\n            // Check if the current and next characters form a supplementary character\n            if (isSupplementary(ch, nextCh)) {\n                for (int j = 0; j < searchLength; j++) {\n                    if (searchChars[j] == ch || searchChars[j] == nextCh) {\n                        return true;\n                    }\n                }\n            }\n        } else {\n            for (int j = 0; j < searchLength; j++) {\n                if (searchChars[j] == ch) {\n                    return true;\n                }\n            }\n        }\n    }\n    return false;\n}\n\nprivate static boolean isSupplementary(char ch1, char ch2) {\n    return Character.isLowSurrogate(ch1) && Character.isHighSurrogate(ch2);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

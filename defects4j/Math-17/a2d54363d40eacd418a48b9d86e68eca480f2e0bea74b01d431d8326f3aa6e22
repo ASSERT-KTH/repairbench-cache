@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    final Dfp result;\n    if (x == 0) {\n        result = DFP_ZERO;\n    } else {\n        final int sign = (x < 0) ? -1 : 1;\n        final int absX = Math.abs(x);\n        final int logX = (int) (Math.log10(absX) + 1e-10); // Compute exponent\n        final int factor = (int) (absX / Math.pow(10, logX));\n        final int newSignificand = significand * factor;\n        final int newExponent = exponent + logX;\n        result = new Dfp(sign * newSignificand, newExponent);\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

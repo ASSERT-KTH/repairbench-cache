@@ -1,0 +1,7 @@
+{
+    "generation": "    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            DataFormatMatcher match = _dataFormatReaders.findFormat(src, offset, length);\n            boolean isUTF32 = DataFormatMatcher.hasFormat(match, DataFormat.UTF32);\n            InputStream in = isUTF32 ? new ByteArrayInputStream(src, offset, length) : _parserFactory.createParser(src, offset, length);\n            return _bindAndReadValues(_considerFilter(in, true));\n        }\n        return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src),\n                true));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

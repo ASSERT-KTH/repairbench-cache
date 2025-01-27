@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    \n    if (valueClass == null) {\n        valueClass = (Class<?>) in.readObject();\n    }\n    \n    if (!(List.class.isAssignableFrom(valueClass) || Collection.class.isAssignableFrom(valueClass))) {\n        throw new UnsupportedOperationException(\"valueClass must be a List or Collection\");\n    }\n    \n    collectionType = (Class<? extends Collection<?>>) in.readObject();\n    if (!collectionType.isAssignableFrom(ArrayList.class)) {\n        throw new UnsupportedOperationException(\"collectionType must be a List\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

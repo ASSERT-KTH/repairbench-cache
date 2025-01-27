@@ -1,0 +1,7 @@
+{
+    "generation": "// Original code\npublic JavaType constructType(Class<?> cls) {\n    return _constructType(cls, null);\n}\n\nprotected JavaType _constructType(Class<?> cls, TypeBindings bindings) {\n    // Existing implementation logic\n}\n\n// Modified code\npublic JavaType constructType(Class<?> cls) {\n    JavaType type = _constructType(cls, null);\n    // After constructing the type, check if any superclasses are cached and update their references\n    if (cls.getSuperclass() != null && cls.getSuperclass() != Object.class) {\n        JavaType superClassType = getType(cls.getSuperclass());\n        if (superClassType != null) {\n            // Update superclass references\n            type.setSuperClass(superClassType);\n        }\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

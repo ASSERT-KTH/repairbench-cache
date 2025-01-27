@@ -1,0 +1,7 @@
+{
+    "generation": "private void resolveLocalFileHeaderData(Map<ZipArchiveEntry, NameAndComment> entriesWithoutUTF8Flag)\n        throws IOException {\n    for (ZipArchiveEntry ze : entries.keySet()) {\n        OffsetEntry offsetEntry = entries.get(ze);\n        long offset = offsetEntry.headerOffset;\n        archive.seek(offset + LFH_OFFSET_FOR_FILENAME_LENGTH);\n        byte[] b = new byte[SHORT];\n        archive.readFully(b);\n        int fileNameLen = ZipShort.getValue(b);\n        archive.readFully(b);\n        int extraFieldLen = ZipShort.getValue(b);\n        \n        byte[] nameBytes = new byte[fileNameLen];\n        archive.readFully(nameBytes);\n        \n        String name = ZipUtil.decodeFileName(nameBytes, ze.isUTF8Name());\n        \n        if (!ze.isUTF8Name() && entriesWithoutUTF8Flag.containsKey(ze)) {\n            NameAndComment nc = entriesWithoutUTF8Flag.get(ze);\n            name = nc.name;\n        }\n        \n        ze.setName(name);\n        \n        byte[] localExtraData = new byte[extraFieldLen];\n        archive.readFully(localExtraData);\n        ze.setExtra(localExtraData);\n        \n        offsetEntry.dataOffset = offset + LFH_OFFSET_FOR_FILENAME_LENGTH\n                + SHORT + SHORT + fileNameLen + extraFieldLen;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

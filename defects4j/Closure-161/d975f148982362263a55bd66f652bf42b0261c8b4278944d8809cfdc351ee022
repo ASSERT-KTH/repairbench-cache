@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldArrayAccess(Node n, Node left, Node right) {\n    Node parent = n.getParent();\n\n    // Do not fold if the array is part of an assignment (SETELEM)\n    if (parent.getType() == Token.SETELEM) {\n      return n;\n    }\n\n    // Only fold if accessing a fixed array initializer to the right of a GETELEM\n    if (left.getType() != Token.ARRAYHOLE || right.getType() != Token.NUMBER) {\n      return n;\n    }\n\n    double index = right.getDouble();\n    int intIndex = (int) index;\n\n    if (intIndex != index || intIndex < 0) {\n      return n;\n    }\n\n    // Perform bounds check only on fixed array initializers\n    if (!(left.getFirstChild().getType() == Token.ARRAYHOLE)) {\n      Node elem = left.getFirstChild();\n      for (int i = 0; elem != null && i < intIndex; i++) {\n        elem = elem.getNext();\n      }\n      if (elem == null) {\n        return n;\n      }\n    }\n\n    // Use the array hole element directly without modification\n    return left.getFirstChild().getNext(intIndex);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

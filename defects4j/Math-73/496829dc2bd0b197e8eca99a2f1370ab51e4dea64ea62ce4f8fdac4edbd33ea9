@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(final UnivariateRealFunction f,\n                        final double min, final double max, final double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n\n    clearResult();\n    verifySequence(min, initial, max);\n\n    // Evaluate function at all relevant points\n    double yMin = f.value(min);\n    double yInitial = f.value(initial);\n    double yMax = f.value(max);\n\n    // Check for already good enough values\n    if (Math.abs(yInitial) <= functionValueAccuracy) {\n        setResult(initial, 0);\n        return initial;\n    }\n    if (Math.abs(yMin) <= functionValueAccuracy) {\n        setResult(min, 0);\n        return min;\n    }\n    if (Math.abs(yMax) <= functionValueAccuracy) {\n        setResult(max, 0);\n        return max;\n    }\n\n    // Verify bracketing\n    if (yMin * yInitial > 0 && yMax * yInitial > 0) {\n        throw new IllegalArgumentException(\"Function values at endpoints and initial do not have different signs.\");\n    }\n\n    // Proceed based on bracketing\n    if (yInitial * yMin < 0) {\n        return solve(f, min, yMin, initial, yInitial, min, yMin);\n    } else {\n        return solve(f, initial, yInitial, max, yMax, initial, yInitial);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

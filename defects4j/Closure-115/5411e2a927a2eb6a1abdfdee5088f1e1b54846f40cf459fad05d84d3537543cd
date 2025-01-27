@@ -1,0 +1,7 @@
+{
+    "generation": "  private CanInlineResult canInlineReferenceDirectly(\n      Node callNode, Node fnNode) {\n    if (!isDirectCallNodeReplacementPossible(fnNode)) {\n      return CanInlineResult.NO;\n    }\n\n    Node block = fnNode.getLastChild();\n\n    boolean hasSideEffects = false;\n    if (block.hasChildren()) {\n      Preconditions.checkState(block.hasOneChild());\n      Node stmt = block.getFirstChild();\n      if (stmt.isReturn()) {\n        hasSideEffects = NodeUtil.mayHaveSideEffects(stmt.getFirstChild(), compiler);\n      }\n    }\n\n    // Check if any parameter is modified in the function body\n    Node params = NodeUtil.getFunctionParameters(fnNode);\n    for (Node param = params.getFirstChild(); param != null; param = param.getNext()) {\n      String paramName = param.getString();\n      if (NodeUtil parameterIsModified(block, paramName)) {\n        return CanInlineResult.NO;\n      }\n    }\n\n    // Remaining logic of the function...\n  }\n\n  private boolean parameterIsModified(Node block, String paramName) {\n    // Implement logic to check if 'paramName' is modified within 'block'\n    // For example, check for assignments where the parameter is the left-hand side\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

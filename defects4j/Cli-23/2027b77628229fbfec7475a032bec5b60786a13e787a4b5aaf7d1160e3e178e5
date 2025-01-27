@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    int pos = findWrapPos(text, width, 0);\n\n    if (pos == -1)\n    {\n        sb.append(rtrim(text));\n        return sb;\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    String padding = createPadding(nextLineTabStop);\n    int retryCount = 0;\n    final int maxRetries = 5;\n\n    while (true)\n    {\n        int lastPos = pos;\n        text = padding + text.substring(pos).trim();\n        pos = findWrapPos(text, width, 0);\n\n        if (pos == -1)\n        {\n            sb.append(text);\n            return sb;\n        } \n        else if (pos == lastPos)\n        {\n            // Exit to avoid infinite loop\n            if (++retryCount >= maxRetries)\n            {\n                sb.append(rtrim(text));\n                return sb;\n            }\n            // Try a smaller pos to make progress\n            pos = Math.max(lastPos - 1, 0);\n            retryCount = 0;\n        }\n        else\n        {\n            retryCount = 0;\n        }\n\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

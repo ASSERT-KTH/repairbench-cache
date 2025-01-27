@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    double dotProduct = v1.dotProduct(v2);\n    double v2Squared = v2.dotProduct(v2);\n    \n    if (v2Squared == 0) {\n        // v2 is the zero vector, cross product is zero\n        return new Vector3D(0, 0, 0);\n    }\n    \n    // Compute rho as an 8-bit approximation to avoid cancellation\n    double rho = (float) (dotProduct / v2Squared);\n    \n    // Precondition v1 to compute v3 = v1 - rho * v2\n    Vector3D v3 = v1.subtract(v2.multiply(rho));\n    \n    // Compute cross product of v3 and v2\n    double x = v3.getY() * v2.getZ() - v3.getZ() * v2.getY();\n    double y = v3.getZ() * v2.getX() - v3.getX() * v2.getZ();\n    double z = v3.getX() * v2.getY() - v3.getY() * v2.getX();\n    \n    return new Vector3D(x, y, z);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

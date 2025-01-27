@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isValidDefineValue(Node val, Set<String> defines) {\n    switch (val.getType()) {\n        case Token.STRING:\n        case Token.NUMBER:\n        case Token.TRUE:\n        case Token.FALSE:\n        case Token.NULL:\n        case Token.UNDEFINED:\n            return true;\n\n        case Token.NOT:\n        case Token.NEG:\n            return isValidDefineValue(val.getFirstChild(), defines);\n\n        case Token.BITAND:\n        case Token.BITNOT:\n        case Token.BITOR:\n        case Token.BITXOR:\n        case Token.PLUS:\n        case Token.LOGICAL_AND:\n        case Token.LOGICAL_OR:\n            if (val.hasTwoChildren()) {\n                return isValidDefineValue(val.getFirstChild(), defines) &&\n                       isValidDefineValue(val.getSecondChild(), defines);\n            }\n            return false;\n\n        case Token.NAME:\n        case Token.GETPROP:\n            if (val.isQualifiedName()) {\n                return defines.contains(val.getQualifiedName());\n            }\n            return false;\n\n        default:\n            return false;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

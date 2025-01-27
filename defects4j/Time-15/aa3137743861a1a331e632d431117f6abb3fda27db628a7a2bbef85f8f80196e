@@ -1,0 +1,7 @@
+{
+    "generation": "public static long safeMultiply(long val1, int val2) {\n    if (val2 == 0) {\n        return 0L;\n    }\n    if (val2 == 1) {\n        return val1;\n    }\n    if (val2 == -1) {\n        return -val1;\n    }\n    if (val2 != Integer.MIN_VALUE) {\n        if (val1 != Long.MIN_VALUE) {\n            if ((val2 > 0 && val1 > (Long.MAX_VALUE / val2)) ||\n                (val2 < 0 && val1 < (Long.MIN_VALUE / val2))) {\n                throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n            }\n        } else {\n            if (val2 != -1) {\n                throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n            }\n        }\n    } else {\n        if (val1 != Long.MIN_VALUE) {\n            if (val1 != Long.MAX_VALUE && val1 != 0) {\n                throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n            } else {\n                return val1 * val2;\n            }\n        } else {\n            throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n        }\n    }\n    return val1 * val2;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) {\n        String data = comment.getData();\n        if (data.startsWith(\"<?xml\")) {\n            int end = data.indexOf('>');\n            String sub;\n            if (end == -1) {\n                sub = data.substring(1);\n            } else {\n                sub = data.substring(1, end + 1);\n            }\n            try {\n                Document doc = Jsoup.parse(sub, baseUri, Parser.xmlParser());\n                Element el = doc.child(0);\n                insert = new XmlDeclaration(settings.normalizeTag(el.tagName()), data.startsWith(\"!\"));\n                insert.attributes().addAll(el.attributes());\n            } catch (Exception e) {\n                // Parsing failed, keep as comment\n            }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

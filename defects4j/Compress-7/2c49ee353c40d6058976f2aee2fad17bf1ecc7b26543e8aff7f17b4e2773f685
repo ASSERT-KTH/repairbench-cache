@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    CharsetDecoder decoder = Charset.forName(\"UTF-8\").newDecoder();\n    decoder.onMalformedInput(CodingErrorAction.REPLACE);\n    decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);\n    \n    ByteBuffer byteBuffer = ByteBuffer.wrap(buffer, offset, length);\n    CharBuffer charBuffer = CharBuffer.allocate(length);\n    \n    try {\n        decoder.decode(byteBuffer, charBuffer, false);\n    } catch (CharacterCodingException e) {\n        // Handle decoding exception if necessary\n    }\n    \n    charBuffer.rewind();\n    StringBuffer result = new StringBuffer();\n    for (int i = 0; i < charBuffer.limit(); ++i) {\n        char c = charBuffer.get();\n        if (c == 0) { // Stop at NUL byte\n            break;\n        }\n        result.append(c);\n    }\n    \n    return result.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

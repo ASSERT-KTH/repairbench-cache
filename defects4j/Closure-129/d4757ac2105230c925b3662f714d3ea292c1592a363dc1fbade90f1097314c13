@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  Node first = n.getFirstChild();\n\n  // Check if the first child is a function, a super constructor call, or a method get.\n  if (first.isFunction() || first.isSuperConstructorCall() || NodeUtil.isGet(first)) {\n    if (!NodeUtil.isMethodGet(first)) {\n      n.putBooleanProp(Node.FREE_CALL, true);\n    }\n  }\n\n  // Direct eval check should consider all scenarios where first is \"eval\".\n  if (first.isName() && \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

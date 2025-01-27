@@ -1,0 +1,7 @@
+{
+    "generation": "    private void declareArguments(Node functionNode) {\n      Node astParameters = functionNode.getFirstChild().getNext();\n      Node body = astParameters.getNext();\n      FunctionType functionType = (FunctionType) functionNode.getJSType();\n      if (functionType != null) {\n        Node jsDocParameters = functionType.getParametersNode();\n        if (jsDocParameters != null) {\n          Node jsDocParameter = jsDocParameters.getFirstChild();\n          for (Node astParameter : astParameters.children()) {\n            if (jsDocParameter != null) {\n              String paramName = astParameter.getFirstChild().getString();\n              Variable\u03af\u03bd\u03b1 variable = functionNode.getJSType().getVar Stokes().getSlot(paramName);\n              if (variable != null) {\n                // Warn if the parameter name is already declared in an outer scope\n                compiler.report(JSError.make(functionNode, STICKY_VAR_PENDING, astParameter));\n              }\n              defineSlot(astParameter, functionNode,\n                  jsDocParameter.getJSType(), true);\n              jsDocParameter = jsDocParameter.getNext();\n            } else {\n              defineSlot(astParameter, functionNode, null, true);\n            }\n          }\n        }\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean verifyCheckSum(byte[] header) {\n        int storedSum = 0;\n        int unsignedSum = 0;\n        int signedSum = 0;\n\n        boolean parsing = false;\n        int digitsFound = 0;\n\n        for (int i = 0; i < header.length; i++) {\n            byte currentByte = header[i];\n            if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n                if (currentByte >= '0' && currentByte <= '7') {\n                    if (digitsFound < 6) {\n                        storedSum = storedSum * 8 + (currentByte - '0');\n                        digitsFound++;\n                    }\n                    parsing = true;\n                } else if (parsing) {\n                    break;\n                }\n            }\n            unsignedSum += 0xff & currentByte;\n            signedSum += currentByte;\n        }\n\n        return storedSum == unsignedSum || storedSum == signedSum;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

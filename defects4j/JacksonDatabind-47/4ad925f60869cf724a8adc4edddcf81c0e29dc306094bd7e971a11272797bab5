@@ -1,0 +1,7 @@
+{
+    "generation": "    public JavaType refineSerializationType(final MapperConfig<?> config,\n            final Annotated a, final JavaType baseType) throws JsonMappingException\n    {\n        JavaType type = baseType;\n        final TypeFactory tf = config.getTypeFactory();\n        \n        // Refine the main type\n        Class<?> serClass = findSerializationType(a);\n        if (serClass != null) {\n            if (type.hasRawClass(serClass)) {\n                type = type.withStaticTyping();\n            } else {\n                try {\n                    JavaType newType = tf.constructGeneralizedType(type, serClass);\n                    if (newType == null) {\n                        newType = tf.constructSpecializedType(type, serClass);\n                    }\n                    type = newType;\n                } catch (IllegalArgumentException iae) {\n                    throw new JsonMappingException(null,\n                            String.format(\"Failed to widen type %s with annotation (value %s), from '%s': %s\",\n                                    type, serClass.getName(), a.getName(), iae.getMessage()),\n                                    iae);\n                }\n            }\n        }\n        // ... rest of the code remains the same ...\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

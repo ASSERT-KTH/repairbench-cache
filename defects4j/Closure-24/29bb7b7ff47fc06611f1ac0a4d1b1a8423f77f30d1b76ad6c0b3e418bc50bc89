@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    int type = n.getType();\n    Node parent = n.getParent();\n    // Check if the variable is a function parameter or a bleeding function and skip\n    if (v.isParam()) {\n      continue;\n    }\n    // Determine if it's a bleeding function (example logic, may need to adjust)\n    if (v.isFunction() && (v.getScope().isGlobal() || v.isExported())) {\n      continue;\n    }\n    if (n.hasChildren() && n.getFirstChild().isQualifiedName()) {\n      String name = n.getString();\n      Var aliasVar = scope.getVar(name);\n      aliases.put(name, aliasVar);\n\n      String qualifiedName =\n          aliasVar.getInitialValue().getQualifiedName();\n      transformation.addAlias(name, qualifiedName);\n    } else {\n      // Skip bleeding functions and function parameters already handled above\n      report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

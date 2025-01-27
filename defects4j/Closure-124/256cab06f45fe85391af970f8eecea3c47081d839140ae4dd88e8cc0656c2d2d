@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isSafeReplacement(Node node, Node replacement) {\n    if (node.isName()) {\n        return true;\n    }\n    Preconditions.checkArgument(node.isGetProp());\n\n    // Navigate to the property name (third child)\n    Node propNode = node.getFirstChild().getNext().getNext();\n    if (propNode.isName() && isNameAssignedTo(propNode.getString(), replacement)) {\n        return false;\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

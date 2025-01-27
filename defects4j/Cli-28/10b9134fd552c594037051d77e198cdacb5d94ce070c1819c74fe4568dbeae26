@@ -1,0 +1,7 @@
+{
+    "generation": "protected void processProperties(Properties properties) {\n    if (properties == null) {\n        return;\n    }\n\n    for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements();) {\n        String option = e.nextElement().toString();\n\n        if (!cmd.hasOption(option)) {\n            Option opt = getOptions().getOption(option);\n\n            if (opt != null) {\n                String value = properties.getProperty(option);\n\n                if (opt.hasArg()) {\n                    try {\n                        opt.addValueForProcessing(value);\n                        cmd.addOption(opt);\n                    } catch (RuntimeException exp) {\n                        // Ignore if value can't be added\n                    }\n                } else {\n                    if (\"true\".equalsIgnoreCase(value) \n                        || \"yes\".equalsIgnoreCase(value)\n                        || \"1\".equalsIgnoreCase(value)) {\n                        cmd.addOption(opt);\n                    }\n                }\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

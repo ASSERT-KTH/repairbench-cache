@@ -1,0 +1,7 @@
+{
+    "generation": "private JavaType _mapType(Class<?> rawClass) {\n    // Special case for Properties which should have String key and value types\n    if (rawClass == Properties.class) {\n        return MapType.construct(rawClass, _unknownType(), _unknownType());\n    }\n    \n    JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n    if (typeParams == null) {\n        return MapType.construct(rawClass, _unknownType(), _unknownType());\n    }\n    if (typeParams.length != 2) {\n        throw new IllegalArgumentException(\"Strange Map type \" + rawClass.getName() + \": can not determine type parameters\");\n    }\n    return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

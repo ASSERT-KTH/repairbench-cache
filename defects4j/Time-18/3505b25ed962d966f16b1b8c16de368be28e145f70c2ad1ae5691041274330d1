@@ -1,0 +1,7 @@
+{
+    "generation": "public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,\n                              int hourOfDay, int minuteOfHour,\n                              int secondOfMinute, int millisOfSecond)\n    throws IllegalArgumentException\n{\n    Chronology base;\n    if ((base = getBase()) != null) {\n        return base.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n\n    // Determine if the date is before the cutover to Gregorian (1582-10-15)\n    if (isBeforeCutover(year, monthOfYear, dayOfMonth)) {\n        return iJulianChronology.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    } else {\n        return iGregorianChronology.getDateTimeMillis\n            (year, monthOfYear, dayOfMonth,\n             hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);\n    }\n}\n\nprivate boolean isBeforeCutover(int year, int month, int day) {\n    if (year < 1582) {\n        return true;\n    } else if (year == 1582) {\n        if (month < 10) {\n            return true;\n        } else if (month == 10) {\n            if (day < 15) {\n                return true;\n            }\n        }\n        return false;\n    } else {\n        return false;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

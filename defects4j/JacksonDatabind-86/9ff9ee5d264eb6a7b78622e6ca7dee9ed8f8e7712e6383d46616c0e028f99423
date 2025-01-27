@@ -1,0 +1,7 @@
+{
+    "generation": "// Modified JavaType constructor to ensure correct superclass linking\nclass JavaType {\n    // ... other fields and methods ...\n    \n    private JavaType(Class<?> erased, TypeFactory tf, Type[] typeParams,\n                    JavaType superClass, JavaType[] superInterfaces) {\n        // Check if the super class's JavaType already exists and is constructed\n        if (superClass != null && !superClass.isResolved()) {\n            // If superclass is not resolved, resolve it using the type factory\n            superClass = tf.constructType(superClass.getErasedClass());\n            // Ensure the resolved superClass is set\n            this.superClass = superClass;\n        }\n        // Proceed with other initializations\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

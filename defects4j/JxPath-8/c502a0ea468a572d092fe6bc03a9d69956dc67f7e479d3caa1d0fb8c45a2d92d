@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean compute(Object left, Object right) {\n    left = reduce(left);\n    right = reduce(right);\n\n    if (left instanceof InitialContext) {\n        ((InitialContext) left).reset();\n    }\n    if (right instanceof InitialContext) {\n        ((InitialContext) right).reset();\n    }\n\n    boolean leftIsNaN = isNaN(left);\n    boolean rightIsNaN = isNaN(right);\n\n    if (leftIsNaN || rightIsNaN) {\n        // For non-equality comparisons, return false if either is NaN\n        if (operator != EQUAL) {\n            return false;\n        }\n        // Return true only if both are NaN for equality\n        return leftIsNaN && rightIsNaN;\n    }\n\n    if (left instanceof Iterator && right instanceof Iterator) {\n        return findMatch((Iterator) left, (Iterator) right);\n    }\n    if (left instanceof Iterator) {\n        return containsMatch((Iterator) left, right);\n    }\n    if (right instanceof Iterator) {\n        return containsMatch((Iterator) right, left);\n    }\n\n    double ld = InfoSetUtil.doubleValue(left);\n    double rd = InfoSetUtil.doubleValue(right);\n\n    return evaluateCompare(ld == rd ? 0 : ld < rd ? -1 : 1);\n}\n\nprivate boolean isNaN(Object value) {\n    if (value instanceof Double) {\n        return ((Double) value).isNaN();\n    } else if (value instanceof Number) {\n        double d = InfoSetUtil.doubleValue(value);\n        return Double.isNaN(d);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

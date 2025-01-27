@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean inferTemplatedTypesForCall(\n    Node n, FunctionType fnType) {\n  final ImmutableList<TemplateType> keys = fnType.getTemplateTypeMap()\n      .getTemplateKeys();\n  if (keys.isEmpty()) {\n    return false;\n  }\n\n  // Step 1: Infer the template types from parameters\n  Map<TemplateType, JSType> inferred = inferTemplateTypesFromParameters(fnType, n);\n\n  // Step 2: Replace each template type individually\n  boolean madeChanges = false;\n  for (TemplateType template : keys) {\n    JSType inferredType = inferred.get(template);\n    if (inferredType != null) {\n      // Replace template with inferred type in the function type\n      FunctionType newFnType = replaceTemplateType(fnType, template, inferredType);\n      if (newFnType != fnType) {\n        madeChanges = true;\n        fnType = newFnType;\n      }\n    }\n  }\n\n  // Update the types for the call target and the node\n  callTarget.setJSType(fnType);\n  n.setJSType(fnType.getReturnType());\n\n  return madeChanges;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n  \n  RecordType thisRecord = toMaybeRecordType().orElseThrow();\n  RecordType thatRecord = that.toMaybeRecordType().orElseThrow();\n  \n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  \n  // Collect all unique property names from both records\n  Set<String> allProperties = new HashSet<>();\n  allProperties.addAll(thisRecord.getProperties());\n  allProperties.addAll(thatRecord.getProperties());\n  \n  for (String property : allProperties) {\n    JSType thisType = thisRecord.hasProperty(property) \n        ? thisRecord.getPropertyType(property) \n        : registry.getUnknownType();\n    JSType thatType = thatRecord.hasProperty(property)\n        ? thatRecord.getPropertyType(property)\n        : registry.getUnknownType();\n    \n    // Combine the types into a union if necessary\n    JSType mergedType = thisType.isUnknownType() ? thatType :\n                        (thatType.isUnknownType() ? thisType :\n                         registry.createUnionType(thisType, thatType));\n    \n    builder.addProperty(property, mergedType, null);\n  }\n  \n  return builder.build();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

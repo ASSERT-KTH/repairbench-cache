@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(ObjectType constraintObj) {\n    // Check if it's a record type and not null/undefined\n    if (constraintObj.isRecordType() && !constraintObj.isNullOrUndefined()) {\n        for (String prop : constraintObj.getOwnPropertyNames()) {\n            JSType propType = constraintObj.getPropertyType(prop);\n            if (!isPropertyTypeDeclared(prop)) {\n                JSType typeToInfer = propType;\n                if (!hasProperty(prop)) {\n                    typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)\n                            .getLeastSupertype(propType);\n                }\n                defineInferredProperty(prop, typeToInfer, null);\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

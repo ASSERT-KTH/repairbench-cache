@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int read(byte[] buf, int offset, int numToRead) throws IOException {\n    // Immediately check for EOF condition\n    if (hasHitEOF || entryOffset >= entrySize) {\n        return -1;\n    }\n\n    if (currEntry == null) {\n        throw new IllegalStateException(\"No current tar entry\");\n    }\n\n    // Calculate how many bytes are left to read in the current entry\n    int availableBytes = entrySize - entryOffset;\n    numToRead = Math.min(numToRead, availableBytes);\n\n    int bytesRead = is.read(buf, offset, numToRead);\n\n    if (bytesRead > 0) {\n        count(bytesRead);\n        entryOffset += bytesRead;\n\n        // If we've reached the end of the entry, mark as EOF\n        if (entryOffset >= entrySize) {\n            hasHitEOF = true;\n        }\n    } else {\n        hasHitEOF = true;\n    }\n\n    return bytesRead;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void matchConstraint(JSType constraint) {\n    if (hasReferenceName()) {\n      return;\n    }\n\n    // Check if the constraint is a union type and process each record type within it.\n    if (constraint.isUnionType()) {\n      for (JSType unionMember : constraint.toUnionType().getComponents()) {\n        if (unionMember.isRecordType()) {\n          matchRecordTypeConstraint(unionMember.toObjectType());\n        }\n      }\n    } else if (constraint.isRecordType()) {\n      matchRecordTypeConstraint(constraint.toObjectType());\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

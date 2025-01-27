@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(double min, double max) throws MaxIterationsExceededException, \n    FunctionEvaluationException {\n    \n    clearResult();\n    verifyInterval(min, max);\n    \n    double ret = Double.NaN;\n    \n    double yMin = f.value(min);\n    double yMax = f.value(max);\n    \n    double sign = yMin * yMax;\n    \n    if (sign < 0) {\n        ret = solve(min, yMin, max, yMax, min, yMin);\n    } else {\n        // Check if min is a root\n        if (Math.abs(yMin) <= getAbsoluteAccuracy()) {\n            ret = min;\n        } \n        // Check if max is a root\n        else if (Math.abs(yMax) <= getAbsoluteAccuracy()) {\n            ret = max;\n        } \n        // Check if sign is zero but neither is a root (unlikely) or signs are same without zeros\n        else if (sign > 0) {\n            throw new IllegalArgumentException\n            (\"Function values at endpoints do not have different signs.\" +\n                    \"  Endpoints: [\" + min + \",\" + max + \"]\" + \n                    \"  Values: [\" + yMin + \",\" + yMax + \"]\");\n        }\n        // When sign is zero but above checks didn't handle it (e.g., both yMin and yMax are zero)\n        else {\n            ret = min; // Could choose either endpoint as both are zero\n        }\n    }\n    \n    return ret;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

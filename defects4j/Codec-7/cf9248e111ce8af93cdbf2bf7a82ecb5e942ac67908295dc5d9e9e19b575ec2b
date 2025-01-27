@@ -1,0 +1,7 @@
+{
+    "generation": "private static byte[] encodeBase64(byte[] binaryData, boolean breakLines)\n{\n    int    i;\n    int    x;\n    int    len;\n    int    j;\n    byte[] buffer;\n    byte[] output;\n\n   (len = (binaryData == null) ? 0 : binaryData.length);\n    (buffer = new byte[ (len + 2) / 3 * 4 ]);\n    (i = 0);\n    (j = 0);\n    while (i < len)\n    {\n        // get the next 3 bytes\n        x = (binaryData[i++] & 0xff) << 16 | (binaryData[i++] & 0xff) << 8 | (binaryData[i++] & 0xff);\n        // encode them\n        buffer[j++] = (byte) (x >> 18 & 0x3f);\n        buffer[j++] = (byte) (x >> 12 & 0x3f);\n        buffer[j++] = (byte) (x >> 6  & 0x3f);\n        buffer[j++] = (byte) (x       & 0x3f);\n    }\n    // pad accordingly\n    while (j % 4 != 0)\n    {\n        buffer[j++] = (byte) '=';\n    }\n\n    if (breakLines)\n    {\n        StringBuilder sb = new StringBuilder();\n        for (x=0; x < buffer.length; x++)\n        {\n            if (x % 76 ==0)\n            {\n                sb.append(\"\\r\\n\");\n            }\n            sb.append((char) buffer[x]);\n        }\n        String encoded = sb.toString();\n\n        // Remove the trailing CRLF if present\n        if (encoded.endsWith(\"\\r\\n\") && encoded.length() >= 2) {\n            encoded = encoded.substring(0, encoded.length() - 2);\n        }\n        output = sb.toString().getBytes(\"ISO-8859-1\");\n    } else {\n        output = buffer;\n    }\n\n    return output;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

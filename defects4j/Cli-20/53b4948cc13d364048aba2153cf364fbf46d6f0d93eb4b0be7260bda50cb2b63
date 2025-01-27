@@ -1,0 +1,7 @@
+{
+    "generation": "protected String[] flatten(Options options, String[] arguments, boolean stopAtNonOption) {\n    init();\n    this.options = options;\n\n    Iterator iter = Arrays.asList(arguments).iterator();\n\n    while (iter.hasNext()) {\n        String token = (String) iter.next();\n\n        if (token.startsWith(\"--\")) {\n            int index = token.indexOf('=');\n            if (index != -1) {\n                tokens.add(token.substring(0, index));\n                String remainder = token.substring(index + 1);\n                if (!remainder.isEmpty()) {\n                    tokens.add(remainder);\n                }\n            } else {\n                tokens.add(token);\n            }\n        }\n        else if (\"-\".equals(token)) {\n            tokens.add(token);\n        }\n        else if (token.startsWith(\"-\")) {\n            if (token.length() == 2) {\n                processOptionToken(token, stopAtNonOption);\n            } else if (options.hasOption(token)) {\n                tokens.add(token);\n            } else {\n                burstToken(token, stopAtNonOption);\n            }\n        } else if (stopAtNonOption) {\n            process(token);\n        } else {\n            tokens.add(token);\n        }\n\n        gobble(iter);\n    }\n\n    return (String[]) tokens.toArray(new String[tokens.size()]);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

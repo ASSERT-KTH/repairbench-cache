@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    MockitoValidation.validateInjectable Types(awaitingInjectionClazz);\n    Candidate bestCandidate = null;\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Candidate candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (candidate != null) {\n            if (bestCandidate == null || isMoreSpecific(candidate(field), bestCandidate(field))) {\n                bestCandidate = candidate;\n            }\n        }\n    }\n    if (bestCandidate != null) {\n        bestCandidate.thenInject();\n    }\n}\n\nprivate boolean isMoreSpecific(Class<?> type, Class<?> superClass) {\n    return superClass != null && type != null && superClass.isAssignableFrom(type) && type != superClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

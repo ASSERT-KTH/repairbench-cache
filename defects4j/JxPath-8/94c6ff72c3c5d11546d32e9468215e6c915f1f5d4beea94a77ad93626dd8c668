@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean compute(Object left, Object right) {\n    left = reduce(left);\n    right = reduce(right);\n\n    if (left instanceof InitialContext) {\n        ((InitialContext) left).reset();\n    }\n    if (right instanceof InitialContext) {\n        ((InitialContext) right).reset();\n    }\n\n    // Handle cases where either operand is NaN\n    if (left instanceof Double && (left == Double.NaN || ((Double) left).isNaN())) {\n        return handleNaN(right, left);\n    }\n    if (right instanceof Double && (right == Double.NaN || ((Double) right).isNaN())) {\n        return handleNaN(left, right);\n    }\n\n    if (left instanceof Iterator && right instanceof Iterator) {\n        return findMatch((Iterator) left, (Iterator) right);\n    }\n    if (left instanceof Iterator) {\n        return containsMatch((Iterator) left, right);\n    }\n    if (right instanceof Iterator) {\n        return containsMatch((Iterator) right, left);\n    }\n\n    double ld = InfoSetUtil.doubleValue(left);\n    double rd = InfoSetUtil.doubleValue(right);\n    return evaluateCompare(ld == rd ? 0 : ld < rd ? -1 : 1);\n}\n\nprivate boolean handleNaN(Object left, Object right) {\n    if (left == right) {\n        return true;\n    }\n    if (left instanceof Number && right instanceof Number) {\n        return ((Number) left).doubleValue() == ((Number) right).doubleValue();\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

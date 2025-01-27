@@ -1,0 +1,7 @@
+{
+    "generation": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n    throws CloneNotSupportedException {\n\n    if (start == null) {\n        throw new IllegalArgumentException(\"Null 'start' argument.\");\n    }\n    if (end == null) {\n        throw new IllegalArgumentException(\"Null 'end' argument.\");\n    }\n    if (start.compareTo(end) > 0) {\n        throw new IllegalArgumentException(\n                \"Start must be on or before end.\");\n    }\n    boolean emptyRange = false;\n    int startIndex = getIndex(start);\n    if (startIndex < 0) {\n        startIndex = -(startIndex + 1);\n        if (startIndex > this.data.size() - 1) {\n            emptyRange = true;\n        }\n    } else {\n        startIndex = Math.max(startIndex, 0);\n    }\n    int endIndex = this.data.size() - 1;\n    if (endIndex >= 0) {\n        endIndex = getIndex(end);\n        if (endIndex < 0) {\n            endIndex = -(endIndex + 1) - 1;\n            if (endIndex < 0) {\n                emptyRange = true;\n            }\n        }\n    } else {\n        emptyRange = true;\n    }\n    if (startIndex > endIndex) {\n        emptyRange = true;\n    }\n    if (emptyRange) {\n        TimeSeries copy = (TimeSeries) super.clone();\n        copy.data = new java.util.ArrayList();\n        return copy;\n    }\n    return createCopy(startIndex, endIndex);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

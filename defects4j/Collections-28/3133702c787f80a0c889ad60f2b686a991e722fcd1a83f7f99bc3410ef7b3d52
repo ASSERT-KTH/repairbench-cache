@@ -1,0 +1,7 @@
+{
+    "generation": "protected class PrefixSortedMap<K extends String, V> extends AbstractSortedMapDecorator<K, V> {\n    private final String prefix;\n\n    public PrefixSortedMap(final String prefix) {\n        this.prefix = prefix;\n    }\n\n    @Override\n    protected Iterator<Entry<K, V>> entrySetIterator() {\n        return new PatriciaTrie.this.EntrySetIterator(getPrefixNode(prefix));\n    }\n\n    @Override\n    public V remove(final Object key) {\n        final String stringKey = (String) key;\n        if (stringKey.startsWith(prefix)) {\n            return PatriciaTrie.this.remove(stringKey);\n        }\n        return null;\n    }\n\n    @Override\n    public void clear() {\n        final Iterator<Entry<K, V>> iterator = iterator();\n        while (iterator.hasNext()) {\n            final Entry<K, V> entry = iterator.next();\n            PatriciaTrie.this.remove(entry.getKey());\n        }\n    }\n\n    private Node<K, V> getPrefixNode(final String prefix) {\n        Node<K, V> node = root;\n        final Iterator<String> iterator = SplittingIterator.onPredicate(node, (node1) -> !node1.isEndOfWord());\n        for (final String part : iterator) {\n            if (!prefix.startsWith(part, node.getAvailableStr())) {\n                return null;\n            }\n            node = (Node<K, V>) node.getChild(part);\n        }\n        return node;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

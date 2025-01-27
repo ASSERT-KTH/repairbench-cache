@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // attribute was missing\n    } else {\n        if (relUrl.isEmpty()) {\n            return \"\";\n        }\n\n        try {\n            URL absUrl = new URL(relUrl);\n            if (absUrl.getProtocol() != null) {\n                // Already absolute\n                return absUrl.toExternalForm();\n            }\n        } catch (MalformedURLException e) {\n            // Not a valid absolute URL, proceed to join with base\n        }\n\n        try {\n            URL base = new URL(baseUri);\n            String path = base.getPath();\n            if (relUrl.startsWith(\"?\") && !path.endsWith(\"/\")) {\n                // If relative URL is just query, and base path doesn't end with slash, append index file\n                relUrl = path.substring(0, path.lastIndexOf('/') + 1) + \"?\" + relUrl.substring(1);\n            }\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

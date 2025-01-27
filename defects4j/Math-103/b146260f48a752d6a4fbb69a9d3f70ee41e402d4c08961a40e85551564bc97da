@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) {\n    double deviance = x - mean;\n    if (deviance == 0) {\n        return 0.5;\n    }\n    double scaledDeviance = deviance / (standardDeviation * Math.sqrt(2.0));\n    if (Math.abs(scaledDeviance) > 8 * Math.sqrt(Math.log(2))) { // Avoid double precision issues\n        // Use asymptotic expansion for extreme values\n        double sign = scaledDeviance < 0 ? -1.0 : 1.0;\n        double t = 1.0 / (1.0 + 0.2316419 * Math.abs(scaledDeviance));\n        double b1 = 3.543889;\n        double b2 = 1.637067;\n        double polynomial = 1.0 +\n                b1 * t +\n                b2 * t * t;\n        double inverse = 1.0 - sign * 0.5 * Math.pow(Math.PI, -0.5) * Math.exp(-scaledDeviance * scaledDeviance * 0.5) * polynomial * t;\n        return sign >= 0 ? inverse : 1.0 - inverse;\n    }\n    return 0.5 * (1.0 + Erf.erf(scaledDeviance));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

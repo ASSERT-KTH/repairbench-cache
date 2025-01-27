@@ -1,0 +1,7 @@
+{
+    "generation": "    public static long parseOctal(final byte[] buffer, final int offset, final int length) {\n        if (length < 2) {\n            throw new IllegalArgumentException(\"Length \" + length + \" must be at least 2\");\n        }\n\n        int start = offset;\n        int end = offset + length;\n\n        // Skip leading spaces\n        while (start < end) {\n            if (buffer[start] == ' ') {\n                start++;\n            } else {\n                break;\n            }\n        }\n\n        // Check for leading NUL after spaces\n        if (start >= end || buffer[start] == 0) {\n            return 0L;\n        }\n\n        // Check each byte in the buffer for invalid characters\n        for (int i = start; i < end; i++) {\n            final byte current = buffer[i];\n            if (current == 0 || current == ' ') {\n                throw new IllegalArgumentException(\"Embedded space or NUL\");\n            }\n            if (current < '0' || current > '7') {\n                throw new IllegalArgumentException(\"Invalid character in octal string: \" + current);\n            }\n        }\n\n        // Now parse the octal digits\n        long result = 0;\n        for (int i = start; i < end; i++) {\n            result = (result << 3) + (buffer[i] - '0');\n        }\n        return result;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

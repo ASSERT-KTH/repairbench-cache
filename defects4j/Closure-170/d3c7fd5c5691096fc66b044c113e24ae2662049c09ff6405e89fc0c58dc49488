@@ -1,0 +1,7 @@
+{
+    "generation": "    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName() && n.getString().equals(varName) &&\n              !(parent != null &&\n               (parent.isAssign() && parent.getFirstChild() == n ||\n                (parent.isCond() || parent.isHook()) && n.getParent().isAssign()))) {\n              numUsesWithinCfgNode++;\n          }\n        }\n\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

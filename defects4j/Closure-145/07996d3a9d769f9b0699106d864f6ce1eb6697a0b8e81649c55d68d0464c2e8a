@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isOneExactlyFunctionOrDo(Node n) {\n    if (n.getType() != Token.FUNCTION && n.getType() != Token.DO) {\n        return false;\n    }\n\n    Node parent = n.getParent();\n    if (parent != null && parent.getType() == Token.BLOCK) {\n        for (Node child = parent.getFirstChild(); child != null; child = child.getNext()) {\n            if (child.getType() == Token.IDENTIFIER) {\n                Token nextToken = child.getNextToken();\n                if (nextToken != null && nextToken.getType() == Token.COLON) {\n                    return false;\n                }\n            } else if (child != n) {\n                break;\n            }\n        }\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

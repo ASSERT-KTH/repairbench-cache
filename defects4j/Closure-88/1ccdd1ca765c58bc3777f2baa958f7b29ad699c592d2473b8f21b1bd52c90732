@@ -1,0 +1,7 @@
+{
+    "generation": "  private VariableLiveness isVariableReadBeforeKill(\n      Node n, String variable) {\n    if (n == null) {\n      return VariableLiveness.MAYBE_LIVE;\n    }\n    if (NodeUtil.isName(n)) {\n      if (variable.equals(n.getString())) {\n        return isVariableAssigned(n)\n            ? VariableLiveness.KILL\n            : VariableLiveness.READ;\n      }\n    }\n    // Check all children but traverse in a way that processes boolean expressions correctly.\n    for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n      if (!ControlFlowGraph.isEnteringNewCfgNode(child)) {\n        VariableLiveness state = isVariableReadBeforeKill(child, variable);\n        if (state != VariableLiveness.MAYBE_LIVE) {\n          return state;\n        }\n      }\n    }\n    return VariableLiveness.MAYBE_LIVE;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

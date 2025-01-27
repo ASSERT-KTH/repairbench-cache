@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // Mechanism to track visited types to detect cycles\n    Set<JSType> visited = new HashSet<>();\n    \n    boolean resolved = false;\n    try {\n        resolved = resolveViaRegistry(t, enclosing, visited);\n    } catch (CycleDetectedException e) {\n        handleTypeCycle(t);\n        return this;\n    }\n    \n    if (resolved) {\n        if (detectImplicitPrototypeCycle()) {\n            handleTypeCycle(t);\n        }\n        super.resolveInternal(t, enclosing);\n        finishPropertyContinuations();\n        return registry.isLastGeneration() ?\n            getReferencedType() : this;\n    }\n\n    try {\n        resolveViaProperties(t, enclosing, visited);\n    } catch (CycleDetectedException e) {\n        handleTypeCycle(t);\n        return this;\n    }\n\n    if (detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n    }\n\n    super.resolveInternal(t, enclosing);\n    if (isResolved()) {\n        finishPropertyContinuations();\n    }\n    return registry.isLastGeneration() ?\n        getReferencedType() : this;\n}\n\n//\tresolveViaRegistry and resolveViaProperties now take a 'visited' set",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

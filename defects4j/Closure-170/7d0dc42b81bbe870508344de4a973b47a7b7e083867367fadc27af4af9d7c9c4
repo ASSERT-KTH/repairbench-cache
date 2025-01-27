@@ -1,0 +1,7 @@
+{
+    "generation": "  private void getNumUseInUseCfgNode(final Node cfgNode) {\n    numUsesWithinCfgNode = 0;\n    AbstractCfgNodeTraversalCallback gatherCb =\n        new AbstractCfgNodeTraversalCallback() {\n          @Override\n          public void visit(NodeTraversal t, Node n, Node parent) {\n            if (n.isName() && n.getString().equals(varName) &&\n                !(isVariableAssignedTo(n, parent))) {\n              numUsesWithinCfgNode++;\n            }\n          }\n        };\n    NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n  }\n\n  private boolean isVariableAssignedTo(Node n, Node parent) {\n    if (parent == null) {\n      return false;\n    }\n    if (parent.isAssign() && parent.getFirstChild().equals(n)) {\n      return true;\n    }\n    return isVariableAssignedTo(parent, parent.getParent());\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

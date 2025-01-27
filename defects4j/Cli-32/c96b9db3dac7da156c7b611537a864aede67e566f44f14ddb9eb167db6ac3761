@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos) {\n    int pos;\n    if ((pos = text.indexOf('\\n', startPos)) != -1 && pos <= startPos + width) {\n        return pos;\n    }\n    if ((pos = text.indexOf('\\r', startPos)) != -1 && pos <= startPos + width) {\n        return pos;\n    }\n    if (startPos + width >= text.length() || (text.charAt(startPos + width) == '\\0')) {\n        return -1;\n    }\n    \n    pos = startPos + width;\n    if (pos >= text.length()) {\n        return -1;\n    }\n    \n    while (pos >= startPos) {\n        char c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n        pos--;\n    }\n    \n    // If no whitespace found, move forward to find a break point\n    for (int i = startPos + 1; i <= startPos + width; i++) {\n        if (i == text.length()) {\n            return -1;\n        }\n        if (text.charAt(i) == ' ' || text.charAt(i) == '\\n' || text.charAt(i) == '\\r') {\n            return i;\n        }\n    }\n    \n    return startPos + width;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

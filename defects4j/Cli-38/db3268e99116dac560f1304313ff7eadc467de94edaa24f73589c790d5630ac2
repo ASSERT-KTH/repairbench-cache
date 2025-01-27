@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Tells if the token looks like a short option.\n     *\n     * @param token\n     */\n    private boolean isShortOption(String token)\n    {\n        // Check if the token starts with a hyphen and has more than one character\n        if (!token.startsWith(\"-\") || token.length() == 1)\n        {\n            return false;\n        }\n\n        // Extract the part of the token after the hyphen, excluding any =value part\n        String optionsPart = token.substring(1);\n        int eqPos = optionsPart.indexOf('=');\n        String optNames = (eqPos == -1) ? optionsPart : optionsPart.substring(0, eqPos);\n\n        // Check each individual option character\n        for (int i = 0; i < optNames.length(); i++)\n        {\n            String opt = optNames.substring(i, i + 1);\n            if (!options.hasShortOption(opt))\n            {\n                return false;\n            }\n        }\n\n        return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

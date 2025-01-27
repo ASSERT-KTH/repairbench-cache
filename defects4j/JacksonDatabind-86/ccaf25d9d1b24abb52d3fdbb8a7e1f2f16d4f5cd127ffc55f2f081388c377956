@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _constructType(Type type, TypeBindings bindings, TypeFactory typeFactory)\n{\n    if (type == null) return null;\n    if (type instanceof Class<?>) {\n        return constructFromCanonical((Class<?>) type, bindings, typeFactory);\n    }\n    if (type instanceof ParameterizedType) {\n        return constructFromParameterized(((ParameterizedType) type), bindings, typeFactory);\n    }\n    if (type instanceof GenericArrayType) {\n        return constructFromGenericArray((GenericArrayType) type, typeFactory, bindings);\n    }\n    // For Java 8+ Type Variables (e.g., from Method declarations)\n    if (type instanceof TypeVariable) {\n        TypeVariable<?> tv = (TypeVariable<?>) type;\n        return new ResolvedRecursiveType(_binderFor(TypeVariableImpl.class, tv), typeFactory, bindings);\n    }\n    if (type instanceof WildcardType) {\n        return constructFromWildcard((WildcardType) type);\n    }\n    // For cases where it's a Member class reference, which may require context\n    if (type instanceof java.lang.reflect.ParameterizedType) {\n        return constructFromParameterized((java.lang.reflect.ParameterizedType) type, bindings, typeFactory);\n    }\n    _throwUnconstructibleTypeException(type);\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

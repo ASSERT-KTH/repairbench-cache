@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos) {\n    // Check for new line or tab characters within the width\n    int newlinePos = text.indexOf('\\n', startPos);\n    int tabPos = text.indexOf('\\t', startPos);\n\n    if (newlinePos != -1 && newlinePos <= startPos + width) {\n        return newlinePos + 1;\n    }\n    if (tabPos != -1 && tabPos <= startPos + width) {\n        return tabPos + 1;\n    }\n\n    // If end of text is reached, return -1\n    if (startPos + width >= text.length()) {\n        return -1;\n    }\n\n    // Look for the last whitespace before the width limit\n    int pos = startPos + width;\n    // Check each character from the end backwards\n    while (pos >= startPos) {\n        char c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n        --pos;\n    }\n\n    // If no whitespace found, check if the width is at the end of the text\n    if (pos < startPos) {\n        return -1;\n    }\n\n    // If no whitespace found, check the next possible positions beyond width\n    pos = startPos + width;\n    while (pos < text.length()) {\n        char c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n        ++pos;\n    }\n\n    // If end of text is reached\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

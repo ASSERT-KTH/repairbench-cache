@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object value) throws Exception {\n    // Assume 'module' is a properly configured Module for deserialization\n    JsonFactory f = new JsonFactory();\n    f.setModule(module);\n    ObjectMapper mapper = new ObjectMapper(f);\n    \n    String json = \"\"\"\"\"\"; // Empty string\n\n    if (type.isPrimitive()) {\n        try {\n            mapper.readValue(json, type);\n            fail(\"Expected exception for primitive type\");\n        } catch (MismatchedInputException | JsonMappingException e) {\n            // Expected exception for primitives\n        }\n    } else {\n        Object result = mapper.readValue(json, type);\n        assertTrue(\"Result should be null\", result == null);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

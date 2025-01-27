@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n    if (!(this.isRecordType() && that.isRecordType())) {\n        return super.getLeastSupertype(that);\n    }\n\n    if (isUnionType() || that.isUnionType()) {\n        JSType union = this;\n        if (that.isUnionType()) {\n            union = ((JSTypeUnion) that).getUnionType();\n        }\n        if (this.isUnionType()) {\n            union = ((JSTypeUnion) this).getUnionType();\n        }\n        return registry.createUnionType(this, that);\n    }\n\n    return registry.createUnionType(this, that);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "if (!Charset.forName(charsetName).canEncode()) {\n    doc.outputSettings().charset(\"UTF-8\");\n    // Also update the meta elements in the document\n    Elements metaCharset = doc.select(\"meta[charset]\");\n    if (!metaCharset.isEmpty()) {\n        metaCharset.attr(\"charset\", \"UTF-8\");\n    } else {\n        // Maybe add a meta tag if not present\n        String addTo = doc.selectFirst(\"head\") != null ? \"head\" : \"html\";\n        String metaTag = \"<meta charset=\\\"UTF-8\\\">\";\n        if (addTo.equals(\"html\")) {\n            // If no head, then assume inserting before body\n            String htmlString = doc.html();\n            int insertPos = htmlString.indexOf(\"<body>\");\n            if (insertPos != -1) {\n                htmlString = htmlString.substring(0, insertPos) + metaTag + htmlString.substring(insertPos);\n                doc = Jsoup.parse(htmlString);\n            }\n        } else {\n            doc.head().append(metaTag);\n        }\n    }\n    charsetName = \"UTF-8\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

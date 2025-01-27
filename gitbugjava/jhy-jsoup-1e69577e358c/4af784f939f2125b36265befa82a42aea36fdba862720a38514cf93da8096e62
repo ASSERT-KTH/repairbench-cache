@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        String protocol = u.getProtocol();\n        String userInfo = u.getUserInfo();\n        String host = IDN.toASCII(u.getHost());\n        int port = u.getPort();\n        String path = u.getPath();\n        String query = u.getQuery();\n        String fragment = u.getRef();\n\n        boolean hasPort = port != -1;\n        boolean isHttp = \"http\".equalsIgnoreCase(protocol) && port == 80;\n        boolean isHttps = \"https\".equalsIgnoreCase(protocol) && port == 443;\n\n        if (isHttp || isHttps) {\n            if (port != -1 && port != (isHttp ? 80 : 443)) {\n                hasPort = true;\n            } else {\n                port = -1;\n                hasPort = false;\n            }\n        }\n\n        StringBuilder sb = new StringBuilder();\n        sb.append(protocol).append(\"://\");\n        if (userInfo != null) {\n            sb.append(userInfo).append('@');\n        }\n        sb.append(host);\n        if (hasPort) {\n            sb.append(':').append(port);\n        }\n        sb.append(path);\n        if (query != null) {\n            sb.append('?').append(query);\n        }\n        if (fragment != null) {\n            sb.append('#').append(fragment);\n        }\n\n        String urlStr = sb.toString();\n        return new URL(urlStr);\n    } catch (MalformedURLException e) {\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

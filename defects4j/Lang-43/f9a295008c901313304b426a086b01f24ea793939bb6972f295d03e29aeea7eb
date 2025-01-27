@@ -1,0 +1,7 @@
+{
+    "generation": "private StringBuffer appendQuotedString(String pattern, ParsePosition pos,\n        StringBuffer appendTo, boolean escapingOn) {\n    int start = pos.getIndex();\n    char[] c = pattern.toCharArray();\n    if (escapingOn && c[start] == QUOTE) {\n        return appendTo == null ? null : appendTo.append(QUOTE);\n    }\n    int lastHold = start;\n    boolean inEscape = false;\n    for (int i = pos.getIndex(); i < pattern.length(); i++) {\n        if (escapingOn && !inEscape && i + 1 < pattern.length() && c[i] == '\\'' && c[i + 1] == QUOTE) {\n            appendTo.append(c, lastHold, i - lastHold);\n            appendTo.append(QUOTE);\n            pos.setIndex(i + 2);\n            lastHold = pos.getIndex();\n            inEscape = true;\n            continue;\n        }\n        if (c[i] == QUOTE && !inEscape) {\n            appendTo.append(c, lastHold, i - lastHold + 1);\n            pos.setIndex(i + 1);\n            return appendTo;\n        }\n        inEscape = false;\n    }\n    throw new IllegalArgumentException(\n            \"Unterminated quoted string at position \" + start);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

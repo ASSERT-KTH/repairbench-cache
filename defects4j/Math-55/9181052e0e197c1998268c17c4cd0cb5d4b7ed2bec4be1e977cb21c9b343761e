@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute dot products used for scaling\n    final double dotProductV1V2 = v1.dotProduct(v2);\n    final double dotProductV2V2 = v2.dotProduct(v2);\n\n    // Compute rho using 8 bits of dotProductV1V2\n    long bits = Double.doubleToLongBits(dotProductV1V2);\n    bits = bits << 48; // Move to upper 8 bits\n    bits = bits >>> 56; // Now) Upper 8 bits in lower 8 bits\n    double rho = Double.longBitsToDouble(bits | (double) 0x3FFL << 48); // Bias to get 8 bits\n\n    // Precondition v1 to v3 = v1 - rho * v2\n    final double v3X = v1.getX() - rho * v2.getX();\n    final double v3Y = v1.getY() - rho * v2.getY();\n    final double v3Z = v1.getZ() - rho * v2.getZ();\n\n    // Compute cross product of v3 and v2\n    final double x = v3Y * v2.getZ() - v3Z * v2.getY();\n    final double y = v3Z * v2.getX() - v3X * v2.getZ();\n    final double z = v3X * v2.getY() - v3Y * v2.getX();\n\n    return new Vector3D(x, y, z);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

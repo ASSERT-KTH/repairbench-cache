@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonNode node = p.getCodec().decode(p, ctxt);\n    Object result = new CallRecord();\n    // Iterate through the node's fields and set the corresponding properties\n    for (Field field : node.fields()) {\n        String fieldName = field.getKey();\n        JsonNode fieldValue = field.getValue();\n        if (fieldName.equals(\"version\")) {\n            ((CallRecord) result).version = fieldValue.asDouble();\n        } else if (fieldName.equals(\"application\")) {\n            ((CallRecord) result).application = fieldValue.asText();\n        } else if (fieldName.equals(\"item\")) {\n            ((CallRecord) result).item = ctxt.getAttribute(\"itemDeserializer\").deserialize(fieldValue);\n        } else if (fieldName.equals(\"item2\")) {\n            ((CallRecord) result).item2 = ctxt.getAttribute(\"item2Deserializer\").deserialize(fieldValue);\n        }\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

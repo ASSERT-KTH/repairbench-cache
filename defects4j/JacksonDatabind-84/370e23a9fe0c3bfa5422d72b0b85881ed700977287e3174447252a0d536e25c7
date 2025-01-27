@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _constructType(Type type, TypeBindings context)\n{\n    // existing code that constructs and returns JavaType...\n\n    // Fix: Ensure that the base properties are included by properly resolving the supertype\n    if (type instanceof Class) {\n        Class<?> cls = (Class<?>) type;\n        if (cls.getSuperclass() != null && !cls.getSuperclass().equals(Object.class)) {\n            JavaType superClassType = constructType(cls.getSuperclass(), context);\n            // Include properties from superclass\n            return new MappedType(type, superClassType, null);\n        }\n    }\n    // existing code...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

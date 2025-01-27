@@ -1,0 +1,7 @@
+{
+    "generation": "protected TypeReference<?> findSuperType(AnnotatedClass base)\n{\n    Class<?> superClass = base.getAnnotated().getSuperclass();\n    if (superClass == null || superClass == Object.class) {\n        return null;\n    }\n    if (superClass.getTypeParameters().length == 0) {\n        return new TypeReference<>(superClass);\n    }\n    // We need to construct parameterized type if type has type parameters\n    Type[] actualTypes = new Type[superClass.getTypeParameters().length];\n    for (int i = 0; i < actualTypes.length; i++) {\n        actualTypes[i] = new CType(base, superClass.getTypeParameters()[i]);\n    }\n    return new TypeReference<>(CTypes.constructParameterizedType(superClass, actualTypes, null));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

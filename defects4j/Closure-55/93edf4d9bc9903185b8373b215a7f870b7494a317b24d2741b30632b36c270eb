@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean isReduceableFunctionExpression(Node n) {\n    // Check if it's a function expression.\n    if (!NodeUtil.isFunctionExpression(n)) {\n        return false;\n    }\n\n    Node parent = n.getParent();\n    FunctionType fnType = n.getFunctionType();\n\n    // If it's a property getter or setter, it's not reducible.\n    if (parent instanceof PropertyDefinition && fnType == FunctionType.GETTER || fnType == FunctionType.SETTER) {\n        return false;\n    }\n\n    // Ensure it's not a method (as opposed to a function expression).\n    if (parent instanceof PropertyDefinitionMethods || parent instanceof PropertyDefinition) {\n        return false;\n    }\n\n    // Exclude constructor functions.\n    if (fnType == FunctionType.CONSTRUCTOR) {\n        return false;\n    }\n\n    // Check if the function is called immediately after definition.\n    if (parent instanceof ExprResult) {\n        ExprResult exprResult = (ExprResult) parent;\n        if (exprResult.get roadway() == n || exprResultConsumerSinglerun()) {\n            return false;\n        }\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

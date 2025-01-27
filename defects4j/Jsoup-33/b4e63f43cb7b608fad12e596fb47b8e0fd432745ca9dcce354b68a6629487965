@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    if (startTag.isSelfClosing()) {\n        Element el = insertEmpty(startTag);\n        stack.add(el);\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n\n    if (isKnownEmptyElement(startTag.name())) {\n        return insertEmpty(startTag);\n    }\n\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}\n\nprotected boolean isKnownEmptyElement(String tagName) {\n    String[] knownEmpty = {\"area\", \"base\", \"br\", \"col\", \"embed\", \"hr\", \"img\", \"input\", \"link\", \"meta\", \"param\", \"source\", \"track\", \"wbr\"};\n    return Arrays.asList(knownEmpty).contains(tagName.toLowerCase());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

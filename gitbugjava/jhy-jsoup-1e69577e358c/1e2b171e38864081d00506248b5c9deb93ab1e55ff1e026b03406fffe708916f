@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // Create a new URI using the original URL's components\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            IDN.toASCII(u.getHost()), // puny-code the host\n            u.getPort(),\n            null, // leave path null to avoid encoding\n            null, null // query and fragment to be added later\n        );\n\n        String normUrl = uri.toASCIIString();\n\n        // Use the original URL's encoded path\n        if (u.getPath() != null) {\n            normUrl += URLDecoder.decode(u.getPath(), StandardCharsets.UTF_8.name());\n        }\n\n        // Append query and fragment if present\n        if (q != null || u.getRef() != null) {\n            StringBuilder sb = new StringBuilder(normUrl);\n            if (q != null) {\n                sb.append('?');\n                appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n            }\n            if (u.getRef() != null) {\n                sb.append('#');\n                appendToAscii(u.getRef(), false, sb);\n            }\n            normUrl = sb.toString();\n        }\n\n        u = new URL(normUrl);\n        return u;\n    } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

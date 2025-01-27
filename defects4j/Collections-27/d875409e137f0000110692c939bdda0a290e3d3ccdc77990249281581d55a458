@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Object values = in.readObject();\n    Class<?> clazz = (Class<?>) in.readObject();\n    \n    if (clazz == null || clazz.isInterface() || !(Collection.class.isAssignableFrom(clazz))) {\n        throw new UnsupportedOperationException(\"value must be a Collection\");\n    }\n    \n    try {\n        Constructor<? extends Collection<?>> constructor = clazz.getConstructor();\n        Collection<?> newValues = constructor.newInstance();\n        if (values != null) {\n            newValues.addAll((Collection<?>) values);\n        }\n        this.map = MultiValueMap.multiValueMap(this.map, clazz);\n    } catch (NoSuchMethodException e) {\n        throw new IllegalArgumentException(\"Class must have a default constructor\");\n    } catch (IllegalAccessException e) {\n        throw new IllegalArgumentException(\"Unable to access constructor\");\n    } catch (InstantiationException e) {\n        throw new IllegalArgumentException(\"Unable to instantiate collection\");\n    } catch (InvocationTargetException e) {\n        throw new IllegalArgumentException(\"Exception in constructor\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

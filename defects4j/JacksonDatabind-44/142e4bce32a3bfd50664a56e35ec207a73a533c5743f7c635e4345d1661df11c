@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    @Deprecated\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        if (_class == subclass) {\n            return this;\n        }\n        // Collect all the interfaces from the super class and interfaces\n        List<JavaType> all_interfaces = new ArrayList<>();\n        if (_superInterfaces != null) {\n            all_interfaces.addAll(_superInterfaces);\n        }\n        Class<?> current = _class.getSuperclass();\n        while (current != null) {\n            current = current.getSuperclass();\n            if (current != null) {\n                for (JavaType type : current.getInterfaces()) {\n                    if (!all_interfaces.contains(type)) {\n                        all_interfaces.add(type);\n                    }\n                }\n            }\n        }\n        // Create a new array for the collected interfaces\n        JavaType[] newInterfaces = new JavaType[all_interfaces.size()];\n        newInterfaces = all_interfaces.toArray(newInterfaces);\n        return new SimpleType(subclass, _bindings, this, newInterfaces,\n                _valueHandler, _typeHandler, _asStatic);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

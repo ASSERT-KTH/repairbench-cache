@@ -1,0 +1,7 @@
+{
+    "generation": "private void findCalledFunctions(Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // Check for function calls\n    if (node.getType() == Token.CALL) {\n        Node child = node.getFirstChild();\n        if (child.getType() == Token.NAME) {\n            // Direct function call like func()\n            changed.add(child.getString());\n        } else if (child.getType() == Token.ACCESSOR) {\n            // Method call like obj.method(), so traverse to get the method name\n            for (Node s = child.getPreviousSibling(); s != null; s = s.getPreviousSibling()) {\n                if (s.getType() == Token.NAME) {\n                    // The actual method name before .call or .apply\n                    changed.add(s.getString());\n                    break;\n                }\n            }\n        }\n    }\n\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n        findCalledFunctions(c, changed);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
