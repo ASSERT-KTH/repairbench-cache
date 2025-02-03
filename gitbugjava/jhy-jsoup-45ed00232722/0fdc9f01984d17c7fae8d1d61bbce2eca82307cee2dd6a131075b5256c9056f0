@@ -1,0 +1,7 @@
+{
+    "generation": "import java.net.MalformedURLException;\nimport java.net.URI;\nimport java.net.URISyntaxException;\nimport java.net.URL;\n\nstatic URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        // Extract the URL as a string\n        String urlS = u.toExternalForm();\n\n        // Replace spaces and other special characters\n        urlS = urlS.replace(\" \", \"%20\");\n        urlS = urlS.replace(\"[\", \"%5B\");\n        urlS = urlS.replace(\"]\", \"%5D\");\n\n        // Construct a URI and then a URL from the encoded string\n        final URI uri = new URI(urlS);\n        return new URL(uri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

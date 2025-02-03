@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected Object decode(\n            ChannelHandlerContext ctx, Channel channel, ByteBuf buf) throws Exception {\n\n        int endIndex = -1;\n        for (int i = buf.writerIndex() - 1; i >= buf.readerIndex(); i--) {\n            if (buf.getByte(i) == ']') {\n                endIndex = i + 1;\n                break;\n            }\n        }\n\n        if (endIndex > 0) {\n            ByteBuf frame = Unpooled.buffer();\n            for (int i = buf.readerIndex(); i < endIndex; i++) {\n                byte b = buf.getByte(i);\n                frame.writeByte(b);\n                if (b == '}') {\n                    byte nextByte = buf.getByte(i + 1);\n                    frame.writeByte(b);\n                    frame.writeByte(nextByte);\n                    i++;\n                }\n            }\n            return frame;\n        }\n\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

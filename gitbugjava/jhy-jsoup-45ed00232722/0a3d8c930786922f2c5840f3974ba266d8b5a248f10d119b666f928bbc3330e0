@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        // Encode the entire URL using URI encoding\n        String urlS = u.toExternalForm(); // URL external form may have spaces which is illegal in new URL() (odd asymmetry)\n        urlS = urlS.replace(\" \", \"%20\");\n        StringBuilder encodedUrl = new StringBuilder(urlS.length());\n        for (char c : urlS.toCharArray()) {\n            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||\n                (c >= '0' && c <= '9') || c == '-' || c == '_' || c == '.' || c == '~' ||\n                c == ':' || c == '/' || c == '?' || c == '=' || c == '&' || c == '%' ||\n                c == '#') {\n                encodedUrl.append(c);\n            } else {\n                encodedUrl.append(URLEncoder.encode(String.valueOf(c), StandardCharsets.UTF_8.toString()));\n            }\n        }\n        final URI uri = new URI(encodedUrl.toString());\n        return new URL(uri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException | IOException e) {\n        // give up and return the original input\n        return u;\n    }\n}\n\nstatic URL punyUrl(URL u){\n    return u;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

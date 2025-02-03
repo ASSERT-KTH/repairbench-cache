@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n     *\n     * @param tags tag names to allow\n     * @return this (for chaining)\n     * @throws ValidationException if the tag name is not supported\n     */\n    public Safelist addTags(String... tags) throws ValidationException {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            if (!validateTagName(tagName)) {\n                throw new ValidationException(\n                        String.format(\"Tag name \\\"%s\\\" is unsupported.\", tagName));\n            }\n            tagNames.add(TagName.valueOf(tagName));\n        }\n        return this;\n    }\n\n    private boolean validateTagName(String tagName) {\n        // Add the logic here to validate supported tag names\n        // This method should return true if the tag name is supported, false otherwise\n        // For example:\n        return switch(tagName.toUpperCase()) {\n            case \"NOSCRIPT\" -> false;\n            default -> Arrays.asList(\"html\", \"body\", \"div\").contains(tagName.toUpperCase());\n        };\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

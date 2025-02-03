@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Given a node, get a human-readable name for the type of that node so\n   * that will be easy for the programmer to find the original declaration.\n   *\n   * For example, if SubFoo's property \"bar\" might have the human-readable\n   * name \"Foo.prototype.bar\".\n   *\n   * @param n The node.\n   * @param dereference If true, the type of the node will be dereferenced\n   *     to an Object type, if possible.\n   */\n  String getReadableJSTypeName(Node n, boolean dereference) {\n    Type type = n.getType();\n    if (dereference && type.isObjectType()) {\n      type = type.dereference();\n    }\n\n    String qualifiedName = n.getQualifiedName();\n    if (qualifiedName != null) {\n      return qualifiedName;\n    } else if (type.isFunctionType()) {\n      // Don't show complex function names.\n      return \"function\";\n    } else {\n      return type.toString();\n    }\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * {@inheritDoc}\n     */\n    @Override\n    public int translate(CharSequence input, int index, Writer out) throws IOException {\n        int seqEnd = input.length();\n        // Uses -2 to ensure there is something after the &#\n        for (int i = index + 3; i < seqEnd; i++) {\n            char c = input.charAt(i);\n            if (c == ';') {\n                try {\n                    int codePoint = Integer.parseInt(input.subSequence(index + 2, i).toString(), 10);\n                    out.write(Character.toChars(codePoint));\n                    return i + 1;\n                } catch (NumberFormatException e) {\n                    return index;\n                }\n            }\n        }\n        return 0;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import java.net.MalformedURLException;\nimport java.net.URI;\nimport java.net.URL;\n\nstatic URL encodeUrl(URL u) {\n    u = punyUrl(u);\n\n    try {\n        // Convert to external form\n        String urlS = u.toExternalForm();\n\n        // Properly encode the URL, including space and other reserved characters\n        urlS = URI.create(urlS).toASCIIString();\n\n        return new URL(urlS);\n    } catch (URISyntaxException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

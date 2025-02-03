@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n        u = punyUrl(u);\n        try {\n            // Proper URL encoding\n            String urlS = u.toExternalForm();\n            final URI uri = new URI(urlS);\n            return new URL(encodeURIComponent(uri.getRawPath()));\n        } catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e) {\n            // give up and return the original input\n            return u;\n        }\n    }\n\n    private static String encodeURIComponent(String pathname) throws UnsupportedEncodingException {\n        String encoded = java.net.URLEncoder.encode(pathname, StandardCharsets.UTF_8.name());\n        // Replace \"+\" with \"%20\" as URLEncoder encodes spaces as \"+\"\n        encoded = encoded.replace(\"+\", \"%20\");\n        return encoded;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

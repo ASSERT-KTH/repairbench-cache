@@ -1,0 +1,7 @@
+{
+    "generation": "    // todo - this is getting gnarly. needs a rewrite.\n    static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {\n        String docData;\n        Document doc = null;\n        // look for BOM - overrides any other header or input\n        if (byteData.get(0) == (byte) 0xEF && byteData.get(1) == (byte) 0xBB && byteData.get(2) == (byte) 0xBF) {\n            docData = new String(byteData.array(), Charset.forName(\"UTF-8\"));\n        } else if (byteData.get(0) == (byte) 0xFE && byteData.get(1) == (byte) 0xFF) {\n            docData = new String(byteData.array(), Charset.forName(\"UTF-16BE\"));\n        } else if (byteData.get(0) == (byte) 0xFF && byteData.get(1) == (byte) 0xFE) {\n            docData = new String(byteData.array(), Charset.forName(\"UTF-16LE\"));\n        } else {\n            docData = new String(byteData.array(), Charset.forName(charsetName));\n        }\n\n        if (doc == null) {\n            doc = parser.parseInput(docData, baseUri);\n            doc.outputSettings().charset(charsetName);\n        }\n        return doc;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

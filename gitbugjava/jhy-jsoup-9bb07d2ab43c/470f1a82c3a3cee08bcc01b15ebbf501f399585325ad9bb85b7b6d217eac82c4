@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void replaceChild(Node out, Node in) {\n        Validate.isTrue(out.parentNode == this);\n        Validate.notNull(in);\n\n        // Determine the old parent to avoid null pointer during removal\n        Node oldParent = in.parentNode;\n        if (oldParent != null)\n            oldParent.removeChild(in);\n\n        final int index = out.siblingIndex;\n        Node sibling = this.siblingNodes.elementAt(index);\n\n        if (sibling == Boolean.TRUE) {\n            in.siblingIndex = 0;\n        } else {\n            in.siblingIndex = sibling == null ? index + 1 : sibling.siblingIndex;\n        }\n\n        ensureChildNodes().set(index, in);\n        in.parentNode = this;\n        in.setSiblingIndex(index);\n        out.parentNode = null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void replaceChild(Node out, Node in) {\n    Validate.isTrue(out.parentNode == this);\n    Validate.notNull(in);\n\n    // Skip removing in from parent if in is the same as out\n    if (in != out && in.parentNode != null) {\n        in.parentNode.removeChild(in);\n    }\n\n    final int index = out.siblingIndex;\n    ensureChildNodes().set(index, in);\n    in.parentNode = this;\n    in.setSiblingIndex(index);\n    out.parentNode = null;\n\n    // Set the next and previous sibling correctly\n    Node prevSibling = out.previousSibling();\n    Node nextSibling = out.nextSibling();\n\n    if (prevSibling != null) {\n        prevSibling.nextSibling = in;\n    }\n    if (nextSibling != null) {\n        nextSibling.previousSibling = in;\n    }\n\n    if (this.firstChild == out) {\n        this.firstChild = in;\n    }\n\n    if (this.lastChild == out) {\n        this.lastChild = in;\n    }\n\n    // If node changed, update the siblings\n    List<Node> childNodes = ensureChildNodes();\n    if (childNodes.size() > index + 1) {\n        for (int i = index + 1; i < childNodes.size(); i++) {\n            Node sibling = childNodes.get(i);\n            sibling.setSiblingIndex(i);\n            sibling.previousSibling = childNodes.get(i - 1);\n            sibling.nextSibling = (i + 1 < childNodes.size()) ? childNodes.get(i + 1) : null;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

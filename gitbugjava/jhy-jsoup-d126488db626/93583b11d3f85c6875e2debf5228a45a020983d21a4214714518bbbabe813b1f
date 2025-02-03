@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        boolean hasConsumed = false;\n\n        while (!tq.isEmpty() && sq.length() < MAX_QUERY_LENGTH) {\n            if (tq.matches(\"(\"))\n                sq.append(tq.chompBalanced('(', ')'));\n            else if (tq.matches(\"[\"))\n                sq.append(tq.chompBalanced('[', ']'));\n            else if (tq.matchesAny(Combinators)) {\n                if (sq.length() > 0) {\n                    hasConsumed = true;\n                    break;\n                } else {\n                    tq.consume();\n                }\n                tq.consume();\n            } else {\n                sq.append(tq.consume());\n            }\n        }\n        if (!hasConsumed && sq.length() > 0) {\n            tq.untokenize('\\0');\n            sq.append(tq.consume());\n        }\n        return StringUtil.releaseBuilder(sq);\n    }\n\nprivate static final int MAX_QUERY_LENGTH = 10000;  // Assuming a reasonable maximum length for queries\n\nprivate String untokenize(char c) {\n    // Custom method to handle untokenize behavior against invalid input (Example)\n    // This must match the implementation of your tokenizer logic.\n    // Here, we're assuming it sets tq to a valid, recoverable state, unknown implementation detail.\n    return tq.untotkenize()\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

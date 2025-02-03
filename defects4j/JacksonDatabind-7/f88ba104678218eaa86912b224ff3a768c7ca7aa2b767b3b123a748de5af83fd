@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used by standard deserializer.\n     * \n     * @since 2.3\n     */\n    public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n    {\n        JsonToken t = jp.getCurrentToken();\n        if (t == JsonToken.VALUE_NULL) {\n            return null;\n        }\n        if (t != JsonToken.START_ARRAY) {\n            throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, \"Expected array or null\");\n        }\n        TokenBuffer result = new TokenBuffer();\n        while (jp.nextToken() != JsonToken.END_ARRAY) {\n            result.add(jp.getCurrentToken());\n        }\n        return result;\n    }\n\n    /**\n     * Helper method used by standard serializer.\n     * \n     * @since 2.3\n     */\n    public TokenBuffer serialize(JsonGenerator jg, SerializerProvider provider) throws IOException\n    {\n        jg.writeStartArray();\n        for (JsonToken t : this) {\n            jg.writeToken(t);\n        }\n        jg.writeEndArray();\n        return this;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    buf.readUnsignedShortLE(); // length\n\n    buf.skipBytes(3); // identification header\n    buf.readUnsignedIntLE(); // index\n\n    DeviceSession deviceSession = getDeviceSession(\n            channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n    if (deviceSession == null) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedByte(); // session status\n\n    // Read the 24 bytes for the coordinates block and data tag header\n    ByteBuf coordinatesSlice = buf.readSlice(27);\n\n    decodeMinimalDataSet(position, buf);\n\n    // Decode the coordinates block from the saved slice\n    decodeCoordinateBlock(position, coordinatesSlice);\n\n    return position;\n}\n\nprivate void decodeCoordinateBlock(Position position, ByteBuf buf) {\n    int lat = 0;\n    int lon = 0;\n    int alt = 0;\n\n    for (int i = 0; i < 3; i++) {\n        lat += buf.readUnsignedByte() << (i * 8);\n    }\n    position.setLatitude(lat);\n\n    for (int i = 0; i < 3; i++) {\n        lon += buf.readUnsignedByte() << (i * 8);\n    }\n    position.setLongitude(lon);\n\n    for (int i = 0; i < 3; i++) {\n        alt += buf.readUnsignedByte() << (i * 8);\n    }\n    position.setAltitude(alt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

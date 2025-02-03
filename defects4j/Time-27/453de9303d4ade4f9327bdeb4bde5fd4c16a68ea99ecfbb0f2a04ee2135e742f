@@ -1,0 +1,7 @@
+{
+    "generation": "    //-----------------------------------------------------------------------\n    private static PeriodFormatter toFormatter(List<Object> elementPairs, boolean notPrinter, boolean notParser) {\n        if (notPrinter && notParser) {\n            throw new IllegalStateException(\"Builder has created neither a printer nor a parser\");\n        }\n        int size = elementPairs.size();\n        if (size >= 2 && elementPairs.get(0) instanceof Separator) {\n            Separator sep = (Separator) elementPairs.get(0);\n            elementPairs.remove(0);\n            size--;\n            if (size >= 2 && elementPairs.get(size - 1) instanceof Separator) {\n                Separator sep2 = (Separator) elementPairs.get(size - 1);\n                elementPairs.remove(size - 1);\n                size--;\n                if (sep == sep2) {\n                    elementPairs.add(0, sep);\n                    size++;\n                }\n            }\n        }\n        Object[] comp = createComposite(elementPairs);\n        if (notPrinter) {\n            return new PeriodFormatter(null, (PeriodParser) comp[1]);\n        } else if (notParser) {\n            return new PeriodFormatter((PeriodPrinter) comp[0], null);\n        } else {\n            return new PeriodFormatter((PeriodPrinter) comp[0], (PeriodParser) comp[1]);\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

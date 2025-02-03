@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    // Skip the length field\n    buf.readUnsignedShortLE();\n\n    // Decode the identification header\n    buf.skipBytes(3);\n\n    // Read the index (assuming it's also 4 bytes)\n    buf.readUnsignedIntLE();\n\n    DeviceSession deviceSession = getDeviceSession(\n            channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n    if (deviceSession == null) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    // Read session status\n    buf.readUnsignedByte();\n\n    // Skip the reserved bytes\n    buf.skipBytes(4);\n\n    // Read the date and time (assuming it's 4 bytes and in Date-Time format)\n    long timestamp = buf.readUnsignedIntLE();\n    position.setTime(Instant.ofEpochMilli(timestamp * 1000));\n\n    // Skip the coordinates block\n    buf.skipBytes(23);\n\n    // Skip the data tag header\n    buf.skipBytes(3);\n\n    // Decode minimal data set\n    decodeMinimalDataSet(position, buf);\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

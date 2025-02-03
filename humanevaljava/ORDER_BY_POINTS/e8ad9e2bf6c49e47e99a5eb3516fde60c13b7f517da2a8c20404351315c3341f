@@ -1,0 +1,7 @@
+{
+    "generation": "    public static Integer[] order_by_points(Integer[] nums) {\n        ArrayList<Integer> digits = new ArrayList<Integer>();\n        HashMap<Integer, ArrayList<Integer>> digits_number = new HashMap<Integer, ArrayList<Integer>>();\n        for (int i = 0; i < nums.length; i += 1){\n            int neg = 1;\n            int n = nums[i];\n            if (n < 0) {\n                n = -1 * n;\n                neg = -1;\n            }\n            int digit = 0;\n            for (int j = 0; j < (n + \"\").toCharArray().length; j += 1){\n                digit += (n + \"\").toCharArray()[j] - '0';\n            }\n            digit *= neg;\n            if (! digits.contains(digit))\n                digits.add(digit);\n\n            if (! digits_number.containsKey(digit))\n                digits_number.put(digit, new ArrayList<Integer>());\n            digits_number.get(digit).add(nums[i]);\n        }\n        Collections.sort(digits);\n        ArrayList<Integer> result = new ArrayList<Integer>();\n        for (int i = 0; i < digits.size(); i += 1) {\n            result.addAll(digits_number.get(digits.get(i)));\n        }\n        return result.toArray(new Integer[] {});\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

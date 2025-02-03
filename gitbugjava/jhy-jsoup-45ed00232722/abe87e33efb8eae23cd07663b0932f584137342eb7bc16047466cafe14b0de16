@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        //  odd way to encode urls, but it works!\n        String urlS = u.toExternalForm(); // URL external form may have spaces which is illegal in new URL() (odd asymmetry)\n        urlS = urlS.replaceAll(\"[^\\\\p{ASCII}]+\", \"'%${0:\\\\d+}'\");\n        urlS = urlS.replaceAll(\" \", \"%20\").replaceAll(\"\\\\+\", \"%2B\").replaceAll(\"=\", \"%3D\").replaceAll(\"#\", \"%23\");\n        final URI uri = new URI(urlS);\n        URL encodedUrl = new URL(uri.toASCIIString());\n        return encodedUrl;\n    } catch (URISyntaxException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

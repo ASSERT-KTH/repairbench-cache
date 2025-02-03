@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public JsonSerializer<?> createContextual(SerializerProvider serializers,\n            BeanProperty property) throws JsonMappingException\n    {\n        if (property == null) {\n            return this;\n        }\n        JsonFormat.Value format = findFormatOverrides(serializers, property, handledType());\n        if (format == null) {\n            return this;\n        }\n        // Simple case first: serialize as numeric timestamp?\n        JsonFormat.Shape shape = format.getShape();\n        if (shape.isNumeric()) {\n            return withFormat(Boolean.TRUE, null);\n        }\n        // 08-Jun-2017, tatu: With [databind#1648], this gets bit tricky..\n        // First: custom pattern will override things\n        String customPattern = format.getCustomPattern();\n        if (customPattern != null) {\n            return withFormat(Boolean.FALSE, customPattern);\n        }\n        // Second: if no custom pattern, and shape is string,\n        // then use ISO-8601 format\n        if (shape == JsonFormat.Shape.STRING) {\n            return withFormat(Boolean.FALSE, null);\n        }\n        return this;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
