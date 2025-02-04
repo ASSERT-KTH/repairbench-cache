@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // If either operand is 1 or -1, then the gcd is 1.\n    if (u == 1 || u == -1 || v == 1 || v == -1) {\n        return 1;\n    }\n    // Keep u and v negative to avoid overflow issues, since Integer.MIN_VALUE cannot be negated.\n    if (u > 0) {\n        u = -u;\n    }\n    if (v > 0) {\n        v = -v;\n    }\n    // B1. Find the greatest power of 2 that divides both.\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    // B2. Initialize: one of u or v is now odd.\n    int t = ((u & 1) == 1) ? v : -(u / 2);\n    do {\n        // B3/B4. Remove factors of 2 from t.\n        while ((t & 1) == 0) {\n            t /= 2;\n        }\n        // B5. Replace the larger (in absolute value) of u and v.\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        // B6. Compute the difference.\n        t = (v - u) / 2;\n    } while (t != 0);\n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

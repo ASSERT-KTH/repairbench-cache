@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text) {\n    // Find the wrap position in the first (unindented) line.\n    int pos = findWrapPos(text, width, 0);\n    if (pos == -1) {\n        sb.append(rtrim(text));\n        return sb;\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // Compute what remains after the first line.\n    String remainder = text.substring(pos).trim();\n    final String padding = createPadding(nextLineTabStop);\n\n    // Process each remaining chunk.\n    while (remainder.length() > 0) {\n        // Prepend the padding to the remainder.\n        String line = padding + remainder;\n        // Start searching for a wrap point at index 1 so we do not pick up the leading padding.\n        pos = findWrapPos(line, width, 1);\n        if (pos == -1) {\n            sb.append(line);\n            break;\n        }\n        // If the break point is too short (i.e. within the padding), then force a break\n        // to avoid an infinite loop when no proper break point is found.\n        if (pos <= padding.length()) {\n            pos = width;\n        }\n        sb.append(rtrim(line.substring(0, pos))).append(defaultNewLine);\n        remainder = line.substring(pos).trim();\n    }\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

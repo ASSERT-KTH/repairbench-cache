@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * When the weight matrix is diagonal, computing its square root\n * element\u2011wise is far more efficient than performing a full eigen\u2010decomposition.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // If the matrix is already diagonal, compute the square root elementwise.\n    // This avoids the huge memory consumption from eigen-decomposition on large diagonal matrices.\n    if (m instanceof DiagonalMatrix) {\n        double[] diag = ((DiagonalMatrix) m).getData();\n        double[] sqrtDiag = new double[diag.length];\n        for (int i = 0; i < diag.length; i++) {\n            sqrtDiag[i] = Math.sqrt(diag[i]);\n        }\n        return new DiagonalMatrix(sqrtDiag);\n    }\n    // Otherwise fall back to the eigen decomposition approach.\n    final EigenDecomposition dec = new EigenDecomposition(m);\n    return dec.getSquareRoot();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

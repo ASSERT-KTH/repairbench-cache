@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  // Walk up the AST from the current node; if we ever find a try statement\n  // that has a catch clause (or if we are inside a catch clause), then we\n  // say that an exception handler is present.\n  for (Node n = cfgNode; n != null; n = n.getParent()) {\n    // If we are directly inside a catch clause, then there is an exception handler.\n    if (n.getType() == Token.CATCH) {\n      return true;\n    }\n    // If we are inside a try statement that has a catch clause, then there is an exception handler.\n    if (n.getType() == Token.TRY && n.getChildCount() >= 2) {\n      // In the AST for a try statement, the first child is the try-block.\n      // The second child, if present, is the catch clause.\n      Node possibleCatch = n.getFirstChild().getNext();\n      if (possibleCatch != null && possibleCatch.getType() == Token.CATCH) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

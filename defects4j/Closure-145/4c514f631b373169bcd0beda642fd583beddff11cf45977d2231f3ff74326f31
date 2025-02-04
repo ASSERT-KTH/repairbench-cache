@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isOneExactlyFunctionOrDo(Node n) {\n  // Unwrap any LABEL nodes.\n  while (n.getType() == Token.LABEL) {\n    n = n.getLastChild();\n  }\n\n  // If we have a BLOCK, we only \u201cunwrap\u201d it when it has exactly one child.\n  if (n.getType() == Token.BLOCK) {\n    if (n.getChildCount() == 1) {\n      return isOneExactlyFunctionOrDo(n.getFirstChild());\n    }\n    return false;\n  }\n\n  // If it\u2019s a FUNCTION or DO node then we must not skip the braces.\n  return !(n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    final int offsetLocal = getOffset(instantLocal);\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n    if (offsetLocal != offsetAdjusted) {\n        // In a gap the two offsets differ. In such cases if the computed offset\n        // from the local instant is less than the one computed from the adjusted instant,\n        // we need to check the next transition.\n        if ((offsetLocal - offsetAdjusted) < 0) {\n            long nextLocal = nextTransition(instantAdjusted);\n            long nextAdjusted = nextTransition(instantLocal - offsetAdjusted);\n            if (nextLocal != nextAdjusted) {\n                return offsetLocal;\n            }\n        }\n    } else {\n        // In an overlap (ambiguous local time) both offsets match,\n        // but we want the earlier instant (i.e. the higher, summer, offset).\n        // We check the offset just before the transition.\n        long prev = previousTransition(instantAdjusted);\n        if (prev < instantAdjusted) {\n            int offsetBefore = getOffset(prev - 1);\n            int diff = offsetBefore - offsetAdjusted;\n            if (diff > 0 && instantAdjusted - prev <= diff) {\n                return offsetBefore;\n            }\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

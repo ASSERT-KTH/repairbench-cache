@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    char last = 0;\n    do {\n        if (isEmpty())\n            break;\n        char c = consume();\n        // Only consider special meanings if the previous character was not an escape\n        if (last != ESC) {\n            // if we hit a quote, then ignore any opens or closes until we find the matching quote\n            if (c == '\\'' || c == '\"') {\n                char quote = c;\n                while (!isEmpty()) {\n                    c = consume();\n                    // if the matching quote is reached and it is not itself escaped, break out\n                    if (c == quote && last != ESC)\n                        break;\n                    last = c;\n                }\n            } else if (c == open) {\n                depth++;\n                // Record the start immediately after the first open delimiter.\n                if (start == -1)\n                    start = pos;\n            } else if (c == close) {\n                depth--;\n            }\n        }\n        // When in a nested context, mark the end position for later substring extraction.\n        if (depth > 0)\n            end = pos;\n        last = c;\n    } while (depth > 0);\n    return (end >= 0) ? queue.substring(start, end) : \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

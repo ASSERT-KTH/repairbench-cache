@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks whether the given column is basic.\n * @param col index of the column to check\n * @return the row that the variable is basic in. null if the column is not basic\n */\nprivate Integer getBasicRow(final int col) {\n    Integer basicRow = null;\n    for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {\n        double entry = getEntry(i, col);\n        if (MathUtils.equals(entry, 0.0, epsilon)) {\n            // entry is essentially 0, so nothing to do here\n            continue;\n        } else if (MathUtils.equals(entry, 1.0, epsilon)) {\n            // if we find a 1, this may be the pivot row\n            if (basicRow == null) {\n                basicRow = i;\n            } else {\n                // more than one entry is (almost) 1 \u2192 not an identity column\n                return null;\n            }\n        } else {\n            // if an entry is nonzero but not 1, then the column is not basic\n            return null;\n        }\n    }\n    return basicRow;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

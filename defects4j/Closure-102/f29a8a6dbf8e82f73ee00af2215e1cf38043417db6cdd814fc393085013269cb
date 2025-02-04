@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void process(Node externs, Node root) {\n  // First, perform the initial traversal.\n  NodeTraversal.traverse(compiler, root, this);\n  // Remove duplicate declarations (e.g. an explicit \"var arguments\" is redundant\n  // because functions already have an implicit \"arguments\" declaration).\n  removeDuplicateDeclarations(root);\n  // Now, if making local names unique is enabled, rename declarations.\n  if (MAKE_LOCAL_NAMES_UNIQUE) {\n    MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n    NodeTraversal t = new NodeTraversal(compiler, renamer);\n    t.traverseRoots(externs, root);\n  }\n  // Finally, propagate constant annotations.\n  new PropogateConstantAnnotations(compiler, assertOnChange)\n      .process(externs, root);\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

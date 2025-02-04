@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // If either operand is \u00b11, the gcd is 1.\n    if (u == 1 || u == -1 || v == 1 || v == -1) {\n        return 1;\n    }\n    // Keep u and v negative, since negative integers can represent MIN_VALUE.\n    if (u > 0) { \n        u = -u; \n    }\n    if (v > 0) { \n        v = -v; \n    }\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) { // while both u and v are even...\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    // B2. Initialize: u and v have been divided by 2^k and at least one is odd.\n    int t = ((u & 1) == 1) ? v : -(u / 2);\n    do {\n        // B4/B3: remove any factors of 2 from t.\n        while ((t & 1) == 0) { // while t is even...\n            t /= 2;\n        }\n        // B5 [reset max(u,v)]\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        // B6/B3. At this point both u and v are odd.\n        t = (v - u) / 2;\n    } while (t != 0);\n    return -u * (1 << k); // gcd is (-u)*2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

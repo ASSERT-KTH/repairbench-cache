@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // In cases of polymorphic type handling with an unknown type id,\n    // the parser may be left in the middle of reading an object (e.g. at a FIELD_NAME)\n    // so we must skip the entire value (object or array) to avoid leaving unconsumed tokens.\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.FIELD_NAME) {\n        // We\u2019re already inside an object (its START_OBJECT has been consumed),\n        // so loop until we hit the matching END_OBJECT.\n        while (p.nextToken() != JsonToken.END_OBJECT) {\n            // If we encounter a nested object/array, skip its contents.\n            if (p.getCurrentToken() == JsonToken.START_OBJECT\n                    || p.getCurrentToken() == JsonToken.START_ARRAY) {\n                p.skipChildren();\n            }\n        }\n        // Now that we are at END_OBJECT, advance one more to leave this value.\n        p.nextToken();\n    } else if (t == JsonToken.START_OBJECT || t == JsonToken.START_ARRAY) {\n        // For a container value that has not yet been processed (rare in this case),\n        // skip its children and move past the closing token.\n        p.skipChildren();\n        p.nextToken();\n    } else {\n        // For non-container (scalar) values, just move past it.\n        p.nextToken();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

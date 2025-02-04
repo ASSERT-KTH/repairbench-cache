@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    int offsetLocal = getOffset(instantLocal);\n    long instantAdjusted = instantLocal - offsetLocal;\n    int offsetAdjusted = getOffset(instantAdjusted);\n    if (offsetLocal != offsetAdjusted) {\n        // If both adjusted instants fall in the same transition period then\n        // the local instant is ambiguous (an overlap), so we choose the earlier\n        // instant (which for positive zones means the larger offset).\n        if (nextTransition(instantAdjusted) == nextTransition(instantLocal - offsetAdjusted)) {\n            return Math.max(offsetLocal, offsetAdjusted);\n        }\n        // Otherwise the local instant falls in a gap, so we use the offset\n        // from the adjusted instant to push the instant into valid time.\n        return offsetAdjusted;\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

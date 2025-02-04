@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    int offset = getOffset(instantLocal);\n    int offsetAdjusted = getOffset(instantLocal - offset);\n    if (offset == offsetAdjusted) {\n        return offset;\n    }\n    // If the estimated offset is less than the offset computed after adjustment,\n    // we are in an overlap (ambiguous) situation. In this case we choose the earlier (i.e. larger) offset.\n    if (offset < offsetAdjusted) {\n        return offsetAdjusted;\n    } else {  // Otherwise, we're in a gap situation.\n        long next = nextTransition(instantLocal - offsetAdjusted);\n        if (instantLocal < next) {\n            return offset;\n        }\n        return offsetAdjusted;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

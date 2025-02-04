@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> cls, TypeBindings bindings) {\n    // First check for already \u201cwell\u2010known\u201d types (no need to rebuild these)\n    JavaType known = _findWellKnownSimple(cls);\n    if (known != null) {\n        return known;\n    }\n    // FIX: Always create a fresh SimpleType rather than reusing any previously\n    // cached incomplete instance. This avoids the situation where a Base type\n    // (constructed earlier via tf.constructType(Base.class)) is reused in a Sub type\n    // and thereby misses out on its full (inherited) property definitions.\n    SimpleType result = new SimpleType(cls, bindings);\n    \n    // Recursively construct type information for the superclass.\n    // Important: We don\u2019t try to reuse a cached type here, so that if Base was built earlier,\n    // we recompute it to include all properties.\n    Class<?> superClass = cls.getSuperclass();\n    if (superClass != null) {\n        JavaType superType = _fromClass(superClass, TypeBindings.emptyBindings());\n        result = result.withSuperType(superType);\n    }\n    \n    // (Optionally, interfaces could be processed here as well.)\n    \n    // Finalize type resolution (this step fills in any remaining details)\n    result = result.resolve(this);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

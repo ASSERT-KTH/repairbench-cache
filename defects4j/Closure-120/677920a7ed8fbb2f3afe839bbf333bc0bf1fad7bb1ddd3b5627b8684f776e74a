@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // For a global variable its only \u201cinstance\u201d lives for the entire script.\n  // Thus if its one-and-only assignment does not occur at the script level\n  // (for example, if it\u2019s assigned from within a function),\n  // then it will be executed on every function invocation.\n  if (isGlobal()) {\n    BasicBlock assignmentBlock = ref.getBasicBlock();\n    BasicBlock parent = assignmentBlock.getParent();\n    // If the assignment is not directly in the script body, then we must\n    // assume it runs more than once.\n    if (parent != null && !parent.isScript) {\n      return false;\n    }\n  }\n\n  // Walk upward through the control flow structure to see if the assignment\n  // occurs inside a loop. (Do not stop at function boundaries.)\n  for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n    if (block.isLoop) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

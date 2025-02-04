@@ -1,0 +1,7 @@
+{
+    "generation": "protected RealPointValuePair getSolution() {\n    double[] coefficients = new double[getOriginalNumDecisionVariables()];\n    // Get the offset from the last column (this may be nonzero if a variable was shifted).\n    Integer lastBasicRow = getBasicRow(getNumObjectiveFunctions() + getOriginalNumDecisionVariables());\n    double offset = lastBasicRow == null ? 0 : getEntry(lastBasicRow, getRhsOffset());\n    for (int i = 0; i < coefficients.length; i++) {\n        Integer basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n        double value = basicRow == null ? 0 : getEntry(basicRow, getRhsOffset());\n        if (!restrictToNonNegative) {\n            value -= offset;\n        }\n        // If more than one decision variable is basic in the same row,\n        // we choose the one with the smallest index and set the others to 0.\n        if (basicRow != null) {\n            for (int j = 0; j < i; j++) {\n                Integer earlierBasic = getBasicRow(getNumObjectiveFunctions() + j);\n                if (basicRow.equals(earlierBasic)) {\n                    value = 0;\n                    break;\n                }\n            }\n        }\n        coefficients[i] = value;\n    }\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

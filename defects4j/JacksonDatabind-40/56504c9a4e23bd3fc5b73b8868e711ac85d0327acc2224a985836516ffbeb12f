@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Coerces an empty String value for the given target type.\n * For non-primitive target types an empty String is coerced to null;\n * however, for primitive types this is not allowed and an exception must be thrown.\n */\nprivate Object coerceEmptyString(DeserializationContext ctxt, String value, Class<?> targetType) throws IOException {\n    if (value.isEmpty()) {\n        if (targetType.isPrimitive()) {\n            // Report an error: primitives cannot be assigned null via empty\n            return ctxt.reportBadNullForPrimitive(targetType);\n        }\n        return null;\n    }\n    return value;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

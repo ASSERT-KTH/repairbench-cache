@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (for example, '\\' or any other defined escape)\n    final int c = in.read();\n    if (c == END_OF_STREAM) {\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    }\n\n    // Check for standard control-character escapes.\n    switch (c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        default:\n            // When the character following the escape is one of our meta\u2010characters,\n            // namely the escape char itself, the quote char, or the delimiter,\n            // then we simply return that character (thus \u201cconsuming\u201d the escape)\n            if (c == escape || c == quote || c == delimiter) {\n                return c;\n            } else {\n                // Otherwise, the escape was not intended to convert the following char.\n                // We \u201cunread\u201d that character so that it will be processed normally,\n                // and we return the literal escape character.\n                in.unread(c);\n                return escape;\n            }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

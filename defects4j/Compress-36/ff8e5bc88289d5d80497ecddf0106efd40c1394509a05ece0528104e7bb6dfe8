@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    // Instead of failing when no stream is present, return an empty stream.\n    // This happens for 7z entries of size 0.\n    if (deferredBlockStreams.isEmpty()) {\n        return new ByteArrayInputStream(new byte[0]);\n    }\n    \n    while (deferredBlockStreams.size() > 1) {\n        // For solid archives, skip the leading streams until the one corresponding\n        // to the current entry is reached.\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    \n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n\n  // Retrieve the first child. It might be wrapped in one or more cast nodes.\n  Node first = n.getFirstChild();\n  Node effective = first;\n  while (effective.isCast()) {\n    effective = effective.getFirstChild();\n  }\n\n  // If the effective node is not a get (e.g. GETPROP or GETELEM), then this is a free call.\n  if (!NodeUtil.isGet(effective)) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  // When the effective node is a Name and it's \"eval\", mark it as a direct eval.\n  if (effective.isName() && \"eval\".equals(effective.getString())) {\n    effective.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

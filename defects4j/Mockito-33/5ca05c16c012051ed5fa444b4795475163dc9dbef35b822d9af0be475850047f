@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n\n    // If the methods are exactly equal, no further work is necessary.\n    if (m1.equals(m2)) {\n        return true;\n    }\n\n    // They might still be \u201cthe same\u201d if one is a compiler\u2010generated forwarding/bridge method.\n    // In that case, we check that the two methods have the same name and parameter types.\n    if (!m1.getName().equals(m2.getName())) {\n        return false;\n    }\n    \n    if (!java.util.Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes())) {\n        return false;\n    }\n    \n    // For covariant return types, the return types might not be exactly equal but one must be assignable to the other.\n    Class<?> returnType1 = m1.getReturnType();\n    Class<?> returnType2 = m2.getReturnType();\n    return returnType1.equals(returnType2)\n            || returnType1.isAssignableFrom(returnType2)\n            || returnType2.isAssignableFrom(returnType1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

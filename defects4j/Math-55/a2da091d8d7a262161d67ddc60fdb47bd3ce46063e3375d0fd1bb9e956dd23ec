@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Compute the squared norm of v2.\n    double norm2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n    // If v2 is the zero vector, fall back to the standard cross product.\n    if (norm2 == 0.0) {\n        return new Vector3D(v1.y * v2.z - v1.z * v2.y,\n                            v1.z * v2.x - v1.x * v2.z,\n                            v1.x * v2.y - v1.y * v2.x);\n    }\n\n    // Compute the dot product of v1 and v2.\n    double dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n    // Compute rho = (v1.v2)/(v2.v2) and approximate it to 8-bit precision.\n    double rho = dot / norm2;\n    double rho8 = Math.rint(rho * 256.0) / 256.0;\n\n    // Form the preconditioned vector v3 = v1 - rho8 * v2.\n    double x3 = v1.x - rho8 * v2.x;\n    double y3 = v1.y - rho8 * v2.y;\n    double z3 = v1.z - rho8 * v2.z;\n\n    // Return the cross product computed from v3 and v2.\n    return new Vector3D(\n        y3 * v2.z - z3 * v2.y,\n        z3 * v2.x - x3 * v2.z,\n        x3 * v2.y - y3 * v2.x\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

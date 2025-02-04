@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // Get the user-specified values (if any)\n    List userValues = (List) values.get(option);\n    List result = new ArrayList();\n    if (userValues != null) {\n        result.addAll(userValues);\n    }\n\n    // Determine the default list: either the passed-in one or the stored one\n    List defaults = (defaultValues != null && !defaultValues.isEmpty())\n                        ? defaultValues\n                        : (List) this.defaultValues.get(option);\n\n    // Augment the user values with any missing default values;\n    // i.e. starting at index result.size(), add each default value.\n    if (defaults != null && !defaults.isEmpty()) {\n        for (int i = result.size(); i < defaults.size(); i++) {\n            result.add(defaults.get(i));\n        }\n    }\n\n    return result.isEmpty() ? Collections.EMPTY_LIST : result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

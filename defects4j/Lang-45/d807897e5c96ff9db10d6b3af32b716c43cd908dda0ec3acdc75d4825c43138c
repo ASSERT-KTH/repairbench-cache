@@ -1,0 +1,7 @@
+{
+    "generation": "public static String abbreviate(String str, int lower, int upper, String appendToEnd) {\n    if (str == null) {\n        return null;\n    }\n    if (str.length() == 0) {\n        return StringUtils.EMPTY;\n    }\n    // if lower is less than 0, adjust it to 0 (optional safeguard)\n    if (lower < 0) {\n        lower = 0;\n    }\n    // if lower is beyond the end of the string, no abbreviation occurs\n    if (lower >= str.length()) {\n        return str;\n    }\n    // Adjust upper limit: if no limit (-1) or too high, set to string length\n    if (upper == -1 || upper > str.length()) {\n        upper = str.length();\n    }\n    // if upper is less than lower, adjust it to be the same as lower\n    if (upper < lower) {\n        upper = lower;\n    }\n    \n    StringBuffer result = new StringBuffer();\n    int index = StringUtils.indexOf(str, \" \", lower);\n    if (index == -1) {\n        result.append(str.substring(0, upper));\n        // Only append if abbreviation occurred (i.e. we didn't take the full string)\n        if (upper != str.length()) {\n            result.append(StringUtils.defaultString(appendToEnd));\n        }\n    } else if (index > upper) {\n        result.append(str.substring(0, upper));\n        result.append(StringUtils.defaultString(appendToEnd));\n    } else {\n        result.append(str.substring(0, index));\n        result.append(StringUtils.defaultString(appendToEnd));\n    }\n    return result.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

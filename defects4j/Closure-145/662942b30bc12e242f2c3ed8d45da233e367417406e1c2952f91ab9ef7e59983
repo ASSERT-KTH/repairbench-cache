@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isOneExactlyFunctionOrDo(Node n) {\n  // If n is a block with exactly one child, \u201cunwrap\u201d it.\n  if (n.getType() == Token.BLOCK) {\n    if (n.getChildCount() != 1) {\n      return true;\n    }\n    n = n.getFirstChild();\n  }\n  // Even when a FUNCTION or DO appears inside a label,\n  // we must not consider it \u201cone\u2010exactly\u201d so that a block is forced.\n  if (n.getType() == Token.LABEL) {\n    return true;\n  }\n  // If the statement is a FUNCTION or DO, then omit the special case\n  // so that they\u2019ll be wrapped in curly braces (for Safari/IE compatibility).\n  return !(n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

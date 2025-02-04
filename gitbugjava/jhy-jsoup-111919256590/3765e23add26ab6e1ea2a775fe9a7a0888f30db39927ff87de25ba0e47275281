@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlineable(Document.OutputSettings out) {\n    if (!tag.isInline())\n        return false;\n    if (out.outline())\n        return false;\n    // Special-case: when printing a <br> that appears inside a <p>,\n    // we want it attached immediately to the opening tag rather than forcing a newline.\n    if (tag.getName().equals(\"br\") && parent() != null && parent().tagName().equals(\"p\"))\n        return true;\n    // For other inline elements:\n    // \u2022 If the parent is inline, always join with the previous content.\n    // \u2022 If the parent is block (or null) then only join if this isn\u2019t the first piece of content.\n    return parent() == null || parent().isBlock() ? !isEffectivelyFirst() : true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

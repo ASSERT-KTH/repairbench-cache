@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean flipIfWarranted(final int n, final int step) {\n    if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {\n        // flip array: swap corresponding rows without reversing the order in each row\n        int j = 4 * n - 1;\n        for (int i = 0; i < j; i += 4) {\n            for (int k = 0; k < 4; k += step) {\n                final double tmp = work[i + k];\n                // Instead of using \"j - k\" (which reverses the row),\n                // use (j - 3) + k so that the partner row\u2019s block (whose first element is at j-3)\n                // is swapped in the same order.\n                work[i + k] = work[(j - 3) + k];\n                work[(j - 3) + k] = tmp;\n            }\n            j -= 4;\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

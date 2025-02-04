@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    // Collect non-blank text nodes from the element\u2019s children.\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n    if (toMove.isEmpty())\n        return;\n\n    // Remove each node from its original parent.\n    for (Node node : toMove) {\n        element.removeChild(node);\n    }\n\n    // Build a list of nodes to insert at the start of the body.\n    // We want to preserve the original order and insert a space between successive moved nodes.\n    List<Node> movedNodes = new ArrayList<>();\n    for (int i = 0; i < toMove.size(); i++) {\n        if (i > 0) {\n            movedNodes.add(new TextNode(\" \", \"\"));\n        }\n        movedNodes.add(toMove.get(i));\n    }\n    \n    // Prepend the collected nodes into the body so they appear before the body\u2019s current content.\n    Element body = body();\n    body.insertChildren(0, movedNodes);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

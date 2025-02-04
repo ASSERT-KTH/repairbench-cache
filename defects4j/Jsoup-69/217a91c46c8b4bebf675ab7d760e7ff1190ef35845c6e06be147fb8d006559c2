@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    // Use a selector so that only currently attached (non-removed) form controls are gathered.\n    Elements elements = select(\"input, textarea, select, keygen\");\n    for (Element el : elements) {\n        // Skip elements that have been removed from the document.\n        if (el.parent() == null)\n            continue;\n        // Must have a non-empty name, and not be disabled.\n        if (!el.hasAttr(\"name\") || el.attr(\"name\").trim().isEmpty() || el.hasAttr(\"disabled\"))\n            continue;\n        // For input elements, filter out unchecked checkboxes/radios.\n        if (el.tagName().equalsIgnoreCase(\"input\")) {\n            String type = el.attr(\"type\");\n            if ((type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\")) && !el.hasAttr(\"checked\"))\n                continue;\n        }\n        data.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

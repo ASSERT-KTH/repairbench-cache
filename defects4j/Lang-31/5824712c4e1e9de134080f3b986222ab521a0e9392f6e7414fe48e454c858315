@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    // Convert searchChars into an array of code points.\n    int[] searchCodePoints = new int[searchChars.length];\n    int n = 0;\n    for (int j = 0; j < searchChars.length; j++) {\n        char c = searchChars[j];\n        // If we have a high surrogate and the next element is a low surrogate, combine them.\n        if (Character.isHighSurrogate(c) && j + 1 < searchChars.length && Character.isLowSurrogate(searchChars[j + 1])) {\n            searchCodePoints[n++] = Character.toCodePoint(c, searchChars[j + 1]);\n            j++; // skip the low surrogate\n        } else {\n            searchCodePoints[n++] = c;\n        }\n    }\n    if (n != searchCodePoints.length) {\n        searchCodePoints = java.util.Arrays.copyOf(searchCodePoints, n);\n    }\n\n    // Iterate over the input CharSequence by codepoints.\n    final int csLength = cs.length();\n    for (int i = 0; i < csLength; ) {\n        int cp = Character.codePointAt(cs, i);\n        for (int searchCp : searchCodePoints) {\n            if (cp == searchCp) {\n                return true;\n            }\n        }\n        i += Character.charCount(cp);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

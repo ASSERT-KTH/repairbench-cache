@@ -1,0 +1,7 @@
+{
+    "generation": "public int writeValue() {\n    if (_type == TYPE_OBJECT) {\n        if (!_gotName) {\n            throw new IllegalStateException(\n                \"Cannot write a value when a field name is expected; use writeFieldName() first.\"\n            );\n        }\n        _gotName = false;\n        ++_index;\n        return STATUS_OK_AFTER_COLON;\n    }\n    if (_type == TYPE_ARRAY) {\n        int ix = _index;\n        ++_index;\n        return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n    }\n    ++_index;\n    return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

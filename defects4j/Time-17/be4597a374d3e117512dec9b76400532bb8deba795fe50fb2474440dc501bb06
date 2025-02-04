@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // Get the local time corresponding to the provided UTC instant.\n    long local = convertUTCToLocal(instant);\n    // In an overlap there are two valid UTC instants for the same local time.\n    // We force the resolution by \u201cnudging\u201d the instant one millisecond in either direction.\n    long candidate1 = convertLocalToUTC(local, false, instant - 1);\n    long candidate2 = convertLocalToUTC(local, false, instant + 1);\n    // If the conversion is unambiguous (or in a gap) both candidates are equal.\n    if (candidate1 == candidate2) {\n        return instant;\n    }\n    // Identify the two alternatives. Note that for an ambiguous time,\n    // the candidate with the larger UTC millisecond value uses the later (smaller) offset.\n    long earlierCandidate = Math.min(candidate1, candidate2);\n    long laterCandidate = Math.max(candidate1, candidate2);\n    // If the input instant is already the desired candidate, return it unchanged.\n    // Otherwise, return the alternative.\n    if (earlierOrLater) { // true means \"with later offset\"\n        return (instant == laterCandidate ? instant : laterCandidate);\n    } else { // false means \"with earlier offset\"\n        return (instant == earlierCandidate ? instant : earlierCandidate);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

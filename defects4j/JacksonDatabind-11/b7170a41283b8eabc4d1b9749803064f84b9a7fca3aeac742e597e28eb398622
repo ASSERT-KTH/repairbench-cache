@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n    final String name = type.getName();\n    if (context == null) {\n        // Without context, we have no way to resolve type variables\n        return _unknownType();\n    } else {\n        // Try to find an already bound type for this variable\n        JavaType actualType = context.findType(name);\n        if (actualType != null) {\n            return actualType;\n        }\n    }\n    // Use bounds as the fallback; Java always provides at least one (Object if none declared)\n    Type[] bounds = type.getBounds();\n\n    // To handle potentially recursive type variable definitions (e.g. T extends Comparable<T>),\n    // add a placeholder for the variable, then try to resolve its bound.\n    context._addPlaceholder(name);\n    JavaType result = _constructType(bounds[0], context);\n    \n    // Now update the context so that any future lookup for variable \"name\"\n    // will see that it has been resolved.\n    context.resolvePlaceholder(name, result);\n    \n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

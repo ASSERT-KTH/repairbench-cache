@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic byte[] getBinaryValue(Base64Variant b64variant)\n    throws IOException, JsonParseException\n{\n    JsonNode n = currentNode();\n    if (n != null) {\n        // For TextNodes, use the variant-specific decoding, not the default one.\n        if (n instanceof TextNode) {\n            try {\n                return ((TextNode) n).binaryValue(b64variant);\n            } catch (IllegalArgumentException iae) {\n                throw new JsonParseException(\n                        \"Cannot access contents of TextNode as binary due to broken Base64 encoding: \" \n                        + iae.getMessage(), null);\n            }\n        }\n        // For other node types (like BinaryNode), use the standard binaryValue() method.\n        byte[] data = n.binaryValue();\n        if (data != null) {\n            return data;\n        }\n        // Also support POJONode that may wrap a byte array.\n        if (n.isPojo()) {\n            Object ob = ((POJONode) n).getPojo();\n            if (ob instanceof byte[]) {\n                return (byte[]) ob;\n            }\n        }\n    }\n    // No binary content available.\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(double min, double max) throws MaxIterationsExceededException, FunctionEvaluationException {\n    clearResult();\n    verifyInterval(min, max);\n    \n    double yMin = f.value(min);\n    double yMax = f.value(max);\n    \n    // If either endpoint is close enough to zero, return that endpoint.\n    double absoluteAccuracy = getAbsoluteAccuracy();\n    if (Math.abs(yMin) <= absoluteAccuracy) {\n        return min;\n    }\n    if (Math.abs(yMax) <= absoluteAccuracy) {\n        return max;\n    }\n    \n    // Verify bracketing: the function values must have opposite signs.\n    if (yMin * yMax >= 0) {\n        throw new IllegalArgumentException(\"Function values at endpoints do not have different signs. \" +\n            \"Endpoints: [\" + min + \", \" + max + \"]\" +\n            \" Values: [\" + yMin + \", \" + yMax + \"]\");\n    }\n    \n    // Solve using only the first endpoint as the initial guess.\n    double ret = solve(min, yMin, max, yMax, min, yMin);\n    return ret;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

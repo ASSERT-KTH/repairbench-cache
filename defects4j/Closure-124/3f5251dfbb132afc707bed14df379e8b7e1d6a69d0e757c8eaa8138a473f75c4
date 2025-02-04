@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isSafeReplacement(Node node, Node replacement) {\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n  \n  // Instead of only checking the immediate child,\n  // traverse down the left-hand side of the getProp chain\n  // to find the actual base name.\n  Node base = node;\n  while (base.isGetProp()) {\n    base = base.getFirstChild();\n  }\n  if (base.isName() && isNameAssignedTo(base.getString(), replacement)) {\n    return false;\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

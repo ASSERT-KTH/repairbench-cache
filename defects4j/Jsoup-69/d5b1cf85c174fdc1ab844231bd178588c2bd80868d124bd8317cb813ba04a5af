@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    // Instead of relying on a possibly cached list of form controls,\n    // re-select the current input, textarea, keygen, and select elements.\n    // This ensures that removed elements (which no longer have a parent)\n    // are not included in the form data.\n    Elements elements = this.select(\"input, textarea, keygen, select\");\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements) {\n        if (!el.hasAttr(\"name\")) {\n            continue;\n        }\n        // If the element is no longer attached to the DOM, skip it.\n        if (el.parent() == null) {\n            continue;\n        }\n        data.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void declareArguments(Node functionNode) {\n  // The first child is the function name, the second child is the parameter list.\n  Node astParameters = functionNode.getFirstChild().getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  // Even if functionType is null (or it has no jsDoc parameters), we want to declare all parameters.\n  Node jsDocParameters = functionType != null ? functionType.getParametersNode() : null;\n  Node jsDocParameter = jsDocParameters != null ? jsDocParameters.getFirstChild() : null;\n  for (Node astParameter : astParameters.children()) {\n    // If we have a jsDoc parameter available, use its type; otherwise, use null.\n    defineSlot(\n        astParameter,\n        functionNode,\n        jsDocParameter != null ? jsDocParameter.getJSType() : null,\n        true);\n    if (jsDocParameter != null) {\n      jsDocParameter = jsDocParameter.getNext();\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);\n    }\n\n    // Draw the first sample in order to choose an array component type that can safely hold all samples.\n    T firstSample = sample();\n    Class<?> protoClass = singletons.get(0).getClass();\n    Class<?> sampleClass = firstSample.getClass();\n    Class<?> candidateType;\n    \n    if (protoClass.isAssignableFrom(sampleClass)) {\n        // The prototype is a supertype of the sample: use it.\n        candidateType = protoClass;\n    } else if (sampleClass.isAssignableFrom(protoClass)) {\n        // The sample is a supertype of the prototype: use it.\n        candidateType = sampleClass;\n    } else {\n        // They are unrelated; fall back on Object.\n        candidateType = Object.class;\n    }\n    \n    // Create the result array using the determined candidateType.\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(candidateType, sampleSize);\n    out[0] = firstSample;\n    for (int i = 1; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

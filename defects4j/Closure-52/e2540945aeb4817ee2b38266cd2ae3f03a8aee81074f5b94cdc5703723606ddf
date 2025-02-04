@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  int len = s.length();\n  if (len == 0) {\n    return false;\n  }\n\n  // Check for a hexadecimal literal: must start with \"0x\" or \"0X\" and have at least one hex digit.\n  if (len > 2 && s.charAt(0) == '0' && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {\n    for (int i = 2; i < len; i++) {\n      char c = s.charAt(i);\n      if (!((c >= '0' && c <= '9') ||\n            (c >= 'a' && c <= 'f') ||\n            (c >= 'A' && c <= 'F'))) {\n        return false;\n      }\n    }\n    return true;\n  }\n\n  // Check for an octal literal: if it starts with '0' and has more than one character,\n  // every following character must be a valid octal digit (0 through 7).\n  if (len > 1 && s.charAt(0) == '0') {\n    for (int i = 1; i < len; i++) {\n      char c = s.charAt(i);\n      if (c < '0' || c > '7') {\n        return false;\n      }\n    }\n    return true;\n  }\n\n  // Otherwise, check for a decimal literal: every character must be a digit.\n  for (int i = 0; i < len; i++) {\n    char c = s.charAt(i);\n    if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

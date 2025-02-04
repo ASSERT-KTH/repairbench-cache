@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> cls, TypeBindings context) {\n    // First, check for a cached JavaType for the given class and bindings\n    JavaType cached = _findCachedType(cls, context);\n    if (cached != null) {\n        // If the cached type was built for a super-class, narrow it to the requested cls\n        if (cached.getRawClass() != cls) {\n            cached = cached.narrowBy(cls);\n            _typeCache.put(cls, cached);\n        }\n        return cached;\n    }\n    // Create a placeholder to handle potential self-references.\n    // Without this, a call to construct a base type (via a recursive call)\n    // might return an incomplete bean description.\n    ResolvedRecursiveType rec = new ResolvedRecursiveType(cls);\n    _typeCache.put(cls, rec);\n\n    // Fully build the JavaType (which will introspect properties, including those\n    // inherited from super types). This is typically where all bean properties get discovered.\n    JavaType actual = _buildType(cls, context);\n\n    // FIX: Update the placeholder with the fully resolved type so that any recursive\n    // or inherited properties (for example, the \"base\" property in a subtype) are properly included.\n    rec.setSelfReference(actual);\n    // Replace the placeholder in the cache with the complete type.\n    _typeCache.put(cls, actual);\n    return actual;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

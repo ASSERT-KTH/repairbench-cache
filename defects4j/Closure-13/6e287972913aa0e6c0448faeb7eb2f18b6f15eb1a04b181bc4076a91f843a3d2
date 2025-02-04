@@ -1,0 +1,7 @@
+{
+    "generation": "private void traverse(Node node) {\n  if (!shouldVisit(node)) {\n    return;\n  }\n\n  // Process all children that already exist.\n  Node child = node.getFirstChild();\n  Node lastVisited = null;\n  while (child != null) {\n    traverse(child);\n    lastVisited = child;\n    child = child.getNext();\n  }\n\n  int visits = 0;\n  do {\n    visit(node);\n    visits++;\n    Preconditions.checkState(visits < 10000, \"too many iterations\");\n\n    // If visit(node) has added new children, process only those new children.\n    child = (lastVisited == null) ? node.getFirstChild() : lastVisited.getNext();\n    while (child != null) {\n      traverse(child);\n      lastVisited = child;\n      child = child.getNext();\n    }\n  } while (shouldRetraverse(node));\n\n  exitNode(node);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

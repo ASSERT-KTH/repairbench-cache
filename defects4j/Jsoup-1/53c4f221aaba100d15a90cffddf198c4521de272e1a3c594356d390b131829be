@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n    if (toMove.isEmpty())\n        return;\n\n    // Build a list of nodes to prepend (each moved TextNode is preceded by a space)\n    List<Node> moved = new ArrayList<>(toMove.size() * 2);\n    for (Node node : toMove) {\n        element.removeChild(node);\n        moved.add(new TextNode(\" \", \"\"));\n        moved.add(node);\n    }\n    // Insert all the moved nodes at the beginning of the body element so that\n    // the orphan text nodes (like \"foo\") appear before the natural body content.\n    body().insertChildren(0, moved);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

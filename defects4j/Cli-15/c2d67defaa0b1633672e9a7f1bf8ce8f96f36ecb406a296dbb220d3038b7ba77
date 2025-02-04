@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // Get the user\u2010supplied values (or start with an empty list)\n    List userValues = (List) values.get(option);\n    if (userValues == null) {\n        userValues = new ArrayList();\n    }\n\n    // Decide which defaults to use: the ones passed in if available;\n    // otherwise, fall back on the instance\u2019s default values for the option.\n    List defaultsToUse = (defaultValues != null && !defaultValues.isEmpty())\n                             ? defaultValues\n                             : (List) this.defaultValues.get(option);\n    if (defaultsToUse == null) {\n        defaultsToUse = Collections.emptyList();\n    }\n\n    // Create a merged list:\n    // For any argument position not supplied by the user,\n    // take the default value at that same position.\n    List merged = new ArrayList(userValues);\n    for (int i = userValues.size(); i < defaultsToUse.size(); i++) {\n        merged.add(defaultsToUse.get(i));\n    }\n    \n    return merged;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

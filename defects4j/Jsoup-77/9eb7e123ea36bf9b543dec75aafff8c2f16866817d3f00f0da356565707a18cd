@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * If the stack contains an element with this tag's name, pop up the stack to remove the first occurrence. If not\n * found, skips.\n *\n * @param endTag tag to close\n */\nprivate void popStackToClose(Token.EndTag endTag) {\n    String elName = endTag.name();\n    Element firstFound = null;\n\n    // Use a case-insensitive match for discordant tags (e.g. <div> vs </DIV>)\n    for (int pos = stack.size() - 1; pos >= 0; pos--) {\n        Element next = stack.get(pos);\n        if (next.nodeName().equalsIgnoreCase(elName)) {\n            firstFound = next;\n            break;\n        }\n    }\n    if (firstFound == null)\n        return; // not found, skip\n\n    // Pop elements off the stack until the matching element has been removed.\n    for (int pos = stack.size() - 1; pos >= 0; pos--) {\n        Element next = stack.get(pos);\n        stack.remove(pos);\n        if (next == firstFound)\n            break;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

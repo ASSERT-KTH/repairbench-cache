@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    tb.insert(startTag);\n    if (startTag.isSelfClosing()) {\n        // Since this tag is known to be empty (e.g. <style /> or <noframes />),\n        // we don\u2019t want to switch into raw text mode. Instead, we return to the normal\n        // data state and pop the element off the stack immediately.\n        tb.tokeniser.transition(TokeniserState.Data);\n        tb.pop();\n    } else {\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

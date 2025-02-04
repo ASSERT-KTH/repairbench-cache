@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlineable(Document.OutputSettings out) {\n    if (!tag.isInline())\n        return false;\n    // For <br>, we want it to be rendered inline only when it is the very first\n    // child of its parent (so that when it\u2019s in a <p> it immediately follows the <p>\n    // open tag), but when it\u2019s not first (as in a div after a <p>), we force a newline.\n    if (tag.getName().equals(\"br\"))\n        return (parent() == null || parent().isBlock()) && isEffectivelyFirst() && !out.outline();\n    // All other inline tags are printed inline regardless of position.\n    return (parent() == null || parent().isBlock()) && !out.outline();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

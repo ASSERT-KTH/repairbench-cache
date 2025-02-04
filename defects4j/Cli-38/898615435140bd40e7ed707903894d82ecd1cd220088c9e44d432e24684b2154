@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isShortOption(String token)\n{\n    if (token == null || !token.startsWith(\"-\") || token.length() == 1)\n    {\n        return false;\n    }\n    // Tokens starting with \"--\" are long options, not short ones.\n    if (token.length() > 1 && token.charAt(1) == '-')\n    {\n        return false;\n    }\n    \n    int pos = token.indexOf('=');\n    String opt = (pos == -1) ? token.substring(1) : token.substring(1, pos);\n    \n    // First, if the entire option (e.g. \"t1\" in \"-t1\") is defined, it's a valid short option.\n    if (options.hasShortOption(opt))\n    {\n        return true;\n    }\n    \n    // If no equals-sign is found, check if every character is a valid short option;\n    // this allows tokens like \"-ab\" to be interpreted as \"-a\" and \"-b\" separately.\n    if (pos == -1 && opt.length() > 1)\n    {\n        for (int i = 0; i < opt.length(); i++)\n        {\n            String singleOpt = String.valueOf(opt.charAt(i));\n            if (!options.hasShortOption(singleOpt))\n            {\n                return false;\n            }\n        }\n        return true;\n    }\n    \n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isOneExactlyFunctionOrDo(Node n) {\n  if (n == null) {\n    return false;\n  }\n  int type = n.getType();\n  if (type == Token.FUNCTION || type == Token.DO) {\n    return true;\n  }\n  // If it\u2019s a BLOCK with exactly one statement, unwrap it.\n  if (type == Token.BLOCK) {\n    return n.hasOneChild() && isOneExactlyFunctionOrDo(n.getFirstChild());\n  }\n  // If it\u2019s a LABEL, check the statement it labels.\n  if (type == Token.LABEL) {\n    return isOneExactlyFunctionOrDo(n.getLastChild());\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // For extreme values (more than 10 standard deviations away), simply return 0 or 1.\n    double dev = (x - mean) / standardDeviation;\n    if (dev <= -10) {\n        return 0.0;\n    }\n    if (dev >= 10) {\n        return 1.0;\n    }\n    \n    // For non-extreme values, compute using the error function.\n    double z = dev / Math.sqrt(2.0);\n    try {\n        return 0.5 * (1.0 + Erf.erf(z));\n    } catch (MathException e) {\n        // If the iterative algorithm fails to converge in an extreme tail,\n        // use top-coded value.\n        return (x < mean) ? 0.0 : 1.0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

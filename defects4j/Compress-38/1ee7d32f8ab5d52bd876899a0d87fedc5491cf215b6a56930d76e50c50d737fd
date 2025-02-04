@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    // Get the (possibly overridden) entry name. When a PAX header is present the\n    // new value is in effect and should be regarded as authoritative.\n    String entryName = getName();\n    if (entryName.endsWith(\"/\")) {\n        return true;\n    }\n\n    // When a PAX header was applied, then the file name overrides the legacy flag.\n    // Otherwise, fall back to the old behavior.\n    if (paxHeaders != null && !paxHeaders.isEmpty()) {\n        return false;\n    }\n    return (linkFlag == LF_DIR);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

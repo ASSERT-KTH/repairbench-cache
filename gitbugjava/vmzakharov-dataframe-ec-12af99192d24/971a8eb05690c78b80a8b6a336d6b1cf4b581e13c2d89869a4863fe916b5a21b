@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic String asStringLiteral()\n{\n    String content = this.value;\n    boolean containsDouble = content.indexOf('\"') != -1;\n    boolean containsSingle = content.indexOf('\\'') != -1;\n    \n    if (containsDouble && !containsSingle)\n    {\n        // If the string contains a double quote but not a single quote, use single quotes.\n        return \"'\" + content + \"'\";\n    }\n    else if (containsSingle && !containsDouble)\n    {\n        // If it contains a single quote but not a double quote, use double quotes.\n        return \"\\\"\" + content + \"\\\"\";\n    }\n    else if (containsDouble && containsSingle)\n    {\n        // If it contains both types, choose one (here double quotes) and escape the internal double quotes.\n        return \"\\\"\" + content.replace(\"\\\"\", \"\\\\\\\"\") + \"\\\"\";\n    }\n    else\n    {\n        // If there are no quotes, you can choose either. Here we use double quotes.\n        return \"\\\"\" + content + \"\\\"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

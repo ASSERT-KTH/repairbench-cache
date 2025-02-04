@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\n@Override\nprotected void iterateSimplex(final Comparator<RealPointValuePair> comparator)\n    throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {\n\n    // One iteration: update the simplex and return.\n    incrementIterationsCounter();\n\n    // Save the original simplex configuration.\n    final RealPointValuePair[] original = simplex;\n    final RealPointValuePair best = original[0];\n\n    // Reflection step.\n    final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);\n    if (comparator.compare(reflected, best) < 0) {\n        // Reflection improved the simplex.\n        final RealPointValuePair[] reflectedSimplex = simplex;\n        final RealPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);\n        if (comparator.compare(reflected, expanded) <= 0) {\n            // Accept the reflected simplex.\n            simplex = reflectedSimplex;\n        }\n        return;\n    }\n\n    // Contraction step.\n    final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);\n    if (comparator.compare(contracted, best) < 0) {\n        // Accept the contracted simplex.\n        return;\n    }\n\n    // Neither reflection nor contraction yielded an improvement.\n    // Perform a shrink step: reduce all vertices toward the best vertex.\n    evaluateNewSimplex(original, 0.5, comparator);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

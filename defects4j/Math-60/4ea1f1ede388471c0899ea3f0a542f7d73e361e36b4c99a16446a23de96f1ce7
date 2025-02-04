@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // Handle infinities explicitly\n    if (x == Double.POSITIVE_INFINITY) {\n        return 1.0;\n    }\n    if (x == Double.NEGATIVE_INFINITY) {\n        return 0.0;\n    }\n\n    double dev = x - mean;\n    double standardScore = dev / standardDeviation;\n\n    // When the value is extremely far from the mean, avoid calling Erf.\n    // Due to limitations in the current Erf implementation (MATH-364), we top-code\n    // values with |standardScore| >= 9. (Once MATH-364 is fixed, this threshold may be increased.)\n    if (standardScore > 9) {\n        return 1.0;\n    }\n    if (standardScore < -9) {\n        return 0.0;\n    }\n\n    // Compute the CDF using the error function\n    return 0.5 * (1.0 + Erf.erf(standardScore / FastMath.sqrt(2.0)));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

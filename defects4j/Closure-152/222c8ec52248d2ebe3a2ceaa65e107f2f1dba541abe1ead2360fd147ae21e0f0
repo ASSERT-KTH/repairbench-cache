@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> scope) {\n  setResolvedTypeInternal(this);\n\n  call = (ArrowType) safeResolve(call, t, scope);\n  prototype = (FunctionPrototypeType) safeResolve(prototype, t, scope);\n\n  // Instead of forcing typeOfThis to be an ObjectType, check its actual type.\n  // If it isn\u2019t an ObjectType (e.g. a UnionType), keep it as is so that the\n  // warning is handled further upstream.\n  JSType resolvedThis = safeResolve(typeOfThis, t, scope);\n  if (resolvedThis instanceof ObjectType) {\n    typeOfThis = (ObjectType) resolvedThis;\n  } else {\n    typeOfThis = resolvedThis;\n  }\n\n  boolean changed = false;\n  ImmutableList.Builder<ObjectType> resolvedInterfaces = ImmutableList.builder();\n  for (ObjectType iface : implementedInterfaces) {\n    ObjectType resolvedIface = (ObjectType) iface.resolve(t, scope);\n    resolvedInterfaces.add(resolvedIface);\n    changed |= (resolvedIface != iface);\n  }\n  if (changed) {\n    implementedInterfaces = resolvedInterfaces.build();\n  }\n\n  if (subTypes != null) {\n    for (int i = 0; i < subTypes.size(); i++) {\n      subTypes.set(i, (FunctionType) subTypes.get(i).resolve(t, scope));\n    }\n  }\n\n  return super.resolveInternal(t, scope);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

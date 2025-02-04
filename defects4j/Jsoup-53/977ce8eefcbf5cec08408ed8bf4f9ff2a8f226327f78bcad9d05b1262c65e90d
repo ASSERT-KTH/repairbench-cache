@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    // If the first character is the opening delimiter, consume it.\n    if (!isEmpty() && queue.charAt(pos) == open)\n        consume();\n    // Mark the start of the content (after the open delimiter)\n    int start = pos;\n    int depth = 1;\n    boolean inQuote = false;\n    char quoteChar = 0;\n    boolean escaped = false;\n\n    while (!isEmpty()) {\n        char c = consume();\n        if (escaped) {\n            escaped = false;\n            continue;\n        }\n        if (c == '\\\\') {\n            escaped = true;\n            continue;\n        }\n        if (inQuote) {\n            if (c == quoteChar)\n                inQuote = false;\n            continue;\n        } else {\n            if (c == '\"' || c == '\\'') {\n                inQuote = true;\n                quoteChar = c;\n                continue;\n            }\n        }\n        if (c == open) {\n            depth++;\n        } else if (c == close) {\n            depth--;\n            if (depth == 0)\n                break;\n        }\n    }\n    // We return the content between the outer delimiters (without including them).\n    return queue.substring(start, pos - 1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

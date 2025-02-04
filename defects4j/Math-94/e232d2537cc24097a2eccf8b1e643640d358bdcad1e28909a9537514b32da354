@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0 || v == 0) {\n        return Math.abs(u) + Math.abs(v);\n    }\n    // Convert to negatives so that MIN_VALUE can be handled.\n    if (u > 0) {\n        u = -u;\n    }\n    if (v > 0) {\n        v = -v;\n    }\n    // B1. Remove common factors of 2; note that (u|v) is even only if both are.\n    int shift = 0;\n    while (((u | v) & 1) == 0 && shift < 31) {\n        u /= 2;\n        v /= 2;\n        shift++;\n    }\n    // Make u odd.\n    while ((u & 1) == 0) {\n        u /= 2;\n    }\n    // From here on u is always odd.\n    do {\n        // Remove all factors of 2 in v \u2013 they are not common.\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        // Now both u and v are odd. Swap if necessary so that u <= v,\n        // then set v = v - u (which is even).\n        if (u > v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n        v = v - u;\n    } while (v != 0);\n    // Restore common factors of 2.\n    return -u * (1 << shift);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

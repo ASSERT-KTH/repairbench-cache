@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {\n    // In a chained property, the left-hand side looks like (e.prototype).<prop>.\n    // We must handle both dot and bracket notations.\n    Node receiver = n.getFirstChild();\n    if (receiver != null &&\n        (receiver.getType() == Token.GETPROP || receiver.getType() == Token.GETELEM)) {\n      Node base = receiver.getFirstChild();\n      if (base != null) {\n        Node protoProp = base.getNext();\n        if (protoProp != null &&\n            protoProp.getType() == Token.STRING &&\n            \"prototype\".equals(protoProp.getString())) {\n          return true;\n        }\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

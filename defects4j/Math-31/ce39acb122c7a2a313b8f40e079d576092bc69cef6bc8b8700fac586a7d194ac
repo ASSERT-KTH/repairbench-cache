@@ -1,0 +1,7 @@
+{
+    "generation": "public double evaluate(double x, double epsilon, int maxIterations) {\n    final double small = 1e-50;\n    // Initialize f, taking care not to start at 0.\n    double f = getA(0, x);\n    if (Precision.equals(f, 0.0, small)) {\n        f = small;\n    }\n    // These variables hold the modified Lentz algorithm\u2019s recurrence values.\n    double C = f;\n    double D = 0.0;\n    double delta;\n    \n    // Iterate using the modified Lentz method.\n    for (int n = 1; n <= maxIterations; n++) {\n        double a = getA(n, x);\n        double b = getB(n, x);\n        \n        // Update denominator.\n        D = b + a * D;\n        if (FastMath.abs(D) < small) {\n            D = small;  // Prevent division by zero.\n        }\n        D = 1.0 / D;\n        \n        // Update numerator.\n        C = b + a / C;\n        if (FastMath.abs(C) < small) {\n            C = small;\n        }\n        \n        // Compute the factor by which f changes.\n        delta = C * D;\n        f *= delta;\n        \n        // Check for convergence.\n        if (FastMath.abs(delta - 1.0) < epsilon) {\n            return f;\n        }\n    }\n    \n    // If convergence was not reached within the maximum iterations, throw an exception.\n    throw new MaxCountExceededException(LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION, maxIterations, x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

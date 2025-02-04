@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructSpecializedType(JavaType baseType, Class<?> subclass) {\n    // If the requested class is exactly the same as the base, nothing to change.\n    if (baseType.getRawClass() == subclass) {\n        return baseType;\n    }\n    // Verify that subclass is a valid narrowing of the base type.\n    if (!baseType.getRawClass().isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName()\n                + \" is not a subtype of \" + baseType.getRawClass().getName());\n    }\n    // For SimpleType instances, narrowBy preserves already resolved base properties.\n    if (baseType instanceof SimpleType) {\n        return ((SimpleType) baseType).narrowBy(subclass);\n    }\n    // Otherwise, delegate to the standard construction method using the existing type bindings.\n    return _fromClass(subclass, baseType.getBindings());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

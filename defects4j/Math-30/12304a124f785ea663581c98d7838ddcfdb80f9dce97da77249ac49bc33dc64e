@@ -1,0 +1,7 @@
+{
+    "generation": "private double calculateAsymptoticPValue(final double Umin,\n                                         final int n1,\n                                         final int n2)\n    throws ConvergenceException, MaxCountExceededException {\n\n    final int n1n2prod = n1 * n2;\n\n    // Compute the expected value and variance of U.\n    final double EU = n1n2prod / 2.0;\n    final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n    final double sigma = FastMath.sqrt(VarU);\n\n    // When using the normal approximation for the Mann\u2013Whitney U test,\n    // a continuity correction is recommended.  A common approach is to\n    // compute:\n    //   z = (|U - \u03bc| - 0.5) / \u03c3\n    // and then compute the two-sided p-value as p = 2*(1 - \u03a6(z)).\n    if (Umin == EU) {\n        return 1.0;\n    }\n    final double z = (FastMath.abs(Umin - EU) - 0.5) / sigma;\n    final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n    double pValue = 2 * (1 - standardNormal.cumulativeProbability(z));\n    \n    // Guard against round-off error that might lead to p > 1.\n    return pValue > 1.0 ? 1.0 : pValue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

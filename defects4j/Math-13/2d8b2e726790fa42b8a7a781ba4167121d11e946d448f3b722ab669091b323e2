@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    // In our least-squares fitting problem the weight matrix is (or should be) diagonal.\n    // When many observations are used the diagonal matrix can be huge\n    // (e.g. 40000x40000) and performing a full eigen\u2013decomposition on it\n    // can lead to out-of-memory errors. In this case (and whenever m is diagonal)\n    // we simply compute the square root by taking the square root of each diagonal entry.\n    final int n = m.getRowDimension();\n    // Use a threshold: if the matrix is large, we assume it is diagonal.\n    if (n > 50) {\n        double[] sqrtDiag = new double[n];\n        for (int i = 0; i < n; i++) {\n            sqrtDiag[i] = FastMath.sqrt(m.getEntry(i, i));\n        }\n        return new DiagonalMatrix(sqrtDiag);\n    }\n    // For small matrices, use the general eigen\u2013decomposition.\n    final EigenDecomposition dec = new EigenDecomposition(m);\n    return dec.getSquareRoot();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, int nextLineTabStop, String text) {\n    // Process the first line using the full width.\n    int pos = findWrapPos(text, width, 0);\n    if (pos == -1) {\n        sb.append(rtrim(text));\n        return sb;\n    }\n    // In case we don\u2019t get any progress, force a break.\n    if (pos <= 0 || pos > text.length()) {\n        pos = Math.min(width, text.length());\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n    text = text.substring(pos).trim();\n\n    // For subsequent lines, the effective width is reduced by the tab stop.\n    final String padding = createPadding(nextLineTabStop);\n    int effectiveWidth = width - nextLineTabStop;\n    \n    while (text.length() > 0) {\n        pos = findWrapPos(text, effectiveWidth, 0);\n        // If no break position is found, simply append the remaining text.\n        if (pos == -1) {\n            sb.append(padding).append(text);\n            break;\n        }\n        // If progress is zero or not significant, force a break.\n        if (pos <= 0 || pos > text.length()) {\n            pos = text.length() > effectiveWidth ? effectiveWidth : text.length();\n        }\n        sb.append(padding).append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n        text = text.substring(pos).trim();\n    }\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

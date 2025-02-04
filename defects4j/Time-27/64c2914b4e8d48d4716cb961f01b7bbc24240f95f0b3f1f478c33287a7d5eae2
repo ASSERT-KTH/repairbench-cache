@@ -1,0 +1,7 @@
+{
+    "generation": "private static PeriodFormatter toFormatter(List<Object> elementPairs, boolean notPrinter, boolean notParser) {\n    if (notPrinter && notParser) {\n        throw new IllegalStateException(\"Builder has created neither a printer nor a parser\");\n    }\n    int size = elementPairs.size();\n    // If the first element is a Separator then it is used to \u201cglue\u201d together the later elements.\n    // Previously the code skipped two elements (assuming a duplicate), but in some cases only one element was added.\n    if (size > 0 && elementPairs.get(0) instanceof Separator) {\n        Separator sep = (Separator) elementPairs.get(0);\n        // Recurse on the remaining elements starting at index 1\n        PeriodFormatter f = toFormatter(elementPairs.subList(1, size), notPrinter, notParser);\n        // If no fields follow, then the separator is not needed.\n        if (f.getPrinter() == null && f.getParser() == null) {\n            return f;\n        }\n        sep = sep.finish(f.getPrinter(), f.getParser());\n        return new PeriodFormatter(sep, sep);\n    }\n    Object[] comp = createComposite(elementPairs);\n    if (notPrinter) {\n        return new PeriodFormatter(null, (PeriodParser) comp[1]);\n    } else if (notParser) {\n        return new PeriodFormatter((PeriodPrinter) comp[0], null);\n    } else {\n        return new PeriodFormatter((PeriodPrinter) comp[0], (PeriodParser) comp[1]);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

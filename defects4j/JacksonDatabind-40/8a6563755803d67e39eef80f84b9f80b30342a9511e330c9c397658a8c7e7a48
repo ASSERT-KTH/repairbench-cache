@@ -1,0 +1,7 @@
+{
+    "generation": "private Object _coerceEmptyString(DeserializationContext ctxt, String value, Class<?> targetType)\n        throws JsonMappingException {\n    if (value.isEmpty()) {\n        // For empty String we must not allow a \u201cnull\u201d coercion if the target is a primitive.\n        // Instead of silently returning a default (which then might mask errors),\n        // we now report an input mismatch.\n        if (targetType.isPrimitive()) {\n            ctxt.reportInputMismatch(targetType,\n                    \"Cannot coerce empty String ('') to a primitive value (%s)\", \n                    targetType.getName());\n        }\n        return null;\n    }\n    // Non-empty values should be handled by normal conversion logic\n    return value;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

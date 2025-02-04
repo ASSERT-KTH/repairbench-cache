@@ -1,0 +1,7 @@
+{
+    "generation": "public Fraction reduce() {\n    // Special handling for a zero numerator.\n    // If the numerator is 0 and the denominator is already 1, return this.\n    // Otherwise, return the canonical ZERO instance.\n    if (numerator == 0) {\n        return denominator == 1 ? this : Fraction.ZERO;\n    }\n    \n    // Compute the greatest common divisor using absolute values.\n    int gcd = greatestCommonDivisor(Math.abs(numerator), Math.abs(denominator));\n    int newNumerator = numerator / gcd;\n    int newDenominator = denominator / gcd;\n    \n    // Normalize the sign so that the denominator is positive.\n    if (newDenominator < 0) {\n        newNumerator = -newNumerator;\n        newDenominator = -newDenominator;\n    }\n    \n    // If no changes were made (already reduced and properly normalized), return this.\n    if (newNumerator == numerator && newDenominator == denominator) {\n        return this;\n    }\n    \n    return Fraction.getFraction(newNumerator, newDenominator);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

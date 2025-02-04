@@ -1,0 +1,7 @@
+{
+    "generation": "private void traverse(Node node) {\n  if (!shouldVisit(node)) {\n    return;\n  }\n\n  int visits = 0;\n  // First, run fixpoint iterations on the current node until it is stable.\n  do {\n    visit(node);\n    visits++;\n    Preconditions.checkState(visits < 10000, \"too many iterations\");\n  } while (shouldRetraverse(node));\n\n  // Now, once the node is stable, traverse its children.\n  for (Node child = node.getFirstChild(); child != null; child = child.getNext()) {\n    traverse(child);\n  }\n\n  exitNode(node);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

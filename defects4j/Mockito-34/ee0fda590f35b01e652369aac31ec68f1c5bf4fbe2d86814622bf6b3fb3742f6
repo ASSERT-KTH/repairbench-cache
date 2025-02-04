@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation i) {\n    // Avoid ArrayIndexOutOfBoundsException when there are fewer actual arguments\n    // (for instance, when using varargs and no actual vararg was provided)\n    for (int k = 0; k < matchers.size(); k++) {\n        Matcher m = matchers.get(k);\n        if (m instanceof CapturesArguments) {\n            Object argument;\n            if (k < i.getArguments().length) {\n                argument = i.getArguments()[k];\n            } else if (i.getMethod().isVarArgs() && k == matchers.size() - 1) {\n                // For a varargs method called with no varargs,\n                // pass an empty array to the vararg-capturing matcher.\n                argument = new Object[0];\n            } else {\n                // In non-varargs cases, if there is no actual argument,\n                // there is nothing to capture.\n                continue;\n            }\n            ((CapturesArguments) m).captureFrom(argument);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

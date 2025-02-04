@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // For a compound selector (more than one evaluator), the element\u2019s\n    // ancestry must \u201canchor\u201d in the root. For a single evaluator, we simply\n    // test the candidate.\n    if (evaluators.size() == 1)\n        return evaluators.get(0).matches(root, element);\n\n    // For compound selectors, work \u201cbackwards\u201d (right-to\u2013left):\n    // each evaluator must match an element in the candidate\u2019s ancestry,\n    // and after processing all parts the next parent must be the context.\n    Element candidate = element;\n    for (int i = evaluators.size() - 1; i >= 0; i--) {\n        if (candidate == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, candidate))\n            return false;\n        candidate = candidate.parent();\n    }\n    // Only accept if the chain \u201canchors\u201d in the context root.\n    return candidate == root;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

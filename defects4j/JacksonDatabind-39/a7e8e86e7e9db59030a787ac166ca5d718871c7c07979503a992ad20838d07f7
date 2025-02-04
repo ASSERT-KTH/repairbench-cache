@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    JsonToken t = p.getCurrentToken();\n    // If we\u2019re at a FIELD_NAME (as may happen after type id handling)\n    // advance to the value so that we properly skip the whole structure.\n    if (t == JsonToken.FIELD_NAME) {\n        t = p.nextToken();\n    }\n    if (t == JsonToken.START_OBJECT || t == JsonToken.START_ARRAY) {\n        p.skipChildren();\n    } else {\n        // For non-container (scalar) values, simply advance past them.\n        p.nextToken();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

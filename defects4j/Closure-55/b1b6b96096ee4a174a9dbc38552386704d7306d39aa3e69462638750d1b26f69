@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean isReduceableFunctionExpression(Node n) {\n  // If we see a call, check if it is an __defineGetter__/__defineSetter__ call.\n  if (n.isCall()) {\n    Node callee = n.getFirstChild();\n    if (callee != null && callee.isGetProp()) {\n      Node prop = callee.getLastChild();\n      if (prop != null) {\n        String propName = prop.getString();\n        if (\"__defineGetter__\".equals(propName) || \"__defineSetter__\".equals(propName)) {\n          // In __defineGetter__/__defineSetter__ calls, the function is the second argument.\n          Node funcArg = n.getChildCount() > 1 ? n.getChildAtIndex(1) : null;\n          return funcArg != null && NodeUtil.isFunctionExpression(funcArg);\n        }\n      }\n    }\n  }\n  // Also allow getter/setter definitions.\n  if (n.isGetterDef() || n.isSetterDef()) {\n    return true;\n  }\n  // Otherwise, simply check whether it is a function expression.\n  return NodeUtil.isFunctionExpression(n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

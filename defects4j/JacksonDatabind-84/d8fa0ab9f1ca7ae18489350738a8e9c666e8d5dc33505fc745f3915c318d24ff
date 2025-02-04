@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructSpecializedType(JavaType baseType, Class<?> subclass) {\n    if (baseType.getRawClass() == subclass) {\n        return baseType;\n    }\n    if (!baseType.getRawClass().isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName() +\n                \" is not a subtype of \" + baseType);\n    }\n    // Rather than \u201cnarrowing\u201d the previously constructed base type,\n    // re-create the full JavaType for the subclass so that inherited properties are included.\n    JavaType newType = constructType(subclass);\n    if (baseType.getValueHandler() != null) {\n        newType = newType.withValueHandler(baseType.getValueHandler());\n    }\n    if (baseType.getTypeHandler() != null) {\n        newType = newType.withTypeHandler(baseType.getTypeHandler());\n    }\n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

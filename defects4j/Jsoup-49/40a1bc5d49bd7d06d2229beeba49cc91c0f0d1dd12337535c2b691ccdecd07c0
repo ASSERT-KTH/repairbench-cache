@@ -1,0 +1,7 @@
+{
+    "generation": "protected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    // Remove from old parent if already attached. This prevents duplicate removals\n    // or mis\u2010ordering when moving nodes within the same parent.\n    for (Node child : children) {\n        if (child.parent() == this) {\n            child.remove(); // Remove from our childNodes, so index positions will be correct.\n        }\n    }\n    // Add the nodes in the order provided. (Note: adding at index+i preserves\n    // the order of the collection in the final children list.)\n    for (int i = 0; i < children.length; i++) {\n        Node child = children[i];\n        reparentChild(child);\n        childNodes.add(index + i, child);\n    }\n    reindexChildren(index);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

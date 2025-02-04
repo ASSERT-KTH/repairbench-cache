@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos) {\n    // If a newline or tab is found before the wrap limit, break there.\n    int newlinePos = text.indexOf('\\n', startPos);\n    if (newlinePos != -1 && newlinePos < startPos + width) {\n        return newlinePos + 1;\n    }\n    int tabPos = text.indexOf('\\t', startPos);\n    if (tabPos != -1 && tabPos < startPos + width) {\n        return tabPos + 1;\n    }\n    \n    // If the desired wrap point is at or past the end of the text, signal no further wrap.\n    if (startPos + width >= text.length()) {\n        return -1;\n    }\n    \n    // Look backwards from startPos+width for a whitespace character.\n    int pos = startPos + width;\n    while (pos > startPos) {\n        char c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n        pos--;\n    }\n    // No whitespace was found before the limit;\n    // so return startPos+width to force a word cut.\n    return startPos + width;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName() && n.getString().equals(varName)) {\n            // Normally, we want to ignore the left\u2010hand side of an assignment,\n            // because it is a \u201cwrite\u201d rather than a read. However, if the assignment\n            // occurs inside a hook (ternary operator), then its evaluation order\n            // is intertwined with the surrounding expression and must be counted.\n            if (parent != null && parent.isAssign() && parent.getFirstChild() == n) {\n              boolean insideHook = false;\n              for (Node anc = parent; anc != null; anc = anc.getParent()) {\n                if (anc.isHook()) {\n                  insideHook = true;\n                  break;\n                }\n              }\n              if (!insideHook) {\n                // Skip counting a left\u2010hand side that is not nested inside a hook.\n                return;\n              }\n            }\n            numUsesWithinCfgNode++;\n          }\n        }\n      };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

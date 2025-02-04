@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass) {\n    if (_class == subclass) {\n        return this;\n    }\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName()\n                + \" not sub-type of \" + _class.getName());\n    }\n    // Re-resolve the type so that new bean properties can be located, etc.\n    JavaType newType = TypeFactory.defaultInstance().constructSimpleType(subclass, _bindings);\n    newType = newType.withValueHandler(_valueHandler)\n                     .withTypeHandler(_typeHandler);\n    if (_asStatic && !newType.isStatic()) {\n        newType = newType.withStaticTyping();\n    }\n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

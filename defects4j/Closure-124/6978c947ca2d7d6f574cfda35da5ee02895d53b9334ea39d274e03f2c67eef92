@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n\n  // In a chained property access (e.g. x.parentNode.parentNode),\n  // traverse down to the leftmost (base) node.\n  Node target = node.getFirstChild();\n  while (target.isGetProp()) {\n    target = target.getFirstChild();\n  }\n\n  // If the base node is a name that is assigned somewhere in \"replacement\",\n  // then the replacement is unsafe.\n  if (target.isName() && isNameAssignedTo(target.getString(), replacement)) {\n    return false;\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

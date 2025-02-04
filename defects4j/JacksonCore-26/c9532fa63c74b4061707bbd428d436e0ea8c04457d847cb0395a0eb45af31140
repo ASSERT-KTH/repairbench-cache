@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void feedInput(byte[] buf, int start, int end) throws IOException\n{\n    // Must not have remaining input\n    if (_inputPtr < _inputEnd) {\n        _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\", _inputEnd - _inputPtr);\n    }\n    if (end < start) {\n        _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n    }\n    // and shouldn't have been marked as end-of-input\n    if (_endOfInput) {\n        _reportError(\"Already closed, can not feed more input\");\n    }\n    // First, update processed count using previous buffer\u2019s length\n    _currInputProcessed += _origBufferLen;\n\n    // Adjust the \"row start\" so that cumulative offsets and columns are correct.\n    // For the very first feed (i.e. _currInputProcessed==0) we want to pretend that the\n    // logical document started one byte before the first fed byte.\n    // For subsequent feeds we need to \"carry over\" the amount remaining from the previous buffer.\n    if (_currInputProcessed == 0) {\n        _currInputRowStart = start - 1;\n    } else {\n        _currInputRowStart = start - (_inputEnd - _currInputRowStart) + 1;\n    }\n\n    // Then update buffer pointers and length info\n    _inputBuffer = buf;\n    _inputPtr = start;\n    _inputEnd = end;\n    _origBufferLen = end - start;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

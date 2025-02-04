@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    // A tar header is always 512 bytes.\n    final int recordSize = 512;\n    if (header.length < recordSize) {\n        return false;\n    }\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n    int digits = 0;\n    for (int i = 0; i < recordSize; i++) {\n        byte b = header[i];\n        if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            if (b >= '0' && b <= '7' && digits < 6) {\n                storedSum = storedSum * 8 + (b - '0');\n                digits++;\n            } else if (digits > 0) {\n                // Once we've started reading digits, any non-digit\n                // terminates further processing of the field.\n                digits = 6;\n            }\n            // For the purpose of computing the header sum,\n            // treat every byte in the checksum field as a space.\n            b = ' ';\n        }\n        unsignedSum += 0xff & b;\n        signedSum += b;\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

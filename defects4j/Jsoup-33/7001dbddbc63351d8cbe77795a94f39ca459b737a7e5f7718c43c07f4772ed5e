@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    if (startTag.isSelfClosing()) {\n        // For non-void self closing tags (e.g. <div />, <script /> that normally require an end tag)\n        // insert the element then immediately pop it so that subsequent tokens are not treated as its content.\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);             // insert as usual (this pushes it onto the stack)\n        stack.remove(stack.size() - 1); // immediately pop the element to \u201cclose\u201d it\n        return el;\n    }\n    \n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

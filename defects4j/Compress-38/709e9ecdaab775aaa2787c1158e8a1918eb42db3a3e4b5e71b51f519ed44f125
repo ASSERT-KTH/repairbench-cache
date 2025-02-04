@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    // Use the underlying File, if available.\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    // The type flag is the primary indicator for directories.\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // When a PAX header is present, it has already normalized the entry\u2019s name.\n    // In such cases, we must not rely on a trailing slash to decide that\n    // an entry is a directory. Only if no PAX header is in effect do we fall\n    // back to the legacy test.\n    if (paxHeaders == null && getName().endsWith(\"/\")) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

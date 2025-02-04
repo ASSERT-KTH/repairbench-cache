@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isShortOption(String token) {\n    if (!token.startsWith(\"-\") || token.length() == 1) {\n        return false;\n    }\n\n    // Remove leading \"-\" and any \"=value\" part.\n    int pos = token.indexOf(\"=\");\n    String optPart = pos == -1 ? token.substring(1) : token.substring(1, pos);\n\n    // If the whole token (minus any value) is a valid short option, use it.\n    if (options.hasShortOption(optPart)) {\n        return true;\n    }\n\n    // Otherwise, if the token has more than one character, treat it as several concatenated short options.\n    if (optPart.length() > 1) {\n        for (int i = 0; i < optPart.length(); i++) {\n            String singleOpt = String.valueOf(optPart.charAt(i));\n            if (!options.hasShortOption(singleOpt)) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

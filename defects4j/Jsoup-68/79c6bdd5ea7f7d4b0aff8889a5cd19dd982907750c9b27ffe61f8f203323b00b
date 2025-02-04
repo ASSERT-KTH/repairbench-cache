@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n    // The intent is to check only the last MaxScopeSearchDepth elements on the stack,\n    // starting at the current node (stack top). This follows the spec for \u201chas an element\n    // in the specific scope.\u201d If the stack is very deep, we only examine the most recent elements.\n    int size = stack.size();\n    int bottom = size - 1;\n    int top = Math.max(size - MaxScopeSearchDepth, 0);\n\n    for (int pos = bottom; pos >= top; pos--) {\n        String elName = stack.get(pos).nodeName();\n        if (inSorted(elName, targetNames))\n            return true;\n        if (inSorted(elName, baseTypes))\n            return false;\n        if (extraTypes != null && inSorted(elName, extraTypes))\n            return false;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

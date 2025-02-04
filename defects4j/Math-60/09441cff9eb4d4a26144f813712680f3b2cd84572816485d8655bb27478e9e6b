@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // Handle infinities first.\n    if (x == Double.POSITIVE_INFINITY) {\n        return 1.0;\n    }\n    if (x == Double.NEGATIVE_INFINITY) {\n        return 0.0;\n    }\n    \n    final double dev = x - mean;\n    // For values more than 40 standard deviations from the mean, return 0 or 1.\n    if (dev > 40 * standardDeviation) {\n        return 1.0;\n    }\n    if (dev < -40 * standardDeviation) {\n        return 0.0;\n    }\n    \n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / (standardDeviation * FastMath.sqrt(2.0))));\n    } catch (MaxIterationsExceededException ex) {\n        // If the iterative algorithm fails and we're at least 20 standard deviations out,\n        // use top-coding as a fallback.\n        if (dev > 20 * standardDeviation) {\n            return 1.0;\n        }\n        if (dev < -20 * standardDeviation) {\n            return 0.0;\n        }\n        throw ex;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public void escape(Writer writer, String str) throws IOException {\n    for (int i = 0; i < str.length(); ) {\n        int cp = str.codePointAt(i);\n        String entityName = null;\n        // Only check for an entity name if we are in the BMP.\n        if (cp <= 0xFFFF) {\n            entityName = this.entityName((char) cp);\n        }\n        if (entityName == null) {\n            if (cp > 0x7F) {\n                writer.write(\"&#\");\n                writer.write(Integer.toString(cp, 10));\n                writer.write(';');\n            } else {\n                writer.write(cp);\n            }\n        } else {\n            writer.write('&');\n            writer.write(entityName);\n            writer.write(';');\n        }\n        i += Character.charCount(cp);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

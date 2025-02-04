@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    final Class<?> type1 = array1.getClass().getComponentType();\n    // Check that each element in array2 is compatible with type1; nulls are allowed.\n    for (T element : array2) {\n        if (element != null && !type1.isInstance(element)) {\n            throw new IllegalArgumentException(\"Cannot store \" + element.getClass() + \" in an array of \" + type1);\n        }\n    }\n    T[] joinedArray = (T[]) java.lang.reflect.Array.newInstance(type1, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

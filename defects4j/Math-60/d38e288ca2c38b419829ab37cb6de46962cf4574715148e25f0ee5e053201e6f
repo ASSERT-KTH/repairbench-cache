@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // Handle infinite arguments explicitly.\n    if (x == Double.NEGATIVE_INFINITY) {\n        return 0.0;\n    }\n    if (x == Double.POSITIVE_INFINITY) {\n        return 1.0;\n    }\n    \n    double dev = x - mean;\n    \n    // For values more than 40 standard deviations away from the mean, \n    // we \u201ctop\u2010code\u201d the result (see JavaDoc).\n    if (dev < -40 * standardDeviation) {\n        return 0.0;\n    }\n    if (dev > 40 * standardDeviation) {\n        return 1.0;\n    }\n    \n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / (standardDeviation * FastMath.sqrt(2.0))));\n    } catch (MaxIterationsExceededException ex) {\n        // If the algorithm fails to converge, top\u2010code based on the sign of the deviation.\n        return (dev < 0) ? 0.0 : 1.0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

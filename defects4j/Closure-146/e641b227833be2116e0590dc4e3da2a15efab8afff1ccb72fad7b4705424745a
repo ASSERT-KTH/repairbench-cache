@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // If \"that\" is a union type, delegate to its implementation then swap\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      // If the two types are definitely equal, then the branch where they are\n      // unequal is unreachable. Instead of returning null (which means \u201cno refinement\u201d\n      // and leaves the type unchanged), we return the bottom type (NO_TYPE) so that\n      // the variable\u2019s type gets eliminated. This fixes the test failure in which\n      // \"undefined\" was observed instead of \"None\".\n      return new TypePair(getNativeType(JSTypeNative.NO_TYPE),\n                          getNativeType(JSTypeNative.NO_TYPE));\n    case FALSE:\n    case UNKNOWN:\n      return new TypePair(this, that);\n  }\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

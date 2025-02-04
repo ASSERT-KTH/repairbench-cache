@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Calculates the L<sub>2</sub> (Euclidean) distance between two points.\n *\n * To avoid overflow when squaring large differences and to handle cases\n * where one of the points is null (as can happen in degenerate clustering),\n * we use a double accumulator and treat a null point as the origin.\n *\n * @param p1 the first point (may be null, which is treated as the zero vector)\n * @param p2 the second point (may be null, which is treated as the zero vector)\n * @return the L<sub>2</sub> distance between the two points\n */\npublic static double distance(int[] p1, int[] p2) {\n    if (p1 == null && p2 == null) {\n        return 0.0;\n    }\n    if (p1 == null) {\n        double sum = 0.0;\n        for (int d : p2) {\n            sum += d * d;\n        }\n        return Math.sqrt(sum);\n    }\n    if (p2 == null) {\n        double sum = 0.0;\n        for (int d : p1) {\n            sum += d * d;\n        }\n        return Math.sqrt(sum);\n    }\n    double sum = 0.0;\n    for (int i = 0; i < p1.length; i++) {\n        double diff = p1[i] - p2[i];\n        sum += diff * diff;\n    }\n    return Math.sqrt(sum);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

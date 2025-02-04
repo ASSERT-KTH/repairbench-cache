@@ -1,0 +1,7 @@
+{
+    "generation": "private static String cacheString(final char[] charBuf, final String[] stringCache, final int start, final int count) {\n    // Guard against a negative or zero count (which can happen when a character is not found)\n    if (count <= 0)\n        return \"\";\n\n    // If longer than we cache, just create a new String.\n    if (count > maxStringCacheLen)\n        return new String(charBuf, start, count);\n\n    // Compute hash from the characters.\n    int hash = 0;\n    for (int i = 0; i < count; i++) {\n        hash = 31 * hash + charBuf[start + i];\n    }\n\n    // Use a mask to find the index in the cache (explicit parenthesis for clarity)\n    int index = hash & (stringCache.length - 1);\n    String cached = stringCache[index];\n\n    if (cached == null) {\n        // Cache miss: create and cache the new string.\n        cached = new String(charBuf, start, count);\n        stringCache[index] = cached;\n    } else {\n        // Cache hit: verify equality in case of hash collisions.\n        if (rangeEquals(charBuf, start, count, cached)) {\n            return cached;\n        } else {\n            // Hash-code conflict: update the cache with a new, correctly created string.\n            cached = new String(charBuf, start, count);\n            stringCache[index] = cached;\n        }\n    }\n    return cached;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

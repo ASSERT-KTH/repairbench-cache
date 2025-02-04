@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // If the assignment appears inside a loop or inside any function, it may be\n  // executed more than once.  (For example, a global variable assigned inside a\n  // function gets reassigned every time the function is invoked.)\n  for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n    if (block.isLoop || block.isFunction) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n    // Instead of appending, we want to insert the stray text nodes\n    // at the beginning of the body so that their original order is preserved.\n    // By iterating in reverse order and inserting at position 0,\n    // the final order in the body will be as originally encountered.\n    for (int i = toMove.size() - 1; i >= 0; i--) {\n        Node node = toMove.get(i);\n        element.removeChild(node);\n        body().insertChildren(0, new TextNode(\" \", \"\"));\n        body().insertChildren(0, node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

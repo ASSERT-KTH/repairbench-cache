@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          // When the entire cfgNode is an assignment (i.e. an assignment chain),\n          // the left\u2010hand side is not a \u201cuse\u201d of the variable. However, if the\n          // assignment appears inside a larger expression (for example, inside\n          // a hook expression), then the lhs must count as a use. Therefore,\n          // we only skip the lhs if cfgNode is an assignment.\n          if (n.isName() && n.getString().equals(varName) &&\n              !(cfgNode.isAssign() && parent.isAssign() && parent.getFirstChild() == n)) {\n            numUsesWithinCfgNode++;\n          }\n        }\n      };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    // First extract the checksum field as an ASCII string, trim it,\n    // and take at most the first six characters.\n    String chkField = new String(header, CHKSUM_OFFSET, CHKSUMLEN, java.nio.charset.StandardCharsets.US_ASCII).trim();\n    if (chkField.length() > 6) {\n        chkField = chkField.substring(0, 6);\n    }\n    long storedSum = 0;\n    if (!chkField.isEmpty()) {\n        try {\n            storedSum = Long.parseLong(chkField, 8);\n        } catch (NumberFormatException ex) {\n            storedSum = 0; // fall back if parsing fails\n        }\n    }\n\n    // Now compute both unsigned and signed sums over the header bytes,\n    // replacing the checksum field bytes by ASCII space (32).\n    long unsignedSum = 0;\n    long signedSum = 0;\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' ';\n        }\n        unsignedSum += (0xff & b);\n        signedSum += b;\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

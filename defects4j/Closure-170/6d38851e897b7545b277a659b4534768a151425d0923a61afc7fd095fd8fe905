@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // If n is the left-hand side of an assignment then normally we don\u2019t count it.\n        // However, we only make that special exception when the entire cfgNode\n        // is an assignment chain \u2013 that is, when the cfgNode is an expression statement\n        // whose sole child is an ASSIGN node. In other contexts (e.g. inside a hook)\n        // we want to count the occurrence.\n        if (parent.isAssign() && parent.getFirstChild() == n &&\n            cfgNode.isExprResult() && cfgNode.getFirstChild() != null &&\n            cfgNode.getFirstChild().isAssign()) {\n          return;\n        }\n        numUsesWithinCfgNode++;\n      }\n    }\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

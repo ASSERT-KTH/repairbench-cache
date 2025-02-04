@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape character has already been read\n    final int c = in.read();\n    if (c == END_OF_STREAM) {\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    }\n    switch (c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        default:\n            // In CSV parsing, there are some characters that are considered escapable:\n            // the delimiter, the quote, and the escape character itself.\n            if (c == delimiter || c == quote || c == escape) {\n                return c;\n            }\n            // For any other character, the escape is not a valid escape sequence.\n            // Push the character back (so that it will be processed literally)\n            // and return the literal escape character.\n            in.setLastChar(c);\n            return escape;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

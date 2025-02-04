@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey))\n        return \"\";\n    try {\n        URL base;\n        try {\n            base = new URL(baseUri);\n        } catch (MalformedURLException e) {\n            // The base URI is bad, but maybe the attr itself is an absolute URL.\n            return new URL(relUrl).toExternalForm();\n        }\n        // Workaround for a java.net.URL bug:\n        // When the relative URL is just a query (e.g., \"?foo\") and the base already has a query,\n        // the URL constructor drops the file name part.\n        // So if baseUri is \"http://jsoup.org/path/file?bar\", new URL(base, \"?foo\") yields \"http://jsoup.org/path/?foo\"\n        // rather than the expected \"http://jsoup.org/path/file?foo\".\n        if (relUrl.startsWith(\"?\") && base.getQuery() != null) {\n            int pos = baseUri.indexOf('?');\n            String fixedBase = pos != -1 ? baseUri.substring(0, pos) : baseUri;\n            return new URL(fixedBase + relUrl).toExternalForm();\n        }\n        URL abs = new URL(base, relUrl);\n        return abs.toExternalForm();\n    } catch (MalformedURLException e) {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

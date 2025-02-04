@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    // If the weight matrix is diagonal then we can avoid an expensive full eigen decomposition.\n    if (m instanceof DiagonalMatrix) {\n        double[] diag = ((DiagonalMatrix) m).getData();\n        int n = diag.length;\n        double[] sqrtDiag = new double[n];\n        for (int i = 0; i < n; i++) {\n            sqrtDiag[i] = FastMath.sqrt(diag[i]);\n        }\n        return new DiagonalMatrix(sqrtDiag);\n    }\n    // For non-diagonal matrices, fall back on the full eigen decomposition.\n    final EigenDecomposition dec = new EigenDecomposition(m);\n    return dec.getSquareRoot();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

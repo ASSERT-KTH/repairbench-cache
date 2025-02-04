@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> cls, TypeBindings context) {\n    // Only reuse a cached type if it is fully resolved.\n    JavaType cached = _findCachedType(cls);\n    if (cached != null && cached.isFullyResolved()) {\n        return cached;\n    }\n    \n    // Handle array types separately.\n    if (cls.isArray()) {\n        JavaType compType = _fromClass(cls.getComponentType(), context);\n        ArrayType arrayType = ArrayType.construct(compType, null);\n        _cacheType(cls, arrayType);\n        return arrayType;\n    }\n    \n    // Recursively construct the super type (if any), but do not use the cached\n    // version unless it is fully resolved.\n    JavaType superType = (cls.getSuperclass() != null && cls.getSuperclass() != Object.class)\n            ? _fromClass(cls.getSuperclass(), TypeBindings.emptyBindings())\n            : null;\n    \n    // Build a new SimpleType for this class with the (possibly incomplete) super type.\n    SimpleType newType = new SimpleType(cls, context, superType, null, null, null, false);\n    _cacheType(cls, newType);\n    \n    // Force full resolution: if the new type isn\u2019t yet fully resolved,\n    // re-create it so that inherited properties (like those from Base) get included.\n    if (!newType.isFullyResolved()) {\n        newType = newType.narrowBy(cls);\n        _cacheType(cls, newType);\n    }\n    \n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

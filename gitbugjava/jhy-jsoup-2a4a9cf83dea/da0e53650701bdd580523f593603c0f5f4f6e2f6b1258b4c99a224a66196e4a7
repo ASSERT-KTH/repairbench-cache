@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // Start with the candidate element and work backwards through the evaluators.\n    int i = evaluators.size() - 1;\n    if (!evaluators.get(i).matches(root, element))\n        return false;\n    // Walk up the chain for the remaining evaluators.\n    while (i > 0) {\n        // Move to the candidate\u2019s parent.\n        element = element.parent();\n        // For descendant combinators, keep climbing until we find an ancestor that matches.\n        while (element != null && !evaluators.get(i - 1).matches(root, element)) {\n            element = element.parent();\n        }\n        if (element == null)\n            return false;\n        i--;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

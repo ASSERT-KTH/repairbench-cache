@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {\n    Node target = n.getFirstChild();\n    if (target != null && (target.getType() == Token.GETPROP || target.getType() == Token.GETELEM)) {\n      // The property being accessed on the inner chain should be \"prototype\".\n      Node protoProp = target.getLastChild();\n      if (protoProp != null &&\n          protoProp.getType() == Token.STRING &&\n          \"prototype\".equals(protoProp.getString())) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

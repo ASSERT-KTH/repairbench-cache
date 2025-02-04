@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    final int offsetLocal = getOffset(instantLocal);\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n\n    // Check for a gap\n    if (offsetLocal != offsetAdjusted) {\n        if ((offsetLocal - offsetAdjusted) < 0) {\n            long nextLocal = nextTransition(instantAdjusted);\n            long nextAdjusted = nextTransition(instantLocal - offsetAdjusted);\n            if (nextLocal != nextAdjusted) {\n                return offsetLocal;\n            }\n        }\n    }\n    // Otherwise, check for an overlap. In an overlap the raw getOffset() is likely\n    // to return the later (standard time) offset when the earlier (daylight) offset is desired.\n    else {\n        long prev = previousTransition(instantAdjusted);\n        if (prev < instantAdjusted) {\n            int offsetPrev = getOffset(prev);\n            // In an overlap the earlier (daylight) offset is larger than the later (standard) offset.\n            int diff = offsetPrev - offsetAdjusted;\n            if (offsetPrev > offsetAdjusted && instantAdjusted - prev <= diff) {\n                return offsetPrev;\n            }\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n  // Check that the assignment is not inside a loop or a function,\n  // because even if there is a single syntactic assignment, if it occurs\n  // inside a function it might be executed more than once.\n  for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n    if (block.isLoop || block.isFunction) {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

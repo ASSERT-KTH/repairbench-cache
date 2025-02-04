@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n  Node callee = n.getFirstChild();\n  \n  // Unwrap any cast nodes that might be masking the real call target.\n  while (callee != null && callee.getType() == Token.CAST) {\n    callee = callee.getFirstChild();\n  }\n\n  // Mark the call as a \"free\" call (without an explicit \"this\") if the target\n  // is not a GET (i.e. property access). Without unwrapping casts, a call such as\n  // \"/** @type {function():!string} */ ((new x())['abc'])()\" would be mis-annotated.\n  if (!NodeUtil.isGet(callee)) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  // Record if the call is a direct eval call. Using the unwrapped callee ensures that\n  // an eval wrapped in cast is still detected as eval.\n  if (callee.isName() && \"eval\".equals(callee.getString())) {\n    callee.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

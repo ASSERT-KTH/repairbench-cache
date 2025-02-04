@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    int size = evaluators.size();\n    if (size == 0)\n        return false;\n    // First, the candidate element must match the right-most evaluator.\n    if (!evaluators.get(size - 1).matches(root, element))\n        return false;\n    // Then, for each remaining evaluator, climb one level up before testing.\n    for (int i = size - 2; i >= 0; i--) {\n        element = element.parent();\n        if (element == null)\n            return false;\n        if (!evaluators.get(i).matches(root, element))\n            return false;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    int c = in.read();\n    if (c == END_OF_STREAM) {\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    }\n    switch (c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        default:\n            /*\n             * In our CSV parser, when an escape character is encountered we\n             * want to treat as an escape only when followed by a character\n             * that is \u201cmeta\u201d (for example: the quote, the delimiter or the\n             * escape character itself). Otherwise the escape is not really\n             * an escape and should be preserved.\n             *\n             * In that case, we push back the read character so that it will be\n             * processed later and simply return the escape character.\n             */\n            if (c == escape || c == quote || c == delimiter) {\n                return c;\n            }\n            in.unread(c);\n            return escape;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

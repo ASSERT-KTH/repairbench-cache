@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    final int offsetLocal = getOffset(instantLocal);\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n    if (offsetLocal != offsetAdjusted) {\n        // When the two offsets differ we are near a DST boundary.\n        // In an overlap (typically when falling back, as in Moscow Autumn)\n        // the earlier (summer) offset is higher than the later (winter) offset.\n        // getOffset(instantLocal) may have returned the later (lower) offset,\n        // so we use the recalculated offset (offsetAdjusted) if certain transition\n        // conditions are met.\n        if ((offsetLocal - offsetAdjusted) < 0) {\n            long nextLocal = nextTransition(instantAdjusted);\n            long nextAdjusted = nextTransition(instantLocal - offsetAdjusted);\n            if (nextLocal != nextAdjusted) {\n                return offsetAdjusted;\n            }\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

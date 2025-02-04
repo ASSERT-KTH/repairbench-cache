@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (normally a backslash or other configured escape)\n    final int c = in.read();\n    switch (c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        case END_OF_STREAM:\n            throw new IOException(\"EOF whilst processing escape sequence\");\n        default:\n            // If the next character is the escape character itself,\n            // then this is an escaped escape. Return it directly.\n            if (c == escape) { \n                return c;\n            }\n            // Otherwise, the escape is not recognized.\n            // Push the character back so it will be processed later as a literal,\n            // and return the literal escape character.\n            in.setLastChar(c);\n            return escape;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

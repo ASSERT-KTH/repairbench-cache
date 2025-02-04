@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> cls, TypeBindings context) {\n    // First: check for a cached (partially resolved) type\n    JavaType cached = _findCachedType(cls, context);\n    if (cached != null) {\n        if (cached instanceof ResolvedRecursiveType \n                && ((ResolvedRecursiveType) cached).getSelfReferencedType() == null) {\n            // Fix the cached recursive type by wiring its self\u2013reference.\n            ((ResolvedRecursiveType) cached).setSelfReferencedType(cached);\n        }\n        return cached;\n    }\n    // Create a placeholder recursive type and add it to the cache\n    ResolvedRecursiveType rec = new ResolvedRecursiveType(cls, context);\n    _cacheType(cls, context, rec);\n    // Fully resolve type information (including super types, etc.)\n    JavaType fullType = _fromClassInternal(cls, context, rec);\n    // Make sure that if the fully resolved type is recursive its self\u2013reference is set\n    if (fullType instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType rrt = (ResolvedRecursiveType) fullType;\n        if (rrt.getSelfReferencedType() == null) {\n            rrt.setSelfReferencedType(rrt);\n        }\n    }\n    return fullType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

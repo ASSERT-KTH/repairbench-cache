@@ -1,0 +1,7 @@
+{
+    "generation": "private void inferPropertyTypesToMatchConstraint(\n    JSType type, JSType constraint) {\n  if (type == null || constraint == null) {\n    return;\n  }\n\n  ObjectType constraintObj =\n      ObjectType.cast(constraint.restrictByNotNullOrUndefined());\n  if (constraintObj != null && constraintObj.isRecordType()) {\n    ObjectType objType = ObjectType.cast(type.restrictByNotNullOrUndefined());\n    if (objType != null) {\n      for (String prop : constraintObj.getOwnPropertyNames()) {\n        JSType constraintPropType = constraintObj.getPropertyType(prop);\n        if (!objType.isPropertyTypeDeclared(prop)) {\n          JSType typeToInfer;\n          if (objType.hasProperty(prop)) {\n            // Widen the already inferred property by taking the union of\n            // its current type and the constraint\u2019s property type.\n            typeToInfer =\n                objType.getPropertyType(prop).getLeastSupertype(constraintPropType);\n          } else {\n            // If the property is absent, add it as the union of void and the\n            // constraint\u2019s property type.\n            typeToInfer =\n                getNativeType(VOID_TYPE).getLeastSupertype(constraintPropType);\n          }\n          objType.defineInferredProperty(prop, typeToInfer, null);\n        }\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

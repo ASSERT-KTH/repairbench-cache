@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a) {\n    JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n    if (jg != null) {\n        String name = jg.value();\n        if (name != null && name.length() > 0) {\n            return PropertyName.construct(name);\n        }\n    }\n    JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n    if (pann != null) {\n        String name = pann.value();\n        if (name != null && name.length() > 0) {\n            return PropertyName.construct(name);\n        }\n    }\n    // Previously, an annotation such as JsonSerialize, JsonView or JsonRawValue\n    // would force an explicit empty name (\"\"), which later caused unwrapped\n    // properties to be dropped. With this fix we simply return null instead,\n    // so that the default naming (and unwrapping) behavior is used.\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

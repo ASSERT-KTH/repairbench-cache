@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n    // Move the stray text nodes so that they appear at the beginning of the body.\n    // Iterating in reverse order preserves their document order.\n    for (int i = toMove.size() - 1; i >= 0; i--) {\n        Node node = toMove.get(i);\n        element.removeChild(node);\n        // Prepend a space then the moved text node (mimicking the original order of: space then node).\n        body().prependChild(new TextNode(\" \", \"\"));\n        body().prependChild(node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

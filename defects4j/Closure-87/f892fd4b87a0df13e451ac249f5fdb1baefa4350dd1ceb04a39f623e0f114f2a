@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n    Node stmt = n.getFirstChild();\n    // If the single statement is an expression statement, check its inner expression.\n    if (stmt.getType() == Token.EXPR_RESULT) {\n      Node expr = stmt.getFirstChild();\n      // If it is a call expression, check whether it is a call on an \"onXYZ\" property.\n      if (expr != null && expr.getType() == Token.CALL) {\n        Node callee = expr.getFirstChild();\n        if (callee != null && callee.getType() == Token.GETPROP) {\n          // Only non-computed property accesses are represented by GETPROP.\n          Node prop = callee.getLastChild();\n          if (prop != null && prop.getType() == Token.STRING) {\n            String propName = prop.getString();\n            // Do not allow folding if the call is of the form \"obj.on...()\"\n            // since IE treats event handler calls differently when their return\n            // value is used.\n            if (propName.startsWith(\"on\")) {\n              return false;\n            }\n          }\n        }\n      }\n    }\n    return NodeUtil.isExpressionNode(stmt);\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

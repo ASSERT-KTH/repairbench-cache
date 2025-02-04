@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    // Make sure there's room for '&#'\n    if (index >= input.length() - 1 || input.charAt(index) != '&' || input.charAt(index + 1) != '#') {\n        return 0;\n    }\n    int start = index + 2;\n    if (start >= input.length()) {\n        return 0;\n    }\n    boolean isHex = false;\n    char firstChar = input.charAt(start);\n    if (firstChar == 'x' || firstChar == 'X') {\n        isHex = true;\n        start++;\n        if (start >= input.length()) {\n            return 0;\n        }\n    }\n    int end = start;\n    // Look for the closing semicolon while being careful not to exceed the input length.\n    while (end < input.length() && input.charAt(end) != ';') {\n        end++;\n    }\n    if (end == input.length() || input.charAt(end) != ';') {\n        return 0;\n    }\n    int entityValue;\n    try {\n        String numeric = input.subSequence(start, end).toString();\n        entityValue = Integer.parseInt(numeric, isHex ? 16 : 10);\n    } catch (NumberFormatException nfe) {\n        return 0;\n    }\n    // Convert the codepoint to one or two chars (for supplementary chars) and write them.\n    out.write(Character.toChars(entityValue));\n    // Consume the entire entity, which runs from index to the semicolon inclusive.\n    return end - index + 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

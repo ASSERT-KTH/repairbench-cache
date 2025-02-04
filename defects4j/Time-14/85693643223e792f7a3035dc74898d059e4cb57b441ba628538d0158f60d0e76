@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant;\n        // Special-case MonthDay (or any partial that has only month and day)\n        // Because MonthDay has no year, we must use a default leap year (e.g. 2000)\n        // so that a value like 29 for day-of-month is accepted.\n        if (partial.size() == 2 &&\n            partial.getFieldType(0) == DateTimeFieldType.monthOfYear() &&\n            partial.getFieldType(1) == DateTimeFieldType.dayOfMonth()) {\n            instant = iChronology.getDateTimeMillis(2000, values[0], values[1], 0);\n            instant = add(instant, valueToAdd);\n            return iChronology.get(partial, instant);\n        }\n        // Otherwise, assume the partial is complete enough to use 0L as the base.\n        instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        instant = add(instant, valueToAdd);\n        return iChronology.get(partial, instant);\n    }\n    return super.add(partial, fieldIndex, values, valueToAdd);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

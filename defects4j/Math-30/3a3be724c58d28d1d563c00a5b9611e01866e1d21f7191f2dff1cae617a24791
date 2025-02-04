@@ -1,0 +1,7 @@
+{
+    "generation": "private double calculateAsymptoticPValue(final double Umin,\n                                         final int n1,\n                                         final int n2)\n    throws ConvergenceException, MaxCountExceededException {\n\n    final int n1n2prod = n1 * n2;\n    final double EU = n1n2prod / 2.0;\n    final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n\n    // Compute the absolute z value for the two-tailed test.\n    final double z = Math.abs(Umin - EU) / FastMath.sqrt(VarU);\n\n    final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n    // Two-tailed p-value: p = 2 * P(Z <= -|z|)\n    double pValue = 2 * standardNormal.cumulativeProbability(-z);\n    \n    // Ensure that the p-value does not exceed 1.\n    return (pValue > 1) ? 1.0 : pValue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

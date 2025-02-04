@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation i) {\n    Object[] args = i.getArguments();\n    // In case of a varargs method that was called with no arguments,\n    // args may be empty. We can get the method so we know the expected\n    // number of parameters.\n    Method method = i.getMethod();\n    int paramCount = method.getParameterTypes().length;\n    int matcherIndex = 0;\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            Object valueToCapture;\n            if (matcherIndex < args.length) {\n                // There is a corresponding argument.\n                valueToCapture = args[matcherIndex];\n            } else if (method.isVarArgs() && matcherIndex == paramCount - 1) {\n                // For a varargs parameter, if no argument has been passed at all,\n                // capture an empty array of the proper type.\n                Class<?> varargType = method.getParameterTypes()[paramCount - 1].getComponentType();\n                valueToCapture = java.lang.reflect.Array.newInstance(varargType, 0);\n            } else {\n                // In all other cases there is no matching argument.\n                valueToCapture = null;\n            }\n            ((CapturesArguments) m).captureFrom(valueToCapture);\n        }\n        matcherIndex++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

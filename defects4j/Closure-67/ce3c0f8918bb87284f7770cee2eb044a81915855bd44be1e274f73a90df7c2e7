@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null \n      && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {\n    // In a chained property assign, the receiver (the object on which a property is read)\n    // will be a property access (GETPROP). For example, in \"e.prototype['alias1']\",\n    // n is GETELEM and its first child is \"e.prototype\" (a GETPROP node).\n    Node receiver = n.getFirstChild();\n    if (receiver != null && receiver.getType() == Token.GETPROP) {\n      // For e.prototype, the first child is \"e\" and the next sibling is the property name.\n      Node prototypeToken = receiver.getFirstChild();\n      if (prototypeToken != null) {\n        Node propName = prototypeToken.getNext();\n        if (propName != null \n            && propName.getType() == Token.STRING \n            && \"prototype\".equals(propName.getString())) {\n          return true;\n        }\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Specialized method for removing specified existing entry.\n * NOTE: entry MUST exist, otherwise an exception is thrown.\n */\npublic void remove(SettableBeanProperty propToRm)\n{\n    ArrayList<SettableBeanProperty> props = new ArrayList<SettableBeanProperty>(_size);\n    String key = getPropertyName(propToRm);\n    boolean found = false;\n\n    for (int i = 1, end = _hashArea.length; i < end; i += 2) {\n        SettableBeanProperty prop = (SettableBeanProperty) _hashArea[i];\n        if (prop == null) {\n            continue;\n        }\n        // IMPORTANT: compare using the key stored in the hash table (stored as lower-case)\n        if (!found) {\n            Object keySlot = _hashArea[i - 1];\n            found = key.equals(keySlot);\n            if (found) {\n                _propsInOrder[_findFromOrdered(prop)] = null;\n                continue;\n            }\n        }\n        props.add(prop);\n    }\n    if (!found) {\n        throw new NoSuchElementException(\"No entry '\" + propToRm.getName() + \"' found, can't remove\");\n    }\n    init(props);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

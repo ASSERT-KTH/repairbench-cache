@@ -1,0 +1,7 @@
+{
+    "generation": "private void popStackToClose(Token.EndTag endTag) {\n    String elName = endTag.name();\n    int pos = -1;\n    // Find the matching element\u2019s position in the stack.\n    for (int i = stack.size() - 1; i >= 0; i--) {\n        if (stack.get(i).nodeName().equals(elName)) {\n            pos = i;\n            break;\n        }\n    }\n    if (pos == -1)\n        return; // no matching element; nothing to do\n\n    // Remove (\u201cpop\u201d) all elements above the matching element,\n    // saving them as misnested nodes that need to be reparented.\n    List<Element> misnested = new ArrayList<>();\n    while (stack.size() > pos + 1) {\n        misnested.add(stack.remove(stack.size() - 1));\n    }\n\n    // Pop the matching element \u2013 it is now closed.\n    Element closed = stack.remove(stack.size() - 1);\n\n    // Reparent any misnested elements: move them from the closed element\u2019s subtree\n    // to the new current node (the node now on top of the stack).\n    if (!misnested.isEmpty() && !stack.isEmpty()) {\n        Element newParent = stack.get(stack.size() - 1);\n        // Reverse to preserve the original insertion order.\n        Collections.reverse(misnested);\n        for (Element el : misnested) {\n            newParent.appendChild(el);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

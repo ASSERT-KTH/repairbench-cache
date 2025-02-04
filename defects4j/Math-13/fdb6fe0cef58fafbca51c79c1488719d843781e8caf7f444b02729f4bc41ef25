@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    // When the weight matrix is diagonal (as is usually the case in the fitter),\n    // we can compute its square root without forming a full dense matrix.\n    if (m instanceof DiagonalMatrix) {\n        double[] diag = ((DiagonalMatrix) m).getData();\n        double[] sqrtDiag = new double[diag.length];\n        for (int i = 0; i < diag.length; i++) {\n            sqrtDiag[i] = FastMath.sqrt(diag[i]);\n        }\n        return new DiagonalMatrix(sqrtDiag);\n    }\n    // For a general symmetric positive-definite matrix, using an\n    // eigen-decomposition (which creates a dense n\u00d7n array)\n    // is very memory intensive. Instead we use the Cholesky decomposition,\n    // which returns a lower-triangular matrix L such that L * L\u1d40 = m.\n    return new CholeskyDecomposition(m).getL();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

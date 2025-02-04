@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks name referenced in node to determine if it might have\n * changed.\n * @return Whether the replacement can be made.\n */\nprivate boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n  \n  // Traverse left through the getProp chain to find the underlying name.\n  Node current = node;\n  // If it is a property access, then its first child might itself be a getProp.\n  while (current != null && current.isGetProp()) {\n    current = current.getFirstChild();\n  }\n  \n  // If we found a name and that name is later assigned to, then it's not safe.\n  if (current != null && current.isName() && isNameAssignedTo(current.getString(), replacement)) {\n    return false;\n  }\n  \n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (normally a backslash or the configured escape)\n    final int c = in.read();\n    if (c == END_OF_STREAM) {\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    }\n    switch(c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        default:\n            // If the character following the escape is the escape character itself,\n            // then return the escape so that a doubled escape (e.g. \"\\\\\" or \"//\")\n            // turns into a single literal escape character.\n            if (c == escape) {\n                return escape;\n            }\n            // Otherwise, for an unrecognized escape sequence (e.g. \"\\N\" or \"\\a\"),\n            // leave the char following the escape in the stream so that it is processed\n            // literally on a subsequent call. This way, the escape char is preserved.\n            in.unread(c);\n            return escape;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

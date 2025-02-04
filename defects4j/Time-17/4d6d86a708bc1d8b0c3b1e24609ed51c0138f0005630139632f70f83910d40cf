@@ -1,0 +1,7 @@
+{
+    "generation": "public long adjustOffset(long instant, boolean earlierOrLater) {\n    // Evaluate 3 hours before and after to see if an overlap (or gap) exists.\n    long instantBefore = convertUTCToLocal(instant - 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    long instantAfter = convertUTCToLocal(instant + 3 * DateTimeConstants.MILLIS_PER_HOUR);\n    if (instantBefore == instantAfter) {\n        return instant;  // Not an overlap (either a gap or normal case)\n    }\n\n    // For an overlap the same local time maps to two UTC instants.\n    // The convertLocalToUTC method uses the third parameter to decide which candidate to choose.\n    // In the buggy code the later/earlier flag was handed the wrong disambiguation value.\n    // Here we \u201cswap\u201d the disambiguation instant so that if we want the later offset,\n    // we pass the local instant from before the overlap and vice-versa.\n    long local = convertUTCToLocal(instant);\n    return convertLocalToUTC(local, false, earlierOrLater ? instantBefore : instantAfter);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

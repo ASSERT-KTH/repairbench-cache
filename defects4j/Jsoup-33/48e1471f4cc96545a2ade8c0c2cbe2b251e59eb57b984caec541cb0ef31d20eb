@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    Tag tag = Tag.valueOf(startTag.name());\n    if (startTag.isSelfClosing()) {\n        // For known tags that aren\u2019t meant to be truly empty (like div, script, a, etc),\n        // ignore the self-closing flag and insert a normal element then force a closure.\n        if (tag.isKnownTag() && !tag.isEmpty()) {\n            Element el = new Element(tag, baseUri, startTag.attributes);\n            insert(el);\n            tokeniser.emit(new Token.EndTag(el.tagName()));\n            return el;\n        } else {\n            // For unknown tags or tags that by spec are empty (like hr, img, etc),\n            // use the empty element insertion.\n            return insertEmpty(startTag);\n        }\n    }\n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

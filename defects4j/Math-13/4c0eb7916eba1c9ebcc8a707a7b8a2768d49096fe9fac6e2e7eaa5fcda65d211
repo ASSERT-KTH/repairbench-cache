@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    // If m is diagonal, we can compute its square root much more efficiently.\n    if (m instanceof DiagonalMatrix) {\n        final double[] diag = ((DiagonalMatrix) m).getData();\n        final double[] sqrtDiag = new double[diag.length];\n        for (int i = 0; i < diag.length; i++) {\n            sqrtDiag[i] = FastMath.sqrt(diag[i]);\n        }\n        return new DiagonalMatrix(sqrtDiag);\n    }\n    // Otherwise, use Cholesky decomposition. For a positive\u2010definite m, L is a valid square-root\n    // (since L * L\u1d40 = m), and it avoids the large temporary allocations done by an eigen decomposition.\n    return new CholeskyDecomposition(m).getL();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

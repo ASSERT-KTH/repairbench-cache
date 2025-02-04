@@ -1,0 +1,7 @@
+{
+    "generation": "private static String cacheString(final char[] charBuf, final String[] stringCache, final int start, final int count) {\n    // Fix: if count is negative, return the empty string.\n    if (count < 0)\n        return \"\";\n    \n    // Do not cache strings that are too long.\n    if (count > maxStringCacheLen)\n        return new String(charBuf, start, count);\n\n    // Calculate hash for the range in the char buffer.\n    int hash = 0;\n    for (int i = 0; i < count; i++) {\n        hash = 31 * hash + charBuf[start + i];\n    }\n\n    // Fix: add explicit parentheses so that we get \"hash & (stringCache.length - 1)\"\n    final int index = hash & (stringCache.length - 1);\n    String cached = stringCache[index];\n\n    // Check cache for a hit.\n    if (cached == null) { // Cache miss, create and add.\n        cached = new String(charBuf, start, count);\n        stringCache[index] = cached;\n    } else if (rangeEquals(charBuf, start, count, cached)) { // Cache hit.\n        return cached;\n    } else { // Hash collision: create a new string and update cache.\n        cached = new String(charBuf, start, count);\n        stringCache[index] = cached;\n    }\n    return cached;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.\n */\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);\n    }\n\n    // Find a common component type for all support values.\n    // This prevents an ArrayStoreException when the support elements are of different\n    // (anonymous) classes, as was the case in Issue 942.\n    Class<?> commonType = singletons.get(0).getClass();\n    for (int i = 1; i < singletons.size(); i++) {\n        T current = singletons.get(i);\n        Class<?> candidate = current.getClass();\n        while (!commonType.isAssignableFrom(candidate)) {\n            commonType = commonType.getSuperclass();\n        }\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(commonType, sampleSize);\n\n    for (int i = 0; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static String getNamespaceURI(Node node) {\n    if (node instanceof Document) {\n        node = ((Document) node).getDocumentElement();\n    }\n\n    Element element = (Element) node;\n    String uri = element.getNamespaceURI();\n    // Normalize empty-string URI to null so that default namespace lookup is performed.\n    if (uri != null && uri.length() == 0) {\n        uri = null;\n    }\n\n    if (uri == null) {\n        String prefix = getPrefix(node);\n        String qname = prefix == null ? \"xmlns\" : \"xmlns:\" + prefix;\n        Node aNode = node;\n        while (aNode != null) {\n            if (aNode.getNodeType() == Node.ELEMENT_NODE) {\n                Attr attr = ((Element) aNode).getAttributeNode(qname);\n                if (attr != null) {\n                    // If the attribute value is empty, treat it as no namespace.\n                    String ns = attr.getValue();\n                    return (ns != null && ns.length() == 0) ? null : ns;\n                }\n            }\n            aNode = aNode.getParentNode();\n        }\n        return null;\n    }\n    return uri;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

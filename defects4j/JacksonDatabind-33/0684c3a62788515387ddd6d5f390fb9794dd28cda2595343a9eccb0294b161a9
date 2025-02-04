@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a) {\n    String name = null;\n    JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n    if (jg != null) {\n        name = jg.value();\n    } else {\n        JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n        if (pann != null) {\n            name = pann.value();\n        } else if (_hasAnnotation(a, JsonSerialize.class)\n                || _hasAnnotation(a, JsonView.class)\n                || _hasAnnotation(a, JsonRawValue.class)) {\n            // Instead of returning an empty string (which prevents unwrapped merging),\n            // return null so that the default (unwrapped) behavior is used.\n            return null;\n        } else {\n            return null;\n        }\n    }\n    // If the defined name is empty, treat it as \"not explicitly defined\" and return null.\n    if (name == null || name.isEmpty()) {\n        return null;\n    }\n    return PropertyName.construct(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

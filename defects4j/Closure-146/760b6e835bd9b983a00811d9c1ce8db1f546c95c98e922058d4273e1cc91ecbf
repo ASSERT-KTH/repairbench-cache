@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // If 'that' is a union type, delegate and swap the result.\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  // For non-union types, use the result of the equality test.\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      return new TypePair(null, null);\n\n    case FALSE:\n    case UNKNOWN:\n      // When inequality is observed, we must rule out 'undefined'.\n      // In our system, a variable with the type VOID_TYPE (i.e. undefined)\n      // must be refined to NO_TYPE. Furthermore, if a union-type contains\n      // undefined as an option, we remove it.\n      JSType leftType = this.equals(VOID_TYPE) ? NO_TYPE : this.removeType(VOID_TYPE);\n      JSType rightType = that.equals(VOID_TYPE) ? NO_TYPE : that.removeType(VOID_TYPE);\n      return new TypePair(leftType, rightType);\n  }\n  \n  // Should never reach here.\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

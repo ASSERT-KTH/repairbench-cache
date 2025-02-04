@@ -1,0 +1,7 @@
+{
+    "generation": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n    \n    long instantMillis = instant.getMillis();\n    Chronology baseChrono = instant.getChronology();\n    // Compute local time using the original chronology's offset\n    long instantLocal = instantMillis + baseChrono.getZone().getOffset(instantMillis);\n    Chronology chrono = selectChronology(baseChrono);\n    \n    // Instead of using iDefaultYear, use the year from the input instant.\n    int defaultYear = baseChrono.year().get(instantMillis);\n    \n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n            instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width,\n                                         int nextLineTabStop, String text)\n{\n    // Instead of throwing an exception when no room is available,\n    // adjust nextLineTabStop so that at least one character can be printed.\n    nextLineTabStop = Math.min(nextLineTabStop, width - 1);\n\n    int pos = findWrapPos(text, width, 0);\n\n    if (pos == -1)\n    {\n        sb.append(rtrim(text));\n        return sb;\n    }\n\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // All following lines must be padded with nextLineTabStop space characters.\n    final String padding = createPadding(nextLineTabStop);\n\n    while (true)\n    {\n        // Prepend the padding to the remaining text.\n        text = padding + text.substring(pos).trim();\n        pos = findWrapPos(text, width, 0);\n\n        if (pos == -1)\n        {\n            sb.append(text);\n            return sb;\n        }\n        // If the only break found is at the end of the indent area,\n        // force a break at the maximum width so that at least one character is printed.\n        if ((text.length() > width) && (pos == nextLineTabStop - 1))\n        {\n            pos = width;\n        }\n\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

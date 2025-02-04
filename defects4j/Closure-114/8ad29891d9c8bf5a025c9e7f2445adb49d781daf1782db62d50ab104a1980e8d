@@ -1,0 +1,7 @@
+{
+    "generation": "private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {\n  Node nameNode = n.getFirstChild();\n  Node parent = n.getParent();\n  NameInformation ns = createNameInformation(t, nameNode);\n  if (ns != null) {\n    if (parent.isFor() && !NodeUtil.isForIn(parent)) {\n      // For a FOR loop, if the assignment is not in the initializer,\n      // record the dependency on the record node; otherwise on the name.\n      if (parent.getFirstChild().getNext() != n) {\n        recordDepScope(recordNode, ns);\n      } else {\n        recordDepScope(nameNode, ns);\n      }\n    } else if (recordNode != null && recordNode.isCall() &&\n               recordNode.getFirstChild() == n) {\n      // When the assignment is immediately used as the callee of a call,\n      // its RHS (the function) is used by the call and should not be\n      // associated with the LHS. Record the dependency on the name node,\n      // so the assignment does not become part of the dependency of the call.\n      recordDepScope(nameNode, ns);\n    } else {\n      recordDepScope(recordNode, ns);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

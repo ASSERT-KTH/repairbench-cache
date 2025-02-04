@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // Get the user\u2010supplied values (may be null)\n    List valueList = (List) values.get(option);\n    \n    // Determine which defaults to use. If the passed defaultValues\n    // are null or empty, try to use the ones stored on this object.\n    List defaults = (defaultValues == null || defaultValues.isEmpty())\n                        ? (List) this.defaultValues.get(option)\n                        : defaultValues;\n    \n    // If the user never supplied any values, then use the defaults (if any)\n    if (valueList == null) {\n        return defaults == null ? Collections.EMPTY_LIST : defaults;\n    }\n    \n    // If there are defaults and not all positions have been specified by the user,\n    // then augment the user list by appending the remaining default values.\n    // (For example: if the defaults list is [ \"100\", \"1000\" ] and the user supplied\n    // [\"1\"], then we want to return [ \"1\", \"1000\" ]. Similarly, if defaults are\n    // [ \"100\", \"1000\", \"10000\" ] and the user supplied [\"1\",\"2\"], then we return\n    // [\"1\",\"2\",\"10000\"].)\n    if (defaults != null && defaults.size() > valueList.size()) {\n        List newValueList = new ArrayList(valueList);\n        newValueList.addAll(defaults.subList(newValueList.size(), defaults.size()));\n        valueList = newValueList;\n    }\n    \n    return valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

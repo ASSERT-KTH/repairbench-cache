@@ -1,0 +1,7 @@
+{
+    "generation": "public int read(byte b[], int offset, int len) throws IOException {\n    if (b == null) {\n        throw new NullPointerException();\n    }\n    if (offset < 0 || len < 0 || offset + len > b.length) {\n        throw new IndexOutOfBoundsException();\n    }\n    if (len == 0) {\n        return 0;\n    }\n\n    int numRead;\n    // Loop to ensure we never return 0 from read().\n    while ((numRead = base64.readResults(b, offset, len)) == 0) {\n        if (!base64.hasData()) {\n            byte[] buf = new byte[doEncode ? 4096 : 8192];\n            int c = in.read(buf);\n            if (c == -1) {\n                // Underlying stream is exhausted, so nothing more to decode.\n                return -1;\n            }\n            // Optimization: if the caller's buffer is the exact target length,\n            // then let base64 write directly into it.\n            if (c > 0 && b.length == len) {\n                base64.setInitialBuffer(b, offset, len);\n            }\n            if (doEncode) {\n                base64.encode(buf, 0, c);\n            } else {\n                base64.decode(buf, 0, c);\n            }\n        }\n    }\n    return numRead;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

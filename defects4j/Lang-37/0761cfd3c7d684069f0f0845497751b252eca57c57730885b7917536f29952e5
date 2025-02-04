@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    final Class<?> type1 = array1.getClass().getComponentType();\n    T[] joinedArray = (T[]) java.lang.reflect.Array.newInstance(type1, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    \n    // Copy array2 elements in a type-safe manner.\n    if (array2.length != 0 && type1.isAssignableFrom(array2.getClass().getComponentType())) {\n        // Fast path, the element type in array2 is compatible with type1.\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    } else {\n        // Slow path: check each element individually.\n        for (int i = 0; i < array2.length; i++) {\n            T element = array2[i];\n            if (element != null && !type1.isInstance(element)) {\n                throw new IllegalArgumentException(\"Cannot store \" \n                        + element.getClass().getName() \n                        + \" in an array of type \" \n                        + type1.getName());\n            }\n            joinedArray[array1.length + i] = element;\n        }\n    }\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey))\n        return \"\";\n\n    try {\n        URL base;\n        try {\n            base = new URL(baseUri);\n        } catch (MalformedURLException e) {\n            // the baseUri is not a valid URL, so try to use the attribute as an absolute URL\n            URL abs = new URL(relUrl);\n            return abs.toExternalForm();\n        }\n\n        // workaround: if the href is a relative query (\"?foo\"), Java's URL\n        // resolution drops the last path segment. Instead, remove any query from the\n        // base and append the relative query.\n        if (relUrl.startsWith(\"?\")) {\n            String baseStr = base.toExternalForm();\n            int queryIndex = baseStr.indexOf(\"?\");\n            if (queryIndex != -1) {\n                baseStr = baseStr.substring(0, queryIndex);\n            }\n            return baseStr + relUrl;\n        }\n\n        // Normal URL resolution for non-query relative URLs.\n        URL abs = new URL(base, relUrl);\n        return abs.toExternalForm();\n    } catch (MalformedURLException e) {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

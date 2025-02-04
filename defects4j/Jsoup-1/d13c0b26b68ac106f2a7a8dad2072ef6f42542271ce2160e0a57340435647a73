@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // When moving text nodes from an element that belongs outside the body,\n    // they must be inserted at the beginning of the body so that their\n    // original document order is preserved.\n    for (int i = toMove.size() - 1; i >= 0; i--) {\n        Node node = toMove.get(i);\n        element.removeChild(node);\n        body().insertChildren(0, node);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // When preserving relative links, use the original attribute value, otherwise resolve to absolute.\n    String value = preserveRelativeLinks ? attr.getValue() : el.absUrl(attr.getKey());\n    if (!preserveRelativeLinks)\n        attr.setValue(value);\n\n    // Check if the (lowercased) url starts with one of the allowed protocols.\n    String lowerCaseValue = value.toLowerCase();\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (lowerCaseValue.startsWith(prot)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

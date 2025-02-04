@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation i) {\n    Object[] args = i.getArguments();\n    // If there are no arguments (as in some varargs calls), pass an empty array to every capturing matcher.\n    if (args.length == 0) {\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                ((CapturesArguments) m).captureFrom(new Object[0]);\n            }\n        }\n        return;\n    }\n    int k = 0;\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            // When there are fewer arguments than matchers, use the last available argument.\n            Object argToCapture = k < args.length ? args[k] : args[args.length - 1];\n            ((CapturesArguments) m).captureFrom(argToCapture);\n        }\n        k++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

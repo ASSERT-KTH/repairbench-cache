@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // get user-specified values (if any)\n    List valueList = (List) values.get(option);\n    if (valueList == null) {\n        valueList = new ArrayList();\n    } else {\n        // copy the list so we don't modify the original\n        valueList = new ArrayList(valueList);\n    }\n\n    // Determine which default list to use.\n    // Prefer the passed-in defaultValues, but if that\u2019s null or empty, \n    // use the defaults stored in this.defaultValues.\n    List actualDefaults = defaultValues;\n    if (actualDefaults == null || actualDefaults.isEmpty()) {\n        actualDefaults = (List) this.defaultValues.get(option);\n    }\n\n    // If there are defaults available, and the user did not supply enough values,\n    // append the missing default(s). The rule is: if the user provided n values, use \n    // the default at position n (if any) to fill in the next argument.\n    if (actualDefaults != null && !actualDefaults.isEmpty()) {\n        for (int i = valueList.size(); i < actualDefaults.size(); i++) {\n            valueList.add(actualDefaults.get(i));\n        }\n    }\n\n    return valueList.isEmpty() ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

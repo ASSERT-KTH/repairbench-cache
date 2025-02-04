@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Precondition v1 via an 8\u2010bit quantized multiple of v2 to reduce cancellation.\n    // That is, compute \u03c1 \u2248 (v1\u00b7v2)/(v2\u00b7v2) rounded to 8 bits.\n    double normSq = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n    double rho;\n    if (normSq == 0.0) {\n        rho = 0.0;\n    } else {\n        double dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n        double r = dot / normSq;\n        // Quantize r to 8 bits: that is, round to a multiple of 1/256.\n        rho = Math.rint(r * 256.0) / 256.0;\n    }\n    \n    // Replace v1 by v3 = v1 - \u03c1 v2; note that (v1 - \u03c1 v2)\u00d7v2 = v1\u00d7v2.\n    double x = v1.x - rho * v2.x;\n    double y = v1.y - rho * v2.y;\n    double z = v1.z - rho * v2.z;\n    \n    // Compute the cross product using v3 and v2.\n    return new Vector3D(y * v2.z - z * v2.y,\n                        z * v2.x - x * v2.z,\n                        x * v2.y - y * v2.x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

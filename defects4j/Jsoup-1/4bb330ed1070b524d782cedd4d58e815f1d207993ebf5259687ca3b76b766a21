@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<Node> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n    if (toMove.isEmpty())\n        return;\n\n    // Build a new list of nodes to insert at the beginning of the body,\n    // inserting a space between stray text nodes if there is more than one.\n    List<Node> nodesToInsert = new ArrayList<>();\n    for (int i = 0, size = toMove.size(); i < size; i++) {\n        if (i > 0)\n            nodesToInsert.add(new TextNode(\" \", \"\"));\n        Node node = toMove.get(i);\n        element.removeChild(node);\n        nodesToInsert.add(node);\n    }\n    // Instead of appending to the body, insert these nodes at the beginning so that\n    // stray text (like \"foo\") appears before the body\u2019s native content.\n    body().insertChildren(0, nodesToInsert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

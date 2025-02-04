@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    // Use a live select so that removed controls are not included; however,\n    // if a control was cached from before removal, skip it if it is no longer attached.\n    for (Element el : this.select(\"input, textarea, select, button\")) {\n        // If the element has been removed, it will have no parent \u2013 so skip it.\n        if (el.parent() == null) continue;\n        if (!el.hasAttr(\"name\") || el.attr(\"name\").trim().isEmpty()) continue;\n\n        // For checkboxes and radios, only include if they are marked as checked.\n        if (el.tagName().equalsIgnoreCase(\"input\")) {\n            String type = el.attr(\"type\");\n            if ((type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\"))\n                    && !el.hasAttr(\"checked\")) {\n                continue;\n            }\n        }\n        data.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

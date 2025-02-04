@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n  maybeEndStatement();\n\n  if (newcode.length() == 0) {\n    return;\n  }\n\n  char c = newcode.charAt(0);\n  // Insert a space if the new token might otherwise run into the previous token.\n  // The original logic added a space when a word character or '\\' was appended\n  // immediately after a word character. However, in cases like a division operator '/'\n  // followed by a regular expression literal that also begins with '/',\n  // we must also insert a space. (See testIssue620.)\n  if ((c == '/' && getLastChar() == '/') ||\n      ((isWordChar(c) || c == '\\\\') && isWordChar(getLastChar()))) {\n    append(\" \");\n  }\n\n  append(newcode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void declareArguments(Node functionNode) {\n  // In a function node the parameters are always the second child,\n  // regardless of whether the function is named or anonymous.\n  Node astParameters = functionNode.getSecondChild();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  // Even if there is no JSDoc type info for the parameters,\n  // we must declare the parameters so that later redeclarations\n  // (for example, a var that has the same name as a parameter)\n  // will generate an appropriate warning.\n  Node jsDocParameters = (functionType != null)\n      ? functionType.getParametersNode() : null;\n  Node jsDocParameter = (jsDocParameters != null)\n      ? jsDocParameters.getFirstChild() : null;\n  for (Node astParameter : astParameters.children()) {\n    if (jsDocParameter != null) {\n      defineSlot(astParameter, functionNode, jsDocParameter.getJSType(), true);\n      jsDocParameter = jsDocParameter.getNext();\n    } else {\n      defineSlot(astParameter, functionNode, null, true);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

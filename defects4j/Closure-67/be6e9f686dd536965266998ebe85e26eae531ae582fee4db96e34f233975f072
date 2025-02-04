@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null \n      && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {\n    // For a chained property assignment such as:\n    //   e.prototype.method or e.prototype['alias1']\n    // n is the outer access node (GETPROP or GETELEM) and its first child\n    // is the inner access node representing e.prototype.\n    Node objectExpr = n.getFirstChild();\n    if (objectExpr != null &&\n        (objectExpr.getType() == Token.GETPROP || objectExpr.getType() == Token.GETELEM)) {\n      // In e.prototype, the property \"prototype\" is stored as the second child.\n      Node protoProp = (objectExpr.getFirstChild() != null) \n                       ? objectExpr.getFirstChild().getNext() \n                       : null;\n      if (protoProp != null &&\n          protoProp.getType() == Token.STRING &&\n          \"prototype\".equals(protoProp.getString())) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

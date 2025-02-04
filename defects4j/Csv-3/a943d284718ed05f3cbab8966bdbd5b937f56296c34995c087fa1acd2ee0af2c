@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (normally, for example, '\\' or '/')\n    final int c = in.read();\n    switch (c) {\n    case 'r':\n        return CR;\n    case 'n':\n        return LF;\n    case 't':\n        return TAB;\n    case 'b':\n        return BACKSPACE;\n    case 'f':\n        return FF;\n    case CR:\n    case LF:\n    case FF:\n    case TAB:\n    case BACKSPACE:\n        return c;\n    case END_OF_STREAM:\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    default:\n        // fall through to the additional tests\n        break;\n    }\n    // If the character following the escape is one of the meta\u2010characters,\n    // namely the configured escape character, the quote character, or the delimiter,\n    // then we return it as is.\n    if (c == this.escape || c == this.quote || c == this.delimiter) {\n        return c;\n    }\n    // Otherwise, the escape sequence is not recognized.\n    // We \u201cpush back\u201d the character (so that in.getLastChar() will return it)\n    // and return the escape character itself.\n    in.setLastChar(c);\n    return this.escape;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

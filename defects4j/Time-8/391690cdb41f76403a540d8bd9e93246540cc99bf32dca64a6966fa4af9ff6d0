@@ -1,0 +1,7 @@
+{
+    "generation": "public static DateTimeZone forOffsetHoursMinutes(int hoursOffset, int minutesOffset) throws IllegalArgumentException {\n    if (hoursOffset == 0 && minutesOffset == 0) {\n        return DateTimeZone.UTC;\n    }\n    if (hoursOffset < -23 || hoursOffset > 23) {\n        throw new IllegalArgumentException(\"Hours out of range: \" + hoursOffset);\n    }\n    // Allow negative minutes only when hours is zero or negative.\n    if (Math.abs(minutesOffset) > 59) {\n        throw new IllegalArgumentException(\"Minutes out of range: \" + minutesOffset);\n    }\n    if (hoursOffset > 0 && minutesOffset < 0) {\n        throw new IllegalArgumentException(\"Minutes must be non-negative when hours are positive\");\n    }\n\n    int totalMinutes;\n    if (hoursOffset < 0) {\n        // For negative hours, always treat the total offset as negative.\n        totalMinutes = - ((-hoursOffset) * 60 + Math.abs(minutesOffset));\n    } else {\n        // For zero or positive hours, simply add hours and minutes.\n        totalMinutes = hoursOffset * 60 + minutesOffset;\n    }\n    \n    int offset;\n    try {\n        offset = FieldUtils.safeMultiply(totalMinutes, DateTimeConstants.MILLIS_PER_MINUTE);\n    } catch (ArithmeticException ex) {\n        throw new IllegalArgumentException(\"Offset is too large\");\n    }\n    return forOffsetMillis(offset);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

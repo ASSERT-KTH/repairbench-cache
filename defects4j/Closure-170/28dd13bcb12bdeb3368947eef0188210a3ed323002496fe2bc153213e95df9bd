@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          // Match only if this is the variable we care about.\n          if (n.isName() && n.getString().equals(varName)) {\n            // We used to ignore all occurrences where this name\n            // was the left-hand side of an assignment. However, that\n            // is too aggressive. In a top\u2010level assignment (e.g. an\n            // assignment statement), the LHS is not a \u201cuse\u201d but a\n            // definition. When the assignment occurs inside a larger\n            // expression (such as inside a hook), however, the assignment\n            // happens sooner than the rest of the expression, so we must\n            // count it.\n            //\n            // Therefore, we only ignore the LHS if the assignment node\n            // is directly contained in the cfgNode.\n            if (parent != null\n                && parent.isAssign()\n                && parent.getFirstChild() == n\n                && parent.getParent() == cfgNode) {\n              return;\n            }\n            numUsesWithinCfgNode++;\n          }\n        }\n      };\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

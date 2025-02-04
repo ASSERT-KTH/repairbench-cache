@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    // If the weight matrix is diagonal, avoid an expensive full eigen decomposition.\n    if (m instanceof org.apache.commons.math3.linear.DiagonalMatrix) {\n        org.apache.commons.math3.linear.DiagonalMatrix diag = (org.apache.commons.math3.linear.DiagonalMatrix) m;\n        double[] data = diag.getData();\n        double[] sqrtData = new double[data.length];\n        for (int i = 0; i < data.length; i++) {\n            sqrtData[i] = FastMath.sqrt(data[i]);\n        }\n        return new org.apache.commons.math3.linear.DiagonalMatrix(sqrtData);\n    }\n    // For non-diagonal matrices, fall back on the standard eigen decomposition.\n    final EigenDecomposition dec = new EigenDecomposition(m);\n    return dec.getSquareRoot();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public Class getGenericType(Field field) {\n    Type genericType = field.getGenericType();\n    if (genericType instanceof ParameterizedType) {\n        Type actualType = ((ParameterizedType) genericType).getActualTypeArguments()[0];\n        if (actualType instanceof Class) {\n            return (Class) actualType;\n        } else if (actualType instanceof ParameterizedType) {\n            return (Class) ((ParameterizedType) actualType).getRawType();\n        } else if (actualType instanceof WildcardType) {\n            Type[] upperBounds = ((WildcardType) actualType).getUpperBounds();\n            if (upperBounds.length > 0 && upperBounds[0] instanceof Class) {\n                return (Class) upperBounds[0];\n            }\n        }\n    }\n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

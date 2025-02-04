@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, int nextLineTabStop, String text) {\n    // When indenting (i.e. for options or usage chunks), the effective width for text is reduced.\n    int effectiveWidth = width - nextLineTabStop;\n    if (effectiveWidth < 1) {\n        throw new IllegalStateException(\"Total width is less than the width of the argument and indent - no room for the description\");\n    }\n    // Create the padding string (e.g. a series of spaces) to be prepended on every line.\n    String padding = createPadding(nextLineTabStop);\n\n    // Loop while the remaining text is longer than the effective width.\n    while (text.length() > effectiveWidth) {\n        int pos = findWrapPos(text, effectiveWidth, 0);\n        // If no wrap position was found (i.e. for a long word), force break at effectiveWidth.\n        if (pos == -1) {\n            pos = effectiveWidth;\n        }\n        sb.append(padding)\n          .append(rtrim(text.substring(0, pos)))\n          .append(defaultNewLine);\n        text = text.substring(pos).trim();\n    }\n\n    // Append any leftover text (which fits in one line) with the same padding.\n    if (text.length() > 0) {\n        sb.append(padding).append(text);\n    }\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

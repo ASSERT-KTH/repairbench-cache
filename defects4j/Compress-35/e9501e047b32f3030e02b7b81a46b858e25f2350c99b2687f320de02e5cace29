@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    // First, extract the stored checksum from the checksum field.\n    // According to the spec the field should contain an octal number (ignoring leading/trailing whitespace)\n    // and we only consider the first six octal digits.\n    long storedSum = 0;\n    int digitCount = 0;\n    for (int i = CHKSUM_OFFSET; i < CHKSUM_OFFSET + CHKSUMLEN; i++) {\n        byte b = header[i];\n        // Skip whitespace and NUL characters.\n        if (b == 0 || b == ' ') {\n            continue;\n        }\n        // If the first non\u2010whitespace char isn\u2019t a valid octal digit, stop.\n        if (b < '0' || b > '7') {\n            break;\n        }\n        if (digitCount < 6) {\n            storedSum = storedSum * 8 + (b - '0');\n            digitCount++;\n        }\n    }\n\n    // Now compute the checksum over the entire header.\n    // In the checksum field we must use the value for an ascii space (32).\n    long unsignedSum = 0;\n    long signedSum = 0;\n    for (int i = 0; i < header.length; i++) {\n        if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            // Use a space for each byte in the checksum field.\n            unsignedSum += 32;\n            signedSum += 32;\n        } else {\n            unsignedSum += header[i] & 0xff;\n            signedSum += header[i];\n        }\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

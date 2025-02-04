@@ -1,0 +1,7 @@
+{
+    "generation": "public XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Must be at least two characters, and start with '!' or '?' to be a valid XML declaration candidate.\n    if (data.length() < 2 || (!data.startsWith(\"!\") && !data.startsWith(\"?\"))) {\n        return null;\n    }\n\n    // Remove the first and last character and wrap in angle brackets so we can parse it as an element.\n    String tag = data.substring(1, data.length() - 1);\n    Document doc = Jsoup.parse(\"<\" + tag + \">\", baseUri(), Parser.xmlParser());\n\n    // Instead of relying on childNodeSize (which may be non-elements), use the element children.\n    Element el = doc.children().first();\n    if (el == null) {\n        return null;\n    }\n\n    XmlDeclaration decl = new XmlDeclaration(\n            NodeUtils.parser(doc).settings().normalizeTag(el.tagName()),\n            data.startsWith(\"!\")\n    );\n    decl.attributes().addAll(el.attributes());\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public void escape(Writer writer, String str) throws IOException {\n    for (int i = 0, len = str.length(); i < len; ) {\n        int cp = str.codePointAt(i);\n        String entityName = cp < 0x10000 ? this.entityName((char) cp) : null;\n        if (entityName == null) {\n            if (cp > 0x7F) {\n                writer.write(\"&#\");\n                writer.write(Integer.toString(cp, 10));\n                writer.write(';');\n            } else {\n                writer.write(cp);\n            }\n        } else {\n            writer.write('&');\n            writer.write(entityName);\n            writer.write(';');\n        }\n        i += Character.charCount(cp);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void inferPropertyTypesToMatchConstraint(\n    JSType type, JSType constraint) {\n  if (type == null || constraint == null) {\n    return;\n  }\n\n  ObjectType constraintObj =\n      ObjectType.cast(constraint.restrictByNotNullOrUndefined());\n  if (constraintObj != null && constraintObj.isRecordType()) {\n    ObjectType objType = ObjectType.cast(type.restrictByNotNullOrUndefined());\n    if (objType != null) {\n      for (String prop : constraintObj.getOwnPropertyNames()) {\n        // Only widen properties that have not been explicitly declared.\n        if (!objType.isPropertyTypeDeclared(prop)) {\n          JSType constraintPropType = constraintObj.getPropertyType(prop);\n          // Whether or not the property already exists on the inferred type,\n          // we want its type to be widened to include undefined.\n          JSType currentPropType = objType.hasProperty(prop)\n              ? objType.getPropertyType(prop)\n              : getNativeType(VOID_TYPE);\n          JSType widenedType =\n              getNativeType(VOID_TYPE).getLeastSupertype(currentPropType, constraintPropType);\n          objType.defineInferredProperty(prop, widenedType, null);\n        }\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

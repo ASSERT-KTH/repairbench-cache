@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n    // If the tar header\u2019s link flag explicitly marks this entry as a directory, do so.\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n    // When a PAX header is present the entry\u2019s \u201cname\u201d has already been adjusted (for example,\n    // a trailing slash removed) so we must not use the trailing\u2010slash heuristic.\n    if (paxHeaders != null && !paxHeaders.isEmpty()) {\n        return false;\n    }\n    // Otherwise, fall back on the legacy test: a name ending with \"/\" means a directory.\n    return getName().endsWith(\"/\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

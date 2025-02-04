@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // first, try to get the user\u2010supplied values\n    List valueList = (List) values.get(option);\n\n    if (valueList == null || valueList.isEmpty()) {\n        // if no value was supplied then try the passed defaultValues\n        if (defaultValues != null && !defaultValues.isEmpty()) {\n            // make a copy so that later augmentation does not affect the original list\n            valueList = new ArrayList(defaultValues);\n        } else {\n            // fall back to the internal default values associated with the option\n            valueList = (List) this.defaultValues.get(option);\n        }\n    } else {\n        // If the user has provided at least one value, then check if there is a default\n        // to \u201cfill in\u201d the next missing argument.\n        List optionDefaults = (List) this.defaultValues.get(option);\n        if (optionDefaults != null && optionDefaults.size() > valueList.size()) {\n            // create a modifiable copy of the current list and add the default for the next argument\n            List augmentedList = new ArrayList(valueList);\n            augmentedList.add(optionDefaults.get(valueList.size()));\n            valueList = augmentedList;\n        }\n    }\n\n    return valueList == null ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

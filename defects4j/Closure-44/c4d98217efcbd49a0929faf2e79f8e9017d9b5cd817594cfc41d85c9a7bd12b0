@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n  maybeEndStatement();\n  if (newcode.length() == 0) {\n    return;\n  }\n\n  char c = newcode.charAt(0);\n  char last = getLastChar();\n\n  // When appending new tokens, we sometimes must insert a space.\n  // Originally we inserted a space if the token begins with a word\n  // character (or a backslash) and the last printed character is also a word.\n  // However, to avoid issues with a regex literal (which begins with '/')\n  // following a division (or another regex) \u2013 making something like \"//\"\n  // that might be misinterpreted as a comment \u2013 we now also add a space\n  // when both the last printed character and the new token\u2019s first character are '/'.\n  if (((isWordChar(c) || c == '\\\\') && isWordChar(last)) ||\n      (c == '/' && last == '/')) {\n    append(\" \");\n  }\n\n  append(newcode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

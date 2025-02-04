@@ -1,0 +1,7 @@
+{
+    "generation": "public static Appendable render(final String input, Appendable target) throws IOException {\n    int i = 0;\n    int j, k;\n\n    while (true) {\n        j = input.indexOf(BEGIN_TOKEN, i);\n        if (j == -1) {\n            target.append(input.substring(i));\n            return target;\n        }\n        target.append(input.substring(i, j));\n\n        // Search for the END_TOKEN starting after the BEGIN_TOKEN\n        k = input.indexOf(END_TOKEN, j + BEGIN_TOKEN_LEN);\n        if (k == -1) {\n            throw new IllegalArgumentException(\"Missing end token in input: \" + input);\n        }\n\n        // Extract the inline code specification between BEGIN_TOKEN and END_TOKEN.\n        String spec = input.substring(j + BEGIN_TOKEN_LEN, k);\n        if (spec.isEmpty()) {\n            throw new IllegalArgumentException(\"Empty inline code specification in input: \" + input);\n        }\n        String[] items = spec.split(CODE_TEXT_SEPARATOR, 2);\n        if (items.length < 2) {\n            throw new IllegalArgumentException(\"Invalid inline code format in input: \" + input);\n        }\n        String replacement = render(items[1], items[0].split(CODE_LIST_SEPARATOR));\n        target.append(replacement);\n\n        i = k + END_TOKEN_LEN;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

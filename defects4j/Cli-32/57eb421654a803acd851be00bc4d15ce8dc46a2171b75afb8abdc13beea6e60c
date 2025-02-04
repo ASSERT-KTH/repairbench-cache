@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos) {\n    // If there is an explicit newline or carriage return within the next 'width' characters,\n    // break the line at that point (and skip the newline).\n    int nl = text.indexOf('\\n', startPos);\n    if (nl != -1 && nl <= startPos + width) {\n        return nl + 1;\n    }\n    int cr = text.indexOf('\\r', startPos);\n    if (cr != -1 && cr <= startPos + width) {\n        return cr + 1;\n    }\n    \n    // If the text from startPos doesn't extend beyond 'width', there is nothing to wrap.\n    if (startPos + width >= text.length()) {\n        return -1;\n    }\n    \n    // Look backward from startPos+width for a whitespace character (space, newline, or carriage return)\n    int pos = startPos + width;\n    while (pos > startPos && text.charAt(pos) != ' ' \n           && text.charAt(pos) != '\\n' && text.charAt(pos) != '\\r') {\n        pos--;\n    }\n    \n    // If a whitespace character was found in the block [startPos, startPos+width], return its position.\n    if (pos > startPos) {\n        return pos;\n    }\n    \n    // No whitespace found in the block; force a break at startPos+width.\n    return startPos + width;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

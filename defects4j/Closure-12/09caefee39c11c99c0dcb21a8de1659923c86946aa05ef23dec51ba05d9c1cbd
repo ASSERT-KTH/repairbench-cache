@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  if (cfgNode == null) {\n    return false;\n  }\n  // If this node is a try block, check whether it has a catch clause.\n  if (cfgNode.isTry()) {\n    // In our AST, a try statement\u2019s children are: try-block, catch-block (if present), and finally-block (if any).\n    // So if there is more than one child and the second child is a catch clause, then we have an exception handler.\n    if (cfgNode.getChildCount() > 1 && cfgNode.getChildAtIndex(1).isCatch()) {\n      return true;\n    }\n  }\n  // Also, if this very node is a catch clause, it is an exception handler.\n  if (cfgNode.isCatch()) {\n    return true;\n  }\n  // Otherwise, check recursively for an exception handler in any child.\n  for (Node child = cfgNode.getFirstChild(); child != null; child = child.getNext()) {\n    if (hasExceptionHandler(child)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

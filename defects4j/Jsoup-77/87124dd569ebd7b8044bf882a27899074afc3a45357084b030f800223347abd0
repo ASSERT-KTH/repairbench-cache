@@ -1,0 +1,7 @@
+{
+    "generation": "private void popStackToClose(Token.EndTag endTag) {\n    String elName = endTag.name();\n    // Find the closest element on the stack with this tag name.\n    int pos = -1;\n    for (int i = stack.size() - 1; i >= 0; i--) {\n        if (stack.get(i).nodeName().equals(elName)) {\n            pos = i;\n            break;\n        }\n    }\n    if (pos == -1)\n        return; // not found, so nothing to do\n\n    // Collect any mis-nested elements that were opened after the matching element.\n    List<Element> misnested = new ArrayList<>();\n    for (int i = stack.size() - 1; i > pos; i--) {\n        misnested.add(stack.get(i));\n    }\n    // Now pop off all elements from the top of the stack down to (and including) the matched element.\n    for (int i = stack.size() - 1; i >= pos; i--) {\n        stack.remove(i);\n    }\n    // If there were misnested elements, reparent them to the new current element so they come after the closed element.\n    if (!misnested.isEmpty() && !stack.isEmpty()) {\n        // Reverse the order so as to preserve their original document order.\n        Collections.reverse(misnested);\n        Element newParent = stack.get(stack.size() - 1);\n        for (Element el : misnested) {\n            el.remove();          // detach from the closed element (its former parent)\n            newParent.appendChild(el); // reattach as a child of the new current node\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

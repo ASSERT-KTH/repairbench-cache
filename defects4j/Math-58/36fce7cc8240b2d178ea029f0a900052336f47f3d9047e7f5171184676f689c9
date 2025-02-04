@@ -1,0 +1,7 @@
+{
+    "generation": "public double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    // Make sure the sigma guess (guess[2]) is strictly positive.\n    // If it is negative, flip its sign; if it is 0, use a fallback based on the x\u2010range.\n    if (guess[2] <= 0) {\n        guess[2] = (guess[2] == 0) ?\n                (getObservations()[getObservations().length - 1].getX() - getObservations()[0].getX()) / 6.0 :\n                -guess[2];\n    }\n    return fit(new Gaussian.Parametric(), guess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

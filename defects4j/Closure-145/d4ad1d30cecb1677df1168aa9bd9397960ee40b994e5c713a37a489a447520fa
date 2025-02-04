@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isOneExactlyFunctionOrDo(Node n) {\n  // If n is a BLOCK with a single child, use that child.\n  if (n.getType() == Token.BLOCK) {\n    if (n.getChildCount() != 1) {\n      return false;\n    }\n    n = n.getFirstChild();\n  }\n  // If n is a LABEL, examine its attached statement.\n  if (n.getType() == Token.LABEL) {\n    n = n.getLastChild();\n  }\n  // If the node is a FUNCTION or DO, then we must keep its block\n  // (for Safari/IE compatibility) rather than eliding the surrounding braces.\n  // For other kinds of statements it is safe to drop the block.\n  return n.getType() != Token.FUNCTION && n.getType() != Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

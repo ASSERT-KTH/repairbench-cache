@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    // Protect against out-of-bounds access.\n    if (index >= input.length() - 1 || input.charAt(index) != '&' || input.charAt(index + 1) != '#') {\n        return 0;\n    }\n    \n    int start = index + 2;\n    boolean isHex = false;\n    if (start < input.length()) {\n        char firstChar = input.charAt(start);\n        if (firstChar == 'x' || firstChar == 'X') {\n            isHex = true;\n            start++;\n        }\n    } else {\n        return 0;\n    }\n    \n    int end = start;\n    // Look for the ending semicolon safely.\n    while (end < input.length() && input.charAt(end) != ';') {\n        end++;\n    }\n    if (end == input.length() || input.charAt(end) != ';') {\n        return 0;\n    }\n    \n    int entityValue;\n    try {\n        String number = input.subSequence(start, end).toString();\n        entityValue = Integer.parseInt(number, isHex ? 16 : 10);\n    } catch (NumberFormatException nfe) {\n        return 0;\n    }\n    \n    // Properly write out supplementary code points as surrogate pairs.\n    if (Character.isSupplementaryCodePoint(entityValue)) {\n        out.write(Character.toChars(entityValue));\n    } else {\n        out.write(entityValue);\n    }\n    \n    // Calculate and return the number of characters consumed.\n    return 2 + (isHex ? 1 : 0) + (end - start) + 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

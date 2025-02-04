@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Sets the given lines for the provided path, overriding any previously existing comments for the path.\n * An entry that is a sole new-line (i.e. \"\\n\") will result in an empty line without any comment marker.\n *\n * @param path the path to register the comment lines for\n * @param commentLines the comment lines to set for the path\n */\npublic void setComment(@NotNull String path, @NotNull String... commentLines) {\n    // Process the comment lines per specification: a line that is exactly \"\\n\" becomes an empty string.\n    List<String> processedLines = new ArrayList<>();\n    for (String line : commentLines) {\n        processedLines.add(\"\\n\".equals(line) ? \"\" : line);\n    }\n    \n    // Check if a comment for this path already exists.\n    boolean alreadyExists = comments.containsKey(path);\n    \n    // Override the comment lines for the provided path.\n    comments.put(path, Collections.unmodifiableList(processedLines));\n    \n    // If a comment already existed, throw an exception indicating this override.\n    if (alreadyExists) {\n        throw new IllegalStateException(\"Comment lines already exists for the path '\" + path + \"'\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

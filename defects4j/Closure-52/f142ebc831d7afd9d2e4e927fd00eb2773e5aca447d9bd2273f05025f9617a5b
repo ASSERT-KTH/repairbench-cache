@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  int len = s.length();\n  if (len == 0) return false;\n  \n  // Allow hexadecimal numbers: they start with \"0x\" or \"0X\" and then one or more hex digits.\n  if (len > 2 && s.charAt(0) == '0' &&\n      (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {\n    for (int i = 2; i < len; i++) {\n      char c = s.charAt(i);\n      if (!((c >= '0' && c <= '9') ||\n            (c >= 'a' && c <= 'f') ||\n            (c >= 'A' && c <= 'F'))) {\n        return false;\n      }\n    }\n    return true;\n  }\n\n  // If the literal contains a dot, it is not a simple integer literal.\n  if (s.indexOf('.') != -1) return false;\n  \n  // If the literal starts with 0 and has more digits, it is intended to be octal.\n  // In that case, every character (after the initial 0) must be in the range '0'-'7'.\n  if (s.charAt(0) == '0' && len > 1) {\n    for (int i = 1; i < len; i++) {\n      char c = s.charAt(i);\n      if (c < '0' || c > '7') return false;\n    }\n    return true;\n  }\n  \n  // Otherwise, it must be a plain decimal number.\n  for (int i = 0; i < len; i++) {\n    char c = s.charAt(i);\n    if (c < '0' || c > '9') return false;\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

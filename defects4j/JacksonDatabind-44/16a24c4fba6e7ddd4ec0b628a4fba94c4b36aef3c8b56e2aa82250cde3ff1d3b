@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass) {\n    if (subclass == _class) {\n        return this;\n    }\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \" + subclass.getName()\n                + \" not a subtype of \" + _class.getName());\n    }\n    // Instead of passing \"this\" as the super-type, we must compute the proper\n    // super-type for the new subclass. This ensures that properties declared\n    // only in the subclass (like \"b\" in the test) are discovered.\n    JavaType newSuper = (_superClass == null) ? null : _superClass.narrow(subclass.getSuperclass());\n    return new SimpleType(subclass, _bindings, newSuper, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

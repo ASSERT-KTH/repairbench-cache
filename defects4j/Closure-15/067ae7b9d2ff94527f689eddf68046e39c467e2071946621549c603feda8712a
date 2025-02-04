@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n  // When the node is null it means we reached the implicit return.\n  if (n == null) {\n    return false;\n  }\n\n  // If we encounter a function call that might have side effects,\n  // then we cannot safely inline.\n  if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n    return true;\n  }\n\n  // Likewise, if a constructor call might have side effects, do not inline.\n  if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n    return true;\n  }\n\n  // If we see a delete operation, it is a mutation and so we must not inline.\n  if (n.isDel()) {\n    return true;\n  }\n\n  // Recursively scan the children unless we are about to enter a new CFG node.\n  for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

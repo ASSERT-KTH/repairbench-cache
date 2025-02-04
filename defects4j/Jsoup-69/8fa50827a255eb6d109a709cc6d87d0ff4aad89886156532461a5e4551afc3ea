@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    // Re-query the current descendants of the form instead of using a cached list.\n    // That way, removed controls (which are no longer attached) won\u2019t be included.\n    Elements elements = this.select(\"input, textarea, select, keygen, button\");\n    for (Element el : elements) {\n        // Only include form controls that have a non-empty \"name\" attribute.\n        if (!el.hasAttr(\"name\") || el.attr(\"name\").isEmpty())\n            continue;\n        data.add(HttpConnection.KeyVal.create(el.attr(\"name\"), el.val()));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

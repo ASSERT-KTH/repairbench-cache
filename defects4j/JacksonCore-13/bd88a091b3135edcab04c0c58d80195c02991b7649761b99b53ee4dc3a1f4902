@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed version of the buggy field\u2010name writer.\n *\n * This method writes out a field name, adding double\u2010quote characters if either the\n * global configuration (JsonGenerator.Feature.QUOTE_FIELD_NAMES) is enabled OR if the\n * \u201cforceQuote\u201d flag is true. Otherwise, it writes the field name unquoted.\n */\nprotected void _writeFieldName(String name, boolean forceQuote) throws IOException {\n    // Determine whether field names should be quoted: if the factory\u2019s setting\n    // mandates quoting, then always quote; otherwise, quote only if forced.\n    boolean shouldQuote = forceQuote || isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    if (shouldQuote) {\n        // Write field name with quotes; escaping would be done here if necessary.\n        _output.write('\\\"');\n        _output.write(name);\n        _output.write('\\\"');\n    } else {\n        // Write field name without surrounding quotes.\n        _output.write(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

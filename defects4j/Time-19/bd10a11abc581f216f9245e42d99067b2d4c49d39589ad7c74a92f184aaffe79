@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    // First, get an initial offset estimate.\n    int offsetLocal = getOffset(instantLocal);\n    long instantAdjusted = instantLocal - offsetLocal;\n    int offsetAdjusted = getOffset(instantAdjusted);\n    \n    if (offsetLocal != offsetAdjusted) {\n        // We are in a DST gap.\n        // In a gap the \"after\u2010gap\" offset (usually larger in value for negative zones\n        // or smaller for positive ones) must be chosen so that the resulting UTC is\n        // on or after the gap. Our fix is to check the difference in offsets:\n        if ((offsetLocal - offsetAdjusted) > 0) {\n            // Let\u2019s check the transitions for consistency.\n            long nextLocal = nextTransition(instantAdjusted);\n            long nextAdjusted = nextTransition(instantLocal - offsetAdjusted);\n            if (nextLocal != nextAdjusted) {\n                return offsetLocal;\n            }\n        }\n        return offsetAdjusted;\n    } else {\n        // When the two estimates agree, we may be in an overlap.\n        // In an overlap the correct answer is the one for the earlier instant.\n        // Typically that is the offset in effect immediately before the overlap.\n        int offsetBefore = getOffset(instantLocal - 1);\n        if (offsetBefore > offsetLocal) {\n            return offsetBefore;\n        }\n        return offsetLocal;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // Get the user-supplied values for this option\n    List userValues = (List) values.get(option);\n\n    // Determine the default values: first use the passed parameter;\n    // if that is missing or empty, fall back to our instance defaults.\n    List defaultsForOption = defaultValues;\n    if (defaultsForOption == null || defaultsForOption.isEmpty()) {\n        defaultsForOption = (List) this.defaultValues.get(option);\n    }\n\n    // If no user values were provided, return the defaults (or an empty list)\n    if (userValues == null || userValues.isEmpty()) {\n        return defaultsForOption == null ? Collections.EMPTY_LIST : defaultsForOption;\n    }\n\n    // Otherwise, merge the user values with the default values.\n    // For each argument position not supplied by the user, use the default.\n    List result = new ArrayList(userValues);\n    if (defaultsForOption != null && defaultsForOption.size() > userValues.size()) {\n        result.addAll(defaultsForOption.subList(userValues.size(), defaultsForOption.size()));\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

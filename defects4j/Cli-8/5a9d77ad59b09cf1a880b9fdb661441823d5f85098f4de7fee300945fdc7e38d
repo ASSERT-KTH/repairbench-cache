@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, int nextLineTabStop, String text) {\n    int pos = findWrapPos(text, width, 0);\n    if (pos == -1) {\n        sb.append(rtrim(text));\n        return sb;\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // all following lines must be padded with nextLineTabStop space characters\n    final String padding = createPadding(nextLineTabStop);\n\n    while (true) {\n        // Instead of blindly calling trim() (which removes all leading newlines too),\n        // remove only the unwanted leading whitespace but preserve an explicit newline.\n        String remainder = text.substring(pos);\n        if (remainder.startsWith(defaultNewLine)) {\n            // if the wrap position fell on an explicit newline, skip it\n            remainder = remainder.substring(defaultNewLine.length());\n        } else {\n            // otherwise, remove all leading whitespace\n            remainder = remainder.replaceAll(\"^\\\\s+\", \"\");\n        }\n        text = padding + remainder;\n        pos = findWrapPos(text, width, nextLineTabStop);\n        if (pos == -1) {\n            sb.append(text);\n            return sb;\n        }\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

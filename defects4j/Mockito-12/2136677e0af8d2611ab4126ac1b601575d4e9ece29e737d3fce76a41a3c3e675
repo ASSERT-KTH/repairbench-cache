@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class.\n *\n * @param field the field for which to extract the generic type\n * @return the extracted generic type or Object.class if not found\n */\npublic Class getGenericType(Field field) {        \n    Type generic = field.getGenericType();\n    if (generic instanceof ParameterizedType) {\n        Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n        if (actual instanceof Class) {\n            return (Class) actual;\n        } else if (actual instanceof ParameterizedType) {\n            // In case of nested generics we return the raw type (e.g. Set in Set<Set<String>>)\n            return (Class) ((ParameterizedType) actual).getRawType();\n        } else if (actual instanceof GenericArrayType) {\n            Type compType = ((GenericArrayType) actual).getGenericComponentType();\n            if (compType instanceof Class) {\n                return java.lang.reflect.Array.newInstance((Class) compType, 0).getClass();\n            }\n        }\n    }\n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

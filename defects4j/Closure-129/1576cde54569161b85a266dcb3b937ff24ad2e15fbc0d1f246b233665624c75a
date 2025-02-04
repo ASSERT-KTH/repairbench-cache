@@ -1,0 +1,7 @@
+{
+    "generation": "private void annotateCalls(Node n) {\n  Preconditions.checkState(n.isCall());\n  Node first = n.getFirstChild();\n\n  // Unwrap cast nodes.\n  while (first != null && first.isCast()) {\n    first = first.getFirstChild();\n  }\n\n  // If the function is not a property access, then this is a free call.\n  if (!NodeUtil.isGet(first)) {\n    n.putBooleanProp(Node.FREE_CALL, true);\n  }\n\n  // Mark a direct eval call.\n  if (first.isName() && \"eval\".equals(first.getString())) {\n    first.putBooleanProp(Node.DIRECT_EVAL, true);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

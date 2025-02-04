@@ -1,0 +1,7 @@
+{
+    "generation": "public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);\n    }\n\n    // Determine an appropriate runtime type for the array.\n    // If the singleton elements are not all of the same type,\n    // use Object.class to avoid ArrayStoreException.\n    Class<?> componentType = singletons.get(0).getClass();\n    for (int j = 1; j < singletons.size(); j++) {\n        if (!componentType.equals(singletons.get(j).getClass())) {\n            componentType = Object.class;\n            break;\n        }\n    }\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(componentType, sampleSize);\n\n    for (int i = 0; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

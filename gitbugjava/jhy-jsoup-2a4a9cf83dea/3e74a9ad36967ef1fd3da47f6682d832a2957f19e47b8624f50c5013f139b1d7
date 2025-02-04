@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // the last evaluator must match the element itself\n    int size = evaluators.size();\n    if (!evaluators.get(size - 1).matches(root, element))\n        return false;\n    // for each previous evaluator, walk up the ancestry until we find a match\n    for (int i = size - 2; i >= 0; i--) {\n        element = element.parent();\n        while (element != null && !evaluators.get(i).matches(root, element)) {\n            element = element.parent();\n        }\n        if (element == null)\n            return false;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n\n    // When moving nodes within the same parent, adjust the insertion index.\n    // For any node already contained here that sits before our target index,\n    // removal will shift the target left.\n    for (Node child : children) {\n        if (child.parent() == this) {\n            int pos = childNodes.indexOf(child);\n            if (pos < index)\n                index--;\n        }\n    }\n\n    // Now insert the nodes in the order given, reparenting each.\n    for (Node child : children) {\n        reparentChild(child);\n        childNodes.add(index, child);\n        index++;\n    }\n    reindexChildren(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

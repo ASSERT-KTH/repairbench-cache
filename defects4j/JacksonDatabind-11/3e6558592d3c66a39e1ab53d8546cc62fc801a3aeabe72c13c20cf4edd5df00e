@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n    final String name = type.getName();\n    if (context == null) {\n        return _unknownType();\n    }\n    JavaType actualType = context.findType(name);\n    if (actualType != null) {\n        return actualType;\n    }\n    Type[] bounds = type.getBounds();\n    \n    // Add a placeholder so that recursive type references can be handled.\n    context._addPlaceholder(name);\n    JavaType result = _constructType(bounds[0], context);\n    \n    // Now that resolution is complete, update the placeholder mapping.\n    context.resolvePlaceholder(name, result);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

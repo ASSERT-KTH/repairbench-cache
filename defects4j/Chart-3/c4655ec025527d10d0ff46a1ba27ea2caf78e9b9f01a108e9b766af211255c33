@@ -1,0 +1,7 @@
+{
+    "generation": "public TimeSeries createCopy(int start, int end)\n        throws CloneNotSupportedException {\n    if (start < 0) {\n        throw new IllegalArgumentException(\"Requires start >= 0.\");\n    }\n    if (end < start) {\n        throw new IllegalArgumentException(\"Requires start <= end.\");\n    }\n    // Clone \u2018this\u2019 and then clear the data list\n    TimeSeries copy = (TimeSeries) super.clone();\n    copy.data = new java.util.ArrayList();\n    \n    // Reset the cached minimum and maximum values so that adding the new items\n    // will recalculate the bounds correctly. (In JFreeChart these are typically\n    // stored in the fields 'minimumValue' and 'maximumValue'.)\n    copy.minimumValue = null;\n    copy.maximumValue = null;\n    \n    // Now copy the subset of items from start to end (inclusive)\n    for (int index = start; index <= end; index++) {\n        TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);\n        TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();\n        try {\n            copy.add(clone);\n        } catch (SeriesException e) {\n            e.printStackTrace();\n        }\n    }\n    return copy;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

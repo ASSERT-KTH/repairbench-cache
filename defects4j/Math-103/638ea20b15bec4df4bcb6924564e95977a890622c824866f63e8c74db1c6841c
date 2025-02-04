@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // Handle infinities explicitly.\n    if (Double.isInfinite(x)) {\n        return (x < 0) ? 0.0 : 1.0;\n    }\n\n    // For extreme x values, simply top-code to 0 or 1 to avoid convergence issues.\n    // Here we choose 10 standard deviations from the mean according to the test.\n    if (x <= mean - 10 * standardDeviation) {\n        return 0.0;\n    }\n    if (x >= mean + 10 * standardDeviation) {\n        return 1.0;\n    }\n\n    // For other x, try computing using Erf.erf.\n    try {\n        return 0.5 * (1.0 + Erf.erf((x - mean) / (standardDeviation * Math.sqrt(2.0))));\n    } catch (MaxIterationsExceededException e) {\n        // If the iterative algorithm fails to converge (for an extreme value),\n        // then top-code to 0 or 1 depending on which tail x is in.\n        return (x < mean) ? 0.0 : 1.0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

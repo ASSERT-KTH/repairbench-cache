@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    // A valid alias must be a var declaration with an initializer that is a simple qualified name.\n    if (n.hasChildren() && n.getFirstChild().isQualifiedName() && n.getParent().isVar()) {\n      String name = n.getString();\n      Var aliasVar = scope.getVar(name);\n      aliases.put(name, aliasVar);\n      String qualifiedName = aliasVar.getInitialValue().getQualifiedName();\n      transformation.addAlias(name, qualifiedName);\n      // Bleeding functions and scope-parameter locals already get a BAD_PARAMETERS error.\n    } else {\n      report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

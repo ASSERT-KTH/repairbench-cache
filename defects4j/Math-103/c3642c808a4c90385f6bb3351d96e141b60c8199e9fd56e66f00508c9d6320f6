@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // Handle infinities explicitly.\n    if (x == Double.NEGATIVE_INFINITY) {\n        return 0.0;\n    }\n    if (x == Double.POSITIVE_INFINITY) {\n        return 1.0;\n    }\n    // For extreme values, avoid calling Erf (which may not converge)\n    // For a standard normal distribution, values below -10 or above +10\n    // are so extreme that we simply return 0 or 1.\n    if (x <= mean - 10 * standardDeviation) {\n        return 0.0;\n    }\n    if (x >= mean + 10 * standardDeviation) {\n        return 1.0;\n    }\n    // Otherwise, use the usual formulation.\n    return 0.5 * (1.0 + Erf.erf((x - mean) / (standardDeviation * Math.sqrt(2.0))));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

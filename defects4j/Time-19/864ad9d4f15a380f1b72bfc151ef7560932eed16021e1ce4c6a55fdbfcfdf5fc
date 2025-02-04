@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    final int offsetLocal = getOffset(instantLocal);\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n    \n    if (offsetLocal != offsetAdjusted) {\n        // We are in (or near) a DST gap.\n        if ((offsetLocal - offsetAdjusted) < 0) {\n            long nextLocal = nextTransition(instantAdjusted);\n            long nextAdjusted = nextTransition(instantLocal - offsetAdjusted);\n            if (nextLocal != nextAdjusted) {\n                return offsetLocal;\n            }\n        }\n    } else {\n        // No gap detected, but we might be in an overlap (ambiguous local time).\n        long prev = previousTransition(instantAdjusted);\n        if (prev < instantAdjusted) {\n            int offsetPrev = getOffset(prev);\n            if (offsetPrev != offsetAdjusted) {\n                // Calculate the size of the overlap gap.\n                int gap = Math.abs(offsetAdjusted - offsetPrev);\n                if (instantAdjusted - prev <= gap) {\n                    // In an overlap the earlier (in UTC) instant corresponds\n                    // to the larger offset, so favor that one.\n                    return Math.max(offsetPrev, offsetAdjusted);\n                }\n            }\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

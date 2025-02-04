@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void feedInput(byte[] buf, int start, int end) throws IOException\n{\n    // Must not have remaining input\n    if (_inputPtr < _inputEnd) {\n        _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\", _inputEnd - _inputPtr);\n    }\n    if (end < start) {\n        _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n    }\n    // and shouldn't have been marked as end-of-input\n    if (_endOfInput) {\n        _reportError(\"Already closed, can not feed more input\");\n    }\n    // Only update the cumulative count if there was previous input;\n    // if no data was fed before, don't add anything.\n    if (_inputEnd > 0) {\n        _currInputProcessed += _origBufferLen;\n    }\n\n    // Adjust row start so that positions from the new segment are relative\n    // to the old segment as if the current row had extended from the previous input.\n    _currInputRowStart = start - (_inputEnd - _currInputRowStart);\n\n    // Update buffer pointers and record the new segment length\n    _inputBuffer = buf;\n    _inputPtr = start;\n    _inputEnd = end;\n    _origBufferLen = end - start;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

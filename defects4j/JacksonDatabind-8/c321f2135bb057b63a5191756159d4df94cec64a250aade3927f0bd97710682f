@@ -1,0 +1,7 @@
+{
+    "generation": "protected void verifyNonDup(AnnotatedWithParams newOne, int typeIndex, boolean explicit) {\n    final int mask = (1 << typeIndex);\n    _hasNonDefaultCreator = true;\n    AnnotatedWithParams oldOne = _creators[typeIndex];\n    if (oldOne != null) {\n        if ((_explicitCreators & mask) != 0) { // already had an explicitly annotated one\n            if (!explicit) { // non-explicit incoming one is ignored\n                return;\n            }\n            // both are explicit: verify further\n        }\n        // Allow override only if the creators are from different members.\n        // If they come from the same underlying member, then it's not a conflict.\n        if (oldOne.getClass() == newOne.getClass()) {\n            if (oldOne.getAnnotated() != newOne.getAnnotated()) {\n                throw new IllegalArgumentException(\"Conflicting \" + TYPE_DESCS[typeIndex]\n                        + \" creators: already had explicitly marked \" + oldOne + \", encountered \" + newOne);\n            }\n            // They refer to the same member, so ignore the duplicate.\n            return;\n        }\n    }\n    if (explicit) {\n        _explicitCreators |= mask;\n    }\n    _creators[typeIndex] = _fixAccess(newOne);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

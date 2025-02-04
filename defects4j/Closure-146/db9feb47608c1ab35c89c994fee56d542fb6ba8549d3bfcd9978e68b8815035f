@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // unions types\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      // When the equality test obviously holds, we return no new information.\n      return new TypePair(null, null);\n\n    case FALSE:\n    case UNKNOWN:\n      // Under the assumption of inequality, remove the possibility of undefined.\n      JSType refinedThis = this;\n      if (this.equals(VOID_TYPE)) {\n        refinedThis = NO_TYPE;\n      } else if (this instanceof UnionType && ((UnionType) this).contains(VOID_TYPE)) {\n        JSType withoutUndefined = ((UnionType) this).removeType(VOID_TYPE);\n        refinedThis = withoutUndefined == null ? NO_TYPE : withoutUndefined;\n      }\n      JSType refinedThat = that;\n      if (that.equals(VOID_TYPE)) {\n        refinedThat = NO_TYPE;\n      } else if (that instanceof UnionType && ((UnionType) that).contains(VOID_TYPE)) {\n        JSType withoutUndefined = ((UnionType) that).removeType(VOID_TYPE);\n        refinedThat = withoutUndefined == null ? NO_TYPE : withoutUndefined;\n      }\n      return new TypePair(refinedThis, refinedThat);\n  }\n\n  // switch is exhaustive\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

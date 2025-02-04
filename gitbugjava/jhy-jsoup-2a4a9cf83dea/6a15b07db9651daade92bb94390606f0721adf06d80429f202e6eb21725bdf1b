@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // First, ensure the candidate element is actually within the given root\n    if (!(root.equals(element) || root.contains(element)))\n        return false;\n\n    // The last evaluator must directly match the candidate element.\n    int sz = evaluators.size();\n    if (!evaluators.get(sz - 1).matches(root, element))\n        return false;\n\n    // Now, work backwards through the evaluators. For each one, move up the \n    // ancestry (possibly skipping several levels) until we find one that matches.\n    // If we reach the root without a match, then the candidate does not match.\n    for (int i = sz - 2; i >= 0; i--) {\n        element = element.parent();\n        if (element == null)\n            return false;\n        while (!evaluators.get(i).matches(root, element)) {\n            if (element == root)\n                return false;\n            element = element.parent();\n            if (element == null)\n                return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

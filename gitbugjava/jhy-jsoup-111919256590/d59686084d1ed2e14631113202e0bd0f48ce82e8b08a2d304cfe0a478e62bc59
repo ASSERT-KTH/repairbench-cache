@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlineable(Document.OutputSettings out) {\n    if (!tag.isInline())\n        return false;\n    // Special-case: if this tag is a <br>, then it should only be inline if its parent is a <p>.\n    // That way a <br> in a paragraph (even if first child) prints inline, but in a div it prints on its own line.\n    if (\"br\".equals(tag.getName()))\n        return parent() != null && \"p\".equals(parent().tagName()) && !out.outline();\n    return (parent() == null || parent().isBlock())\n        && !isEffectivelyFirst()\n        && !out.outline();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

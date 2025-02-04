@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // First, get the full list of default values.\n    // If the passed defaultValues is null or empty, try the instance\u2019s default map.\n    List completeDefaults = (defaultValues != null && !defaultValues.isEmpty())\n            ? defaultValues\n            : (List) this.defaultValues.get(option);\n\n    // Next, get the values that the user supplied.\n    List userValues = (List) values.get(option);\n\n    // If the user supplied no values, then return the complete set of defaults (if any).\n    if (userValues == null || userValues.isEmpty()) {\n        return (completeDefaults == null) ? Collections.EMPTY_LIST : new ArrayList(completeDefaults);\n    }\n\n    // Otherwise, if the user provided some values but not as many as there are defaults,\n    // then we \u201cfill in\u201d the missing positions with the defaults.\n    if (completeDefaults != null && userValues.size() < completeDefaults.size()) {\n        List augmented = new ArrayList(userValues);\n        // For each missing argument position, add the default from the same position.\n        for (int i = userValues.size(); i < completeDefaults.size(); i++) {\n            augmented.add(completeDefaults.get(i));\n        }\n        return augmented;\n    }\n\n    // If the userValues are complete (or there were no defaults), return them.\n    return userValues;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

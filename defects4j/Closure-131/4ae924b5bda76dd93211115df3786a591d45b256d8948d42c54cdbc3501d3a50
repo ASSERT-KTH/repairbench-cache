@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n  if (s == null || s.isEmpty()) {\n    return false;\n  }\n  // Only allow ASCII letters, '$', or '_' as the first character.\n  char first = s.charAt(0);\n  if (!((first >= 'a' && first <= 'z') ||\n        (first >= 'A' && first <= 'Z') ||\n         first == '$' ||\n         first == '_')) {\n    return false;\n  }\n  // For subsequent characters, allow ASCII letters, digits, '$', or '_'.\n  for (int i = 1; i < s.length(); i++) {\n    char c = s.charAt(i);\n    if (!((c >= 'a' && c <= 'z') ||\n          (c >= 'A' && c <= 'Z') ||\n          (c >= '0' && c <= '9') ||\n           c == '$' ||\n           c == '_')) {\n      return false;\n    }\n  }\n  // Do not convert if the string is a reserved JavaScript keyword.\n  // This is a minimal set that covers the cases we care about.\n  String[] reservedWords = {\n    \"break\", \"case\", \"catch\", \"continue\", \"debugger\", \"default\",\n    \"delete\", \"do\", \"else\", \"finally\", \"for\", \"function\", \"if\",\n    \"in\", \"instanceof\", \"new\", \"return\", \"switch\", \"this\", \"throw\",\n    \"try\", \"typeof\", \"var\", \"void\", \"while\", \"with\", \"class\",\n    \"enum\", \"export\", \"extends\", \"import\", \"super\"\n  };\n  for (String reserved : reservedWords) {\n    if (s.equals(reserved)) {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

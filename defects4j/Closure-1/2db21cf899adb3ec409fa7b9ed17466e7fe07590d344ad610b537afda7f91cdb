@@ -1,0 +1,7 @@
+{
+    "generation": "private void removeUnreferencedFunctionArgs(Scope fnScope) {\n  Node function = fnScope.getRootNode();\n  Preconditions.checkState(function.isFunction());\n  if (NodeUtil.isGetOrSetKey(function.getParent())) {\n    return;\n  }\n\n  // Only \u201cremove\u201d (optimize) unused function arguments if we are also removing globals.\n  // When removeGlobal is false the function\u2019s signature must be preserved.\n  if (!removeGlobal) {\n    return;\n  }\n\n  Node argList = getFunctionArgList(function);\n  boolean modifyCallers = modifyCallSites && callSiteOptimizer.canModifyCallers(function);\n  if (modifyCallers) {\n    // If we can modify call sites, let the callSiteOptimizer do its work.\n    // (It may remove extra arguments since call sites can be updated.)\n    callSiteOptimizer.optimize(fnScope, referenced);\n  } else {\n    // We cannot update callers so we must preserve the parameter count.\n    // Instead of removing an unreferenced parameter (which would change .length),\n    // we simply rename it to a short name. (For example, \"x\" becomes \"a\".)\n    int newNameIndex = 0;\n    for (Node param = argList.getFirstChild(); param != null; param = param.getNext()) {\n      Var var = fnScope.getVar(param.getString());\n      if (!referenced.contains(var)) {\n        String newName = String.valueOf((char) ('a' + newNameIndex++));\n        param.setString(newName);\n        compiler.reportCodeChange();\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    // Only try to consume as an end tag if the pending tag is appropriate.\n    if (t.isAppropriateEndTagToken()) {\n        if (r.matchesLetter()) {\n            String name = r.consumeLetterSequence();\n            t.tagPending.appendTagName(name.toLowerCase());\n            t.dataBuffer.append(name);\n            r.advance();\n            return;\n        }\n        if (!r.isEmpty()) {\n            char c = r.consume();\n            switch (c) {\n                case '\\t':\n                case '\\n':\n                case '\\f':\n                case ' ':\n                    t.transition(BeforeAttributeName);\n                    break;\n                case '/':\n                    t.transition(SelfClosingStartTag);\n                    break;\n                case '>':\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                default:\n                    t.dataBuffer.append(c);\n                    anythingElse(t, r);\n                    break;\n            }\n            return;\n        }\n    }\n    // If not an appropriate end tag token or no matching character found, fall back\n    anythingElse(t, r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void process(Node externs, Node root) {\n  NodeTraversal.traverse(compiler, root, this);\n  // Remove duplicate declarations (such as a duplicate \u201carguments\u201d declaration)\n  // before making local names unique. Otherwise the renamer may change the inner\n  // duplicate (e.g. to \u201carguments$0\u201d) and then the duplicate removal won\u2019t match.\n  removeDuplicateDeclarations(root);\n  if (MAKE_LOCAL_NAMES_UNIQUE) {\n    MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n    NodeTraversal t = new NodeTraversal(compiler, renamer);\n    t.traverseRoots(externs, root);\n  }\n  new PropogateConstantAnnotations(compiler, assertOnChange)\n      .process(externs, root);\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

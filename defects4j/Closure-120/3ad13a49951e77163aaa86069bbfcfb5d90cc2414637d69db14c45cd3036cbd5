@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Instead of stopping at any function block,\n  // only stop when we reach the block in which the variable was declared.\n  // If the assignment occurs in a function other than that declaration block,\n  // it may be executed repeatedly (e.g. via recursion) so we cannot inline it.\n\n  BasicBlock declBlock = getDeclaration().getBasicBlock();\n  for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n    if (block == declBlock) {\n      break;\n    }\n    if (block.isLoop) {\n      return false;\n    }\n    // If we hit a function block that is not the declaration block,\n    // then the assignment is in a function that doesn\u2019t own the declaration.\n    if (block.isFunction) {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void verifyNonDup(AnnotatedWithParams newOne, int typeIndex, boolean explicit) {\n    final int mask = (1 << typeIndex);\n    _hasNonDefaultCreator = true;\n    AnnotatedWithParams oldOne = _creators[typeIndex];\n    if (oldOne != null) {\n        if ((_explicitCreators & mask) != 0) {\n            if (!explicit) {\n                return;\n            }\n        }\n        // Compare the declaring classes, not the wrapper types.\n        Class<?> oldDeclaring = oldOne.getDeclaringClass();\n        Class<?> newDeclaring = newOne.getDeclaringClass();\n        if (oldDeclaring == newDeclaring) {\n            throw new IllegalArgumentException(\"Conflicting \" + TYPE_DESCS[typeIndex]\n                    + \" creators: already had explicitly marked \" + oldOne + \", encountered \" + newOne);\n        } else if (oldDeclaring.isAssignableFrom(newDeclaring)) {\n            // newOne is declared in a subclass (more specific); override oldOne.\n        } else if (newDeclaring.isAssignableFrom(oldDeclaring)) {\n            // oldOne is more specific; ignore newOne.\n            return;\n        } else {\n            throw new IllegalArgumentException(\"Conflicting \" + TYPE_DESCS[typeIndex]\n                    + \" creators: already had explicitly marked \" + oldOne + \", encountered \" + newOne);\n        }\n    }\n    if (explicit) {\n        _explicitCreators |= mask;\n    }\n    _creators[typeIndex] = _fixAccess(newOne);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

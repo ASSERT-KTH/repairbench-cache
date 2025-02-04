@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey))\n        return \"\";\n    try {\n        // Use URI resolution so that relative queries (like \"?foo\") retain the full file name\n        URI baseUriObj = new URI(baseUri);\n        URI abs = baseUriObj.resolve(relUrl);\n        return abs.toString();\n    } catch (Exception e) {\n        // If the base URI is invalid, try treating the attribute as an absolute URL.\n        try {\n            URL abs = new URL(relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e1) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

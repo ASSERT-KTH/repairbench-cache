@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n\n    // First, try the normal equality check.\n    if (m1.equals(m2)) {\n        return true;\n    }\n\n    // If the names and parameter types are the same, then we might be dealing\n    // with a bridge/forwarding method (common with generics). In that case,\n    // we treat them as equivalent.\n    if (m1.getName().equals(m2.getName()) &&\n        Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes())) {\n        if (m1.isBridge() || m2.isBridge()) {\n            return true;\n        }\n        // For non-bridge methods, check the return types as well.\n        return m1.getReturnType().equals(m2.getReturnType());\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

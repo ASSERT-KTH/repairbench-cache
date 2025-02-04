@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // unions types\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  /*\n   * If testForEquality returns TRUE then the two types are definitely equal.\n   * In that case, assuming they are not equal leads to a contradiction; that is,\n   * no value of this type can ever be not equal to any value of that type.\n   * (For example, if both are undefined then \u201cundefined != undefined\u201d is impossible.)\n   * Therefore, we must narrow both types to the bottom type (NO_TYPE) rather than\n   * leaving them unchanged (or null, which signals \u201cno change\u201d).\n   */\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      return new TypePair(\n          this.getNativeType(JSTypeNative.NO_TYPE),\n          this.getNativeType(JSTypeNative.NO_TYPE));\n\n    case FALSE:\n    case UNKNOWN:\n      return new TypePair(this, that);\n  }\n\n  // switch is meant to be exhaustive\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

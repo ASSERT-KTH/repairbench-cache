@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // try to resolve relative urls to absolute; rels without a base URI get removed\n    String abs = el.absUrl(attr.getKey());\n    // if absUrl returned empty (often the case for custom protocols like \"cid:\" or \"data:\" when no base URI is set)\n    // then fall back to the original attribute value\n    String value = abs.isEmpty() ? attr.getValue() : abs;\n    if (!preserveRelativeLinks && !abs.isEmpty())\n        attr.setValue(value);\n\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString().toLowerCase() + \":\";\n        if (value.toLowerCase().startsWith(prot))\n            return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

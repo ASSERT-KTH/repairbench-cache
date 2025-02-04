@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fixed version of the empty\u2010string coercion helper.\n * In previous (buggy) versions an empty String was converted to the supplied default value\n * (for example, 0 for int), but for primitive types this must be rejected.\n */\nprivate Object _coerceEmptyString(DeserializationContext ctxt,\n                                  String value,\n                                  Class<?> targetType,\n                                  Object defaultValue) throws IOException {\n    if (value.isEmpty()) {\n        // For primitives an empty String is not acceptable.\n        if (targetType.isPrimitive()) {\n            // This call will usually throw an exception (or otherwise report an error),\n            // so that empty Strings are not silently converted to 0/0.0 etc.\n            return ctxt.handleWeirdStringValue(targetType, value,\n                    \"Cannot coerce empty String (\\\"\\\") to %s\", targetType.getName());\n        }\n        // For non-primitive types, it is allowed (and we return null)\n        return null;\n    }\n    // If the value is not empty, this routine should not be called.\n    return defaultValue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

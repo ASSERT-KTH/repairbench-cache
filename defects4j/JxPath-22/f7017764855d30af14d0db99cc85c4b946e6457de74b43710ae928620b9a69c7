@@ -1,0 +1,7 @@
+{
+    "generation": "public static String getNamespaceURI(Node node) {\n    if (node instanceof Document) {\n        node = ((Document) node).getDocumentElement();\n    }\n    if (!(node instanceof Element)) {\n        return null;\n    }\n    Element element = (Element) node;\n    String uri = element.getNamespaceURI();\n    if (uri == null) {\n        String prefix = getPrefix(node);\n        Node current = node;\n        while (current != null) {\n            if (current.getNodeType() == Node.ELEMENT_NODE) {\n                Element currentElem = (Element) current;\n                Attr attr;\n                if (prefix == null) {\n                    attr = currentElem.getAttributeNodeNS(\"http://www.w3.org/2000/xmlns/\", \"xmlns\");\n                } else {\n                    attr = currentElem.getAttributeNodeNS(\"http://www.w3.org/2000/xmlns/\", prefix);\n                }\n                if (attr != null) {\n                    return attr.getValue();\n                }\n            }\n            current = current.getParentNode();\n        }\n        return null;\n    }\n    return uri;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

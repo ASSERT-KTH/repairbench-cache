@@ -1,0 +1,7 @@
+{
+    "generation": "public final Object computeValue(EvalContext context) {\n    Object left = args[0].computeValue(context);\n    Object right = args[1].computeValue(context);\n\n    // If either operand is \"empty\" (null, an empty collection, or an empty array),\n    // then per XPath rules the comparison must yield false.\n    if (left == null || right == null) {\n        return Boolean.FALSE;\n    }\n    if (left instanceof java.util.Collection && ((java.util.Collection<?>) left).isEmpty()) {\n        return Boolean.FALSE;\n    }\n    if (right instanceof java.util.Collection && ((java.util.Collection<?>) right).isEmpty()) {\n        return Boolean.FALSE;\n    }\n    if (left.getClass().isArray() && java.lang.reflect.Array.getLength(left) == 0) {\n        return Boolean.FALSE;\n    }\n    if (right.getClass().isArray() && java.lang.reflect.Array.getLength(right) == 0) {\n        return Boolean.FALSE;\n    }\n    \n    return compute(left, right) ? Boolean.TRUE : Boolean.FALSE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

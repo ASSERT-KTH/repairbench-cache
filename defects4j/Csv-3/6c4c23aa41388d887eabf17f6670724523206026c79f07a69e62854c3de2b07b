@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // The escape character has already been consumed.\n    // Read the next character to determine what to do.\n    final int c = in.read();\n    switch (c) {\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        case END_OF_STREAM:\n            throw new IOException(\"EOF whilst processing escape sequence\");\n        default:\n            // If the character following the escape is either the escape character\n            // itself or the quote character, then we want to consume it.\n            if (c == escape || c == quote) {\n                return c;\n            }\n            // Otherwise, this is not a recognized escape sequence.\n            // We \u201cunread\u201d the character so it gets processed normally, and\n            // return the escape char (thus preserving it in the output).\n            in.unread(c);\n            return escape;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

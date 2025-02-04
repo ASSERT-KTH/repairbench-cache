@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    // re-query the form for its current submittable elements rather than using a potentially cached list.\n    Elements elements = this.select(\"input, textarea, keygen, select, button\");\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements) {\n        // only include elements that have a name and are not disabled\n        if (!el.hasAttr(\"name\") || el.hasAttr(\"disabled\"))\n            continue;\n        // If it is an input element, filter out unchecked radio/checkbox controls.\n        if (el.tagName().equals(\"input\")) {\n            String type = el.attr(\"type\").toLowerCase();\n            if ((type.equals(\"radio\") || type.equals(\"checkbox\")) && !el.hasAttr(\"checked\"))\n                continue;\n        }\n        data.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

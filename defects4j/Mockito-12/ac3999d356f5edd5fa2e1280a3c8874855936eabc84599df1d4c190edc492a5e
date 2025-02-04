@@ -1,0 +1,7 @@
+{
+    "generation": "public Class getGenericType(Field field) {\n    Type generic = field.getGenericType();\n    if (generic instanceof ParameterizedType) {\n        // Get the first generic type parameter\n        Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n        if (actual instanceof Class) {\n            return (Class) actual;\n        } else if (actual instanceof ParameterizedType) {\n            // For nested generics, return the raw type (e.g. Set from Set<String>)\n            return (Class) ((ParameterizedType) actual).getRawType();\n        } else if (actual instanceof WildcardType) {\n            // In case of a wildcard, use the first upper bound\n            Type[] bounds = ((WildcardType) actual).getUpperBounds();\n            if (bounds.length > 0) {\n                if (bounds[0] instanceof Class) {\n                    return (Class) bounds[0];\n                } else if (bounds[0] instanceof ParameterizedType) {\n                    return (Class) ((ParameterizedType) bounds[0]).getRawType();\n                }\n            }\n        }\n    }\n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

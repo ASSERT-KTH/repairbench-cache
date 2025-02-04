@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlineable(Document.OutputSettings out) {\n    if (!tag.isInline())\n        return false;\n    // Special-case <br>: if inside a <p>, we want it printed inline (so that the <p>\u2019s opening tag and the <br> are not split by a newline),\n    // but if not, then <br> should force a break.\n    if (tag.getName().equals(\"br\"))\n        return parent() != null && parent().tagName().equals(\"p\") && !out.outline();\n    return (parent() == null || parent().isBlock())\n        && !isEffectivelyFirst()\n        && !out.outline();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

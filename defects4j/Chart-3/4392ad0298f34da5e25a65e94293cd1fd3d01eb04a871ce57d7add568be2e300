@@ -1,0 +1,7 @@
+{
+    "generation": "public TimeSeries createCopy(int start, int end)\n        throws CloneNotSupportedException {\n    if (start < 0) {\n        throw new IllegalArgumentException(\"Requires start >= 0.\");\n    }\n    if (end < start) {\n        throw new IllegalArgumentException(\"Requires start <= end.\");\n    }\n\n    // Instead of cloning 'this' (which carries over stale min/max values),\n    // create a new TimeSeries with the same properties.\n    TimeSeries copy = new TimeSeries(this.getKey());\n    copy.setDescription(this.getDescription());\n    copy.setMaximumItemCount(this.getMaximumItemCount());\n    copy.setMaximumItemAge(this.getMaximumItemAge());\n\n    // Add the subset of data items to the new series.\n    // Using a new series means that the min/max (and other state) is recalculated\n    // only from the items that are added.\n    for (int index = start; index <= end; index++) {\n        TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);\n        TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();\n        try {\n            copy.add(clone);\n        } catch (SeriesException e) {\n            e.printStackTrace();\n        }\n    }\n    return copy;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

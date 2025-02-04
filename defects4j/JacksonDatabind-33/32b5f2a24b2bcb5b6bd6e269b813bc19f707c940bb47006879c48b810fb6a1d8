@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a) {\n    // If the property is marked as unwrapped, do not give it an explicit name.\n    // This allows its contents to merge directly into the parent.\n    if (_findAnnotation(a, JsonUnwrapped.class) != null) {\n        return null;\n    }\n    \n    String name = null;\n    \n    // Use @JsonGetter if present\n    JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n    if (jg != null && jg.value().length() > 0) {\n        name = jg.value();\n    } else {\n        // Otherwise, try to get it from @JsonProperty\n        JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n        if (pann != null && pann.value().length() > 0) {\n            name = pann.value();\n        } else if (_hasAnnotation(a, JsonSerialize.class)\n                || _hasAnnotation(a, JsonView.class)\n                || _hasAnnotation(a, JsonRawValue.class)) {\n            // With any of these annotations and no explicit name,\n            // leave it as the default (by returning null)\n            return null;\n        } else {\n            return null;\n        }\n    }\n    return PropertyName.construct(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

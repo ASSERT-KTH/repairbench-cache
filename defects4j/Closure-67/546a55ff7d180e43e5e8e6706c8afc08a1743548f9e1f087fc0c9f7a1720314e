@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null\n      && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {\n    // Get the object part of the property access.\n    Node target = n.getFirstChild();\n    if (target != null\n        && (target.getType() == Token.GETPROP || target.getType() == Token.GETELEM)) {\n      // In both GETPROP and GETELEM nodes, the property name is the last child.\n      Node prototypeProp = target.getLastChild();\n      if (prototypeProp != null\n          && prototypeProp.getType() == Token.STRING\n          && \"prototype\".equals(prototypeProp.getString())) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

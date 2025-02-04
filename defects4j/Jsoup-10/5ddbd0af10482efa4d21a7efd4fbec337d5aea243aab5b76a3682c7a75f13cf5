@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey))\n        return \"\";\n    try {\n        URL base;\n        try {\n            base = new URL(baseUri);\n        } catch (MalformedURLException e) {\n            // If the base URI is invalid, try the attribute value by itself.\n            URL abs = new URL(relUrl);\n            return abs.toExternalForm();\n        }\n        // If the relative URL is a query (i.e. starts with \"?\") and the base's path does not end with \"/\",\n        // manually append the query to the base's path to preserve the file component.\n        if (relUrl.startsWith(\"?\") && !base.getPath().endsWith(\"/\")) {\n            String fixedBase = base.getProtocol() + \"://\" + base.getAuthority() + base.getPath();\n            return new URL(fixedBase + relUrl).toExternalForm();\n        } else {\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        }\n    } catch (MalformedURLException e) {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

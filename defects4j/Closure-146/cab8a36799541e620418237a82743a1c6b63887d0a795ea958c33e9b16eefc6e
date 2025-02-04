@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // unions types\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  // other types\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      // When two types are always equal (as with two undefined values),\n      // the inequality branch must be impossible. Thus, we restrict each\n      // type to be bottom (NO_TYPE) rather than leaving it unchanged.\n      return new TypePair(NO_TYPE, NO_TYPE);\n\n    case FALSE:\n    case UNKNOWN:\n      return new TypePair(this, that);\n  }\n\n  // switch case is exhaustive\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
