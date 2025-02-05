@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n    if (n == null) {\n        return false;\n    }\n\n    // Check if the current node is a side-effecting function call, new expression, or statement.\n    if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n        return true;\n    }\n\n    if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n        return true;\n    }\n\n    // Added check for other effectful statements like delete, assignments, etc.\n    if (NodeUtil.isEffectfulStatement(n)) {\n        return true;\n    }\n\n    for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n        if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n        }\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

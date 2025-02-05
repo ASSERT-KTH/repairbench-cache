@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int read(byte[] buf, int offset, int numToRead) throws IOException {\n    int totalRead = 0;\n\n    if (hasHitEOF || entryOffset >= entrySize) {\n        return -1;\n    }\n\n    if (currEntry == null) {\n        throw new IllegalStateException(\"No current tar entry\");\n    }\n\n    numToRead = Math.min(numToRead, available());\n\n    if (numToRead <= 0) {\n        return -1;\n    }\n\n    try {\n        totalRead = is.read(buf, offset, numToRead);\n    } catch (IOException e) {\n        throw e;\n    }\n\n    if (totalRead == -1) {\n        if (entryOffset < entrySize) {\n            throw new IOException(\"Unexpected end of stream in tar entry\");\n        } else {\n            hasHitEOF = true;\n        }\n    } else {\n        if (totalRead < numToRead) {\n            throw new IOException(\"Unexpected end of stream: expected \" + numToRead + \" bytes but read \" + totalRead);\n        }\n        entryOffset += totalRead;\n        if (entryOffset > entrySize) {\n            throw new IOException(\"Read beyond end of tar entry\");\n        } else if (entryOffset == entrySize) {\n            hasHitEOF = true;\n        }\n    }\n\n    count(totalRead);\n\n    return totalRead;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        String key = attribute.getKey();\n        // Clean the key by removing invalid characters\n        String cleanedKey = key.replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n        if (cleanedKey.isEmpty()) {\n            continue; // Skip empty keys\n        }\n        // Check the first character is valid (letter, underscore, or colon)\n        if (!(Character.isLetter(cleanedKey.charAt(0)) || cleanedKey.charAt(0) == '_' || cleanedKey.charAt(0) == ':')) {\n            continue; // Skip invalid starting characters\n        }\n        el.setAttribute(cleanedKey, attribute.getValue());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

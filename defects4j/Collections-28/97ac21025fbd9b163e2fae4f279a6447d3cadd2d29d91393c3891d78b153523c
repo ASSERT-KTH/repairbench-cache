@@ -1,0 +1,7 @@
+{
+    "generation": "    public SortedMap<String, Integer> prefixMap(String prefix) {\n        BintreeNode<String, Integer> node = root;\n        for (int i = 0; i < prefix.length(); i++) {\n            char c = prefix.charAt(i);\n            node = node.children[c];\n            if (node == null) {\n                break;\n            }\n        }\n        SortedMap<String, Integer> map = new PatriciaTrieMap(node, prefix);\n        return map;\n    }\n\n    // Inside the SortedMap implementation, override clear() method\n    public void clear() {\n        if (root != null) {\n            root.key = null;\n            root.value = null;\n            clearChildren(root);\n        }\n    }\n\n    private void clearChildren(BintreeNode<String, Integer> node) {\n        if (node != null) {\n            for (char c = 0; c < 128; c++) {\n                clearChildren(node.children[c]);\n                node.children[c] = null;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

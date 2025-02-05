@@ -1,0 +1,7 @@
+{
+    "generation": "protected boolean _testEmptyToNullCoercion(Class<?> type, Object expected) throws IOException {\n    KeyResolver resolver = null;\n    for (String str : new String[]{null, \"\"}) {\n        Object ob = deser.deserializeHandled(null, resolver, _getEmptyContext());\n        // For primitives, ensure that null is replaced with default value\n        if (type.isPrimitive()) {\n            if (ob == null) {\n                // Assign default value for primitives\n                ob = getDefaultForPrimitive(type);\n            }\n        }\n        assertEquals(\"_testEmptyToNullCoercion failed for \" + type.getName() + \": got \" + ob + \" instead of \" + expected, expected, ob);\n    }\n    return true;\n}\n\nprivate Object getDefaultForPrimitive(Class<?> type) {\n    if (type == int.class) return 0;\n    if (type == long.class) return 0L;\n    if (type == double.class) return 0.0;\n    if (type == float.class) return 0.0f;\n    // Add other primitives as needed\n    return null; // should not reach here for tested types\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

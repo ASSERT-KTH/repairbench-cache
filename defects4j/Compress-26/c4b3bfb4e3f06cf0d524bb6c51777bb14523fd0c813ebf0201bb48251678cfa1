@@ -1,0 +1,7 @@
+{
+    "generation": "    public static long skip(InputStream input, long numToSkip) throws IOException {\n        long remaining = numToSkip;\n        while (remaining > 0) {\n            long skipped = input.skip(remaining);\n            if (skipped == 0) {\n                // fall back to reading bytes\n                byte[] buffer = new byte[4096];\n                int read;\n                while (remaining > 0 && (read = input.read(buffer)) != -1) {\n                    remaining -= read;\n                    if (read == 0) {\n                        break; // No more data to read\n                    }\n                }\n                break; // exit the loop once done skipping\n            }\n            remaining -= skipped;\n        }\n        return numToSkip - remaining;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

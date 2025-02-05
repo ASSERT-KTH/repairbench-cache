@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // Extract the tag once to avoid multiple lookups\n    Tag tag = Tag.valueOf(startTag.name());\n    boolean isSelfClosing = startTag.isSelfClosing();\n    \n    // Handle as self-closing only if it's self-closing and is a void tag or unknown\n    if (isSelfClosing && (tag.isVoid() || tag.isUnknown())) {\n        Element el = insertEmpty(startTag);\n        stack.add(el);\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n    \n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

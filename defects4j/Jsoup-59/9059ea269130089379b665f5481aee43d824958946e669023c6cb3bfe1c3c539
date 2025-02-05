@@ -1,0 +1,7 @@
+{
+    "generation": "        final void newAttribute() {\n            if (attributes == null)\n                attributes = new Attributes();\n\n            if (pendingAttributeName != null) {\n                // Trim the pending attribute name and check if it's non-empty\n                String trimmedName = pendingAttributeName.trim();\n                if (!trimmedName.isEmpty()) {\n                    // Create attribute only if the name is non-empty after trimming\n                    Attribute attribute;\n                    if (hasPendingAttributeValue)\n                        attribute = new Attribute(trimmedName,\n                            pendingAttributeValue.length() > 0 ? pendingAttributeValue.toString() : pendingAttributeValueS);\n                    else if (hasEmptyAttributeValue)\n                        attribute = new Attribute(trimmedName, \"\");\n                    else\n                        attribute = new BooleanAttribute(trimmedName);\n                    attributes.put(attribute);\n                }\n\n                // Reset all states after processing the attribute\n                pendingAttributeName = null;\n                hasEmptyAttributeValue = false;\n                hasPendingAttributeValue = false;\n                reset(pendingAttributeValue);\n                pendingAttributeValueS = null;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

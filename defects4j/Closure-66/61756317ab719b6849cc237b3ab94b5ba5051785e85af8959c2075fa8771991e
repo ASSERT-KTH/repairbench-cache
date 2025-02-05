@@ -1,0 +1,7 @@
+{
+    "generation": "public void visit(NodeTraversal t, Node n, Node parent) {\n    JSType childType;\n    JSType leftType, rightType;\n    Node left, right;\n    // To be explicitly set to false if the node is not typeable.\n    boolean typeable = true;\n\n    switch (n.getType()) {\n        case Token.NAME:\n            if (NodeUtil.isObjectLitKey(n, parent)) {\n                typeable = true;\n            } else {\n                typeable = visitName(t, n, parent);\n            }\n            break;\n\n        // ... rest of the cases remain unchanged\n        case Token.LP:\n            // existing code\n            break;\n\n        // ... other switch cases as per the original code\n        default:\n            report(t, n, UNEXPECTED_TOKEN, Token.name(n.getType()));\n            ensureTyped(t, n);\n            break;\n    }\n\n    // Don't count externs since the user's code may not even use that part.\n    typeable = typeable && !inExterns;\n\n    if (typeable) {\n        doPercentTypedAccounting(t, n);\n    }\n\n    checkNoTypeCheckSection(n, false);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

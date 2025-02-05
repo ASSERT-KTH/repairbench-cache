@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n\n        // Check if this is a 'for each' loop and report an error if so.\n        if (loopNode.isForEach()) {\n            // Using getTokenRange() and gc.getErrorReporter() to report the error.\n            // getTokenRange() gives the location of the error, and reportError() logs it.\n            loopNode.getTokenRange().getMin().getLine() == -1\n                : loopNode.getTokenRange().getMin().getLine()\n            loopNode.getTokenRange().getMin().getColumn() == -1\n                : loopNode.getTokenRange().getMin().getColumn()\n            gc.getErrorReporter().reportError(\n                loopNode.getTokenRange().getMin().getLine(),\n                loopNode.getTokenRange().getMin().getColumn(),\n                \"Unsupported language extension: for each\");\n        }\n\n        // Return the bare minimum to put the AST in a valid state.\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

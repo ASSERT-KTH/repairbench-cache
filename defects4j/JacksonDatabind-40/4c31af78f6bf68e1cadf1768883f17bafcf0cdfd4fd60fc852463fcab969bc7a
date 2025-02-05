@@ -1,0 +1,7 @@
+{
+    "generation": "public Object deserialize(JsonElement json, Type type, ... ) {\n    if (json.isJsonNull()) {\n        return null;\n    } else if (json.isJsonPrimitive()) {\n        JsonPrimitive prim = json.getAsJsonPrimitive();\n        if (prim.isString()) {\n            String str = prim.getAsString();\n            if (str.isEmpty()) {\n                if (type instanceof Class) {\n                    Class<?> clazz = (Class<?>) type;\n                    if (clazz.isPrimitive()) {\n                        return getDefaultPrimitiveValue(clazz);\n                    }\n                }\n                return null;\n            }\n            // Handle non-empty string\n            // ...\n        } else {\n            // Handle other primitives like numbers, booleans\n            // ...\n        }\n    }\n    // Handle other JSON types\n    // ...\n}\n\n// Helper method to get default values for primitive types\nprivate Object getDefaultPrimitiveValue(Class<?> clazz) {\n    if (clazz == int.class) return 0;\n    if (clazz == long.class) return 0L;\n    if (clazz == double.class) return 0.0;\n    if (clazz == float.class) return 0.0f;\n    // Add other primitives as needed\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

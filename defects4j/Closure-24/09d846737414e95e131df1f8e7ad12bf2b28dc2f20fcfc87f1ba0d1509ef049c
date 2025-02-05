@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n    Scope scope = t.getScope();\n    for (Var v : scope.getVarIterable()) {\n        Node initialValue = v.getInitialValue();\n        if (initialValue != null && initialValue.isQualifiedName()) {\n            String name = v.getName();\n            aliases.put(name, v);\n\n            String qualifiedName = initialValue.getQualifiedName();\n            transformation.addAlias(name, qualifiedName);\n        } else {\n            report(t, v.getNode(), GOOG_SCOPE_NON_ALIAS_LOCAL, v.getName());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

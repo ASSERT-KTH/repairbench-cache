@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            if (isForbiddenTag(tagName)) {\n                throw new ValidationException(tagName + \" is an unsupported tag and cannot be added to the safelist.\");\n            }\n            tagNames.add(TagName.valueOf(tagName));\n        }\n        return this;\n    }\n\n    private boolean isForbiddenTag(String tagName) {\n        // Define the list of tags that cannot be added to the safelist\n        String[] forbiddenTags = {\"SCRIPT\", \"NOSCRIPT\"};\n        return Arrays.stream(forbiddenTags)\n                     .map(String::equalsIgnoreCase)\n                     .anyMatch(f -> f.equals(tagName));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

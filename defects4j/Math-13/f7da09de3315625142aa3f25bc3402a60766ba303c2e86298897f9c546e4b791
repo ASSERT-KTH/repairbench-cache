@@ -1,0 +1,7 @@
+{
+    "generation": "    private RealMatrix squareRoot(RealMatrix m) {\n        final int n = m.getRowDimension();\n        boolean isDiagonal = true;\n        for (int i = 0; i < n; i++) {\n            for (int j = i + 1; j < n; j++) {\n                if (m.getEntry(i, j) != 0.0) {\n                    isDiagonal = false;\n                    break;\n                }\n            }\n            if (!isDiagonal) {\n                break;\n            }\n        }\n\n        if (isDiagonal) {\n            final double[] diag = new double[n];\n            for (int i = 0; i < n; i++) {\n                diag[i] = FastMath.sqrt(m.getEntry(i, i));\n            }\n            return new DiagonalMatrix(diag);\n        } else {\n            final EigenDecomposition dec = new EigenDecomposition(m);\n            return dec.getSquareRoot();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

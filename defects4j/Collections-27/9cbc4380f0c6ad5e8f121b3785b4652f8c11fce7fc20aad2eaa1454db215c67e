@@ -1,0 +1,7 @@
+{
+    "generation": "protected void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {\n    s.defaultReadObject();\n    ObjectInputStream.GetField fields = s.readFields();\n    Map<Object, Collection<Object>> map = (Map<Object, Collection<Object>>) fields.get(\"map\", new HashMap<>());\n    Class<? extends Collection> clazz = (Class<? extends Collection>) fields.get(\"clazz\", ArrayList.class);\n\n    if (!Collection.class.isAssignableFrom(clazz)) {\n        throw new UnsupportedOperationException(\"Unsafe class during deserialization\");\n    }\n\n    super.map = new HashMap<>(map);\n    this.clazz = clazz;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

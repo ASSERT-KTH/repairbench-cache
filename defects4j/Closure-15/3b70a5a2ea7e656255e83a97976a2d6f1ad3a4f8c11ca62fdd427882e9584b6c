@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n    // When the node is null, return without inlining\n    if (n == null) {\n        return false;\n    }\n\n    // Check for side effects in function calls\n    if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n        return true;\n    }\n\n    // Check for side effects in constructor calls\n    if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n        return true;\n    }\n\n    // Check for side effects due to delete operations\n    if (n.isUnaryOp() && n.getToken() == Token.DELETE) {\n        return true;\n    }\n\n    // Recursively check child nodes\n    for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n        if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

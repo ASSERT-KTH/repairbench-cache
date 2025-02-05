@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        if (isDiagonal(m)) {\n            double[] diag = m.getDiagonal();\n            for (int i = 0; i < diag.length; i++) {\n                diag[i] = FastMath.sqrt(diag[i]);\n            }\n            return MatrixUtils.createDiagonalMatrix(diag);\n        } else {\n            throw new IllegalStateException(\"Non-diagonal weight matrix not supported for square root computation.\");\n        }\n    }\n\n    private boolean isDiagonal(RealMatrix m) {\n        for (int i = 0; i < m.getRowDimension(); i++) {\n            for (int j = 0; j < m.getColumnDimension(); j++) {\n                if (i != j && !FastMath.equals(m.getEntry(i, j), 0.0)) {\n                    return false;\n                }\n            }\n        }\n        return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

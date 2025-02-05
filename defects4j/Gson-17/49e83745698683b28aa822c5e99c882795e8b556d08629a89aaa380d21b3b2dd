@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Date read(JsonReader in) throws IOException {\n    JsonToken token = in.peek();\n    if (token == JsonToken.NULL) {\n        in.nextNull();\n        return null;\n    }\n    if (token != JsonToken.STRING) {\n        throw new IllegalStateException(\"The date should be a string value\");\n    }\n    String str = in.nextString();\n    Date date = deserializeToDate(str);\n    if (dateType == Date.class) {\n        return date;\n    } else if (dateType == Timestamp.class) {\n        return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n        return new java.sql.Date(date.getTime());\n    } else {\n        throw new AssertionError();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    ObjectInputStream.GetField fields = in.readFields();\n    Object map = fields.get(\"map\", Object.class);\n    Class<?> collectionClass = fields.get(\"collectionClass\", Object.class);\n    \n    if (collectionClass != null && !Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n    }\n    \n    if (map instanceof Map) {\n        this.map = (Map)map;\n    } else {\n        this.map = new HashMap();\n    }\n    this.collectionClass = collectionClass;\n    if (collectionClass == null) {\n        collectionClass = ArrayList.class;\n    }\n    if (map.isEmpty()) {\n        createEmptyMap();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

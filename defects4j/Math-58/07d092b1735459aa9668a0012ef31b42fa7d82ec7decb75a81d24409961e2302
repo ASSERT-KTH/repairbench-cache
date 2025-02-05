@@ -1,0 +1,7 @@
+{
+    "generation": "    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        if (guess[2] <= 0) {\n            // Use a robust initial estimate for sigma\n            final double[] x = getObservations()[0];\n            final int n = x.length;\n            if (n == 1) {\n                guess[2] = 1;\n            } else {\n                final double q1 = StatUtils.percentile(x, 25);\n                final double q3 = StatUtils.percentile(x, 75);\n                final double iqr = q3 - q1;\n                guess[2] = (iqr / 1.3489);\n            }\n        }\n        return fit(new Gaussian.Parametric(), guess);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

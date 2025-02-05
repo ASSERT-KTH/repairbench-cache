@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic byte[] getBinaryValue(Base64Variant b64variant)\n        throws IOException, JsonParseException {\n    JsonNode n = currentNode();\n    if (n != null) {\n        // Check if it's a binary node\n        if (n.isValueNode() && n.isBinary()) {\n            byte[] data = n.binaryValue();\n            if (data != null) {\n                return data;\n            }\n        }\n        // Check if it's a POJO node\n        if (n.isPojo()) {\n            Object ob = ((POJONode) n).getPojo();\n            if (ob instanceof byte[]) {\n                return (byte[]) ob;\n            }\n        }\n        // Handle TextNode with specified base64 variant\n        if (n.isTextual()) {\n            String text = ((TextNode) n).textValue();\n            try {\n                return b64variant.decode(text);\n            } catch (IllegalArgumentException e) {\n                return null; // Indicates invalid binary content as per requirements\n            }\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

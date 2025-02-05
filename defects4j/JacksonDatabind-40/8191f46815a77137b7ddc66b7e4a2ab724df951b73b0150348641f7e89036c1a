@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt, Object value, Class<?> type) {\n    if (value == null) {\n        return handleNull(p, ctxt, value, type);\n    }\n\n    if (coerceEmptyStringsToNull && value instanceof String) {\n        String strValue = (String) value;\n        if (strValue.isEmpty()) {\n            if (type.isPrimitive()) {\n                return getDefaultPrimitiveValue(type);\n            } else {\n                return null;\n            }\n        }\n    }\n\n    return _handleValue(coerceValue, ctxt, value, type);\n}\n\nprivate Object getDefaultPrimitiveValue(Class<?> type) {\n    if (type == int.class) return 0;\n    if (type == long.class) return 0L;\n    if (type == double.class) return 0.0;\n    if (type == float.class) return 0.0f;\n    throw new IllegalArgumentException(\"Unsupported primitive type: \" + type);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

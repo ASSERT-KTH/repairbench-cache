@@ -1,0 +1,7 @@
+{
+    "generation": "    private RealMatrix squareRoot(RealMatrix m) {\n        final int dimension = m.getRowDimension();\n        RealMatrix squareRootMatrix = new Array2DRowRealMatrix(dimension, dimension);\n        boolean isDiagonal = true;\n        \n        for (int i = 0; i < dimension; i++) {\n            for (int j = 0; j < dimension; j++) {\n                if (i != j && !FastMath.equals(m.getEntry(i, j), 0.0d, 1.0e-15)) {\n                    isDiagonal = false;\n                    break;\n                }\n            }\n            if (!isDiagonal) {\n                break;\n            }\n        }\n        \n        if (isDiagonal) {\n            for (int i = 0; i < dimension; i++) {\n                squareRootMatrix.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));\n            }\n            return squareRootMatrix;\n        } else {\n            final EigenDecomposition dec = new EigenDecomposition(m);\n            return dec.getSquareRoot();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

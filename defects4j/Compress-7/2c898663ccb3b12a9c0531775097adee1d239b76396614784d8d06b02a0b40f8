@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    int nulIndex = -1;\n\n    for (int i = offset; i < end; i++) {\n        if (buffer[i] == 0) {\n            nulIndex = i;\n            break;\n        }\n    }\n\n    int nameLength;\n    if (nulIndex == -1) {\n        nameLength = end - offset;\n    } else {\n        nameLength = nulIndex - offset;\n    }\n\n    byte[] nameBytes = Arrays.copyOfRange(buffer, offset, offset + nameLength);\n\n    try {\n        return new String(nameBytes, \"ISO-8859-1\");\n    } catch (UnsupportedEncodingException e) {\n        throw new RuntimeException(\"ISO-8859-1 encoding not supported\", e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

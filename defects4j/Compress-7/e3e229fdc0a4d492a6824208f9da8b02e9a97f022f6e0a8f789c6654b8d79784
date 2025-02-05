@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        int end = offset + length;\n        if (end > buffer.length) {\n            end = buffer.length;\n        }\n\n        int firstNull = -1;\n        for (int i = offset; i < end; i++) {\n            if (buffer[i] == 0) {\n                firstNull = i;\n                break;\n            }\n        }\n\n        int nameLength = (firstNull != -1) ? (firstNull - offset) : (end - offset);\n\n        try {\n            return new String(buffer, offset, nameLength, \"ISO-8859-1\");\n        } catch (UnsupportedEncodingException e) {\n            // ISO-8859-1 is a required encoding, so this should never happen\n            throw new RuntimeException(e);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private JavaType _mapType(Class<?> rawClass)\n{\n    // Handle Properties specially as Map<String, String>\n    if (Properties.class.isAssignableFrom(rawClass)) {\n        return MapType.construct(rawClass, _stringType(), _stringType());\n    }\n    \n    // Proceed with standard Map type handling\n    JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n    if (typeParams == null) {\n        return MapType.construct(rawClass, _unknownType(), _unknownType());\n    }\n    if (typeParams.length != 2) {\n        throw new IllegalArgumentException(\"Strange Map type \" + rawClass.getName() + \": cannot determine type parameters\");\n    }\n    return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

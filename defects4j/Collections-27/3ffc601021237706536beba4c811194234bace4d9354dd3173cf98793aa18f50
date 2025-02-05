@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    \n    Map<Object, Collection<Object>> temp = new HashMap<>();\n    int size = in.readInt();\n    for (int i = 0; i < size; i++) {\n        Object key = in.readObject();\n        Collection<Object> coll = in.readObject();\n        // Ensure the collection type matches the expected elementClass\n        if (coll.getClass() != elementClass) {\n            throw new UnsupportedOperationException(\"Unsafe collection type during deserialization\");\n        }\n        temp.put(key, coll);\n    }\n    this.map = temp;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

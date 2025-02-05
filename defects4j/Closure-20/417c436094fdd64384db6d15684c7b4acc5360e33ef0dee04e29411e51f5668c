@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n    if (callTarget != null && callTarget.isName() && callTarget.getString().equals(\"String\")) {\n        Node value = callTarget.getNext();\n        if (value != null) {\n            // Check if there are more arguments\n            if (value.getNext() != null) {\n                return n;\n            }\n            // Check if the argument is a simple literal\n            if (value.isString() || value.isNumber() || value.isBoolean() || value.isUndefined() || value.isNull()) {\n                Node addition = IR.add(\n                    IR.string(\"\").srcref(callTarget),\n                    value.detachFromParent());\n                n.getParent().replaceChild(n, addition);\n                reportCodeChange();\n                return addition;\n            }\n        }\n    }\n    return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void findCalledFunctions(\n    Node node, Set<String> changed) {\n  Preconditions.checkArgument(changed != null);\n  if (node.getType() == Token.CALL) {\n    Node functionExpr = node.getFirstChild();\n    if (functionExpr != null) {\n      if (functionExpr.getType() == Token.NAME) {\n        changed.add(functionExpr.getString());\n      } else if (functionExpr.getType() == Token.GETPROP) {\n        Node qualifier = functionExpr.getFirstChild();\n        if (qualifier != null && qualifier.getType() == Token.NAME) {\n          changed.add(qualifier.getString());\n        }\n      }\n    }\n  }\n\n  for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n    findCalledFunctions(c, changed);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

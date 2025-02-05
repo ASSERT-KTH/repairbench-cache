@@ -1,0 +1,7 @@
+{
+    "generation": "    private static final Set<String> VOID_TAGS = new HashSet<>(Arrays.asList(\n        \"area\", \"base\", \"br\", \"col\", \"embed\", \"hr\", \"img\", \"input\", \"link\", \"meta\", \"param\", \"source\", \"track\", \"wbr\"\n    ));\n\n    Element insert(Token.StartTag startTag) {\n        if (startTag.isSelfClosing()) {\n            String tagName = startTag.name();\n            if (VOID_TAGS.contains(tagName)) {\n                Element el = insertEmpty(startTag);\n                return el;\n            } else {\n                Element el = insertEmpty(startTag);\n                stack.add(el);\n                tokeniser.emit(new Token.EndTag(el.tagName()));\n                return el;\n            }\n        }\n        \n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

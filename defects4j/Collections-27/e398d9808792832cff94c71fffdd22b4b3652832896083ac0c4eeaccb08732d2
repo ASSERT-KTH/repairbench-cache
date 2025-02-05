@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    ObjectInputStream.GetField fields = in.readFields();\n    Map<Object, Collection<Object>> delegate = (Map<Object, Collection<Object>>) fields.get(\"delegate\", null);\n    Class<?> clazz = (Class<?>) fields.get(\"clazz\", null);\n\n    // Check if clazz is a valid Collection type before proceeding\n    if (!Collection.class.isAssignableFrom(clazz)) {\n        throw new UnsupportedOperationException(\"Unsafe class deserialization attempt: \" + clazz.getName());\n    }\n\n    try {\n        MultiValueMap map = MultiValueMap.multiValueMap(delegate, clazz);\n        this.delegate = map.delegate;\n        this.clazz = map.clazz;\n    } catch (IllegalArgumentException ex) {\n        throw new UnsupportedOperationException(\"Cannot deserialize MultiValueMap\", ex);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

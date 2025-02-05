@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructType(Class<?> type) {\n    JavaType result = _constructType(type);\n    while (result instanceof ClassMetadata) {\n        Class<?> superClass = ((ClassMetadata) result).getRawClass().getSuperclass();\n        if (superClass != null && !superClass.equals(Object.class)) {\n            JavaType superClassType = _constructType(superClass);\n            // Merge properties from superclass type\n            ((ClassMetadata) result).addProperties(superClassType.getProperties());\n        }\n        break;\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n    Scope scope = t.getScope();\n    for (Var v : scope.getVarIterable()) {\n        Node n = v.getNode();\n        if (n.hasChildren()) {\n            Node firstChild = n.getFirstChild();\n            if (firstChild.isQualifiedName()) {\n                // Correctly identify and process aliases\n                String name = n.getString();\n                Var aliasVar = scope.getVar(name);\n                if (aliasVar != null) {\n                    aliases.put(name, aliasVar);\n\n                    Node initialValue = aliasVar.getInitialValue();\n                    if (initialValue != null) {\n                        transformation.addAlias(name, initialValue.getQualifiedName());\n                    }\n                }\n            } else {\n                // Report error for non-alias locals\n                report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n            }\n        } else {\n            // Handle cases where Var node has no children (e.g., var x;)\n            report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

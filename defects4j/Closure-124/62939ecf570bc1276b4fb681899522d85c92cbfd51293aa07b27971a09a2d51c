@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean isSafeReplacement(Node node, Node replacement) {\n    // No checks are needed for simple names.\n    if (node.isName()) {\n      return true;\n    }\n    Preconditions.checkArgument(node.isGetProp());\n\n    // Traverse to the top-level name\n    Node current = node;\n    while (current.isGetProp()) {\n        current = current.getFirstChild();\n    }\n\n    // Now check if the top-level name is assigned\n    if (current.isName() && isNameAssignedTo(current.getString(), replacement)) {\n      return false;\n    }\n\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}
