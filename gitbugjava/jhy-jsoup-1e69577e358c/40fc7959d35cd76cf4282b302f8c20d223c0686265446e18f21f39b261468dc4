@@ -1,0 +1,7 @@
+{
+    "generation": "    URL build() {\n        try {\n            // use the URI class to encode non-ascii in path\n            String path = u.getPath();\n            if (path != null) {\n                // Preserve encoded characters in the path\n                path = normalizeEncodedPath(path);\n            }\n\n            URI uri = new URI(\n                u.getProtocol(),\n                u.getUserInfo(),\n                IDN.toASCII(decodePart(u.getHost())), // puny-code\n                u.getPort(),\n                path,\n                u.getQuery(), // Keep the query string\n                u.getRef()  // Keep the fragment\n            );\n\n            return uri.toURL(); // Build the URL directly from URI\n        } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n            // we assert here so that any incomplete normalization issues can be caught in devel. but in practise,\n            // the remote end will be able to handle it, so in prod we just pass the original URL.\n            // The UnsupportedEncodingException would never happen as always UTF8\n            assert Validate.assertFail(e.toString());\n            return u;\n        }\n    }\n\n    private String normalizeEncodedPath(String path) {\n        // Normalize encoded characters in the path. Previously, URI would decode and then re-encode.\n        // Instead, just leave the encoded characters as they are.\n        return path;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

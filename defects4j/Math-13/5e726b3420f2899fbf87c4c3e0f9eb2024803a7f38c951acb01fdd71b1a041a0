@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        final SingularValueDecomposition dec = new SingularValueDecomposition(m);\n        final RealMatrix U = dec.getU();\n        final RealMatrix S = dec.getSingularValueMatrix();\n        final int dim = S.getRowDimension();\n        for (int i = 0; i < dim; i++) {\n            S.setEntry(i, i, Math.sqrt(S.getEntry(i, i)));\n        }\n        final RealMatrix UT = U.transpose();\n        return U.multiply(S).multiply(UT);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

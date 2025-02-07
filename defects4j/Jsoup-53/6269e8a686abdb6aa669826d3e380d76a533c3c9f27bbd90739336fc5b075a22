@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Pulls a balanced string off the queue. E.g. if queue is \"(one (two) three) four\", (,) will return \"one (two) three\",\n     * and leave \" four\" on the queue. Unbalanced openers and closers can quoted (with ' or \") or escaped (with \\). Those escapes will be left\n     * in the returned string, which is suitable for regexes (where we need to preserve the escape), but unsuitable for\n     * contains text strings; use unescape for that.\n     * @param open opener\n     * @param close closer\n     * @return data matched from the queue\n     */\n    public String chompBalanced(char open, char close) {\n        int start = -1;\n        int end = -1;\n        int depth = 0;\n        char last = 0;\n\n        int i = 0;\n        while (i < queue.size()) {\n            char c = queue.get(i);\n\n            if (last != ESC) {\n                if (c == open) {\n                    depth++;\n                    if (start == -1)\n                        start = i + 1;\n                }\n                else if (c == close)\n                    depth--;\n            }\n\n            if (depth == 0 && start != -1) {\n                end = i;\n                break;\n            }\n            last = c;\n            i++;\n        }\n        if (start != -1 && end == -1 && depth > 0) {\n            end = queue.size();\n        }\n        return (start != -1 && end >= start) ? queue.substring(start, end) : \"\";\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
