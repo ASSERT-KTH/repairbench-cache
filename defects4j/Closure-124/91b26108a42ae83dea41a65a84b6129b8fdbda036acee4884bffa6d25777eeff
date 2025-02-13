@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Checks name referenced in node to determine if it might have\n   * changed.\n   * @return Whether the replacement can be made.\n   */\n  private boolean isSafeReplacement(Node node, Node replacement) {\n    // No checks are needed for simple names.\n    if (node.isName()) {\n      return true;\n    }\n    Preconditions.checkArgument(node.isGetProp());\n// buggy code\n//      node = node.getFirstChild();\n    node = node.getFirstChild();\n    if (node == null) {\n      return true;\n    }\n\n    if (node.isName()\n        && isNameAssignedTo(node.getString(), replacement)) {\n      return false;\n    }\n    return true;\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

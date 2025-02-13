@@ -1,0 +1,7 @@
+{
+    "generation": "    void outerHtmlHead(Appendable accum, int depth, Document.OutputSettings out) throws IOException {\n        final boolean prettyPrint = out.prettyPrint();\n        final Element parent = parentNode instanceof Element ? ((Element) parentNode) : null;\n        final boolean normaliseWhite = prettyPrint && !Element.preserveWhitespace(parentNode);\n        boolean trimLeading = false;\n        boolean trimTrailing = false;\n        if (normaliseWhite) {\n            trimLeading = (siblingIndex == 0 && parent != null && parent.tag().isBlock()) ||\n                parentNode instanceof Document;\n            trimTrailing = nextSibling() == null && parent != null && parent.tag().isBlock();\n            // if this text is just whitespace, and the next node will cause an indent, skip this text:\n            if (trimLeading && trimTrailing)\n                return;\n        }\n        if (prettyPrint) {\n                indent(accum, depth, out);\n        }\n        Entities.escape(accum, coreValue(), out, false, normaliseWhite, trimLeading, trimTrailing);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

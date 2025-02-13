@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n// buggy code\n//      // rescale both vectors without losing precision,\n//      // to ensure their norm are the same order of magnitude\n//      // we reduce cancellation errors by preconditioning,\n//      // we replace v1 by v3 = v1 - rho v2 with rho chosen in order to compute\n//      // v3 without loss of precision. See Kahan lecture\n//      // \"Computing Cross-Products and Rotations in 2- and 3-Dimensional Euclidean Spaces\"\n//      // available at http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf\n//      // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n//      // compute cross product from v3 and v2 instead of v1 and v2\n//      return new Vector3D(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);\n    Vector3D v3 = v1.minus(v2.times(v1.dot(v2)));\n    return new Vector3D(v3.y * v2.z - v3.z * v2.y, v3.z * v2.x - v3.x * v2.z, v3.x * v2.y - v3.y * v2.x);\n\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
