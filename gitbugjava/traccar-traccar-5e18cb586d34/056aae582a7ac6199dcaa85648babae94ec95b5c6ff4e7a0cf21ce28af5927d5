@@ -1,0 +1,7 @@
+{
+    "generation": "DateFormat dateFormat = new SimpleDateFormat(\"yyyyMMddHHmmss\");\ndateFormat.setTimeZone(TimeZone.getTimeZone(\"UTC\"));\n\nif (BitUtil.check(reportMask, 30)) {\n    while (values[index].isEmpty()) {\n        index += 1;\n    }\n    position.setValid(Integer.parseInt(values[index++]) > 0);\n    if (!values[index].isEmpty()) {\n        position.setSpeed(UnitsConverter.knotsFromKph(Double.parseDouble(values[index++])));\n        position.setCourse(Integer.parseInt(values[index++]));\n        position.setAltitude(Double.parseDouble(values[index++]));\n        position.setLongitude(Double.parseDouble(values[index++]));\n        position.setLatitude(Double.parseDouble(values[index++]));\n        position.setTime(dateFormat.parse(values[index++]));\n    } else {\n        index += 6; // no location\n        getLastLocation(position, null);\n    }\n} else {\n    getLastLocation(position, null);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
