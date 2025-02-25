@@ -1,0 +1,7 @@
+{
+    "generation": "        while (bitsCachedSize < count) {\n            final long nextByte = in.read();\n            if (nextByte < 0) {\n                return nextByte;\n            }\n            if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n                bitsCached |= (nextByte << bitsCachedSize);\n            } else {\n                bitsCached <<= 8;\n                bitsCached |= nextByte;\n            }\n            bitsCachedSize += 8;\n        }\n        final long bitsOut;\n        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {\n            bitsOut = (bitsCached & MASKS[count]);\n            bitsCached >>>= count;\n        } else {\n            bitsOut = (bitsCached >> (bitsCachedSize - count)) & MASKS[count];\n        }\n        bitsCachedSize -= count;\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

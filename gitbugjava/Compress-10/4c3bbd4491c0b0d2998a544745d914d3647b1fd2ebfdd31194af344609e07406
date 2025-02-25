@@ -1,0 +1,7 @@
+{
+    "generation": "            for (ZipArchiveEntry ze : entries.keySet()) {\n                OffsetEntry offsetEntry = entries.get(ze);\n                long offset = offsetEntry.headerOffset;\n                archive.seek(offset + LFH_OFFSET_FOR_FILENAME_LENGTH);\n                byte[] b = new byte[SHORT];\n                archive.readFully(b);\n                int fileNameLen = ZipShort.getValue(b);\n                archive.readFully(b);\n                int extraFieldLen = ZipShort.getValue(b);\n                int lenToSkip = fileNameLen;\n                while (lenToSkip > 0) {\n                    int skipped = archive.skipBytes(lenToSkip);\n                    if (skipped <= 0) {\n                        throw new RuntimeException(\"failed to skip file name in\"\n                                                     + \" local file header\");\n                    }\n                    lenToSkip -= skipped;\n                }\n                byte[] localExtraData = new byte[extraFieldLen];\n                archive.readFully(localExtraData);\n                ze.setExtra(localExtraData);\n                offsetEntry.data",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

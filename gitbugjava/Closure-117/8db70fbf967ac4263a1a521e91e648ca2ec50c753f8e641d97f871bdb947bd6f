@@ -1,0 +1,7 @@
+{
+    "generation": "    JSType type = getJSType(n);\n    if (dereference) {\n      ObjectType dereferenced = type.dereference();\n      if (dereferenced != null) {\n        type = dereferenced;\n      }\n    }\n    if (n.isGetProp()) {\n      ObjectType objectType = getJSType(n.getFirstChild()).dereference();\n      if (objectType != null) {\n        String propName = n.getLastChild().getString();\n        if (objectType.getConstructor() != null &&\n            objectType.getConstructor().isInterface()) {\n          objectType = FunctionType.getTopDefiningInterface(\n              objectType, propName);\n        } else {\n          // classes\n          while (objectType != null && !objectType.hasOwnProperty(propName)) {\n            objectType = objectType.getImplicitPrototype();\n          }\n        }\n        // Don't show complex function names or anonymous types.\n        // Instead, try to get a human-readable type name.\n        if (objectType !",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Add a value to the data\n     * @param value the value to add\n     */\n    public void addValue(double value) {\n        sumImpl.increment(value);\n        sumsqImpl.increment(value);\n        minImpl.increment(value);\n        maxImpl.increment(value);\n        sumLogImpl.increment(value);\n        secondMoment.increment(value);\n        // If mean, variance or geomean have been overridden,\n        // need to increment these\n// buggy code\n//        if (!(meanImpl instanceof Mean)) {\n//            meanImpl.increment(value);\n//        }\n//        if (!(varianceImpl instanceof Variance)) {\n//            varianceImpl.increment(value);\n//        }\n//        if (!(geoMeanImpl instanceof GeometricMean)) {\n        if (meanImpl.getClass() != Mean.class) {\n            meanImpl.increment(value);\n        }\n        if (varianceImpl.getClass() != Variance.class) {\n            varianceImpl.increment(value);\n        }\n        if (geoMeanImpl.getClass() != GeometricMean.class) {\n\n            geoMeanImpl.increment(value);\n        }\n        n++;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected String doFormat(final String code, final LineEnding ending) throws IOException {\n        final var source = new InputSource(new StringReader(code));\n        final var parser = new CSSOMParser(new SACParserCSS3());\n        final var sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);\n        var formattedCode = sheet.getCssText(this.formatter);\n        formattedCode = formattedCode.replace(\"\\t;\", \"\\\\9;\");\n// buggy code\n// \n                formattedCode = formattedCode.replace(\"\\t:\", \"\\\\9:\");\n\n        if (code.equals(formattedCode)) {\n            return null;\n        }\n        return formattedCode;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

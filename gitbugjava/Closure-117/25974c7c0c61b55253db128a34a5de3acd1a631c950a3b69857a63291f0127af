@@ -1,0 +1,7 @@
+{
+    "generation": "    if (n.isGetProp()) {\n      ObjectType objectType = getJSType(n.getFirstChild()).dereference();\n      if (objectType != null) {\n        String propName = n.getLastChild().getString();\n        if (objectType.getConstructor() != null &&\n            objectType.getConstructor().isInterface()) {\n          objectType = FunctionType.getTopDefiningInterface(\n              objectType, propName);\n        } else {\n          // classes\n          while (objectType != null && !objectType.hasOwnProperty(propName)) {\n            objectType = objectType.getImplicitPrototype();\n          }\n        }\n        if (objectType != null &&\n            (objectType.getConstructor() != null ||\n             objectType.isFunctionPrototypeType())) {\n          return objectType.toString() + \".\" + propName;\n        }\n      }\n    }\n    JSType type = getJSType(n);\n    if (dereference) {\n      ObjectType dereferenced = type.dereference();\n      if (deref",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
