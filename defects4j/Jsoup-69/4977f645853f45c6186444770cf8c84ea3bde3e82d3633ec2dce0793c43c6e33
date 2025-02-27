@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n    \n    // Get all input elements that are still attached to the document\n    Elements elements = this.select(\"input, textarea, select\");\n    \n    for (Element el : elements) {\n        if (!el.hasAttr(\"name\"))\n            continue;\n        \n        String name = el.attr(\"name\");\n        if (name.length() == 0)\n            continue;\n        \n        String type = el.attr(\"type\");\n        \n        if (type.equalsIgnoreCase(\"submit\") && !el.hasAttr(\"value\"))\n            continue;\n        \n        String value = el.val();\n        \n        if (type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\")) {\n            if (el.hasAttr(\"checked\"))\n                data.add(KeyVal.create(name, value));\n        } else {\n            data.add(KeyVal.create(name, value));\n        }\n    }\n    \n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

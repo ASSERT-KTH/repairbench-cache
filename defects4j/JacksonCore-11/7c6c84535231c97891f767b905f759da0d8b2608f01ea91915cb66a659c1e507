@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        // Need to ensure we can modify the arrays.\n        // But also, as per [jackson-core#216], must preserve\n        // the need-rehash flag, which is NOT copied\n        boolean needRehash = _needRehash;\n        _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n        _names = Arrays.copyOf(_names, _names.length);\n        _hashShared = false;\n        // Since we cloned, we must re-establish the need-rehash flag\n        if (needRehash) {\n            _needRehash = true;\n        }\n    }\n    if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

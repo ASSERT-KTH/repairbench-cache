@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory f, boolean useBytes, boolean enableQuoting, String expJson) throws IOException\n{\n    ByteArrayOutputStream bytes = new ByteArrayOutputStream();\n    StringWriter sw = new StringWriter();\n    JsonGenerator gen = useBytes ? f.createGenerator(ObjectWriteContext.empty(), bytes) \n                                : f.createGenerator(ObjectWriteContext.empty(), sw);\n    \n    if (enableQuoting) {\n        gen.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        gen.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n    \n    gen.writeStartObject();\n    gen.writeFieldName(\"foo\");\n    gen.writeNumber(1);\n    gen.writeEndObject();\n    gen.close();\n    \n    String json = useBytes ? bytes.toString(\"UTF-8\") : sw.toString();\n    \n    // Direct string comparison instead of assertEquals to better debug any invisible character issues\n    if (!expJson.equals(json)) {\n        fail(\"Expected: '\" + expJson + \"' (length: \" + expJson.length() \n             + \"), actual: '\" + json + \"' (length: \" + json.length() + \")\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

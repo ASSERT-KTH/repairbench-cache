@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n    \n    // Only select elements that are still attached to the DOM\n    Elements elements = select(\"input, textarea, select\");\n    \n    for (Element el : elements) {\n        if (!el.hasAttr(\"name\")) {\n            continue;\n        }\n        String name = el.attr(\"name\");\n        if (name.length() == 0) {\n            continue;\n        }\n        String type = el.attr(\"type\");\n        \n        if (\"select\".equals(el.tagName())) {\n            Elements options = el.select(\"option[selected]\");\n            boolean foundSelected = false;\n            for (Element option : options) {\n                data.add(KeyVal.create(name, option.val()));\n                foundSelected = true;\n            }\n            \n            if (!foundSelected && el.select(\"option\").size() > 0) {\n                Element option = el.select(\"option\").first();\n                data.add(KeyVal.create(name, option.val()));\n            }\n        } else if (\"checkbox\".equalsIgnoreCase(type) || \"radio\".equalsIgnoreCase(type)) {\n            if (el.hasAttr(\"checked\")) {\n                final String val = el.val().length() > 0 ? el.val() : \"on\";\n                data.add(KeyVal.create(name, val));\n            }\n        } else {\n            data.add(KeyVal.create(name, el.val()));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

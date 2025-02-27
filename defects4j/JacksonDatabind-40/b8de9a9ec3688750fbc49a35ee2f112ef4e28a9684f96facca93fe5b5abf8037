@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object emptyValue) throws Exception {\n    // Configure mapper to coerce empty strings to nulls\n    ObjectMapper mapper = ObjectMapper.builder()\n            .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)\n            // For primitives, empty should NOT be accepted as null equivalent\n            // because primitives can't be null\n            .disable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)\n            .build();\n    \n    Object result = mapper.readValue(q(\"\"), type);\n    // Should throw an exception for primitives, not return default value\n    fail(\"Should not have passed\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

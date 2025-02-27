@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n    \n    for (Element el : elements()) {\n        if (!el.parent().hasParent()) // skip elements that have been removed from the DOM\n            continue;\n            \n        if (el.tag().isFormSubmittable() && !el.hasAttr(\"disabled\")) {\n            String name = el.attr(\"name\");\n            if (name.length() > 0) {\n                String type = el.attr(\"type\");\n                if (type.equalsIgnoreCase(\"submit\") && el.parent().Children().stream().filter(x -> x.attr(\"type\").equalsIgnoreCase(\"submit\")).count() > 1)\n                    continue;\n                if (el.tag().normalName().equals(\"select\")) {\n                    Elements options = el.select(\"option[selected]\");\n                    boolean found = false;\n                    for (Element option : options) {\n                        data.add(KeyVal.create(name, option.val()));\n                        found = true;\n                    }\n                    if (!found && el.select(\"option\").size() > 0) {\n                        Element option = el.select(\"option\").first();\n                        data.add(KeyVal.create(name, option.val()));\n                    }\n                } else {\n                    data.add(KeyVal.create(name, el.val()));\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

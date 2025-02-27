@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    Element startingElement = element;\n    // evaluate from last to first\n    for (int i = evaluators.size() -1; i >= 0; --i) {\n        if (element == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        element = element.parent();\n    }\n    \n    // Check that we can reach the root from our ancestry chain\n    // This ensures we don't match elements outside the context of the queried root\n    if (root != startingElement) { // if root == element, no ancestry check needed\n        Element parent = startingElement.parent();\n        while (parent != null) {\n            if (parent == root)\n                return true;\n            parent = parent.parent();\n        }\n        return false;\n    }\n    \n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

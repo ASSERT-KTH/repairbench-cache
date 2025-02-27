@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addProperties(Map<String,NamedType> types, AnnotatedClass cls)\n{\n    List<NamedType> childTypes = new ArrayList<>();\n    for (AnnotatedClass ac : cls.getSubTypes()) {\n        // First, add super types (recursively) before adding subtypes\n        _addProperties(types, ac);\n        childTypes.add(new NamedType(ac.getRawType(), ac.getName()));\n    }\n    types.put(cls.getName(), new NamedType(cls.getRawType(), cls.getName()));\n    // And then types for all properties\n    for (AnnotatedMember member : cls.getFieldMembers()) {\n        if (!member.hasValueHandler()) continue;\n        Property property = new Property(member);\n        Type propertyType = member.getGenericType();\n        types.put(property.getName(), new NamedType(TypeFactory.defaultInstance().constructType(propertyType), property.getName()));\n    }\n    // Then add child types\n    for (NamedType namedType : childTypes) {\n        types.put(namedType.getName(), namedType);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

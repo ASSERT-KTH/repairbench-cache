@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    final int dimension = m.getRowDimension();\n    final RealMatrix sqrtM = MatrixUtils.createRealMatrix(dimension, dimension);\n    \n    // Compute the Cholesky decomposition\n    final CholeskyDecomposition cholesky;\n    try {\n        cholesky = new CholeskyDecomposition(m);\n    } catch (NonPositiveDefiniteMatrixException e) {\n        // If not positive definite, fall back to eigendecomposition\n        final EigenDecomposition dec = new EigenDecomposition(m);\n        return dec.getSquareRoot();\n    }\n    \n    // Get the L matrix from the decomposition\n    final RealMatrix lMatrix = cholesky.getL();\n    \n    return lMatrix;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

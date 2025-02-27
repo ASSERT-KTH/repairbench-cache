@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // We need to consume the entire object, not just skip children\n    if (p.getCurrentToken() == JsonToken.START_OBJECT) {\n        // Move to the first field\n        JsonToken t = p.nextToken();\n        // Skip the entire object by advancing until we find matching END_OBJECT\n        int depth = 1;\n        while (depth > 0) {\n            if (t == JsonToken.START_OBJECT || t == JsonToken.START_ARRAY) {\n                depth++;\n            } else if (t == JsonToken.END_OBJECT || t == JsonToken.END_ARRAY) {\n                depth--;\n            }\n            if (depth == 0) {\n                break;\n            }\n            t = p.nextToken();\n        }\n    } else {\n        p.skipChildren();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

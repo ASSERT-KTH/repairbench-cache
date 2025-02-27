@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        int arrayLen = _hashArea.length;\n        _hashArea = Arrays.copyOf(_hashArea, arrayLen);\n        _names = Arrays.copyOf(_names, _names.length);\n        _hashShared = false;\n        // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n        //    we rehash as needed, as need-rehash flag is not copied from parent\n        // We need to update the mask to match the original array size\n        _hashSize = arrayLen >> 3;\n        _secondaryStart = _hashSize << 2;\n        _tertiaryStart = _secondaryStart + (_secondaryStart >> 1);\n        _tertiaryShift = _calcTertiaryShift(_hashSize);\n        // Mask needs to be updated to match the array size\n        _hashSizeThreshold = _thresholdSize(_hashSize);\n        // And we'll need to ensure rehashing occurs even if _needRehash is false \n        _needRehash = true;\n    }\n    if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

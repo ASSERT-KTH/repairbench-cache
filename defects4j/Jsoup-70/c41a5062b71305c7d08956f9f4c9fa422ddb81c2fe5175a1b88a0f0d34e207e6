@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean preserveWhitespace(Node node) {\n    // look up the ancestor chain to see if any of them preserve whitespace\n    if (node != null && node instanceof Element) {\n        Element el = (Element) node;\n        if (el.tag.preserveWhitespace())\n            return true;\n        \n        Node parent = el.parent();\n        int count = 0;\n        while (parent != null && count < 5) { // still limit depth to prevent excessive recursion\n            if (parent instanceof Element && ((Element) parent).tag.preserveWhitespace())\n                return true;\n            parent = parent.parent();\n            count++;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

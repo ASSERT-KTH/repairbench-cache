@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value = attr.getValue();\n    if (!value.startsWith(\"#\") && !value.startsWith(\"/\") && !value.isEmpty()) { // non-internal URL\n        try {\n            String absValue = el.absUrl(attr.getKey());\n            if (absValue.length() > 0) {\n                // abs urls should be canonical\n                if (!preserveRelativeLinks)\n                    attr.setValue(absValue);\n                value = absValue;\n            }\n        } catch (IllegalArgumentException e) {\n            // trying to get abs on a junky URL (file://C:\\Users\\), will throw IAE. Leave as is.\n        }\n    }\n    \n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (value.toLowerCase().startsWith(prot)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    \n    // Clone the array to prevent concurrent modification issues\n    Node[] nodeArray = children.clone();\n    \n    // Sort the array by index in the childNodes list, so we insert highest index first\n    // This prevents shifting indices when removing nodes from this element\n    Arrays.sort(nodeArray, (a, b) -> {\n        int indexA = a.parentNode == this ? childNodes.indexOf(a) : -1;\n        int indexB = b.parentNode == this ? childNodes.indexOf(b) : -1;\n        return Integer.compare(indexB, indexA); // reverse order (highest first)\n    });\n    \n    for (Node in : nodeArray) {\n        reparentChild(in);\n        childNodes.add(index, in);\n    }\n    \n    reindexChildren(index);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the data values as a list of key vals\n * @return list of key val objects\n */\npublic List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n    \n    // Only include elements that are still attached to the DOM\n    for (Element el : elements()) {\n        if (el.hasParent()) { // Check if element is still attached\n            String name = el.attr(\"name\");\n            if (name.length() > 0) {\n                String type = el.attr(\"type\");\n                if (type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\")) {\n                    if (el.hasAttr(\"checked\")) {\n                        data.add(HttpConnection.KeyVal.create(name, el.val()));\n                    }\n                } else {\n                    data.add(HttpConnection.KeyVal.create(name, el.val()));\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

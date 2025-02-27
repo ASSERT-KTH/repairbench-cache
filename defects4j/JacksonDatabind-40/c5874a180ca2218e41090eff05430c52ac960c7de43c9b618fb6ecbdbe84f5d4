@@ -1,0 +1,7 @@
+{
+    "generation": "public JsonDeserializer<?> findDeserializer(DeserializationContext ctxt, \n        DeserializerProvider provider, JavaType primitiveType)\n    throws JsonMappingException\n{\n    Class<?> rawType = primitiveType.getRawClass();\n    \n    // Important: since we have no (lenient) default value for primitives, must\n    // ensure we use \"null value\" coercion for empty String\n    JsonDeserializer<?> deser = provider.findValueDeserializer(ctxt.getConfig(), \n            ctxt.constructType(rawType.getWrapper()), null);\n    boolean isEmpty = ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n    return new PrimitiveOrWrapperDeserializer(rawType, rawType.getDefaultValue(), \n            deser, isEmpty);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

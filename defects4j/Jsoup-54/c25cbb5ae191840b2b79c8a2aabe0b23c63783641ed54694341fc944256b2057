@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        // valid xml attribute names are: ^[a-zA-Z_:][-a-zA-Z0-9_:.]\n        String key = attribute.getKey();\n        if (key.length() > 0) {\n            // XML attributes must start with a letter, underscore or colon\n            if (!key.matches(\"^[a-zA-Z_:].*\")) {\n                key = \"invalid-\" + key;\n            }\n            // Then filter any remaining invalid chars\n            key = key.replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n            if (key.length() > 0) {\n                el.setAttribute(key, attribute.getValue());\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

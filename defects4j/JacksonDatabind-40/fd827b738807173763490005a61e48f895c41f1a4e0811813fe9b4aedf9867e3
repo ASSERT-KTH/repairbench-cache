@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object emptyValue) throws Exception {\n    // Primitives should not be coerced from empty to null since they can't be null\n    if (type.isPrimitive()) {\n        ObjectMapper mapper = jsonMapperBuilder()\n                .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)\n                .build();\n        try {\n            mapper.readValue(q(\"\"), type);\n            fail(\"Should not have passed\");\n        } catch (JsonMappingException e) {\n            // Expected exception\n        }\n    } else {\n        // Existing code for non-primitive types\n        ObjectMapper mapper = jsonMapperBuilder()\n                .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)\n                .build();\n        Object result = mapper.readValue(q(\"\"), type);\n        assertNull(\"Should coerce empty String to null for non-primitive types\", result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

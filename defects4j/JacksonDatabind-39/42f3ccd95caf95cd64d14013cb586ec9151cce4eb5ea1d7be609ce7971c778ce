@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // We need to skip the current token without skipping\n    // the content of the current object/property\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.START_OBJECT) {\n        t = p.nextToken();\n        while (t != JsonToken.END_OBJECT && t != null) {\n            // Skip field name and value as a pair\n            if (t == JsonToken.FIELD_NAME) {\n                p.nextToken();\n                p.skipChildren();\n            }\n            t = p.nextToken();\n        }\n    } else if (t == JsonToken.START_ARRAY) {\n        p.skipChildren();\n    } else {\n        // For scalar values, just skip the current token\n        // which consumes the value\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

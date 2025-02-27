@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    if (len <= 0) {\n        return false;\n    }\n    \n    // If the string starts with 0 and has more than 1 digit, it might be octal or hex\n    if (len > 1 && s.charAt(0) == '0') {\n        // Check if it's a hex number (0x...)\n        if (len > 2 && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {\n            return false;\n        }\n        // Check if it's a decimal with leading zero (like 0.5)\n        if (s.charAt(1) == '.') {\n            return false;\n        }\n        // It's an octal number, which is a simple number in JavaScript\n        return true;\n    }\n    \n    // Check if it contains only digits\n    for (int index = 0; index < len; index++) {\n        char c = s.charAt(index);\n        if (c < '0' || c > '9') {\n            return false;\n        }\n    }\n    \n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

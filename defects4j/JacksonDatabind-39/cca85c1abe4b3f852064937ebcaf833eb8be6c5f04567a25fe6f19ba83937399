@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.START_OBJECT) {\n        t = p.nextToken();\n    }\n    // 29-Jan-2016, tatu: Need to skip all content, but also need to\n    // skip the current token before returning\n    while (t != JsonToken.END_OBJECT && t != null) {\n        // Skip any value (and if object/array, all contained entries)\n        if (t == JsonToken.FIELD_NAME) {\n            p.nextToken();\n        }\n        p.skipChildren();\n        t = p.nextToken();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

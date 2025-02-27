@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n    \n    if (valueList == null) {\n        valueList = new ArrayList();\n    }\n    \n    // Add default values if list is empty or has fewer values than available defaults\n    List defaults = defaultValues;\n    if ((defaults == null) || defaults.isEmpty()) {\n        defaults = (List) this.defaultValues.get(option);\n    }\n    \n    if (defaults != null && !defaults.isEmpty()) {\n        // Start adding defaults at the position where user-specified values end\n        int startPos = valueList.size();\n        for (int i = startPos; i < defaults.size(); i++) {\n            valueList.add(defaults.get(i));\n        }\n    }\n    \n    return valueList.isEmpty() ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = (new ParameterGuesser(getObservations())).guess();\n    \n    // Create a parametric Gaussian with bounds to ensure sigma is positive\n    Gaussian.Parametric gaussianFunction = new Gaussian.Parametric();\n    \n    // Set up constraints to keep sigma strictly positive\n    final double[] lowerBound = {Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.MIN_VALUE};\n    final double[] upperBound = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};\n    \n    // Use the bounded fitting function\n    return fit(gaussianFunction, guess, lowerBound, upperBound);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

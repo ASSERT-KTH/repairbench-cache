@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Method that can be called on backends that support passing opaque datatypes of\n * non-JSON formats\n *\n * @since 2.8\n */\npublic void writeEmbeddedObject(Object object) throws IOException {\n    if (object == null) {\n        writeNull();\n        return;\n    }\n    if (object instanceof byte[]) {\n        writeBinary((byte[]) object);\n        return;\n    }\n    // For other types that we cannot handle, throw exception\n    throw new JsonGenerationException(\"No native support for writing embedded objects of type \"\n            + object.getClass().getName(), this);\n}",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}
