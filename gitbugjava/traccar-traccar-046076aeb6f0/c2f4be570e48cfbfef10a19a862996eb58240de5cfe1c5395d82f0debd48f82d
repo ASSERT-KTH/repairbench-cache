@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n        int length = buf.readUnsignedByte();\n        int dataLength = length - 2; // Correct calculation by subtracting the first two read bytes (length and type)\n        int type = buf.readUnsignedByte();\n\n        Position position = new Position(getProtocolName());\n        DeviceSession deviceSession = null;\n        if (type != MSG_LOGIN) {\n            deviceSession = getDeviceSession(channel, remoteAddress);\n            if (deviceSession == null) {\n                return null;\n            }\n            position.setDeviceId(deviceSession.getDeviceId());\n            if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n                deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n            }\n        }\n\n        // ...  (other code remains the same as before) ...\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // Check if element is a descendant of root (including itself)\n    Element current = element;\n    int ancestorCount = 0;\n    while (current != root && current != null) {\n        current = current.parent();\n        ancestorCount++;\n    }\n    // If element isn't within the same subtree or can't satisfy the evaluator's depth required, return false\n    if (current != root) {\n        return false;\n    }\n    if (evaluators.size() > ancestorCount + 1) {\n        return false;\n    }\n\n    // Evaluate from last to first in the subtree\n    for (int i = evaluators.size() - 1; i >= 0; --i) {\n        if (element == null) {\n            return false;\n        }\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element)) {\n            return false;\n        }\n        element = element.parent();\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

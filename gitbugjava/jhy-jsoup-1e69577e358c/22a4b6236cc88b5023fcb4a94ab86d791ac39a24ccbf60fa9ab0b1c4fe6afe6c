@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // build the authority part (protocol, userinfo, host, port) only\n        URI authorityUri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            IDN.toASCII(decodePart(u.getHost())), // puny-code\n            u.getPort(),\n            null, null, null // path/query/frag appended to keep original encoding\n        );\n\n        String authorityString = authorityUri.toASCIIString();\n\n        // get the original path, query, and fragment from the complete URL string\n        String originalUrlString = u.toString();\n        String pathAndMore = originalUrlString.substring(authorityString.length());\n\n        // build the new URL with the encoded authority and original path/query/fragment\n        String urlForm = authorityString + pathAndMore;\n        u = new URL(urlForm);\n        return u; // no manual appending of query/ref needed now\n    } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

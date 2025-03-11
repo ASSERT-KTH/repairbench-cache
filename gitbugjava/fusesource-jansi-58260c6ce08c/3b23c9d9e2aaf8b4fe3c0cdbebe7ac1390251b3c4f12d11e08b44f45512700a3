@@ -1,0 +1,7 @@
+{
+    "generation": "    public static Appendable render(final String input, Appendable target) throws IOException {\n        int i = 0;\n\n        while (true) {\n            int j = input.indexOf(BEGIN_TOKEN, i);\n            if (j == -1) {\n                if (i == 0) {\n                    target.append(input);\n                } else {\n                    target.append(input.substring(i));\n                }\n                return target;\n            }\n            target.append(input.substring(i, j));\n\n            int k = input.indexOf(END_TOKEN, j);\n            if (k == -1) {\n                throw new IllegalArgumentException(\"Missing end token for spec starting at position \" + j);\n            }\n            if (k < (j + BEGIN_TOKEN_LEN)) {\n                throw new IllegalArgumentException(\"End token found before specification is complete in input: \" + input);\n            }\n\n            String spec = input.substring(j + BEGIN_TOKEN_LEN, k);\n            String[] items = spec.split(CODE_TEXT_SEPARATOR, 2);\n            if (items.length != 2) {\n                throw new IllegalArgumentException(\"Specification must include exactly two parts separated by \" + CODE_TEXT_SEPARATOR);\n            }\n            String replacement = render(items[1], items[0].split(CODE_LIST_SEPARATOR));\n\n            target.append(replacement);\n            i = k + END_TOKEN_LEN;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

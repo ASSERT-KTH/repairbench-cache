@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    buf.readUnsignedShortLE(); // length\n\n    buf.skipBytes(3); // identification header\n    buf.readUnsignedIntLE(); // index\n\n    // Advance buffer after reading device ID\n    String imei = buf.readSlice(15).toString(StandardCharsets.US_ASCII);\n    buf.skipBytes(15); \n    DeviceSession deviceSession = getDeviceSession(\n            channel, remoteAddress, imei);\n    if (deviceSession == null) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedByte(); // session status\n    buf.skipBytes(4); // reserved\n\n    long time = buf.readUnsignedIntLE(); // date and time\n    position.setTime(time * 1000L); // assuming timestamp is in seconds since epoch\n\n    buf.skipBytes(23); // coordinates block\n\n    buf.skipBytes(3); // data tag header\n    decodeMinimalDataSet(position, buf);\n\n    return position;\n}\n\n// Explanation:\n// Added buf.skipBytes(15) after reading the device ID to properly advance the buffer reader index,\n// avoiding overlapping reads with subsequent fields.  \n// Captured the timestamp and set it to position.setTime() to resolve the time mismatch error. \n// Multiplied by 1000L to convert from seconds to milliseconds if the timestamp is in seconds.",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

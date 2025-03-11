@@ -1,0 +1,7 @@
+{
+    "generation": "private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n    int type = buf.readUnsignedByte(); // Swapped order: type first\n    int length = buf.readUnsignedByte(); // then length\n    int dataLength = length - 5;\n    Position position = new Position(getProtocolName());\n    DeviceSession deviceSession = null;\n    if (type != MSG_LOGIN) {\n        deviceSession = getDeviceSession(channel, remoteAddress);\n        if (deviceSession == null) {\n            return null;\n        }\n        position.setDeviceId(deviceSession.getDeviceId());\n        if (!deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n            deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n        }\n    } else {\n        String imei = ByteBufUtil.hexDump(buf.readSlice(8)).substring(1);\n        buf.readUnsignedShort(); // type\n\n        deviceSession = getDeviceSession(channel, remoteAddress, imei);\n        if (deviceSession != null && !deviceSession.contains(DeviceSession.KEY_TIMEZONE)) {\n            deviceSession.set(DeviceSession.KEY_TIMEZONE, getTimeZone(deviceSession.getDeviceId()));\n        }\n        // ... rest of the existing code remains the same except for the fixed order above ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

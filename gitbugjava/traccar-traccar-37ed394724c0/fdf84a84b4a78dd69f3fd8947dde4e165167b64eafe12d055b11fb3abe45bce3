@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object decodeBasic(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n        // ... [rest of code remains the same until the following section] ...\n\n        else if (type == MSG_X1_GPS && variant != Variant.SL4X) {\n\n            buf.readUnsignedInt(); // data and alarm\n\n            decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n\n            buf.readUnsignedShort(); // terminal info\n\n            position.set(Position.KEY_ODOMETER, buf.readUnsignedInt());\n\n            position.setNetwork(new Network(CellTower.from(\n                    buf.readUnsignedShort(), buf.readUnsignedByte(),\n                    buf.readUnsignedShort(), buf.readUnsignedInt())));\n\n            long driverId = buf.readUnsignedInt();\n            if (driverId > 0) {\n                position.set(Position.KEY_DRIVER_UNIQUE_ID, String.valueOf(driverId));\n            }\n\n            // Corrected lines: switching BATTERY to BATTERY_LEVEL\n            position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedShort() * 0.01);\n            position.set(Position.KEY_POWER, buf.readUnsignedShort() * 0.01);\n\n            // ... [rest of the code for this branch continues as before] ...\n\n        } else if (type == MSG_X1_PHOTO_INFO) {\n            // ... [no change here] ...",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String urlS = u.toExternalForm();\n        urlS = urlS.replace(\" \", \"%20\")\n                // Encode other URL illegal characters in the path and query to ensure valid URI\n                .replaceAll(\"[^\\\\w\\\\d:/?%#@!$&'()*+,;=._-]\", c -> \"%\" + String.format(\"%02X\", (int) c.charAt(0)));\n        final URI uri = new URI(urlS);\n        return new URL(uri.toASCIIString());\n    } catch (URISyntaxException | MalformedURLException e) {\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

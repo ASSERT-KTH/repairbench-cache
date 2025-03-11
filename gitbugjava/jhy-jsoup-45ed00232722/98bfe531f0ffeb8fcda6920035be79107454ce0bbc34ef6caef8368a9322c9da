@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n        u = punyUrl(u);\n        try {\n            final String scheme = u.getProtocol();\n            final String authority = u.getAuthority();\n            final String path = u.getPath();\n            String encodedPath = \"\";\n            if (path != null) {\n                List<String> pathSegments = new ArrayList<>();\n                for (String segment : path.split(\"/\")) {\n                    segment = URLEncoder.encode(segment, \"UTF-8\")\n                            .replace(\"+\", \"%20\");\n                    pathSegments.add(segment);\n                }\n                encodedPath = String.join(\"/\", pathSegments);\n            }\n            final String query = u.getQuery();\n            final String encodedQuery = (query != null)\n                    ? URLEncoder.encode(query, \"UTF-8\").replace(\"+\", \"%20\")\n                    : null;\n            final String ref = u.getFragment();\n            final URI uri = new URI(scheme, authority, encodedPath, encodedQuery, ref);\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException \n                | UnsupportedEncodingException e) {\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

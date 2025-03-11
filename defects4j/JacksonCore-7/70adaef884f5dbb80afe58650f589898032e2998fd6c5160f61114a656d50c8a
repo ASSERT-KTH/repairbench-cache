@@ -1,0 +1,7 @@
+{
+    "generation": "    public int writeValue() {\n        // Most likely, object:\n        if (_type == TYPE_OBJECT) {\n// buggy code\n            if (_index < 0) {\n                return STATUS_OK_AS_IS;\n            }\n\n            _gotName = false;\n            ++_index;\n            return STATUS_OK_AFTER_COLON;\n        }\n        // Ok, array?\n        if (_type == TYPE_ARRAY) {\n            int ix = _index;\n            ++_index;\n            return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n        }\n        // Nope, root context\n        // No commas within root context, but need space\n        ++_index;\n        return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

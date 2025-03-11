@@ -1,0 +1,7 @@
+{
+    "generation": "public static Appendable render(final String input, Appendable target) throws IOException {\n    int i = 0;\n    int j, k;\n\n    while (true) {\n        j = input.indexOf(BEGIN_TOKEN, i);\n        if (j == -1) {\n            // Check if the remaining text contains any end tokens without a preceding start\n            int remainingEndIndex = input.indexOf(END_TOKEN, i);\n            if (remainingEndIndex != -1) {\n                throw new IllegalArgumentException(\"End token found without matching start token\");\n            }\n            target.append(input.substring(i));\n            return target;\n        }\n        target.append(input.substring(i, j));\n        k = input.indexOf(END_TOKEN, j);\n        if (k == -1) {\n            throw new IllegalArgumentException(\"Start token not followed by an end token\");\n        }\n        j += BEGIN_TOKEN_LEN;\n        String spec = input.substring(j, k);\n        String[] items = spec.split(CODE_TEXT_SEPARATOR, 2);\n        if (items.length != 2) {\n            throw new IllegalArgumentException(\"Malformed specification: missing parts separated by separator\");\n        }\n        String replacement = render(items[1], items[0].split(CODE_LIST_SEPARATOR));\n        target.append(replacement);\n        i = k + END_TOKEN_LEN;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

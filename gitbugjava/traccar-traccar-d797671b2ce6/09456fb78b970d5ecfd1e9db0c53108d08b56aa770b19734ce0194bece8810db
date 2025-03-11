@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeTransparent(DeviceSession deviceSession, ByteBuf buf) {\n\n    int type = buf.readUnsignedByte();\n\n    if (type == 0xF0) {\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        // Read archive flag first before the date field\n        if (buf.readUnsignedByte() > 0) {\n            position.set(Position.KEY_ARCHIVE, true);\n        }\n        // Read vehicle type after archive flag\n        buf.readUnsignedByte(); // vehicle type\n\n        Date time = readDate(buf, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n\n        int count;\n        int subtype = buf.readUnsignedByte();\n        switch (subtype) {\n            // ... (rest of the existing code remains the same as before) ...\n        }\n\n        return position;\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

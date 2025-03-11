@@ -1,0 +1,7 @@
+{
+    "generation": "private void readBinaryCustomData(Position position, ByteBuf buf, String form) {\n    CellTower cellTower = new CellTower();\n    String[] keys = form.substring(1).split(\"%\");\n    for (String key : keys) {\n        switch (key) {\n            // Cases remain the same as before...\n            default:\n                try {\n                    // Log unknown key and consume at least one byte to prevent desynchronization\n                    LOG.error(\"Unknown custom data form key: \" + key);\n                    buf.readUnsignedByte();\n                } catch (Exception e) {\n                    LOG.warn(\"Unable to skip data for unknown key: \" + key, e);\n                }\n                break;\n        }\n    }\n\n    // Existing cellTower logic and Network setting\n    if (cellTower.getMobileCountryCode() != null && cellTower.getMobileNetworkCode() != null\n            && cellTower.getCellId() != null && cellTower.getCellId() != 0\n            && cellTower.getLocationAreaCode() != null) {\n        position.setNetwork(new Network(cellTower));\n    } else if (cellTower.getSignalStrength() != null) {\n        position.set(Position.KEY_RSSI, cellTower.getSignalStrength());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

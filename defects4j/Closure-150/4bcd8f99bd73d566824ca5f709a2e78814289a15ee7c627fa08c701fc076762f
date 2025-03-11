@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Visit a node in a local scope, and add any local variables or catch\n     * parameters into the local symbol table.\n     *\n     * @param t The node traversal.\n     * @param n The node being visited.\n     * @param parent The parent of n\n     */\n    @Override public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n == scope.getRootNode()) return;\n      if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n        handleFunctionInputs(parent);\n        return;\n      }\n// buggy code\n//      attachLiteralTypes(n);\n//      switch (n.getType()) {\n//        case Token.FUNCTION:\n//          if (parent.getType() == Token.NAME) {\n//            return;\n//          }\n//          defineDeclaredFunction(n, parent);\n//          break;\n//        case Token.CATCH:\n//          defineCatch(n, parent);\n//          break;\n//        case Token.VAR:\n//          defineVar(n, parent);\n//          break;\n//      }\n      switch (n.getType()) {\n        case Token.VAR:\n          defineVar(n, parent);\n          break;\n        case Token.FUNCTION:\n          if (parent.getType() == Token.NAME) {\n            return;\n          }\n          defineDeclaredFunction(n, parent);\n          break;\n        case Token.CATCH:\n          defineCatch(n, parent);\n          break;\n      }\n      attachLiteralTypes(n);\n\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
