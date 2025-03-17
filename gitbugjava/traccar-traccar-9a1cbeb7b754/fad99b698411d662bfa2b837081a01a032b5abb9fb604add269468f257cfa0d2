@@ -1,0 +1,7 @@
+{
+    "generation": "\n\u5728 the loop for the fourth parameter block (last j loop\u4e2d\u7684 function). \n\n\u8fd9\u4e00 modification will ensure that the decoder doesn't attempt to process parameters with insufficient data. \n\n\u5176\u4ed6 potential issues (like the id 0x02's Requires 4 bytes but with an incorrect length of data) may still exist but would not throw the specific out-of-bounds exception mentioned in the error. \n\nThis fix should specifically resolve the \"readerIndex + length exceeds writerIndex\" error by ensuring that the`length` of a parameter doesn't exceed the remaining buffer bytes.\n\nThus\uff0c the patch is: \n\n\u5728 the fourth parameter loop's J loop, after reading the 'length' variable:\n\n\u6dfb\u52a0: \n\n\tif (length > buf.readableBytes()) {\n\n\t\tbreak;\n\n\t}\n\nSo the\u6700\u7ec8\u7684\u4ee3\u7801\u4fee\u6539:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(\n        ChannelHandlerContext ctx, Channel channel, ByteBuf buf) throws Exception {\n\n    // Find the first occurrence of ']' in the current buffer\n    int firstClosingBracket = buf.indexOf(buf.readerIndex(), buf.writerIndex(), ']');\n    if (firstClosingBracket == -1) {\n        return null; // No closing bracket found yet, wait for more data\n    }\n\n    int endIndex = firstClosingBracket + 1;\n    ByteBuf frame = Unpooled.buffer();\n\n    while (buf.readerIndex() < endIndex) {\n        byte b1 = buf.readByte();\n        if (b1 == '}') {\n            byte b2 = buf.readByte();\n            switch (b2) {\n                case 0x01:\n                    frame.writeByte('}'); break;\n                case 0x02:\n                    frame.writeByte('['); break;\n                case 0x03:\n                    frame.writeByte(']'); break;\n                case 0x04:\n                    frame.writeByte(','); break;\n                case 0x05:\n                    frame.writeByte('*'); break;\n                default:\n                    throw new IllegalArgumentException(String.format(\n                            \"unexpected byte at %d: 0x%02x\", \n                            buf.readerIndex() - 1, b2));\n            }\n        } else {\n            frame.writeByte(b1);\n        }\n    }\n\n    return frame;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

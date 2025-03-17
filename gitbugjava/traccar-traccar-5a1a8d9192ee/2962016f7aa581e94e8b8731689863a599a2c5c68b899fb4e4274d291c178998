@@ -1,0 +1,7 @@
+{
+    "generation": "\nWait this is exactly the original code except for the 0x04 case's constant. \n\nYes, so the correct change is that and only that. \n\nThus the fixed code is only changing the `+946713600` to `+946684800` in the parameter 0x04 block. \n\nThat should fix the time. \n\nI can also see another possible problem with parameters loop. \n\nThe list parameters is getParameters() which determines the order. Because in the test's case, they set \"01,02,03,04,05,08\" as the order. \n\nThe parameters' loop is simply processing each in order, and for each, reads the bytes based on the case.\n\nSuppose for each parameter in the list, you read the bytes accordingly. \n\nAssuming the initial reads before the loop are correct (i.e. the protocol's headers account for those fields), the only bug is that the offset is incorrect, causing the time to be +8h. So patching that constant is sufficient.\n\nYes, I think that's the correct fix. Thus the fixed code:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
