@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object deserialize(byte[] bytes) throws Exception {\n        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);\n             ObjectInputStream ois = new ObjectInputStream(bais)) {\n            Object obj = ois.readObject();\n            if (obj instanceof MultiValueMap) {\n                MultiValueMap mvm = (MultiValueMap) obj;\n                Class<?> defaultType = mvm.defaultType;\n                if (defaultType != null && defaultType != String.class) {\n                    return mvm;\n                } else {\n                    throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n                }\n            }\n            return obj;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

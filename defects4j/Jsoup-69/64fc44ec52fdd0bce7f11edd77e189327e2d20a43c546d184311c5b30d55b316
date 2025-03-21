@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.helper.StringUtil;\nimport org.jsoup.nodes.Attributes;\nimport org.jsoup.nodes.Document;\nimport org.jsoup.nodes.Element;\nimport org.jsoup.nodes.FormElement;\nimport org.jsoup.nodes.Node;\nimport org.jsoup.select.Elements;\nimport java.util.List;\nimport java.util.ArrayList;\nimport org.jsoup.Connection;\n\n    public List<Connection.KeyVal> formData() {\n        List<Connection.KeyVal> params = new ArrayList<>();\n        Elements inputs = select(\"input\");\n        for (Element input : inputs) {\n            String name = input.attr(\"name\");\n            if (!StringUtil.isBlank(name)) {\n                String value = input.attr(\"value\");\n                if (input.hasAttr(\"type\") && \"submit\".equalsIgnoreCase(input.attr(\"type\"))) {\n                    // submit inputs are not included in the form data\n                    continue;\n                }\n                params.add(new Connection.KeyVal(name, value));\n            }\n        }\n        return params;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n      NodeTraversal t = new NodeTraversal(compiler, renamer);\n      t.traverseRoots(externs, root);\n    }\n    removeDuplicateDeclarations(root);\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n    // Avoid shadowing the 'arguments' variable.\n    root.replaceNode(\n        matchArgNames(root),\n        createArgNames(root));\n  }\n\n  private Node matchArgNames(Node root) {\n    if (root == null) {\n      return null;\n    }\n\n    for (Node c = root.getFirstChild(); c != null; c = c.getNextSibling()) {\n      if (c.isFunction()) {\n        if (c.getFirstChild().isName() &&\n            c.getFirstChild().getString().equals(\"arguments\")) {\n          return c;\n        }\n      }\n    }\n    return null;\n  }\n\n  private Node createArgNames(Node root) {\n    if (root == null) {\n      return null;\n    }\n\n    for (Node c = root.getFirstChild(); c != null; c = c.getNextSibling()) {\n      if (c.isFunction()) {\n        Node nameNode = c.getFirstChild();\n        if (nameNode.isName() &&\n            nameNode.getString().equals(\"arguments\")) {\n          nameNode.setString(\"arguments_\");\n          break;\n        }\n      }\n    }\n    return root;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

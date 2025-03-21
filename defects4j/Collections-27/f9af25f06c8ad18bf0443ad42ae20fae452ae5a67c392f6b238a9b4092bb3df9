@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {\n        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);\n             ObjectInputStream ois = new ObjectInputStream(bais)) {\n            Object obj = ois.readObject();\n            if (obj instanceof MultiValueMap) {\n                MultiValueMap<?, ?> map = (MultiValueMap<?, ?>) obj;\n                Class<?> valueType = map.getValueClass();\n                if (valueType == String.class) {\n                    throw new UnsupportedOperationException(\"Cannot deserialize MultiValueMap with String value class due to security concerns.\");\n                }\n            }\n            return obj;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        final EigenDecomposition dec = new EigenDecomposition(m);\n        RealMatrix sqrtM = new Array2DRowRealMatrix(m.getRowDimension(), m.getColumnDimension());\n        for (int i = 0; i < m.getRowDimension(); i++) {\n            double eigenvalue = dec.getRealEigenvalue(i);\n            if (eigenvalue < 0) {\n                throw new IllegalArgumentException(\"Matrix is not positive semi-definite\");\n            }\n            sqrtM.setEntry(i, i, FastMath.sqrt(eigenvalue));\n        }\n        RealMatrix v = dec.getV();\n        RealMatrix vInv = new Array2DRowRealMatrix(v.getRowDimension(), v.getColumnDimension());\n        for (int i = 0; i < v.getRowDimension(); i++) {\n            for (int j = 0; j < v.getColumnDimension(); j++) {\n                vInv.setEntry(i, j, v.getEntry(j, i));\n            }\n        }\n\n        return v.multiply(sqrtM).multiply(vInv);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

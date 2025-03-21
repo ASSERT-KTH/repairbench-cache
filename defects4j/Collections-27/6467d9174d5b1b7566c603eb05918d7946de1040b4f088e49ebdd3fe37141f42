@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {\n        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);\n             ObjectInputStream ois = new ObjectInputStream(bais)) {\n            Object obj = ois.readObject();\n            if (obj instanceof MultiValueMap) {\n                MultiValueMap mvm = (MultiValueMap) obj;\n                Class<?> valueClass = mvm.valueClass();\n                if (valueClass != null && !ArrayList.class.equals(valueClass)) {\n                    throw new UnsupportedOperationException(\"Deserialization of MultiValueMap with unsupported value class: \" + valueClass);\n                }\n                return mvm;\n            }\n            return obj;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

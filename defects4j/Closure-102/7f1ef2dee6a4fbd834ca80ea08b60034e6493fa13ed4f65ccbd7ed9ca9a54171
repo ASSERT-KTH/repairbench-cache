@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n      NodeTraversal t = new NodeTraversal(compiler, renamer);\n      t.traverseRoots(externs, root);\n    }\n    removeDuplicateDeclarations(root);\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n    // Mark the 'arguments' variable as not shadowed by a local variable.\n    // This is needed because the standard compilation pipeline might not\n    // recognize that a variable named 'arguments' is a formal parameter\n    // and treat it as a regular variable.\n    markArgumentsAsNotShadowed(root);\n  }\n\n  private void markArgumentsAsNotShadowed(Node root) {\n    for (Node n : root.children()) {\n      if (n.isVar()) {\n        for (Node child : n.children()) {\n          if (child.getString().equals(\"arguments\")) {\n            child.putBooleanProp(Node.IS_ARGUMENT, true);\n          }\n        }\n      } else {\n        markArgumentsAsNotShadowed(n);\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

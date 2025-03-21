@@ -1,0 +1,7 @@
+{
+    "generation": "    private <T> void _testEmptyToNullCoercion(Class<T> type, T expected) throws Exception {\n        JsonParser p = _createParser(\"{\\\"value\\\": null}\");\n        T result = (T) new JsonDeserializer<Object>() {\n            @Override\n            public Object deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {\n                if (jp.nextToken() != JsonToken.START_OBJECT) {\n                    throw new JsonParseException(\"Expected START_OBJECT\", jp.currentToken());\n                }\n                jp.nextToken(); // field name\n                jp.nextToken(); // value\n                if (jp.currentToken() == JsonToken.VALUE_NULL) {\n                    return null;\n                }\n                throw new JsonParseException(\"Expected null\", jp.currentToken());\n            }\n        }.deserialize(p, null);\n\n        assertNull(result);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

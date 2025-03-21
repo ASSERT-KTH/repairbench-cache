@@ -1,0 +1,7 @@
+{
+    "generation": "    private Object deserialize(byte[] bytes) throws Exception {\n        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);\n             ObjectInputStream ois = new ObjectInputStream(bais)) {\n            Object obj = ois.readObject();\n            if (obj instanceof MultiValueMap) {\n                MultiValueMap mvm = (MultiValueMap) obj;\n                Class<?> defaultType = mvm.getDefaultValueType();\n                if (defaultType != null && !defaultType.equals(String.class) && !defaultType.equals(ArrayList.class)) {\n                    throw new UnsupportedOperationException(\"Unsupported default value type: \" + defaultType);\n                }\n                return mvm;\n            }\n            return obj;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
