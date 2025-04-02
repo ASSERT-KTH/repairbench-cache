@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    if (cls == null) {\n        return null;\n    }\n    // Check if the type is already constructed and cached\n    JavaType type = _typeCache.get(cls);\n    if (type != null) {\n        return type;\n    }\n\n    // Construct a new JavaType instance\n    type = new SimpleType(cls);\n\n    // Handle recursive types\n    if (type.hasRawClass(Base.class)) {\n        // Ensure the base type is constructed and cached\n        JavaType baseType = constructType(Base.class);\n        type = new RecursiveType(baseType);\n    }\n\n    // Cache the constructed type\n    _typeCache.put(cls, type);\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

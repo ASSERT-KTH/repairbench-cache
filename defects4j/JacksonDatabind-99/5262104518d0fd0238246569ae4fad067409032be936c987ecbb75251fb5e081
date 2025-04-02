@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected String buildCanonicalName()\n{\n    StringBuilder sb = new StringBuilder();\n    sb.append(_class.getName());\n    if (_referencedType.isArrayType()) {\n        sb.append('[');\n        sb.append(toCanonical(_referencedType.getComponentType()));\n    } else {\n        sb.append('<');\n        sb.append(_referencedType.toCanonical());\n        sb.append('>');\n    }\n    return sb.toString();\n}\n\nprivate String toCanonical(Type type) {\n    if (type instanceof Class) {\n        Class<?> clazz = (Class<?>) type;\n        if (clazz.isArray()) {\n            return toCanonical(clazz.getComponentType()) + \"[]\";\n        }\n        return clazz.getName();\n    }\n    // Handle other types if necessary\n    return type.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

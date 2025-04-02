@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double solve(final UnivariateRealFunction f, double min, double max, double initial)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n    // Ensure the initial guess is within the bounds\n    if (initial < min || initial > max) {\n        throw new IllegalArgumentException(\"Initial guess must be within the bounds [min, max]\");\n    }\n\n    // Implement the bisection method to find the root\n    double midpoint;\n    double fa = f.value(min);\n    double fb = f.value(max);\n\n    if (fa * fb >= 0) {\n        throw new IllegalArgumentException(\"Function values at endpoints must have different signs\");\n    }\n\n    while (max - min > getAbsoluteAccuracy()) {\n        midpoint = (min + max) / 2;\n        double fmid = f.value(midpoint);\n\n        if (fmid == 0) {\n            return midpoint;\n        }\n\n        if (fa * fmid < 0) {\n            max = midpoint;\n            fb = fmid;\n        } else {\n            min = midpoint;\n            fa = fmid;\n        }\n    }\n\n    return (min + max) / 2;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

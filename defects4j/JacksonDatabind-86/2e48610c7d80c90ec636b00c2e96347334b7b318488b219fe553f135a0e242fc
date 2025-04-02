@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        if (cls.isAnnotationPresent(JacksonAnnotation.class)) {\n            // Handle recursive types by ensuring the base type is resolved correctly\n            JavaType baseType = getType(cls.getSuperclass());\n            if (baseType != null) {\n                // Ensure the base type is cached correctly\n                return baseType;\n            }\n        }\n    }\n    return super.constructType(type);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

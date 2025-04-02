@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // Check if the type is already constructed and cached\n    JavaType type = _typeMap.get(cls);\n    if (type != null) {\n        return type;\n    }\n\n    // Construct the type\n    if (cls.isInterface()) {\n        type = _typeFactory.constructType(cls);\n    } else {\n        type = _typeFactory.constructType(cls, true);\n    }\n\n    // Handle recursive types\n    if (cls.getSuperclass() != null && cls.getSuperclass() != Object.class) {\n        JavaType superType = constructType(cls.getSuperclass());\n        type = new ResolvedRecursiveType(type, superType);\n    }\n\n    // Cache the constructed type\n    _typeMap.put(cls, type);\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

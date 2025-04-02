@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element element : select(\"input, select, textarea\")) {\n        if (element.tagName().equals(\"input\")) {\n            if (element.hasAttr(\"name\")) {\n                String type = element.attr(\"type\");\n                if (type.equals(\"submit\") || type.equals(\"button\") || type.equals(\"reset\") || type.equals(\"image\")) {\n                    continue;\n                }\n                String key = element.attr(\"name\");\n                String value = element.val();\n                if (value != null) {\n                    data.add(new Connection.KeyVal(key, value));\n                }\n            }\n        } else if (element.tagName().equals(\"select\")) {\n            String key = element.attr(\"name\");\n            String value = element.select(\"option[selected]\").val();\n            if (value != null) {\n                data.add(new Connection.KeyVal(key, value));\n            }\n        } else if (element.tagName().equals(\"textarea\")) {\n            String key = element.attr(\"name\");\n            String value = element.val();\n            if (value != null) {\n                data.add(new Connection.KeyVal(key, value));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

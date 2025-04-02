@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        final double[] initialGuess = new double[guess.length];\n        for (int i = 0; i < guess.length; i++) {\n            if (i == 2) { // Assuming sigma is the third parameter\n                initialGuess[i] = guess[i] * guess[i]; // Use the square of sigma\n            } else {\n                initialGuess[i] = guess[i];\n            }\n        }\n        final double[] result = fit(new Gaussian.Parametric(), initialGuess);\n        result[2] = Math.sqrt(result[2]); // Take the square root of sigma\n        return result;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

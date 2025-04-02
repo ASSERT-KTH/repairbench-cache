@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    int len = str.length();\n    if (len < 2 || len > 8) { // Adjusting the length check to allow for longer strings\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    char ch0 = str.charAt(0);\n    char ch1 = str.charAt(1);\n    if (ch0 < 'a' || ch0 > 'z' || ch1 < 'a' || ch1 > 'z') {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n    if (len == 2) {\n        return new Locale(str, \"\");\n    } else {\n        int underscoreIndex = str.indexOf('_');\n        if (underscoreIndex == -1 || underscoreIndex == 1) {\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        }\n        String language = str.substring(0, 2);\n        String country = \"\";\n        String variant = \"\";\n        if (underscoreIndex == 2) {\n            // Case: language__variant\n            variant = str.substring(3);\n        } else if (underscoreIndex == 5) {\n            // Case: language_COUNTRY\n            country = str.substring(3, 5);\n        } else if (underscoreIndex > 5) {\n            // Case: language_COUNTRY_VARIANT\n            country = str.substring(3, 5);\n            variant = str.substring(6);\n        }\n        return new Locale(language, country, variant);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.databind.type.TypeFactory;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.annotation.JsonTypeInfo;\n\npublic class FixedTypeFactory extends TypeFactory {\n\n    public FixedTypeFactory() {\n        super();\n    }\n\n    @Override\n    public JavaType constructType(Class<?> rawType) {\n        JavaType type = super.constructType(rawType);\n        if (type.getRawClass().isAnnotationPresent(JsonTypeInfo.class)) {\n            type = type.withTypeHandler(new JsonTypeInfo.Id.CLASS);\n        }\n        return type;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

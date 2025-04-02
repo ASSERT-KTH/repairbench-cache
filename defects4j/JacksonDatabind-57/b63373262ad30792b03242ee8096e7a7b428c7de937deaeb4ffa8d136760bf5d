@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Overloaded version of {@link #readValue(InputStream)}.\n */\npublic <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n    throws IOException, JsonProcessingException\n{\n    if (_dataFormatReaders != null) {\n        return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n    }\n    ByteSource byteSource = new ByteSource() {\n        @Override\n        public InputStream openStream() throws IOException {\n            return new ByteArrayInputStream(src, offset, length);\n        }\n\n        @Override\n        public long length() {\n            return length;\n        }\n\n        @Override\n        public String contentType() {\n            return \"application/json\";\n        }\n\n        @Override\n        public String charset() {\n            return \"UTF-8\";\n        }\n    };\n    return _bindAndReadValues(_considerFilter(_parserFactory.createParser(byteSource), true));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

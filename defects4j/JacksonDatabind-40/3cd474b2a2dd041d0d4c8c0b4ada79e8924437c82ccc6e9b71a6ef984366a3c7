@@ -1,0 +1,7 @@
+{
+    "generation": "public void _testEmptyToNullCoercion(Class<?> type, Object expectedValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);\n\n    // Test for empty string coercion to null\n    String emptyString = \"\";\n    try {\n        Object result = mapper.readValue(emptyString, type);\n        if (expectedValue != null) {\n            assertEquals(expectedValue, result);\n        } else {\n            assertNull(result);\n        }\n    } catch (JsonMappingException e) {\n        if (expectedValue != null) {\n            fail(\"Unexpected JsonMappingException: \" + e.getMessage());\n        }\n    }\n\n    // Test for null coercion to null\n    String nullString = \"null\";\n    try {\n        Object result = mapper.readValue(nullString, type);\n        assertNull(result);\n    } catch (JsonMappingException e) {\n        fail(\"Unexpected JsonMappingException: \" + e.getMessage());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

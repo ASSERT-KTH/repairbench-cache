@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n\n    // Traverse the tree to find all function calls\n    for (Node child = node.getFirstChild(); child != null; child = child.getNext()) {\n      if (child.getType() == Token.CALL) {\n        Node callChild = child.getFirstChild();\n        if (callChild != null && callChild.getType() == Token.NAME) {\n          changed.add(callChild.getString());\n        }\n      }\n      findCalledFunctions(child, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

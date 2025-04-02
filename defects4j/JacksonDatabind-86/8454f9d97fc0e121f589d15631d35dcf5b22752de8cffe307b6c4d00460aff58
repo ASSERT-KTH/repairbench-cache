@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> rawType) {\n    // Check if the type is already cached\n    JavaType type = _typeCache.get(rawType);\n    if (type != null) {\n        return type;\n    }\n\n    // Construct the type and cache it\n    type = new TypeFactory.StdType(rawType, null, null, null, null, null);\n    _typeCache.put(rawType, type);\n\n    // Ensure that the superclass type is also constructed and cached\n    Class<?> superClass = rawType.getSuperclass();\n    if (superClass != null && superClass != Object.class) {\n        constructType(superClass);\n    }\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public class Base {\n    public int base = 1;\n}\n\npublic class Sub extends Base {\n    public int sub = 2;\n}\n\npublic class CustomSerializer extends JsonSerializer<Sub> {\n    @Override\n    public void serialize(Sub value, JsonGenerator gen, SerializerProvider serializers) throws IOException {\n        gen.writeStartObject();\n        gen.writeObjectField(\"base\", value.base);\n        gen.writeObjectField(\"sub\", value.sub);\n        gen.writeEndObject();\n    }\n}\n\npublic class CustomModule extends SimpleModule {\n    public CustomModule() {\n        addSerializer(Sub.class, new CustomSerializer());\n    }\n}\n\npublic ObjectMapper objectMapper() {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.registerModule(new CustomModule());\n    return mapper;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

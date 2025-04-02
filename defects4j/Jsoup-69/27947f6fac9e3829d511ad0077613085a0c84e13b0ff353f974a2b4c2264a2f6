@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element element : elements()) {\n        if (element.tagName().equals(\"input\")) {\n            String type = element.attr(\"type\");\n            String name = element.attr(\"name\");\n            String value = element.attr(\"value\");\n\n            if (\"submit\".equals(type)) {\n                // Only include submit input if it has a name attribute\n                if (!name.isEmpty()) {\n                    data.add(new Connection.KeyVal(name, value));\n                }\n            } else {\n                data.add(new Connection.KeyVal(name, value));\n            }\n        } else if (element.tagName().equals(\"textarea\")) {\n            data.add(new Connection.KeyVal(element.attr(\"name\"), element.text()));\n        } else if (element.tagName().equals(\"select\")) {\n            for (Element option : element.select(\"option\")) {\n                if (option.hasAttr(\"selected\") || option.hasAttr(\"checked\")) {\n                    data.add(new Connection.KeyVal(element.attr(\"name\"), option.attr(\"value\")));\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

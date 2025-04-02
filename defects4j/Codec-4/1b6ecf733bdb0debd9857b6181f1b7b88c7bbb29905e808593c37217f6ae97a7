@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.codec.Encoder;\nimport org.apache.commons.codec.BinaryEncoder;\nimport org.apache.commons.codec.EncoderException;\nimport org.apache.commons.codec.binary.Base64;\n\npublic class Base64 implements Encoder, BinaryEncoder {\n    private final boolean urlSafe;\n\n    public Base64() {\n        this(false);\n    }\n\n    public Base64(boolean urlSafe) {\n        this.urlSafe = urlSafe;\n    }\n\n    @Override\n    public Object encode(Object source) throws EncoderException {\n        if (source instanceof byte[]) {\n            return encode((byte[]) source);\n        }\n        throw new EncoderException(\"Source object is not a byte array\");\n    }\n\n    @Override\n    public byte[] encode(byte[] binaryData) throws EncoderException {\n        if (urlSafe) {\n            return org.apache.commons.codec.binary.Base64.encodeBase64URLSafe(binaryData);\n        } else {\n            return org.apache.commons.codec.binary.Base64.encodeBase64(binaryData);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

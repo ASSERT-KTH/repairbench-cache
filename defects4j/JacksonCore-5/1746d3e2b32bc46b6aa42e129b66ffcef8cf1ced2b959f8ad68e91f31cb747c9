@@ -1,0 +1,7 @@
+{
+    "generation": "private final static int _parseIndex(String str) {\n    final int len = str.length();\n    // [Issue#133]: beware of super long indexes; assume we never\n    // have arrays over 2 billion entries so ints are fine.\n    if (len == 0 || len > 10) {\n        return -1;\n    }\n    for (int i = 0; i < len; ++i) {\n        char c = str.charAt(i);\n        if (c > '9' || c < '0') {\n            // Allowing 'e' and 'E' for scientific notation and '-' for negative numbers\n            if (c != 'e' && c != 'E' && c != '-' && (i != 0 || c != '-')) {\n                return -1;\n            }\n        }\n    }\n    try {\n        return Integer.parseInt(str);\n    } catch (NumberFormatException e) {\n        return -1;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

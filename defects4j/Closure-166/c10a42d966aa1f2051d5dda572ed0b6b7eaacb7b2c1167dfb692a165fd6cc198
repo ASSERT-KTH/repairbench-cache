@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n      return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    if (constraint.isRecordType()) {\n      // Convert the record type to an object type and match it.\n      JSType objectType = constraint.toObjectType();\n      if (objectType instanceof JSObjectType) {\n        JSObjectType objectTypeCasted = (JSObjectType) objectType;\n        for (JSProperty prop : objectTypeCasted.getProperties().values()) {\n          // Match each property in the record type with the corresponding property in this object.\n          if (prop.getType().isUndefinedType()) {\n            // If the property type is undefined, we need to handle it appropriately.\n            // For simplicity, we can set the property type to the union of the current type and undefined.\n            JSType currentType = getProperty(prop.getName());\n            if (currentType == null) {\n              setProperty(prop.getName(), prop.getType());\n            } else {\n              setProperty(prop.getName(), currentType.unionWith(prop.getType()));\n            }\n          } else {\n            // Otherwise, set the property type directly.\n            setProperty(prop.getName(), prop.getType());\n          }\n        }\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

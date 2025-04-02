@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    boolean escaped = false;\n\n    do {\n        if (isEmpty()) break;\n        char c = consume();\n        if (escaped) {\n            escaped = false;\n        } else if (c == '\\\\') {\n            escaped = true;\n        } else if (c == open) {\n            depth++;\n            if (start == -1)\n                start = pos - 1; // Adjust to include the opening character\n        } else if (c == close) {\n            depth--;\n        }\n\n        if (depth == 0 && start != -1) {\n            end = pos; // Include the closing character\n        }\n    } while (depth > 0);\n\n    return (end >= 0) ? queue.substring(start, end) : \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

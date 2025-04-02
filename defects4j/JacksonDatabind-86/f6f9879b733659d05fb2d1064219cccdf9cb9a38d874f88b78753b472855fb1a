@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // Check if the type is already cached\n    JavaType existing = _typeCache.get(cls);\n    if (existing != null) {\n        return existing;\n    }\n\n    // Construct the type\n    JavaType type = _fromClass(cls);\n    if (type.isReferenceType()) {\n        // Handle reference types correctly\n        type = _resolveRecursiveType(type);\n    }\n\n    // Cache the constructed type\n    _typeCache.put(cls, type);\n\n    return type;\n}\n\nprivate JavaType _resolveRecursiveType(JavaType type) {\n    // Resolve recursive types to ensure base types are correctly referenced\n    if (type.isReferenceType()) {\n        JavaType resolvedType = type.getReferencedType();\n        if (resolvedType.isReferenceType()) {\n            return _resolveRecursiveType(resolvedType);\n        }\n        return resolvedType;\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

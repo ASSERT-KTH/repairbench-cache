@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);\n\n    // Test with an empty string\n    String emptyString = \"\";\n    try {\n        Object result = mapper.readValue(emptyString, type);\n        assertNull(result); // Expecting null for empty string\n    } catch (Exception e) {\n        fail(\"Failed to deserialize empty string to null for type \" + type);\n    }\n\n    // Test with a non-empty string that should map to the default value\n    String nonEmptyString = defaultValue.toString();\n    try {\n        Object result = mapper.readValue(nonEmptyString, type);\n        assertEquals(defaultValue, result); // Expecting default value\n    } catch (Exception e) {\n        fail(\"Failed to deserialize non-empty string to default value for type \" + type);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

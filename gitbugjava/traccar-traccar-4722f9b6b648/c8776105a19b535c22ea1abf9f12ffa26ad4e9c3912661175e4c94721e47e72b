@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    buf.readUnsignedShortLE(); // length\n\n    buf.skipBytes(3); // identification header\n    buf.readUnsignedIntLE(); // index\n\n    DeviceSession deviceSession = getDeviceSession(\n            channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n    if (deviceSession == null) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedByte(); // session status\n    buf.skipBytes(4); // reserved\n\n    // Read and interpret the date and time\n    int dateAndTime = buf.readUnsignedIntLE();\n    LocalDateTime dateTime = parseDateTime(dateAndTime);\n    position.setTime(dateTime);\n\n    buf.skipBytes(23); // coordinates block\n\n    buf.skipBytes(3); // data tag header\n    decodeMinimalDataSet(position, buf);\n\n    return position;\n}\n\nprivate LocalDateTime parseDateTime(int dateAndTime) {\n    // Assuming the date and time are in a specific format, parse it accordingly\n    // This is a placeholder implementation. Adjust according to the actual format.\n    // For example, if the date and time are in seconds since epoch, you can use:\n    return LocalDateTime.ofInstant(Instant.ofEpochSecond(dateAndTime), ZoneId.systemDefault());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

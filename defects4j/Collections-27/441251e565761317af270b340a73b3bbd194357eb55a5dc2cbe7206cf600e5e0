@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n\n    // Deserialize the collection class\n    Class<?> collectionClass = (Class<?>) ois.readObject();\n\n    // Check if the collection class is safe\n    if (!ArrayList.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe collection class detected during deserialization\");\n    }\n\n    // Proceed with deserialization\n    this.collectionClass = collectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

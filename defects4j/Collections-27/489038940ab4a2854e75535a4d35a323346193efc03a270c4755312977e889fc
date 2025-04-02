@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n\n    // Check if the valueClass is a valid collection type\n    if (valueClass != null && !Collection.class.isAssignableFrom(valueClass)) {\n        throw new UnsupportedOperationException(\"Unsafe class type for MultiValueMap deserialization\");\n    }\n\n    // Deserialize the map content\n    int size = ois.readInt();\n    for (int i = 0; i < size; i++) {\n        Object key = ois.readObject();\n        Collection values = (Collection) ois.readObject();\n        put(key, values);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

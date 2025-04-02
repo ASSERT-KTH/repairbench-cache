@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Parse an entry name from a buffer.\n * Parsing stops when a NUL is found\n * or the buffer length is reached.\n *\n * @param buffer The buffer from which to parse.\n * @param offset The offset into the buffer from which to parse.\n * @param length The maximum number of bytes to parse.\n * @return The entry name.\n */\npublic static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            end = i;\n            break;\n        }\n    }\n\n    try {\n        return new String(buffer, offset, end - offset, \"UTF-8\");\n    } catch (UnsupportedEncodingException e) {\n        // UTF-8 is guaranteed to be supported\n        throw new RuntimeException(\"UTF-8 charset not supported\", e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

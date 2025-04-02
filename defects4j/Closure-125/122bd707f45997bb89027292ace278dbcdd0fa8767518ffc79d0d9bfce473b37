@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Visits a NEW node.\n   */\n  private void visitNew(NodeTraversal t, Node n) {\n    Node constructor = n.getFirstChild();\n    JSType type = getJSType(constructor).restrictByNotNullOrUndefined();\n    if (type.isConstructor() || type.isEmptyType() || type.isUnknownType()) {\n      FunctionType fnType = type.toMaybeFunctionType();\n      if (fnType != null) {\n        visitParameterList(t, n, fnType);\n        ensureTyped(t, n, fnType.getInstanceType());\n      } else {\n        // Handle the case where the type is not a function type\n        ensureTyped(t, n);\n      }\n    } else {\n      // Ensure that the type is properly reported and handled\n      report(t, n, NOT_A_CONSTRUCTOR);\n      ensureTyped(t, n, JSType.UNKNOWN_TYPE);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

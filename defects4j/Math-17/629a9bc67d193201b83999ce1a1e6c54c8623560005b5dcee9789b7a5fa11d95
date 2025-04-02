@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n        if (x == 0) {\n            return new Dfp(0); // Multiplying by zero should return zero\n        }\n        if (x == 1) {\n            return this; // Multiplying by one should return the original number\n        }\n        if (x == -1) {\n            return this.negate(); // Multiplying by -1 should return the negation of the number\n        }\n        // Handle special cases for positive and negative infinity\n        if (this.isInfinite()) {\n            if (x > 0) {\n                return this; // Multiplying positive infinity by a positive number remains positive infinity\n            } else {\n                return this.negate(); // Multiplying positive infinity by a negative number becomes negative infinity\n            }\n        }\n        if (this.isNaN()) {\n            return this; // Multiplying NaN by any number remains NaN\n        }\n        // For other cases, delegate to multiplyFast\n        return multiplyFast(x);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

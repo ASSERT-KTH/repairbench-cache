@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean preserveWhitespace(Node node) {\n    // looks only at this element and five levels up, to prevent recursion & needless stack searches\n    if (node != null && node instanceof Element) {\n        Element el = (Element) node;\n        if (el.tag().preserveWhitespace()) {\n            return true;\n        } else if (el.parent() != null) {\n            int depth = 0;\n            Node parent = el.parent();\n            while (parent != null && depth < 5) {\n                if (parent instanceof Element && ((Element) parent).tag().preserveWhitespace()) {\n                    return true;\n                }\n                parent = ((Element) parent).parent();\n                depth++;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

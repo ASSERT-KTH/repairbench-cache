@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory factory, boolean prettyPrint, boolean quoteFieldNames, String expectedOutput) throws IOException {\n    ObjectMapper mapper = new ObjectMapper(factory);\n    if (prettyPrint) {\n        mapper.enable(SerializationFeature.INDENT_OUTPUT);\n    }\n    if (quoteFieldNames) {\n        mapper.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        mapper.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n\n    ByteArrayOutputStream out = new ByteArrayOutputStream();\n    mapper.writeValue(out, new HashMap<String, Integer>() {{\n        put(\"foo\", 1);\n    }});\n\n    String actualOutput = out.toString(\"UTF-8\");\n    assertEquals(expectedOutput, actualOutput);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

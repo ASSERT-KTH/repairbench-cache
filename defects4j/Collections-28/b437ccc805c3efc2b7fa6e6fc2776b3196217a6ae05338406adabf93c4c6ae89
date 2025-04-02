@@ -1,0 +1,7 @@
+{
+    "generation": "public SortedMap<K, V> prefixMap(K prefix) {\n    if (prefix == null) {\n        throw new IllegalArgumentException(\"Prefix cannot be null\");\n    }\n\n    // Assuming the trie is implemented as a tree-like structure, this is a simplified version\n    // of how the prefix map might be constructed. The actual implementation will depend on the\n    // specific data structures and algorithms used in the PatriciaTrie.\n\n    SortedMap<K, V> prefixMap = new TreeMap<>();\n    // Traverse the trie and collect all keys and values that start with the given prefix\n    collectPrefixEntries(root, prefix, prefixMap);\n\n    return prefixMap;\n}\n\nprivate void collectPrefixEntries(TrieNode<K, V> node, K prefix, SortedMap<K, V> prefixMap) {\n    if (node == null) {\n        return;\n    }\n\n    // Check if the current node matches the prefix\n    if (node.isPrefixOf(prefix)) {\n        // If the node is a terminal node, add it to the prefix map\n        if (node.isTerminal()) {\n            prefixMap.put((K) node.getKey(), node.getValue());\n        }\n        // Recursively collect entries from child nodes\n        for (TrieNode<K, V> child : node.getChildren()) {\n            collectPrefixEntries(child, prefix, prefixMap);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

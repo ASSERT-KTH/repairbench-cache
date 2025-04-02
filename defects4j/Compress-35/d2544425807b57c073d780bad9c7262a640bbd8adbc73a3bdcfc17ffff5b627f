@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    final int CHKSUM_OFFSET = 148; // Offset for the checksum field in the tar header\n    final int CHKSUMLEN = 8;      // Length of the checksum field\n\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    int digits = 0;\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            if (digits < 6 && b >= '0' && b <= '7') {\n                storedSum = storedSum * 8 + (b - '0');\n                digits++;\n            }\n            b = ' '; // Replace the checksum bytes with spaces for the sum calculation\n        }\n        unsignedSum += b & 0xff;\n        signedSum += b;\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

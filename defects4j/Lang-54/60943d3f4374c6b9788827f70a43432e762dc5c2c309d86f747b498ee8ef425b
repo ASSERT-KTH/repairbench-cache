@@ -1,0 +1,7 @@
+{
+    "generation": "public static Locale toLocale(String str) {\n    if (str == null) {\n        return null;\n    }\n    int len = str.length();\n    if (len < 2 || len > 8) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    String language = \"\";\n    String country = \"\";\n    String variant = \"\";\n\n    int pos = 0;\n    while (pos < len && str.charAt(pos) != '_') {\n        if (str.charAt(pos) < 'a' || str.charAt(pos) > 'z') {\n            throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n        }\n        language += str.charAt(pos);\n        pos++;\n    }\n\n    if (pos < len && str.charAt(pos) == '_') {\n        pos++;\n        while (pos < len && str.charAt(pos) != '_') {\n            if (str.charAt(pos) < 'A' || str.charAt(pos) > 'Z') {\n                throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n            }\n            country += str.charAt(pos);\n            pos++;\n        }\n    }\n\n    if (pos < len && str.charAt(pos) == '_') {\n        pos++;\n        while (pos < len) {\n            variant += str.charAt(pos);\n            pos++;\n        }\n    }\n\n    if (language.isEmpty()) {\n        throw new IllegalArgumentException(\"Invalid locale format: \" + str);\n    }\n\n    if (country.isEmpty()) {\n        return new Locale(language, \"\", variant);\n    } else {\n        return new Locale(language, country, variant);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

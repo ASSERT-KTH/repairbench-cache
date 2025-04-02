@@ -1,0 +1,7 @@
+{
+    "generation": "private RealMatrix squareRoot(RealMatrix m) {\n    // Ensure the matrix is symmetric and positive-definite\n    if (!m.isSquare() || !m.isSymmetric()) {\n        throw new IllegalArgumentException(\"Matrix must be symmetric and square.\");\n    }\n\n    // Check if the matrix is positive-definite\n    try {\n        CholeskyDecomposition cholesky = new CholeskyDecomposition(m);\n        if (!cholesky.isNonSingular()) {\n            throw new IllegalArgumentException(\"Matrix must be positive-definite.\");\n        }\n    } catch (SingularMatrixException e) {\n        throw new IllegalArgumentException(\"Matrix must be positive-definite.\");\n    }\n\n    // Use Cholesky decomposition to compute the square root\n    CholeskyDecomposition cholesky = new CholeskyDecomposition(m);\n    return cholesky.getL().scalarMultiply(Math.sqrt(2.0)).multiply(cholesky.getL().transpose());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

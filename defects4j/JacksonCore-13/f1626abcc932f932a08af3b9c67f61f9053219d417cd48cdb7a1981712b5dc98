@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory factory, boolean useDefaultFactory, boolean expectQuotes, String expectedJson) throws IOException {\n    ObjectMapper mapper = new ObjectMapper(factory);\n    StringWriter writer = new StringWriter();\n    JsonGenerator generator = mapper.getFactory().createGenerator(writer);\n    generator.writeStartObject();\n    generator.writeFieldName(\"foo\");\n    generator.writeNumber(1);\n    generator.writeEndObject();\n    generator.close();\n\n    String actualJson = writer.toString();\n\n    // Normalize the JSON strings by removing whitespace and quotes\n    String normalizedExpected = expectedJson.replaceAll(\"\\\\s\", \"\").replace(\"\\\"\", \"\");\n    String normalizedActual = actualJson.replaceAll(\"\\\\s\", \"\").replace(\"\\\"\", \"\");\n\n    assertEquals(\"JSON output mismatch\", normalizedExpected, normalizedActual);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

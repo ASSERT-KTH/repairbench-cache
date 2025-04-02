@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock block = ref.getBasicBlock(); block != null; block = block.getParent()) {\n    if (block.isFunction) {\n      break;\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  // Check if there are any other assignments to the variable within the same scope.\n  for (Reference otherRef : getAllAssignments()) {\n    if (otherRef != ref) {\n      BasicBlock otherBlock = otherRef.getBasicBlock();\n      // Ensure the other assignment is not within a different scope (e.g., function or loop).\n      for (BasicBlock parentBlock = otherBlock; parentBlock != null; parentBlock = parentBlock.getParent()) {\n        if (parentBlock.isFunction) {\n          break;\n        } else if (parentBlock.isLoop) {\n          // If the other assignment is within a loop, it's not a single assignment.\n          return false;\n        }\n      }\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

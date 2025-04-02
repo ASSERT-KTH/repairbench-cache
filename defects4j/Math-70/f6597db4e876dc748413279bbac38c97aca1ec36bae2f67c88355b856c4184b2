@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        // Ensure the initial guess is within the bounds\n        if (initial < min || initial > max) {\n            throw new IllegalArgumentException(\"Initial guess must be within the bounds [min, max]\");\n        }\n        // Implement the bisection solver logic here\n        // For simplicity, we will use a basic bisection method\n        double mid;\n        double fMid;\n        double fInitial = f.value(initial);\n\n        while ((max - min) > getAbsoluteAccuracy()) {\n            mid = (min + max) / 2;\n            fMid = f.value(mid);\n\n            if (fMid == 0.0) {\n                return mid;\n            }\n\n            if (fInitial * fMid < 0) {\n                max = mid;\n            } else {\n                min = mid;\n                fInitial = fMid;\n            }\n        }\n\n        return (min + max) / 2;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

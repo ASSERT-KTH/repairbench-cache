@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<String, V> prefixMap(String prefix) {\n    if (prefix == null) {\n        throw new IllegalArgumentException(\"Prefix cannot be null\");\n    }\n    SortedMap<String, V> result = new TreeMap<>();\n    prefixMap(prefix, root, result);\n    return result;\n}\n\nprivate void prefixMap(String prefix, PatriciaTrieNode<K, V> node, SortedMap<String, V> result) {\n    if (node == null) {\n        return;\n    }\n    if (node.isValueNode()) {\n        for (String key : node.keys()) {\n            if (key.startsWith(prefix)) {\n                result.put(key, node.getValue(key));\n            }\n        }\n    }\n    for (PatriciaTrieNode<K, V> child : node.children()) {\n        prefixMap(prefix, child, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

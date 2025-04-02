@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        Object mock = findBestMatchingMock(mocks, field.getType());\n        if (mock != null) {\n            try {\n                field.setAccessible(true);\n                field.set(fieldInstance, mock);\n            } catch (IllegalAccessException e) {\n                throw new RuntimeException(\"Failed to inject mock into field \" + field.getName(), e);\n            }\n        }\n    }\n}\n\nprivate Object findBestMatchingMock(Set<Object> mocks, Class<?> fieldType) {\n    for (Object mock : mocks) {\n        if (fieldType.isAssignableFrom(mock.getClass())) {\n            return mock;\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

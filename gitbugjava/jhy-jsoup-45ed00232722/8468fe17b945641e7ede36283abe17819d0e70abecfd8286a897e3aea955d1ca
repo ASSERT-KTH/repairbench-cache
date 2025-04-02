@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String urlS = u.toExternalForm();\n        String encodedPath = URLEncoder.encode(u.getPath(), \"UTF-8\");\n        String encodedQuery = URLEncoder.encode(u.getQuery(), \"UTF-8\");\n        String encodedFragment = URLEncoder.encode(u.getRef(), \"UTF-8\");\n\n        StringBuilder encodedUrl = new StringBuilder();\n        encodedUrl.append(u.getProtocol()).append(\"://\");\n        encodedUrl.append(u.getHost());\n        if (u.getPort() != -1) {\n            encodedUrl.append(\":\").append(u.getPort());\n        }\n        encodedUrl.append(encodedPath);\n        if (encodedQuery != null && !encodedQuery.isEmpty()) {\n            encodedUrl.append(\"?\").append(encodedQuery);\n        }\n        if (encodedFragment != null && !encodedFragment.isEmpty()) {\n            encodedUrl.append(\"#\").append(encodedFragment);\n        }\n\n        return new URL(encodedUrl.toString());\n    } catch (UnsupportedEncodingException | MalformedURLException e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

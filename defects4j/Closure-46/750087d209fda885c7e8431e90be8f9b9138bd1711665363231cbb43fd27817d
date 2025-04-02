@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n\n    // Add properties from the current record type\n    for (String property : properties.keySet()) {\n      builder.addProperty(property, getPropertyType(property), getPropertyNode(property));\n    }\n\n    // Add properties from the other record type if they are compatible\n    for (String property : that.toMaybeRecordType().properties.keySet()) {\n      JSType otherPropertyType = that.toMaybeRecordType().getPropertyType(property);\n      if (!properties.containsKey(property) || getPropertyType(property).isEquivalentTo(otherPropertyType)) {\n        builder.addProperty(property, otherPropertyType, that.toMaybeRecordType().getPropertyNode(property));\n      }\n    }\n\n    return builder.build();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

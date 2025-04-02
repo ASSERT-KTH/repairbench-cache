@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * @return Whether the variable is only assigned a value once for its\n     *     lifetime.\n     */\n    boolean isAssignedOnceInLifetime() {\n      Reference ref = getOneAndOnlyAssignment();\n      if (ref == null) {\n        return false;\n      }\n\n      // Make sure this assignment is not in a loop.\n      for (BasicBlock block = ref.getBasicBlock();\n           block != null; block = block.getParent()) {\n        if (block.isFunction) {\n          break;\n        } else if (block.isLoop) {\n          // Check if the assignment is within a loop but still assigned once.\n          if (isAssignedOnceWithinLoop(ref)) {\n            return true;\n          }\n          return false;\n        }\n      }\n\n      return true;\n    }\n\n    private boolean isAssignedOnceWithinLoop(Reference ref) {\n      // Implement logic to check if the assignment is the only assignment within the loop.\n      // This is a placeholder for the actual implementation.\n      // For example, you might need to analyze the loop body to ensure there are no other assignments.\n      return true; // Placeholder return value\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
