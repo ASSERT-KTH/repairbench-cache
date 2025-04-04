@@ -1,0 +1,7 @@
+{
+    "generation": "public void writeFieldName(String name) throws IOException {\n    if (_cfgQuoteFieldNames) {\n        _writeString(name);\n    } else {\n        // Verify it's a valid unquoted name first\n        _verifyUnquotedFieldName(name);\n        _writeString(name);\n    }\n}\n\nprivate void _verifyUnquotedFieldName(String name) throws IOException {\n    // Simple validation - must start with letter or underscore\n    if (name.length() == 0) {\n        _reportError(\"Empty field name\");\n    }\n    char c = name.charAt(0);\n    if (!Character.isLetter(c) && c != '_') {\n        _reportError(\"Field name must start with letter or underscore\");\n    }\n    // Check remaining characters\n    for (int i = 1; i < name.length(); i++) {\n        c = name.charAt(i);\n        if (!Character.isLetterOrDigit(c) && c != '_') {\n            _reportError(\"Field name contains illegal character '\"+c+\"'\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

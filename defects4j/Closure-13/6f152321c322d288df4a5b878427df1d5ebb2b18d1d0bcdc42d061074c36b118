@@ -1,0 +1,7 @@
+{
+    "generation": "private void traverse(Node node) {\n    if (!shouldVisit(node)) {\n        return;\n    }\n\n    int visits = 0;\n    do {\n        // Save the current state before visiting children\n        boolean changed = false;\n        if (node.hasChildren()) {\n            Node c = node.getFirstChild();\n            while (c != null) {\n                // Remember if any changes were made during traversal\n                int beforeChange = getChangeCount();\n                traverse(c);\n                changed |= (beforeChange != getChangeCount());\n                c = c.getNext();\n            }\n        }\n\n        visit(node);\n        visits++;\n\n        // Only retraverse if something changed during this pass\n        if (!changed) {\n            break;\n        }\n\n        Preconditions.checkState(visits < 10000, \"too many iterations\");\n    } while (shouldRetraverse(node));\n\n    exitNode(node);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

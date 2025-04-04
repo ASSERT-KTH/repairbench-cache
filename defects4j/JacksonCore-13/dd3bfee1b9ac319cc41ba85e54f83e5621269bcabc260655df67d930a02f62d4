@@ -1,0 +1,7 @@
+{
+    "generation": "public void writeFieldName(String name) throws IOException {\n    if (_cfgQuoteFieldNames) {\n        _writeString(name);\n    } else {\n        // Verify it's a valid JSON identifier\n        if (!_verifyUnquotedName(name)) {\n            _reportError(\"Field name '\"+name+\"' not allowed without quotes\");\n        }\n        _writeString(name, false); // false to skip quotes\n    }\n}\n\nprivate boolean _verifyUnquotedName(String name) {\n    // Basic validation - first char must be letter or underscore\n    if (name.length() == 0) {\n        return false;\n    }\n    char c = name.charAt(0);\n    if (!Character.isLetter(c) && c != '_') {\n        return false;\n    }\n    // Subsequent chars must be letters, digits or underscores\n    for (int i = 1; i < name.length(); i++) {\n        c = name.charAt(i);\n        if (!Character.isLetterOrDigit(c) && c != '_') {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

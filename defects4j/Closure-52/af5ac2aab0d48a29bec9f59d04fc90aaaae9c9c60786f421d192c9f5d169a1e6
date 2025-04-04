@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    if (s.isEmpty()) {\n        return false;\n    }\n    \n    // Check for hexadecimal\n    if (s.startsWith(\"0x\") || s.startsWith(\"0X\")) {\n        if (s.length() <= 2) return false;\n        for (int i = 2; i < s.length(); i++) {\n            char c = Character.toLowerCase(s.charAt(i));\n            if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'))) {\n                return false;\n            }\n        }\n        return true;\n    }\n    \n    // Check for octal (leading zero but not followed by x/X)\n    if (s.startsWith(\"0\") && s.length() > 1) {\n        for (int i = 1; i < s.length(); i++) {\n            char c = s.charAt(i);\n            if (c < '0' || c > '7') {\n                return false;\n            }\n        }\n        return true;\n    }\n    \n    // Check for decimal\n    boolean hasDecimal = false;\n    for (int i = 0; i < s.length(); i++) {\n        char c = s.charAt(i);\n        if (c == '.') {\n            if (hasDecimal) return false;  // multiple decimals\n            hasDecimal = true;\n        } else if (c < '0' || c > '9') {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

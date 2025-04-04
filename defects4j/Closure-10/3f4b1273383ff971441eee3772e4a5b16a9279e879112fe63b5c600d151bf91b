@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n      return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n      switch (n.getToken()) {\n        case STRING:\n          return true;\n        case ADD:\n        case NAME:\n        case TEMPLATELIT:\n        case TEMPLATELIT_STRING:\n        case TEMPLATELIT_SUB:\n          return true;\n        case HOOK:\n        case COALESCE:\n        case OR:\n        case AND:\n          return mayBeStringHelper(n.getFirstChild()) \n              || mayBeStringHelper(n.getLastChild());\n        default:\n          return mayBeStringHelper(n);\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

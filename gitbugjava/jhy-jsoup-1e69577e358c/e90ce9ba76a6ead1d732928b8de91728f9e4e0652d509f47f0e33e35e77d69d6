@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // Use URI to normalize, but preserve existing percent-encoding in path by not decoding it\n        String encodedHost = IDN.toASCII(u.getHost());\n        String path = u.getRawPath();  // preserves encoded sequences like %2B\n        if (path == null) path = \"\"; // URI constructor needs null or empty path handled\n\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            encodedHost,\n            u.getPort(),\n            path,\n            null, null  // query and fragment handled separately\n        );\n\n        String normUrl = uri.toASCIIString();\n\n        if (q != null || u.getRef() != null) {\n            StringBuilder sb = StringUtil.borrowBuilder().append(normUrl);\n            if (q != null) {\n                sb.append('?');\n                appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n            }\n            if (u.getRef() != null) {\n                sb.append('#');\n                appendToAscii(u.getRef(), false, sb);\n            }\n            normUrl = StringUtil.releaseBuilder(sb);\n        }\n        u = new URL(normUrl);\n        return u;\n    } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

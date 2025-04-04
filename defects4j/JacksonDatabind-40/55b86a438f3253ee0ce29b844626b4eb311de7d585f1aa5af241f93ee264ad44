@@ -1,0 +1,7 @@
+{
+    "generation": "protected Object _testEmptyToNullCoercion(Class<?> targetType, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);\n    \n    try {\n        return mapper.readValue(\"\\\"\\\"\", targetType);\n    } catch (MismatchedInputException e) {\n        // For primitive types, empty string should fail\n        if (targetType.isPrimitive()) {\n            throw e;\n        }\n        // For wrapper types, return null\n        return null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

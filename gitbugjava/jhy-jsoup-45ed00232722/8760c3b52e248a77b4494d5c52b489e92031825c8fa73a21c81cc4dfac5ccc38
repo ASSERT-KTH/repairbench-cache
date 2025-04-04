@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        String path = u.getPath();\n        String query = u.getQuery();\n        String fragment = u.getRef();\n\n        // Encode path (each segment separately)\n        StringBuilder encodedPath = new StringBuilder();\n        if (path != null && !path.isEmpty()) {\n            String[] segments = path.split(\"/\");\n            for (int i = 0; i < segments.length; i++) {\n                if (i > 0) encodedPath.append(\"/\");\n                // encode segment\n                encodedPath.append(URLEncoder.encode(segments[i], \"UTF-8\").replace(\"+\", \"%20\"));\n            }\n            // preserve leading slash\n            if (path.startsWith(\"/\") && !encodedPath.toString().startsWith(\"/\"))\n                encodedPath.insert(0, \"/\");\n        }\n\n        // Encode query\n        String encodedQuery = null;\n        if (query != null) {\n            encodedQuery = URLEncoder.encode(query, \"UTF-8\").replace(\"+\", \"%20\");\n        }\n\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            u.getHost(),\n            u.getPort(),\n            encodedPath.length() > 0 ? encodedPath.toString() : null,\n            encodedQuery,\n            fragment);\n        return new URL(uri.toASCIIString());\n    } catch (Exception e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    // First: maybe it's just a Class?\n    if (type instanceof Class<?>) {\n        return _fromClass((Class<?>) type, TypeBindings.emptyBindings());\n    }\n    // If not, need to start resolving.\n    JavaType result = _fromAny(null, type, TypeBindings.emptyBindings());\n    // But one more thing: for recursive types, we may need to ensure super-class is properly resolved\n    if (result instanceof ClassType) {\n        ClassType classType = (ClassType) result;\n        Class<?> raw = classType.getRawClass();\n        if (raw.getSuperclass() != null) {\n            // Ensure super class is properly resolved to maintain property inheritance\n            JavaType superType = _fromAny(null, raw.getSuperclass(), TypeBindings.emptyBindings());\n            classType.setSuperClass(superType);\n        }\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

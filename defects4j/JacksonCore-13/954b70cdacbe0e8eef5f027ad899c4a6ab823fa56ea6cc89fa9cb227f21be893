@@ -1,0 +1,7 @@
+{
+    "generation": "public void writeFieldName(String name) throws IOException {\n    if (_cfgQuoteFieldNames) {\n        _writeString(name);\n    } else {\n        // Verify it's a valid JavaScript identifier\n        if (!_verifyUnquotedName(name)) {\n            _reportError(\"Field name '\" + name + \"' not valid for unquoted output\");\n        }\n        if (_outputTail >= _outputEnd) {\n            _flushBuffer();\n        }\n        _outputBuffer[_outputTail++] = '\"';\n        _writeString(name);\n        _outputBuffer[_outputTail++] = '\"';\n    }\n}\n\nprivate boolean _verifyUnquotedName(String name) {\n    int len = name.length();\n    if (len == 0) {\n        return false;\n    }\n    \n    char c = name.charAt(0);\n    if (!Character.isJavaIdentifierStart(c)) {\n        return false;\n    }\n    for (int i = 1; i < len; i++) {\n        c = name.charAt(i);\n        if (!Character.isJavaIdentifierPart(c)) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

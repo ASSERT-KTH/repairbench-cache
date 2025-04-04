@@ -1,0 +1,7 @@
+{
+    "generation": "    public List getValues(final Option option,\n                          List defaultValues) {\n        // initialize the return list\n        List valueList = (List) values.get(option);\n\n        // grab the correct default values\n        if ((valueList == null) || valueList.isEmpty()) {\n            valueList = defaultValues;\n        }\n\n        // augment the list with the default values\n        if ((valueList == null) || valueList.isEmpty()) {\n            valueList = (List) this.defaultValues.get(option);\n        } else {\n            // if there are default values available and we need more values\n            List defaults = (List) this.defaultValues.get(option);\n            if (defaults != null && !defaults.isEmpty()) {\n                // create a new list combining the provided values with needed defaults\n                List combined = new ArrayList(valueList);\n                combined.addAll(defaults.subList(valueList.size(), defaults.size()));\n                valueList = combined;\n            }\n        }\n\n        return valueList == null ? Collections.EMPTY_LIST : valueList;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

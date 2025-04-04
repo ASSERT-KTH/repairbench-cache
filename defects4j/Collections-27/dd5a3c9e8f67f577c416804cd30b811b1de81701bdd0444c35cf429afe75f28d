@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<?> collectionClass = (Class<?>) in.readObject();\n    \n    // Validate that the collection class is a valid Collection implementation\n    if (!Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"The collection class is not a valid Collection implementation\");\n    }\n    \n    try {\n        // Try to create an instance to verify it's possible\n        collectionClass.getDeclaredConstructor().newInstance();\n    } catch (Exception e) {\n        throw new UnsupportedOperationException(\"The collection class cannot be instantiated\", e);\n    }\n    \n    this.map = new HashMap<>();\n    this.collectionClass = collectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

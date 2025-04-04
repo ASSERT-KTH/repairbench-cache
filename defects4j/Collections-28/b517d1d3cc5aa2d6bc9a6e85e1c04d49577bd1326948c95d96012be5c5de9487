@@ -1,0 +1,7 @@
+{
+    "generation": "public SortedMap<K, V> prefixMap(K prefix) {\n    return new PrefixRangeMap(prefix);\n}\n\nprivate class PrefixRangeMap extends RangeMap {\n    private final K prefix;\n\n    PrefixRangeMap(K prefix) {\n        this.prefix = prefix;\n    }\n\n    @Override\n    public void clear() {\n        Iterator<Map.Entry<K, V>> it = entrySet().iterator();\n        while (it.hasNext()) {\n            it.next();\n            it.remove();\n        }\n    }\n\n    @Override\n    protected boolean inRange(K key) {\n        return key != null && getKeyAnalyzer().isPrefix(prefix, key);\n    }\n\n    @Override\n    protected boolean inRange2(K key) {\n        return key != null && getKeyAnalyzer().isPrefix(prefix, key);\n    }\n\n    @Override\n    protected K fromKey() {\n        return prefix;\n    }\n\n    @Override\n    protected K toKey() {\n        return prefix;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

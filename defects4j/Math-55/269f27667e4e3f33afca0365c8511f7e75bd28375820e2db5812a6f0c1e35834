@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors.\n * @param v1 first vector\n * @param v2 second vector\n * @return the cross product v1 ^ v2 as a new Vector\n */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // rescale both vectors without losing precision,\n    // to ensure their norm are the same order of magnitude\n    final double ratio = (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z) /\n                        (v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);\n    final double rho   = (long) (ratio * 256.0) / 256.0;\n    \n    // compute v3 = v1 - rho * v2\n    final double x3 = v1.x - rho * v2.x;\n    final double y3 = v1.y - rho * v2.y;\n    final double z3 = v1.z - rho * v2.z;\n    \n    // compute cross product from v3 and v2 instead of v1 and v2\n    return new Vector3D(y3 * v2.z - z3 * v2.y,\n                        z3 * v2.x - x3 * v2.z,\n                        x3 * v2.y - y3 * v2.x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

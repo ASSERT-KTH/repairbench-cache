@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void addChildren(int index, Node... children) {\n        Validate.noNullElements(children);\n        ensureChildNodes();\n        // first remove any children that are being moved from their current positions\n        for (Node child : children) {\n            if (child.parentNode != null && child.parentNode == this) {\n                int currentIndex = childNodes.indexOf(child);\n                if (currentIndex < index) {\n                    index--; // adjust insertion index if we're moving a node from before the insertion point\n                }\n                childNodes.remove(currentIndex);\n            }\n        }\n        // then add them at the new position\n        for (int i = children.length - 1; i >= 0; i--) {\n            Node in = children[i];\n            reparentChild(in);\n            childNodes.add(index, in);\n        }\n        reindexChildren(index);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

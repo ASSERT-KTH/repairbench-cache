@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    \n    // First check if we have a cached version\n    JavaType result = _typeCache.get(type);\n    if (result != null) {\n        return result;\n    }\n    \n    // Handle recursive types\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        // Check superclass first to ensure proper inheritance chain\n        if (cls.getSuperclass() != null) {\n            JavaType superType = constructType(cls.getSuperclass());\n            if (superType != null) {\n                // Ensure supertype is properly resolved before proceeding\n                if (superType instanceof ResolvedRecursiveType) {\n                    ((ResolvedRecursiveType) superType).setReference(superType);\n                }\n            }\n        }\n    }\n    \n    // Proceed with normal type construction\n    result = _fromAny(null, type, TypeBindings.emptyBindings());\n    \n    // Cache the result\n    if (type != Object.class) {\n        _typeCache.put(type, result);\n    }\n    \n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

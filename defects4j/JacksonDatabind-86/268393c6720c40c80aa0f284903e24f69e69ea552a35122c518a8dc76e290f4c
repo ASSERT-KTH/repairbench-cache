@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    if (type instanceof Class<?>) {\n        return _fromClass((Class<?>) type, TypeBindings.emptyBindings());\n    }\n    if (type instanceof ParameterizedType) {\n        return _fromParamType((ParameterizedType) type, TypeBindings.emptyBindings());\n    }\n    if (type instanceof JavaType) { // added this check to handle already resolved types\n        return (JavaType) type;\n    }\n    if (type instanceof GenericArrayType) {\n        return _fromArrayType((GenericArrayType) type);\n    }\n    if (type instanceof TypeVariable<?>) {\n        return _fromVariable((TypeVariable<?>) type, TypeBindings.emptyBindings());\n    }\n    if (type instanceof WildcardType) {\n        return _fromWildcard((WildcardType) type, TypeBindings.emptyBindings());\n    }\n    // [databind#1647] Handle recursive type references\n    if (type instanceof ResolvedRecursiveType) {\n        return ((ResolvedRecursiveType) type).getSelfReferencedType();\n    }\n    throw new IllegalArgumentException(\"Unrecognized Type: \"+type.toString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
