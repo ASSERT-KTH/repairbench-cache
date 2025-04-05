@@ -1,0 +1,7 @@
+{
+    "generation": "protected void verifyNonDup(AnnotatedWithParams newOne, int typeIndex, boolean explicit)\n{\n    final int mask = (1 << typeIndex);\n    _hasNonDefaultCreator = true;\n    AnnotatedWithParams oldOne = _creators[typeIndex];\n    if (oldOne != null) {\n        boolean oldExplicit = (_explicitCreators & mask) != 0;\n\n        if (oldExplicit) {\n            if (!explicit) {\n                // Already had explicit, ignore new implicit\n                return;\n            }\n            // Both explicit\n            if (oldOne.getClass() == newOne.getClass()) {\n                // If same kinds of creators, report conflict\n                throw new IllegalArgumentException(\"Conflicting \" + TYPE_DESCS[typeIndex]\n                        + \" creators: already had explicitly marked \" + oldOne + \", encountered \" + newOne);\n            }\n            // Else, allow override (creator from subclass or other heuristics)\n        } else {\n            // No previous explicit\n            if (!explicit) {\n                // both implicit, leave existing in place\n                return;\n            }\n            // new explicit, precedence over old implicit --> replace\n        }\n    }\n    if (explicit) {\n        _explicitCreators |= mask;\n    }\n    _creators[typeIndex] = _fixAccess(newOne);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

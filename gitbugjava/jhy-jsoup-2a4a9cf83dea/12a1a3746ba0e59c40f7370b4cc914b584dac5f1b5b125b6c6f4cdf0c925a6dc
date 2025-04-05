@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // Prevent root from matching against itself for structural selectors\n            if (element == root)\n                return false;\n\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                // Check if we have moved up above the document root or the element is null\n                if (element == null)\n                    return false;\n                \n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n                \n                // Move up to the parent for the next iteration\n                element = element.parent();\n            }\n            // If all evaluators matched successfully up the hierarchy\n            return true;\n        }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

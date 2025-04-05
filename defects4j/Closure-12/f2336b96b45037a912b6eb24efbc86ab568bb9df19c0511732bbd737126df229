@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  for (Node ancestor = cfgNode; ancestor != null; ancestor = ancestor.getParent()) {\n    if (ancestor.isTry()) {\n      Node tryNode = ancestor;\n      Node finallyBlock = NodeUtil.getFinallyBlock(tryNode);\n      Node catchBlocks = NodeUtil.getCatchBlock(tryNode);\n\n      // Check if the current node is inside the try block\n      Node tryBlock = tryNode.getFirstChild();\n      if (tryBlock != null && NodeUtil.isDescendant(cfgNode, tryBlock)) {\n        // There is an exception handler if there is a catch block or finally block\n        if (catchBlocks != null || finallyBlock != null) {\n          return true;\n        }\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

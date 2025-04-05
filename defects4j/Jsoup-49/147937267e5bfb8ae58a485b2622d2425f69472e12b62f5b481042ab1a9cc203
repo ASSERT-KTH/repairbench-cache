@@ -1,0 +1,7 @@
+{
+    "generation": "protected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    List<Node> moveChildren = new ArrayList<>();\n    for (Node child : children) {\n        if (child.parent() != null) {\n            // detach first to avoid ConcurrentModificationException or unexpected behavior\n            child.remove();\n        }\n        moveChildren.add(child);\n    }\n    // insert in original order\n    for (int i = 0; i < moveChildren.size(); i++) {\n        Node child = moveChildren.get(i);\n        reparentChild(child);\n        childNodes.add(index + i, child);\n    }\n    reindexChildren(index);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Check if this element is an inline tag (e.g. <a>, <span>)\n        return tag().isInline()\n            // Check if the parent element is null or a block-level tag.\n            // Inline elements formatting behaviour often depends on whether they are directly inside a block.\n            && (parent() == null || parent().tag().formatAsBlock()) // Use formatAsBlock for consistency with shouldIndent\n            // Check if the output settings have outline mode disabled. Outline mode forces block formatting.\n            && !out.outline();\n            // Removed the check for previousSibling != null, as it incorrectly prevents\n            // the first inline element within a block from being treated as inlineable,\n            // potentially causing issues with formatting sequences, as seen in the failing test.\n            // The original check was: && previousSibling() != null\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

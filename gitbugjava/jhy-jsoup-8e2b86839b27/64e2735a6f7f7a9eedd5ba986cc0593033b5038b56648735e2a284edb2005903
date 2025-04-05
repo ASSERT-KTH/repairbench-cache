@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isFormatAsBlock(Document.OutputSettings out) {\n        // check for style=\"display: inline\"\n        String style = attributes().getIgnoreCase(\"style\");\n        if (style != null && !style.isEmpty()) {\n            // quick crude check for style=\"display: inline;\" - avoids regex for performance, but is explicit\n            // todo: should be case insensitive, relax space requirements\n            // a more robust check would be too slow for this isFormatAsBlock flag\n            String[] styles = style.split(\";\");\n            for (String s : styles) {\n                s = s.trim();\n                if (\"display: inline\".equalsIgnoreCase(s)) {\n                    return false; // styled as inline, so treat as inline for formatting\n                }\n            }\n        }\n\n        // original logic if not overridden by style\n        return tag.formatAsBlock() || (parent() != null && parent().tag().formatAsBlock()) || out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

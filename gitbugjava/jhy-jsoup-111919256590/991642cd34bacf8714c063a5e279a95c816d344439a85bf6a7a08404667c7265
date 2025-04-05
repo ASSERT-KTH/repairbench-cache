@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Must be an inline tag\n        if (!tag.isInline())\n            return false;\n\n        // Special handling for <br> under block parents for pretty printing:\n        // <br> tags should always be standalone when respecting newlines.\n        if (tag.normalName().equals(\"br\") && parent() != null && parent().tag().isBlock()) {\n            return false; // <br> directly under a block should not be inlineable\n        }\n\n        // Default logic: inlineable if parent is block, not the first significant child, and not outline mode\n        // (Inlineable elements will be formatted on the same line as their siblings)\n        return (parent() != null && parent().tag().isBlock()) // Parent must be a block\n            && !isEffectivelyFirst()                     // Must not be the first significant child\n            && !out.outline();                           // Output mode must not be outline\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

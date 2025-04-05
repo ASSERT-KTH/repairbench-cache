@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    int csLength = cs.length();\n    int searchLength = searchChars.length;\n    for (int i = 0; i < csLength; ) {\n        int cp = Character.codePointAt(cs, i);\n        for (int j = 0; j < searchLength; j++) {\n            char ch = searchChars[j];\n            if (Character.isSupplementaryCodePoint(cp)) {\n                // Skip matching a surrogate code unit: only match whole supplementary code point\n                // Since ch is a char, it can only be equal to one of the surrogate units\n                continue;\n            }\n            if (ch == cp) {\n                return true;\n            }\n        }\n        i += Character.charCount(cp);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

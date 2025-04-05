@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Avoid constructing default implementations that use abstract types as super-class;\n    // may retain mix-ins and annotations. This fixes issue #1125.\n    if (_class.isAssignableFrom(subclass)) {\n        return new SimpleType(subclass, _bindings, superTypeChain(subclass), _superInterfaces,\n                _valueHandler, _typeHandler, _asStatic);\n    }\n    // no relationship; fallback\n    return new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}\n\n// helper method to find direct super-type within hierarchy (or this)\nprivate JavaType superTypeChain(Class<?> subclass) {\n    if (subclass == null || subclass == _class) {\n        return this;\n    }\n    Class<?> superClass = subclass.getSuperclass();\n    if (superClass != null && _class.isAssignableFrom(superClass)) {\n        return superTypeChain(superClass);\n    }\n    for (Class<?> iface : subclass.getInterfaces()) {\n        if (_class.isAssignableFrom(iface)) {\n            return superTypeChain(iface);\n        }\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

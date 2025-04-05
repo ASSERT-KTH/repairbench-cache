@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // 1. Block tags are never inlineable\n        if (!tag.isInline())\n            return false;\n\n        // 2. Special handling for outline mode - if outline, nothing is inlineable\n        if (out.outline())\n            return false;\n\n        // 3. Element cannot be inlineable if its parent is not block\n        // (e.g. prevents indenting a span within an anchor)\n        // null parent is OK (root)\n        if (parent() != null && !parent().isBlock())\n            return false;\n\n        // 4. Determine inlineable status based on position and tag type\n        final boolean effectivelyFirst = isEffectivelyFirst();\n\n        if (tag.getName().equals(\"br\")) {\n            // BR is inlineable *only* if it's the first effective child.\n            // Allows `<p><br>...` (no indent before BR)\n            // but forces indent for `<p>Foo</p><br>...` (indent before BR)\n            return effectivelyFirst;\n        } else {\n            // Other inline tags (like span, a) are inlineable *unless* they are the first effective child.\n            // Forces indent for `<div>\\n <span>...` (first span not inlineable -> gets indented)\n            // Allows `...<span>1</span><span>2</span>...` (second span is inlineable -> stays on same line)\n            return !effectivelyFirst;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

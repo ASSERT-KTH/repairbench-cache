@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Check if the tag is inherently inline\n        return tag().isInline()\n            // Check if the parent exists and is a block element (inline elements should be inside blocks)\n            // Note: removed the check for parent == null, as inline elements require a block parent for sensible formatting.\n            // If parent() is null, it's likely the root html element, which isn't typically considered 'inlineable' in this context.\n            && parent() != null && parent().isBlock()\n            // Outline mode typically forces block-like formatting, so check if it's off\n            && !out.outline();\n            // Removed the check for previousSibling() != null. An element's inline nature\n            // shouldn't depend on whether it has a preceding sibling. This condition\n            // prevented the first inline child of a block from being considered inlineable.\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

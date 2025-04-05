@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // handle empty unknown tags\n    if (startTag.isSelfClosing()) {\n        Element el = insertEmpty(startTag);\n\n        // if the tag is a known \"empty\" (void) HTML tag, we emit a fake end tag for it,\n        // so that the parser correctly closes the element and adds an explicit end tag during serialization\n        Tag tag = Tag.valueOf(startTag.name());\n        if (tag.isKnownTag() && tag.isSelfClosing()) {\n            // known void tags - generate a fake end tag token to ensure it's handled as empty\n            tokeniser.emit(new Token.EndTag(el.tagName()));\n        } else {\n            // unknown tags stay as self-closing, add to stack\n            stack.add(el);\n        }\n        return el;\n    }\n\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

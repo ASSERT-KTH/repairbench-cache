@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    Dfp result;\n\n    // Handle special cases: NaN, zero, infinity\n    if (this.isNaN()) {\n        return this.newInstance(this);  // propagate NaN\n    }\n\n    if (x == 0) {\n        // multiplication by zero\n        if (this.isInfinite()) {\n            this.field.setIEEEFlagsBits(DfpField.FLAG_INVALID);\n            return this.nan;  // inf * 0 = NaN\n        }\n        result = this.newInstance(this.zero);\n        // set sign according to the sign of this * x\n        result.sign = (this.sign == (x < 0 ? -1 : 1)) ? 1 : -1;\n        return result;\n    }\n\n    if (this.isZero()) {\n        result = this.newInstance(this);  // zero * x = zero, preserve sign\n        result.sign = (this.sign == (x < 0 ? -1 : 1)) ? 1 : -1;\n        return result;\n    }\n\n    if (this.isInfinite()) {\n        result = this.newInstance(this);  // infinity * x = infinity or -infinity\n        result.sign = (this.sign == (x < 0 ? -1 : 1)) ? 1 : -1;\n        return result;\n    }\n\n    // else normal finite * int\n    result = multiplyFast(Math.abs(x));\n\n    // fix sign\n    if ((x < 0 && this.sign > 0) || (x > 0 && this.sign < 0)) {\n        result.sign = -1;\n    } else {\n        result.sign = 1;\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

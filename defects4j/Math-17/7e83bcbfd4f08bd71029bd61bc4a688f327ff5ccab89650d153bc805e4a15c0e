@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n        if (x == 0) {\n            // Handle multiplication by zero explicitly to set the sign properly\n            Dfp result = newInstance(this);\n            if (this.sign == -1) {\n                result.sign = -1;\n            } else {\n                result.sign = 1;\n            }\n            result.zero();\n            return result;\n        } else if (x == 1) {\n            return newInstance(this);\n        } else if (x == -1) {\n            Dfp result = newInstance(this);\n            result.sign = (byte) -result.sign;\n            return result;\n        } else {\n            // Use general multiplication with an int converted to decimal string\n            Dfp xDfp = this.getField().newDfp(Integer.toString(x));\n            return this.multiply(xDfp);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.helper.Validate;\nimport org.jsoup.parser.TagName;\nimport org.jsoup.select.ValidationException; // Ensure this import exists or is available\nimport java.util.Locale; // Ensure this import exists\n\n    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n     <p> Block tags such as {@code noscript} cannot be added. </p>\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     @throws ValidationException if a tag name is unsupported (e.g. {@code noscript})\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            String normalized = tagName.trim().toLowerCase(Locale.ENGLISH);\n\n            // Special case block for noscript tags (as can be used for XSS). See https://github.com/jhy/jsoup/issues/1461\n            if (normalized.equals(\"noscript\")) {\n                // Throw ValidationException as required by test; message must contain \"unsupported\"\n                throw new ValidationException(\"Cannot add the unsupported tag 'noscript' to the Safelist.\");\n            }\n\n            tagNames.add(TagName.valueOf(tagName)); // TagName.valueOf handles canonicalization\n        }\n        return this;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

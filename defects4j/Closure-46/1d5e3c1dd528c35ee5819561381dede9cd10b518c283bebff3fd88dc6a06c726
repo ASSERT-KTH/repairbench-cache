@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n\n  RecordType otherRecord = that.toMaybeRecordType();\n\n  // If the two record types have the same properties with the same types, \n  // their LUB is the shared record\n  if (this.isEquivalentTo(otherRecord)) {\n    return this;\n  }\n\n  // Otherwise, the LUB of two distinct record types is the union of them.\n  return registry.createUnionType(this, otherRecord);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

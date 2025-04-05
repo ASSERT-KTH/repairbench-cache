@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic AnnotatedMember resolveMemberAnnotations(AnnotatedMember member) {\n    // Fix: During class resolution, ensure base type's annotations are included\n    if (member == null) {\n        return null;\n    }\n    // If member is from a subtype, try to find overridden member in supertypes\n    AnnotatedMember resolved = _resolveOverrides(member);\n    if (resolved != null) {\n        return resolved;\n    }\n    return member;\n}\n\nprivate AnnotatedMember _resolveOverrides(AnnotatedMember member) {\n    Class<?> declaringClass = member.getDeclaringClass();\n    Class<?> superClass = declaringClass.getSuperclass();\n    while (superClass != null && superClass != Object.class) {\n        AnnotatedClass superAC = _introspector.forClass(superClass, _bindings);\n        for (AnnotatedMember superMember : superAC.fields()) {\n            if (superMember.getName().equals(member.getName())) {\n                return superMember;\n            }\n        }\n        superClass = superClass.getSuperclass();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

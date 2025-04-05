@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean equals(Object other) {\n    if (this == other) {\n        return true;\n    }\n    if (!(other instanceof Complex)) {\n        return false;\n    }\n    Complex rhs = (Complex) other;\n    if (this.isNaN() && rhs.isNaN()) {\n        return true;\n    }\n    // Use raw bits comparison, but treat +0.0 and -0.0 as equal\n    boolean realEqual;\n    if (Double.doubleToLongBits(this.real) == Double.doubleToLongBits(rhs.real)) {\n        realEqual = true;\n    } else if ((this.real == 0.0) && (rhs.real == 0.0)) {\n        realEqual = true;\n    } else {\n        realEqual = false;\n    }\n\n    boolean imaginaryEqual;\n    if (Double.doubleToLongBits(this.imaginary) == Double.doubleToLongBits(rhs.imaginary)) {\n        imaginaryEqual = true;\n    } else if ((this.imaginary == 0.0) && (rhs.imaginary == 0.0)) {\n        imaginaryEqual = true;\n    } else {\n        imaginaryEqual = false;\n    }\n\n    return realEqual && imaginaryEqual;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

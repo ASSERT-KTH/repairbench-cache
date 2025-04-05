@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // compute rho as an 8-bit approximation of v1.v2 / v2.v2\n    double dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n    double norm2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n    double rho = Math.rint(256 * dot / norm2) / 256;\n\n    // compute v3 = v1 - rho * v2\n    double x3 = v1.x - rho * v2.x;\n    double y3 = v1.y - rho * v2.y;\n    double z3 = v1.z - rho * v2.z;\n\n    // compute cross product from v3 and v2 instead of original v1 and v2\n    return new Vector3D(\n        y3 * v2.z - z3 * v2.y,\n        z3 * v2.x - x3 * v2.z,\n        x3 * v2.y - y3 * v2.x\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

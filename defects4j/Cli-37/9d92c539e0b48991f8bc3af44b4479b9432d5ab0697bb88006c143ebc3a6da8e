@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isShortOption(String token)\n{\n    // Exclude tokens that start with \"--\" (likely long options)\n    if (!token.startsWith(\"-\") || token.startsWith(\"--\") || token.length() < 2) {\n        return false;\n    }\n    String tokenBody = token.substring(1); // strip leading \"-\"\n\n    // Check if the full token minus \"-\" is a recognized short option\n    if (options.hasShortOption(tokenBody)) {\n        return true;\n    }\n\n    // Check if the first char after \"-\" is a recognized short option (grouped e.g., -abc)\n    if (options.hasShortOption(token.substring(1, 2))) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

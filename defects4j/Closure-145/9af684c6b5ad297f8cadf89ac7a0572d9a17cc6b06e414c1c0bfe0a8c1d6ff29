@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels).\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    // For labels with block children, we need to ensure that a\n    // labeled FUNCTION or DO isn't generated when extraneous BLOCKs\n    // are skipped.\n    // Either an empty statement or a block with more than one child,\n    // way it isn't a FUNCTION or DO.\n    if (n == null) {\n        return false;\n    }\n    if (n.isLabel()) {\n        Node labeledChild = n.getFirstChild();\n        // If the labeled statement is a BLOCK\n        if (labeledChild != null && labeledChild.isBlock()) {\n            if (labeledChild.hasOneChild()) {\n                Node firstGrandChild = labeledChild.getFirstChild();\n                return isOneExactlyFunctionOrDo(firstGrandChild);\n            } else {\n                // block with multiple children, not exactly a function or do\n                return false;\n            }\n        } else {\n            // Labeled a non-block -> check what it is\n            return isOneExactlyFunctionOrDo(labeledChild);\n        }\n    }\n    // Base case: check just this node type\n    int type = n.getType();\n    return type == Token.FUNCTION || type == Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

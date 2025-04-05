@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    try {\n        return 0.5 * (1.0 + Erf.erf((x - mean) / (standardDeviation * Math.sqrt(2.0))));\n    } catch (MaxIterationsExceededException ex) {\n        // For very large |z|, erf() may fail to converge; emulate fix by top-coding\n        double devs = Math.abs(x - mean) / standardDeviation;\n        if (x < mean) {\n            return devs > 20.0 ? 0.0 : Double.NaN; // fallback\n        } else {\n            return devs > 20.0 ? 1.0 : Double.NaN; // fallback\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

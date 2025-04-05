@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isShortOption(String token)\n{\n    // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n    if (!token.startsWith(\"-\") || token.length() < 2)\n    {\n        return false;\n    }\n\n    String tokenBody = token.substring(1);\n\n    // If token contains '=', check leading part before '='\n    String opt;\n    int eqIdx = tokenBody.indexOf('=');\n    if (eqIdx != -1)\n    {\n        opt = tokenBody.substring(0, eqIdx);\n    }\n    else\n    {\n        opt = tokenBody;\n    }\n\n    // Check if the initial segment corresponds to a known short option\n    // Try the full token body first\n    if (options.hasShortOption(opt))\n    {\n        return true;\n    }\n\n    // Fallback: check only the first character as a short option (compatible with clustering)\n    return opt.length() == 1 && options.hasShortOption(opt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

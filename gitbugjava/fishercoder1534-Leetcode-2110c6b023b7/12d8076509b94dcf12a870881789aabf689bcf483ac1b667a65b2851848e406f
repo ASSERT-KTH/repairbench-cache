@@ -1,0 +1,7 @@
+{
+    "generation": "        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n            // If root is null, we can't find LCA here.\n            // This also handles cases where we recurse into a null child.\n            if (root == null) {\n                return null;\n            }\n\n            // Get the values of root, p, and q.\n            int rootVal = root.val;\n            int pVal = p.val;\n            int qVal = q.val;\n\n            // If both p's value and q's value are less than root's value,\n            // then the LCA must be in the left subtree.\n            if (pVal < rootVal && qVal < rootVal) {\n                return lowestCommonAncestor(root.left, p, q);\n            }\n            // If both p's value and q's value are greater than root's value,\n            // then the LCA must be in the right subtree.\n            else if (pVal > rootVal && qVal > rootVal) {\n                return lowestCommonAncestor(root.right, p, q);\n            }\n            // Otherwise, we've found the split point. This occurs when:\n            // 1. p and q are on opposite sides of root (e.g., pVal < rootVal < qVal).\n            // 2. One of the nodes (p or q) is the root itself (e.g., pVal == rootVal).\n            // In either case, the current root node is the lowest common ancestor.\n            else {\n                return root;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

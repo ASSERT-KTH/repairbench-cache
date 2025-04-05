@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            Element current = element;\n            // evaluate from last to first\n            for (int i = evaluators.size() - 1; i >= 0; --i) {\n                if (current == null) // Stop if we Climbed past the document root\n                    return false;\n\n                Evaluator eval = evaluators.get(i);\n                // Check if the current element matches the evaluator for this hierarchy level\n                if (!eval.matches(root, current))\n                    return false;\n\n                // If the matched element is the root, we can't climb further up the hierarchy within this root context.\n                // This match is only valid if it was the last, topmost evaluator in the chain (i == 0).\n                if (current == root)\n                    return i == 0;\n\n                // Climb up the hierarchy to check the parent against the next evaluator\n                current = current.parent();\n            }\n            // If the loop finishes normally, it means we successfully matched all evaluators\n            // in the chain, and the entire chain was below the root.\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

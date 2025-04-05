@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Object classObj = in.readObject();\n    if (classObj instanceof Class<?>) {\n        Class<?> clazz = (Class<?>) classObj;\n        if (!Collection.class.isAssignableFrom(clazz)) {\n            throw new UnsupportedOperationException(\"Collection class \" + clazz.getName() + \" is not a subtype of java.util.Collection\");\n        }\n        // Defensive: disallow deserialization of suspicious or unsafe classes, e.g., String, Object, or non-Collection types\n        if (clazz == String.class || clazz == Object.class || !Modifier.isPublic(clazz.getModifiers())) {\n            throw new UnsupportedOperationException(\"Deserialization of unsafe Collection class: \" + clazz.getName());\n        }\n        this.collectionClass = clazz;\n    } else {\n        throw new UnsupportedOperationException(\"Invalid data in stream: expected Class for collectionClass\");\n    }\n    this.map = (Map<K, Collection<V>>) in.readObject();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

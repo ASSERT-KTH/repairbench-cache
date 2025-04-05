@@ -1,0 +1,7 @@
+{
+    "generation": "        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n            // Base case: If root is null, return null.\n            if (root == null) {\n                return null;\n            }\n\n            int rootVal = root.val;\n            int pVal = p.val;\n            int qVal = q.val;\n\n            // If both p and q have values smaller than the root's value,\n            // the LCA must be in the left subtree.\n            if (pVal < rootVal && qVal < rootVal) {\n                return lowestCommonAncestor(root.left, p, q);\n            }\n            // If both p and q have values larger than the root's value,\n            // the LCA must be in the right subtree.\n            else if (pVal > rootVal && qVal > rootVal) {\n                return lowestCommonAncestor(root.right, p, q);\n            }\n            // Otherwise, the current root is the LCA. This occurs when:\n            // 1. p and q are on opposite sides of the root (pVal < rootVal < qVal or qVal < rootVal < pVal).\n            // 2. One of p or q is the root itself (pVal == rootVal or qVal == rootVal).\n            // In either case, the paths to p and q diverge at this root node.\n            else {\n                return root;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

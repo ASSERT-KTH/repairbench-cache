@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        // Handle empty case first\n        if (rangesList.isEmpty()) {\n            return \"\"; // Or appropriate representation for empty ranges\n        }\n\n        // If only one AND group exists (no OR conditions)\n        if (rangesList.size() == 1) {\n            List<Range> singleGroup = rangesList.get(0);\n            // Format this single group without adding outer parentheses\n            return singleGroup.stream()\n                .map(Range::toString)\n                .collect(joining(AND_JOINER));\n        }\n\n        // If multiple OR groups exist\n        return rangesList.stream()\n            .map(andGroup -> {\n                // Format the current AND group by joining individual ranges with AND\n                String formattedAndGroup = andGroup.stream()\n                    .map(Range::toString)\n                    .collect(joining(AND_JOINER));\n                // Add parentheses around the AND group only if it contains multiple ranges\n                // (because it's part of a larger OR expression)\n                if (andGroup.size() > 1) {\n                    return \"(\" + formattedAndGroup + \")\";\n                } else {\n                    return formattedAndGroup;\n                }\n            })\n            .collect(joining(OR_JOINER)); // Join the formatted (and potentially parenthesized) groups with OR\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

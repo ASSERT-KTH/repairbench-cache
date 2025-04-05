@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Attempt to adjust super-class and super-interfaces based on subclass hierarchy\n    // to keep `_superClass` and `_superInterfaces` consistent with the new subclass\n    HierarchicType newSuperClass = (_superClass == null) ? null : _superClass.deepCloneWithoutSubtype();\n\n    List<JavaType> newSuperInterfaces = null;\n    if (_superInterfaces != null && !_superInterfaces.isEmpty()) {\n        newSuperInterfaces = new ArrayList<>(_superInterfaces.size());\n        for (JavaType iface : _superInterfaces) {\n            newSuperInterfaces.add(iface);\n        }\n    }\n\n    return new SimpleType(subclass, _bindings, newSuperClass, newSuperInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

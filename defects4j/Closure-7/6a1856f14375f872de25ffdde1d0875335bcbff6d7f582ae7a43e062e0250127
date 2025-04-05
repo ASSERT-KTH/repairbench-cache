@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType caseObjectType(ObjectType type) {\n  if (value.equals(\"function\")) {\n    JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n    if (resultEqualsValue) {\n      // Only preserve function subtypes, filter out rest\n      return ctorType.isSubtype(type) ? ctorType : null;\n    } else {\n      // Remove function types from the union\n      JSType filtered = type.getGreatestSubtype(ctorType.getComplement());\n      return filtered.isNoType() ? null : filtered;\n    }\n  }\n  return matchesExpectation(\"object\") ? type : null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public String html() {\n    StringBuilder accum = new StringBuilder();\n    NodeTraversor.traverse(new NodeVisitor() {\n        public void head(Node node, int depth) {\n            if (node instanceof Element) {\n                Element el = (Element) node;\n                if (el != Element.this) {\n                    accum.append(el.outerHtml());\n                    return;\n                }\n            }\n            if (node instanceof TextNode) {\n                TextNode textNode = (TextNode) node;\n                accum.append(textNode.getWholeText());\n            }\n        }\n\n        public void tail(Node node, int depth) {\n            // no op\n        }\n    }, this);\n    return accum.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

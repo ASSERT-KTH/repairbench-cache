@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\")) {\n                // Ensure balanced parentheses are consumed correctly, e.g., for :has(subquery)\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            } else if (tq.matches(\"[\")) {\n                // Ensure balanced square brackets are consumed correctly, e.g., for [attr=val]\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            } else if (tq.matches(\",\")) {\n                // The comma is the OR separator and terminates a sub-query.\n                break;\n            } else {\n                // Consume any other character, including combinators like '>', '+', '~', ' ',\n                // as they are part of the current sub-query.\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

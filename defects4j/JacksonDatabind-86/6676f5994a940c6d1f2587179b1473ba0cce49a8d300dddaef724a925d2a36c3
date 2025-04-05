@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType resolveSuperClass(JavaType baseType)\n{\n    Class<?> raw = baseType.getRawClass();\n    // Avoid java.lang.Object as super: can't resolve further\n    Class<?> superClass = raw.getSuperclass();\n    if (superClass == null) {\n        return null;\n    }\n    JavaType superType = _fromClass(superClass, TypeBindings.emptyBindings());\n    // If the baseType is a recursive resolved type, set the reference in the superType as well\n    if (baseType instanceof ResolvedRecursiveType && !(superType instanceof ResolvedRecursiveType)) {\n        ((ResolvedRecursiveType) baseType).setReference(superType);\n    }\n    return superType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

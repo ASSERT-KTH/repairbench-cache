@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @param encoding the encoding to use for file names, use null\n * for the platform's default encoding\n * @param useUnicodeExtraFields whether to use InfoZIP Unicode\n * Extra Fields (if present) to set the file names.\n * @param allowStoredEntriesWithDataDescriptor whether the stream\n * will try to read STORED entries that use a data descriptor\n * @since 1.1\n */\npublic ZipArchiveInputStream(InputStream inputStream,\n                             String encoding,\n                             boolean useUnicodeExtraFields,\n                             boolean allowStoredEntriesWithDataDescriptor) {\n    zipEncoding = ZipEncodingHelper.getZipEncoding(encoding);\n    this.useUnicodeExtraFields = useUnicodeExtraFields;\n    this.allowStoredEntriesWithDataDescriptor = allowStoredEntriesWithDataDescriptor;\n    in = new PushbackInputStream(inputStream, buf.capacity());\n    current.bytesReadFromEntry = 0; // reset entry byte counter\n    lastStoredEntry = null; // clear last stored entry reference\n    closed = false; // mark stream as open\n    hitCentralDirectory = false; // reset central directory hit flag\n    entriesRead = 0;  // reset entries count\n    firstEntry = true; // signal start of stream\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

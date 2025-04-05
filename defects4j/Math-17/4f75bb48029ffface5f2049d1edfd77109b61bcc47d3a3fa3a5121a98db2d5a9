@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n        Dfp result;\n\n        // Handle special cases\n        if (isNaN()) {\n            return newInstance(getZero()).newInstance(this).nan();\n        }\n\n        if (x == 0) {\n            if (this.lessThan(getZero())) {\n                result = newInstance(getZero().negate());\n            } else {\n                result = newInstance(getZero());\n            }\n\n            if (this.isInfinite()) {\n                // infinity * 0 = NaN\n                result = newInstance(result);\n                result.field.setIEEEFlagsBits(DfpField.FLAG_INVALID);\n                result = result.nan();\n            }\n\n            return result;\n        }\n\n        if (isInfinite()) {\n            if (x < 0) {\n                result = newInstance(negate());\n            } else {\n                result = newInstance(this);\n            }\n            return result;\n        }\n\n        boolean negative = false;\n        if (x < 0) {\n            negative = !negative;\n        }\n        if (this.sign < 0) {\n            negative = !negative;\n        }\n\n        int absX = Math.abs(x);\n\n        result = multiplyFast(absX);\n\n        if (negative) {\n            result = result.negate();\n        }\n\n        return result;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

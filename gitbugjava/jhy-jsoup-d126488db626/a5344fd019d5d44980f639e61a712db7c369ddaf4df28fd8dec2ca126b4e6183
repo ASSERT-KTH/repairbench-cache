@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\")) {\n                // Handle grouped selectors like :is() or :has() which contain commas\n                // But don't accidentally consume the comma for the OR combinator\n                // We need to consume the entire balanced group without interpreting the comma inside it.\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            } else if (tq.matches(\"[\")) {\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            } else if (tq.matches(\",\")) {\n                // Comma is the OR combinator, terminates the sub-query.\n                // Don't consume the comma, let the main parse loop handle it.\n                break;\n            } else if (tq.matchesAny(Combinators)) {\n                // Any other combinator (+ > ~ space) also terminates the sub-query.\n                // Don't consume the combinator, let the main parse loop handle it.\n                break;\n            } else {\n                // Consume the next character for the selector part (tag, id, class, attribute key, etc.)\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

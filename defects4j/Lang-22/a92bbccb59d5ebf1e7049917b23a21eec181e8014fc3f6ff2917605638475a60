@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    if (u == 0 || v == 0) {\n        return Math.abs(u | v);\n    }\n    // keep u and v negative, as negative integers range down to -2^31\n    if (u > 0) {\n        u = -u;\n    }\n    if (v > 0) {\n        v = -v;\n    }\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    int t = ((u & 1) == 1) ? v : -(u / 2);\n    do {\n        while ((t & 1) == 0) {\n            t /= 2;\n        }\n        if (t > 0) {\n            u = -t;\n        } else {\n            v = t;\n        }\n        t = (v - u) / 2;\n    } while (t != 0);\n    int result = -u;\n    // Special handling: if inputs were Integer.MIN_VALUE and even, scale gcd accordingly\n    if (result == Integer.MIN_VALUE && k > 0) {\n        // In this situation, the gcd has an extra factor of 2 which is safe to divide out\n        result = Integer.MIN_VALUE / (1 << k);\n        k = 0;\n    }\n    return result << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

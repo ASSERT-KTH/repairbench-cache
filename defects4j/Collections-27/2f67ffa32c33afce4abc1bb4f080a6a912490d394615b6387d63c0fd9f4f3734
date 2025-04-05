@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Object mapObj = in.readObject();\n    // Defensive: forbid deserialization if valueCollectionClass is an unsafe type (e.g., String.class)\n    if (!(valueCollectionClass.isInterface() || Collection.class.isAssignableFrom(valueCollectionClass))) {\n        throw new UnsupportedOperationException(\n            \"Deserialization rejected: Illegal valueCollectionClass: \" + valueCollectionClass.getName());\n    }\n    \n    @SuppressWarnings(\"unchecked\")\n    Map<K, Collection<V>> map = (Map<K, Collection<V>>) mapObj;\n    this.map = map;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

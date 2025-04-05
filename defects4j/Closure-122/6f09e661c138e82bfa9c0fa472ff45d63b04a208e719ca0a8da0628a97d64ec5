@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Check to see if the given block comment looks like it should be JSDoc.\n */\nprivate void handleBlockComment(Comment comment) {\n  String commentText = comment.getValue();\n  // Remove leading '/*' and trailing '*/' to get the comment body\n  String trimmed = commentText;\n  if (trimmed.startsWith(\"/*\")) {\n    trimmed = trimmed.substring(2);\n  }\n  if (trimmed.endsWith(\"*/\")) {\n    trimmed = trimmed.substring(0, trimmed.length() - 2);\n  }\n  // If comment contains '@' anywhere on a line that begins with optional whitespace and '*'\n  String[] lines = trimmed.split(\"\\n\");\n  boolean suspicious = false;\n  for (String line : lines) {\n    String strippedLine = line.trim();\n    if (strippedLine.startsWith(\"*\")) {\n      strippedLine = strippedLine.substring(1).trim();\n    }\n    if (strippedLine.startsWith(\"@\")) {\n      suspicious = true;\n      break;\n    }\n  }\n  if (suspicious) {\n    errorReporter.warning(\n        SUSPICIOUS_COMMENT_WARNING,\n        sourceName,\n        comment.getLineno(), \"\", 0);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

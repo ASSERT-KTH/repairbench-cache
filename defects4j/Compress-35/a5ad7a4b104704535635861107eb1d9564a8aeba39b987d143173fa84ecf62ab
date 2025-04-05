@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    int digits = 0;\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            // The checksum field may contain NULs or other junk; ignore non-octal digits\n            if ('0' <= (b & 0xFF) && (b & 0xFF) <= '7' && digits < 6) {\n                storedSum = storedSum * 8 + (b - '0');\n                digits++;\n            } else if (digits > 0) {\n                digits = 6; // stop after first octal digits sequence\n            }\n            b = ' ';\n        }\n        unsignedSum += (b & 0xFF);\n        signedSum += b;\n    }\n\n    /*\n     * Some old TAR implementations incorrectly compute or write the checksum.\n     * To be more lenient, consider entries with a zero stored checksum but a valid computed \n     * checksum as valid as well.\n     */\n    return (storedSum == unsignedSum || storedSum == signedSum) || (storedSum == 0 && (unsignedSum != 0 || signedSum != 0));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

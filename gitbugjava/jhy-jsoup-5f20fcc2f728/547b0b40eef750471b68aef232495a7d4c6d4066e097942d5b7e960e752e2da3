@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     @throws ValidationException if any of the supplied tags are not supported. Currently, only {@code noscript} is unsupported.\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            // Disallow tags that have special meaning in HTML5 validation\n            // See https://github.com/jhy/jsoup/issues/1163 and https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inbody\n            // It's not feasible to support these tags input to the parser / safelist, as they are implicitly created / handled.\n            if (tagName.equalsIgnoreCase(\"noscript\")) {\n                throw new ValidationException(\"Cannot add unsupported tag 'noscript' to Safelist.\");\n            }\n\n            tagNames.add(TagName.valueOf(tagName));\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

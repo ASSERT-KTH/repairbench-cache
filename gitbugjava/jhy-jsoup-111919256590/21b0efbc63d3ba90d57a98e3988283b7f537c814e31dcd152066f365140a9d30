@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // 1. Must be an inline tag to be inlineable for formatting purposes\n        if (!tag.isInline())\n            return false;\n\n        // 2. <br> tags should always be treated as block breaks in pretty-printing\n        //    (regardless of position or parent type). They are never inlineable.\n        if (tag.getName().equals(\"br\"))\n            return false;\n\n        // 3. For other inline tags, determine inlineability based on parent, position, and outline mode.\n        //    Inlineable if:\n        //    - Parent is null or block level.\n        //    - AND is not the first significant child of the parent.\n        //    - AND outline mode is disabled.\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

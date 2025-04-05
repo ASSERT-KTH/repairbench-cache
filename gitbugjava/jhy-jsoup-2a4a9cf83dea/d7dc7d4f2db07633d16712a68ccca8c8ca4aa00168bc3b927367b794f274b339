@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() - 1; i >= 0; --i) {\n                // Check element validity before matching\n                if (element == null) // If we've ascended past the document root\n                    return false;\n\n                // If the element being checked is the root of the query, and we still have ancestor\n                // evaluators to check (i > 0), then the match fails because the required ancestor\n                // would be above the root.\n                if (element == root && i > 0) {\n                    return false;\n                }\n\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n\n                // Move up to the parent for the next iteration (ancestor check)\n                element = element.parent();\n            }\n            // If the loop completes, the element and its relevant ancestors matched the evaluators.\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

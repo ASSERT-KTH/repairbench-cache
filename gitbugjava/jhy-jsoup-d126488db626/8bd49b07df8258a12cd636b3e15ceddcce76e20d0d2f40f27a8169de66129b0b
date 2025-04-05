@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\")) {\n                // Keep original logic for consuming balanced parentheses,\n                // assuming it's needed for specific pseudo-selectors or nested contexts.\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            } else if (tq.matches(\"[\")) {\n                // Keep original logic for consuming balanced brackets (attribute selectors).\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            } else if (tq.matchesAny(Combinators)) {\n                // If a combinator ('>', '+', '~', ' ', ',') is encountered,\n                // stop consuming the subquery. The caller should handle the combinator.\n                break;\n            } else if (tq.matches(\":\")) {\n                // If a pseudo-selector ':' is encountered, stop consuming.\n                // The caller (parseStructural) handles pseudo-selectors.\n                break;\n            } else {\n                // Otherwise, consume the character as part of the subquery (tag, class, id).\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public TypePair getTypesUnderInequality(JSType that) {\n  // unions types\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  // other types\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      return new TypePair(null, null);\n\n    case FALSE:\n      return new TypePair(this, that);\n\n    case UNKNOWN:\n      // If types are scalar and equal (e.g., both void), but equality is \"unknown\",\n      // then under inequality assumption, their restricted types is bottom (NO_TYPE)\n      JSType restrictedThis = this;\n      JSType restrictedThat = that;\n      // For example, (void, void)\n      if (this.isVoidType() && that.isVoidType()) {\n        restrictedThis = this.getNativeType(JSTypeNative.NO_TYPE);\n        restrictedThat = that.getNativeType(JSTypeNative.NO_TYPE);\n      }\n      return new TypePair(restrictedThis, restrictedThat);\n  }\n\n  // switch case is exhaustive\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override public void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n\n  // define any stub properties with jsdoc on declarations\n  if (n.getJSDocInfo() != null && parent != null) {\n    if (parent.isExprResult() && n.isGetProp()) {\n      defineSlot(n, n.getJSDocInfo(), /* inferred */ false);\n    } else if (parent.isAssign() && parent.getFirstChild() == n && n.isGetProp()) {\n      defineSlot(n, n.getJSDocInfo(), /* inferred */ false);\n    } else if (parent.isVar() && n.isName()) {\n      defineSlot(n, n.getJSDocInfo(), /* inferred */ false);\n    }\n  }\n\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> JavaType constructType(Class<T> cls) {\n    // First, check cache\n    JavaType cached = _typeCache.get(cls);\n    if (cached != null) {\n        return cached;\n    }\n\n    // Create basic type\n    JavaType type;\n    if (cls.isPrimitive()) {\n        type = _constructSimple(cls);\n    } else if (cls.isArray()) {\n        type = _constructArrayType(cls.getComponentType(), null);\n    } else if (Map.class.isAssignableFrom(cls)) {\n        type = _constructMapLikeType(cls, _unknownType(), _unknownType());\n    } else if (Collection.class.isAssignableFrom(cls)) {\n        type = _constructCollectionLikeType(cls, _unknownType());\n    } else {\n        type = _constructSimple(cls);\n    }\n\n    // Handle supertypes to potentially collect base properties for subtype info\n    Class<?> superclass = cls.getSuperclass();\n    if (superclass != null && superclass != Object.class) {\n        JavaType superType = constructType(superclass);\n        type = type.withSuperClass(superType);\n    }\n\n    Class<?>[] interfaces = cls.getInterfaces();\n    if (interfaces != null && interfaces.length > 0) {\n        List<JavaType> intfTypes = new ArrayList<>(interfaces.length);\n        for (Class<?> intf : interfaces) {\n            intfTypes.add(constructType(intf));\n        }\n        type = type.withInterfaces(intfTypes);\n    }\n\n    _typeCache.put(cls, type);\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

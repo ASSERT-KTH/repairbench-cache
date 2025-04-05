@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> void resetMock(T mock) {\n    MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n    MockHandler<T> newMockHandler = new MockHandler<T>(oldMockHandler);\n\n    // Copy listeners from the old handler to the new handler\n    List<InvocationListener> listeners = oldMockHandler.getMockSettings().getInvocationListeners();\n    if (listeners != null && !listeners.isEmpty()) {\n        MockSettingsImpl newSettings = (MockSettingsImpl) org.mockito.Mockito.withSettings()\n                .defaultAnswer(org.mockito.Mockito.RETURNS_DEFAULTS)\n                .invocationListeners(listeners.toArray(new InvocationListener[0]));\n        MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, newSettings);\n        ((Factory) mock).setCallback(0, newFilter);\n    } else {\n        MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, \n            (MockSettingsImpl) org.mockito.Mockito.withSettings().defaultAnswer(org.mockito.Mockito.RETURNS_DEFAULTS));\n        ((Factory) mock).setCallback(0, newFilter);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

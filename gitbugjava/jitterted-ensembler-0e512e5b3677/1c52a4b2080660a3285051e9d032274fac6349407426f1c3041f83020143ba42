@@ -1,0 +1,7 @@
+{
+    "generation": "    public static EnsembleSummaryView toView(Ensemble ensemble, MemberId memberId, MemberService memberService) {\n        List<MemberView> participantViews = transform(memberService, ensemble.acceptedMembers());\n        List<MemberView> spectatorViews = transform(memberService, ensemble.spectators()); // Fix: Get spectators instead of participants again\n        return new EnsembleSummaryView(ensemble.getId().id(),\n                                       ensemble.name(),\n                                       DateTimeFormatting.formatAsDateTimeForCommonIso8601(ensemble.startDateTime()),\n                                       ensemble.acceptedCount(),\n                                       participantViews,\n                                       spectatorViews, // Pass the correct spectator list\n                                       memberStatusToViewString(ensemble, memberId),\n                                       ensemble.meetingLink().toString(),\n                                       new GoogleCalendarLinkCreator().createFor(ensemble),\n                                       ensemble.recordingLink().toString()\n        );\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

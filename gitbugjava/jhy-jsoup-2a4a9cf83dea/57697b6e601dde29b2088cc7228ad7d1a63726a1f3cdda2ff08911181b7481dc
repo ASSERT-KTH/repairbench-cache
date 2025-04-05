@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                // Check if we have run out of parents, or crossed the root boundary:\n                if (element == null || element == root)\n                    return false;\n\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element)) // Check if the current element matches the current evaluator\n                    return false;\n                \n                // Move up to the parent for the next check (previous evaluator in selector)\n                element = element.parent();\n            }\n            // If we have successfully matched all evaluators up the chain without hitting the root boundary, return true\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

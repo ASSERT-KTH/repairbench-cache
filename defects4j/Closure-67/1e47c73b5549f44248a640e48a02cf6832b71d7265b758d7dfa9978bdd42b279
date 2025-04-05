@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP) {\n\n    Node target = n;\n    // Handle chained assignments like: a.b.c = a.b.d = function() {...};\n    while (target.getType() == Token.GETPROP) {\n      Node prop = target.getLastChild();\n      if (prop.getType() != Token.STRING) {\n        break;\n      }\n      Node recv = target.getFirstChild();\n      if (recv.getType() == Token.GETPROP) {\n        Node recvProp = recv.getLastChild();\n        if (recvProp.getType() == Token.STRING &&\n            recvProp.getString().equals(\"prototype\")) {\n          return true;\n        }\n        target = recv;\n      } else {\n        break;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

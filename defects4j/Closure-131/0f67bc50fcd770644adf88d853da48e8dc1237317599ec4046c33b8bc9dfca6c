@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n  int length = s.length();\n\n  if (length == 0 ||\n      !Character.isJavaIdentifierStart(s.charAt(0))) {\n    return false;\n  }\n\n  for (int i = 1; i < length; i++) {\n    char ch = s.charAt(i);\n    if (!Character.isJavaIdentifierPart(ch)) {\n      return false;\n    }\n  }\n\n  // Java identifiers can contain characters (like ignorable control chars)\n  // that JS does not allow. Let's require all chars be ASCII or in Latin-1\n  // Basic Latin or Extended Latin subsets for safer interoperation.\n  for (int i = 0; i < length; i++) {\n    char ch = s.charAt(i);\n    // Disallow ignorable control characters and characters outside simple Latin\n    if (ch <= 0x1F ||          // control chars\n        ch == 0x7F ||          // delete control char\n        (ch >= 0x80 && ch < 0xC0)) {  // control, non-Latin extended chars\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

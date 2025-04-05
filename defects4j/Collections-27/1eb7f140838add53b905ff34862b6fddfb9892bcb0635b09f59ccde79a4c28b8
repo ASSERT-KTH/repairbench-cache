@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Serializer serializer = new Serializer(in);\n    this.map = (Map<K, Collection<V>>) serializer.readObject();\n    this.valueCollectionClass = (Class<? extends Collection>) serializer.readClass();\n\n    // Add security check: only allow certain collection classes during deserialization\n    if (valueCollectionClass != null) {\n        if (!(Collection.class.isAssignableFrom(valueCollectionClass))) {\n            throw new UnsupportedOperationException(\"Deserialized unauthorized type: \" + valueCollectionClass);\n        }\n        // Only allow known safe immutable collection classes, or common implementations\n        if (!(valueCollectionClass.equals(ArrayList.class) ||\n              valueCollectionClass.equals(LinkedList.class) ||\n              valueCollectionClass.equals(HashSet.class) ||\n              valueCollectionClass.equals(LinkedHashSet.class) ||\n              valueCollectionClass.equals(TreeSet.class) ||\n              valueCollectionClass.equals(Vector.class))) {\n            throw new UnsupportedOperationException(\"Unsupported valueCollectionClass during deserialization: \" + valueCollectionClass.getName());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

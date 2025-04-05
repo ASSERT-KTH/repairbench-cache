@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Only treat names ending in slash as directories if this is NOT a PAX extended header (LF_PAX_EXTENDED_HEADER)\n    // or a global PAX header (LF_PAX_GLOBAL_EXTENDED_HEADER), since those may contain trailing slashes in names\n    if ((linkFlag == 0 || linkFlag == LF_NORMAL || linkFlag == LF_OLDNORM || linkFlag == LF_LINK || linkFlag == LF_SYMLINK)\n            && getName().endsWith(\"/\")) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

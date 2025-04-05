@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Special handling to preserve parent interface information when narrowing to a subclass\n    JavaType superClassType = this;\n    if (_class.isInterface() && subclass.getSuperclass() != null\n            && _class.isAssignableFrom(subclass.getSuperclass())) {\n        // Narrow super-class and use that as the superType for the new type\n        superClassType = _narrow(subclass.getSuperclass());\n    }\n\n    // TODO: ideally verify subclass relationship here\n\n    return new SimpleType(subclass, _bindings, superClassType,\n            _superInterfaces, _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

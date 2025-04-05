@@ -1,0 +1,7 @@
+{
+    "generation": "//-----------------------------------------------------------------------\npublic int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    // overridden as superclass algorithm can't handle leap-day edge cases\n    if (valueToAdd == 0) {\n        return values;\n    }\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant = 0L;\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        long newInstant = add(instant, valueToAdd);\n        int[] newValues = iChronology.get(partial, newInstant);\n\n        // special adjustment for end-of-month scenarios like 31->28\n        DateTimeField addedField = partial.getField(fieldIndex);\n        int max = addedField.getMaximumValue(newInstant);\n        if (newValues[fieldIndex] > max) {\n            newValues[fieldIndex] = max;\n            // reassemble instant with adjusted field to handle days overflow\n            newInstant = addedField.set(newInstant, max);\n            newValues = iChronology.get(partial, newInstant);\n        }\n\n        return newValues;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

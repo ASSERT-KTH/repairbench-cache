@@ -1,0 +1,7 @@
+{
+    "generation": "    public HostAbstract(final List<Pe> peList, final boolean activate) {\n        // Delegate to the constructor that sets RAM device and capacities using defaults\n        this(defaultBwCapacity, defaultStorageCapacity, new HarddriveStorage(defaultRamCapacity), peList, activate);\n\n        // The delegated constructor chain sets the storageCapacity attribute but initializes the storageList as empty.\n        // Ensure the main storage device corresponding to the storageCapacity is created and added to the storage list.\n        // This aligns with how HostSimple initializes its storage device.\n        final long storageCap = getStorageCapacity();\n        if (storageCap > 0 && getStorageList().isEmpty()) {\n            getStorageList().add(new HarddriveStorage(storageCap));\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

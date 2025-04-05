@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n\n  // Collect function property information before recursive traversal,\n  // so that JSDoc on property assignments are properly attached.\n  // This is important for stub declarations on properties.\n  if (n.getJSDocInfo() != null &&\n      parent != null &&\n      parent.getType() == Token.EXPR_RESULT &&\n      n.getType() == Token.ASSIGN) {\n    Node lhs = n.getFirstChild();\n    if (lhs.getType() == Token.GETPROP) {\n      defineSlot(lhs, n.getJSDocInfo(), lhs);\n    }\n  } else if (parent != null &&\n      parent.getType() == Token.EXPR_RESULT &&\n      (n.getType() == Token.GETPROP || n.getType() == Token.NAME) &&\n      n.getJSDocInfo() != null) {\n    // Handle stub declaration like /** @type {Foo} */ goog.bar;\n    defineSlot(n, n.getJSDocInfo(), n);\n  }\n\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

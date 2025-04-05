@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // 1. Must be an inline tag itself.\n        if (!tag.isInline())\n            return false;\n\n        // 2. Special handling for <br>: Only inlineable if its parent is also inline.\n        //    Otherwise (if parent is block), it acts as a line break and should not be treated as inline content.\n        if (tag.getName().equals(\"br\")) {\n            // Simplified: <br> is never inlineable when pretty printing with block parents involved,\n            // as it inherently introduces a break. Let's refine based on parent type.\n            // Only truly inlineable if parent itself is inline.\n            return parent() != null && parent().tag().isInline();\n            // Prior logic caused issues like #1911 where <br> in block was inlineable if not first.\n        }\n\n        // 3. General inline elements:\n        //    - Parent must establish a block context (be block or null)\n        //    - Must not be the first significant child in that block context\n        //    - Output settings must not force outlining.\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

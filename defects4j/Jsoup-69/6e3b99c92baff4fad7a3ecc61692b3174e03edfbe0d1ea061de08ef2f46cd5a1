@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Element remove() {\n    if (parentNode != null)\n        parentNode.removeChild(this);\n\n    if (this instanceof FormElement) {\n        // no special handling for removing the form itself\n    } else {\n        Element rootForm = null;\n        Element ancestor = this.parent();\n        while (ancestor != null) {\n            if (ancestor instanceof FormElement) {\n                rootForm = ancestor;\n                break;\n            }\n            ancestor = ancestor.parent();\n        }\n        if (rootForm != null && rootForm instanceof FormElement) {\n            ((FormElement) rootForm).elements().remove(this);\n        }\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

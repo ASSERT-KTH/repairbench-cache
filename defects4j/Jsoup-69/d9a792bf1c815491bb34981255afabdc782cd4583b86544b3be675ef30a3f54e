@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Element remove() {\n    Element parent = parent();\n    if (parent != null)\n        parent.removeChild(this);\n\n    // Maintain form elements list if this element is part of a form\n    if (this instanceof FormElement) {\n        ((FormElement) this).elements().clear();\n    } else {\n        Element formParent = this;\n        while (formParent != null && !(formParent instanceof FormElement)) {\n            formParent = formParent.parent();\n        }\n        if (formParent instanceof FormElement) {\n            ((FormElement) formParent).elements().remove(this);\n        }\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

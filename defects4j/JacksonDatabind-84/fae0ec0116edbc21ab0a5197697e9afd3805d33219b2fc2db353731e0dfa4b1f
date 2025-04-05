@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructType(Type type, TypeBindings bindings) {\n    if (type instanceof Class<?>) {\n        Class<?> clazz = (Class<?>) type;\n        if (clazz.isArray()) {\n            return ArrayType.construct(constructType(clazz.getComponentType(), bindings), bindings);\n        }\n        JavaType cachedType = _typeCache.get(type);\n        if (cachedType != null) {\n            return cachedType;\n        }\n        // Recursive type resolution\n        JavaType result = _fromClass(null, clazz, bindings);\n        _typeCache.put(type, result);\n        return result;\n    }\n    if (type instanceof ParameterizedType) {\n        ParameterizedType pt = (ParameterizedType) type;\n        Class<?> rawType = (Class<?>) pt.getRawType();\n        JavaType cachedType = _typeCache.get(type);\n        if (cachedType != null) {\n            return cachedType;\n        }\n        Type[] args = pt.getActualTypeArguments();\n        JavaType[] paramTypes = new JavaType[args.length];\n        for (int i = 0; i < args.length; ++i) {\n            paramTypes[i] = constructType(args[i], bindings);\n        }\n        JavaType result = _fromParameterized(rawType, paramTypes, bindings);\n        _typeCache.put(type, result);\n        return result;\n    }\n    // Handle other cases as default\n    return _constructType(type, bindings);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

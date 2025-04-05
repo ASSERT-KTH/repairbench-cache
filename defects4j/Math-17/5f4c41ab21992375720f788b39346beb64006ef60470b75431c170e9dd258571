@@ -1,0 +1,7 @@
+{
+    "generation": "/** Multiply this by a single digit x.\n * @param x multiplicand\n * @return product of this and x\n */\npublic Dfp multiply(final int x) {\n    if (isNaN()) {\n        return nan;\n    }\n    if (x == 0) {\n        // Zero multiplicand\n        if (isZero()) {\n            // 0 * 0 = 0, unless negative zero preserved\n            Dfp result = newInstance(this);\n            result.sign = (this.sign == -1) ? -1 : 1;\n            result.zero();\n            return result;\n        }\n        if (isInfinite()) {\n            // infinity * 0 => NaN\n            return nan.newInstance(nan).dotrap(DfpField.FLAG_INVALID, \"multiply\", nan);\n        }\n        // finite * 0 = zero, preserve sign\n        Dfp result = newInstance(this);\n        result.sign = ((this.sign == -1 && x >= 0) || (this.sign == 1 && x < 0)) ? -1 : 1;\n        result.zero();\n        return result;\n    }\n\n    if (isInfinite()) {\n        // +/- infinity * finite number\n        Dfp result = newInstance(this);\n        result.sign = ((this.sign == -1 && x >= 0) || (this.sign == 1 && x < 0)) ? -1 : 1;\n        return result;\n    }\n\n    // finite number * integer\n    Dfp absResult = multiplyFast(Math.abs(x));\n    absResult.sign = ((this.sign == -1 && x >= 0) || (this.sign == 1 && x < 0)) ? -1 : 1;\n\n    return absResult;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

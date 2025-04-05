@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    double ratio = v1.dotProduct(v2) / v2.dotProduct(v2);\n    long bits = Double.doubleToLongBits(ratio);\n    // Consider keeping only the sign bit and the top 8 exponent+mantissa bits to get an 8 bit approximation\n    long mask = 0xFFFFFFFFFFFFFFFFL << (52 - 8);\n    double rho = Double.longBitsToDouble(bits & mask);\n\n    // compute v3 = v1 - rho * v2, avoiding cancellation errors\n    Vector3D v3 = v1.subtract(v2.scalarMultiply(rho));\n\n    // use a more accurate cross product using v3 and v2\n    return new Vector3D(\n                       v3.y * v2.z - v3.z * v2.y,\n                       v3.z * v2.x - v3.x * v2.z,\n                       v3.x * v2.y - v3.y * v2.x);\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

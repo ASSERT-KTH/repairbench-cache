@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks name referenced in node to determine if it might have\n * changed.\n * @return Whether the replacement can be made.\n */\nprivate boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n\n  Node getProp = node;\n  node = node.getFirstChild();\n  if (node.isName()\n      && isNameAssignedTo(node.getString(), replacement)) {\n    return false;\n  }\n\n  // Additional check: avoid replacing \"x.parentNode\" with an expression\n  // that might refer to \"x.parentNode.parentNode\", which could have changed\n  if (replacement.isGetProp()) {\n    Node replacementChild = replacement.getFirstChild();\n    if (replacementChild.isGetProp()) {\n      Node origProp = getProp.getFirstChild();\n      if (origProp.isName() &&\n          replacementChild.getFirstChild().isName() &&\n          origProp.getString().equals(replacementChild.getFirstChild().getString())) {\n        String origPropName = getProp.getLastChild().getString();\n        String replacementPropName = replacementChild.getLastChild().getString();\n        if (origPropName.equals(\"parentNode\") &&\n            replacementPropName.equals(\"parentNode\")) {\n          return false;\n        }\n      }\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

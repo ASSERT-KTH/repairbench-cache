@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    StringTokenizer tokens = new StringTokenizer(text, defaultNewLine, true);\n    while (tokens.hasMoreTokens())\n    {\n        String line = tokens.nextToken();\n        if (line.equals(defaultNewLine))\n        {\n            sb.append(defaultNewLine);\n            continue;\n        }\n\n        int pos = 0;\n        while (true)\n        {\n            int wrapPos = findWrapPos(line, width, pos);\n\n            if (wrapPos == -1)\n            {\n                sb.append(rtrim(line.substring(pos)));\n                break;\n            }\n            else\n            {\n                sb.append(rtrim(line.substring(pos, wrapPos)));\n                sb.append(defaultNewLine);\n                line = createPadding(nextLineTabStop) + line.substring(wrapPos).trim();\n                pos = 0;\n            }\n        }\n    }\n\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

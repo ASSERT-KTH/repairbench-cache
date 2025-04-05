@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType getSuperClass() {\n    // Fix to handle recursive type resolution correctly (see databind#1647)\n    if (_superClass == null && _class != null) {\n        Class<?> superClz = _class.getSuperclass();\n        if (superClz != null) {\n            // Attempt to resolve super type through the TypeFactory that created this type\n            TypeFactory tf = TypeFactory.defaultInstance();\n            JavaType resolvedSuperType = tf.constructType(superClz);\n            _superClass = resolvedSuperType;\n        }\n    }\n    return _superClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

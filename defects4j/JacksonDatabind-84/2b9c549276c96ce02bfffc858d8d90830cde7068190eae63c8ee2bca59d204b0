@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> JavaType constructType(Class<T> cls) {\n    // Check if type already cached\n    JavaType type = _typeCache.get(cls);\n    if (type != null) {\n        return type;\n    }\n    // First, construct type including super type information\n    type = _fromClass(null, cls, TypeBindings.emptyBindings());\n    // Cache both base class and all involved subtypes to allow correct serialization\n    _typeCache.put(cls, type);\n    // Also cache super types and interfaces\n    JavaType superClass = type.getSuperClass();\n    if (superClass != null && superClass.getRawClass() != Object.class) {\n        _typeCache.putIfAbsent(superClass.getRawClass(), superClass);\n    }\n    for (JavaType iface : type.getInterfaces()) {\n        _typeCache.putIfAbsent(iface.getRawClass(), iface);\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

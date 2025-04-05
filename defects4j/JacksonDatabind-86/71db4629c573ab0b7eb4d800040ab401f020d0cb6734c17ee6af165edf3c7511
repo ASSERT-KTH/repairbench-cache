@@ -1,0 +1,7 @@
+{
+    "generation": "// This appears to patch bug in ResolvedRecursiveType._resolve(...) implementation\n@Override\npublic void _resolve(JavaType ref)\n{\n    if (_referencedType == null) {\n        _referencedType = ref;\n        // 17-Oct-2016, tatu: [databind#1647] Need to propagate resolved supertype(s)\n        JavaType refSuper = ref.getSuperClass();\n        if (refSuper != null && _superClass instanceof ResolvedRecursiveType) {\n            ((ResolvedRecursiveType)_superClass)._resolve(refSuper);\n        }\n    } else {\n        throw new IllegalStateException(\"Already resolved\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

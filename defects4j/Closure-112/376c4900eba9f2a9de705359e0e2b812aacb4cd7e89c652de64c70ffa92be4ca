@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * For functions with function(this: T, ...) and T as parameters, type\n   * inference will set the type of this on a function literal argument to the\n   * actual type of T.\n   */\n  private boolean inferTemplatedTypesForCall(\n      Node n, FunctionType fnType) {\n    final ImmutableList<TemplateType> keys = fnType.getTemplateTypeMap()\n        .getTemplateKeys();\n    if (keys.isEmpty()) {\n      return false;\n    }\n\n    // Try to infer the template types\n    Map<TemplateType, JSType> inferred =\n        inferTemplateTypesFromParameters(fnType, n);\n\n    // Ensure all templates have a mapping, defaulting to UNKNOWN if not inferred\n    Map<TemplateType, JSType> completeInferred = new HashMap<>();\n    for (TemplateType key : keys) {\n      JSType inferredType = inferred.get(key);\n      if (inferredType == null) {\n        inferredType = registry.getNativeType(JSTypeNative.UNKNOWN_TYPE);\n      }\n      completeInferred.put(key, inferredType);\n    }\n\n    TemplateTypeReplacer replacer = new TemplateTypeReplacer(\n        registry, completeInferred);\n    Node callTarget = n.getFirstChild();\n\n    FunctionType replacementFnType = fnType.visit(replacer)\n        .toMaybeFunctionType();\n    Preconditions.checkNotNull(replacementFnType);\n\n    callTarget.setJSType(replacementFnType);\n    n.setJSType(replacementFnType.getReturnType());\n\n    return replacer.madeChanges;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

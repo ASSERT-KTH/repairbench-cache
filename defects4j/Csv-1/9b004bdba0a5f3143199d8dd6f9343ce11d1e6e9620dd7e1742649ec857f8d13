@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int read() throws IOException {\n    int current = super.read();\n    if (current == '\\n' || current == '\\r') {\n        lineCounter++;\n        // Handle \\r\\n as a single line break:\n        if (current == '\\r') {\n            super.mark(1);\n            int next = super.read();\n            if (next != '\\n' && next != -1) {\n                super.reset();\n            }\n        }\n    }\n    lastChar = current;\n    return lastChar;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

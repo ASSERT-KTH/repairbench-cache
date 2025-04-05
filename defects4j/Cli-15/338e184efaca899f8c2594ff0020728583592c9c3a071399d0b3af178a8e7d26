@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option,\n                      List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // if no values or empty, start with default values\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = defaultValues;\n    }\n\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = (List) this.defaultValues.get(option);\n    }\n\n    if (valueList == null) {\n        valueList = new ArrayList();\n    } else {\n        // make a modifiable copy\n        valueList = new ArrayList(valueList);\n    }\n\n    // appending remaining defaults if needed\n    List optionDefaults = (List) this.defaultValues.get(option);\n    if (optionDefaults != null && !optionDefaults.isEmpty()) {\n        int currentSize = valueList.size();\n        int defaultSize = optionDefaults.size();\n\n        for (int i = currentSize; i < defaultSize; i++) {\n            valueList.add(optionDefaults.get(i));\n        }\n    }\n\n    return valueList.isEmpty() ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

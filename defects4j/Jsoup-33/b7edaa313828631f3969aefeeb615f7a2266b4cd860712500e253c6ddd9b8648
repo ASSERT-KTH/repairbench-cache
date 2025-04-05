@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // handle empty known and unknown tags\n    if (startTag.isSelfClosing()) {\n        Element el = insertEmpty(startTag);\n        // Only add to stack if it's an unknown tag; known tags should be auto-closed\n        if (!el.tag().isKnownTag()) {\n            stack.add(el);\n        }\n        // Emit fake end tag to close properly\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

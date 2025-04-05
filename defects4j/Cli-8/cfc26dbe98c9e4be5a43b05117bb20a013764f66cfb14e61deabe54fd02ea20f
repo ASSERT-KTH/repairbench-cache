@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    int lineStart = 0;\n    while (true) {\n        // check for pre-existing newline\n        int newline = text.indexOf('\\n', lineStart);\n        int wrapPos = findWrapPos(text, width, lineStart);\n\n        if (newline != -1 && (newline <= wrapPos || wrapPos == -1)) {\n            // newline occurs before wrapPos (or no wrap needed)\n            sb.append(text.substring(lineStart, newline));\n            sb.append(defaultNewLine);\n            lineStart = newline + 1;\n            if (lineStart >= text.length()) {\n                break;\n            }\n\n            // pad subsequent lines\n            sb.append(createPadding(nextLineTabStop));\n            continue;\n        }\n        if (wrapPos == -1) {\n            sb.append(text.substring(lineStart));\n            break;\n        }\n        sb.append(rtrim(text.substring(lineStart, wrapPos)));\n        sb.append(defaultNewLine);\n\n        lineStart = wrapPos;\n\n        // skip leading spaces after wrap position\n        while (lineStart < text.length() && text.charAt(lineStart) == ' ') {\n            lineStart++;\n        }\n\n        // pad all subsequent lines\n        sb.append(createPadding(nextLineTabStop));\n    }\n    return sb;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        // Get the raw string value\n        String val = this.value;\n\n        boolean containsSingle = val.contains(\"'\");\n        boolean containsDouble = val.contains(\"\\\"\");\n\n        // Determine the best quote character to use for the literal representation\n        if (containsDouble && !containsSingle)\n        {\n            // If the string contains double quotes but no single quotes,\n            // use single quotes as delimiters to avoid escaping the internal double quotes.\n            // We still need to escape any backslashes within the string.\n            String escapedValue = val.replace(\"\\\\\", \"\\\\\\\\\");\n            // No need to escape ' since it's not present according to the condition.\n            return \"'\" + escapedValue + \"'\";\n        }\n        else\n        {\n            // In all other cases (contains single only, contains both, contains neither),\n            // use double quotes as delimiters. This is generally the preferred style.\n            // We need to escape backslashes and any internal double quotes.\n            String escapedValue = val.replace(\"\\\\\", \"\\\\\\\\\").replace(\"\\\"\", \"\\\\\\\"\");\n            return \"\\\"\" + escapedValue + \"\\\"\";\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

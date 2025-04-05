@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    byte[] nameBytes;\n    int end = offset + length;\n\n    // Find first NUL terminator\n    int nameLength = length;\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            nameLength = i - offset;\n            break;\n        }\n    }\n\n    nameBytes = new byte[nameLength];\n    System.arraycopy(buffer, offset, nameBytes, 0, nameLength);\n\n    try {\n        // Use ISO-8859-1 which preserves byte values 0x80-0xFF as single characters\n        return new String(nameBytes, \"ISO-8859-1\");\n    } catch (java.io.UnsupportedEncodingException e) {\n        // Fallback, though ISO-8859-1 must be supported\n        return new String(nameBytes);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // For each field, first check for exact type matches\n        boolean injected = false;\n        Iterator<Object> it = mocks.iterator();\n        while (it.hasNext()) {\n            Object mock = it.next();\n            if (field.getType().equals(mock.getClass().getInterfaces().length > 0 ? mock.getClass().getInterfaces()[0] : mock.getClass())) {\n                mockCandidateFilter.filterCandidate(Collections.singleton(mock), field, fieldInstance).thenInject();\n                it.remove();\n                injected = true;\n                break;\n            }\n        }\n        if (!injected) {\n            // Then allow assignable ancestors\n            it = mocks.iterator();\n            while (it.hasNext()) {\n                Object mock = it.next();\n                if (field.getType().isAssignableFrom(mock.getClass().getInterfaces().length > 0 ? mock.getClass().getInterfaces()[0] : mock.getClass())) {\n                    mockCandidateFilter.filterCandidate(Collections.singleton(mock), field, fieldInstance).thenInject();\n                    it.remove();\n                    break;\n                }\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

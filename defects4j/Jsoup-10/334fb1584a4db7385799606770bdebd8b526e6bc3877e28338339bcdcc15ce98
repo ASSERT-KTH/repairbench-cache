@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        URL base;\n        try {\n            try {\n                base = new URL(baseUri);\n            } catch (MalformedURLException e) {\n                // the base is unsuitable, but the attribute may be abs on its own, so try that\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            }\n\n            // Workaround for Java URL oddity: If relUrl is a query string (starts with \"?\"), java.net.URL(base, relUrl)\n            // discards the base's path instead of retaining it, per RFC 3986. But for HTML, the query is relative to the full path.\n            // So, manually construct the correct relative URL by appending relUrl to the base's path and resolving.\n\n            if (relUrl.startsWith(\"?\")) {\n                String basePath = base.getPath();\n                relUrl = basePath + relUrl;\n            }\n\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

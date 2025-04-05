@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null || o2 == null) {\n        return o1 == null && o2 == null;\n    }\n    if (isArray(o1) && isArray(o2)) {\n        // Both are arrays, compare elements recursively\n        int len1 = java.lang.reflect.Array.getLength(o1);\n        int len2 = java.lang.reflect.Array.getLength(o2);\n        if (len1 != len2) {\n            return false;\n        }\n        for (int i = 0; i < len1; i++) {\n            Object e1 = java.lang.reflect.Array.get(o1, i);\n            Object e2 = java.lang.reflect.Array.get(o2, i);\n            if (!areEqual(e1, e2)) {\n                return false;\n            }\n        }\n        return true;\n    }\n    if (isArray(o1) || isArray(o2)) {\n        // One is array, one is not\n        return false;\n    }\n    try {\n        return o1.equals(o2);\n    } catch (Throwable t) {\n        // Defensive: if equals() throws, fall back to reference identity\n        return o1 == o2;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels).\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    if (n.getType() == Token.FUNCTION || n.getType() == Token.DO) {\n        return true;\n    } else if (n.getType() == Token.LABEL) {\n        // For labels, check that it directly labels exactly one node,\n        // which is itself a FUNCTION or DO (possibly recursively through labels).\n        Node labelChild = n.getFirstChild();\n        if (labelChild != null && labelChild.getNext() == null) {\n            return isOneExactlyFunctionOrDo(labelChild);\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

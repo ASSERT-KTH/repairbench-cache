@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline())\n            return false;\n\n        // special case for <br> - don't want inside inline tags (<a>, <span> etc) to be separated by newline\n        // but when <br> is directly in a block element, treat it as block (so newlines around it)\n        if (tag.getName().equals(\"br\") && parent() != null && parent().isBlock())\n            return false; // treat <br> directly in block as non-inlineable\n\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

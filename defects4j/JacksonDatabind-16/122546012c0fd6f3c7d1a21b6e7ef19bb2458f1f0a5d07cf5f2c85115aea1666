@@ -1,0 +1,7 @@
+{
+    "generation": "protected final boolean _add(Annotation ann) {\n    if (_annotations == null) {\n        _annotations = new HashMap<Class<? extends Annotation>, Annotation>();\n    }\n    Class<? extends Annotation> key = ann.annotationType();\n    Annotation existing = _annotations.get(key);\n    if (existing == null) {\n        _annotations.put(key, ann);\n        return false;\n    }\n    // Prefer existing annotation for bundles to override contents properly\n    if (ann instanceof java.lang.annotation.Annotation && key.isAnnotationPresent(java.lang.annotation.Retention.class)) {\n        return true;\n    }\n    _annotations.put(key, ann);\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

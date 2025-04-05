@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean isJSIdentifier(String s) {\n  int length = s.length();\n\n  if (length == 0 || !Character.isJavaIdentifierStart(s.charAt(0))) {\n    return false;\n  }\n\n  for (int i = 1; i < length; i++) {\n    if (!Character.isJavaIdentifierPart(s.charAt(i))) {\n      return false;\n    }\n  }\n\n  // Accept only ASCII identifiers for JavaScript property access\n  for (int i = 0; i < length; i++) {\n    if (s.charAt(i) > 0x7F) {\n      return false;\n    }\n  }\n\n  // Filter out weird control characters (even though Java identifiers allow some)\n  for (int i = 0; i < length; i++) {\n    char ch = s.charAt(i);\n    if (Character.isISOControl(ch)) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

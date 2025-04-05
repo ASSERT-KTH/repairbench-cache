@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isFormatAsBlock(Document.OutputSettings out) {\n        // 1. Must be outlining to format as block\n        if (!out.outline())\n            return false;\n\n        // 2. Inherently block tags format as block...\n        if (tag.formatAsBlock()) {\n            // ...unless they are direct children of TD/TH (because browsers treat <p> elements inside <td> like inline elements)\n            if (parent() != null) {\n                final String parentTagName = parent().tagName();\n                if (parentTagName.equals(\"td\") || parentTagName.equals(\"th\"))\n                    return false; // Exception for P in TD, similar to browser rendering\n            }\n            return true; // Is block, not inside TD/TH\n        }\n\n        // 3. Inline tags format as block if their parent is block (e.g. <a> in <p>) - fix for #159\n        if (parent() != null && parent().tag().formatAsBlock()) {\n            // We already know !tag.formatAsBlock() from the check above\n            return true;\n        }\n\n        // 4. Otherwise, e.g. inline tag in inline parent, or parent is null = false\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

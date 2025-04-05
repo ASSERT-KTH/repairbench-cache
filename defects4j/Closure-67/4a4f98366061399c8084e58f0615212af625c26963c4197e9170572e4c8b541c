@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP) {\n    // We want to exclude the assignment itself from the usage list\n    Node getprop = n;\n\n    boolean isObjPrototypeDirect =\n        getprop.getFirstChild().getType() == Token.GETPROP;\n\n    if (isObjPrototypeDirect) {\n      Node innerGetProp = getprop.getFirstChild();\n      Node maybePrototype = innerGetProp.getFirstChild().getNext();\n\n      if (maybePrototype != null &&\n          maybePrototype.getType() == Token.STRING &&\n          \"prototype\".equals(maybePrototype.getString())) {\n        return true;\n      }\n    } else {\n      // Also handle bracket notation: e.g., e.prototype['alias1'] = ...\n      Node obj = getprop.getFirstChild();\n      Node prop = obj.getNext();\n      if (prop != null && prop.getType() == Token.STRING &&\n          \"prototype\".equals(prop.getString())) {\n        return true;\n      }\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

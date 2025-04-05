@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP) {\n\n    Node propAccess = n;\n\n    // handle chained assignments like: A.prototype['alias'] = A.prototype.method = function() {}\n    // so check if propAccess's first child is also GETPROP on a prototype\n    if (propAccess.getFirstChild().getType() == Token.GETPROP) {\n      Node innerProp = propAccess.getFirstChild();\n      Node child = innerProp.getFirstChild().getNext();\n\n      if (child.getType() == Token.STRING &&\n          child.getString().equals(\"prototype\")) {\n        return true;\n      }\n    } else {\n      // check for non-chained form: A.prototype.method = function() {}\n      Node child = propAccess.getFirstChild().getNext();\n      if (child.getType() == Token.STRING &&\n          child.getString().equals(\"prototype\")) {\n        return true;\n      }\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // avoid treating pax headers or other special entries ending with '/'\n    // as directories, so only treat as directory if linkFlag is 0 or LF_NORMAL\n    // or unrecognized (zero is a common normal file flag)\n    if ((linkFlag == 0 || linkFlag == LF_NORMAL) && getName() != null && getName().endsWith(\"/\")) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

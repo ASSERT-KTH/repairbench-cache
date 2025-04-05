@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        URL base;\n        try {\n            try {\n                base = new URL(baseUri);\n            } catch (MalformedURLException e) {\n                // the base is unsuitable, but the attribute may be abs on its own, so try that\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            }\n\n            // Workaround: when relative URL is only a query string, Java URL resolution drops filename\n            if (relUrl.startsWith(\"?\")) {\n                String baseFile = base.getFile();\n                if (baseFile != null && !baseFile.isEmpty()) {\n                    int qIdx = baseFile.indexOf('?');\n                    if (qIdx != -1) {\n                        baseFile = baseFile.substring(0, qIdx);\n                    }\n                    relUrl = baseFile + relUrl;\n                }\n            }\n\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        // Format each individual range set (AND group)\n        java.util.List<String> formattedGroups = rangesList.stream()\n            .map(RangesList::formatRanges) // Assume this formats one AND group, potentially adding parentheses\n            .collect(java.util.stream.Collectors.toList());\n\n        // If there's only one group, return its formatted string, removing outer parentheses if present.\n        if (formattedGroups.size() == 1) {\n            String singleGroup = formattedGroups.get(0);\n            // Remove outer parentheses only if they were added by formatRanges\n            if (singleGroup.length() >= 2 && singleGroup.startsWith(\"(\") && singleGroup.endsWith(\")\")) {\n                return singleGroup.substring(1, singleGroup.length() - 1);\n            } else {\n                return singleGroup; // Return as is if no surrounding parentheses\n            }\n        } else {\n            // If there are multiple groups, join them with the OR_JOINER.\n            // Assumes formatRanges provides the correct representation for each group in this context.\n            return formattedGroups.stream()\n                .collect(java.util.stream.Collectors.joining(OR_JOINER));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // create narrowed super-class type, if any\n    JavaType newSuper = (_superClass == null) ? null : _superClass._narrow(subclass.getSuperclass());\n    // create narrowed super-interfaces types, if any\n    JavaType[] newSupers = null;\n    if (_superInterfaces != null && _superInterfaces.length > 0) {\n        newSupers = new JavaType[_superInterfaces.length];\n        for (int i = 0; i < _superInterfaces.length; ++i) {\n            Class<?> superIface = null;\n            Class<?>[] ifaces = subclass.getInterfaces();\n            for (Class<?> iface : ifaces) {\n                if (_superInterfaces[i].getRawClass().isAssignableFrom(iface)) {\n                    superIface = iface;\n                    break;\n                }\n            }\n            if (superIface != null) {\n                newSupers[i] = _superInterfaces[i]._narrow(superIface);\n            } else {\n                newSupers[i] = _superInterfaces[i];\n            }\n        }\n    }\n    return new SimpleType(subclass, _bindings, newSuper, newSupers,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

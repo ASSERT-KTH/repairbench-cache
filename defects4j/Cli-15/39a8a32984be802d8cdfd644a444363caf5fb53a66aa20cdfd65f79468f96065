@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // initialize the return list\n    List valueList = (List) values.get(option);\n\n    // grab the correct default values\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = defaultValues;\n    }\n\n    // if still empty, try parser's stored default values\n    if ((valueList == null) || valueList.isEmpty()) {\n        valueList = (List) this.defaultValues.get(option);\n    }\n\n    // If user provided some values but didn't provide as many as specified, \n    // we potentially need to augment with extra defaults.\n    List optionDefaults = (List) this.defaultValues.get(option);\n\n    if (valueList == null) {\n        valueList = new ArrayList();\n    } else {\n        valueList = new ArrayList(valueList); // copy values\n    }\n\n    if (optionDefaults != null) {\n        int max = option.getArgument().getMaximum();\n        for (int i = valueList.size(); (max < 0 || i < max) && i < optionDefaults.size(); ++i) {\n            valueList.add(optionDefaults.get(i));\n        }\n    }\n\n    return valueList.isEmpty() ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

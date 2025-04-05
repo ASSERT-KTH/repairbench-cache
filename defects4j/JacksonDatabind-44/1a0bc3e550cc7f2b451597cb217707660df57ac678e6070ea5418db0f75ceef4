@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Special inclusion: if subclass has the same superclass (this._class is an interface),\n    // accept narrowing even if not strict subtype (2023-03; for default implementations)\n    if (!_class.isAssignableFrom(subclass)) {\n        if (!_class.isInterface() || !subclass.getSuperclass().equals(Object.class) || !_class.isAssignableFrom(subclass.getSuperclass())) {\n            throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                    +_class.getName());\n        }\n    }\n    return new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

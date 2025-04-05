@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserializeFromEmptyString(DeserializationContext ctxt) throws IOException {\n    if (ctxt.isEnabled(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) \n            || ctxt.isEnabled(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES)) {\n        ctxt.reportInputMismatch(this, \"Cannot coerce empty string to primitive type\");\n    }\n    // For primitives, treat empty string as zero value\n    Class<?> t = _valueClass;\n    if (t == Integer.TYPE) {\n        return 0;\n    }\n    if (t == Long.TYPE) {\n        return 0L;\n    }\n    if (t == Double.TYPE) {\n        return 0.0;\n    }\n    if (t == Float.TYPE) {\n        return 0.0f;\n    }\n    if (t == Boolean.TYPE) {\n        return Boolean.FALSE;\n    }\n    if (t == Byte.TYPE) {\n        return (byte) 0;\n    }\n    if (t == Short.TYPE) {\n        return (short) 0;\n    }\n    if (t == Character.TYPE) {\n        return (char) 0;\n    }\n    return null; // for non-primitive types\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

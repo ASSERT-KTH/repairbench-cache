@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean hasSameMethod(Invocation candidate) {        \n    // Not using method.equals() for 1 good reason:\n    // sometimes Java generates forwarding methods when generics are in play (see JavaGenericsForwardingMethodsTest)\n    Method m1 = invocation.getMethod();\n    Method m2 = candidate.getMethod();\n\n    if (m1.equals(m2)) {\n        return true;\n    }\n\n    // For bridge methods created by compiler to handle type erasure in generics\n    if (m1.isBridge() && !m2.isBridge()) {\n        return isBridgeMethodFor(m1, m2);\n    }\n    if (!m1.isBridge() && m2.isBridge()) {\n        return isBridgeMethodFor(m2, m1);\n    }\n\n    return false;\n}\n\nprivate boolean isBridgeMethodFor(Method bridgeMethod, Method targetMethod) {\n    if (!bridgeMethod.getName().equals(targetMethod.getName())) {\n        return false;\n    }\n    if (bridgeMethod.getParameterCount() != targetMethod.getParameterCount()) {\n        return false;\n    }\n    Class<?>[] bridgeParams = bridgeMethod.getParameterTypes();\n    Class<?>[] targetParams = targetMethod.getParameterTypes();\n    for (int i = 0; i < bridgeParams.length; i++) {\n        if (!bridgeParams[i].isAssignableFrom(targetParams[i])) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

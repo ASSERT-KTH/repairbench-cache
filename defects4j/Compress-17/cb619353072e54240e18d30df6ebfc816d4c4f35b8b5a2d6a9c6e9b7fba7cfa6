@@ -1,0 +1,7 @@
+{
+    "generation": "public static long parseOctal(final byte[] buffer, final int offset, final int length) {\n    long result = 0;\n    int start = offset;\n    int end = offset + length;\n\n    if (length < 2) {\n        throw new IllegalArgumentException(\"Length \" + length + \" must be at least 2\");\n    }\n\n    if (buffer[start] == 0) {\n        return 0L;\n    }\n\n    // Skip leading spaces\n    while (start < end && buffer[start] == ' ') {\n        start++;\n    }\n\n    // Must have at least one trailing NUL or space (after possible leading spaces removed)\n    // Skip over final trailing null/spaces\n    if (start >= end) { // all spaces\n        return 0L;\n    }\n\n    // skip trailing nulls/spaces\n    int trailerIndex = end - 1;\n    // skip multiple trailing spaces and nulls (bug fix)\n    while (trailerIndex >= start && (buffer[trailerIndex] == 0 || buffer[trailerIndex] == ' ')) {\n        trailerIndex--;\n    }\n\n    int lastDataIndex = trailerIndex;\n\n    // Parse bytes from start up to and including lastDataIndex\n    for (int i = start; i <= lastDataIndex; i++) {\n        final byte currentByte = buffer[i];\n        if (currentByte < '0' || currentByte > '7') {\n            throw new IllegalArgumentException(\n                    exceptionMessage(buffer, offset, length, i, currentByte));\n        }\n        result = (result << 3) + (currentByte - '0');\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

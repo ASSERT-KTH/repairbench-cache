@@ -1,0 +1,7 @@
+{
+    "generation": "public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);\n    }\n\n    final T[] out;\n    if (sampleSize == 0) {\n        out = (T[]) new Object[0];\n    } else {\n        // Use the runtime class of the first drawn sample to get correct component type\n        T firstSample = sample();\n        out = (T[]) java.lang.reflect.Array.newInstance(firstSample.getClass(), sampleSize);\n        out[0] = firstSample;\n        for (int i = 1; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n    }\n\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

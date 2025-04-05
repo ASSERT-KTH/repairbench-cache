@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null && array2 == null) {\n        return null;\n    } else if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n\n    Class<?> componentType1 = array1.getClass().getComponentType();\n    Class<?> componentType2 = array2.getClass().getComponentType();\n\n    Class<?> commonType;\n    if (componentType1.isAssignableFrom(componentType2)) {\n        commonType = componentType1;\n    } else if (componentType2.isAssignableFrom(componentType1)) {\n        commonType = componentType2;\n    } else {\n        throw new IllegalArgumentException(\n            \"Cannot store \" + componentType2.getName() + \" in an array of \"\n            + componentType1.getName());\n    }\n\n    T[] joinedArray = (T[]) Array.newInstance(commonType, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

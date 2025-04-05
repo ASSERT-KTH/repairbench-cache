@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<?> valueClazz = (Class<?>) in.readObject();\n\n    // Disallow unsafe deserialization of arbitrary classes\n    if (!(valueClazz.equals(ArrayList.class) || valueClazz.equals(LinkedList.class))) {\n        throw new UnsupportedOperationException(\n            \"Deserialization is not supported for value classes other than ArrayList or LinkedList due to security reasons: \"\n            + valueClazz.getName());\n    }\n\n    this.collectionClass = valueClazz;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

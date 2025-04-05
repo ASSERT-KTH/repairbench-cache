@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructType(Type type) {\n    // First, check if this is a supertype already constructed\n    JavaType cached = _typeCache.get(type);\n    if (cached != null) {\n        return cached;\n    }\n\n    // Otherwise, construct the type anew\n    JavaType result;\n    // Actually, resolve recursively if needed\n    synchronized (_typeCache) {\n        // Might have been constructed while we waited\n        cached = _typeCache.get(type);\n        if (cached != null) {\n            return cached;\n        }\n        // Special handling for Class\n        if (type instanceof Class<?>) {\n            result = _fromClass(null, (Class<?>) type, TypeBindings.emptyBindings());\n        } else {\n            result = _constructType(type, TypeBindings.emptyBindings());\n        }\n        // After constructing, cache this for reuse\n        _typeCache.put(type, result);\n    }\n\n    // For subtypes, ensure their superclasses are constructed too, to allow property inheritance\n    JavaType superClass = result.getSuperClass();\n    if (superClass != null && !(superClass instanceof ResolvedRecursiveType)) {\n        constructType(superClass.getRawClass());\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

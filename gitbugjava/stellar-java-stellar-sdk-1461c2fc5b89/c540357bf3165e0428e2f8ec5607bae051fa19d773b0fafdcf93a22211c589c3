@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns true if this transaction is a Soroban transaction. A transaction is a Soroban\n   * transaction if it contains exactly one operation, and that operation is an {@link\n   * InvokeHostFunctionOperation}.\n   *\n   * @return true if this transaction is a Soroban transaction.\n   * @see <a\n   *     href=\"https://soroban.stellar.org/docs/learn/transaction-lifecycle#stellar-transaction-soroban-transaction\"\n   *     target=\"_blank\">Stellar Transaction vs Soroban Transaction</a>\n   */\n  public boolean isSorobanTransaction() {\n    if (mOperations.length != 1) {\n      return false;\n    }\n\n    Operation op = mOperations[0];\n    // Currently, only InvokeHostFunctionOperation makes a transaction a Soroban transaction.\n    // BumpSequenceOperation and RestoreFootprintOperation can be part of regular Stellar\n    // transactions or Soroban transactions (usually for fee bumps or state archival).\n    // The defining characteristic is the InvokeHostFunctionOperation.\n    return op instanceof InvokeHostFunctionOperation;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

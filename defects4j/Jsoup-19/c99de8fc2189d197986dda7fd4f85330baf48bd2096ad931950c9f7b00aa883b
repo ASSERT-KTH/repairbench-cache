@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value;\n\n    // Attempt to resolve to absolute URL if protocol is http or https; otherwise, use raw attribute value\n    String rawVal = attr.getValue();\n    String lcRaw = rawVal.toLowerCase();\n    boolean isStandardScheme = lcRaw.startsWith(\"http:\") || lcRaw.startsWith(\"https:\");\n\n    if (isStandardScheme) {\n        value = el.absUrl(attr.getKey());\n        if (!preserveRelativeLinks)\n            attr.setValue(value);\n    } else {\n        value = rawVal;\n    }\n\n    String lcValue = value.toLowerCase();\n\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString().toLowerCase() + \":\";\n        if (lcValue.startsWith(prot)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

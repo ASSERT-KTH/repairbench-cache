@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException {\n    // Depending on QUOTE_FIELD_NAMES setting, quote or not\n    boolean quoteName = isEnabled(Feature.QUOTE_FIELD_NAMES);\n    if (_writeContext.writeFieldName(name) == JsonWriteContext.STATUS_OK) {\n        if (!_cfgPrettyPrinter.inObject()) { // unlikely, but just in case\n            _cfgPrettyPrinter.writeObjectEntrySeparator(this);\n        }\n    } else { // First name in object\n        _cfgPrettyPrinter.beforeObjectEntries(this);\n    }\n    if (quoteName) {\n        writeRaw('\\\"');\n        // The actual writing of the name string, with proper escaping\n        writeString(name);\n        writeRaw('\\\"');\n    } else {\n        writeRaw(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

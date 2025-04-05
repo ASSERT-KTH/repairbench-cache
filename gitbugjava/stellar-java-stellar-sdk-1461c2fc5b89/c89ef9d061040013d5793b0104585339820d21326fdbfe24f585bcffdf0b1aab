@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns true if this transaction is a Soroban transaction.\n   * A transaction is considered a Soroban transaction if it contains exactly one operation,\n   * and that operation is one of {@link InvokeHostFunctionOperation},\n   * {@link RestoreFootprintOperation}, or {@link ExtendFootprintTTLOperation}.\n   *\n   * @return true if this transaction is a Soroban transaction.\n   * @see <a href=\"https://developers.stellar.org/docs/learn/fundamentals/transactions#soroban-transactions\">Soroban Transactions</a>\n   */\n  public boolean isSorobanTransaction() {\n    if (mOperations.length != 1) {\n      return false;\n    }\n\n    Operation op = mOperations[0];\n    // BumpSequenceOperation is a general operation, not specific to Soroban.\n    // Soroban-specific operations that typically appear alone are InvokeHostFunction,\n    // RestoreFootprint, and ExtendFootprintTTL.\n    return op instanceof InvokeHostFunctionOperation\n        || op instanceof RestoreFootprintOperation\n        || op instanceof ExtendFootprintTTLOperation;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

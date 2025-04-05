@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void resolveSelfReferences(JavaType ref) {\n    // For recursive types, we need to ensure that self references\n    // are properly resolved.\n    if (_superClass != null) {\n        if (_superClass == ref) {\n            _superClass = ref;\n        } else {\n            _superClass.resolveSelfReferences(ref);\n        }\n    }\n    if (_superInterfaces != null) {\n        for (int i = 0; i < _superInterfaces.length; i++) {\n            if (_superInterfaces[i] == ref) {\n                _superInterfaces[i] = ref;\n            } else {\n                _superInterfaces[i].resolveSelfReferences(ref);\n            }\n        }\n    }\n    // And importantly, update our _bindings as well, as this\n    // may contain references to the self type, which otherwise\n    // may lead to NPEs if the recursive type is not resolved.\n    if (_bindings != null) {\n        _bindings = _bindings.withRecursiveType(ref);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

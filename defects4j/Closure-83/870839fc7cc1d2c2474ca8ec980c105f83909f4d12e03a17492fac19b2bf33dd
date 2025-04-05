@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int parseArguments(Parameters params) throws CmdLineException {\n  String param;\n  try {\n    param = params.getParameter(0);\n  } catch (CmdLineException e) {\n    // No parameter found, treat as implicit true\n    setter.addValue(true);\n    return 0;\n  }\n\n  if (param == null || param.isEmpty() || param.startsWith(\"--\")) {\n    // Treat as flag with implicit true; do not consume param if it's an option\n    setter.addValue(true);\n    return 0;\n  } else {\n    String lowerParam = param.toLowerCase();\n    if (TRUES.contains(lowerParam)) {\n      setter.addValue(true);\n    } else if (FALSES.contains(lowerParam)) {\n      setter.addValue(false);\n    } else {\n      // If the parameter doesn't match true/false, treat this option as implicit true\n      setter.addValue(true);\n      return 0;\n    }\n    return 1;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

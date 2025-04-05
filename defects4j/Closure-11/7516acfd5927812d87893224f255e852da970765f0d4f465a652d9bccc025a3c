@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  // Lots of types can appear on the left, a call to a void function can\n  // never be on the left. getPropertyType will decide what is acceptable\n  // and what isn't.\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  }\n\n  boolean isAssignLhs = (n.getJSType() != null) && parent.isAssign();\n  boolean warnForMissingProperty = true;\n\n  // If it's the LHS of an assignment, we still want to check property access,\n  // e.g., to verify the property exists on the object (important for issue 810).\n  // However, we do not want to coerce null or undefined to an Object in this case;\n  // If null/undefined, report 'No properties' warning\n  if (!validator.expectNotNullOrUndefined(\n          t, n, childType, \n          \"No properties on this expression\", getNativeType(OBJECT_TYPE))) {\n    // null or undefined: do not proceed with property access checking\n    ensureTyped(t, n);\n    return;\n  }\n\n  checkPropertyAccess(childType, property.getString(), t, n);\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

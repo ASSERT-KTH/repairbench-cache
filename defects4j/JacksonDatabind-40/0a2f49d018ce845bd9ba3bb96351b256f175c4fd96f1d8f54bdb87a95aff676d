@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    // Handle empty string as null for primitive types by delegating to the wrapper deserializer\n    if (_unwrapSingle == null && p.hasToken(JsonToken.VALUE_STRING)) {\n        String text = p.getText().trim();\n        if (text.isEmpty()) {\n            if (ctxt.isEnabled(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)) {\n                ctxt.reportInputMismatch(_valueClass, \"Cannot coerce empty String to %s (FAIL_ON_NULL_FOR_PRIMITIVES enabled)\", _valueClass.getName());\n            }\n            // For primitives, default value should be returned\n            return getEmptyValue(ctxt);\n        }\n    }\n    return _delegateDeserializer.deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

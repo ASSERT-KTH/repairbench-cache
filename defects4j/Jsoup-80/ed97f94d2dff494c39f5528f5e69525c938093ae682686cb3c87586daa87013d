@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) { // xml declarations are emitted as bogus comments (which is right for html, but not xml)\n        String data = comment.getData();\n        if (data.length() > 1 && (data.startsWith(\"!\") || data.startsWith(\"?\"))) {\n            Document doc = Jsoup.parse(\"<\" + data.substring(1, data.length() - 1) + \">\", baseUri, Parser.xmlParser());\n            // Fix: check if the doc has any children before accessing\n            if (doc.childNodeSize() > 0 && doc.child(0) instanceof Element) {\n                Element el = (Element) doc.child(0);\n                insert = new XmlDeclaration(settings.normalizeTag(el.tagName()), data.startsWith(\"!\"));\n                insert.attributes().addAll(el.attributes());\n            }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

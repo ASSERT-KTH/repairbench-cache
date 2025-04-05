@@ -1,0 +1,7 @@
+{
+    "generation": "import org.jsoup.helper.Validate;\nimport org.jsoup.parser.TagName;\n// Assuming ValidationException is available, likely org.jsoup.helper.ValidationException or similar\n// If not, it might need to be replaced with IllegalArgumentException, but the test expects ValidationException.\n// Let's assume it's available in the context or defined elsewhere.\nimport org.jsoup.helper.ValidationException; // Added potential import\n\nimport java.util.Set; // Assuming tagNames is a Set<TagName>\n\n    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n     <p>Note that {@code <noscript>} is not supported - an exception will be thrown if attempted to be added.</p>\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     @throws ValidationException if {@code <noscript>} is attempted to be added\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            // see SafelistTest#noscriptIsBlocked\n            if (tagName.equalsIgnoreCase(\"noscript\")) {\n                throw new ValidationException(String.format(\"Tag <%s> is unsupported.\", tagName));\n            }\n            tagNames.add(TagName.valueOf(tagName));\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

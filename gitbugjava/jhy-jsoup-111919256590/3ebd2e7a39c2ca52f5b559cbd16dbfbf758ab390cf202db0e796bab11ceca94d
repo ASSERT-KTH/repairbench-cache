@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Must be inline tag\n        if (!tag.isInline())\n            return false;\n        // Outline mode forces non-inlineable\n        if (out.outline())\n            return false;\n\n        // Check parent behavior\n        Element parent = parent(); // Cache parent lookup\n        if (parent != null && parent.tag().formatAsBlock()) {\n            // Inside a block-formatting parent:\n            if (tag.getName().equals(\"br\")) {\n                // <br> is never inlineable if the parent formats as block, always breaks line relative to siblings\n                return false;\n            } else {\n                // Other inline tags (<b>, <i>, etc.) are inlineable\n                // only if they are NOT the first significant child.\n                return !isEffectivelyFirst();\n            }\n        } else {\n            // Parent is null (root) or parent is inline/doesn't format as block.\n            // In this case, the inline element is inlineable by default.\n            // E.g. <span><a></a></span> -> <a> is inlineable\n            return true;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

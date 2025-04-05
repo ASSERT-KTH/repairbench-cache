@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        // Format each range set within the list\n        List<String> formattedRanges = rangesList.stream()\n            .map(RangesList::formatRanges) // Assumes this formats one RangeSet, potentially adding parentheses\n            .collect(Collectors.toList());\n\n        // If there's only one range set, return its string representation.\n        // The failing test implies outer parentheses added by formatRanges should be removed in this case.\n        if (formattedRanges.size() == 1) {\n            String singleRangeString = formattedRanges.get(0);\n            // Remove outer parentheses only if they exist and the list size is 1.\n            if (singleRangeString.length() > 2 && singleRangeString.startsWith(\"(\") && singleRangeString.endsWith(\")\")) {\n                return singleRangeString.substring(1, singleRangeString.length() - 1);\n            } else {\n                // Return as is if no parentheses or formatRanges didn't add them.\n                return singleRangeString;\n            }\n        } else {\n            // If there are multiple range sets, join them with the OR_JOINER.\n            // Parentheses around each formatted set (if added by formatRanges) are kept for clarity.\n            return String.join(OR_JOINER, formattedRanges);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

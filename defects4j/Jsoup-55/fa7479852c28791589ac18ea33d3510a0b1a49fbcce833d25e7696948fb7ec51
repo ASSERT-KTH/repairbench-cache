@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        case '=':\n            t.tagPending.newAttribute();\n            r.unconsume(); // push back '=' for attribute parsing\n            t.transition(BeforeAttributeName);\n            break;\n        default:\n            // When we see anything else, treat it as the start of a new attribute\n            r.unconsume();\n            t.transition(BeforeAttributeName);\n            break;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

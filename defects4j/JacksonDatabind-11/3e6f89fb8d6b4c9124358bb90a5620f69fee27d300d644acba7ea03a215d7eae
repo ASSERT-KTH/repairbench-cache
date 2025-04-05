@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    // Without context, just return an unknown type to prevent infinite loops\n    if (context == null) {\n        return _unknownType();\n    }\n    // Look up binding for this variable\n    JavaType actualType = context.findType(name);\n    if (actualType != null) {\n        // _unknownType() binding means \"not yet resolved\", so we should NOT return it as final answer\n        if (!actualType.isUnknownType()) {\n            return actualType;\n        }\n        // else: variable was bound as unassigned: keep going to resolve from bounds\n    }\n\n    // Add placeholder to prevent infinite recursion on recursive bounds, before resolving bound\n    context._addPlaceholder(name);\n\n    Type[] bounds = type.getBounds();\n    // Defensive: if no bounds, treat as Object\n    if (bounds == null || bounds.length == 0) {\n        return _unknownType();\n    }\n    return _constructType(bounds[0], context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

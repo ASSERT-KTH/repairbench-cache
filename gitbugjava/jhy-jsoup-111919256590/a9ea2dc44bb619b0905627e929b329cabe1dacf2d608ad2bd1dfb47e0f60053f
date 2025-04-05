@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // inlineable function determines if the element may be rendered inline\n        // based on its tag type, and the context of its parent node\n        if (!tag.isInline()) // 1. Must be an inline tag\n            return false;\n\n        // cannot be inlineable if the parent node is implicitly formatted as block, but this element is the first\n        // effective node in the block.\n        // null parent == root, root is effectively block\n        // Parent is block\n        // And this is the first node\n        // Kicks in for e.g. <p> <b>First</b> Text</p> -> <p> \\n <b>First... - B is not inlineable\n        // But not for <p> Test <b>Second</b> -> <p> Test <b>Second</b> - B is inlineable\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst(); // Removed `&& !out.outline()` as per fix for #1911\n            // original: && !isEffectivelyFirst() && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

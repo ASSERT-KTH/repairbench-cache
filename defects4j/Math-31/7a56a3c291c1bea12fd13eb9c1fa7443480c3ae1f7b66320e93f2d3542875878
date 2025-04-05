@@ -1,0 +1,7 @@
+{
+    "generation": "public double evaluate(double x, double epsilon, int maxIterations) {\n    final double small = 1e-50;\n    double hN = getA(0, x);\n    if (Precision.equals(hN, 0.0, small)) {\n        hN = small;\n    }\n\n    double dN = 0.0;\n    double cN = hN;\n    int n = 1;\n\n    while (n < maxIterations) {\n        final double a = getA(n, x);\n        final double b = getB(n, x);\n\n        dN = b + a * dN;\n        if (Precision.equals(dN, 0.0, small)) {\n            dN = small;\n        }\n        dN = 1.0 / dN;\n\n        cN = b + a / cN;\n        if (Precision.equals(cN, 0.0, small)) {\n            cN = small;\n        }\n\n        final double deltaN = cN * dN;\n        hN *= deltaN;\n\n        if (Double.isInfinite(hN)) {\n            throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);\n        }\n        if (Double.isNaN(hN)) {\n            throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE, x);\n        }\n\n        if (FastMath.abs(deltaN - 1.0) < epsilon) {\n            return hN;\n        }\n\n        n++;\n    }\n\n    throw new MaxCountExceededException(LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,\n                                        maxIterations, x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

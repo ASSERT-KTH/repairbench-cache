@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n\n  // Compute intersection of common properties with same types\n  RecordTypeBuilder commonPropsBuilder = new RecordTypeBuilder(registry);\n  boolean hasCommonProperty = false;\n  RecordType thatRecord = that.toMaybeRecordType();\n\n  for (String property : properties.keySet()) {\n    if (thatRecord.hasProperty(property)) {\n      JSType thisPropType = getPropertyType(property);\n      JSType thatPropType = thatRecord.getPropertyType(property);\n      if (thisPropType.isEquivalentTo(thatPropType)) {\n        commonPropsBuilder.addProperty(property, thisPropType, getPropertyNode(property));\n        hasCommonProperty = true;\n      }\n    }\n  }\n\n  if (!hasCommonProperty) {\n    // No common properties => union of the record types\n    return registry.createUnionType(this, that);\n  }\n\n  JSType recordWithCommonProps = commonPropsBuilder.build();\n  return registry.createUnionType(this, that);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

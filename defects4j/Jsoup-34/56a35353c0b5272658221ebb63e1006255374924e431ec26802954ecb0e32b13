@@ -1,0 +1,7 @@
+{
+    "generation": "int nextIndexOf(CharSequence seq) {\n    char startChar = seq.charAt(0);\n    int seqLen = seq.length();\n    int maxScan = length - seqLen + 1; // avoid overrunning array\n    outer:\n    for (int offset = pos; offset < maxScan; offset++) {\n        // scan to first instance of startchar:\n        if (startChar != input[offset]) {\n            while (++offset < maxScan && startChar != input[offset]);\n            if (offset >= maxScan)\n                break;\n        }\n        // check rest of seq matches:\n        for (int i = 1; i < seqLen; i++) {\n            if (seq.charAt(i) != input[offset + i])\n                continue outer;\n        }\n        return offset - pos;\n    }\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

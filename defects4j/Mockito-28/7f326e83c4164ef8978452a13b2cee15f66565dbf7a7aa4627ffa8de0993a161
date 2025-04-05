@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // prioritize exact type matches first\n        Set<Object> exactTypeMocks = new LinkedHashSet<>();\n        Set<Object> assignableMocks = new LinkedHashSet<>();\n        for (Object mock : mocks) {\n            Class<?> mockClass = mock.getClass();\n            Class<?> fieldType = field.getType();\n            if (fieldType.equals(mockClass)) {\n                exactTypeMocks.add(mock);\n            } else if (fieldType.isAssignableFrom(mockClass)) {\n                assignableMocks.add(mock);\n            }\n        }\n        if (!exactTypeMocks.isEmpty()) {\n            mockCandidateFilter.filterCandidate(exactTypeMocks, field, fieldInstance).thenInject();\n        } else if (!assignableMocks.isEmpty()) {\n            mockCandidateFilter.filterCandidate(assignableMocks, field, fieldInstance).thenInject();\n        } else {\n            mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

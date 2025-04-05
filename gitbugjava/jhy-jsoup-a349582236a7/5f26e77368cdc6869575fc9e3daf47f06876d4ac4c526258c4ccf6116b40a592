@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Remove the previousSibling != null check. An element can be inlineable even if it's the first child.\n        // This fixed a bug where the first inline element child of a block element (like body) was inappropriately\n        // block formatted. See https://github.com/jhy/jsoup/issues/339\n        return tag().isInline()\n            && (parent() == null || parent().isBlock())\n            // && previousSibling() != null // Removed constraint: an inline element should be inlineable even if it's the first child\n            && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

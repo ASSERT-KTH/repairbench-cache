@@ -1,0 +1,7 @@
+{
+    "generation": "protected final boolean _add(Annotation ann) {\n    if (_annotations == null) {\n        _annotations = new HashMap<Class<? extends Annotation>, Annotation>();\n    }\n    Annotation previous = _annotations.get(ann.annotationType());\n    if (previous == null) {\n        _annotations.put(ann.annotationType(), ann);\n        return false;\n    }\n    // Prefer existing annotation if it's a bundle and new is not\n    boolean prevIsBundle = previous.annotationType().isAnnotationPresent(java.lang.annotation.Inherited.class)\n            || previous.annotationType().isAnnotationPresent(java.lang.annotation.Repeatable.class)\n            || previous.annotationType().isAnnotationPresent(java.lang.annotation.Retention.class);\n    boolean newIsBundle = ann.annotationType().isAnnotationPresent(java.lang.annotation.Inherited.class)\n            || ann.annotationType().isAnnotationPresent(java.lang.annotation.Repeatable.class)\n            || ann.annotationType().isAnnotationPresent(java.lang.annotation.Retention.class);\n    if (prevIsBundle && !newIsBundle) {\n        _annotations.put(ann.annotationType(), ann);\n        return false;\n    }\n    return previous.equals(ann);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

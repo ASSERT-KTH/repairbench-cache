@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void replaceChild(Node out, Node in) {\n        // If the node to replace is the same as the replacement node, do nothing.\n        if (out == in)\n            return;\n\n        Validate.isTrue(out.parentNode == this, \"Node is not a child of this node.\");\n        Validate.notNull(in);\n        if (in.parentNode != null)\n            in.parentNode.removeChild(in); // Remove 'in' from its current parent first.\n\n        final int index = out.siblingIndex; // Get the index of the node being replaced.\n        ensureChildNodes().set(index, in);  // Replace 'out' with 'in' in the child node list.\n        in.parentNode = this;               // Set the parent of 'in'.\n        in.setSiblingIndex(index);          // Set the sibling index of 'in'.\n        if (out.parentNode != null) {       // If out still has a parent (should be this node before replacement)\n            out.parentNode = null;          // Nullify 'out's parent link after replacement.\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

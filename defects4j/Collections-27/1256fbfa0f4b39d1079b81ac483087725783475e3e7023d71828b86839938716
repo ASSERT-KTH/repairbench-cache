@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    final Object valuesFactoryObj = in.readObject();\n    if (valuesFactoryObj instanceof Factory) {\n        this.valuesFactory = (Factory) valuesFactoryObj;\n    } else if (valuesFactoryObj instanceof Class<?>) {\n        Class<?> clazz = (Class<?>) valuesFactoryObj;\n        // Only allow known safe collection classes such as ArrayList or LinkedList\n        if (clazz.equals(ArrayList.class)) {\n            this.valuesFactory = new Factory() {\n                public Object create() {\n                    return new ArrayList<>();\n                }\n            };\n        } else if (clazz.equals(LinkedList.class)) {\n            this.valuesFactory = new Factory() {\n                public Object create() {\n                    return new LinkedList<>();\n                }\n            };\n        } else {\n            throw new UnsupportedOperationException(\"Unsupported collection class for deserialization: \" + clazz.getName());\n        }\n    } else {\n        throw new IOException(\"Unexpected serialized valuesFactory type: \" + valuesFactoryObj.getClass());\n    }\n    this.map = (Map<K, Collection<V>>) in.readObject();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

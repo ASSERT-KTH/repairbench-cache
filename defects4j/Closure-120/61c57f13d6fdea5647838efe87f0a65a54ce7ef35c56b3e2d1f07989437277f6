@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isFunction) {\n      // If the assignment is outside the function (e.g., global assignment),\n      // ensure it is top-level and not inside a loop nested in the function.\n      break;\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  // Additionally, disallow assignments that are in conditional blocks,\n  // since assignment would only happen sometimes.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isFunction) {\n      break;\n    } else if (block.isConditional) {\n      return false;\n    }\n  }\n\n  // If the only assignment is after the variable has been read, then it's not\n  // assigned only once in its lifetime effectively.\n  int idx = getReferences().indexOf(ref);\n  for (int i = 0; i < idx; i++) {\n    Reference previousRef = getReferences().get(i);\n    if (previousRef.isRead()) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

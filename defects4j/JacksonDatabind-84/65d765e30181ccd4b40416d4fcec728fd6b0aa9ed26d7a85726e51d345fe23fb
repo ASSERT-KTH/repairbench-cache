@@ -1,0 +1,7 @@
+{
+    "generation": "// It seems the core bug is related to property introspection in Jackson's class hierarchy handling.\n// As no specific function was provided, and the test scenario points to the failing serialization\n// caused by subtype introspection that occurs before the base type is fully resolved/cache updated,\n// a known fix is to trigger complete property resolution of the base when constructing the subtype.\n// In Jackson, this is often handled inside `TypeFactory.constructType`\n\n// So the fix is likely in (core Jackson version) the method:\n\nprotected JavaType _fromClass(ClassStack context, Class<?> rawType, TypeBindings bindings) {\n    // original code\n    JavaType cached = _typeCache.get(rawType);\n    if (cached != null) {\n        return cached;\n    }\n    JavaType result;\n    // ...\n    // introspection logic\n    BeanDescription beanDesc = _introspector.forClassAnnotations(rawType);\n    AnnotatedClass ac = beanDesc.getClassInfo();\n    // ...\n    // handle super types\n    JavaType superType = _findSuperType(context, rawType, bindings);\n    \n    // ADD THIS LINE to force resolution of base properties before caching\n    if (superType != null && superType.isPojoType()) {\n        _fromClass(context, superType.getRawClass(), superType.getBindings());\n    }\n    // ... build JavaType `result`, including superType reference\n    \n    // cache it\n    _typeCache.putIfAbsent(rawType, result);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

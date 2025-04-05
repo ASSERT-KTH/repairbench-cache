@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline())\n            return false;\n        // Tightly coupled to TextNode.MarkdownEntities - avoid outline() == true, and structure like <p>foo</p>\n        // Switch block tags to non-inlineable when outline is true, to avoid inserting extraneous spaces.\n        if (out.outline())\n            return false;\n\n        // Need block parent -- unless we are the root.\n        if (!(parent() == null || parent().isBlock()))\n            return false;\n\n        // If a tag formats as block (e.g. <br>) it is not inlineable. Seems counter-intuitive, but is for purposes of\n        // determining if TextNodes need newlines inserted, on basis of adjacent elements. E.g. <p><span>One</span><br><span>Two</span></p>\n        // The <br> should make Two print on a new line, so it acts like a block here.\n        if (tag.formatAsBlock())\n            return false;\n\n        // Inlineable if not the first effectively seen child node of parent.\n        return !isEffectivelyFirst();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)\n{\n    final String name = type.getName();\n    // 19-Mar-2015: Without context, all we can check are bounds.\n    if (context == null) {\n        // And to prevent infinite loops, now need this:\n        return _unknownType();\n    } else {\n        // Ok: here's where context might come in handy!\n        JavaType actualType = context.findType(name);\n        if (actualType != null) {\n            return actualType;\n        }\n    }\n\n    // Before trying to resolve bounds, let's prevent unresolved TypeVariables in partial generic signatures \n    // from causing exceptions (fix for issue #609) by just returning an unknown type if binding is unresolved\n    if (context.isUnbound(name)) {\n        return _unknownType();\n    }\n\n    Type[] bounds = type.getBounds();\n\n    context._addPlaceholder(name);\n    return _constructType(bounds[0], context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

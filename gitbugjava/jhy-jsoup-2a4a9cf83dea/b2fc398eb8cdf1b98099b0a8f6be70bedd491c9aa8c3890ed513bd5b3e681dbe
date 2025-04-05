@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            Element parent = root.parent(); // Cache parent of root to prevent walking above context\n            Element current = element;\n            // evaluate from last to first\n            for (int i = evaluators.size() - 1; i >= 0; --i) {\n                // Check if current is null or has walked up above the root's context\n                if (current == null || current == parent)\n                    return false;\n\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, current))\n                    return false;\n                current = current.parent();\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

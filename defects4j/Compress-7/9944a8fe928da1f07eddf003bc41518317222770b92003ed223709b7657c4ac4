@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    byte[] nameBytes;\n    int end = offset + length;\n    int nameLen = 0;\n    // Find the position of the first NUL byte or length limit\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            break;\n        }\n        nameLen++;\n    }\n    nameBytes = new byte[nameLen];\n    System.arraycopy(buffer, offset, nameBytes, 0, nameLen);\n    try {\n        // Use ISO-8859-1 which maps bytes directly to same char values (preserves 8-bit data)\n        return new String(nameBytes, \"ISO-8859-1\");\n    } catch (java.io.UnsupportedEncodingException e) {\n        // Fallback in unlikely case encoding is missing\n        return new String(nameBytes);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

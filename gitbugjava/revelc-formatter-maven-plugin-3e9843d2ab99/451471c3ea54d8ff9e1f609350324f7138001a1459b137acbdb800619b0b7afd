@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected String doFormat(final String code, final LineEnding ending) throws IOException {\n\n        final var source = new InputSource(new StringReader(code));\n        final var parser = new CSSOMParser(new SACParserCSS3());\n        final var sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);\n\n        // If parsing fails or the sheet is empty, sheet might be null.\n        if (sheet == null) {\n             return null; // No sheet, no formatting possible/needed\n        }\n\n        var formattedCode = sheet.getCssText(this.formatter);\n\n        // Patch converted 'tab' back to '\\9' for IE 7,8, and 9 hack was removed.\n        // It might be outdated or incorrect with the current version of cssparser.\n        // formattedCode = formattedCode.replace(\"\\t;\", \"\\\\9;\");\n\n        // Handle cases where formatting resulted in null/empty or unchanged code.\n        // If getCssText returns null (e.g., for an empty sheet after parsing), return null.\n        if (formattedCode == null || code.equals(formattedCode)) {\n            return null;\n        }\n\n        // Note: Line ending consistency is assumed to be handled by the caller/test harness\n        // based on the 'ending' parameter. This function returns the raw formatted string\n        // potentially with line endings native to the cssparser library's serialization (usually \\n).\n        return formattedCode;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

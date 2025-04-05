@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n\n    // Defensive check of valueCollectionClass\n    if (valueCollectionClass != null) {\n        // Reject known vulnerable or unsafe classes\n        if (!Collection.class.isAssignableFrom(valueCollectionClass)\n                || valueCollectionClass == String.class\n                || valueCollectionClass == Object.class\n                || valueCollectionClass.isInterface()\n                || Modifier.isAbstract(valueCollectionClass.getModifiers())\n                || !Modifier.isPublic(valueCollectionClass.getModifiers())) {\n            throw new UnsupportedOperationException(\"Unsupported valueCollectionClass: \" + valueCollectionClass.getName());\n        }\n        try {\n            // Defensive instantiation to ensure it's safe/valid\n            Collection<?> test = (Collection<?>) valueCollectionClass.getDeclaredConstructor().newInstance();\n        } catch (Exception e) {\n            throw new UnsupportedOperationException(\"Unsupported valueCollectionClass: \" + valueCollectionClass.getName(), e);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

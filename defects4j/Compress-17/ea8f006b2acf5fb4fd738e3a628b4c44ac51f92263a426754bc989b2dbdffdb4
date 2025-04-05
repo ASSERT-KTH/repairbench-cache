@@ -1,0 +1,7 @@
+{
+    "generation": "public static long parseOctal(final byte[] buffer, final int offset, final int length) {\n    if (length < 2) {\n        throw new IllegalArgumentException(\"Length \" + length + \" must be at least 2\");\n    }\n    int start = offset;\n    int end = offset + length;\n\n    // Allow all zero bytes as missing field\n    boolean allNuls = true;\n    for (int i = offset; i < end; i++) {\n        if (buffer[i] != 0) {\n            allNuls = false;\n            break;\n        }\n    }\n    if (allNuls) {\n        return 0L;\n    }\n\n    if (buffer[start] == 0) {\n        return 0L;\n    }\n\n    // Skip leading spaces\n    while (start < end && buffer[start] == ' ') {\n        start++;\n    }\n\n    // Must have trailing space or NUL, potentially preceded by more trailing space/NULs\n    // Backup from end-1 over any space or NULs\n    int trailerIndex = end - 1;\n    while (trailerIndex >= start && (buffer[trailerIndex] == 0 || buffer[trailerIndex] == ' ')) {\n        trailerIndex--;\n    }\n    // Now parse from start to trailerIndex inclusive\n    long result = 0;\n    for (int i = start; i <= trailerIndex; i++) {\n        final byte currentByte = buffer[i];\n        if (currentByte < '0' || currentByte > '7') {\n            throw new IllegalArgumentException(\n                exceptionMessage(buffer, offset, length, i, currentByte));\n        }\n        result = (result << 3) + (currentByte - '0');\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty()) {\n        throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n    }\n\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n\n    InputStream current = deferredBlockStreams.get(0);\n    if (current == null) {\n        return null;\n    }\n    // If the current stream is already exhausted, skip and close it, then return null to indicate EOF.\n    current.mark(1);\n    int testByte = current.read();\n    if (testByte == -1) {\n        current.close();\n        deferredBlockStreams.set(0, null);\n        return null;\n    } else {\n        current.reset();\n        return current;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
