@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n      return;\n    }\n\n    // Handle the case where the constraint object is a record type or a union of record types.\n    if (constraint.isRecordType() || (constraint.isUnionType() && constraint.toMaybeUnionType().getAlternates().stream().allMatch(JSType::isRecordType))) {\n      if (constraint.isRecordType()) {\n        matchRecordTypeConstraint(constraint.toObjectType());\n      } else {\n        constraint.toMaybeUnionType().getAlternates().forEach(alternate -> matchRecordTypeConstraint(alternate.toObjectType()));\n      }\n    } else if (constraint.isUnionType()) {\n      // If the constraint is a union type but not all alternates are record types, we need to handle each alternate separately.\n      constraint.toMaybeUnionType().getAlternates().forEach(this::matchConstraint);\n    }\n}\n\nprivate void matchRecordTypeConstraint(ObjectType recordType) {\n    // Iterate over the properties of the record type and try to match them with this object's properties.\n    recordType.getOwnPropertyNames().forEach(propertyName -> {\n        JSType propertyType = recordType.getPropertyType(propertyName);\n        if (propertyType != null && !hasProperty(propertyName)) {\n            defineProperty(propertyName, propertyType, null);\n        }\n    });\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

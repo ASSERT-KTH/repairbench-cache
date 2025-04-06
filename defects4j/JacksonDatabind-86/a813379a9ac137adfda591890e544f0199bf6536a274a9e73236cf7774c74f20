@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.databind.JavaType;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.type.TypeFactory;\n\npublic class FixedTypeFactory {\n\n    private static final ObjectMapper objectMapper = new ObjectMapper();\n\n    public static JavaType constructType(Class<?> clazz) {\n        TypeFactory tf = objectMapper.getTypeFactory();\n        if (tf.hasRecursiveType(clazz)) {\n            JavaType type = tf.constructType(clazz);\n            if (type.getSuperClass() != null && type.getSuperClass().isTypeOrSubTypeOf(clazz)) {\n                // Ensure the super class is fully resolved before returning the type\n                tf.constructType(type.getSuperClass());\n            }\n            return type;\n        }\n        return tf.constructType(clazz);\n    }\n\n    public static void main(String[] args) {\n        // Example usage\n        TypeFactory tf = objectMapper.getTypeFactory();\n        tf.constructType(Base.class); // Ensure base class is constructed first\n        JavaType subType = constructType(Sub.class);\n        System.out.println(subType);\n    }\n\n    static class Base {\n        public int base = 1;\n    }\n\n    static class Sub extends Base {\n        public int sub = 2;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

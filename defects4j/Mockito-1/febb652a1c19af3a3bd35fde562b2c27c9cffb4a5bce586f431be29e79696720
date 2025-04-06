@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation invocation) {\n        if (invocation.getMethod().isVarArgs()) {\n            Matcher varargMatcher = lastVarargMatcher();\n            if (varargMatcher instanceof CapturesArguments) {\n                ((CapturesArguments) varargMatcher).captureFrom(invocation.getVarargs());\n            }\n        } else {\n            for (int position = 0; position < matchers.size(); position++) {\n                Matcher m = matchers.get(position);\n                if (m instanceof CapturesArguments) {\n                    ((CapturesArguments) m).captureFrom(invocation.getArgument(position));\n                }\n            }\n        }\n    }\n\n    private Matcher lastVarargMatcher() {\n        for (int i = matchers.size() - 1; i >= 0; i--) {\n            Matcher matcher = matchers.get(i);\n            if (matcher instanceof VarargMatcher) {\n                return matcher;\n            }\n        }\n        throw new IllegalStateException(\"No vararg matcher found\");\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

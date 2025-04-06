@@ -1,0 +1,7 @@
+{
+    "generation": "public void writeValueAsString(Object value) throws JsonProcessingException {\n    if (value == null) {\n        return \"{}\";\n    }\n    ObjectMapper mapper = new ObjectMapper();\n    JavaType type = null;\n    if (value.getClass().getSuperclass() != null && value.getClass().getSuperclass() != Object.class) {\n        type = mapper.getTypeFactory().constructType(value.getClass().getSuperclass());\n    }\n    JavaType actualType = mapper.getTypeFactory().constructType(value.getClass());\n    if (type != null) {\n        List<JavaType> typeList = new ArrayList<>();\n        typeList.add(type);\n        typeList.add(actualType);\n        actualType = mapper.getTypeFactory().constructParametricType(Map.class, String.class, Object.class, typeList.toArray(new JavaType[0]));\n    }\n    return mapper.writerFor(actualType).writeValueAsString(value);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private Attribute parseAttribute() {\n        tq.consumeWhitespace();\n        String key = tq.consumeAttributeKey();\n        String value = \"\";\n        if (key.isEmpty()) {\n            return null; // Immediate return if key is empty\n        }\n        tq.consumeWhitespace();\n        if (tq.matchChomp(\"=\")) {\n            tq.consumeWhitespace();\n\n            if (tq.matchChomp(SQ)) {\n                value = tq.chompTo(SQ);\n                tq.consumeWhitespace();\n            } else if (tq.matchChomp(DQ)) {\n                value = tq.chompTo(DQ);\n                tq.consumeWhitespace();\n            } else {\n                StringBuilder valueAccum = new StringBuilder();\n                // Scan to end tag, space, or end of stream, handling invalid cases\n                while (!tq.matchesAny(\"<\", \"/>\", \">\") && !tq.matchesWhitespace() && !tq.isEmpty()) {\n                    if (tq.matchesAny(\"!\", \".\")) {\n                        // Skip invalid characters to prevent unexpected termination\n                        tq.consume();\n                        continue;\n                    }\n                    valueAccum.append(tq.consume());\n                }\n                value = valueAccum.toString();\n            }\n        }\n        return Attribute.createFromEncoded(key, value);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

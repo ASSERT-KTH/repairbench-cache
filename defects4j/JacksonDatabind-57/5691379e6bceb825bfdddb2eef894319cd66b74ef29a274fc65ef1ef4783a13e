@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            DataFormatMatchers.Match match = _dataFormatReaders.findFormat(src, offset, length);\n            if (match == null) {\n                throw new JsonParseException(\"Could not detect format for input\", null);\n            }\n            return _detectBindAndReadValues(match, false);\n        }\n        JsonParser parser = _parserFactory.createParser(src, offset, length);\n        parser = _considerFilter(parser, true);\n        return _bindAndReadValues(parser);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

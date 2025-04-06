@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // 29-Jan-2016, tatu: Handle FIELD_NAME by attempting to deserialize the next value\n        //    and if it fails due to unknown type ID, skip the children and return null.\n        if (p.currentToken() == JsonToken.FIELD_NAME) {\n            try {\n                return super.deserialize(p, ctxt);\n            } catch (UnrecognizedPropertyException e) {\n                p.skipChildren();\n                return null;\n            }\n        } else {\n            p.skipChildren();\n            return null;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n * positive.\n */\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                sampleSize);\n    }\n\n    // Use the class of the first singleton to create the array\n    // However, since T is a generic type and we don't have direct access to the actual type,\n    // we should use the class of the first element in the singletons list if it's not empty.\n    // If singletons is empty, we cannot determine the type, so we throw an exception.\n    if (singletons.isEmpty()) {\n        throw new IllegalStateException(\"Cannot determine the type of the distribution because the singletons list is empty.\");\n    }\n\n    final Class<?> clazz = singletons.get(0).getClass();\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(clazz, sampleSize);\n\n    for (int i = 0; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

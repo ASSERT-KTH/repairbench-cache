@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Resolve the referenced type within the enclosing scope.\n */\n@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // Introduce a visited set to detect and handle cyclic dependencies\n    Set<String> visited = new HashSet<>();\n    if (!resolveWithCycleCheck(t, enclosing, visited)) {\n        return this;\n    }\n\n    super.resolveInternal(t, enclosing);\n    finishPropertyContinuations();\n    return registry.isLastGeneration() ?\n            getReferencedType() : this;\n}\n\nprivate boolean resolveWithCycleCheck(ErrorReporter t, StaticScope<JSType> enclosing, Set<String> visited) {\n    if (visited.contains(referenceName)) {\n        handleTypeCycle(t);\n        return false;\n    }\n    visited.add(referenceName);\n\n    // First, try to resolve via registry\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (resolved) {\n        return true;\n    }\n\n    // If not resolved via registry, try via properties\n    resolveViaProperties(t, enclosing);\n    return isResolved();\n}\n\nprivate void handleTypeCycle(ErrorReporter t) {\n    t.report(JSError.make(referenceName, CYCLIC_INHERITANCE, referenceName));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

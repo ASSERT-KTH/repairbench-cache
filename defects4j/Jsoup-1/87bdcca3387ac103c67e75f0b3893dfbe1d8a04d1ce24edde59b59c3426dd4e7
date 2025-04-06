@@ -1,0 +1,7 @@
+{
+    "generation": "    // fixed to correctly move non-blank text nodes to the body, preserving order.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<>();\n        List<Node> preservedOrder = new ArrayList<>(element.childNodes); // Preserve original order\n        \n        for (Node node : preservedOrder) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank()) {\n                    toMove.add(tn);\n                    element.removeChild(tn); // Remove immediately after identifying\n                }\n            }\n        }\n\n        for (Node node : toMove) {\n            body().appendChild(node); // Append in original order\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

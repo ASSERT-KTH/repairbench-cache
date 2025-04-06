@@ -1,0 +1,7 @@
+{
+    "generation": "protected void deserialize(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    final String className = (String) in.readObject();\n    try {\n        valueType = Class.forName(className);\n    } catch (final ClassNotFoundException ex) {\n        throw new UnsupportedOperationException(\"Deserialization of MultiValueMap with non-standard value type is not supported\");\n    }\n    if (!Collection.class.isAssignableFrom(valueType)) {\n        throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

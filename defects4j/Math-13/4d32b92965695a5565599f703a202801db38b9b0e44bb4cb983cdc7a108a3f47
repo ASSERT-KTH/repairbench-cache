@@ -1,0 +1,7 @@
+{
+    "generation": "    private RealMatrix squareRoot(RealMatrix m) {\n        final EigenDecomposition dec = new EigenDecomposition(m, 1e-12); // Adjusted for numerical stability\n        RealMatrix sqrt = dec.getSquareRoot();\n        if (sqrt == null) { // Handle non-positive definite matrices\n            final SingularValueDecomposition svd = new SingularValueDecomposition(m);\n            sqrt = svd.getU().multiply(svd.getSingularValues().sqrt().diagonal()).multiply(svd.getVT());\n        }\n        return sqrt;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

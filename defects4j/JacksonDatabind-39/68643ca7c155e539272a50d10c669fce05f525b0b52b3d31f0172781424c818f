@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n        // Handle the case where the type is unknown\n        JsonToken t = p.currentToken();\n        if (t == JsonToken.START_OBJECT) {\n            // Read the type property\n            JsonToken nextToken = p.nextToken();\n            if (nextToken == JsonToken.FIELD_NAME && \"type\".equals(p.currentName())) {\n                p.nextToken(); // Move to the type value\n                String type = p.getText();\n                // If the type is unknown, skip the object\n                if (!isValidType(type)) {\n                    p.skipChildren();\n                    return null;\n                }\n            } else {\n                // If no type property is found, assume it's the default type\n                return super.deserialize(p, ctxt);\n            }\n        }\n        // If the type is known, proceed with deserialization\n        return super.deserialize(p, ctxt);\n    }\n\n    private boolean isValidType(String type) {\n        // Replace this with your actual type validation logic\n        // For example, check against a set of known types\n        Set<String> knownTypes = new HashSet<>(Arrays.asList(\"event\", \"known_type\"));\n        return knownTypes.contains(type);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

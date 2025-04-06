@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime, and that assignment is not in a loop.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop and not in a function that is called recursively.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isLoop) {\n      return false;\n    }\n    if (block.isFunction) {\n      // Check if the function is called recursively\n      if (isFunctionCalledRecursively(block.getFunction())) {\n        return false;\n      }\n      break;\n    }\n  }\n\n  return true;\n}\n\nprivate boolean isFunctionCalledRecursively(Function function) {\n  for (Reference ref : function.getReferences()) {\n    if (ref.getNode().getParent().isCall() && \n        ref.getNode().getParent().getFirstChild() == ref.getNode()) {\n      // Check if the call is within the same function\n      if (ref.getNode().getParent().getClosestFunction() == function) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

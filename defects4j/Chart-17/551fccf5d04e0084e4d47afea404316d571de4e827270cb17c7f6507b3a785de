@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns a clone of the time series.\n * <P>\n * Notes:\n * <ul>\n *   <li>no need to clone the domain and range descriptions, since String \n *     object is immutable;</li>\n *   <li>we pass over to the more general method clone(start, end).</li>\n * </ul>\n *\n * @return A clone of the time series.\n * \n * @throws CloneNotSupportedException not thrown by this class, but \n *         subclasses may differ.\n */\npublic Object clone() throws CloneNotSupportedException {\n    int itemCount = getItemCount();\n    // Handle the case where the time series is empty\n    if (itemCount == 0) {\n        return super.clone();\n    }\n    // Ensure start index is less than or equal to end index\n    int start = 0;\n    int end = itemCount - 1;\n    if (start > end) {\n        throw new IllegalArgumentException(\"Requires start <= end.\");\n    }\n    Object clone = createCopy(start, end);\n    return clone;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

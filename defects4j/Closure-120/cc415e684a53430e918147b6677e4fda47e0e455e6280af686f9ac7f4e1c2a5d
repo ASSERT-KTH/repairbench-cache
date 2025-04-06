@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime, considering reassignments in nested functions.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop and consider nested functions.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isFunction) {\n      // Check if the variable is reassigned in the nested function.\n      if (isReassignedInNestedFunction(block)) {\n        return false;\n      }\n    } else if (block.isLoop) {\n      return false;\n    }\n  }\n\n  return true;\n}\n\nprivate boolean isReassignedInNestedFunction(BasicBlock functionBlock) {\n  // Check if the variable is reassigned in the nested function body.\n  for (Reference reference : getReferences()) {\n    if (reference.getBasicBlock().getParent() == functionBlock && reference.isAssignment()) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

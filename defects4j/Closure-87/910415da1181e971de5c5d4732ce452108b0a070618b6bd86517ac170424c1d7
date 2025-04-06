@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, and not an event handler with an implicit 'this' parameter.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n        if (n.hasOneChild()) {\n            Node maybeExpr = n.getFirstChild();\n            if (NodeUtil.isExpressionNode(maybeExpr)) {\n                // Check if the expression is an event handler with an implicit 'this' parameter\n                if (maybeExpr.getType() == Token.CALL &&\n                    maybeExpr.getFirstChild().getType() == Token.GETPROP &&\n                    maybeExpr.getFirstChild().getString().equals(\"onchange\")) {\n                    Node obj = maybeExpr.getFirstChild().getFirstChild();\n                    if (obj.getType() == Token.NAME && obj.getString().equals(\"f\")) {\n                        // If it's an event handler with an implicit 'this' parameter, do not fold\n                        return false;\n                    }\n                }\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

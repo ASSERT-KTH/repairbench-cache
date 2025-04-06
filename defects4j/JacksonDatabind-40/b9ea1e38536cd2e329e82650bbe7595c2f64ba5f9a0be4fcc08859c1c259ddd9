@@ -1,0 +1,7 @@
+{
+    "generation": "protected Object _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    // Arrange\n    ObjectMapper mapper = new ObjectMapper();\n    SimpleModule module = new SimpleModule();\n    module.addDeserializer(type, new JsonDeserializer<Object>() {\n        @Override\n        public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n            String str = p.getValueAsString();\n            if (str.isEmpty()) {\n                return null;\n            }\n            return ctxt.readValue(p, type);\n        }\n    });\n    mapper.registerModule(module);\n\n    // Act\n    Object result = mapper.readValue(\"\\\"\\\"\", type);\n\n    // Assert\n    if (result != null) {\n        throw new AssertionFailedError(\"Should not have passed\");\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(ObjectType constraintObj) {\n    // We only want to match constraints on anonymous types.\n\n    // Handle the case where the constraint object is a record type.\n    if (constraintObj.isRecordType()) {\n        for (String prop : constraintObj.getOwnPropertyNames()) {\n            JSType propType = constraintObj.getPropertyType(prop);\n            if (!isPropertyTypeDeclared(prop)) {\n                JSType typeToInfer = propType;\n                if (propType.isUnionType() && propType.toMaybeUnionType().hasUndefinedType()) {\n                    // If the property type includes 'undefined', we should consider it optional.\n                    // Therefore, we should not infer a type if the property is not present.\n                    if (!hasProperty(prop)) {\n                        continue;\n                    }\n                } else if (!hasProperty(prop)) {\n                    // If the property is not present and it's not optional, infer the least supertype with VOID_TYPE.\n                    typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)\n                            .getLeastSupertype(propType);\n                }\n                defineInferredProperty(prop, typeToInfer, null);\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

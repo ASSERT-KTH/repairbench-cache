@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n        return super.getLeastSupertype(that);\n    }\n    RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n    Set<String> allProperties = new HashSet<>(properties.keySet());\n    allProperties.addAll(that.toMaybeRecordType().getProperties().keySet());\n    for (String property : allProperties) {\n        if (properties.containsKey(property) && that.toMaybeRecordType().hasProperty(property)) {\n            JSType thisType = getPropertyType(property);\n            JSType thatType = that.toMaybeRecordType().getPropertyType(property);\n            if (thisType.isEquivalentTo(thatType)) {\n                builder.addProperty(property, thisType, getPropertyNode(property));\n            } else {\n                builder.addProperty(property, registry.getNativeType(JSTypeNative.UNKNOWN_TYPE));\n            }\n        } else if (properties.containsKey(property)) {\n            builder.addProperty(property, getPropertyType(property), getPropertyNode(property));\n        } else if (that.toMaybeRecordType().hasProperty(property)) {\n            builder.addProperty(property, that.toMaybeRecordType().getPropertyType(property), that.toMaybeRecordType().getPropertyNode(property));\n        }\n    }\n    if (builder.getProperties().isEmpty()) {\n        return registry.getNativeType(JSTypeNative.UNKNOWN_TYPE);\n    }\n    return builder.build();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

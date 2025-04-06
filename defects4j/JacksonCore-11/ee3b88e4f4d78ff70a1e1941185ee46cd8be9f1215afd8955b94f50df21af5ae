@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _verifySharing()\n    {\n        if (_hashShared) {\n            int oldLen = _hashArea.length;\n            _hashArea = Arrays.copyOf(_hashArea, oldLen);\n            _names = Arrays.copyOf(_names, _names.length);\n            // Also, need to copy old entries to new locations\n            for (int i = 0; i < _count; ++i) {\n                int hash = _hashArea[i];\n                int ix = hash & (oldLen - 1);\n                int newIx = hash & (_hashArea.length - 1);\n                if (ix != newIx) {\n                    _hashArea[newIx] = _hashArea[i];\n                }\n            }\n            _hashShared = false;\n        }\n        if (_needRehash) {\n            rehash();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

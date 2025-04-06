@@ -1,0 +1,7 @@
+{
+    "generation": "private Integer getPivotRow(final int col, final SimplexTableau tableau) {\n    double minRatio = Double.POSITIVE_INFINITY;\n    Integer minRatioPos = null;\n    for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {\n        final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);\n        final double entry = tableau.getEntry(i, col);\n        if (MathUtils.compareTo(entry, 0, epsilon) > 0) { // Changed >= to >\n            final double ratio = rhs / entry;\n            if (ratio < minRatio) {\n                minRatio = ratio;\n                minRatioPos = i;\n            }\n        }\n    }\n    if (minRatioPos == null) {\n        // Handle the case where no valid pivot row is found\n        // This might involve throwing an exception or returning a default value\n        throw new RuntimeException(\"No valid pivot row found\");\n    }\n    return minRatioPos;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

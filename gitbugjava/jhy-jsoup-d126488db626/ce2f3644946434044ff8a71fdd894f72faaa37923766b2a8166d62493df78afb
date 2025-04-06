@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    boolean seenStructure = false;\n    while (!tq.isEmpty()) {\n        if (tq.matches(\"(\"))\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        else if (tq.matches(\"[\"))\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        else if (tq.matchesAny(Combinators)) {\n            if (seenStructure) // if we've already seen a structure, bail on the subquery; we're good\n                break;\n            else\n                tq.consume(); // combinator, but haven't seen anything to subquery with yet, so just consume and keep going\n        } else {\n            seenStructure = true;\n            sq.append(tq.consume());\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

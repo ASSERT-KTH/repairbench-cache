@@ -1,0 +1,7 @@
+{
+    "generation": "protected Object _deserializeWithNativeTypeId(JsonParser p, DeserializationContext ctxt,\n        Object typeId, JavaType baseType) throws IOException\n{\n    // First: optimizations for the case where we don't care about type id\n    if (typeId == null) { // ok iff no subtype handling needed\n        return _deserialize(p, ctxt);\n    }\n    // Then: could it be that we actually don't have subtypes?\n    if (baseType.getValueHandler() == null) {\n        return _deserialize(p, ctxt);\n    }\n\n    JavaType subType = findSubType(ctxt, typeId, baseType);\n    // One way to get null; error if so (or if just not visible)\n    if (subType == null) {\n        throw ctxt.mappingException(\"Can not find polymorphic type handler for type %s, problem: no registered subtype mapper\", typeId);\n    }\n\n    // Still need visible handler, although it is less common here\n    JsonDeserializer<Object> deser = _findNullifiedDeserializer(ctxt, subType, _valueDeserializer);\n    if (deser != null) {\n        return deser.deserialize(p, ctxt);\n    }\n    return _deserialize(p, ctxt, subType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method that can be called on backends that support passing opaque datatypes of\n     * non-JSON formats, such as raw binary content, or Base64 encoded String with\n     * optional {@link JsonToken#VALUE_EMBEDDED_OBJECT} token.\n     *\n     * @param object Content to write out; to handle binary, should be either\n     *   byte[], ByteBuffer or Base64Variant; null will produce\n     *   JsonToken#VALUE_NULL.\n     *\n     * @since 2.8\n     */\n    public void writeEmbeddedObject(Object object) throws IOException {\n        // 01-Sep-2016, tatu: As per [core#318], handle small number of cases\n        if (object == null) {\n            writeNull();\n            return;\n        }\n        if (object instanceof byte[]) {\n            writeBinary((byte[]) object);\n            return;\n        }\n        if (object instanceof ByteBuffer) {\n            writeBinary((ByteBuffer) object);\n            return;\n        }\n        if (object instanceof Base64Variant) {\n            writeString(((Base64Variant) object).getName());\n            return;\n        }\n        // Anything else?\n        throw new JsonGenerationException(\"No native support for writing embedded objects (\"\n                + object.getClass().getName() + \")\", this);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

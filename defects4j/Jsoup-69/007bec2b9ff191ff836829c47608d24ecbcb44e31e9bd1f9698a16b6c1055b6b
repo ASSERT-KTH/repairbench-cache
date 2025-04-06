@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n\n    for (Element el : elements) {\n        if (!el.tagName().equals(\"input\") || \n            (!el.hasAttr(\"name\") && !el.hasAttr(\"id\"))) continue; // skip elements without name or id\n\n        String name = el.attr(\"name\");\n        String id = el.id();\n        if (name.isEmpty() && id.isEmpty()) continue; // skip elements without name or id\n\n        String type = el.attr(\"type\");\n        if (type.equalsIgnoreCase(\"checkbox\") && !el.hasAttr(\"checked\")) continue; // skip unchecked checkboxes\n        if (type.equalsIgnoreCase(\"radio\") && !el.hasAttr(\"checked\")) continue; // skip unchecked radio buttons\n\n        String value = el.val();\n        if (name.isEmpty()) {\n            data.add(new Connection.KeyVal(id, value));\n        } else {\n            data.add(new Connection.KeyVal(name, value));\n        }\n    }\n\n    // Remove deleted elements from the form data\n    data.removeIf(keyVal -> {\n        if (keyVal.key().isEmpty()) {\n            return !doc().getElementById(keyVal.key()) != null;\n        } else {\n            return !doc().getElementById(keyVal.key()) != null && doc().getElementsByAttributeValue(\"name\", keyVal.key()).isEmpty();\n        }\n    });\n\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

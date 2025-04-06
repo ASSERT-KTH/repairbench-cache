@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n        return;\n    }\n\n    // Handle the case where the constraint object is a union type.\n    if (constraint.isUnionType()) {\n        for (JSType alternate : constraint.toMaybeUnionType().getAlternates()) {\n            if (alternate.isRecordType()) {\n                matchRecordTypeConstraint(alternate.toObjectType());\n            }\n        }\n        return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    if (constraint.isRecordType()) {\n        matchRecordTypeConstraint(constraint.toObjectType());\n    }\n}\n\nprivate void matchRecordTypeConstraint(ObjectType constraintType) {\n    for (String propName : constraintType.getOwnPropertyNames()) {\n        JSType propType = constraintType.getPropertyType(propName);\n        if (propType != null && propType.isUnionType() && \n            propType.toMaybeUnionType().getAlternates().contains(getNativeType(JSTypeNative.VOID_TYPE))) {\n            defineProperty(propName, propType, null);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

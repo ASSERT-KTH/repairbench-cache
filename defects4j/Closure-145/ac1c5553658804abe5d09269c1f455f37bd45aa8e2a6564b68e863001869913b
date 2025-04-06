@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels) and has a parent that requires block wrapping.\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    // For labels with block children, we need to ensure that a\n    // labeled FUNCTION or DO isn't generated when extraneous BLOCKs \n    // are skipped. \n    if (n.getType() != Token.FUNCTION && n.getType() != Token.DO) {\n        return false;\n    }\n    Node parent = n.getParent();\n    return parent != null && (parent.getType() == Token.IF || \n                              parent.getType() == Token.ELSE || \n                              parent.getType() == Token.WHILE || \n                              parent.getType() == Token.FOR || \n                              parent.getType() == Token.WITH || \n                              parent.getType() == Token.SCRIPT);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

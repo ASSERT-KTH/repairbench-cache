@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n    public List<Connection.KeyVal> formData() {\n        ArrayList<Connection.KeyVal> data = new ArrayList<>();\n\n        for (Element el: elements) {\n            if (!el.tagName().equals(\"input\")) continue; // only process inputs, ignore buttons etc.\n            if (!el.hasAttr(\"name\")) continue; // skip elements without a name\n            String name = el.attr(\"name\").trim();\n            String type = el.attr(\"type\");\n            if (type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\")) {\n                // only add checkbox or radio if checked. and don't add an \"off\" val for not checked boxes\n                if (el.hasAttr(\"checked\")) {\n                    data.add(new Connection.KeyVal(name, el.val()));\n                }\n            } else {\n                data.add(new Connection.KeyVal(name, el.val()));\n            }\n        }\n        return data;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

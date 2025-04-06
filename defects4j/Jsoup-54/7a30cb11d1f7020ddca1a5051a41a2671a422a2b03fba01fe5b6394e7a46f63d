@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (org.jsoup.nodes.Attribute attribute : source.attributes()) {\n        String key = attribute.getKey();\n        // Check if the attribute key is valid for XML\n        if (isValidXmlAttributeName(key)) {\n            el.setAttribute(key, attribute.getValue());\n        } else {\n            // If not valid, replace invalid characters with an empty string\n            String sanitizedKey = key.replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n            if (!sanitizedKey.isEmpty()) {\n                el.setAttribute(sanitizedKey, attribute.getValue());\n            }\n        }\n    }\n}\n\nprivate boolean isValidXmlAttributeName(String key) {\n    if (key == null || key.isEmpty()) {\n        return false;\n    }\n    // XML attribute names must start with a letter, underscore, or colon\n    if (!Character.isLetter(key.charAt(0)) && key.charAt(0) != '_' && key.charAt(0) != ':') {\n        return false;\n    }\n    // The rest of the characters can be letters, digits, hyphens, underscores, colons, or dots\n    for (int i = 1; i < key.length(); i++) {\n        char c = key.charAt(i);\n        if (!Character.isLetterOrDigit(c) && c != '-' && c != '_' && c != ':' && c != '.') {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

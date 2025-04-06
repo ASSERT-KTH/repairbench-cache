@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value = attr.getValue(); // Get the original attribute value, not the absolute URL\n    if (preserveRelativeLinks && !value.toLowerCase().startsWith(\"http\")) {\n        // If preserving relative links and the value is not an absolute HTTP URL, use the absolute URL\n        value = el.absUrl(attr.getKey());\n    }\n\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString().toLowerCase() + \":\";\n        if (value.toLowerCase().startsWith(prot)) {\n            if (!preserveRelativeLinks || value.toLowerCase().startsWith(\"http\")) {\n                // Only update the attribute if not preserving relative links or if it's an absolute HTTP URL\n                attr.setValue(value);\n            }\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

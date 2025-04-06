@@ -1,0 +1,7 @@
+{
+    "generation": "/** {@inheritDoc} */\npublic double density(final double[] vals) throws DimensionMismatchException {\n    final int dim = getDimension();\n    if (vals.length != dim) {\n        throw new DimensionMismatchException(vals.length, dim);\n    }\n\n    double exponentTerm = getExponentTerm(vals);\n    if (dim == 1) {\n        // Special case for univariate distribution to match NormalDistribution's density calculation\n        return FastMath.pow(2 * FastMath.PI * covarianceMatrixDeterminant, -0.5) *\n               FastMath.exp(-0.5 * exponentTerm);\n    } else {\n        return FastMath.pow(2 * FastMath.PI, -dim / 2) *\n               FastMath.pow(covarianceMatrixDeterminant, -0.5) *\n               FastMath.exp(-0.5 * exponentTerm);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

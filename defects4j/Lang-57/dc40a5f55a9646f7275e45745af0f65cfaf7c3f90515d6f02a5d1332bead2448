@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Checks if the locale specified is in the list of available locales.</p>\n *\n * @param locale the Locale object to check if it is available\n * @return true if the locale is a known locale\n */\npublic static boolean isAvailableLocale(Locale locale) {\n    if (cAvailableLocaleSet == null) {\n        initializeAvailableLocaleSet();\n    }\n    return cAvailableLocaleSet.contains(locale);\n}\n\n// Add this method to initialize the cAvailableLocaleSet\nprivate static synchronized void initializeAvailableLocaleSet() {\n    if (cAvailableLocaleSet == null) {\n        Locale[] availableLocales = Locale.getAvailableLocales();\n        Set<Locale> set = new HashSet<>();\n        for (Locale loc : availableLocales) {\n            set.add(loc);\n        }\n        cAvailableLocaleSet = Collections.unmodifiableSet(set);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

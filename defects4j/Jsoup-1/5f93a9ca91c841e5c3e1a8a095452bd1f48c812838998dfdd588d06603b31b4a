@@ -1,0 +1,7 @@
+{
+    "generation": "    // Fixed version of the normalise function\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node : element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Move nodes to the beginning of the body to maintain correct order\n        for (Node node : toMove) {\n            element.removeChild(node);\n        }\n\n        // Prepend the moved nodes to the body in the correct order\n        for (int i = toMove.size() - 1; i >= 0; i--) {\n            body().prependChild(toMove.get(i));\n        }\n\n        // Add a space between each text node if necessary\n        Node lastNode = null;\n        for (Node node : body().childNodes) {\n            if (node instanceof TextNode && lastNode instanceof TextNode) {\n                body().appendChild(new TextNode(\" \", \"\"));\n            }\n            lastNode = node;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

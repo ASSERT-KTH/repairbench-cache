@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Checks if the locale specified is in the list of available locales.</p>\n *\n * @param locale the Locale object to check if it is available\n * @return true if the locale is a known locale\n */\npublic static boolean isAvailableLocale(Locale locale) {\n    if (locale == null) {\n        return false;\n    }\n    // Workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4210525\n    if (locale.getVariant() != null && locale.getVariant().length() > 0 &&\n        !locale.getVariant().equals(locale.getVariant().toUpperCase())) {\n        return cAvailableLocaleSet.contains(new Locale(locale.getLanguage(), locale.getCountry(), locale.getVariant().toUpperCase()));\n    }\n    return cAvailableLocaleSet.contains(locale);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private final class TrieEntrySet extends AbstractEntrySetDecorator<Map.Entry<K, V>> {\n    // ... existing methods ...\n\n    @Override\n    public void clear() {\n        // Fix: Clear the internal map instead of throwing an UnsupportedOperationException\n        decorated().clear();\n    }\n}\n\nprivate final class TriePrefixMap extends TrieEntrySet implements SortedMap<K, V> {\n    // ... existing methods ...\n\n    @Override\n    public void clear() {\n        // Fix: Clear the internal map instead of throwing a NullPointerException\n        super.clear();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

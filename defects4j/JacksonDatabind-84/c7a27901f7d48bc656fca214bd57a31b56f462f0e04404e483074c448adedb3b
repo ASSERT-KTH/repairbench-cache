@@ -1,0 +1,7 @@
+{
+    "generation": "public class Solution {\n    public static class Base {\n        public int base = 1;\n    }\n\n    public static class Sub extends Base {\n        public int sub = 2;\n    }\n\n    public static void main(String[] args) throws IOException {\n        testBasePropertiesIncludedWhenSerializingSubWhenSubTypeLoadedAfterBaseType();\n    }\n\n    public static void testBasePropertiesIncludedWhenSerializingSubWhenSubTypeLoadedAfterBaseType() throws IOException {\n        ObjectMapper mapper = new ObjectMapper();\n        TypeFactory tf = mapper.getTypeFactory();\n        tf.constructType(Base.class);\n        tf.constructType(Sub.class);\n        Sub sub = new Sub();\n        String serialized = mapper.writeValueAsString(sub);\n        assertEquals(\"{\\\"base\\\":1,\\\"sub\\\":2}\", serialized);\n    }\n\n    private static void assertEquals(String expected, String actual) {\n        if (!expected.equals(actual)) {\n            throw new junit.framework.ComparisonFailure(\"expected:<\" + expected + \"> but was:<\" + actual + \">\", expected, actual);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

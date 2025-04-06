@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType getSuperClass() {\n    if (_superClass == null) {\n        _superClass = _findSuperClass();\n    }\n    return _superClass;\n}\n\nprivate JavaType _findSuperClass() {\n    // If we have a raw class, use that to resolve the super class\n    if (_class != null) {\n        Class<?> superClass = _class.getSuperclass();\n        if (superClass != null) {\n            return _typeFactory.constructType(superClass);\n        }\n    }\n    // If we have a super interface, use that to resolve the super class\n    if (_superInterface != null) {\n        JavaType superType = _superInterface.getSuperClass();\n        if (superType != null) {\n            return superType;\n        }\n    }\n    // If we have a super type, use that to resolve the super class\n    if (_superType != null) {\n        return _superType.getSuperClass();\n    }\n    // If all else fails, return null\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void inlineAliases(GlobalNamespace namespace) {\n    // Invariant: All the names in the worklist meet condition (a).\n    Deque<Name> workList = new ArrayDeque<Name>(namespace.getNameForest());\n    while (!workList.isEmpty()) {\n      Name name = workList.pop();\n\n      // Don't attempt to inline a getter or setter property as a variable.\n      if (name.type == Name.Type.GET || name.type == Name.Type.SET) {\n        continue;\n      }\n\n      // Check if the name is eligible for inlining based on conditions (a), (b), and (c).\n      if (name.globalSets == 1 && name.localSets == 0 && name.aliasingGets > 0) {\n        // Condition (b) is met. Find all local aliases and try to inline them.\n        List<Ref> refs = Lists.newArrayList(name.getRefs());\n        for (Ref ref : refs) {\n          if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {\n            // Condition (c) is met. Attempt to inline the alias.\n            if (inlineAliasIfPossible(ref, namespace)) {\n              name.removeRef(ref);\n            }\n          }\n        }\n      }\n\n      // If the name is an object literal or function and has no aliases left,\n      // add its children to the worklist if they meet condition (a).\n      if ((name.type == Name.Type.OBJECTLIT || name.type == Name.Type.FUNCTION) &&\n          name.aliasingGets == 0 && name.props != null) {\n        workList.addAll(name.props);\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

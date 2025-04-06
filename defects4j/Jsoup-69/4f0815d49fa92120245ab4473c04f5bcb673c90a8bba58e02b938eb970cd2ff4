@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n\n    // Iterate through the form elements and collect their data\n    for (Element el : elements()) {\n        if (!el.tagName().equals(\"input\")) continue; // Only consider input elements\n        if (!el.hasAttr(\"name\")) continue; // Ignore elements without a name attribute\n\n        String type = el.attr(\"type\");\n        if (type.equalsIgnoreCase(\"checkbox\") || type.equalsIgnoreCase(\"radio\")) {\n            if (el.hasAttr(\"checked\")) {\n                String name = el.attr(\"name\").trim();\n                String value = el.hasAttr(\"value\") ? el.attr(\"value\").trim() : \"\";\n                data.add(new Connection.KeyVal(name, value));\n            }\n        } else {\n            String name = el.attr(\"name\").trim();\n            String value = el.hasAttr(\"value\") ? el.attr(\"value\").trim() : \"\";\n            data.add(new Connection.KeyVal(name, value));\n        }\n    }\n\n    // Filter out removed elements from the data\n    Iterator<Connection.KeyVal> iterator = data.iterator();\n    while (iterator.hasNext()) {\n        Connection.KeyVal keyVal = iterator.next();\n        Element el = selectFirst(String.format(\"input[name=%s]\", keyVal.key()));\n        if (el == null || !el.is(\"input\")) {\n            iterator.remove();\n        }\n    }\n\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

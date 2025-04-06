@@ -1,0 +1,7 @@
+{
+    "generation": "private Integer getBasicRow(final int col) {\n    Integer row = null;\n    for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {\n        if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {\n            if (row == null) {\n                row = i;\n            } else {\n                // If another non-zero entry is found in the same column,\n                // the column is not basic. But we should continue searching\n                // in case the column has only one non-zero entry.\n                // However, the correct fix is to return the first non-zero row\n                // and ignore subsequent non-zero entries, as the original \n                // implementation was overly strict.\n                // The issue was that it returned null as soon as it found a \n                // second non-zero entry, which was incorrect.\n                // The correct approach is to return the first non-zero row,\n                // as that indicates the column is basic in that row.\n            }\n        }\n    }\n    return row;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

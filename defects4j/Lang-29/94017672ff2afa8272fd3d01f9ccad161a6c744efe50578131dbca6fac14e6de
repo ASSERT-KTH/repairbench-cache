@@ -1,0 +1,7 @@
+{
+    "generation": "    static int toJavaVersionInt(String version) {\n        if (version == null || version.isEmpty()) {\n            return 0;\n        }\n        String[] parts = version.split(\"\\\\.\");\n        int major = 0, minor = 0                , micro = 0               ;\n        try {\n            if (parts.length > 0 && parts[0].startsWith(\"1.\")) {\n                major = Integer.parseInt(parts[0].substring(2));\n            }\n            if (parts.length > 1) {\n                minor = Integer.parseInt(parts[1]);\n            }\n            if (parts.length > 2) {\n                micro = Integer.parseInt(parts[2].split(\"_\")[0].split(\" \")[0]);\n            } else if (parts.length == 1 && parts[                0].contains(\"_\")) {\n                String[] subParts = parts[0].split(\"_\");\n                minor = Integer.parseInt(subParts[0].substring(2));\n                micro = Integer.parseInt(subParts[1]);\n            }\n        } catch (NumberFormatException e) {\n            return 0;\n        }\n        return major * 100 + minor * 10 + micro;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    ArrayList<Connection.KeyVal> data = new ArrayList<>();\n\n    for (Element el : elements()) {\n        if (!el.tag().isFormListed()) continue; // contents not submittable. e.g. div\n\n        if (el.hasAttr(\"disabled\")) continue; // skip disabled elements\n\n        String name = el.attr(\"name\");\n        // triggered on ., not []: <input name>. and <input name[]>\n        // [] produces an empty key (\"\") if no value attr (e.g. <select multiple name=[] ...>\n        if (name.length() == 0 && !el.tagName().equals(\"select\")) continue;\n\n        String type = el.tag().normalName();\n        if (type.equals(\"select\")) {\n            processSelect(el, data);\n        } else if (type.equals(\"textarea\")) {\n            processTextarea(el, data);\n        } else { // inputs etc\n            processInput(el, data);\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

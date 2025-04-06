@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processFunctionNode(FunctionNode functionNode) {\n    Name name = functionNode.getFunctionName();\n    Boolean isUnnamedFunction = false;\n    if (name == null) {\n        name = new Name();\n        name.setIdentifier(\"\");\n        isUnnamedFunction = true;\n    }\n    Node node = newNode(Token.FUNCTION);\n    Node newName = transform(name);\n    if (isUnnamedFunction) {\n        // Unnamed functions should not have a name node, but the paren position should be correct.\n        node.addChildToBack(newNode(Token.EMPTY, \"\"));\n        int lpColumn = functionNode.getAbsolutePosition() + functionNode.getLp();\n        node.getLastChild().setCharno(position2charno(lpColumn));\n        node.getLastChild().setLineno(functionNode.getLineno());\n    } else {\n        node.addChildToBack(newName);\n    }\n\n    Node lp = newNode(Token.LP);\n    // The left paren's position is based on the function's lp position.\n    int lpColumn = functionNode.getAbsolutePosition() + functionNode.getLp();\n    lp.setLineno(functionNode.getLineno());\n    lp.setCharno(position2charno(lpColumn));\n    for (AstNode param : functionNode.getParams()) {\n        lp.addChildToBack(transform(param));\n    }\n    node.addChildToBack(lp);\n\n    Node bodyNode = transform(functionNode.getBody());\n    parseDirectives(bodyNode);\n    node.addChildToBack(bodyNode);\n    return node;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

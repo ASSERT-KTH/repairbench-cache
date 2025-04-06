@@ -1,0 +1,7 @@
+{
+    "generation": "public void _testEmptyToNullCoercion(Class<?> type, Object defaultValue) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);\n\n    // Test for JSON string containing empty String\n    String json = \"\\\"\\\"\";\n    Object result = mapper.readValue(json, type);\n    if (defaultValue == null) {\n        assertNull(result);\n    } else {\n        assertEquals(defaultValue, result);\n    }\n\n    // Test for JSON string containing whitespace\n    json = \"\\\"  \\\"\";\n    result = mapper.readValue(json, type);\n    if (defaultValue == null) {\n        assertNull(result);\n    } else {\n        assertEquals(defaultValue, result);\n    }\n\n    // Test for JSON null\n    json = \"null\";\n    result = mapper.readValue(json, type);\n    assertNull(result);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

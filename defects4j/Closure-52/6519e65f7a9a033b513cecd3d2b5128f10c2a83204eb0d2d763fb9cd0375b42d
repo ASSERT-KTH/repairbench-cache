@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    if (len == 0) return false;\n    \n    // Check for leading zeros in octal literals\n    if (len > 1 && s.charAt(0) == '0' && s.charAt(1) != '.') {\n        for (int i = 1; i < len; i++) {\n            char c = s.charAt(i);\n            if (c < '0' || c > '7') {\n                return false;\n            }\n        }\n        return true;\n    }\n    \n    // Check for hexadecimal literals\n    if (len > 2 && s.startsWith(\"0x\")) {\n        for (int i = 2; i < len; i++) {\n            char c = s.charAt(i);\n            if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {\n                return false;\n            }\n        }\n        return true;\n    }\n    \n    // Check for floating point numbers\n    if (s.indexOf('.') != -1) {\n        String[] parts = s.split(\"\\\\.\");\n        if (parts.length != 2) return false;\n        return isSimpleNumber(parts[0]) && isSimpleNumber(parts[1]);\n    }\n    \n    // Check for simple integers\n    for (int index = 0; index < len; index++) {\n      char c = s.charAt(index);\n      if (c < '0' || c > '9') {\n        return false;\n      }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

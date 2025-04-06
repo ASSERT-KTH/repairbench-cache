@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Method called to check if the default type handler should be\n * used for given type.\n * Note: \"natural types\" (String, Boolean, Integer, Double) will never\n * use typing; that is both due to them being concrete and final,\n * and since actual serializers and deserializers will also ignore any\n * attempts to enforce typing.\n */\npublic boolean useForType(JavaType t)\n{\n    // First, handle array types by getting to the content type\n    while (t.isArrayType()) {\n        t = t.getContentType();\n    }\n\n    switch (_appliesFor) {\n        case NON_CONCRETE_AND_ARRAYS:\n            // For NON_CONCRETE_AND_ARRAYS, we already handled arrays, now check for non-concrete types\n            return !t.isConcrete() && !TreeNode.class.isAssignableFrom(t.getRawClass());\n\n        case OBJECT_AND_NON_CONCRETE:\n            // For OBJECT_AND_NON_CONCRETE, check if it's Object.class or non-concrete\n            return (t.getRawClass() == Object.class) || \n                   (!t.isConcrete() && !TreeNode.class.isAssignableFrom(t.getRawClass()));\n\n        case NON_FINAL:\n            // For NON_FINAL, check if it's not final and not a TreeNode\n            return !t.isFinal() && !TreeNode.class.isAssignableFrom(t.getRawClass());\n\n        default:\n            // For JAVA_LANG_OBJECT, check if it's exactly Object.class\n            return t.getRawClass() == Object.class;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

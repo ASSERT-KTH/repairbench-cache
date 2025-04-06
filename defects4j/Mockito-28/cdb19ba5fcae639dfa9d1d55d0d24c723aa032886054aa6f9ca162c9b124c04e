@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    List<MockCandidateFilter.MockCandidate> mockCandidates = new ArrayList<>();\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        MockCandidateFilter.MockCandidate candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (candidate != null) {\n            mockCandidates.add(candidate);\n        }\n    }\n    // Inject the best matching candidate first\n    mockCandidates.stream()\n            .sorted((c1, c2) -> {\n                Class<?> type1 = c1.getField().getType();\n                Class<?> type2 = c2.getField().getType();\n                if (type1.equals(type2)) {\n                    return 0;\n                } else if (type1.isAssignableFrom(type2)) {\n                    return 1;\n                } else if (type2.isAssignableFrom(type1)) {\n                    return -1;\n                } else {\n                    return 0;\n                }\n            })\n            .findFirst()\n            .ifPresent(MockCandidateFilter.MockCandidate::thenInject);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n    List<MockCandidateFilter.MockCandidate> candidates = new ArrayList<>();\n    \n    for (Field field : fields) {\n        MockCandidateFilter.MockCandidate candidate = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (candidate != null) {\n            candidates.add(candidate);\n        }\n    }\n    \n    // Sort candidates by type match priority (exact match first, then ancestors)\n    candidates.sort((c1, c2) -> {\n        Class<?> type1 = c1.getField().getType();\n        Class<?> type2 = c2.getField().getType();\n        \n        if (type1.equals(type2)) {\n            return 0;\n        } else if (type1.isAssignableFrom(type2)) {\n            return -1; // type1 is a parent of type2, so it has higher priority\n        } else if (type2.isAssignableFrom(type1)) {\n            return 1; // type2 is a parent of type1, so it has higher priority\n        } else {\n            return 0; // unrelated types, keep original order\n        }\n    });\n    \n    // Inject only the best matching candidate\n    if (!candidates.isEmpty()) {\n        candidates.get(0).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

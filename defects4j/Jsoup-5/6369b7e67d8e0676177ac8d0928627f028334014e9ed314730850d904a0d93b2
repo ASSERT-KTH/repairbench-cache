@@ -1,0 +1,7 @@
+{
+    "generation": "private Attribute parseAttribute() {\n    tq.consumeWhitespace();\n    String key = tq.consumeAttributeKey();\n    if (key.length() == 0) {\n        tq.consume(); // skip empty key\n        return null;\n    }\n    String value = \"\";\n    tq.consumeWhitespace();\n    if (tq.matchChomp(\"=\")) {\n        tq.consumeWhitespace();\n        if (tq.matchesAny(SQ, DQ)) {\n            char quote = tq.consume();\n            value = tq.chompTo(quote);\n            if (tq.matches(quote)) {\n                tq.consume(); // consume closing quote\n            }\n        } else {\n            StringBuilder valueAccum = new StringBuilder();\n            while (!tq.matchesAny(\"<\", \"/>\", \">\", \"=\") && !tq.matchesWhitespace() && !tq.isEmpty()) {\n                valueAccum.append(tq.consume());\n            }\n            value = valueAccum.toString();\n        }\n        tq.consumeWhitespace();\n    }\n    return Attribute.createFromEncoded(key, value);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

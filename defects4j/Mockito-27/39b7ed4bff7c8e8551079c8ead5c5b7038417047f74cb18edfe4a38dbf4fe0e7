@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> void resetMock(T mock) {\n    MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n    MockHandler<T> newMockHandler = new MockHandler<T>(oldMockHandler);\n    MockSettingsImpl oldSettings = (MockSettingsImpl) oldMockHandler.getMockSettings();\n    MockSettingsImpl newSettings = new MockSettingsImpl();\n    newSettings.setDefaultAnswer(oldSettings.getDefaultAnswer());\n    newSettings.setInvocationListeners(oldSettings.getInvocationListeners());\n    MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, newSettings);\n    ((Factory) mock).setCallback(0, newFilter);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

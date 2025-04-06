@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            JsonToken currentToken = p.getCurrentToken();\n            if (currentToken == JsonToken.START_OBJECT) {\n                p.nextToken();\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // Handle the case where the parser is already at END_OBJECT due to an empty object\n            if (currentToken == JsonToken.END_OBJECT) {\n                return ctxt.getNodeFactory().objectNode();\n            }\n            // Handle FIELD_NAME token, which indicates the start of a non-empty object\n            if (currentToken == JsonToken.FIELD_NAME) {\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // If none of the above conditions are met, throw a mapping exception\n            throw ctxt.mappingException(ObjectNode.class);\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

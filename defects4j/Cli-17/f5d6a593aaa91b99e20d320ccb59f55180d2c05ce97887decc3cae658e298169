@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void burstToken(String token, boolean stopAtNonOption)\n    {\n        StringBuilder sb = new StringBuilder();\n        \n        for (int i = 1; i < token.length(); i++)\n        {\n            String ch = String.valueOf(token.charAt(i));\n\n            if (options.hasOption(ch))\n            {\n                if (sb.length() > 0)\n                {\n                    tokens.add(sb.toString());\n                    sb = new StringBuilder();\n                }\n                \n                tokens.add(\"-\" + ch);\n                currentOption = options.getOption(ch);\n\n                if (currentOption.hasArg() && (token.length() != (i + 1)))\n                {\n                    tokens.add(token.substring(i + 1));\n\n                    break;\n                }\n            }\n            else if (stopAtNonOption)\n            {\n                process(sb.toString());\n                process(\"-\" + ch);\n                process(token.substring(i + 1));\n                break;\n            }\n            else\n            {\n                sb.append(\"-\" + ch);\n                if (i + 1 == token.length())\n                {\n                    tokens.add(sb.toString());\n                }\n            }\n        }\n        \n        if (sb.length() > 0)\n        {\n            tokens.add(sb.toString());\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

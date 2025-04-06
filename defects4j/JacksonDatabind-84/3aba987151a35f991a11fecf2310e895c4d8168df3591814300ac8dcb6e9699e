@@ -1,0 +1,7 @@
+{
+    "generation": "import com.fasterxml.jackson.annotation.JsonTypeInfo;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;\nimport com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;\n\n@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"@type\")\nclass Base {\n    public int base = 1;\n}\n\nclass Sub extends Base {\n    public int sub = 2;\n}\n\npublic class FixedCode {\n    public static void main(String[] args) throws Exception {\n        ObjectMapper objectMapper = new ObjectMapper();\n        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder().allowIfSubType(Base.class).build();\n        objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);\n\n        Sub sub = new Sub();\n        String serialized = objectMapper.writeValueAsString(sub);\n        System.out.println(serialized); // Should print {\"@type\":\"Sub\",\"base\":1,\"sub\":2}\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

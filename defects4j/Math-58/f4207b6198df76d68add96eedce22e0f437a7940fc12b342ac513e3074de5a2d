@@ -1,0 +1,7 @@
+{
+    "generation": "    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        Gaussian.Parametric parametric = new Gaussian.Parametric() {\n            @Override\n            public double value(double x, double... param) {\n                // Ensure sigma is strictly positive\n                double sigma = Math.max(param[2], 1e-10);\n                return super.value(x, param[0], param[1], sigma);\n            }\n        };\n        return fit(parametric, guess);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

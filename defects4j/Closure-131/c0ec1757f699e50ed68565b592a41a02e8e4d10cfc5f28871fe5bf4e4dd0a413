@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.regex.Pattern;\n\npublic static boolean isJSIdentifier(String s) {\n    int length = s.length();\n\n    if (length == 0) {\n        return false;\n    }\n\n    // JavaScript identifier start character\n    if (!Character.isLetter(s.charAt(0)) && s.charAt(0) != '$' && s.charAt(0) != '_') {\n        return false;\n    }\n\n    // JavaScript identifier part character\n    for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (!Character.isLetterOrDigit(c) && c != '$' && c != '_' && c != '\\u200C' && c != '\\u200D') {\n            return false;\n        }\n    }\n\n    // Additional check for Unicode characters that are not allowed in JavaScript identifiers\n    String unicodePattern = \"[^\\\\p{L}\\\\p{Nl}\\\\p{Nd}\\\\p{Pc}\\\\p{Cf}]\";\n    if (Pattern.compile(unicodePattern).matcher(s).find()) {\n        return false;\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

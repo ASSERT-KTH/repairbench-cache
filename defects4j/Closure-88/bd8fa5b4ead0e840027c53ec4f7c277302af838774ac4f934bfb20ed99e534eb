@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n   * Give an expression and a variable. It returns READ, if the first\n   * reference of that variable is a read. It returns KILL, if the first\n   * reference of that variable is an assignment. It returns MAY_LIVE otherwise.\n   */\n  private VariableLiveness isVariableReadBeforeKill(\n      Node n, String variable) {\n    if (n.isAssign() && n.getFirstChild().isName() &&\n        variable.equals(n.getFirstChild().getString())) {\n      return VariableLiveness.KILL;\n    }\n\n    for (Node child = n.getFirstChild();\n        child != null; child = child.getNext()) {\n      if (ControlFlowGraph.isEnteringNewCfgNode(child)) {\n        continue; // Not a FUNCTION\n      }\n      VariableLiveness state = isVariableReadBeforeKill(child, variable);\n      if (state != VariableLiveness.MAYBE_LIVE) {\n        if (state == VariableLiveness.KILL && n.isName() &&\n            variable.equals(n.getString()) &&\n            NodeUtil.isLhs(n, n.getParent())) {\n          // If the first reference is a KILL in the RHS, but the current node\n          // is the LHS of an assignment, then the first reference is actually\n          // a read.\n          continue;\n        }\n        return state;\n      }\n    }\n\n    if (n.isName() && variable.equals(n.getString()) &&\n        !NodeUtil.isLhs(n, n.getParent())) {\n      return VariableLiveness.READ;\n    }\n\n    return VariableLiveness.MAYBE_LIVE;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

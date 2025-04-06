@@ -1,0 +1,7 @@
+{
+    "generation": "protected void doReadObject(final java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    final int mapType = in.readInt();\n    switch (mapType) {\n        case 0:\n            map = new java.util.HashMap<>();\n            break;\n        case 1:\n            map = new java.util.IdentityHashMap<>();\n            break;\n        case 2:\n            map = new java.util.TreeMap<>();\n            break;\n        case 3:\n            map = new java.util.LinkedHashMap<>();\n            break;\n        default:\n            throw new StreamCorruptedException(\"Unknown map type: \" + mapType);\n    }\n    final Class<?> clazz = (Class<?>) in.readObject();\n    if (clazz == null || !Collection.class.isAssignableFrom(clazz)) {\n        throw new UnsupportedOperationException(\"Unsafe collection class: \" + clazz);\n    }\n    collectionClass = clazz;\n    for (final Map.Entry<?, ?> entry : (Set<? extends Map.Entry<?, ?>>) map.entrySet()) {\n        final Collection<Object> coll = (Collection<Object>) entry.getValue();\n        if (!clazz.isInstance(coll)) {\n            throw new UnsupportedOperationException(\"Collection class mismatch: expected \" + clazz + \", got \" + coll.getClass());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

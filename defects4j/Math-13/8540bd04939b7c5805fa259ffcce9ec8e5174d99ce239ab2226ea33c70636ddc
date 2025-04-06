@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix using a more stable approach to avoid OutOfMemoryError.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        final SingularValueDecomposition dec = new SingularValueDecomposition(m);\n        final RealMatrix singularValues = dec.getD();\n        final RealMatrix sqrtSingularValues = MatrixUtils.createRealDiagonalMatrix(\n            Arrays.stream(singularValues.getColumn(0)).map(Math::sqrt).toArray());\n        return dec.getU().multiply(sqrtSingularValues).multiply(dec.getU().transpose());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

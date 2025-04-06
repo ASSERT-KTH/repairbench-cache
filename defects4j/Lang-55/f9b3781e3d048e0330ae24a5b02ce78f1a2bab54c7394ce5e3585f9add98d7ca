@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Stop the stopwatch.</p>\n * \n * <p>This method ends a new timing session, allowing the time to be retrieved.</p>\n *\n * @throws IllegalStateException if the StopWatch is not running.\n */\npublic void stop() {\n    if (this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {\n        throw new IllegalStateException(\"Stopwatch is not running.\");\n    }\n    \n    if (this.runningState == STATE_SUSPENDED) {\n        // If suspended, just stop without adding any time\n        this.runningState = STATE_STOPPED;\n    } else {\n        // If running, add the time since the last start or resume\n        long currentTime = System.currentTimeMillis();\n        this.totalTime += currentTime - this.startTime;\n        this.runningState = STATE_STOPPED;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

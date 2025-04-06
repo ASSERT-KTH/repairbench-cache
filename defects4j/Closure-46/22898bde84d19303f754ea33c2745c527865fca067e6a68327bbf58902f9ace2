@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n  \n  RecordType otherRecord = that.toMaybeRecordType();\n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  \n  // Add properties common to both records with equivalent types\n  for (String property : properties.keySet()) {\n    if (otherRecord.hasProperty(property) &&\n        otherRecord.getPropertyType(property).isEquivalentTo(getPropertyType(property))) {\n      builder.addProperty(property, getPropertyType(property), getPropertyNode(property));\n    }\n  }\n  \n  // Add unique properties from both records\n  for (String property : properties.keySet()) {\n    if (!otherRecord.hasProperty(property)) {\n      builder.addProperty(property, getPropertyType(property), getPropertyNode(property));\n    }\n  }\n  \n  for (String property : otherRecord.getProperties().keySet()) {\n    if (!properties.containsKey(property)) {\n      builder.addProperty(property, otherRecord.getPropertyType(property), otherRecord.getPropertyNode(property));\n    }\n  }\n  \n  // If no common properties, return union of both records\n  if (builder.getProperties().isEmpty()) {\n    return registry.createUnionType(this, that);\n  }\n  \n  return builder.build();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

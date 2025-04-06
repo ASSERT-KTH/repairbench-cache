@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // 29-Jan-2016, tatu: Simple skipping for all other tokens, but FIELD_NAME bit\n        //    special unfortunately\n        if (p.currentToken() == JsonToken.FIELD_NAME) {\n            // Handle the case where the current token is a field name\n            String fieldName = p.currentName();\n            if (!ctxt.getConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)) {\n                // If FAIL_ON_UNKNOWN_PROPERTIES is disabled, skip the field\n                p.nextToken();\n                p.skipChildren();\n            } else {\n                // Otherwise, throw an exception for unrecognized fields\n                throw ctxt.unknownFieldException(ctxt.getCurrentValue(), fieldName);\n            }\n        } else {\n            // For other tokens, simply skip the children\n            p.skipChildren();\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

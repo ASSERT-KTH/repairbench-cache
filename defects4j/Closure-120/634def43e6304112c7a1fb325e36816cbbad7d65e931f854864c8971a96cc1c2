@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop and the variable is not reassigned in any other function or scope.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isLoop) {\n      return false;\n    }\n    if (block.isFunction) {\n      // Check if the variable is reassigned within the function.\n      if (isVariableReassignedInFunction(block, ref.getVariable())) {\n        return false;\n      }\n      break;\n    }\n  }\n\n  return true;\n}\n\nprivate boolean isVariableReassignedInFunction(BasicBlock functionBlock, String variableName) {\n  for (Reference reference : functionBlock.getReferences()) {\n    if (reference.getVariable().equals(variableName) && reference.isAssignment()) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

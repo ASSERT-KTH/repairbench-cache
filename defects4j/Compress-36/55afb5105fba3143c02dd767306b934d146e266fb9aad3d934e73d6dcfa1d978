@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty()) {\n        // If there are no deferred block streams, we should not throw an exception\n        // as it might be a valid scenario where the entry size is 0.\n        return null;\n    }\n    \n    while (deferredBlockStreams.size() > 1) {\n        // In solid compression mode we need to decompress all leading folder'\n        // streams to get access to an entry. We defer this until really needed\n        // so that entire blocks can be skipped without wasting time for decompression.\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

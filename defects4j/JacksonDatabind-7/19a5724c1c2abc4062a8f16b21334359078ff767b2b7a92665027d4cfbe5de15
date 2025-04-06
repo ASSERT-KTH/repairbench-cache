@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Helper method used by standard deserializer.\n     * \n     * @since 2.3\n     */\n    public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n    {\n        // Check if the current token is FIELD_NAME, indicating a missing START_OBJECT\n        if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n            // Assume START_OBJECT exists and rewind to the beginning of the stream\n            jp.nextToken(); // Move to the value associated with the field name\n            this.writeStartObject(); // Manually add START_OBJECT to the buffer\n            this.writeField(jp.getCurrentName(), jp); // Write the field name and value\n            // Continue parsing the rest of the structure\n            while (jp.nextToken() != JsonToken.END_OBJECT) {\n                if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n                    this.writeField(jp.getCurrentName(), jp);\n                }\n            }\n            this.writeEndObject(); // Manually add END_OBJECT to the buffer\n        } else {\n            // Normal case: copy the current structure as is\n            copyCurrentStructure(jp);\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
