@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // This is \u0989\u09a6\u09be\u09b0 unexpected character after /. It should be treated as the start of an attribute.\n                    // Emit a parse error, and reconsume the character into the BeforeAttributeName state.\n                    t.error(this);\n                    t.reconsume = true; // Reconsume the character (which is the start of the attribute name)\n                    t.transition(BeforeAttributeName);\n                    break;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

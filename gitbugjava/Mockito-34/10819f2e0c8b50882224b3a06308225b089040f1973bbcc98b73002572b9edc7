@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        Object[] arguments = i.getArguments();\n        int argc = arguments.length;\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Check if there is an argument corresponding to the current matcher index\n                if (k < argc) {\n                    ((CapturesArguments) m).captureFrom(arguments[k]);\n                }\n                // If k >= argc, it means there are more matchers than actual arguments.\n                // This can happen with varargs matchers when the actual invocation has zero\n                // or fewer arguments for the varargs part. In this case, we don't call\n                // captureFrom, preventing ArrayIndexOutOfBoundsException.\n            }\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

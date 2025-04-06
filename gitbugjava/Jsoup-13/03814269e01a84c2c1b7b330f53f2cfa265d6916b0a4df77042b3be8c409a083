@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Test if this element has an attribute. Supports absolute (\"abs:\") attribute keys.\n     * @param attributeKey The attribute key to check (case-insensitive).\n     * @return true if the attribute exists, false if not.\n     */\n    public boolean hasAttr(String attributeKey) {\n        Validate.notNull(attributeKey);\n\n        // Check for absolute attribute key prefix\n        if (attributeKey.startsWith(Node.absKeyPrefix)) {\n            String key = attributeKey.substring(Node.absKeyPrefix.length());\n            // Ensure the key part is valid and check if the corresponding absolute URL is non-empty.\n            // absUrl(key) internally checks if the base attribute exists.\n            return key.length() > 0 && !absUrl(key).isEmpty();\n        } else {\n            // For regular attributes, perform a case-insensitive check.\n            return attributes.hasKeyIgnoreCase(attributeKey);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

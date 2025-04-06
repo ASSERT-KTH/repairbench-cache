@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Compute the maximum of two values\n     * @param a first value\n     * @param b second value\n     * @return b if a is lesser or equal to b, a otherwise\n     */\n    public static float max(final float a, final float b) {\n        // Handle NaN: if either input is NaN, the result is NaN.\n        if (Float.isNaN(a) || Float.isNaN(b)) {\n            return Float.NaN;\n        }\n\n        // Handle the specific case involving negative zero: max(-0.0f, 0.0f) should be 0.0f.\n        // The standard comparison (-0.0f >= 0.0f) is true, which would incorrectly return -0.0f.\n        // We use floatToRawIntBits to distinguish -0.0f (0x80000000) from 0.0f (0x0).\n        // This check specifically targets the case where a is -0.0f and b is 0.0f or -0.0f.\n        if (a == 0.0f && b == 0.0f && Float.floatToRawIntBits(a) == 0x80000000) {\n            // If a is -0.0f, and b is 0.0f or -0.0f, return b.\n            // This yields max(-0.0f, 0.0f) = 0.0f and max(-0.0f, -0.0f) = -0.0f.\n            return b;\n        }\n\n        // For all other cases (including max(0.0f, -0.0f) == 0.0f), the standard comparison works.\n        // It also correctly handles infinities.\n        return (a >= b) ? a : b;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

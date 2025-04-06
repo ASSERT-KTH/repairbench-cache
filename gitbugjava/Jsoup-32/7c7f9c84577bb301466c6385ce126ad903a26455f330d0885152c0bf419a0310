@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        Element clone = (Element) super.clone(); // Perform shallow copy + deep copy of attributes and children via Node.clone()\n        // The super.clone() (which calls Node.clone()) copies the 'attributes'.\n        // However, Element caches the 'classNames' set. Object.clone() (called by Node.clone())\n        // performs a shallow copy, meaning the 'classNames' field in the clone initially refers\n        // to the same Set object as the original element.\n        // We need to reset this cache in the clone to ensure modifications to the clone's\n        // class list don't affect the original, and vice versa.\n        clone.classNames = null;\n        return clone;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

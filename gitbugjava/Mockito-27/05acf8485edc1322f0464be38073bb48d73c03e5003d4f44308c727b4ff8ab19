@@ -1,0 +1,7 @@
+{
+    "generation": "    public <T> void resetMock(T mock) {\n        MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n        // Create a new handler instance based on the old one.\n        // The MockHandler constructor MockHandler(MockHandlerInterface) is responsible\n        // for copying the settings from the old handler.\n        MockHandler<T> newMockHandler = new MockHandler<T>(oldMockHandler);\n        // Retrieve the original mock settings (like listeners, default answer, etc.)\n        // that were preserved in the new handler instance.\n        // We need to cast to MockSettingsImpl because the MethodInterceptorFilter constructor\n        // expects this concrete type, as suggested by the original buggy code's cast.\n        org.mockito.internal.creation.settings.MockSettingsImpl<T> settings = (org.mockito.internal.creation.settings.MockSettingsImpl<T>) newMockHandler.getMockSettings();\n        // Create a new MethodInterceptorFilter. Pass the new handler and, crucially,\n        // pass the *original settings* retrieved above, instead of default settings.\n        MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, settings);\n        // Set the new filter as the callback for the mock instance.\n        // Assumes the mock instance implements the Factory interface (e.g., from CGLIB).\n        ((Factory) mock).setCallback(0, newFilter);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

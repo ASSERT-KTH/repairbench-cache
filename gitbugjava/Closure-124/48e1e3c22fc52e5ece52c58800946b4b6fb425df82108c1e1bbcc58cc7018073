@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Checks name referenced in node to determine if it might have\n   * changed.\n   * @return Whether the replacement can be made.\n   */\n  private boolean isSafeReplacement(Node node, Node replacement) {\n    // No checks are needed for simple names.\n    if (node.isName()) {\n      return true;\n    }\n\n    // Check for expressions like a.b.c or a[b][c]. We need to find the\n    // base name (e.g., 'a') and see if it's assigned within the replacement.\n    if (node.isGetProp() || node.isGetElem()) {\n      Node current = node;\n      // Traverse down the left side of the property/element access chain.\n      while (current.isGetProp() || current.isGetElem()) {\n        current = current.getFirstChild();\n      }\n\n      // If the base of the expression is a name, check if it's assigned to\n      // within the replacement expression.\n      if (current.isName()) {\n        if (isNameAssignedTo(current.getString(), replacement)) {\n          // The base name is reassigned in the replacement, making it unsafe.\n          return false;\n        }\n      }\n      // TODO(moz): Handle cases where the base is not a simple name,\n      // e.g., function calls like foo().bar or complex expressions.\n      // For now, assume safety like the original code if the base isn't a name.\n    }\n\n    // Default to safe if no potential conflict is found.\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

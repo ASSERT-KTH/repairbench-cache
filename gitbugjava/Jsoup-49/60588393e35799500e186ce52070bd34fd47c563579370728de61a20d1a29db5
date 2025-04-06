@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void addChildren(int index, Node... children) {\n        Validate.noNullElements(children);\n        ensureChildNodes();\n        for (int i = children.length - 1; i >= 0; i--) {\n            Node in = children[i];\n            // If the node is already a child of this node, find its current index\n            // and update its sibling index before reparenting removes it.\n            // This is necessary because subsequent adds might have shifted the index.\n            if (in.parentNode() == this) {\n                int current\uc091ndex = childNodes.indexOf(in); // Find current index by object identity\n                if (current\uc091ndex != -1) { // Recheck existence in case it was somehow removed differently\n                    in.setSiblingIndex(current\uc091ndex); // Update sibling index to its current position\n                }\n            }\n            reparentChild(in); // Removes from previous parent (potentially this node) and sets parent to this node.\n            childNodes.add(index, in); // Add to the correct location\n        }\n        reindexChildren(index); // Update sibling indices from the insertion point.\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

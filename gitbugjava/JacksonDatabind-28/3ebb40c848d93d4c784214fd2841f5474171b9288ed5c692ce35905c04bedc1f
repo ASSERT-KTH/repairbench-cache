@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            // NOTE: Lgtm says 'p.getCurrentToken() == JsonToken.START_OBJECT' is always true\n            // BUT that's not the case when START_OBJECT is consumed by the caller\n            // (like JsonNodeDeserializer)\n            if (p.isExpectedStartObjectToken()) { // Standard case: START_OBJECT\n                p.nextToken();\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // Alternative cases where START_OBJECT has been consumed:\n            JsonToken t = p.getCurrentToken();\n            if (t == JsonToken.FIELD_NAME) { // Object with fields\n                // 23-Sep-2015, tatu: As per [databind#941], may start with FIELD_NAME\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            if (t == JsonToken.END_OBJECT) { // Empty object, as per [databind#941]\n                 return ctxt.getNodeFactory().objectNode();\n            }\n            // Anything else is an error\n            throw ctxt.mappingException(ObjectNode.class, t);\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Closes the CPIO output stream as well as the stream being filtered.\n     * Writes the CPIO trailer entry, flushes the stream and closes the\n     * underlying output stream.\n     *\n     * @throws IOException\n     *             if an I/O error has occurred or if a CPIO file error has\n     *             occurred\n     */\n    @Override\n    public void close() throws IOException {\n        // Use try-finally to ensure underlying stream is closed even if finish() throws\n        try {\n            if (!closed) {\n                // finish() is responsible for writing the CPIO trailer entry.\n                // It should ensure that any open entry is properly closed and padded first.\n                finish();\n            }\n        } finally {\n            // Check closed flag again, in case finish() failed or was called concurrently.\n            // Ensures super.close() and setting the flag happens only once.\n            if (!closed) {\n                // Close the underlying stream provided in the constructor.\n                // Assumes superclass (like FilterOutputStream or ArchiveOutputStream) handles this.\n                super.close();\n                // Mark this stream as closed.\n                closed = true;\n            }\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

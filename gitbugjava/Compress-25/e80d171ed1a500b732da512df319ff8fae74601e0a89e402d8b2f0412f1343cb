@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * @param encoding the encoding to use for file names, use null\n     * for the platform's default encoding\n     * @param useUnicodeExtraFields whether to use InfoZIP Unicode\n     * Extra Fields (if present) to set the file names.\n     * @param allowStoredEntriesWithDataDescriptor whether the stream\n     * will try to read STORED entries that use a data descriptor\n     * @since 1.1\n     */\n    public ZipArchiveInputStream(InputStream inputStream,\n                                 String encoding,\n                                 boolean useUnicodeExtraFields,\n                                 boolean allowStoredEntriesWithDataDescriptor) {\n        zipEncoding = ZipEncodingHelper.getZipEncoding(encoding);\n        this.useUnicodeExtraFields = useUnicodeExtraFields;\n        // Assuming 'buf' is a ByteBuffer field initialized before this constructor body\n        // And 'in' is the PushbackInputStream field\n        in = new PushbackInputStream(inputStream, buf.capacity());\n        this.allowStoredEntriesWithDataDescriptor =\n            allowStoredEntriesWithDataDescriptor;\n        // haven't read anything so far\n        // Reset the buffer's limit to 0, ensuring it starts empty.\n        // This was missing in the buggy version and caused issues with initial reads.\n        buf.limit(0);\n    }\n",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

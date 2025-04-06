@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void _serializeXmlNull(JsonGenerator jgen) throws IOException\n    {\n        // 14-Nov-2016, tatu: As per [dataformat-xml#213], we may have explicitly\n        //    configured root name... but we should simply delegate serialization\n        //    to super class; generator implementation takes care of root name handling\n        // 14-Feb-2017, tatu: Turns out that `ToXmlGenerator` has no good way to\n        //    handle it, so needs to be done here. But we cannot hard-code root\n        //    name, need to use configured one if available.\n        // 11-Jul-2024, bot: Fix for dynamic root names (from ObjectWriter) by checking\n        //    config first. See `RootNameTest.testDynamicRootName()`\n        QName rootName = _rootNameFromConfig(); // Check config (from ObjectWriter.withRootName)\n        if (rootName == null) {\n            // Otherwise, use the default for null\n            rootName = ROOT_NAME_FOR_NULL;\n        }\n\n        if (jgen instanceof ToXmlGenerator) {\n            // Initialize the generator with the determined root name (if not already set)\n             _initWithRootName((ToXmlGenerator) jgen, rootName);\n        }\n        // Now, serialize the null value. The generator should handle the wrapping.\n        super.serializeValue(jgen, null); // -> _serializeNull(jgen) -> jgen.writeNull()\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "        /**\n         * @param x Normalized objective variables.\n         * @return the original objective variables, possibly repaired.\n         */\n        public double[] repairAndDecode(final double[] x) {\n            // Decode the normalized variables into the original objective variables space\n            double[] decoded = decode(x);\n\n            // Repair the decoded variables by enforcing boundary constraints if they exist\n            // Assumes 'lowerBound' and 'upperBound' are accessible instance variables\n            if (lowerBound != null) { // Check if bounds were provided\n                // Ensure the lengths match, although decode should handle this\n                if (decoded.length != lowerBound.length || decoded.length != upperBound.length) {\n                    // This case indicates an internal inconsistency, should ideally not happen\n                    // or be handled elsewhere. For robustness, could throw an exception.\n                    // For now, proceed assuming lengths match if bounds are not null.\n                }\n                for (int i = 0; i < decoded.length; i++) {\n                    if (decoded[i] < lowerBound[i]) {\n                        decoded[i] = lowerBound[i];\n                    } else if (decoded[i] > upperBound[i]) {\n                        decoded[i] = upperBound[i];\n                    }\n                }\n            }\n            return decoded;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

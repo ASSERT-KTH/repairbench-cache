@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        // Optimization: If the matrix is diagonal, compute the square root directly.\n        // Eigen decomposition is memory-intensive for large matrices and unnecessary\n        // for diagonal matrices, which are common for weights in least squares.\n        if (m instanceof DiagonalMatrix) {\n            final int dim = m.getRowDimension();\n            final double[] sqrtDiag = new double[dim];\n            for (int i = 0; i < dim; i++) {\n                // Ensure non-negativity before sqrt, although weights should be positive.\n                // Use max to handle potential small negative values due to precision issues.\n                sqrtDiag[i] = FastMath.sqrt(FastMath.max(0.0, m.getEntry(i, i)));\n            }\n            // Return a new DiagonalMatrix (do not reuse input diagonal array if any)\n            return new DiagonalMatrix(sqrtDiag, false);\n        } else {\n            // Original computation for non-diagonal matrices\n            final EigenDecomposition dec = new EigenDecomposition(m);\n            return dec.getSquareRoot();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

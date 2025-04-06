@@ -1,0 +1,7 @@
+{
+    "generation": "    // NOTE: The fix for the underlying issue involved refactoring.\n    // The original buggy method ObjectIdWriter.generateId(Object) was effectively\n    // replaced by logic within WritableObjectId. The corrected logic ensures\n    // the ID is generated only once per object instance within the serialization context.\n    // The following method is from com.fasterxml.jackson.databind.ser.impl.WritableObjectId\n    // and represents the fixed ID generation logic.\n\n    /**\n     * Method called to ensure that Object Ids handled by this instance have been generated.\n     * Will call {@link ObjectIdGenerator#generateId} if id has not yet been generated,\n     * and return the result in either case.\n     *\n     * @param forPojo The POJO for which ID is being generated\n     * @return The generated (or existing) Object Id\n     *\n     * @since 2.8\n     */\n    public Object generateId(Object forPojo) {\n        // If ID has not been generated, do it now.\n        if (id == null) {\n            id = generator.generateId(forPojo);\n        }\n        return id;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

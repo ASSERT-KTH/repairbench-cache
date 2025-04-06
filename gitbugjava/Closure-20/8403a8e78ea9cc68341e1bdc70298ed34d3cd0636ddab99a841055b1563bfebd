@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n    // Check if it's a call to the global \"String\" function.\n    if (callTarget != null && callTarget.isName() &&\n          callTarget.getString().equals(\"String\")) {\n\n      Node value = callTarget.getNext();\n      // Check if there is exactly one argument and it's an immutable literal.\n      // We can't fold String(a) to '' + (a) in the general case because\n      // String(a) has slightly different semantics than '' + (a) for objects.\n      // Specifically, valueOf is called before toString in the '+' case, and\n      // the opposite is true for String(a).\n      // See http://code.google.com/p/closure-compiler/issues/detail?id=759\n      if (value != null && value.getNext() == null && NodeUtil.isLiteralValue(value, true)) {\n          // Create the expression '' + value\n          Node addition = IR.add(\n              IR.string(\"\").srcref(callTarget),\n              value.detach());\n          addition.srcrefTreeIfMissing(n); // Copy source info\n\n          // Replace the original call node with the new addition node\n          n.replaceWith(addition);\n          reportCodeChange();\n          return addition;\n      }\n    }\n    return n;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

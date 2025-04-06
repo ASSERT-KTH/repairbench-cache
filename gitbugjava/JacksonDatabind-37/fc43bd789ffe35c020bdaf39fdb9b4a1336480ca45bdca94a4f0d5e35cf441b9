@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        if (_class == subclass) {\n            return this;\n        }\n        // Resolved type for subclass should be constructed by TypeFactory,\n        // Salim Point #1: preserve type/value handlers\n        // Also: Caching should be fine, as Types are canonicalized\n\n        // 28-Mar-2018, tatu: Let's assume we must have `TypeFactory` accessible\n        //   ... Note: may be problematic if it's null? But assume it won't be\n        //   Need to use `_fromClass` regardless of whether we have super-class/super-ifaces defined,\n        //   since it does class-level resolution properly.\n\n        // 13-Jun-2020, tatu: Accessing `_typeFactory` requires care as it may not\n        //    be assigned yet... but let's assume for now it has been?\n        // TODO: revisit if this assumption does not hold\n        // Note: first arg is Context, could pass `null`? Seems ok based on impl\n        JavaType newType = _typeFactory._fromClass(null, subclass, _bindings);\n\n        // Ok, then let's apply handlers and static flag.\n        if (_valueHandler != null) {\n            newType = newType.withValueHandler(_valueHandler);\n        }\n        if (_typeHandler != null) {\n            newType = newType.withTypeHandler(_typeHandler);\n        }\n        if (_asStatic) {\n            newType = newType.withStaticTyping();\n        }\n        return newType;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

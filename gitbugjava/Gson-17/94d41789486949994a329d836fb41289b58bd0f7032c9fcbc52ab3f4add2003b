@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    // Handle the NULL token\n    if (in.peek() == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n    // Check if the next token is a STRING\n    if (in.peek() != JsonToken.STRING) {\n      // Throw IllegalStateException as expected by testUnexpectedToken,\n      // instead of JsonParseException. Provide a descriptive message.\n      throw new IllegalStateException(\"Expected \" + JsonToken.STRING + \" but was \" + in.peek()\n          + \" at path \" + in.getPath());\n    }\n    // If it's a STRING, proceed with deserialization\n    Date date = deserializeToDate(in.nextString());\n    if (dateType == Date.class) {\n      return date;\n    } else if (dateType == Timestamp.class) {\n      return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n      return new java.sql.Date(date.getTime());\n    } else {\n      // This must never happen: dateType is guarded in the primary constructor\n      throw new AssertionError();\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

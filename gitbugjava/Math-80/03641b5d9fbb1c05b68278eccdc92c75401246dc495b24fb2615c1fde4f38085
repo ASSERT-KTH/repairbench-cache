@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Flip qd array if warranted.\n     * @param n number of rows in the block\n     * @param step within the array (1 for flipping all elements, 2 for flipping\n     * only every other element)\n     * @return true if qd array was flipped\n     */\n    private boolean flipIfWarranted(final int n, final int step) {\n        if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {\n            // flip array\n            int j = 4 * n - 1;\n            // The original loop condition 'i < j' caused problems for odd n (see MATH-208).\n            // The corrected loop condition 'i < n * 2' ensures the loop iterates n/2 times,\n            // correctly handling the swapping of the first half of the blocks with the second half.\n            for (int i = 0; i < n * 2; i += 4) {\n                for (int k = 0; k < 4; k += step) {\n                    final double tmp = work[i + k];\n                    work[i + k] = work[j - k];\n                    work[j - k] = tmp;\n                }\n                j -= 4;\n            }\n            return true;\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

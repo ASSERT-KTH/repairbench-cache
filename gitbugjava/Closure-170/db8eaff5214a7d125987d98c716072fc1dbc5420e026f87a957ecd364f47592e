@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the number of uses of the variable varName and store it in\n     * numUseWithinUseCfgNode.\n     */\n    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          // Check if the node represents the variable we are tracking.\n          if (n.isName() && n.getString().equals(varName)) {\n            // Previously, the LHS of an assignment was excluded:\n            // !(parent.isAssign() && (parent.getFirstChild() == n))\n            // However, this prevents inlining in cases like `a ? (var = 1) : 2`\n            // where the assignment itself is a side effect within the expression\n            // that should prevent inlining. Issue 965 demonstrated this need.\n            // By removing the exclusion, we count all occurrences, including\n            // assignments, as potential reasons to avoid inlining within\n            // this CFG node. The broader flow analysis will handle whether\n            // a definition actually reaches this point.\n            numUsesWithinCfgNode++;\n          }\n        }\n\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

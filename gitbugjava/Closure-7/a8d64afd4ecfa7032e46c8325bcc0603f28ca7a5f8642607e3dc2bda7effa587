@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public JSType caseObjectType(ObjectType type) {\n      if (value.equals(\"function\")) {\n        JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n        if (resultEqualsValue) {\n          // Handle typeof x === 'function' or goog.isFunction(x)\n          // If function is compatible with the original type, return function.\n          return ctorType.isSubtype(type) ? ctorType : null;\n        } else {\n          // Handle typeof x !== 'function' or !goog.isFunction(x)\n          // If the original type is precisely function, then the result is bottom.\n          // Otherwise (e.g. Object|Function), return the original type.\n          // The restriction of removing the function type might happen\n          // in a later phase or through combination with other results.\n          return type.isSubtype(ctorType) ? null : type;\n        }\n      }\n\n      // Handle typeof x === 'object'. Delegates to the specific type if known.\n      // Note: null is an object according to typeof but not Objects.\n      return matchesExpectation(\"object\") ? type : null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

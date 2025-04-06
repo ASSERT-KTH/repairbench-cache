@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\n    /**\n     * Returns the options with a long name starting with the name specified.\n     *\n     * @param opt the partial name of the option\n     * @return the options matching the partial name specified, or an empty list if none matches\n     * @since 1.3\n     */\n    public List<String> getMatchingOptions(String opt)\n    {\n        opt = Util.stripLeadingHyphens(opt);\n\n        List<String> matchingOpts = new ArrayList<String>();\n\n        // Find all long options starting with opt\n        if (longOpts.keySet().isEmpty())\n        {\n             return Collections.emptyList();\n        }\n\n        for (String longOpt : longOpts.keySet())\n        {\n            if (longOpt.startsWith(opt))\n            {\n                matchingOpts.add(longOpt);\n            }\n        }\n\n        // Check if the exact option is matched in the list\n        // If it is, we prefer the exact match to avoid ambiguity\n        // (e.g. if \"prefix\" and \"prefixplusplus\" are options and \"prefix\" is given)\n        if (matchingOpts.size() > 1 && matchingOpts.contains(opt))\n        {\n             return Collections.singletonList(opt);\n        }\n\n        return matchingOpts;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

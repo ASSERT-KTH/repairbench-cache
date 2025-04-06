@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean mayBeString(Node n, boolean recurse) {\n    // The 'recurse' flag attempted to distinguish between shallow and deep checks.\n    // However, `allResultsMatch` used the wrong semantics (checking if *all*\n    // results match, not if *any* result might be a string).\n    // The `mayBeStringHelper` function appears to perform the correct check,\n    // likely handling recursion internally for relevant node types (like ADD, HOOK, OR).\n    // Therefore, we should always use `mayBeStringHelper`.\n    if (recurse) {\n      // Fix: Replace the incorrect call to allResultsMatch with mayBeStringHelper.\n      return mayBeStringHelper(n);\n    } else {\n      return mayBeStringHelper(n);\n    }\n    // This simplifies to just: return mayBeStringHelper(n);\n    // But the above structure preserves the original if/else while fixing the bug.\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

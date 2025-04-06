@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        // The depth limit arbitrarily chosen covers practical use cases, like <pre> deep inside tables.\n        int i = 0;\n        final int MaxLevels = 6; // node itself + 5 levels up\n        Node current = node;\n        while (current != null && i < MaxLevels) {\n            if (current instanceof Element) {\n                Element el = (Element) current;\n                if (el.tag.preserveWhitespace()) {\n                    return true;\n                }\n            }\n            // Stop check at block-level element that is not whitespace preserving.\n            // Prevents look-up starting from deeply nested inline tags climbing up to unexpected blocks.\n            // (Don't care about parent blocks of <p>s, etc.)\n            // But do allow look-up in <pre> \u2192 <code> \u2192 <span> etc.\n            if (current instanceof Element && ((Element) current).tag().isBlock() && !((Element) current).tag.preserveWhitespace()) {\n                return false; // Found a non-preserving block parent, so stop searching\n            }\n\n            current = current.parent();\n            i++;\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

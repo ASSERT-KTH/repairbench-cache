@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // 29-Jan-2016, tatu: Simple skipping for all other tokens, but FIELD_NAME bit\n        //    special unfortunately\n\n        // 10-Mar-2017, tatu: As per [databind#1258], need to consider TokenBuffer carefully;\n        //   also, should perhaps check current token...\n        // 09-Aug-2017, tatu: Indeed. If START_OBJECT, need to clear first.\n        // If current token is START_OBJECT, must clear it to enable skipChildren()\n        // to work properly iff expecting Object value.\n        if (p.currentToken() == JsonToken.START_OBJECT) {\n            // Need to deference START_OBJECT, JUST skip child values\n             p.clearCurrentToken();\n        }\n        // Simple skipping for the token and potentially children\n        p.skipChildren();\n        return null;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

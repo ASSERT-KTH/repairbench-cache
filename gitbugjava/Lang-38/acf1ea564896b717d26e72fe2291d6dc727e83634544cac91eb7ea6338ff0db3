@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Formats a <code>Calendar</code> object into the\n     * supplied <code>StringBuffer</code>.</p>\n     *\n     * @param calendar  the calendar to format\n     * @param buf  the buffer to format into\n     * @return the specified string buffer\n     */\n    public StringBuffer format(Calendar calendar, StringBuffer buf) {\n        if (mTimeZoneForced) {\n            // LANG-538: Calendar.clone() may alter fields transitively,\n            // eg. setting day of month causes clearing of other fields like hour.\n            // Calling getTimeInMillis() seems to fix these issues.\n            // See LANG-538 and LANG-1585\n            calendar = (Calendar) calendar.clone();\n            calendar.setTimeZone(mTimeZone);\n            // Recompute field values based on the new time zone.\n            // Without this, fields might reflect the original time zone\n            // when accessed by applyRules.\n            calendar.getTimeInMillis();\n        }\n        return applyRules(calendar, buf);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

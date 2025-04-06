@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // 29-Jan-2016, tatu: Simple skipping for all other tokens, but FIELD_NAME bit\n        //    special unfortunately\n\n        // Use skipValue() instead of skipChildren(). skipValue() is more robust as it\n        // handles skipping the current value regardless of the token type (START_OBJECT,\n        // START_ARRAY, FIELD_NAME, scalar value), whereas skipChildren() only works\n        // correctly for START_OBJECT and START_ARRAY. If the parser is positioned\n        // at FIELD_NAME (as the comment suggests might happen, and is likely the case\n        // when handling unknown type ids within an object), skipChildren() would\n        // not skip the value correctly, leading to parsing errors like UnrecognizedPropertyException\n        // later on. skipValue() will correctly skip the FIELD_NAME and its associated value,\n        // or the whole object/array if currently pointing to START_OBJECT/START_ARRAY.\n        p.skipValue();\n        return null;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

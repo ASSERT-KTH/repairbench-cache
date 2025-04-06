@@ -1,0 +1,7 @@
+{
+    "generation": "    protected final boolean _add(Annotation ann) {\n        if (_annotations == null) {\n            _annotations = new HashMap<Class<? extends Annotation>,Annotation>();\n        }\n        Annotation previous = _annotations.put(ann.annotationType(), ann);\n        // Original logic returned true only if the exact same annotation was already present.\n        // This is incorrect; it should return true if the annotation map was changed\n        // (either a new annotation was added, or an existing one was replaced).\n        // The test failure indicates that returning false upon replacement prevents\n        // mixin annotations from correctly overriding base annotations.\n        // This revised logic returns true if a new annotation was added (previous == null)\n        // or if an existing annotation was replaced by a different one (!previous.equals(ann)).\n        return (previous == null) || !previous.equals(ann);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

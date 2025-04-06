@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // If that is not a record type, delegate to the general JSType logic.\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    // The least supertype of two record types {A, B} and {C, D} is generally\n    // represented as their union: ({A, B} | {C, D}).\n    // The previous implementation incorrectly computed the intersection of\n    // properties with identical types, which is closer to the greatest subtype.\n    // The failing tests expect the union type as the least supertype.\n    return registry.createUnionType(this, that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?' | '*'\n   * For expressions on the right hand side of a this: or new:\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    // Peek at the token following 'new:' or 'this:'\n    JsDocToken currentToken = stream.peek();\n\n    if (currentToken == JsDocToken.QMARK) {\n      // Handle '?' (unknown type)\n      stream.next(); // Consume '?'\n      // Represent '?' as a string node\n      return IR.string(\"?\");\n    } else if (currentToken == JsDocToken.STAR) {\n      // Handle '*' (all type)\n      stream.next(); // Consume '*'\n      // Represent '*' as a string node\n      return IR.string(\"*\");\n    } else {\n      // Handle BasicTypeExpression by falling back to parseTypeName\n      // Pass the current token, as parseTypeName expects the starting token\n      // of the type name expression.\n      return parseTypeName(currentToken);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

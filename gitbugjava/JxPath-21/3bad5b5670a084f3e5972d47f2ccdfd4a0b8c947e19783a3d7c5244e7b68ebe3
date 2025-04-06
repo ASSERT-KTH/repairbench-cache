@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        // According to the JXPath documentation and the expected behavior for expr[1] based on tests,\n        // null should not be treated as an empty collection (length 0).\n        // It should be treated as a scalar value, for which getLength() should return -1.\n        // See JXPath specification regarding evaluation of predicates on non-node-sets.\n        // expr[pred] results in expr if pred evaluates to 1.\n        // Therefore, if baseValue is null, expr[1] should yield null.\n        // Returning -1 signals that it's not a collection, enabling this behavior.\n        Object baseValue = getBaseValue();\n        if (baseValue == null) {\n            return -1;\n        }\n        return ValueUtils.getLength(baseValue);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

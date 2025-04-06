@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Formats a <code>Calendar</code> object into the\n     * supplied <code>StringBuffer</code>.</p>\n     *\n     * @param calendar  the calendar to format\n     * @param buf  the buffer to format into\n     * @return the specified string buffer\n     */\n    public StringBuffer format(Calendar calendar, StringBuffer buf) {\n        if (mTimeZoneForced) {\n            // Create a clone of the calendar object\n            // to avoid modifying the original.\n            calendar = (Calendar) calendar.clone();\n            // Set the formatter's timezone on the clone.\n            calendar.setTimeZone(mTimeZone);\n            // Call getTimeInMillis() to force the calendar to recalculate its fields\n            // relative to the new timezone. This is necessary because setTimeZone()\n            // may not immediately recalculate all fields, and applyRules() might\n            // rely on these fields being correct.\n            calendar.getTimeInMillis();\n        }\n        // Pass the potentially cloned and timezone-adjusted calendar to applyRules.\n        return applyRules(calendar, buf);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

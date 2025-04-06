@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // Check if this node or any of its ancestors preserves whitespace.\n        // Start scan from parent element if node is not an element (e.g., TextNode).\n        Element el = null;\n        if (node instanceof Element) {\n            el = (Element) node;\n        } else {\n            Node parent = node.parent();\n            if (parent instanceof Element) {\n                el = (Element) parent;\n            }\n        }\n\n        // Traverse up the tree from the starting element 'el'.\n        while (el != null) {\n            if (el.tag().preserveWhitespace()) { // Check the current element's tag\n                return true; // Found an element that preserves whitespace.\n            }\n            // Move up to the parent.\n            Node parent = el.parent();\n            // Check if parent is an Element before continuing the loop.\n            if (parent instanceof Element) {\n                el = (Element) parent;\n            } else {\n                // Stop if parent is null or not an Element (e.g., Document node).\n                el = null;\n            }\n        }\n        // If no starting element found, or no preserving ancestor was found.\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

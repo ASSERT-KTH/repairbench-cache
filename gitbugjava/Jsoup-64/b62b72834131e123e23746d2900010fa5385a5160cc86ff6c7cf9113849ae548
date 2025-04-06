@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // Note: Per HTML5 spec, start tags for <style>, <script>, <title>, <textarea>, <noframes>\n        // are never self-closing. The /> characters are treated as character data.\n        // However, for compatibility, JSoup handles <tag /> for these elements by\n        // creating an empty element, as demonstrated by the failing tests.\n        if (startTag.isSelfClosing()) {\n            // Insert the tag, pop it immediately (effectively closing it), and acknowledge the flag.\n            // Do not transition to Rawtext/Text states. Stay in the current insertion mode.\n            tb.insertEmpty(startTag);\n            // Explicitly acknowledge the self-closing flag to the tokeniser.\n            // This is consistent with how other self-closing tags (like <meta />) are handled.\n            tb.tokeniser.acknowledgeSelfClosingFlag();\n        } else {\n            // Standard handling: insert tag, switch tokeniser state, mark mode, switch insertion mode.\n            tb.insert(startTag);\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

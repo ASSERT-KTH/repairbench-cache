@@ -1,0 +1,7 @@
+{
+    "generation": "    private final static int _parseIndex(String str) {\n        final int len = str.length();\n        // [Issue#133]: beware of super long indexes; assume we never\n        // have arrays over 2 billion entries so ints are fine.\n        if (len == 0 || len > 10) {\n            return -1;\n        }\n        // Check that all characters are digits\n        for (int i = 0; i < len; ++i) {\n            // BUG FIX: Original code had i++ here, causing index skipping & incorrect validation\n            char c = str.charAt(i);\n            if (c > '9' || c < '0') {\n                // Found a non-digit character, so it's not a valid array index\n                return -1;\n            }\n        }\n        // If the string has 10 digits, it might be > Integer.MAX_VALUE\n        if (len == 10) {\n            long l = NumberInput.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                // Index is too large to be represented as an int\n                return -1;\n            }\n        }\n        // If all checks passed, parse the string as an integer index\n        return NumberInput.parseInt(str);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

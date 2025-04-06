@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            // Peek at the next character instead of consuming it immediately.\n            // This is because if the character is not '>', it should be reconsumed\n            // in the BeforeAttributeName state.\n            char c = r.peek();\n            switch (c) {\n                case '>':\n                    r.consume(); // Consume the '>'\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    // Reconsume in the data state handles this.\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // This is the \"unexpected-solidus-in-tag\" parse error.\n                    t.error(this);\n                    // Do not consume the character, leave it for the BeforeAttributeName state.\n                    t.transition(BeforeAttributeName);\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

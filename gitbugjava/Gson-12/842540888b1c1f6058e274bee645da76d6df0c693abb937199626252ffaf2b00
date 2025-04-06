@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override public void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n      nextName(); // Consume name, advance to value\n      // pathNames[stackSize - 1] = \"null\"; // Previous incorrect logic\n    } else {\n      popStack(); // Consume value (primitive, object, array)\n      // pathNames[stackSize - 1] = \"null\"; // Previous incorrect logic\n    }\n    // After skipping value (or name + value), the corresponding index in the parent container (if any) should be incremented.\n    // The parent container is now at stack[stackSize - 1].\n    if (stackSize > 0) {\n        // pathIndices tracks the index within the parent container (Object or Array)\n        pathIndices[stackSize - 1]++;\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

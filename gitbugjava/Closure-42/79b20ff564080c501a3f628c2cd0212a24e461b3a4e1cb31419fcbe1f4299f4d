@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n      // Check if it's the unsupported \"for each\" loop (a non-standard JS extension)\n      if (loopNode.isForEach()) {\n        // Report an error indicating that this language feature is not supported.\n        // The error message matches the one expected by the failing test.\n        reportError(ParseErrors.LEGACY_FOR_EACH, loopNode);\n        // Even after reporting an error, we might need to return a valid node structure\n        // to avoid cascading failures in subsequent processing, although the\n        // compilation will ultimately fail due to the reported error.\n        // The original code returned a transformed node, so we keep that behavior.\n      }\n\n      // Transform the ForInLoop into a standard FOR node for the compiler's IR.\n      // This handles both regular for..in loops and, as a fallback after error reporting,\n      // the unsupported for each..in loops.\n      return newNode(\n          Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

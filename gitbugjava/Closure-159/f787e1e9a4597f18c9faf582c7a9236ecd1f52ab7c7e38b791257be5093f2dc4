@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node callee = node.getFirstChild();\n      // Case 1: Direct call like foo()\n      if (callee.getType() == Token.NAME) {\n        changed.add(callee.getString());\n      }\n      // Case 2: Indirect call like foo.call() or foo.apply()\n      else if (NodeUtil.isFunctionObjectCall(node)\n          || NodeUtil.isFunctionObjectApply(node)) {\n        // The function being called is the first child of the GETPROP node\n        // e.g. In foo.call(), the first child of the GETPROP is foo\n        Node functionNameNode = callee.getFirstChild();\n        if (functionNameNode.getType() == Token.NAME) {\n          changed.add(functionNameNode.getString());\n        }\n      }\n      // We don't handle other types of calls (e.g., obj.method()) because\n      // this function specifically looks for references to functions that\n      // might be candidates for inlining by name.\n    }\n\n    // Recurse on children\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // Check if whitespace should be preserved for this node or any of its parents.\n        if (node == null || !(node instanceof Element))\n            return false;\n\n        Element el = (Element) node;\n        // Traverse up the tree looking for a parent element that preserves whitespace.\n        do {\n            if (el.tag.preserveWhitespace())\n                return true;\n            // Check the parent element. Stop if we reach the root or find no more Elements.\n            Node parent = el.parent();\n            if (parent instanceof Element) {\n                el = (Element) parent;\n            } else {\n                // Stop if the parent is not an Element (e.g., Document) or null.\n                el = null;\n            }\n        } while (el != null);\n\n        return false; // No element in the hierarchy preserves whitespace.\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

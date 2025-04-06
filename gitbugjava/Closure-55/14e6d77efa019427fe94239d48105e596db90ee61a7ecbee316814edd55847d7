@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    // We don't want to rewrite functions that are bleeding edge ES6\n    // features, because the rewriting might not be valid.\n    if (n.isArrowFunction() || n.isGeneratorFunction()) {\n      return false;\n    }\n\n    // GET/SET properties are syntactic sugar for Object.defineProperty\n    // calls. Simply rewriting the function nodes of GET/SET properties\n    // leads to invalid code generation.\n    //\n    // Example:\n    // var x = { get y() { return 1; } };\n    //\n    // becomes:\n    //\n    // var x = { get $jscomp$newfunc0() { return 1; } };\n    // $jscomp.global.Object.defineProperties(x,\n    //    {y: {get: $jscomp$newfunc0}});\n    //\n    // Which is wrong.\n    //\n    // Fortunately, GET/SET properties are already rewritten by\n    // Es6ToEs3Converter. Any GET/SET properties that reach this pass\n    // must be on extern types, or the target language is ES5. In the former case,\n    // we can't rewrite the function because we don't know the type. In the\n    // latter case, we don't need to rewrite the function.\n    //\n    // ES6 classes also use GET/SET properties for class methods, but these\n    // are transpiled away by Es6ToEs3Converter.\n    Node parent = n.getParent();\n    if (parent != null && (parent.isGetterDef() || parent.isSetterDef())) {\n      return false;\n    }\n\n    return NodeUtil.isFunctionExpression(n);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

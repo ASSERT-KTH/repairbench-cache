@@ -1,0 +1,7 @@
+{
+    "generation": "    final void html(final Appendable accum, final Document.OutputSettings out) throws IOException {\n        final int sz = size;\n        for (int i = 0; i < sz; i++) {\n            // inlined from Attribute.html()\n            final String key = keys[i];\n            final String val = vals[i];\n            accum.append(' ').append(key);\n\n            // Check if this attribute should be output as valueless or valued\n            // Output value unless it's HTML syntax, the attribute is boolean,\n            // and the value represents true (null, empty string, or the key name case-insensitively).\n            if (!(out.syntax() == Document.OutputSettings.Syntax.html\n                  && Attribute.isBooleanAttribute(key)\n                  && (val == null || val.equals(\"\") || val.equalsIgnoreCase(key)))) {\n                accum.append(\"=\\\"\");\n                // Assuming EmptyString constant is \"\" or equivalent handling for null val\n                Entities.escape(accum, val == null ? \"\" : val, out, true, false, false);\n                accum.append('\"');\n            }\n            // otherwise, in HTML mode, for boolean attributes whose value represents true,\n            // no value is appended, rendering the attribute valueless.\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

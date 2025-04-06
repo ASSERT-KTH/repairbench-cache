@@ -1,0 +1,7 @@
+{
+    "generation": "    public BaseSettings withDateFormat(DateFormat df) {\n        /* Although we prefer immutability, we have one case where we can't\n         * create new instance: if a new DateFormat is set, but we had\n         * none (and end up with null), we must modify instance.\n         * This is necessary for standard DateFormat(\"none\") handling\n         */\n        if (_dateFormat == df) {\n            return this;\n        }\n        // 18-Oct-2013, tatu: As per [databind#332], should NOT change TimeZone.\n        /*\n        TimeZone tz = (df == null) ? _timeZone : df.getTimeZone();\n        */\n        return new BaseSettings(_classIntrospector, _annotationIntrospector, _visibilityChecker, _propertyNamingStrategy, _typeFactory,\n                _typeResolverBuilder, df, _handlerInstantiator, _locale,\n                 _timeZone, _defaultBase64);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

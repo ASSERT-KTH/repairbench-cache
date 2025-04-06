@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n\n        // The multiplyFast method is optimized for positive integers x < RADIX\n        // and assumes 'this' is a finite number. RADIX is typically 10000.\n        // We check these conditions before calling multiplyFast.\n        if (nans == FINITE && x > 0 && x < RADIX) {\n             // Use the optimized path for small positive integers and finite 'this'\n             return multiplyFast(x);\n        }\n\n        // For all other cases:\n        // - 'this' is NaN, Infinity\n        // - x is zero\n        // - x is negative\n        // - x is >= RADIX\n        // We convert x to a Dfp object and use the general Dfp multiplication method.\n        // This ensures correct handling of signs, special values (NaN, Infinity),\n        // zero, potential overflow/underflow, and flags according to the Dfp standard.\n        // The newInstance(x) handles the conversion, and multiply(Dfp) handles the arithmetic.\n        return multiply(newInstance(x));\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

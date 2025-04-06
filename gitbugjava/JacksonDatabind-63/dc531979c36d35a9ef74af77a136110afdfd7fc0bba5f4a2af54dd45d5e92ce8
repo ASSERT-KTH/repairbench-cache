@@ -1,0 +1,7 @@
+{
+    "generation": "        public String getDescription() {\n            if (_desc == null) {\n                StringBuilder sb = new StringBuilder();\n\n                if (_from == null) { // can this ever occur?\n                    sb.append(\"UNKNOWN\");\n                } else {\n                    Class<?> cls = (_from instanceof Class<?>) ? (Class<?>)_from : _from.getClass();\n                    // 09-Nov-2020, tatu: Use Class.getName() to handle inner classes correctly,\n                    //   despite potential aesthetic issues with array representation (see [databind#1403]).\n                    //   Previous attempt to use combination of package + simple name did not work\n                    //   correctly for inner classes.\n                    sb.append(cls.getName());\n                }\n                sb.append('[');\n                if (_fieldName != null) {\n                    sb.append('\"');\n                    sb.append(_fieldName);\n                    sb.append('\"');\n                } else if (_index >= 0) {\n                    sb.append(_index);\n                } else {\n                    sb.append('?');\n                }\n                sb.append(']');\n                _desc = sb.toString();\n            }\n            return _desc;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

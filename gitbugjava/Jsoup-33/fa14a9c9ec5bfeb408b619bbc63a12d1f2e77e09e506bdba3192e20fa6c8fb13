@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        Tag tag = Tag.valueOf(startTag.name(), settings);\n\n        // Handle self-closing tags:\n        if (startTag.isSelfClosing()) {\n            boolean isKnownNonEmpty = tag.isKnownTag() && !tag.isEmpty();\n            // if a known tag allows self closing, but isn't implicitly empty, add the element to stack and then implicitly end it.\n            Element el = insertEmpty(startTag); // Insert node, acknowledge if needed.\n\n            if (isKnownNonEmpty) {\n                // Treat like <tag></tag>\n                // This handles tags like <div/> or <script/> which Jsoup parses leniently.\n                stack.add(el);\n                tokeniser.emit(new Token.EndTag(el.tagName())); // Emit implied end tag.\n            }\n            // else: unknown tag (<foo />) or known empty tag (<hr />). These are implicitly closed by insertEmpty.\n            // Do not add to stack or emit end tag for these. This ensures <foo /> stays as a single element.\n            return el;\n        }\n\n        // Handle normal non-self-closing start tags:\n        Element el = new Element(tag, baseUri, startTag.attributes);\n        insert(el); // Call the other insert method to add to tree and stack\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

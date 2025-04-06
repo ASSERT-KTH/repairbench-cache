@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Declares all of a function's arguments.\n     */\n    private void declareArguments(Node functionNode) {\n      Node astParameters = functionNode.getFirstChild().getNext();\n      FunctionType functionType = (FunctionType) functionNode.getJSType();\n      Node jsDocParameters = null;\n      if (functionType != null) {\n        jsDocParameters = functionType.getParametersNode();\n      }\n\n      Node currentJsDocParameter = (jsDocParameters == null) ? null : jsDocParameters.getFirstChild();\n\n      for (Node astParameter : astParameters.children()) {\n        JSType parameterType = null;\n        if (currentJsDocParameter != null) {\n          // Use the type from the JSDoc parameter node\n          parameterType = currentJsDocParameter.getJSType();\n          currentJsDocParameter = currentJsDocParameter.getNext();\n        }\n\n        // If no JSDoc type info was found for this parameter (because the JSDoc\n        // is incomplete or missing), or if the JSDoc type was null\n        // (which shouldn't happen but check defensively), use UNKNOWN_TYPE.\n        if (parameterType == null) {\n          parameterType = registry.getNativeType(JSTypeNative.UNKNOWN_TYPE);\n        }\n\n        // Declare the variable in the current scope. Functions parameters are\n        // implicitly declared.\n        defineSlot(astParameter, functionNode, parameterType, true);\n      }\n    } // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private final static int _parseIndex(String str) {\n        final int len = str.length();\n        // [core#133]: beware of super long indexes; assume we never\n        // have arrays over 2 billion entries so ints are fine.\n        if (len == 0 || len > 10) {\n            return -1;\n        }\n        // [core#176]: no leading zeroes allowed\n        // Check characters first AND leading zero condition\n        char c = str.charAt(0);\n        // First char must be a digit\n        if (c < '0' || c > '9') {\n             return -1;\n        }\n\n        // If len > 1, first char cannot be '0'\n        if (len > 1) {\n            if (c == '0') {\n                 return -1; // Leading zero with length > 1 is invalid\n            }\n            // Check remaining characters\n            for (int i = 1; i < len; ++i) {\n                c = str.charAt(i);\n                if (c > '9' || c < '0') {\n                    return -1;\n                }\n            }\n        }\n        // Note: we know len > 0 at this point and if len > 1, first char is not '0'.\n        // Also, all characters are digits.\n\n        // Check for potential overflow if len == 10\n        if (len == 10) {\n            long l = NumberInput.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                return -1;\n            }\n        }\n        // If checks pass, parse as int\n        return NumberInput.parseInt(str);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

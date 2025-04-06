@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        // Fix for JXPATH-151: A null value should not be treated as a collection of size 0.\n        // According to the Javadoc, if the property does not contain a collection (which null doesn't),\n        // the method should return -1. The original call ValueUtils.getLength(null) returned 0,\n        // causing JXPath to treat null properties as empty collections, failing predicates like [1].\n        Object baseValue = getBaseValue();\n        if (baseValue == null) {\n            return -1; // Treat null as a single value, not an empty collection.\n        }\n        // For non-null values, delegate to ValueUtils.\n        // Note: ValueUtils.getLength might return 1 for non-collection scalar values,\n        // which seems to be the expected behavior in JXPath for such cases,\n        // differing slightly from the \"otherwise -1\" in the Javadoc.\n        // We preserve this behavior for non-null values.\n        return ValueUtils.getLength(baseValue);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

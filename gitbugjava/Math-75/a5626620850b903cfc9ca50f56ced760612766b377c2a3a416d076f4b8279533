@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n      * Returns the percentage of values that are equal to v\n     * (as a proportion between 0 and 1).\n     * <p>\n     * Returns <code>Double.NaN</code> if no values have been added.</p>\n     *\n     * @param v the value to lookup\n     * @return the proportion of values equal to v\n     * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0\n     */\n    @Deprecated\n    public double getPct(Object v) {\n        // The non-deprecated getPct(Comparable<?>) has the correct logic.\n        // This deprecated version should delegate to it, handling potential\n        // ClassCastExceptions if 'v' is not Comparable or is incompatible\n        // with the types stored in the frequency distribution.\n        // The test case \"foo pct\" suggests returning 0 on such exceptions.\n        try {\n            return getPct((Comparable<?>) v);\n        } catch (ClassCastException e) {\n            // v is not Comparable or is incompatible with keys in the frequency table\n            return 0d;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

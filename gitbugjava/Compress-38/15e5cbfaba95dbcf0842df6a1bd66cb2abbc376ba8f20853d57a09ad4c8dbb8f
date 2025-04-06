@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // Check name convention (applies esp. when linkFlag=LF_NORMAL).\n        // A directory entry in TAR archives is often indicated by a trailing slash in its name.\n        // Per POSIX.1-2001 PAX specification: \"A path name that ends with a <slash>\n        // character specifies a directory.\"\n        // We also add a null check for robustness, although name should generally not be null.\n        final String name = getName();\n        if (name != null && name.endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

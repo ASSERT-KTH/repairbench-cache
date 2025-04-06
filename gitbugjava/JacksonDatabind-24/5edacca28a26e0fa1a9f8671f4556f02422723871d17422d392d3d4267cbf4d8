@@ -1,0 +1,7 @@
+{
+    "generation": "    public BaseSettings withDateFormat(DateFormat df) {\n        if (_dateFormat == df) {\n            return this;\n        }\n        /* Although formatters typically have timezone associated with them,\n         * we should NOT change the default TimeZone just because specified\n         * formatter might have one. Reason is that caller may just happen to\n         * have legacy code that uses such formatter, but really wants to use\n         * the TimeZone override.\n         */\n        // 21-Mar-2015, tatu: As per [databind#743], should NOT change timezone based on DateFormat\n        //TimeZone tz = (df == null) ? _timeZone : df.getTimeZone();\n        return new BaseSettings(_classIntrospector, _annotationIntrospector, _visibilityChecker, _propertyNamingStrategy, _typeFactory,\n                _typeResolverBuilder, df, _handlerInstantiator, _locale,\n                _timeZone, // Use the existing TimeZone, don't derive from DateFormat\n                 _defaultBase64);\n    }",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Compares this object to another based on size.\n     * @param object the object to compare to\n     * @return -1 if this is less than <tt>object</tt>, +1 if this is greater\n     *         than <tt>object</tt>, 0 if they are equal.\n     */\n    public int compareTo(Fraction object) {\n        // Comparison using double values can lead to precision errors.\n        // Compare based on cross-multiplication: a/b vs c/d <=> ad vs bc\n        // Use long for intermediate products to prevent integer overflow.\n        long n = this.getNumerator(); // assuming getNumerator() returns int\n        long d = this.getDenominator(); // assuming getDenominator() returns int\n        long on = object.getNumerator();\n        long od = object.getDenominator();\n\n        long diff = (n * od) - (on * d);\n\n        if (diff < 0L) {\n            return -1; // this fraction is less than the object fraction\n        } else if (diff > 0L) {\n            return 1;  // this fraction is greater than the object fraction\n        } else {\n            return 0;  // fractions are equal\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

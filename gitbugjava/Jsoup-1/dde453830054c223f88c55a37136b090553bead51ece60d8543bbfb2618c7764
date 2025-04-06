@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Iterate in reverse order to prepend nodes at the beginning of the body,\n        // maintaining their original relative order.\n        for (int i = toMove.size() - 1; i >= 0; i--) {\n            Node node = toMove.get(i);\n            element.removeChild(node); // Remove from original parent (e.g., <html>)\n            // Ensure body() exists, Jsoup parser does this, but good practice if method used elsewhere\n            if (body() != null) { \n                body().prependChild(node);  // Prepend to the start of <body>\n            }\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

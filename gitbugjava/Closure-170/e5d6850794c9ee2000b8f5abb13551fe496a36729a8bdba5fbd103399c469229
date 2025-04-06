@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the number of uses of the variable varName and store it in\n     * numUseWithinUseCfgNode.\n     * NOTE: This counts all references, including the left-hand side of simple assignments.\n     */\n    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName() && n.getString().equals(varName)) {\n            // Original code excluded LHS of simple assignments using a check like:\n            // !(parent.isAssign() && (parent.getFirstChild() == n)))\n            // This check is removed. FlowSensitiveInlineVariables needs to know\n            // about assignments within expressions (like ternaries in issue 965)\n            // even if they are assignments, as they represent a modification\n            // that can make inlining unsafe if the variable is used afterward.\n            // Counting all references (including LHS) helps detect this.\n            // The TODO in the original code also hinted that this special\n            // case might be removable with better side-effect analysis.\n            numUsesWithinCfgNode++;\n          }\n        }\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

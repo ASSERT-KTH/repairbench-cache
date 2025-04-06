@@ -1,0 +1,7 @@
+{
+    "generation": "import com.google.javascript.jscomp.ControlFlowGraph;\nimport com.google.javascript.jscomp.graph.GraphNode;\nimport com.google.javascript.rhino.Node;\n\n// Assume this method is part of a class that has a ControlFlowGraph field named 'cfg'\n// e.g., private ControlFlowGraph<Node> cfg;\n\n/**\n * Determines if a specific CFG node is part of a TRY block that has a\n * corresponding CATCH block.\n *\n * @param cfgNode The CFG node representing the instruction.\n * @return True if the node is inside a try block with a catch handler.\n */\nprivate boolean hasExceptionHandler(GraphNode<Node, ControlFlowGraph.Branch> cfgNode) {\n  // Retrieve the AST Node associated with the CFG node.\n  Node astNode = cfgNode.getValue();\n\n  // If the CFG node doesn't correspond to an AST node,\n  // it can't be inside a JavaScript try-catch block in the typical sense.\n  if (astNode == null) {\n    return false;\n  }\n\n  // Query the Control Flow Graph to find if there's an exception handler\n  // (a CATCH block) associated with this AST node.\n  // This relies on the ControlFlowAnalysis having computed handler information.\n  // 'cfg' is assumed to be an accessible instance of ControlFlowGraph<Node>.\n  Node handler = cfg.getExceptionHandler(astNode);\n\n  // If getExceptionHandler returns a non-null node, it signifies that\n  // an exception handler exists for this node.\n  return handler != null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

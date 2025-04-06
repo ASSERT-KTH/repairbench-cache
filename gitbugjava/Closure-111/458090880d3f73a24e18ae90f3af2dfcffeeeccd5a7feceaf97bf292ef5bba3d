@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        protected JSType caseTopType(JSType topType) {\n          // When restricting the TOP type (*), returning TOP means no restriction\n          // is possible. However, the SemanticReverseAbstractInterpreter often returns\n          // UNKNOWN_TYPE (?) here, indicating that further refinement based on\n          // context (like a function call check) might be possible.\n          // The failing test suggests that returning topType here prevents the\n          // goog.isArray check from successfully refining '*' to 'Array'.\n          // Restoring the behavior to return UNKNOWN_TYPE allows the refinement to proceed.\n          return getNativeType(JSTypeNative.UNKNOWN_TYPE);\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

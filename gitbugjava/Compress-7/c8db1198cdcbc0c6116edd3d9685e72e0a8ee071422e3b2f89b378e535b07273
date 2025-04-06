@@ -1,0 +1,7 @@
+{
+    "generation": "import java.nio.charset.StandardCharsets;\n\n    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     * <p>\n     * The String is created using the {@link StandardCharsets#ISO_8859_1} charset.\n     * </p>\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        int len = 0;\n        final int limit = offset + length;\n\n        // Find the first NUL or the end of the buffer segment\n        for (int i = offset; i < limit; ++i) {\n            if (buffer[i] == 0) {\n                break; // NUL terminator found\n            }\n            len++;\n        }\n\n        if (len <= 0) { // Handle cases where length is 0 or name is empty\n            return \"\";\n        }\n\n        // Decode the name bytes using ISO-8859-1.\n        // This assumes names in standard tar headers are encoded in ISO-8859-1,\n        // which preserves all byte values from 0-255.\n        // For PAX headers, UTF-8 parsing is typically handled elsewhere.\n        return new String(buffer, offset, len, StandardCharsets.ISO_8859_1);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

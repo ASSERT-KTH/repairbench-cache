@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // If 'that' isn't a record type, delegate to the generic ObjectType implementation.\n    // This handles cases like LUB(Record, number) or LUB(Record, Object).\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    // Both 'this' and 'that' are record types.\n    // The least common supertype of two record types, in the absence of structural\n    // subtyping relationships that would simplify the result (e.g., if A <: B, LUB(A,B) = B),\n    // is generally represented by their union.\n    // The UnionType logic itself should handle simplification if one record type\n    // happens to be a subtype of the other.\n    // The previous implementation attempted to find common properties, which is\n    // closer to computing the greatest common subtype (intersection).\n    return registry.createUnionType(this, that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

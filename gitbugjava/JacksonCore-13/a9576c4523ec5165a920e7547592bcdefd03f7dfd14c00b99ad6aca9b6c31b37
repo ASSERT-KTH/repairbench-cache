@@ -1,0 +1,7 @@
+{
+    "generation": "// Assuming the bug was in WriterBasedJsonGenerator._writeFieldName(SerializableString, boolean)\n// where the non-quoted branch incorrectly wrote the quoted version.\n\n// From: com.fasterxml.jackson.core.json.WriterBasedJsonGenerator\n// Method: _writeFieldName(SerializableString name, boolean commaBefore)\n\nprivate final void _writeFieldName(SerializableString name, boolean commaBefore) throws IOException\n{\n    if (_cfgPrettyPrinter != null) {\n        _writePrettyPrinterFieldName(name, commaBefore);\n        return;\n    }\n    // Try to output without checking length explicitly\n    if (commaBefore) {\n        _writeComma();\n    }\n    if (isEnabled(Feature.QUOTE_FIELD_NAMES)) {\n        // we know keys are safe ascii, so fine to use this method\n        _writer.write(name.asQuotedChars());\n    } else {\n        // If not quoting, use the raw value\n        _writer.write(name.getValue()); // FIX: Previously might have incorrectly used asQuotedChars() or similar\n    }\n    // write the separator\n    // In 2.10+ _writePPFieldNameSeparator handles colon for pretty-printing too\n    if (_cfgPrettyPrinter == null) {\n        _writer.write(':');\n    } else {\n        _writePPFieldNameSeparator(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

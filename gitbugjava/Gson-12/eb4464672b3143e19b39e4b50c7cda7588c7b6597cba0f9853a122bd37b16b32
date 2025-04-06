@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override public void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n      // If current token is NAME, skip the name *and* the associated value.\n      // nextName() consumes the name and positions the reader at the value.\n      nextName();\n      // Now skip the value itself by popping it from the stack.\n      // popStack() removes the value (which might be a primitive, object, array, or iterator)\n      popStack();\n    } else {\n      // If current token is not NAME (e.g., primitive, BEGIN/END_OBJECT/ARRAY, iterator),\n      // just pop it from the stack to skip it.\n      popStack();\n    }\n    // After skipping a value (or name/value pair), the parent container\n    // (if one exists) should have its index incremented.\n    // The parent's state (iterator) is at stackSize - 1 after the pop operations.\n    // Check if stackSize > 0 to prevent ArrayIndexOutOfBoundsException when skipping the root element.\n    if (stackSize > 0) {\n        pathIndices[stackSize - 1]++;\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

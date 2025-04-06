@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n\n    // Check if the call target is the global String function\n    if (callTarget != null && callTarget.isName() &&\n          callTarget.getString().equals(\"String\") &&\n          !callTarget.hasChildren()) { // Ensure it's not a method call like x.String()\n\n      // Check for exactly one argument\n      Node value = callTarget.getNext();\n      if (value != null && value.getNext() == null) {\n\n        // Fold String(a) to '' + (a) on immutable literals only.\n        // We can't do this in the general case, because String(a) has\n        // slightly different semantics than '' + (a) for objects. See\n        // http://code.google.com/p/closure-compiler/issues/detail?id=759\n        if (NodeUtil.isImmutableValue(value)) {\n          Node emptyString = IR.string(\"\").srcref(callTarget);\n          Node addition = IR.add(emptyString, value.detach());\n          // Copy type information and source information.\n          // The type of the ADD node should be string.\n          addition.setJSType(emptyString.getJSType());\n          addition.useSourceInfoIfMissingFromForTree(n);\n\n          n.getParent().replaceChild(n, addition);\n          reportCodeChange();\n          return addition;\n        }\n      }\n    }\n    return n;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

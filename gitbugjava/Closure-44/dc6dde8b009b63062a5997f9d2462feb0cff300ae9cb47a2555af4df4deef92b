@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // getLastChar() should return the last character appended.\n    // If the buffer is empty, it might return '\\0'.\n    char last = getLastChar();\n\n    // Condition 1: Check if we need space between words/identifiers.\n    if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(last)) {\n      // Need space to separate alphanumeric/identifier characters.\n      // For example: \"return foo;\"\n      append(\" \");\n\n    // Condition 2: Check if we need space to prevent adjacent slashes.\n    // This is necessary to prevent ambiguity between division operators\n    // and regular expression literals, or potential comment interpretation.\n    // For example, turning '=/foo/' into '= /foo/' or '/ / /' into '/ / /'.\n    // It also handles the specific case REGEXP DIV REGEXP -> / // / /\n    // by ensuring a space exists before and after the DIV slash if it's\n    // adjacent to other slashes.\n    } else if (c == '/' && last == '/') {\n      // Need space to avoid \"//\" sequences.\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // From POSIX TSU6 specification:\n        // A typeflag value of '5' specifies a directory.\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // COMPRESS-177: pax headers can contain paths ending in / for non-dirs\n        // ARCHIVE-148 related discussion: Filenames ending in \"/\" are not automatically directories.\n        // The type flag is the authoritative source. If linkFlag is not LF_DIR, it's not a directory.\n        // Note: LF_GNUTYPE_DIR ('D') is not supported by this implementation.\n        return false;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

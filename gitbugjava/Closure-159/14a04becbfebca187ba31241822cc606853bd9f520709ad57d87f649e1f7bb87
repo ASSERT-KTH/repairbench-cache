@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node callee = node.getFirstChild();\n      // Handle direct calls: foo()\n      if (callee.getType() == Token.NAME) {\n        changed.add(callee.getString());\n      }\n      // Handle calls via properties: foo.bar(), foo.call(), foo.apply()\n      else if (callee.getType() == Token.GETPROP) {\n        // Check the object part of the property access. If it's a name,\n        // it might be the function being invoked (e.g., 'foo' in 'foo.call()').\n        Node target = callee.getFirstChild();\n        if (target.getType() == Token.NAME) {\n          changed.add(target.getString());\n        }\n        // Note: This currently adds the base object name ('foo' in 'foo.bar()').\n        // Depending on the exact semantics required, one might want to add\n        // the property name ('bar') or handle qualified names differently.\n        // However, for the specific issue with .call() and .apply(), adding\n        // the base name ('foo') is the correct behavior to identify the\n        // underlying function being invoked.\n      }\n    }\n\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

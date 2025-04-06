@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    // We are only interested in function expressions that are assigned\n    // to a simple name or a qualified name, like:\n    //   var fn = function() {}\n    //   a.b = function() {};\n    //   var ns = {}; ns.fn = function() {};\n    // We specifically exclude getters and setters defined in object literals\n    // and member functions defined in classes, because the FunctionRewriter\n    // does not know how to handle them.\n    //   var obj = { get fn() {} }; // NOT reducible\n    //   class C { fn() {} } // NOT reducible\n    if (!NodeUtil.isFunctionExpression(n)) {\n      return false;\n    }\n\n    Node parent = n.getParent();\n    // Check for object literal getters/setters or class methods.\n    if (parent != null && (parent.isGetterDef() || parent.isSetterDef() || parent.isMemberFunctionDef())) {\n      return false;\n    }\n\n    // Otherwise, it is likely a function expression that can be rewritten.\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

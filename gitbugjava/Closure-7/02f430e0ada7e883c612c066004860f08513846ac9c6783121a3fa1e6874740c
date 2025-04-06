@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public JSType caseObjectType(ObjectType type) {\n      if (value.equals(\"function\")) {\n        JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n        if (resultEqualsValue) { // typeof x === 'function'\n          // If the object type 'type' could be a function (i.e., 'type' is a supertype of\n          // Function), then restrict it to the function type. Otherwise, this check\n          // fails and the resulting type is null (bottom).\n          return ctorType.isSubtype(type) ? ctorType : null;\n        } else { // typeof x !== 'function'\n          // If the object type 'type' is known to be a function (i.e., 'type' is a subtype\n          // of Function), then this check fails and the resulting type is null (bottom).\n          // Otherwise, the type is restricted to not being a function, which means\n          // it remains 'type' (e.g. Object, RegExp, etc.).\n          return type.isSubtype(ctorType) ? null : type;\n        }\n      }\n\n      // Handle cases where value is \"object\", \"string\", \"number\", etc.\n      // For an ObjectType 'type' (which isn't a function, handled above),\n      // typeof is \"object\". Check if the expectation matches this.\n      // matchesExpectation(str) returns true if (typeof type == str) == resultEqualsValue.\n      return matchesExpectation(\"object\") ? type : null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method called to expand size of the current segment, to\n     * accommodate for more contiguous content. Usually only\n     * used when parsing tokens like names if even then.\n     */\n    public char[] expandCurrentSegment()\n    {\n        final char[] curr = _currentSegment;\n        final int len = curr.length;\n\n        // [Core#152]: prevent shrinking or no-growth\n        int newLen;\n        // Growth logic: if segment is smaller than maximum, grow by 50%, capped at maximum.\n        // If segment is already at maximum or larger, grow by 25%.\n        if (len < MAX_SEGMENT_LEN) { // MAX_SEGMENT_LEN = 262144 by default\n            // Normal growth, by 50% (except if len is 1, grow by 1)\n            int incr = Math.max(1, len >> 1);\n            newLen = Math.min(MAX_SEGMENT_LEN, len + incr);\n        } else {\n            // Above intended maximum: slower growth by 25% -- but always grow by at least 1\n            // (25% is always > 0 for len >= MAX_SEGMENT_LEN)\n            int incr = len >> 2; // 25% growth\n            newLen = len + incr;\n            // Also check against integer overflow\n            if (newLen < len) { // integer overflow?\n                 // As fallback, just throw exception...\n                 throw new IllegalStateException(\"Maximum TextBuffer size exceeded\");\n            }\n        }\n        return (_currentSegment = Arrays.copyOf(curr, newLen));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

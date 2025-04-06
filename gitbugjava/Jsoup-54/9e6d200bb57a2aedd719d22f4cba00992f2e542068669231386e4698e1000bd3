@@ -1,0 +1,7 @@
+{
+    "generation": "        private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n            for (Attribute attribute : source.attributes()) {\n                // Try to set the attribute. If the key is not a valid XML attribute name,\n                // it will throw a DOMException, which we catch and ignore.\n                // This is better than trying to sanitize the key, which may not be robust\n                // and could lead to data loss or invalid keys (e.g., empty string).\n                try {\n                    // Trim key - XML spec doesn't allow leading/trailing spaces in names\n                    String key = attribute.getKey().trim(); \n                    // Issue 1645: Dont copy attributes with empty keys\n                    if (key.isEmpty()) continue;\n                    el.setAttribute(key, attribute.getValue());\n                } catch (org.w3c.dom.DOMException e) {\n                    // Ignore attributes with invalid names for W3C DOM.\n                    // For example, the HTML5 spec allows attribute names like '\"' or '.\"'\n                    // which are invalid in XML.\n                }\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

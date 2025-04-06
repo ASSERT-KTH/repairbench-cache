@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n      // Estimates whether the node evaluation may result in a string.\n      // TODO(nickreid): Handle more types (e.g. OR, AND). For now, limit to HOOK.\n      // If the node type is known precisely, delegate to the helper. Otherwise,\n      // use the recursive logic via allResultsMatch.\n      if (n.isHook()) {\n        // A hook result depends on the condition, check each branch.\n        // recurse must be true here. Recurse into the results.\n        Node first = n.getSecondChild();\n        Node second = n.getLastChild();\n        return mayBeString(first, true) || mayBeString(second, true);\n      }\n      return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n      // Just checks the node type without deep analysis.\n      return mayBeStringHelper(n);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

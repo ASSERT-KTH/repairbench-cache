@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Compute the maximum of two values\n     * @param a first value\n     * @param b second value\n     * @return the larger of a and b, handling NaN according to {@link Math#max(float, float)}\n     */\n    public static float max(final float a, final float b) {\n        // The original code had two issues:\n        // 1. When a > b and neither was NaN, it incorrectly returned b instead of a.\n        // 2. The NaN check used Float.isNaN(a + b), which is not equivalent to the\n        //    Math.max specification (return NaN if *either* argument is NaN) and fails\n        //    for cases like max(Infinity, -Infinity).\n        //\n        // This corrected version implements the logic according to Math.max(float, float):\n        // - If either a or b is NaN, return NaN.\n        // - Otherwise, return the greater of a and b.\n        //\n        // The ternary structure below achieves this:\n        // - If a <= b is true (and neither is NaN, because NaN comparisons are false), return b.\n        // - If a <= b is false (meaning a > b, or at least one is NaN):\n        //   - Check if Float.isNaN(a) || Float.isNaN(b) is true. If so, return Float.NaN.\n        //   - Otherwise (comparison was false implies a > b, and neither is NaN), return a.\n        return (a <= b) ? b : (Float.isNaN(a) || Float.isNaN(b) ? Float.NaN : a);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  private static String extractClassNameIfGoog(Node node, Node parent,\n      String functionName){\n    String className = null;\n    // Check if the parent is an EXPR_RESULT node, indicating a top-level call.\n    if (NodeUtil.isExprCall(parent)) {\n      // The node is the CALL node. The first child is the function being called.\n      Node callee = node.getFirstChild();\n      // Ensure the callee is a GETPROP (e.g., goog.require)\n      if (callee != null && callee.isGetProp()) {\n        // Get the qualified name (e.g., \"goog.require\")\n        String qualifiedName = callee.getQualifiedName();\n        // Check if it matches the function name we're looking for.\n        if (functionName.equals(qualifiedName)) {\n          // Get the first argument passed to the function.\n          Node target = callee.getNext();\n          // Ensure the argument exists and is a STRING literal.\n          if (target != null && target.isString()) {\n            // Extract the string value of the literal.\n            className = target.getString();\n          }\n        }\n      }\n    }\n    return className;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

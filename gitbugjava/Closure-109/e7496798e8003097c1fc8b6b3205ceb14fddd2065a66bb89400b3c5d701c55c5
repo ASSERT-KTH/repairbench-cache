@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?' | '*'\n   * For expressions on the right hand side of a this: or new:\n   * The '*' represents the ALL type.\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n      // Peek at the current token in the stream to decide the type.\n      JsDocToken currentToken = jsdocStream.peek();\n\n      if (currentToken == JsDocToken.QMARK) {\n          // Consume '?'\n          jsdocStream.next();\n          // Return a node representing the unknown type '?'\n          return newNode(Token.QMARK);\n      } else if (currentToken == JsDocToken.STAR) {\n          // Consume '*'\n          jsdocStream.next();\n          // Return a node representing the all type '*'\n          return newNode(Token.STAR);\n      } else {\n          // If it's not '?' or '*', assume it's a BasicTypeExpression.\n          // Delegate parsing to parseTypeName, passing the original token\n          // as it might be needed for context or error reporting by parseTypeName.\n          return parseTypeName(token);\n      }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

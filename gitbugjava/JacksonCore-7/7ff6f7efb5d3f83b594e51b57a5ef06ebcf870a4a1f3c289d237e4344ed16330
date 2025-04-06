@@ -1,0 +1,7 @@
+{
+    "generation": "    public int writeValue() {\n        // Most likely, object:\n        if (_type == TYPE_OBJECT) {\n            // Check if field name has already been written\n            if (!_gotName) {\n                // If not, can not write a value yet. Return error/expect-name state\n                // which generator is expected to check for.\n                // Note: A return value is needed; throwing exception was considered\n                // but seems inconsistent with other checks callers perform.\n                 return STATUS_EXPECT_NAME;\n            }\n            _gotName = false;\n            ++_index;\n            return STATUS_OK_AFTER_COLON;\n        }\n\n        // Ok, array?\n        if (_type == TYPE_ARRAY) {\n            int ix = _index;\n            ++_index;\n            return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n        }\n        \n        // Nope, root context\n        // No commas within root context, but need space\n        ++_index;\n        // Note: root context index starts at -1; after first value, 0\n        return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

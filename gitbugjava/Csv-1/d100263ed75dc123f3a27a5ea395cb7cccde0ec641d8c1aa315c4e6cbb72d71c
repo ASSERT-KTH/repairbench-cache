@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read(); // Read the character\n\n        // Increment line counter based on universal newline conventions (\\n, \\r, \\r\\n).\n        // The original code only incremented on '\\n'.\n        // This updated logic handles standalone '\\r' and '\\r\\n' sequences correctly,\n        // ensuring the line counter increments once per line terminator.\n        if (current == '\\r') {\n            // Check if the next character is '\\n' using lookahead capability.\n            // We assume lookAhead() is available in this class or its superclass.\n            if (lookAhead() != '\\n') {\n                // If '\\r' is not followed by '\\n', it's a standalone line terminator.\n                lineCounter++;\n            }\n            // If '\\r' is followed by '\\n' (CRLF), do nothing here.\n            // The counter will be incremented when the subsequent '\\n' is read.\n        } else if (current == '\\n') {\n            // If '\\n' is read, always increment the counter.\n            // This handles both standalone '\\n' and the '\\n' part of a CRLF sequence.\n            lineCounter++;\n        }\n\n        lastChar = current; // Update the state tracking the last character read\n        // Return the character read. The original returned lastChar, which was just assigned 'current'.\n        return lastChar;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

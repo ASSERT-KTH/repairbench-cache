@@ -1,0 +1,7 @@
+{
+    "generation": "        /**\n         * @param x Normalized objective variables.\n         * @return the original objective variables, possibly repaired.\n         */\n        public double[] repairAndDecode(final double[] x) {\n            // Decode the normalized variables to the original problem space.\n            // decode() uses the boundaries if they are set.\n            double[] decoded = decode(x);\n\n            // Repair the decoded variables by enforcing the bounds, if any.\n            // This step is necessary because the optimization might propose\n            // points slightly outside the bounds after decoding.\n            if (boundaries != null) {\n                for (int i = 0; i < decoded.length; i++) {\n                    // Ensure the value is not less than the lower bound.\n                    decoded[i] = Math.max(boundaries[0][i], decoded[i]);\n                    // Ensure the value is not greater than the upper bound.\n                    decoded[i] = Math.min(boundaries[1][i], decoded[i]);\n                }\n            }\n\n            // Return the repaired and decoded variables.\n            return decoded;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

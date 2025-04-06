@@ -1,0 +1,7 @@
+{
+    "generation": "        /**\n         * @param x Normalized objective variables.\n         * @return the original objective variables, possibly repaired.\n         */\n        public double[] repairAndDecode(final double[] x) {\n            // Decode the normalized variables to the original problem space.\n            double[] decoded = decode(x);\n\n            // Get the defined bounds.\n            final double[] lower = getLowerBound();\n            final double[] upper = getUpperBound();\n\n            // Repair variables that are outside the bounds.\n            // Note: Assumes lower and upper bounds have the same length as decoded.\n            // This should be guaranteed by the optimizer setup.\n            if (lower != null) {\n                for (int i = 0; i < decoded.length; i++) {\n                    if (decoded[i] < lower[i]) {\n                        decoded[i] = lower[i];\n                    }\n                }\n            }\n            if (upper != null) {\n                for (int i = 0; i < decoded.length; i++) {\n                    if (decoded[i] > upper[i]) {\n                        decoded[i] = upper[i];\n                    }\n                }\n            }\n\n            // Return the repaired (if necessary) and decoded variables.\n            return decoded;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

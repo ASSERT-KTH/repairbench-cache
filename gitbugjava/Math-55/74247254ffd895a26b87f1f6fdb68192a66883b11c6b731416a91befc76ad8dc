@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      // Use the alternative formula: v1 ^ v2 = 0.5 * ((v1 - v2) ^ (v1 + v2))\n      // This formulation is more accurate in case of nearly parallel vectors or vectors with large differences in magnitude.\n      // See Kahan lecture \"Computing Cross-Products and Rotations in 2- and 3-Dimensional Euclidean Spaces\"\n      // available at http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf (Section 10)\n\n      // Calculate v1 - v2 components\n      double dX = v1.x - v2.x;\n      double dY = v1.y - v2.y;\n      double dZ = v1.z - v2.z;\n\n      // Calculate v1 + v2 components\n      double sX = v1.x + v2.x;\n      double sY = v1.y + v2.y;\n      double sZ = v1.z + v2.z;\n\n      // Calculate (v1 - v2) ^ (v1 + v2) components\n      double cX = dY * sZ - dZ * sY;\n      double cY = dZ * sX - dX * sZ;\n      double cZ = dX * sY - dY * sX;\n\n      // Apply the 0.5 factor -> v1 ^ v2 = 0.5 * cross product of difference and sum\n      return new Vector3D(0.5 * cX, 0.5 * cY, 0.5 * cZ);\n\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

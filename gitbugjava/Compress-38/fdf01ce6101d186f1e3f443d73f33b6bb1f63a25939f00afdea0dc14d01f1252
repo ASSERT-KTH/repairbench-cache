@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        if (linkFlag == LF_DIR) { // Check for POSIX directory flag first\n            return true;\n        }\n\n        // PAX headers (types 'x' and 'g') are metadata entries, not directories,\n        // regardless of their name. This check prevents incorrectly identifying\n        // a PAX header entry as a directory if its name happens to end with \"/\".\n        // Assumes isPaxHeader() and isGlobalPaxHeader() check the linkFlag.\n        if (isPaxHeader() || isGlobalPaxHeader()) {\n            return false;\n        }\n\n        // Fallback for older tar formats (like V7) where directories are indicated\n        // solely by a trailing \"/\" in the name, often with a type flag of 0 or '\\0'.\n        // This check should come *after* checking the explicit directory flag and PAX types.\n        if (getName() != null && !getName().isEmpty() && getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

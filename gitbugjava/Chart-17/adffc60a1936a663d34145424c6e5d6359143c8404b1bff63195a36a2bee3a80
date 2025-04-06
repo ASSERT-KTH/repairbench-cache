@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns a clone of the time series.\n     * <P>\n     * Notes:\n     * <ul>\n     *   <li>no need to clone the domain and range descriptions, since String\n     *     object is immutable;</li>\n     *   <li>we pass over to the more general method createCopy(start, end)\n     *     if the series is not empty.</li>\n     * </ul>\n     *\n     * @return A clone of the time series.\n     *\n     * @throws CloneNotSupportedException not thrown by this class, but\n     *         subclasses may differ.\n     */\n    @Override\n    public Object clone() throws CloneNotSupportedException {\n        // Check if the series is empty. The createCopy() method requires\n        // start <= end, which is not the case for an empty series where\n        // getItemCount() - 1 is -1.\n        if (getItemCount() == 0) {\n            // For an empty series, calling super.clone() is sufficient.\n            // Series.clone() handles creating a new object with a new empty\n            // data list and copies relevant metadata.\n            return super.clone();\n        }\n        else {\n            // For a non-empty series, use createCopy to clone all items.\n            Object clone = createCopy(0, getItemCount() - 1);\n            return clone;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

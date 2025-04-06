@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n        u = punyUrl(u);\n        try {\n            //  odd way to encode urls, but it works!\n            String urlS = u.toExternalForm(); // URL external form may have spaces which is illegal in new URL() (odd asymmetry)\n            // Encode spaces and special characters in the path, query, and fragment\n            String[] parts = urlS.split(\"\\\\?\", 2);\n            String path = parts[0];\n            String query = parts.length > 1 ? parts[1] : \"\";\n            String[] queryParts = query.split(\"#\", 2);\n            String queryString = queryParts[0];\n            String fragment = queryParts.length > 1 ? queryParts[1] : \"\";\n            \n            path = path.replace(\" \", \"%20\").replace(\"[\", \"%5B\").replace(\"]\", \"%5D\");\n            queryString = queryString.replace(\" \", \"%20\");\n            fragment = fragment.replace(\" \", \"%20\");\n            \n            String encodedUrl = path + (queryString.isEmpty() ? \"\" : \"?\" + queryString) + (fragment.isEmpty() ? \"\" : \"#\" + fragment);\n            final URI uri = new URI(encodedUrl);\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // give up and return the original input\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

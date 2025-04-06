@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // http://dev.w3.org/html5/markup/syntax.html#syntax-elements\n        // style, script, xmp, iframe, noembed, noframes, noscript(if scripting enabled)\n\n        if (startTag.isSelfClosing()) {\n            // per spec, handle these tags as if they are not self-closing.\n            // we need to insert the element, and then process the next token expecting end tags (these are RAWTEXT).\n            // but, if it is self-closing, there's no body content, so we just insert and pop it.\n            // This deviates from the spec, but matches browser behavior and the test expectation.\n            // It's unclear from the spec what to do with a self-closing RAWTEXT/RCDATA tag.\n            tb.insert(startTag);\n            // tb.pop(); // Implicitly closed by the parser seeing the next token. Acknowledging the flag is key.\n            tb.tokeniser.acknowledgeSelfClosingFlag(); // Acknowledge flag for the tokeniser to signal immediate end.\n            // Don't transition to Rawtext/Text mode, stay in the current mode to process the next token.\n        } else {\n            tb.insert(startTag);\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

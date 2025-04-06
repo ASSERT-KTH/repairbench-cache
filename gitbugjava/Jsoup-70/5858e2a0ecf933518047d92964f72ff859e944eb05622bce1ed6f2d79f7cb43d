@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node instanceof Element) {\n            Element el = (Element) node;\n            int i = 0;\n            final int maxDepth = 5; // Define the maximum depth to check up the hierarchy\n            do {\n                if (el.tag().preserveWhitespace()) {\n                    return true; // Found an ancestor that preserves whitespace\n                }\n                el = el.parent(); // Move up to the parent\n                i++;\n            } while (i < maxDepth && el != null); // Continue while within depth limit and parent exists\n        }\n        // If the node is not an element, or no preserving ancestor is found within the depth limit\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

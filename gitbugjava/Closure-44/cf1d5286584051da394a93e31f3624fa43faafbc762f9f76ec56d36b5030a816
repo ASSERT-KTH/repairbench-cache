@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // getLastChar should be called after maybeEndStatement, as that function\n    // can change the state of the buffer.\n    char last = getLastChar();\n\n    // Avoids consecutive word chars. ex: return foo; -> return foo;\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(last)) {\n      // need space to separate. This is not pretty printing.\n      // For example: \"return foo;\"\n      append(\" \");\n    // Note: we don't need similar logic for numeric literals because\n    // that is handled separately by the numberOutputFormatter.\n    // --\n    // Do not allow a forward slash to appear immediately after a forward slash,\n    // as that has significance in JavaScript (comments, regexes).\n    // For example,\n    // REGEXP DIV REGEXP\n    // is valid and should print like\n    // / // / /\n    // But,\n    // / // / /\n    // is invalid. / followed immediately by / is bad.\n    // / \\/ / is the only safe way to print / / according to EcmaScript $7.8.5\n    // http://code.google.com/p/closure-compiler/issues/detail?id=620\n    } else if (c == '/' && last == '/') {\n      // Avoids // which is ambiguous, ex: / / / / -> / \\/ / /\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

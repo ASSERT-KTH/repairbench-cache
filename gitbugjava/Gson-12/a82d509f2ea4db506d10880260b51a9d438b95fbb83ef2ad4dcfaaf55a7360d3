@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override public void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n      nextName();\n      // Note: original code modified pathNames for parent here. Requires stackSize >= 2. Assume ok.\n      pathNames[stackSize - 2] = \"null\";\n      // TODO: Consider if parent index pathIndices[stackSize - 2] should be incremented here.\n    } else {\n      // Pop the value/array/object. Assume stack is not empty initially if peek() succeeded.\n      popStack();\n      // If stack is not empty after pop, update info for the parent (now at top).\n      // This prevents ArrayIndexOutOfBoundsException when root element is popped (stackSize becomes 0).\n      if (stackSize > 0) {\n          // Original code updated parent name slot and incremented parent index here (implicitly or explicitly).\n          pathNames[stackSize - 1] = \"null\";\n          pathIndices[stackSize - 1]++;\n      }\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

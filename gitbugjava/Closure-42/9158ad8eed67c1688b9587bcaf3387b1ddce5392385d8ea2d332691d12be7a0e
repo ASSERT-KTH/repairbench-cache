@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // Check if it's the unsupported \"for each..in\" loop\n        if (loopNode.isForEach()) {\n            // Report the specific error message required by the test\n            handleError(loopNode, \"unsupported language extension: for each\");\n            // The test parseError expects the parsing to fail due to this error.\n            // We still need to return a Node to keep the AST structure somewhat valid,\n            // as indicated by the original comment, although the error should halt compilation.\n        }\n\n        // Transform the loop as a standard for..in loop.\n        // Return the bare minimum to put the AST in a valid state.\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

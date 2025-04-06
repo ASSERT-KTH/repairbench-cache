@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes()) { // Use childNodes() for a defensive copy\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                // Check if the text node is effectively empty (whitespace only)\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Insert the collected nodes at the beginning of the body, maintaining their relative order.\n        // Use an explicit index for insertion.\n        int insertIndex = 0;\n        for (Node node: toMove) {\n            element.removeChild(node); // Remove from original parent (e.g., <html>)\n            // Insert the node at the beginning of the body. Incrementing the index ensures\n            // nodes that appeared later in the original parent still appear later\n            // relative to other moved nodes, but all moved nodes are placed at the start\n            // of the body element.\n            body().insertChildren(insertIndex, node); \n            insertIndex++; // Increment index for the next node to maintain order\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

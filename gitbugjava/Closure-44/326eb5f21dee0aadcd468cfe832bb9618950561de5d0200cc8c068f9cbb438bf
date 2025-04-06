@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // getLastChar() needs to return the last character appended,\n    // not the last non-whitespace character.\n    char last = getLastChar();\n\n    // Condition 1: Word character separation\n    // Need space to separate keywords, idents, etc. E.g. \"return foo;\"\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(last)) {\n      // Need space to separate. This is not pretty printing.\n      // For example: \"return foo;\"\n      append(\" \");\n      // The comment below about DIV/REGEXP was misplaced here in the original code.\n    }\n    // Condition 2: Avoid ambiguity with comments or division.\n    // Prevent problematic sequences like // when '/' is emitted.\n    // Specifically, this is needed for cases like REGEXP DIV REGEXP (e.g. / / / / /)\n    // or when printing regex literals containing slashes (e.g. / \\/ /).\n    // These could otherwise be printed incorrectly as / /// / or similar.\n    else if (c == '/' && last == '/') {\n      // Do not allow a forward slash to appear immediately after a forward slash.\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

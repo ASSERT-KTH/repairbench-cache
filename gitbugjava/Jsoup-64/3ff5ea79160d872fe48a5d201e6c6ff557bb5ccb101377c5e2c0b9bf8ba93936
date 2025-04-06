@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html#parsing-elements-that-contain-only-text\n        // section 12.2.5.2\n        tb.insert(startTag);\n\n        if (startTag.isSelfClosing()) {\n            // Special handling for self-closing tags like <style /> or <noframes />.\n            // Treat them as <style></style> or <noframes></noframes>.\n            // Emit the end tag immediately, and don't transition to Rawtext/Text modes.\n            // The TreeBuilder will process the emitted end tag right after this method returns,\n            // effectively closing the element. This matches browser behavior.\n            tb.tokeniser.emit(new Token.EndTag(startTag.normalName()));\n        } else {\n            // Standard handling: switch tokeniser state and insertion mode to handle the content.\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * For this disbution, X, this method returns P(X &lt; <code>x</code>).\n     * @param x the value at which the CDF is evaluated.\n     * @return CDF evaluted at <code>x</code>.\n     * @throws MathException if the algorithm fails to converge; unless\n     * x is more than 20 standard deviations from the mean, in which case the\n     * convergence exception is caught and 0 or 1 is returned.\n     */\n    public double cumulativeProbability(double x) throws MathException {\n        final double dev = x - mean;\n        // Handle extreme values directly. Referencing Javadoc discussion:\n        // x is more than 20 standard deviations from the mean.\n        // MATH-167: Check was previously evaluating erf((x-mean)/stdDev)\n        // which could be +/- Infinity for extreme values of x.\n        if (Math.abs(dev / standardDeviation) > 20) {\n             return dev < 0 ? 0.0d : 1.0d;\n        }\n        // Standard case: Use erf function\n        return 0.5 * (1.0 + Erf.erf(dev / (standardDeviation * Math.sqrt(2.0))));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

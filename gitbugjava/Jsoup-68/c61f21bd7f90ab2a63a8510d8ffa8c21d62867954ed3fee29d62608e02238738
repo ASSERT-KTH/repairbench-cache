@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n        // https://html.spec.whatwg.org/multipage/parsing.html#has-an-element-in-the-specific-scope\n        // Limits the search up the stack to reasonably prevent performance issues and potential stack overflows in parsing.\n        final int startPos = stack.size() - 1; // Index of the current node (bottom of stack)\n        // Calculate the lowest index to check, limiting the search depth up the stack.\n        // Check at most MaxScopeSearchDepth + 1 elements (from startPos down to endPos inclusive).\n        final int endPos = Math.max(0, startPos - MaxScopeSearchDepth); // Ensure we don't check beyond the stack root (index 0)\n\n        for (int pos = startPos; pos >= endPos; pos--) { // Iterate upwards from current node within the limited scope\n            final String elName = stack.get(pos).nodeName();\n            if (inSorted(elName, targetNames))\n                return true;\n            if (inSorted(elName, baseTypes))\n                return false;\n            if (extraTypes != null && inSorted(elName, extraTypes))\n                return false;\n        }\n        // Hit search depth limit or stack root without finding target or scope boundary.\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

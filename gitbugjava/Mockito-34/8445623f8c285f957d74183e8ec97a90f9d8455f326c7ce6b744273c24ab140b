@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        Object[] arguments = i.getArguments(); // Cache arguments array\n        int k = 0;\n        for (Matcher m : matchers) {\n            // Ensure index k is within the bounds of the arguments array\n            // This check prevents ArrayIndexOutOfBoundsException for varargs calls\n            // where the number of actual arguments might be less than the number of matchers.\n            if (k < arguments.length) {\n                if (m instanceof CapturesArguments) {\n                    ((CapturesArguments) m).captureFrom(arguments[k]);\n                }\n            }\n            // If k >= arguments.length, there's no corresponding argument for this matcher.\n            // This happens, for example, when a varargs method is invoked with zero varargs,\n            // but a vararg matcher (like anyVararg()) exists. In such cases, skip capture.\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

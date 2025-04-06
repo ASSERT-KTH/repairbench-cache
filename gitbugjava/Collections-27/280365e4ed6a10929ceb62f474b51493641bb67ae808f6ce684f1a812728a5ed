@@ -1,0 +1,7 @@
+{
+    "generation": "// This method should be added inside the private static class ReflectionFactory<T extends Collection<?>>\n// within org.apache.commons.collections4.map.MultiValueMap\nprivate void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject(); // Reads the 'proto' field (the Class object)\n\n    // Validate the deserialized class ('proto') to ensure it's a Collection type.\n    // This prevents deserialization of MultiValueMaps created with non-Collection classes\n    // via the Class-based factory method, which could lead to runtime errors later.\n    if (proto == null) {\n        // Should not happen if serialization was correct, but good practice to check.\n        throw new UnsupportedOperationException(\"Deserialized ReflectionFactory contains a null class.\");\n    }\n    if (!Collection.class.isAssignableFrom(proto)) {\n        // Throw exception if the stored class is not a Collection subclass.\n        throw new UnsupportedOperationException(\n                \"Deserialized ReflectionFactory does not contain a Collection subclass: \" + proto.getName());\n    }\n    // Note: Further checks (e.g., ensuring the class is concrete and has a no-arg constructor)\n    // could be added but are omitted here as they would typically fail later during 'create()'.\n    // The primary goal here is to prevent deserialization with fundamentally incorrect types like String.class.\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

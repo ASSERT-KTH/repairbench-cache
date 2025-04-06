@@ -1,0 +1,7 @@
+{
+    "generation": "    public UTF8StreamJsonParser(IOContext ctxt, int features, InputStream in,\n            ObjectCodec codec, BytesToNameCanonicalizer sym,\n            byte[] inputBuffer, int start, int end,\n            boolean bufferRecyclable)\n    {\n        super(ctxt, features);\n        _inputStream = in;\n        _objectCodec = codec;\n        _symbols = sym;\n        _inputBuffer = inputBuffer;\n        _inputPtr = start;\n        _inputEnd = end;\n        // If we have offset, need to omit that from byte offset, so:\n        _bufferRecyclable = bufferRecyclable;\n        // 02-Mar-2014, tatu: Relevant for [Issue#111]. Need to adjust offsets properly\n        // when we start parsing from non-zero offset within the buffer.\n        if (start > 0) {\n            // Re-initialize current location indicators now that we have the buffer info\n           _currInputProcessed = -start;\n           // Also, need to adjust row start to reflect the initial offset\n           _currInputRowStart = start;\n           // Note: _tokenInputTotal is normally calculated from _currInputProcessed,\n           // and _tokenInputCol from _inputPtr and _currInputRowStart, so they\n           // should be correctly initialized.\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

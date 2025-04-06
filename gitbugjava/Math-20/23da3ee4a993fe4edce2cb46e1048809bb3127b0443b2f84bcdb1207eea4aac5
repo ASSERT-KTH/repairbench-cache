@@ -1,0 +1,7 @@
+{
+    "generation": "        /**\n         * @param x Normalized objective variables.\n         * @return the original objective variables, possibly repaired.\n         */\n        public double[] repairAndDecode(final double[] x) {\n            // Decode the normalized variables 'x' into the original problem space.\n            double[] repaired = decode(x);\n\n            // Check if boundaries have been set for this optimization problem.\n            // 'boundaries' is a field in CMAESOptimizer, storing [lower[], upper[]].\n            if (boundaries != null) {\n                // Get the lower and upper bounds.\n                final double[] lower = boundaries[0];\n                final double[] upper = boundaries[1];\n\n                // Iterate through each dimension of the decoded vector.\n                for (int i = 0; i < repaired.length; i++) {\n                    // If the decoded value is below the lower bound, clamp it to the lower bound.\n                    if (repaired[i] < lower[i]) {\n                        repaired[i] = lower[i];\n                    // If the decoded value is above the upper bound, clamp it to the upper bound.\n                    } else if (repaired[i] > upper[i]) {\n                        repaired[i] = upper[i];\n                    }\n                }\n            }\n            // Return the (potentially) repaired and decoded variables.\n            return repaired;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

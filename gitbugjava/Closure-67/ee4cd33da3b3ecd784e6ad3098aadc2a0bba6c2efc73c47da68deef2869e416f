@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node lhs = assign.getFirstChild();\n      // Check if LHS is non-null and a valid assignment target\n      if (lhs != null && NodeUtil.isVarOrSimpleAssignLhs(lhs, assign)) {\n        // Check if the LHS is a property access (GETPROP or GETELEM)\n        // Example: Foo.prototype.bar or Foo.prototype['bar']\n        if (lhs.isGetProp() || lhs.isGetElem()) {\n          // Get the object being accessed (the part before '.' or '[')\n          // Example: Foo.prototype\n          Node objectNode = lhs.getFirstChild();\n\n          // Check if this object part is itself a GETPROP (must be something like *.prototype)\n          if (objectNode != null && objectNode.isGetProp()) {\n            // Get the property name node of the object part\n            // Example: the \"prototype\" part of Foo.prototype\n            Node propertyNameNode = objectNode.getSecondChild();\n\n            // Check if the property name is the string \"prototype\"\n            if (propertyNameNode != null && propertyNameNode.isString() &&\n                propertyNameNode.getString().equals(\"prototype\")) {\n              // It's an assignment to a prototype property like:\n              // x.prototype.y = ...\n              // x.prototype['y'] = ...\n              return true;\n            }\n          }\n        }\n      }\n      return false; // Not a prototype property assignment\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

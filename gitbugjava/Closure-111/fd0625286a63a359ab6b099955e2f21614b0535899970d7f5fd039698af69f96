@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        protected JSType caseTopType(JSType topType) {\n          // When a check like goog.isObject(x) or goog.isArray(x) is true,\n          // and x originally had type ALL_TYPE (*), we need to refine it.\n          // Returning the original topType provides no information.\n          // Many Closure checks (isObject, isArray, isFunction) refine ALL_TYPE\n          // to a non-null object subtype. Returning !Object provides a\n          // reasonable starting point for further refinement based on the specific\n          // check (e.g., intersecting !Object with Array for goog.isArray).\n          // This aligns with tests like testGoogIsObject which expect !Object\n          // as the refinement for ALL_TYPE.\n          JSType objectType = getNativeType(JSTypeNative.OBJECT_TYPE);\n          // Ensure we handle cases where objectType might not be available or restrictToNotNull fails\n          if (objectType != null) {\n              JSType restrictedType = objectType.restrictToNotNull();\n              if (restrictedType != null) {\n                  return restrictedType;\n              }\n          }\n          // Fallback to original behavior if restriction fails, though unlikely\n          return topType; \n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

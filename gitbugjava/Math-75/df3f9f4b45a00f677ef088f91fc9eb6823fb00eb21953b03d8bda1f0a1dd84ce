@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n      * Returns the percentage of values that are equal to v\n     * (as a proportion between 0 and 1).\n     * <p>\n     * Returns <code>Double.NaN</code> if no values have been added.</p>\n     *\n     * @param v the value to lookup\n     * @return the proportion of values equal to v\n     * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0\n     */\n    @Deprecated\n    public double getPct(Object v) {\n        final long n = getSumFreq(); // Get total frequency count\n        if (n == 0) {\n            return Double.NaN; // Handle case of no values\n        }\n        long count = 0;\n        try {\n            // Get frequency count for the specific value v.\n            // Need to cast to Comparable first as getCount likely expects Comparable keys,\n            // based on other method signatures like getPct(Comparable) and getCumPct(Comparable).\n            count = getCount((Comparable<?>) v);\n        } catch (ClassCastException e) {\n            // If v is not Comparable or cannot be compared with the existing values\n            // stored in the frequency distribution, its count is considered 0.\n            // This is consistent with how getPct(Comparable) would handle a value\n            // not present in the distribution.\n            count = 0;\n        }\n        // Calculate and return the percentage (count of v / total count)\n        return (double) count / n;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

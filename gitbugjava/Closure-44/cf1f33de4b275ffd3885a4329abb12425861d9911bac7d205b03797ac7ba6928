@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    char last = getLastChar(); // Get the last character added\n\n    // Handle potential word separation issue, e.g., \"return foo;\" -> \"returnfoo\"\n    if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(last)) {\n      // Need space to separate. This is not pretty printing.\n      // For example: \"return foo;\"\n      append(\" \");\n    }\n    // Handle potential ambiguity between division operator and regexps/comments.\n    // Do not allow a forward slash to appear immediately after a DIV operator\n    // if the slash starts a regular expression. For example,\n    // REGEXP DIV REGEXP like / / / / / should print like / // / /.\n    // To achieve this, we add a space only if the last char was '/'\n    // and the new code starts with '/' and represents more than just the '/'\n    // character itself (heuristically distinguishing DIV from REGEXP).\n    else if (last == '/' && c == '/' && newcode.length() > 1) {\n      // Add space to avoid ambiguity, e.g. \"/ /\" becoming \"//\"\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

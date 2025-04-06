@@ -1,0 +1,7 @@
+{
+    "generation": "    private JavaType _mapType(Class<?> rawClass)\n    {\n        // [databind#810]: Properties are special, as <String,String>\n        if (rawClass == java.util.Properties.class) {\n            // We will just default to String properties... historically used Object/Object\n            // Need to make sure _stringType is available:\n            JavaType stringType = _typeCache.findValueType(String.class);\n            if (stringType == null) { // unlikely but possible if cache not populated\n                stringType = constructType(String.class);\n            }\n            return MapType.construct(rawClass, stringType, stringType);\n        }\n\n        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n        // ok to have no types (\"raw\")\n        if (typeParams == null) {\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            // \u0644\u0644\u0645\u0632\u064a\u062f check: maybe we should just default to Object/Object?\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": cannot determine type parameters\");\n        }\n        return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

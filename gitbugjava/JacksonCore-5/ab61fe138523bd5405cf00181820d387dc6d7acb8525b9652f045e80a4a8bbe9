@@ -1,0 +1,7 @@
+{
+    "generation": "    private final static int _parseIndex(String str) {\n        final int len = str.length();\n        // [Issue#133]: beware of super long indexes; assume we never\n        // have arrays over 2 billion entries so ints are fine.\n        if (len == 0 || len > 10) {\n            return -1;\n        }\n        // Optimize: Check first char, required to be digit\n        char c = str.charAt(0);\n        if (c < '0' || c > '9') {\n             return -1;\n        }\n        // And then others\n        for (int i = 1; i < len; ++i) {\n            c = str.charAt(i); // *** FIX: Do not increment i here, loop does it ***\n            if (c > '9' || c < '0') {\n                return -1;\n            }\n        }\n        // Also, need to avoid leading zeroes, unless number is 0\n        if (len > 1 && str.charAt(0) == '0') {\n             return -1;\n        }\n\n        // Ok, validated now. But does it fit in int?\n        if (len == 10) {\n            long l = NumberInput.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                return -1;\n            }\n        }\n        // Yes, fits:\n        return NumberInput.parseInt(str);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

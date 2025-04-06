@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node instanceof Element) { // instanceof check handles null\n            Element el = (Element) node;\n            int i = 0;\n            final int MaxLevels = 5; // Check current element + 4 ancestors\n            do {\n                if (el.tag.preserveWhitespace()) {\n                    return true; // Found an element that preserves whitespace\n                }\n                // Move up to the parent\n                Node parent = el.parent();\n                // Check if parent is suitable for continuing the search\n                if (parent instanceof Element) {\n                    el = (Element) parent;\n                } else {\n                    // Reached root or a non-Element parent\n                    break;\n                }\n                i++;\n            } while (i < MaxLevels); // Limit the search depth\n        }\n        // Didn't find a preserving element within the depth limit, or node wasn't an Element\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

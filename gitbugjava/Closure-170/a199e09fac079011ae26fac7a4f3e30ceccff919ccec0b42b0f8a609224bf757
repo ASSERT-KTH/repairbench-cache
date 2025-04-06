@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the number of uses of the variable varName and store it in\n     * numUseWithinUseCfgNode.\n     */\n    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          // If n is a NAME node representing the variable being tracked.\n          // We count all occurrences, including the LHS of assignments,\n          // because this count is used to check if there's exactly one usage\n          // site within this CFG node. An assignment is treated as a potential\n          // complication that prevents inlining here.\n          // See https://github.com/google/closure-compiler/issues/965\n          if (n.isName() && n.getString().equals(varName)) {\n              numUsesWithinCfgNode++;\n          }\n        }\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

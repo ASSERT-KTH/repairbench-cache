@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // seeing a character after a / in a start tag suggests an invalid character arrangement\n                    // possibly a attribute name. reconsume the character and go to before attribute name state\n                    t.error(this);\n                    r.unconsume(); // Reconsume the character\n                    t.transition(BeforeAttributeName);\n            }\n        }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

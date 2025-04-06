@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object baseValue = getBaseValue();\n        // According to test JXPath151Test and MixedModelTest#testNull,\n        // a null property value should behave like a collection of size 1\n        // containing null, allowing indexed access like property[1] to yield null.\n        if (baseValue == null) {\n            return 1;\n        }\n        // Check if the base value is a Collection, Array, or JXPath Container\n        // Use fully qualified name to avoid assuming imports.\n        if (org.apache.commons.jxpath.util.ValueUtils.isCollection(baseValue)) {\n             // For actual collections/arrays, return their size using ValueUtils.getLength\n             // ValueUtils.getLength handles Collections, Arrays, and Containers correctly.\n             return org.apache.commons.jxpath.util.ValueUtils.getLength(baseValue);\n        }\n        // For non-null, non-collection objects (scalars like String, Number, Boolean),\n        // return -1 as specified in the Javadoc comment (\"otherwise - 1\").\n        // This distinguishes scalar properties from collections of size 1.\n        return -1;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

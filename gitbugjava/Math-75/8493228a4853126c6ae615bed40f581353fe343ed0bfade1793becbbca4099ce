@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n      * Returns the percentage of values that are equal to v\n     * (as a proportion between 0 and 1).\n     * <p>\n     * Returns <code>Double.NaN</code> if no values have been added.</p>\n     *\n     * @param v the value to lookup\n     * @return the proportion of values equal to v\n     * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0\n     */\n    @Deprecated\n    public double getPct(Object v) {\n        // The previous implementation incorrectly called getCumPct.\n        // The correct behavior for getPct is to return the percentage\n        // of the specific value v, not the cumulative percentage.\n        // This deprecated method should delegate to the non-deprecated\n        // getPct(Comparable<?>) method as indicated by the Javadoc.\n        if (getSumFreq() == 0) {\n            return Double.NaN;\n        }\n        // Assuming getCount(Comparable<?> v) and getSumFreq() methods exist.\n        // Calculate percentage as count(v) / total count.\n        // Note: The replacement method getPct(Comparable) likely already does this.\n        // Delegating directly to it is the simplest fix if it exists and works.\n        // We assume the non-deprecated getPct(Comparable) is correct.\n        try {\n            return getPct((Comparable<?>) v);\n        } catch (ClassCastException e) {\n            // Match behavior of other methods like getCumPct(Object)\n            return 0d;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

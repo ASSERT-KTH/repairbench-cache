@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method called to expand size of the current segment, to\n     * accommodate for more contiguous content. Usually only\n     * used when parsing tokens like names if even then.\n     */\n    public char[] expandCurrentSegment()\n    {\n        final char[] curr = _currentSegment;\n        final int len = curr.length;\n\n        // Determine increment direction based on current size: 50% for small, 25% for large\n        // (but ensure minimum increment is 1, not 0, for len=0)\n        int increment = (len < MAX_SEGMENT_LEN) ? (len >> 1) : (len >> 2);\n        // Ensure minimum increment is 1, crucial for len=0\n        if (increment < 1) {\n            increment = 1;\n        }\n        int newLen = len + increment;\n\n        // Check for integer overflow (should not happen with reasonable segment sizes)\n        if (newLen < 0) {\n             // As per [jackson-core#1017], indicates we have already exceeded maximum addressable\n             // array size and should not try to expand further\n            throw new IllegalStateException(\"Maximum segment size (\"+len+\") reached, cannot expand\");\n        }\n\n        // Need to check reasonableness of size? For now, let's assume ok\n        // Also: must be strictly bigger. Increased minimum from 0 to 1 handles that.\n\n        return (_currentSegment = Arrays.copyOf(curr, newLen));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

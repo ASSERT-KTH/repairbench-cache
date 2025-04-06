@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html#parsing-main-inrawtext\n        tb.insert(startTag);\n\n        if (startTag.isSelfClosing()) {\n            // If the start tag is self-closing, treat it as an opening tag followed immediately by an end tag.\n            // This seems to be how browsers handle self-closing tags for elements like <style> or <noframes>\n            // which aren't specified as void elements.\n            // Acknowledge the flag, pop the element. Don't change tokenizer or parser state.\n            tb.tokeniser.acknowledgeSelfClosingFlag();\n            // Need to pop the element insert() pushed onto the stack\n            if (startTag.name().equals(tb.currentElement().nodeName())) // Safety check, should always be true\n                 tb.pop();\n            // The parser remains in the current state (e.g., InHead) to process the next token.\n        } else {\n            // Not self-closing, regular rawtext element like <style> or <noframes>\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

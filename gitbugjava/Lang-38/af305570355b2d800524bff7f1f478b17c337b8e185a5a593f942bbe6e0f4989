@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Formats a <code>Calendar</code> object into the\n     * supplied <code>StringBuffer</code>.</p>\n     * \n     * @param calendar  the calendar to format\n     * @param buf  the buffer to format into\n     * @return the specified string buffer\n     */\n    public StringBuffer format(Calendar calendar, StringBuffer buf) {\n        Calendar c = calendar; // Use original calendar by default\n        if (mTimeZoneForced) {\n            // Create a new calendar in the FastDateFormat's timezone\n            // Reassign the calendar variable WITHOUT cloning the original\n            // Calendar has states that affect the interpretation of the input calendar instance\n            // and applying the timezone rules. \n            // The previous code cloned the calendar, but the clone semantic was not complete\n            // and did not reset the states of the calendar.LANG-1581\n            c = new GregorianCalendar(mTimeZone);\n            // Set it to the same instant as the input calendar\n            c.setTime(calendar.getTime());\n        }\n        return applyRules(c, buf); // Apply rules using the appropriate calendar\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

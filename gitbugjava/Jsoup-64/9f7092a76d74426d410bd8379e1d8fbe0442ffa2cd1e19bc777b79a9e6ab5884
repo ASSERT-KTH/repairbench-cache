@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html#parsing-elements-that-contain-only-text\n        // handle <script>, <style>, <textarea> etc\n        tb.insert(startTag);\n\n        // Check if the tag is self-closing (e.g., <style />). If so, treat it as an empty element.\n        if (startTag.isSelfClosing()) {\n            // A self-closing tag here implies an immediate end tag.\n            // Acknowledge the flag in the tokeniser. For non-foreign elements like <style>,\n            // HTML spec \u00a712.2.6.3 suggests this should also pop the node.\n            // We explicitly pop it here to ensure the element is closed and the parser\n            // does not transition to the Text state expecting content.\n            tb.tokeniser.acknowledgeSelfClosingFlag();\n            tb.pop(); // Pop the node to close the element.\n        } else {\n            // For regular start tags (e.g., <style>), switch states according to spec.\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

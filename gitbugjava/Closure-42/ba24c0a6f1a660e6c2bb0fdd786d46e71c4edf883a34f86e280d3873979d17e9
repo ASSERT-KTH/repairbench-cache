@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n      // Check if it's the unsupported \"for each\" variant.\n      // Rhino supports this as a non-standard extension, but the compiler does not.\n      if (loopNode.isForEach()) {\n        // Report the specific error message required by the failing test.\n        // Use the generic PARSE_ERROR type and provide the exact string.\n        reportError(loopNode, RhinoErrorReporter.PARSE_ERROR,\n            \"unsupported language extension: for each\");\n      }\n\n      // Original transformation logic:\n      // Return the bare minimum to put the AST in a valid state,\n      // representing it as a standard FOR node (for..in).\n      // Even if an error was reported for \"for each\", we return a\n      // structurally valid node. The error manager will ultimately halt compilation.\n      return newNode(\n          Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

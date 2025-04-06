@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n        // If x is not a single non-negative digit (0-9), or if this Dfp is NaN or Infinite,\n        // it's safer to convert x to a Dfp and use the general multiplication method.\n        // The general method handles NaN/Infinity rules and multi-digit multiplication correctly.\n        // The multiplyFast method is likely optimized only for finite 'this' and single non-negative digit 'x'.\n        if (x < 0 || x >= 10 || isNaN() || isInfinite()) {\n             // getField() should return the DfpField instance associated with this Dfp object.\n             // newDfp(x) creates a Dfp representation of the integer x using that field.\n            return multiply(getField().newDfp(x));\n        }\n\n        // If this Dfp is finite and x is a single non-negative digit, use the optimized multiplyFast method.\n        return multiplyFast(x);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

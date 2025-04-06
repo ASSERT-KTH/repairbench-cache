@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read(); // Read the actual character\n\n        // Increment counter based on 'current' and the *previous* value of 'lastChar'.\n        // This logic correctly handles different line endings: \\n, \\r, and \\r\\n,\n        // preventing double counting for \\r\\n.\n        if (current == '\\r') {\n            // Increment for a standalone CR or the CR part of a CRLF sequence.\n            lineCounter++;\n        } else if (current == '\\n') {\n            // Increment for a standalone LF only.\n            // If the previous character was CR (\\r), the counter was already\n            // incremented in the previous step for the \\r.\n            if (lastChar != '\\r') {\n                lineCounter++;\n            }\n        }\n\n        // Update lastChar to the current character *after* using its previous value.\n        lastChar = current;\n\n        // Return the character just read.\n        return current;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

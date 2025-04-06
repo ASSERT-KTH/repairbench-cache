@@ -1,0 +1,7 @@
+{
+    "generation": "import java.awt.Shape;\nimport org.jfree.chart.util.ShapeUtilities;\n\n    /**\n     * Tests the list for equality with another object (typically also a list).\n     *\n     * @param obj  the other object (<code>null</code> permitted).\n     *\n     * @return A boolean.\n     */\n    @Override\n    public boolean equals(Object obj) {\n\n        if (obj == this) {\n            return true;\n        }\n        // Check if obj is the same specific type. While List contract suggests\n        // checking instanceof List, many JFreeChart classes compare against\n        // the specific type or a common abstract parent. Checking ShapeList\n        // maintains consistency with the original code's intent and typical patterns.\n        if (!(obj instanceof ShapeList)) {\n            return false;\n        }\n        ShapeList other = (ShapeList) obj;\n        int size = size();\n        // Check size equality\n        if (size != other.size()) {\n            return false;\n        }\n        // Compare elements using ShapeUtilities.equal for robust shape comparison\n        for (int i = 0; i < size; i++) {\n            Shape s1 = this.getShape(i); // Use the specific getter\n            Shape s2 = other.getShape(i); // Use the specific getter\n            if (!ShapeUtilities.equal(s1, s2)) {\n                return false;\n            }\n        }\n        // If all checks pass, the lists are equal\n        return true;\n\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

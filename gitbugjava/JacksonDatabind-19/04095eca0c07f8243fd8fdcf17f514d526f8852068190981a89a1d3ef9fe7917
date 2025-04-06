@@ -1,0 +1,7 @@
+{
+    "generation": "    private JavaType _mapType(Class<?> rawClass)\n    {\n        // [databind#810]: Properties are special, force to <String,String>\n        if (rawClass == Properties.class) {\n            return MapType.construct(rawClass, _stringType(), _stringType());\n        }\n        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n        // ok to have no types (\"raw\")\n        if (typeParams == null) {\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            // 18-Jan-2016, tatu: Unless we are dealing with Properties... was already handled above\n            /*\n            if (rawClass == Properties.class) {\n                return MapType.construct(rawClass, _stringType(), _stringType());\n            }\n            */\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": can not determine type parameters\");\n        }\n        return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

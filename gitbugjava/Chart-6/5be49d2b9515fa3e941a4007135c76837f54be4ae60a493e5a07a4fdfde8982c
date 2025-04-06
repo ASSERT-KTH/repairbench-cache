@@ -1,0 +1,7 @@
+{
+    "generation": "import java.awt.Shape;\nimport org.jfree.chart.util.ShapeUtilities;\n\n    /**\n     * Tests the list for equality with another object (typically also a list).\n     *\n     * @param obj  the other object (<code>null</code> permitted).\n     *\n     * @return A boolean.\n     */\n    @Override\n    public boolean equals(Object obj) {\n\n        if (obj == this) {\n            return true;\n        }\n        // Note: ShapeList extends AbstractObjectList which extends AbstractList.\n        // AbstractObjectList overrides equals incorrectly (simply obj == this).\n        // AbstractList provides a correct list comparison based on Object.equals().\n        // We need to reimplement the logic here, using ShapeUtilities.equal()\n        // for comparing the Shape elements, as Shape.equals() is not reliable.\n\n        if (!(obj instanceof ShapeList)) {\n            return false;\n        }\n        ShapeList other = (ShapeList) obj;\n        int size = size();\n        if (other.size() != size) {\n            return false;\n        }\n        for (int i = 0; i < size; i++) {\n            Shape s1 = (Shape) get(i); // get() is from AbstractList\n            Shape s2 = (Shape) other.get(i);\n            // ShapeUtilities.equal handles null arguments correctly\n            if (!ShapeUtilities.equal(s1, s2)) {\n                return false;\n            }\n        }\n        return true;\n\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

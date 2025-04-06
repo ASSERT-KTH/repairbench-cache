@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns true iff they are equal as defined by\n     * {@link #equals(double,double,int) equals(x, y, 1)}.\n     *\n     * @param x first value\n     * @param y second value\n     * @return {@code true} if the values are equal.\n     */\n    public static boolean equals(double x, double y) {\n        // The Javadoc specifies that this method should behave identically to equals(x, y, 1).\n        // The failing test org.apache.commons.math.util.MathUtilsTest::testArrayEquals\n        // includes the assertion:\n        // assertFalse(MathUtils.equals(new double[] { Double.NaN }, new double[] { Double.NaN }));\n        // This implies that equals(Double.NaN, Double.NaN) must return false.\n        // The original implementation returned true for equals(NaN, NaN) due to the\n        // (Double.isNaN(x) && Double.isNaN(y)) check.\n        // Assuming the referenced equals(double, double, int) method correctly handles\n        // NaN comparison (i.e., equals(NaN, NaN, 1) returns false) and performs\n        // comparison based on ULPs (Units in the Last Place) for non-NaN values,\n        // delegating to equals(x, y, 1) is the correct fix according to the Javadoc\n        // and will pass the failing test regarding NaN comparison.\n        return equals(x, y, 1);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

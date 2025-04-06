@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * There are two types of calls we are interested in calls without explicit\n     * \"this\" values (what we are call \"free\" calls) and direct call to eval.\n     */\n    private void annotateCalls(Node n) {\n      Preconditions.checkState(n.isCall());\n\n      // Keep track of of the \"this\" context of a call.  A call without an\n      // explicit \"this\" is a free call.\n      Node first = n.getFirstChild();\n      Node function = first; // The node representing the function being called\n\n      // Ignore cast nodes. Look at the expression being cast to determine call\n      // type, but leave the CAST node in place.\n      if (function.isCast()) {\n        function = function.getFirstChild();\n      }\n\n      // A call is a free call if the function expression is not a GETPROP or GETELEM.\n      if (!NodeUtil.isGet(function)) {\n        n.putBooleanProp(Node.FREE_CALL, true);\n      }\n\n      // Keep track of the context in which eval is called. It is important\n      // to distinguish between \"(0, eval)()\" and \"eval()\".\n      // Check the function expression, potentially after looking through a cast.\n      if (function.isName() &&\n          \"eval\".equals(function.getString())) {\n        // Mark the NAME node as a direct eval call.\n        function.putBooleanProp(Node.DIRECT_EVAL, true);\n      }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild(); // LHS of the assignment\n\n      // Check if LHS is a valid assignment target and is a property/element access\n      // e.g., a.b.prototype.c = ... or a.b.prototype['c'] = ...\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && (n.isGetProp() || n.isGetElem()) // Allow GETPROP (like . ) or GETELEM (like [] )\n         ) {\n\n        // n.getFirstChild() is the object part being accessed, e.g., a.b.prototype\n        Node objectNode = n.getFirstChild();\n\n        // Check if the object part is specifically a GETPROP node ending in \".prototype\"\n        // e.g., objectNode represents \"a.b.prototype\"\n        if (objectNode != null && objectNode.isGetProp()) {\n          // objectNode = GETPROP(..., 'prototype')\n\n          // Get the property name node from the objectNode (the \".prototype\" part)\n          Node propertyNameNode = objectNode.getLastChild();\n\n          // Check if the property name is the string \"prototype\"\n          if (propertyNameNode != null && propertyNameNode.isString() &&\n              propertyNameNode.getString().equals(\"prototype\")) {\n            // We have confirmed the structure is (...).prototype.PROPERTY or (...).prototype[PROPERTY]\n            return true;\n          }\n        }\n      }\n\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

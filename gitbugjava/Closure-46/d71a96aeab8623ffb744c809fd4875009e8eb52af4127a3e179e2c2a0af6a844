@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // If 'that' isn't a record type, delegate to the standard JSType logic.\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    // Both 'this' and 'that' are RecordTypes.\n    // The superclass's getLeastSupertype implementation handles equivalence\n    // and subtype relationships. If none of those apply, it should default\n    // to creating a union type for the least common supertype.\n    // The previous logic here incorrectly computed a record type based on\n    // common properties with identical types, which is not the standard LUB.\n    // Delegating to the superclass ensures the correct behavior, including\n    // creating a UnionType when appropriate, as expected by the failing tests.\n    return super.getLeastSupertype(that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // getLastChar() needs to be called before any potential append(\" \")\n    // to ensure we get the char actually before newcode.\n    char last = getLastChar();\n\n    // Ensure a space after keywords or operators preceding identifier start chars.\n    // or backslash. This is not pretty printing, it is required for correctness.\n    // e.g. \"return foo;\"\n    if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(last)) {\n      append(\" \");\n    // Don't let / appear immediately after /. This is important in two contexts:\n    // 1. Escaping / in regexps: / / / -> / \\/ /\n    //    The tokenizer should normally handle this, but if we are feeding raw\n    //    strings that contain //, we need to escape it.\n    // 2. Placing space between division operators / and regexp literals /:\n    //    For example, / // / / needs a space. This is handled by the code\n    //    generator inserting \"/\" between the regexp and the / operator.\n    // This specifically addresses the case where the code generator does something like\n    // addRegexp(...) then add(\"/\"). If the regexp ends in '/', and the next token\n    // is '/', we need a space. This fixes Issue 620.\n    } else if (c == '/' && last == '/') {\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

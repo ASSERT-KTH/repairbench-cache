@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // Handles inputs like <style>, <script>, <noframes> etc.\n        // Insert the tag, then transition to Rawtext state to read the contents.\n        // If the tag is self-closing, insert based on that, pop immediately, and don't transition states.\n        tb.insert(startTag);\n\n        if (startTag.isSelfClosing()) {\n            tb.pop(); // Close the tag immediately\n            tb.tokeniser.acknowledgeSelfClosingFlag(); // Acknowledge flag\n            // Do not transition to Rawtext or Text, as there's no content. Stay in current state.\n        } else {\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

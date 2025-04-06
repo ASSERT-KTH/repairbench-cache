@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        // Find all non-blank TextNodes directly under the input 'element'.\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Iterate backwards through the collected TextNodes to maintain their original order when prepending.\n        for (int i = toMove.size() - 1; i >= 0; i--) {\n            Node node = toMove.get(i);\n            // Remove the node from its original parent (likely the html element).\n            element.removeChild(node);\n            // Prepend the node to the beginning of the body element.\n            body().prependChild(node);\n            // Prepend a space before the node to ensure separation from any preceding content\n            // or previously moved nodes.\n            body().prependChild(new TextNode(\" \", \"\"));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

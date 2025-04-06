@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            // Important: we MUST use a construct that DOES NOT close the underlying byte[]\n            // (or rather, does not managed it).\n            return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n        }\n        // [databind#391] Used to pass 'src' directly, Calculate offset/length\n        // important: we MUST similarly NOT close the underlying reader -- (false)\n        // is important.\n        return _bindAndReadValues(_considerFilter(\n                _parserFactory.createParser(src, offset, length), true));\n    }\n",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

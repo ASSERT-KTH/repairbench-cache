@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Set the attribute value.\n     @param val the new attribute value; must not be null\n     */\n    public String setValue(String val) {\n        String oldVal;\n        if (parent != null) {\n            // First, get the old value from the parent Attributes collection\n            oldVal = parent.get(this.key);\n            int i = parent.indexOfKey(this.key);\n            // If the key exists in the parent, update the value in the parent's internal array\n            if (i != Attributes.NotFound)\n                parent.vals[i] = val;\n        } else {\n            // If this attribute is an orphan, the old value is its current value\n            oldVal = this.val;\n        }\n        // Update the value stored directly in this Attribute object\n        this.val = val;\n        // Return the value that was replaced (from the parent if available, otherwise from self)\n        // Use the original checkNotNull method, assuming it's intended.\n        return Attributes.checkNotNull(oldVal);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

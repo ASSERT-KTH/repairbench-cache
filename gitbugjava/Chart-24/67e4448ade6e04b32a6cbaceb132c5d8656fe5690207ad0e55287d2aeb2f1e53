@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns a paint for the specified value.\n     * \n     * @param value  the value (must be within the range specified by the\n     *         lower and upper bounds for the scale).\n     * \n     * @return A paint for the specified value.\n     */\n    public Paint getPaint(double value) {\n        // Clamp the value to the range [lowerBound, upperBound]\n        double v = Math.max(value, this.lowerBound);\n        v = Math.min(v, this.upperBound);\n        \n        // Calculate the gray level using the clamped value 'v'\n        // to ensure the result is between 0.0 and 1.0 before scaling.\n        int g = (int) ((v - this.lowerBound) / (this.upperBound\n                - this.lowerBound) * 255.0);\n                \n        // Ensure 'g' is strictly within the 0-255 range, although\n        // using the clamped 'v' should already guarantee this\n        // unless lowerBound equals upperBound.\n        g = Math.max(g, 0);\n        g = Math.min(g, 255);\n        \n        return new Color(g, g, g);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

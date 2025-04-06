@@ -1,0 +1,7 @@
+{
+    "generation": "    private JavaType _mapType(Class<?> rawClass)\n    {\n        // [databind#810]: Properties are special, must be <String,String>\n        if (rawClass == Properties.class) {\n            // Use SimpleType.constructUnsafe() for String type to avoid potential recursion issues\n            // if _stringType() relies on constructType() which calls back here.\n            // A safer approach might be to have pre-constructed String type constants.\n            // Assuming _stringType() is safe or TypeFactory has constants like _stringType:\n             return MapType.construct(rawClass, _stringType(), _stringType());\n        }\n        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n        // ok to have no types (\"raw\")\n        if (typeParams == null) {\n            // Call SimpleType.constructUnsafe() for Object type if _unknownType relies on constructType()\n            // Assuming _unknownType() is safe or TypeFactory has constants like _unknownType:\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": can not determine type parameters\");\n        }\n        return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

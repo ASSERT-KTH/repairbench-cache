@@ -1,0 +1,7 @@
+{
+    "generation": "    public Object generateId(Object forPojo) {\n        // 04-Jun-2016, tatu: As per [databind#1255], need to consider possibility of\n        //    id being generated for \"alwaysAsId\", but not being written as POJO; regardless,\n        //    need to use existing id if there is one:\n\n        // First, check if we have already seen the object:\n        if (_seenObjects == null) {\n            // Note: must be IdentityHashMap to avoid issues with distinct but\n            // equal key Objects\n            _seenObjects = _createMap();\n        }\n        Object id = _seenObjects.get(forPojo);\n        if (id == null) {\n            // If not seen, generate new id, store it:\n            id = generator.generateId(forPojo);\n            _seenObjects.put(forPojo, id);\n        }\n        return id;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

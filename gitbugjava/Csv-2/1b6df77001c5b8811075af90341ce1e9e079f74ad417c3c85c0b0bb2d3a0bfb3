@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns a value by name.\n     *\n     * @param name\n     *            the name of the column to be retrieved.\n     * @return the column value, or {@code null} if the column name is not found\n     * @throws IllegalStateException\n     *             if no header mapping was provided\n     * @throws IllegalArgumentException\n     *             if the record is inconsistent (header map references an index not present in this record)\n     * @see #isConsistent()\n     */\n    public String get(final String name) {\n        if (mapping == null) {\n            throw new IllegalStateException(\n                    \"No header mapping was specified, the record values can't be accessed by name\");\n        }\n        final Integer index = mapping.get(name);\n        if (index == null) {\n            // Header name not found\n            return null;\n        }\n        // Check if the fetched index is valid for the current record's values array\n        // This handles cases where the record is shorter than expected by the header.\n        final int i = index.intValue();\n        if (i >= values.length) {\n            throw new IllegalArgumentException(\n                String.format(\"Index for header '%s' is %d but CSVRecord only has %d values!\",\n                              name, index, values.length));\n        }\n        return values[i];\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

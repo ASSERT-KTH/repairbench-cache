@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Recalculate the hash code after deserialization. The hash code of some\n     * keys might have change (hash codes based on the system hash code are\n     * only stable for the same process).\n     * @return the instance with recalculated hash code\n     */\n    private Object readResolve() {\n        // Recalculate the hash code directly to ensure the transient hashCode field is set.\n        int total = 0;\n        if (this.keys != null) { // Check if keys array is not null\n            for (final Object key : this.keys) {\n                if (key != null) {\n                    total ^= key.hashCode();\n                }\n            }\n        }\n        this.hashCode = total; // Assign the calculated hash code to the transient field\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

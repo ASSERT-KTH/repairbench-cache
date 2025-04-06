@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    JsonToken peek = in.peek();\n    if (peek == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n    if (peek != JsonToken.STRING) {\n      // The test `testUnexpectedToken` expects IllegalStateException for non-string, non-null tokens.\n      // Original code threw JsonParseException, which did not match the test expectation.\n      // Gson's standard behavior might throw JsonSyntaxException, but we align with the provided test.\n      throw new IllegalStateException(\"Expected STRING but was \" + peek);\n    }\n    // Reads the string value and deserializes it.\n    Date date = deserializeToDate(in.nextString());\n    \n    // Converts to the specific Date subtype if necessary.\n    if (dateType == Date.class) {\n      return date;\n    } else if (dateType == Timestamp.class) {\n      return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n      return new java.sql.Date(date.getTime());\n    } else {\n      // This case should be unreachable due to constructor validation.\n      // It's kept as a safeguard.\n      throw new AssertionError(\"Unexpected date type: \" + dateType);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

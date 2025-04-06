@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        // Obtain arguments array once to avoid repeated calls and get its length.\n        Object[] arguments = i.getArguments();\n        int actualArgumentCount = arguments.length;\n\n        for (Matcher m : matchers) {\n            // Check if the matcher is designed to capture arguments.\n            if (m instanceof CapturesArguments) {\n                // Check if there is an actual argument corresponding to the matcher's position.\n                // This prevents ArrayIndexOutOfBoundsException when matchers > arguments (e.g., empty varargs).\n                if (k < actualArgumentCount) {\n                    ((CapturesArguments) m).captureFrom(arguments[k]);\n                }\n                // If k >= actualArgumentCount, it means this matcher corresponds to a position\n                // where no argument was provided (like an empty vararg). In this case,\n                // we simply don't capture anything for this matcher, which seems correct.\n            }\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

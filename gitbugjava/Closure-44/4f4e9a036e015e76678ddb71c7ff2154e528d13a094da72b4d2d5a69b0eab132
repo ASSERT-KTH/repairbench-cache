@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // getLastChar() needs to return the last character written to the buffer,\n    // not the last significant character.\n    char last = getLastChar();\n\n    // Check if a space is needed before appending the new code.\n    boolean needsSpace = false;\n\n    // Original condition: Avoid merging two word characters (like \"returnfoo\").\n    // Added check for c == '\\\\' based on original code.\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(last)) {\n      needsSpace = true;\n    }\n    // Fix for Issue 620: Prevent ambiguity when '/' follows '/'.\n    // This occurs when a division operator immediately follows a regex literal\n    // or when two division operators are adjacent (though less common).\n    // Example: /a/ / /b/ must be printed with a space in between the slashes\n    // to avoid being misinterpreted as /a///b/.\n    else if (c == '/' && last == '/') {\n      needsSpace = true;\n    }\n    // Future enhancement: Consider cases like \"+ +\" and \"- -\".\n    // else if ((c == '+' || c == '-') && c == last) {\n    //   needsSpace = true;\n    // }\n\n\n    if (needsSpace) {\n      // Insert a space to separate the previous code and the new code.\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

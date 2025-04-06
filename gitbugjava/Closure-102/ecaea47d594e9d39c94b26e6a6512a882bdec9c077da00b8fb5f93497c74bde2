@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void process(Node externs, Node root) {\n    // VarCheck builds scope information, which is needed by MakeDeclaredNamesUnique.\n    NodeTraversal.traverse(compiler, root, this);\n\n    // Make sure that vars are definitions and not declarations,\n    // so that MakeDeclaredNamesUnique is more effective.\n    removeDuplicateDeclarations(root);\n\n    // Ensure that names are unique.\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n      NodeTraversal t = new NodeTraversal(compiler, renamer);\n      t.traverseRoots(externs, root);\n    }\n\n    // Propagate constant annotations after all variable renaming is done.\n    // Note that removing duplicate declarations might have created new constants,\n    // so this pass should run after it.\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

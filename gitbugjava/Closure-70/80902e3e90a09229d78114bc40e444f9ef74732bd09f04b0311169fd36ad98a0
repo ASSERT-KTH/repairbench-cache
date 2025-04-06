@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Declares all of a function's arguments.\n     */\n    private void declareArguments(Node functionNode) {\n      Node astParameters = functionNode.getFirstChild().getNext();\n      // Node body = astParameters.getNext(); // This variable is unused.\n\n      FunctionType functionType = JSType.toMaybeFunctionType(functionNode.getJSType());\n      Node jsDocParameters = null;\n      if (functionType != null) {\n        jsDocParameters = functionType.getParametersNode();\n      }\n\n      Node jsDocParameter = (jsDocParameters == null) ? null : jsDocParameters.getFirstChild();\n\n      for (Node astParameter : astParameters.children()) {\n        JSType paramType = null;\n        if (jsDocParameter != null) {\n          // We might have fewer JSDoc params than AST params.\n          paramType = jsDocParameter.getJSType();\n          jsDocParameter = jsDocParameter.getNext();\n        }\n        // Declare the parameter in the scope. Use the JSDoc type if\n        // available, otherwise let the type be inferred.\n        // The last argument 'true' signifies that this is a parameter\n        // declaration.\n        defineSlot(astParameter, functionNode, paramType, true);\n      }\n    } // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

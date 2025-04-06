@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // The previous logic computed a record type based on the intersection\n    // of properties with equivalent types. This is incorrect for the\n    // least supertype operation. For example, LUB({a:number}, {b:string})\n    // should not be {}. The tests expect a Union Type in cases where\n    // neither record type is a subtype of the other.\n    // Delegating to the superclass's implementation handles standard LUB\n    // rules (like subtype returning the supertype, etc.) and likely\n    // creates a UnionType when appropriate, matching the test expectations.\n    // It also handles the case where 'that' is not a RecordType correctly.\n    return super.getLeastSupertype(that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

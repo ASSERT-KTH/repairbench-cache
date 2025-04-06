@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _verifySharing()\n    {\n        if (_hashShared) {\n            // Need to make copies of arrays, if shared\n            _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n            _names = Arrays.copyOf(_names, _names.length);\n            _hashShared = false;\n\n            // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n            //    we rehash as needed, as need-rehash flag is not copied from parent.\n            //    But more importantly, state may be such that we HAVE TO rehash\n            //    already (considering that threshold is calculated based on hash size,\n            //    not necessarily entry count)\n            // Check if the copied state already requires rehashing\n            if (_count > _sizeThreshold) {\n                 rehash();\n                 // Note: rehash() resets the _needRehash flag\n            }\n            // If rehash() was not called, _needRehash is still false (as set in constructor),\n            // so the check below would be redundant inside this block.\n        }\n        // Independent of sharing, check if rehashing is needed. This handles two cases:\n        // 1. Child table was copied, did not need immediate rehash, but later operations triggered it.\n        // 2. Root table needed rehashing.\n        if (_needRehash) {\n            rehash();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

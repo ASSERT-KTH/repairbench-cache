@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {\n        // https://html.spec.whatwg.org/multipage/parsing.html#has-an-element-in-the-specific-scope\n\n        // The stack search depth needs to be limited to prevent StackOverflowErrors on excessively deep stacks.\n        // See: https://github.com/jhy/jsoup/issues/1829\n\n        final int bottom = stack.size() - 1; // Index of the last element (current node)\n        // Calculate the top bound for the search, limited by MaxScopeSearchDepth\n        final int top = Math.max(0, bottom - MaxScopeSearchDepth); // Don't go lower than position 0\n\n        // Check elements from the bottom up to the calculated top limit\n        for (int pos = bottom; pos >= top; pos--) {\n            final String elName = stack.get(pos).nodeName();\n            if (inSorted(elName, targetNames))\n                return true; // Found a target element in scope\n            if (inSorted(elName, baseTypes))\n                return false; // Found a base type boundary element, stop searching\n            if (extraTypes != null && inSorted(elName, extraTypes))\n                return false; // Found an extra type boundary element, stop searching\n        }\n        // Reached the search limit (top) or the root without finding a matching target or boundary.\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

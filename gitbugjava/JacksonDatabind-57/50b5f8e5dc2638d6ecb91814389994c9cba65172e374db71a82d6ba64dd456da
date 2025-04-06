@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            // We need to pass 'true' for auto-close, since these implicitly create InputStream from bytes\n            // 18-Oct-2017, tatu: Related to [databind#1173], not sure if reliable fix but...\n            DataFormatReaders.Match match = _dataFormatReaders.findFormat(src, offset, length);\n            // important: if no format is found, need to use the default one\n            if (!match.hasMatch()) {\n                 return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src, offset, length),\n                         true));\n            }\n            return _detectBindAndReadValues(match, true);\n        }\n        // 04-May-2018, tatu: [databind#2032] Need to respect offset/length in this case too\n        return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src, offset, length),\n                true));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _verifySharing()\n    {\n        if (_hashShared) {\n            // Create non-shared copies of data structures\n            _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n            _names = Arrays.copyOf(_names, _names.length);\n            _hashShared = false;\n\n            // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n            //    we rehash as needed, as need-rehash flag is not copied from parent.\n            // 12-Dec-2015, tatu: Note: we must check read-need AFTER having unshared,\n            //    as the flag is not checked by primary add methods otherwise.\n            // Let's also inline the check from `_verifyNeedForRehash()` / `_addNameSpill()`\n            // which determines if the current state requires rehashing.\n            if (_spilloverEnd >= _longNameOffset) { // Check if spillover area is full\n                 _needRehash = true;\n            }\n        }\n        // Need to check if we really need to rehash, regardless of sharing status\n        // (we may have just copied a full table that needs rehashing)\n        if (_needRehash) {\n            rehash();\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

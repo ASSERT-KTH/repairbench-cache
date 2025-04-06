@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            // Handle comments, doctypes, and special tags first\n            if (r.matches('!')) {\n                r.advance();\n                t.transition(TokeniserState.MarkupDeclarationOpen);\n            } else if (r.matches('/')) {\n                r.advance();\n                t.transition(TokeniserState.EndTagOpen);\n            } else if (r.matchesLetter()) {\n                // Start tag name\n                t.createTagPending(true); // true = start tag\n                t.transition(TokeniserState.TagName);\n                // No need to consume or advance here; TagName state will handle the character (reconsume)\n            } else if (r.matches('?')) {\n                // Bogus comment <!> tag open <?>\n                r.advance(); // consume the '?'\n                t.createBogusCommentPending();\n                t.transition(TokeniserState.BogusComment);\n            } else {\n                // Parse error. Emit '<' token. Transition back to Data state (reconsume current char)\n                t.error(this);\n                t.emit('<');\n                t.transition(TokeniserState.Data);\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

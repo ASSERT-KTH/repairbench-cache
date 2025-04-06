@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the matrix.\n     * This method computes the square root of the symmetric positive semi-definite\n     * matrix {@code m} using {@link EigenDecomposition}.\n     *\n     * @param m Symmetric, positive semi-definite matrix.\n     * @return the square-root of the matrix {@code m}.\n     * @throws org.apache.commons.math3.linear.NonPositiveDefiniteMatrixException\n     * if {@code m} is not positive semi-definite.\n     * @throws org.apache.commons.math3.linear.NonSymmetricMatrixException\n     * if {@code m} is not symmetric.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n            // Note: The OutOfMemoryError in PolynomialFitterTest::testLargeSample\n            // is unlikely caused by this function directly, as the matrix 'm'\n            // (related to the covariance matrix) is small (size = number of parameters, <= 10x10 in the test).\n            // The OOM is more likely due to memory pressure from handling a large number\n            // of observations (40,000) during the main optimization loop (e.g., Jacobian computation)\n            // *before* this function is called.\n            // However, the function itself uses the standard and correct approach.\n            final EigenDecomposition dec = new EigenDecomposition(m);\n            return dec.getSquareRoot();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            // important: we are NOT to close the underlying reader by default\n            DataFormatReaders.Match match = _dataFormatReaders.findFormat(src, offset, length);\n            // TODO: perhaps close if no match, or something?\n            // 26-Oct-2017, tatu: As per [databind#1805], need to ensure we create actual\n            //    parser instance using matched factory, AND that it is fed with data\n            return _detectBindAndReadValues(match, false);\n        }\n        // 03-Feb-2018, tatu: As per [databind#1842], must handle offset/length here too\n        return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src, offset, length),\n                true));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

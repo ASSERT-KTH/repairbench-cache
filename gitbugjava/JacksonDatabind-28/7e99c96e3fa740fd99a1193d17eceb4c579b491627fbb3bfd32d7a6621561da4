@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            // 03-Aug-2018, tatu: Simple check to avoid passing structured types, walking arrays etc:\n            if (p.isExpectedStartObjectToken()) {\n                p.nextToken();\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            JsonToken t = p.getCurrentToken();\n            if (t == JsonToken.END_OBJECT) {\n                 // 23-Sep-2015, tatu: Ugh. We may also be given END_OBJECT (similar to FIELD_NAME),\n                 //    if caller has advanced to the first token of Object, but for empty Object\n                 return ctxt.getNodeFactory().objectNode();\n            }\n            if (t == JsonToken.FIELD_NAME) {\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // Prio to 2.9.7 we threw exception; but it seems more logical to\n            // check for possibility of Array value too?\n            // (Try to be more tolerant WRT structural conversions)\n            /* Let's not allow this quite yet\n            if (t == JsonToken.START_ARRAY) {\n                 // !!! TODO: implement\n            }\n            */\n            throw ctxt.mappingException(ObjectNode.class, t);\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override public void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n      nextName(); // Consume the name, internal state points to the value.\n      // The value is implicitly pushed onto the stack by nextName() logic or handled by subsequent peeks.\n      // We need to remove the value element from the stack representation.\n      // Assuming the value is now at stack[stackSize - 1].\n      popStack(); // Pop the value.\n    } else {\n      // The current element is a value (primitive, object, array).\n      popStack(); // Pop this value element.\n    }\n    // After popping the value (or the value after a name), the stack size reflects the new depth.\n    // If we are inside an array or object (stackSize > 0), we need to advance the index\n    // of the parent container. pathIndices[stackSize - 1] holds the index for the container\n    // which is now at the top of the stack (or conceptually the parent).\n    if (stackSize > 0) {\n      pathIndices[stackSize - 1]++;\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node callee = node.getFirstChild();\n      // Check for direct calls: foo()\n      if (callee.getType() == Token.NAME) {\n        changed.add(callee.getString());\n      }\n      // Check for calls via .call or .apply: foo.call() or foo.apply()\n      // NodeUtil.isFunctionObjectCall/Apply correctly identifies calls like\n      // \"fn.call(this, ...)\" or \"fn.apply(this, ...)\"\n      else if (NodeUtil.isFunctionObjectCall(node)\n          || NodeUtil.isFunctionObjectApply(node)) {\n        // The function being called is the object part of the GETPROP\n        // e.g., in \"fn.call\", it's \"fn\"\n        Node functionNameNode = callee.getFirstChild();\n        // Record the call if the function is a simple name (e.g., \"fn\")\n        if (functionNameNode.getType() == Token.NAME) {\n          changed.add(functionNameNode.getString());\n        }\n      }\n    }\n\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

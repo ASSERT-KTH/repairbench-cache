@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            final JsonNodeFactory nodeFactory = ctxt.getNodeFactory();\n            // 13-Oct-2015, tatu: We used to require START_OBJECT, but now also accept FIELD_NAME\n            //    and END_OBJECT, depending on context (some callers advance token).\n            if (p.isExpectedStartObjectToken()) {\n                p.nextToken();\n                return deserializeObject(p, ctxt, nodeFactory);\n            }\n            JsonToken t = p.currentToken();\n            if (t == JsonToken.FIELD_NAME) {\n                return deserializeObject(p, ctxt, nodeFactory);\n            }\n            // 13-Oct-2015, tatu: As per [databind#941], END_OBJECT is valid/acceptable\n            //     token too, now. But should only create an empty node.\n            if (t == JsonToken.END_OBJECT) {\n                 return nodeFactory.objectNode();\n            }\n            // Post-2.6: let's use standard error handling method:\n            return (ObjectNode) ctxt.handleUnexpectedToken(ObjectNode.class, p);\n//            throw ctxt.mappingException(ObjectNode.class, t); // earlier code\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

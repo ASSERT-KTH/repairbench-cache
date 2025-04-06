@@ -1,0 +1,7 @@
+{
+    "generation": "  public final boolean isEmptyType() {\n    // Returns true if this type is conceptually empty, meaning it is not\n    // inhabited by any value other than bottom. This includes the NoType,\n    // NoObjectType, NoResolvedType, and the bottom function type.\n\n    // Check standard empty types first\n    if (isNoType() || isNoObjectType() || isNoResolvedType()) {\n      return true;\n    }\n\n    // Check for the bottom function type.\n    // This checks if the current type object is the canonical instance\n    // of the least function type stored in the registry.\n    // Assumes 'registry' is an accessible field holding the JSTypeRegistry.\n    // Assumes 'isFunctionType()' is a method to identify function types.\n    // Assumes registry.getLeastFunctionType() returns the canonical bottom function type.\n    if (isFunctionType() && registry != null && this == registry.getLeastFunctionType()) {\n      return true;\n    }\n\n    // Not any of the empty types\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

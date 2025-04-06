@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the Node represents a DO or FUNCTION statement,\n   * potentially nested within a LABEL.\n   */\n  private boolean isOneExactlyFunctionOrDo(Node n) {\n    // Check if the node itself is FUNCTION or DO.\n    if (n.isFunction() || n.isDo()) {\n      return true;\n    }\n\n    // Check if the node is a LABEL whose statement is FUNCTION or DO.\n    // This is needed because structures like \"if (cond) L: function f() {}\"\n    // or \"if (cond) L: do {} while(...)\" require bracing for browser compatibility.\n    if (n.isLabel()) {\n      Node labeledStatement = n.getFirstChild();\n      // A LABEL node must have a child statement.\n      com.google.common.base.Preconditions.checkNotNull(labeledStatement, \"Label node should have a child\");\n      // Check the type of the statement associated with the label.\n      if (labeledStatement.isFunction() || labeledStatement.isDo()) {\n          return true;\n      }\n    }\n\n    // Otherwise, it's not a FUNCTION or DO, labeled or direct.\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

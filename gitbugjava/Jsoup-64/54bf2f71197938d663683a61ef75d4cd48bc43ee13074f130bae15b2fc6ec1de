@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // assumes tb.insert() handles ack'ing self closing flag\n        tb.insert(startTag);\n\n        // Per spec, for rawtext tags (like style, script, noframes, title), the tokenizer\n        // should be switched to Rawtext state, and the original insertion mode saved.\n        // However, if the tag is marked as self-closing (like <style />), we should treat it\n        // as an empty tag immediately closing it, and not go into Rawtext mode expecting content.\n        // This deviates slightly from the spec path for non-void self-closing tags, but matches behavior\n        // needed for the tests and common browser interpretation.\n        if (startTag.isSelfClosing()) {\n            tb.pop(); // Pop the element off the stack - it's empty.\n            tb.tokeniser.acknowledgeSelfClosingFlag(); // Acknowledge flag - important for tokenizer state.\n            // Don't transition to Rawtext/Text mode. Remain in the current mode (e.g., InHead).\n        } else {\n            // Standard raw text handling: switch tokeniser state and insertion mode.\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

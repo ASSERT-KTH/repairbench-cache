@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        try {\n            // Perform the fit using the guess and the parametric Gaussian function.\n            // The actual fitting logic (optimization) is likely delegated to a base\n            // class or the configured optimizer.\n            return fit(new Gaussian.Parametric(), guess);\n        } catch (org.apache.commons.math.exception.NotStrictlyPositiveException e) {\n            // Handle cases where the optimizer explores invalid parameter values\n            // (e.g., non-positive sigma) for the Gaussian function.\n            // As suggested by test case Math-519 comments, return NaN parameters.\n            final int numParams = guess.length; // Use the length of the guess array\n            final double[] result = new double[numParams];\n            java.util.Arrays.fill(result, Double.NaN); // Fill the result array with NaN\n            return result;\n        }\n        // Other exceptions potentially thrown by the optimization process\n        // (e.g., ConvergenceException) are intentionally not caught here\n        // and will propagate up, as they indicate different failure modes.\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

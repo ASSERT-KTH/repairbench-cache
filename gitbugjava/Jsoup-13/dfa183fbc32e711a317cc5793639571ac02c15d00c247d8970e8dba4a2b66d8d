@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Test if this element has an attribute. Case insensitive.\n     * Also handles the {@code abs:} prefix query.\n     * @param attributeKey The attribute key to check.\n     * @return true if the attribute exists, false if not.\n     * @see #attr(String)\n     * @see #absUrl(String)\n     */\n    public boolean hasAttr(String attributeKey) {\n        Validate.notNull(attributeKey);\n\n        // Check for the abs: attribute key prefix\n        if (attributeKey.startsWith(Attributes.absKeyPrefix)) {\n            String key = attributeKey.substring(Attributes.absKeyPrefix.length());\n            // Ensure the underlying attribute exists and it resolves to a non-empty absolute URL\n            // We need hasKeyIgnoreCase because absUrl() case normalizes keys.\n            if (attributes.hasKeyIgnoreCase(key) && !absUrl(key).isEmpty())\n                return true;\n        }\n        // Check for the literal key (case-insensitive)\n        return attributes.hasKeyIgnoreCase(attributeKey);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

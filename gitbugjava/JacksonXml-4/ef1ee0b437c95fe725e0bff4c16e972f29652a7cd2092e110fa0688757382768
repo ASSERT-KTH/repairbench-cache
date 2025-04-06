@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void _serializeXmlNull(JsonGenerator jgen) throws IOException\n    {\n        // 14-Nov-2016, tatu: As per [dataformat-xml#213], we may have explicitly\n        //    configured root name... but the configuration mechanism should\n        //    handle this via SerializationConfig, already processed by the time\n        //    we get here. Generator should have the root name configured.\n        //\n        // 08-Jan-2019, tatu: [dataformat-xml#341]: Original fix from Nov 2016\n        //   was incorrect; should NOT force specific root name if one already\n        //   configured. Such configuration may come via `ObjectWriter.withRootName()`\n        //   for example.\n        /*\n        if (jgen instanceof ToXmlGenerator) {\n           // NOTE: we MUST NOT override name if already defined\n           // also: must not call this if custom serializer has been forced\n           // (only applies for 'DefaultSerializerProvider.serializeValue()')\n            _initWithRootName((ToXmlGenerator) jgen, ROOT_NAME_FOR_NULL);\n        }\n        */\n        // Let the super class handle the details; generator is assumed to be\n        // appropriately configured at this point.\n        super.serializeValue(jgen, null);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

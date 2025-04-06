@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        // If identity same, fine\n        if (_class == subclass) {\n            return this;\n        }\n\n        // sanity check: ensure relationship?\n        // 15-Jan-2016, tatu: Almost yes, but there are some complications with\n        //    placeholder values, so no. Seems like this may be possible for\n        //    non-generic types? Let's hold off for now\n        /*\n        if (!_class.isAssignableFrom(subclass)) {\n            throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                    +_class.getName());\n        }\n        */\n\n        // 15-Jan-2016, tatu: Not correct; should really re-resolve... So let's\n        //   NOT use readily available values but nulls, forcing re-resolution\n        //   (by SimpleType itself, accessing newly provided subclass)\n        //   ... also, need to retain possible value/type handlers\n        // 27-Mar-2017, tatu: Retaining TypeBindings is important, as per [databind#1577]\n        return new SimpleType(subclass, _bindings, /* super-class */ null, /* interfaces */ null,\n                _valueHandler, _typeHandler, _asStatic);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

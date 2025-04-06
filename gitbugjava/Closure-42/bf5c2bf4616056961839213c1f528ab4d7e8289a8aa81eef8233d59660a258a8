@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // Check if it's a \"for each...in\" loop, which is unsupported.\n        if (loopNode.isForEach()) {\n            // Report the error using the specific diagnostic type for unsupported \"for each\".\n            // ParseError.FOR_EACH_UNSUPPORTED provides the message \"unsupported language extension: for each\".\n            reportError(loopNode, ParseError.FOR_EACH_UNSUPPORTED);\n            // Even though it's an error, we might still need to return a node\n            // to keep the AST somewhat valid for subsequent passes.\n        }\n\n        // Return the bare minimum node structure as in the original code,\n        // which creates a FOR node. While FOR_IN might be more semantically\n        // correct for a for-in loop in the compiler's IR, we retain the\n        // original structure to minimize changes beyond fixing the missing error report.\n        Node iterator = transform(loopNode.getIterator());\n        Node iteratedObject = transform(loopNode.getIteratedObject());\n        Node body = transformBlock(loopNode.getBody());\n\n        Node forNode = newNode(Token.FOR, iterator, iteratedObject, body);\n        // Make sure source info is copied. Assume setSourceInfo exists and handles this.\n        setSourceInfo(forNode, loopNode);\n\n        return forNode;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

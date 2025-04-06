@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void addChildren(int index, Node... children) {\n        Validate.noNullElements(children);\n        ensureChildNodes(); // Ensure childNodes list is initialised\n\n        // First, reparent each child. This removes it from its current parent (including this node if applicable)\n        // and sets its parent to this node. Doing this upfront avoids index issues that can occur\n        // when modifying the childNodes list while iterating for insertions, particularly if a child\n        // is already present in this node's children and is being moved.\n        for (Node child : children) {\n            reparentChild(child);\n        }\n\n        // Now, add the children to the list at the specified index.\n        // Iterate backwards through the input `children` array to insert them\n        // in the correct order relative to each other at the specified `index`.\n        // E.g. addChildren(0, a, b) --> loop adds b at 0, then a at 0. Result is [a, b, ...]\n        for (int i = children.length - 1; i >= 0; i--) {\n            Node in = children[i];\n            childNodes.add(index, in);\n        }\n\n        // Finally, reindex the children starting from the insertion point to update their sibling indices,\n        // as the previous insertions have shifted subsequent nodes.\n        reindexChildren(index);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

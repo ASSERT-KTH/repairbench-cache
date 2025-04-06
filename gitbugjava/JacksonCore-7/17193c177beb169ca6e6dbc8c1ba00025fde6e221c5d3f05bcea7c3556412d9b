@@ -1,0 +1,7 @@
+{
+    "generation": "    public int writeValue() {\n        // Case 1: Object context\n        if (_type == TYPE_OBJECT) {\n            // Check if context requires a name; if so, cannot write value yet.\n            if (!_gotName) {\n                // Indicate error: trying to write a value when name is expected\n                // (Caller (_verifyValueWrite) will handle error based on this status)\n                return STATUS_EXPECT_NAME;\n            }\n            // Otherwise, we have just written a value for a field -- validate\n            // and determine status afterwards\n            _gotName = false; // We consumed name, waiting for comma or '}'\n            ++_index;\n            // Status indicates a comma is needed before the next field name\n            return STATUS_OK_AFTER_COMMA;\n        }\n\n        // Case 2: Array context\n        if (_type == TYPE_ARRAY) {\n            int ix = _index;\n            ++_index;\n            // If index is < 0, first element: no separator. Otherwise, comma.\n            return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n        }\n        \n        // Case 3: Root context\n        // No commas within root context, but need space\n        ++_index;\n        // If index is 0, first element: no separator. Otherwise, space.\n        return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

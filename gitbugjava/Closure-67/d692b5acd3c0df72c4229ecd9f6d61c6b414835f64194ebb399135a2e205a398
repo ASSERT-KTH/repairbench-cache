@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node lhs = assign.getFirstChild(); // Get the LHS of the assignment\n\n      // Check if it's a property assignment (a.b = ...) or element assignment (a['b'] = ...)\n      // and ensure it's a valid assignment target.\n      if (lhs != null &&\n          (lhs.getType() == Token.GETPROP || lhs.getType() == Token.GETELEM) &&\n          NodeUtil.isVarOrSimpleAssignLhs(lhs, assign)) {\n\n        // Get the object being accessed (e.g., 'Something.prototype'\n        // in Something.prototype.method = ... or Something.prototype['method'] = ...)\n        Node objectNode = lhs.getFirstChild();\n\n        // Check if this objectNode represents 'Something.prototype'\n        // This means objectNode should be a GETPROP node accessing the 'prototype' property.\n        if (objectNode != null && objectNode.getType() == Token.GETPROP) {\n            Node propertyNameNode = objectNode.getLastChild(); // Should be the 'prototype' string node\n            if (propertyNameNode != null &&\n                propertyNameNode.getType() == Token.STRING &&\n                \"prototype\".equals(propertyNameNode.getString())) {\n                // It matches the pattern Something.prototype.property or Something.prototype['property']\n                return true;\n            }\n        }\n      }\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

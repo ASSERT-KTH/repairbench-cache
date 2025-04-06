@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Puts all values of this record into the given Map.\n     *\n     * @param map The Map to populate.\n     * @return the given map.\n     * @throws IllegalStateException if the record is inconsistent and has a different number of values than columns in the mapping\n     *                             (which should not happen).\n     */\n    <M extends Map<String, String>> M putIn(final M map) {\n        if (mapping == null) {\n            return map;\n        }\n        for (final Entry<String, Integer> entry : mapping.entrySet()) {\n            final int col = entry.getValue().intValue();\n            // Check if the column index is within the bounds of the values array\n            if (col < values.length) {\n                map.put(entry.getKey(), values[col]);\n            }\n            // If col >= values.length, the record is shorter than the header list,\n            // so we don't add an entry for this header name.\n        }\n        return map;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

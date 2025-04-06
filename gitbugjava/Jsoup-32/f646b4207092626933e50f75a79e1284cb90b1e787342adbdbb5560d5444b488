@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        Element clone = (Element) super.clone(); // Creates a shallow copy of Element fields, includes Node cloning logic\n        // The super.clone() chain eventually calls Node.doClone(), which clones attributes.\n        // However, the Element object's shallow copy still shares the reference to the 'classNames' cache Set\n        // if it was initialized in the original object.\n        // We must break this sharing to ensure the clone's class set is independent.\n        // Setting the clone's cache field (`classNames`) to null forces it to regenerate\n        // its own cache from its own (cloned) attributes when the classNames() method is next called on the clone.\n        clone.classNames = null;\n        return clone;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

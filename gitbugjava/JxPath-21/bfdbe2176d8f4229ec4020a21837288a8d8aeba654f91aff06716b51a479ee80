@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object value = getBaseValue();\n        // Per Javadoc: return -1 for non-collections. Null is not a collection.\n        // Check collection status using ValueUtils (handles Collection/Array).\n        if (value != null && ValueUtils.isCollection(value)) {\n            // Use ValueUtils to get length of actual collections/arrays.\n            return ValueUtils.getLength(value);\n        } else {\n            // For null or any other non-collection type, return -1 as per Javadoc.\n            // While ValueUtils.getLength returns 1 for these cases,\n            // adhering to the PropertyPointer Javadoc (-1) might be necessary\n            // for correct interaction with indexing logic, especially for null.\n            return -1;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import org.mockito.internal.invocation.Invocation;\nimport java.lang.reflect.Method;\nimport java.util.Arrays;\n\n// ... other imports if necessary ...\n\n    public boolean hasSameMethod(Invocation candidate) {        \n        //not using method.equals() for 1 good reason:\n        //sometimes java generates forwarding methods when generics are in play see JavaGenericsForwardingMethodsTest\n        Method m1 = invocation.getMethod();\n        Method m2 = candidate.getMethod();\n        \n        // Quick check for identity\n        if (m1 == m2) {\n            return true;\n        }\n\n        // Check names are the same\n        if (!m1.getName().equals(m2.getName())) {\n            return false;\n        }\n\n        // Check parameter types are the same\n        // Method.equals() also checks return type, but we don't want that\n        // because bridge methods might have different return types (e.g., Object vs specific type).\n        // We also don't want to check the declaring class, which is the main reason\n        // Method.equals() fails in the presence of bridge methods.\n        return Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

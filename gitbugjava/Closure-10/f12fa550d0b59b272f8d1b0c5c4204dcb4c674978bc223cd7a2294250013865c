@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n      // A node represents a value that might be a string if\n      // it is NOT the case that all possible results of the expression\n      // are definitely NOT strings.\n      // We need a predicate that determines if a node definitely cannot be a string.\n      // This is effectively the negation of mayBeStringHelper.\n      Predicate<Node> notMayBeStringPredicate = new Predicate<Node>() {\n        @Override\n        public boolean apply(Node input) {\n          // Assuming mayBeStringHelper(input) returns true if 'input' node\n          // might be a string based on its direct type.\n          return !mayBeStringHelper(input);\n        }\n      };\n      // If all possible results match the \"notMayBeStringPredicate\", it means the node\n      // can definitely NOT be a string. In that case, !allResultsMatch(...) is !true = false.\n      // If at least one possible result could be a string (i.e., does not match the\n      // \"notMayBeStringPredicate\"), then allResultsMatch(...) returns false,\n      // and !allResultsMatch(...) is !false = true.\n      return !allResultsMatch(n, notMayBeStringPredicate);\n    } else {\n      // Use the basic helper for non-recursive checks (checks the node's direct type).\n      return mayBeStringHelper(n);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

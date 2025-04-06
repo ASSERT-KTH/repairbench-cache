@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        // Use StringBuilder for potentially better performance (though StringBuffer is thread-safe)\n        // The original code used StringBuffer, so we stick to it unless modernization is desired.\n        StringBuffer result = new StringBuffer(length);\n        int          end = offset + length;\n\n        for (int i = offset; i < end; ++i) {\n            // Check for NUL terminator\n            if (buffer[i] == 0) {\n                break;\n            }\n            // Treat byte as unsigned value (0-255) when converting to char.\n            // Casting a byte directly to char involves sign extension,\n            // e.g., byte 0xB1 (-79) becomes char 0xFFB1.\n            // We want byte 0xB1 to become char 0x00B1.\n            // Masking with 0xFF achieves this unsigned conversion.\n            result.append((char) (buffer[i] & 0xFF));\n        }\n\n        return result.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

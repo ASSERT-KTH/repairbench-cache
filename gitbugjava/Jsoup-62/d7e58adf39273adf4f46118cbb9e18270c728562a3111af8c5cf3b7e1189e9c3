@@ -1,0 +1,7 @@
+{
+    "generation": "        boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {\n            // String name = t.asEndTag().normalName(); // Buggy line: normalName might be lowercased even if preserveCase=true\n            String name = t.asEndTag().tagName(); // Fixed line: tagName respects preserveCase setting\n            ArrayList<Element> stack = tb.getStack();\n            for (int pos = stack.size() -1; pos >= 0; pos--) {\n                Element node = stack.get(pos);\n                if (node.nodeName().equals(name)) { // nodeName also respects preserveCase setting\n                    tb.generateImpliedEndTags(name);\n                    if (!name.equals(tb.currentElement().nodeName()))\n                        tb.error(this);\n                    tb.popStackToClose(name);\n                    break;\n                } else {\n                    // special elements protect against closing outside of scope\n                    if (tb.isSpecial(node)) {\n                        tb.error(this);\n                        return false;\n                    }\n                }\n            }\n            // Acknowledge the token was processed (or ignored if appropriate conditions met, e.g. isSpecial element encountered).\n            // This differs from the spec, which indicates ignoring the token if no matching element in scope.\n            // However, this reflects jsoup's historical behavior.\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        // Get arguments array once to avoid repeated calls and improve readability\n        Object[] arguments = i.getArguments();\n        int argumentCount = arguments.length;\n\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Check if the current matcher index 'k' corresponds to an actual argument.\n                // This prevents ArrayIndexOutOfBoundsException when the number of matchers\n                // might conceptually exceed the number of actual arguments provided\n                // in the invocation (e.g., with varargs matchers matching zero arguments).\n                if (k < argumentCount) {\n                    ((CapturesArguments) m).captureFrom(arguments[k]);\n                }\n                // If k >= argumentCount, it implies this matcher position does not\n                // have a corresponding argument in this specific invocation.\n                // The CapturesArguments matcher will not capture anything in this case.\n            }\n            // Increment the index 'k' to move to the next matcher, maintaining the\n            // positional correspondence assumption between matchers and arguments/argument slots.\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

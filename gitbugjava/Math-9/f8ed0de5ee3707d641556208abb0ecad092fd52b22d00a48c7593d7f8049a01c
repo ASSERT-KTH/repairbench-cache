@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Get a line with reversed direction.\n     * @return a new instance, with reversed direction\n     */\n    public Line revert() {\n        // The original implementation using the public constructor Line(p1, p2)\n        // recalculates and renormalizes the direction vector based on the points\n        // zero and zero.subtract(direction). This renormalization can introduce\n        // tiny floating point errors, causing direction.negate().normalize()\n        // to be slightly different from direction.negate().\n        // The fix is to use the private constructor Line(direction, zero),\n        // which directly sets the internal fields without recalculation,\n        // ensuring the new direction is exactly the negation of the original\n        // direction and the zero point remains the same. This relies on the\n        // fact that this revert() method is part of the Line class and thus\n        // has access to its private constructors.\n        final Line reverted = new Line(direction.negate(), zero);\n        return reverted;\n    }\n\n    // Note: This fix assumes the existence of a private constructor:\n    // private Line(final Vector3D direction, final Vector3D zero) {\n    //     this.direction = direction;\n    //     this.zero      = zero;\n    // }\n    // This is consistent with the implementation in Apache Commons Math org.apache.commons.math3.geometry.euclidean.threed.Line\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

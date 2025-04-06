@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        // Access the base value pointed to by this pointer\n        Object value = getBaseValue();\n\n        // Dereference the value if it's a pointer itself\n        value = ValueUtils.getValue(value);\n\n        // Check if the dereferenced value is a collection or an array\n        if (value == null) {\n            // null is not considered a collection, return -1 as per the method documentation\n            return -1;\n        }\n        if (value instanceof Collection) {\n            // If it's a Collection, return its size\n            return ((Collection) value).size();\n        }\n        if (value.getClass().isArray()) {\n            // If it's an array, return its length\n            return java.lang.reflect.Array.getLength(value);\n        }\n\n        // If it's not null, not a Collection, and not an array, it's treated\n        // as a singleton value, not a collection. Return -1 as per the documentation.\n        return -1;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

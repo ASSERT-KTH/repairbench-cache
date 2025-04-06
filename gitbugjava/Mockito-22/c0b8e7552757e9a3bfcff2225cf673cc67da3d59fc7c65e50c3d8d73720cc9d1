@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean areEqual(Object o1, Object o2) {\n        if (o1 == o2) { // Add identity check for performance and to handle faulty equals()\n            return true;\n        }\n        if (o1 == null || o2 == null) {\n            // Since o1 != o2, if either is null, they are not equal.\n            return false;\n        } else if (isArray(o1)) {\n            // If o1 is an array, o2 must also be an array for them to be equal (given o1 != o2 and o2 != null)\n            // We rely on isArray and areArraysEqual helper methods (assumed to exist and be correct)\n            return isArray(o2) && areArraysEqual(o1, o2);\n        } else {\n            // Neither is null, o1 is not an array. Use standard equals().\n            // We already know o1 != o2 from the initial identity check.\n            return o1.equals(o2);\n        }\n    }\n\n    // Helper methods assumed to exist and be implemented correctly, e.g.:\n    // private static boolean isArray(Object o) { ... }\n    // private static boolean areArraysEqual(Object o1, Object o2) { ... }\n    // Note: A correct areArraysEqual would likely need to handle different\n    // array types (e.g., primitive vs wrapper) by recursively calling areEqual\n    // on elements obtained via java.lang.reflect.Array.get().",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

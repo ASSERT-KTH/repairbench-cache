@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns the remainder of the line.\n   * This method consumes the rest of the line including the newline character,\n   * but returns the string without the newline.\n   */\n  private String getRemainingJSDocLine() {\n    // This consumes the rest of the line, including the newline,\n    // and updates the stream's position.\n    String result = stream.getRemainingJSDocLine();\n\n    // The stream method includes the newline in its consumption logic\n    // (advancing lineno and resetting charno). However, the caller\n    // usually expects the text *content* of the line, without the newline character.\n    // Also, inconsistencies in position tracking (especially across lines)\n    // can occur if the newline consumption isn't handled carefully by the caller's\n    // position marking logic. Returning the string without the newline seems\n    // safer and aligns better with the conceptual \"remainder of the line\".\n    if (result.endsWith(\"\\n\")) {\n       return result.substring(0, result.length() - 1);\n    }\n    return result;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

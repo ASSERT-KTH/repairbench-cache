@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n      // Check if it's the unsupported \"for each\" construct.\n      if (loopNode.isForEach()) {\n        reportError(\"unsupported language extension: for each\", loopNode);\n        // Even after reporting the error, proceed to create a node\n        // to keep the AST somewhat intact. Using FOR_IN as it's the\n        // closest structure type.\n      }\n\n      // Create a FOR_IN node (suitable for standard for...in loops).\n      // For the unsupported \"for each\", we report the error above but still\n      // generate a FOR_IN node for basic AST structure.\n      return newNode(\n          Token.FOR_IN,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

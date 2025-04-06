@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n\n    // It is important that removeDuplicateDeclarations runs *before*\n    // MakeDeclaredNamesUnique. Otherwise, code like\n    //   function f() { var arguments = ...; }\n    // would be changed to\n    //   function f() { var arguments$0 = ...; }\n    // which prevents removeDuplicateDeclarations from removing the\n    // unnecessary variable declaration. This causes problems with\n    // FunctionArgumentInjector, which relies on the \"arguments\" variable\n    // being undeclared.\n    removeDuplicateDeclarations(root);\n\n    if (MAKE_LOCAL_NAMES_UNIQUE) {\n      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n      NodeTraversal t = new NodeTraversal(compiler, renamer);\n      t.traverseRoots(externs, root);\n    }\n\n    new PropogateConstantAnnotations(compiler, assertOnChange)\n        .process(externs, root);\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

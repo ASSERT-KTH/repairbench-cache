@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Closes the CPIO output stream as well as the stream being filtered.\n     * Writes the CPIO trailer record if the stream hasn't already been finished.\n     *\n     * @throws IOException\n     *             if an I/O error has occurred or if a CPIO file error has\n     *             occurred\n     */\n    @Override\n    public void close() throws IOException {\n        // Ensure finish() is called before closing the underlying stream.\n        // finish() writes the CPIO trailer.\n        if (!finished) {\n            finish();\n        }\n\n        // If the stream wasn't already closed by finish() or elsewhere, close it.\n        // The 'closed' flag prevents closing the underlying stream multiple times.\n        // The super.close() call is typically responsible for closing the\n        // wrapped output stream ('out').\n        if (!closed) {\n            super.close();\n            closed = true;\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

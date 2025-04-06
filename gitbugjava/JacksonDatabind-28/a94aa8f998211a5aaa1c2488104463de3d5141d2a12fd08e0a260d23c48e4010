@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            final JsonNodeFactory nodeFactory = ctxt.getNodeFactory();\n            // Main case: parser points to START_OBJECT\n            if (p.isExpectedStartObjectToken()) {\n                p.nextToken();\n                return deserializeObject(p, ctxt, nodeFactory);\n            }\n            // Then handle cases where START_OBJECT has been consumed somehow\n            JsonToken t = p.getCurrentToken();\n            if (t == JsonToken.END_OBJECT) { // Case where START_OBJECT was consumed for empty object {}\n                 return nodeFactory.objectNode();\n            }\n            if (t == JsonToken.FIELD_NAME) { // Case where START_OBJECT was consumed for non-empty object { \"a\":1 }\n                return deserializeObject(p, ctxt, nodeFactory);\n            }\n            // Otherwise, it's an error. Pass current token to improve error message.\n            throw ctxt.mappingException(ObjectNode.class, t);\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

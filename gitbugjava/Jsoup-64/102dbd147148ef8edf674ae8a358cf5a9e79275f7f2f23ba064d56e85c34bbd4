@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // used for noscript, noframes, style, script data\n        tb.insert(startTag);\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n        // Handle self-closing tags like <style /> or <noframes />. The parser treats them as start tags,\n        // but we need to immediately process the implied end tag to match browser behavior and the expected output.\n        if (startTag.isSelfClosing()) {\n            // Process an end tag token corresponding to the start tag. This will trigger the Text insertion mode's\n            // handling for end tags, which pops the current node (<style>, <noframes>) and switches back\n            // to the original insertion mode (e.g., InHead). It also transitions the tokeniser state back to Data.\n            tb.process(new Token.EndTag(startTag.normalName()));\n            // Note: we do not need tb.pop() or tb.transition(tb.originalInsertionMode()) here because\n            // tb.process(endTag) implicitly handles those steps when in the Text insertion mode.\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

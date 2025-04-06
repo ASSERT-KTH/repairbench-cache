@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node callTarget = node.getFirstChild();\n      // Direct call: foo()\n      if (callTarget.getType() == Token.NAME) {\n        changed.add(callTarget.getString());\n      }\n      // Indirect call: foo.call(...) or foo.apply(...)\n      else if (callTarget.getType() == Token.GETPROP) {\n        Node prop = callTarget.getLastChild();\n        // Check if the property being accessed is \"call\" or \"apply\"\n        if (prop.getType() == Token.STRING &&\n            (prop.getString().equals(\"call\") || prop.getString().equals(\"apply\"))) {\n          // Get the expression representing the function itself (e.g., 'foo' in foo.call)\n          Node functionExpr = callTarget.getFirstChild();\n          // If the function itself is represented by a simple name, add it.\n          if (functionExpr.getType() == Token.NAME) {\n            changed.add(functionExpr.getString());\n          }\n          // TODO(b/165671900): Add support for foo.bar.call() etc. if needed.\n        }\n      }\n    }\n\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

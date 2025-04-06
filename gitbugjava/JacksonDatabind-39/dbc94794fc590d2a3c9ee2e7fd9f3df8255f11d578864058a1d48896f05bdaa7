@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // 29-Jan-2016, tatu: Simple skipping for all other tokens, but FIELD_NAME bit\n        //    special unfortunately -> but this actually is wrong, should position AFTER\n        //    value, similar to how BeanDeserializer does it.\n\n        // 09-Oct-2019, tatu: As per [databind#2466], `skipChildren()` does not properly\n        //   work with `TokenBuffer`; need to use `readValueAsTree` instead.\n        // note: method called when the parser is expected to be pointing to START_OBJECT\n        // (or START_ARRAY) of the value to skip\n        if (p.hasToken(JsonToken.START_OBJECT)\n                || p.hasToken(JsonToken.START_ARRAY)\n                // 28-May-2021, tatu: [databind#3198] Scalars won't be skipped by `readValueAsTree`\n                //    so handle separately\n                || p.hasToken(JsonToken.FIELD_NAME)) // or field name\n        {\n             p.readValueAsTree();\n        }\n        // else assuming scalar value, which needs no skipping\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

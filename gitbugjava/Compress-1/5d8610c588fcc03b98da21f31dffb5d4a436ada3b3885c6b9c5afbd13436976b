@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Closes the CPIO output stream as well as the stream being filtered.\n     * Finishes the archive by writing the trailer entry and then closes the\n     * underlying stream.\n     * \n     * @throws IOException\n     *             if an I/O error has occurred or if a CPIO file error has\n     *             occurred\n     */\n    @Override\n    public void close() throws IOException {\n        if (!closed) {\n            // The finish() method is responsible for writing the CPIO trailer\n            // ('TRAILER!!!' entry) and any necessary padding. This must be\n            // done before the underlying stream is closed.\n            finish(); \n\n            // Now close the underlying stream. We assume super.close() handles this.\n            // If CpioOutputStream directly held the 'out' stream and didn't\n            // rely on super.close(), it would be out.close() here. But\n            // extending FilterOutputStream or similar often means super.close()\n            // is the right call.\n            super.close(); \n            \n            this.closed = true;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean isJSIdentifier(String s) {\n      int length = s.length();\n\n      if (length == 0) {\n        return false;\n      }\n\n      char firstChar = s.charAt(0);\n      // Check first character: Must be ASCII letter, '_', or '$'\n      // JavaScript identifier rules are broader than this (allowing Unicode),\n      // but ConvertToDottedProperties operates more conservatively, only\n      // converting property names that are valid *and* simple ASCII/$_ identifiers\n      // to avoid issues with reserved words or browser inconsistencies.\n      if (!((firstChar >= 'a' && firstChar <= 'z') ||\n            (firstChar >= 'A' && firstChar <= 'Z') ||\n            firstChar == '_' ||\n            firstChar == '$')) {\n        return false;\n      }\n\n      // Check remaining characters: Must be ASCII letter, ASCII digit, '_', or '$'\n      for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (!((c >= 'a' && c <= 'z') ||\n              (c >= 'A' && c <= 'Z') ||\n              (c >= '0' && c <= '9') ||\n              c == '_' ||\n              c == '$')) {\n          return false;\n        }\n      }\n\n      // Note: This function does not check for JavaScript reserved words.\n      // The calling code (ConvertToDottedProperties) might handle reserved words\n      // separately or rely on this function only for character validation.\n      return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

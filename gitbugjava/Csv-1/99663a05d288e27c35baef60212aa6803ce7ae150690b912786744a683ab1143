@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read();\n\n        // Check for line breaks based on the character just read ('current')\n        // and the character read previously ('lastChar').\n        // Handles \\r, \\n, and \\r\\n correctly.\n        if (current == '\\r') {\n            lineCounter++; // Increment for CR\n        } else if (current == '\\n') {\n            // Increment for LF unless it follows CR (part of CRLF)\n            if (lastChar != '\\r') {\n                lineCounter++;\n            }\n        }\n\n        // Update lastChar to the character just read for the next call\n        lastChar = current;\n\n        // Return the character read in this call\n        return current;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

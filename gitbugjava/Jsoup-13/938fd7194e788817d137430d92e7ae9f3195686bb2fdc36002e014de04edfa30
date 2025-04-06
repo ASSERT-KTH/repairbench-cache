@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Test if this element has an attribute. Case insensitive.\n     * @param attributeKey The attribute key to check.\n     * @return true if the attribute exists, false if not.\n     */\n    @Override // Assuming this method overrides a method in a superclass like Node\n    public boolean hasAttr(String attributeKey) {\n        Validate.notNull(attributeKey);\n\n        // Check for absolute attribute key first\n        if (attributeKey.toLowerCase().startsWith(Node.absKeyPrefix)) {\n            String key = attributeKey.substring(Node.absKeyPrefix.length());\n            // Check if the underlying attribute key exists and has a non-empty absolute URL\n            if (key.length() > 0 && attributes.hasKeyIgnoreCase(key)) { // Ensure the base attribute exists first\n                 return !absUrl(key).isEmpty(); // Then check if its absolute URL is non-empty\n            }\n        }\n        \n        // Fallback to checking for the literal attribute key using case-insensitive comparison\n        return attributes.hasKeyIgnoreCase(attributeKey);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *<p>\n     * The charactersDame are treated as encoded in ISO-8859-1.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        // Use StringBuilder for better performance as synchronization is not needed\n        StringBuilder result = new StringBuilder(length);\n        int          end = offset + length;\n\n        for (int i = offset; i < end; ++i) {\n            final byte currentByte = buffer[i];\n            // Check for NUL terminator\n            if (currentByte == 0) {\n                break;\n            }\n            // Treat byte as unsigned value (0-255) corresponding to ISO-8859-1 character\n            // Casting a byte directly to char results in sign extension for values > 127\n            // e.g. byte 0xB1 (-79) becomes char 0xFFB1 instead of desired 0x00B1.\n            // Bitwise AND with 0xFF masks off the upper bits during conversion to int.\n            result.append((char) (currentByte & 0xFF));\n        }\n\n        return result.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

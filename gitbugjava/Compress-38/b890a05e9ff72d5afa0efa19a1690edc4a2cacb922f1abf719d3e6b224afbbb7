@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // Check for explicit directory type flag\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // Check for flags that indicate non-directory types.\n        // According to POSIX standards, the type flag takes precedence over naming conventions.\n        // Regular files, links, symlinks, and PAX headers are never directories, even if their names end with /.\n        if (linkFlag == LF_NORMAL || linkFlag == LF_OLDNORM ||\n            linkFlag == LF_LINK || linkFlag == LF_SYMLINK ||\n            isPaxHeader() || isGlobalPaxHeader()) {\n            return false;\n        }\n\n        // Fallback check: If the type is not definitively known (e.g., custom types)\n        // or doesn't preclude being a directory based on the type flag alone,\n        // check the POSIX/GNU convention where directory names end with a slash.\n        // This preserves backward compatibility for some TAR formats.\n        // Note: We already know linkFlag != LF_DIR here.\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        // Default: not a directory\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

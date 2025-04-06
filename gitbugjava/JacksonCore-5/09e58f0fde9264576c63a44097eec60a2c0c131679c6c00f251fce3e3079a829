@@ -1,0 +1,7 @@
+{
+    "generation": "    private final static int _parseIndex(String str) {\n        final int len = str.length();\n        // [Issue#133]: beware of super long indexes; assume we never\n        // have arrays over 2 billion entries so ints are fine.\n        // Also, JSON Pointer spec (RFC 6901) disallows leading zeroes.\n        if (len == 0 || len > 10) {\n            return -1;\n        }\n        // RFC 6901: \"Note that this syntax DOES NOT allow index values with\n        //           leading zeros (like \"01\") unless the value is 0 itself.\"\n        if (len > 1 && str.charAt(0) == '0') {\n             return -1;\n        }\n        for (int i = 0; i < len; ++i) {\n            // char c = str.charAt(i++); // Original buggy line: increments i twice per iteration\n            char c = str.charAt(i);   // Fixed line: use current i\n            // Check if character is a digit\n            if (c > '9' || c < '0') {\n                return -1;\n            }\n        }\n        // If length is 10, must check for overflow using long\n        if (len == 10) {\n            long l = NumberInput.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                return -1;\n            }\n        }\n        // If all checks pass, parse the integer\n        return NumberInput.parseInt(str);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

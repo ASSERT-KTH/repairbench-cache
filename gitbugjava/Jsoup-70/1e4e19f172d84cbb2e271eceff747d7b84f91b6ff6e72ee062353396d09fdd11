@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node == null || !(node instanceof Element))\n            return false;\n\n        Element el = (Element) node;\n        int i = 0;\n        do {\n            if (el.tag.preserveWhitespace())\n                return true;\n            // Check the parent, moving up the hierarchy\n            Node parent = el.parent();\n            if (parent instanceof Element) {\n                el = (Element) parent;\n            } else {\n                // If parent is null or not an Element, stop traversing\n                el = null;\n            }\n            i++;\n        // Limit search to 6 levels (current + 5 parents)\n        } while (i < 6 && el != null); \n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

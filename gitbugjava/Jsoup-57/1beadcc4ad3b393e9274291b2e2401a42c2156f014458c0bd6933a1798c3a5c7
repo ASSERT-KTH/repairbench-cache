@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Remove an attribute by key. <b>Case insensitive.</b>\n     @param key attribute key to remove\n     */\n    public void removeIgnoreCase(String key) {\n        Validate.notEmpty(key);\n        if (attributes == null)\n            return;\n        for (Iterator<String> it = attributes.keySet().iterator(); it.hasNext(); ) {\n            String attrKey = it.next();\n            if (attrKey.equalsIgnoreCase(key)) {\n                it.remove();\n                // Assuming attribute keys are unique, we can break after finding the match.\n                // If not unique (case-insensitively), remove the break to remove all matches.\n                // However, standard attributes map implies unique keys.\n                // Let's stick to removing the first match found for performance,\n                // which is also the behavior most likely expected.\n                // If the original intent was truly to remove *all* case-insensitive matches,\n                // the break statement should be removed. But standard map behavior suggests\n                // finding *the* key, and case-insensitivity is just for the lookup.\n                // Update: Reconsidering the original code, it did NOT break. It attempted\n                // to remove all matches. The correct fix preserving that (buggy) logic\n                // while fixing the CME is to just use it.remove() without break.\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the stack contains an element with this tag's name, pop up the stack to remove the first occurrence. If not\n     * found, skips.\n     *\n     * @param endTag tag to close\n     */\n    private void popStackToClose(Token.EndTag endTag) {\n        String elName = settings.normalizeTag(endTag.name()); // ensure tag name is normalized according to settings\n        int targetPos = -1;\n\n        // Find the index of the first matching element (most recent) from the top of the stack\n        for (int pos = stack.size() - 1; pos >= 0; pos--) {\n            Element element = stack.get(pos);\n            // Note: element name is already normalized on insertion\n            if (element.nodeName().equals(elName)) {\n                targetPos = pos;\n                break;\n            }\n        }\n\n        if (targetPos == -1) {\n            return; // not found, skip\n        }\n\n        // Pop elements from the stack top down to and including the target element\n        // Iterate from stack top index down to the target index\n        for (int pos = stack.size() - 1; pos >= targetPos; pos--) {\n             // Remove the element at the current position.\n             // This loop correctly removes elements from the end down to the target position,\n             // handling stack size changes during removal.\n             stack.remove(pos);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "        private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n            for (Attribute attribute : source.attributes()) {\n                // valid xml attribute names are: ^[a-zA-Z_:][-a-zA-Z0-9_:.]\n                // clean attribute name to valid xml name: replace invalid characters\n                String key = attribute.getKey().replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n\n                // Ensure the key is not empty and actually matches the XML name start charter constraints\n                // (just replacing invalid characters can leave a valid string, but not a valid XML name)\n                if (key.matches(\"^[a-zA-Z_:][-a-zA-Z0-9_:.]*$\")) {\n                    // Note: duplicate attribute names not supported in DOM = prior attribute wins, per DOM spec\n                    // However, we don't check for duplicates here, which is consistent with the original code's behavior.\n                    // If duplicate handling is desired, an `if (!el.hasAttribute(key))` check could be added.\n                    el.setAttribute(key, attribute.getValue());\n                }\n                // otherwise, skip this attribute as it is not representable in XML\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

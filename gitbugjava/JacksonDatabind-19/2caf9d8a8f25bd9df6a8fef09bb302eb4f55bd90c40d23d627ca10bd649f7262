@@ -1,0 +1,7 @@
+{
+    "generation": "    private JavaType _mapType(Class<?> rawClass)\n    {\n        // [databind#810]: Properties has fixed types: String, String\n        // TODO: Maybe should allow overriding? But for now, fixed\n        if (rawClass == java.util.Properties.class) {\n            // Properties is a Map<String, String> implementation, despite its\n            // superclass declaring <Object, Object>\n            // 13-Oct-2015, tatu: For stricter typing, should use `constructType`? For now,\n            //    existing method is fine, assumes untyped type bindings\n            return MapType.construct(rawClass, _stringType(), _stringType());\n        }\n\n        // Otherwise, generic Map. Let's see if we can find type parameters\n        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n        // ok to have no types (\"raw\")\n        if (typeParams == null) {\n            // Usually means we don't have type information; defaults to Object/Object\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            // And if not, plain fail, can not construct type.\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": can not determine type parameters\");\n        }\n        return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

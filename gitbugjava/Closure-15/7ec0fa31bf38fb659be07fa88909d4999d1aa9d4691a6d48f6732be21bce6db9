@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We are looking for side effects, maybe this check is\n        // too aggressive and doesn't allow changing some local variables. User\n        // preference?\n\n        // Check for side effects using the general utility function.\n        // This covers calls, assignments, increments, decrements, deletes, etc.\n        // We don't need to check specifically for CALL or NEW because\n        // nodeHasSideEffects covers them.\n        if (NodeUtil.nodeHasSideEffects(n)) {\n          return true;\n        }\n\n        // Recursively check children, skipping descent into new control flow graphs.\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          // Don't traverse into inner functions or loops, as variables there\n          // might be shadowed or modified differently.\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c)) {\n            if (apply(c)) { // Check recursively.\n              return true;\n            }\n          }\n        }\n        return false;\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

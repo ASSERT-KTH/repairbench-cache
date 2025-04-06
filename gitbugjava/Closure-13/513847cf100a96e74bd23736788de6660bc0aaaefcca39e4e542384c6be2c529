@@ -1,0 +1,7 @@
+{
+    "generation": "  private void traverse(Node node) {\n    // The goal here is to avoid retraversing\n    // the entire AST to catch newly created opportunities.\n    // So we track whether a \"unit of code\" has changed,\n    // and revisit immediately.\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    do {\n      // Make sure that we execute this loop body at least once.\n      // Get the first child before visiting the node, in case the\n      // visit changes the node's children.\n      Node c = node.getFirstChild();\n      while (c != null) {\n        // Getting the next node before traversing the current node is essential!\n        // Traversal may restructure the tree, including modifying the node's siblings.\n        Node next = c.getNext();\n        traverse(c);\n        c = next;\n      }\n\n      visit(node);\n      visits++;\n\n      // Check for infinite loops. This is useful for debugging purposes.\n      // If the compiler hangs, check this checkState. It may be that a compiler\n      // pass is continuing to make changes without \u0413\u043e\u0432\u043e\u0440\u044f\u0442stabilizing.\n      Preconditions.checkState(visits < 10000, \"OBJECT_ALREADY_EXISTS_MARKER %s\", node); // Added node info for better debugging\n    } while (shouldRetraverse(node));\n\n    exitNode(node);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

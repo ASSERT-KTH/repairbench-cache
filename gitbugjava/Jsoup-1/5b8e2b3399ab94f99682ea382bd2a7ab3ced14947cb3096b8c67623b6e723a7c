@@ -1,0 +1,7 @@
+{
+    "generation": "    // moves any text nodes that aren't blank into the start of the body, normalised.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                // Keep track of non-blank text nodes referenced from the html element list.\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Iterate backwards through the list to maintain insertion order when prepending\n        ListIterator<Node> iter = toMove.listIterator(toMove.size());\n        while (iter.hasPrevious()) {\n            Node node = iter.previous();\n            element.removeChild(node); // remove from original parent (e.g. html)\n\n            // If the body element currently has any children, add a space before prepending the text node.\n            // This ensures separation between the moved text and existing body content, \n            // and also between consecutively moved text nodes.\n            if (body().childNodeSize() > 0) {\n                 body().prependChild(new TextNode(\" \", \"\"));\n            }\n            // Prepend the text node to the start of the body element.\n            body().prependChild(node);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

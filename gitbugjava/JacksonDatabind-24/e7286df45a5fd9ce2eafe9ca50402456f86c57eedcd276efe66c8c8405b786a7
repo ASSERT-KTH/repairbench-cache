@@ -1,0 +1,7 @@
+{
+    "generation": "    public BaseSettings withDateFormat(DateFormat df) {\n        if (_dateFormat == df) {\n            return this;\n        }\n        /* 28-Aug-2014, tatu: Problem here is that MANY date formats are context-specific,\n         *    and specifically that context is Locale. If so, we should not create a new\n         *    instance but rather clear the cached one, so that context-specific one will\n         *    be created.\n         */\n        // 09-Jan-2016, tatu: Not sure if the intent is to keep existing TimeZone or use\n        //   the one from DateFormat; for now, let's keep TimeZone as is.\n        TimeZone tz = _timeZone;\n\n        // 02-Nov-2017, tatu: Actually, looks like the intent is that `setDateFormat()`\n        //     does NOT change timezone, but use of `StdDateFormat` does, but if custom\n        //     dateformat used, maybe use its timezone? Or maybe not? Seems safest to\n        //     stick to configured timezone.\n        /*\n        TimeZone tz = (df == null) ? _timeZone : df.getTimeZone();\n        */\n        \n        return new BaseSettings(_classIntrospector, _annotationIntrospector, _visibilityChecker, _propertyNamingStrategy, _typeFactory,\n                _typeResolverBuilder, df, _handlerInstantiator, _locale,\n                tz, _defaultBase64);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

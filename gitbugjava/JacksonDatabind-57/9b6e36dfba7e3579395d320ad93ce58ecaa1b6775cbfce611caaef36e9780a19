@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            // Do we need to pass offset/length? Yes, probably. 21-Feb-2014, tatu:\n            return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n        }\n        // 18-Nov-2014, tatu: As per [databind#598], must honor offset/length\n        return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src, offset, length),\n                true));\n    }\n",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

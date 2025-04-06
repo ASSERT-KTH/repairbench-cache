@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    JsonToken peek = in.peek();\n    if (peek == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n    // Check if the token is a string before attempting to parse\n    if (peek != JsonToken.STRING) {\n        // Throw IllegalStateException for non-string, non-null tokens, as expected by testUnexpectedToken\n        throw new IllegalStateException(\"Expected a string but was \" + peek + \" at line \" + in.getLineNumber() + \" column \" + in.getColumnNumber() + \" path \" + in.getPath());\n        // Note: While JsonParseException might seem semantically fitting for a format error,\n        // the test specifically expects IllegalStateException for unexpected token types.\n    }\n\n    // It's a string, proceed with parsing\n    Date date = deserializeToDate(in.nextString());\n\n    // Convert to the specific Date subtype if necessary\n    if (dateType == Date.class) {\n      return date;\n    } else if (dateType == Timestamp.class) {\n      return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n      return new java.sql.Date(date.getTime());\n    } else {\n      // This must never happen: dateType is guarded in the primary constructor\n      // and potentially the DefaultDateTypeAdapter.Factory\n      throw new AssertionError();\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

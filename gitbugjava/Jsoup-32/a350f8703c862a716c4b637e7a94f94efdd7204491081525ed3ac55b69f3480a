@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        Element clone = (Element) super.clone(); // Creates a shallow copy of Element fields, but Node.clone() handles deep copying of attributes.\n        // The issue is that if the class names set (`classNames`) is cached as a field in Element,\n        // super.clone() (Object's clone) performs a shallow copy of this field.\n        // This means both the original and the clone would share the same Set object initially.\n        // Modifying the Set retrieved from the clone would then affect the original element's state.\n        // To fix this, we need to clear the cached Set in the clone, so it generates its own\n        // independent Set when classNames() is called on it.\n        clone.classNames = null; // Reset the cached class names Set in the clone.\n        return clone;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

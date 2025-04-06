@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    JsonToken peek = in.peek();\n    if (peek == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n    // Original code threw JsonParseException. Test expects IllegalStateException for unexpected tokens.\n    if (peek != JsonToken.STRING) {\n      // Use IllegalStateException as expected by testUnexpectedToken and often used by Gson internally for type mismatches.\n      throw new IllegalStateException(\"Expected STRING but was \" + peek + \" at path \" + in.getPath());\n    }\n    \n    // It's a STRING, proceed with deserialization\n    try {\n      Date date = deserializeToDate(in.nextString());\n      if (dateType == Date.class) {\n        return date;\n      } else if (dateType == Timestamp.class) {\n        return new Timestamp(date.getTime());\n      } else if (dateType == java.sql.Date.class) {\n        return new java.sql.Date(date.getTime());\n      } else {\n        // This must never happen: dateType is guarded in the primary constructor\n        throw new AssertionError();\n      }\n    } catch (java.text.ParseException e) {\n      // deserializeToDate might throw ParseException, which should be wrapped.\n      // Gson often wraps underlying parsing errors in JsonSyntaxException.\n      throw new com.google.gson.JsonSyntaxException(\"Failed parsing '\" + in.getPath() + \"' as Date; at path \" + in.getPath(), e);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

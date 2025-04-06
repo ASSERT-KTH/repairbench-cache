@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Generate a random sample from the distribution.\n     *\n     * @param sampleSize the number of random values to generate.\n     * @return an array representing the random sample.\n     * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n     * positive.\n     */\n    public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n        if (sampleSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                    sampleSize);\n        }\n\n        // The ArrayStoreException occurs when the array created has a component\n        // type derived from the first element (singletons.get(0).getClass()),\n        // but the sample() method later returns an object of an incompatible type\n        // (but still compatible with T). Creating an Object[] array ensures\n        // compatibility with any type T returned by sample(), then casting to T[].\n        // This might generate an unchecked cast warning, which is acceptable here\n        // due to type erasure.\n        @SuppressWarnings(\"unchecked\") // OK because T is guaranteed to be a subtype of Object\n        final T[] out = (T[]) java.lang.reflect.Array.newInstance(Object.class, sampleSize);\n\n\n        for (int i = 0; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n\n        return out;\n\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

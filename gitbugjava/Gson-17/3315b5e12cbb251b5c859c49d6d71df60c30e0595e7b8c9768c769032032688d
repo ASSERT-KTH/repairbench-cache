@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    // Handle JSON null values\n    if (in.peek() == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n    // Let JsonReader.nextString() handle non-string values.\n    // It throws IllegalStateException for unexpected tokens (matching testUnexpectedToken).\n    String dateString = in.nextString();\n    Date date = deserializeToDate(dateString); // Assuming deserializeToDate handles parsing\n    \n    // Convert to the specific required Date subtype\n    if (dateType == Date.class) {\n      return date;\n    } else if (dateType == Timestamp.class) {\n      return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n      return new java.sql.Date(date.getTime());\n    } else {\n      // This must never happen: dateType is guarded in the primary constructor\n      // Add type info to assertion message for better debugging if it ever occurs.\n      throw new AssertionError(\"Unsupported date type: \" + dateType);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

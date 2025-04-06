@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the number of uses or definitions of the variable varName and\n     * store it in numUseWithinUseCfgNode.\n     * TODO(bashir): Change the name of this function. It computes the\n     * number of uses AND definition between Def and Use.\n     */\n    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          // We are looking for uses OR definitions between the definition site\n          // and the use site. An assignment to the variable (definition) means\n          // that the value might have changed, therefore we count it the same way\n          // as a use.\n          if (n.isName() && n.getString().equals(varName)) {\n              numUsesWithinCfgNode++;\n          }\n        }\n\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

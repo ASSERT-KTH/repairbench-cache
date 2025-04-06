@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Remove an attribute by key. <b>Case insensitive.</b>\n     @param key attribute key to remove\n     */\n    public void removeIgnoreCase(String key) {\n        Validate.notEmpty(key);\n        if (attributes == null)\n            return;\n        // Use iterator's remove method to avoid ConcurrentModificationException\n        for (Iterator<String> it = attributes.keySet().iterator(); it.hasNext(); ) {\n            String attrKey = it.next();\n            if (attrKey.equalsIgnoreCase(key)) {\n                it.remove();\n                // Removed the first match. If attribute keys are expected to be unique (case-insensitively),\n                // we could break here. However, the original code iterated through all, so we retain that behavior\n                // in case multiple keys differing only by case exist (though unlikely).\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

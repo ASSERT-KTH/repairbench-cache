@@ -1,0 +1,7 @@
+{
+    "generation": "    public char[] getTextBuffer()\n    {\n        // Shared input buffer?\n        if (_inputStart >= 0) return _inputBuffer;\n        // Maybe already constructed array?\n        if (_resultArray != null)  return _resultArray;\n        // Maybe cached String?\n        if (_resultString != null) {\n            return (_resultArray = _resultString.toCharArray());\n        }\n        // Nope; need to use segment(s). Single segment?\n        if (!_hasSegments) {\n            // Plus, need to handle case of empty buffer\n            // [Core#182]: Need to ensure we have an array in this case\n            // Note: can NOT return shared empty array, need to return unique\n            // instance\n            // 13-Jan-2021, tatu: Actually... can we? Assume yes for now\n            return (_currentSegment == null) ? NO_CHARS : _currentSegment;\n        }\n        // Nope, need to collect segments.\n        return contentsAsArray();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

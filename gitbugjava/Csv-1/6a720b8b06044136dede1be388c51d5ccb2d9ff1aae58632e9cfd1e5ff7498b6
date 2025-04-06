@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        // Read the next character from the underlying reader\n        int current = super.read();\n\n        // Store the character read previously. This is needed to detect '\\r\\n' sequences.\n        int previousChar = lastChar;\n        // Update lastChar with the character just read for the next call.\n        lastChar = current;\n\n        // Increment the line counter based on the character(s) read.\n        // We need to handle different line endings: '\\n', '\\r', or '\\r\\n'.\n        // LineNumberReader increments *after* the line terminator is read.\n\n        // Case 1: Current character is '\\n'. This always terminates a line.\n        // It handles both standalone '\\n' and the '\\n' part of '\\r\\n'.\n        if (current == '\\n') {\n            lineCounter++;\n        }\n        // Case 2: Previous character was '\\r' and the current character is NOT '\\n'.\n        // This means the '\\r' itself terminated the line. This also handles the\n        // case where '\\r' is the last character in the stream (current == -1).\n        // The '\\r\\n' case is implicitly handled because the counter increment\n        // happens when '\\n' is read (Case 1).\n        else if (previousChar == '\\r') {\n            lineCounter++;\n        }\n\n        // Return the character that was read in this call.\n        return current;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

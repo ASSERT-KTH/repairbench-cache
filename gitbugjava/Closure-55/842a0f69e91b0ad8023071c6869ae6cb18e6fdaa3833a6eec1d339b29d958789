@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    // We are looking for function expressions, which are FUNCTION nodes\n    // that are not declarations and are not part of GETTER_DEF or\n    // SETTER_DEF properties.\n    if (!NodeUtil.isFunctionExpression(n)) {\n      return false;\n    }\n\n    Node parent = n.getParent();\n    // Check if the parent is a GETTER_DEF or SETTER_DEF. If so, this function\n    // is part of an object literal's property definition using ES5 syntax,\n    // and should not be reduced.\n    if (parent != null && (parent.isGetterDef() || parent.isSetterDef())) {\n      return false;\n    }\n\n    // Otherwise, it's a standard function expression that might be reducible.\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

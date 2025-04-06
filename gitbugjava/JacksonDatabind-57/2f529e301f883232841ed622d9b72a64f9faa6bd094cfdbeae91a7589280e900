@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Overloaded version of {@link #readValue(InputStream)}.\n     */\n    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)\n        throws IOException, JsonProcessingException\n    {\n        if (_dataFormatReaders != null) {\n            // Important: we MUST \u092b\u093f\u0938 the DataFormatReaders, create parser\n            return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);\n        }\n        // 14-Feb-2014, tatu: Need to take offset, length into account...\n        return _bindAndReadValues(_considerFilter(\n                _parserFactory.createParser(src, offset, length), true));\n    }",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

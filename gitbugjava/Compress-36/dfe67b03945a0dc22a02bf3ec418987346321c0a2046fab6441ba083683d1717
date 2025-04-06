@@ -1,0 +1,7 @@
+{
+    "generation": "    private InputStream getCurrentStream() throws IOException {\n        if (deferredBlockStreams.isEmpty()) {\n            // Generally, this should not happen because getNextEntry()\n            // should have been called before.\n            // It can happen for directories or empty files, however.\n            // Return null in this case, as the read() methods check for it.\n            return null;\n        }\n        \n        while (deferredBlockStreams.size() > 1) {\n            // In solid compression mode we need to decompress all leading folder'\n            // streams to get access to an entry. We defer this until really needed\n            // so that entire blocks can be skipped without wasting time for decompression.\n            final InputStream stream = deferredBlockStreams.remove(0);\n            IOUtils.skip(stream, Long.MAX_VALUE);\n            stream.close();\n        }\n\n        return deferredBlockStreams.get(0);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

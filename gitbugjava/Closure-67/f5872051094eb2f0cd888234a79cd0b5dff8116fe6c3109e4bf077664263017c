@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild(); // LHS node\n      // Check if LHS is GETPROP or GETELEM and is a valid LHS\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM) // Allow GETELEM for bracket notation\n         ) {\n        // Get the base object (e.g., 'a.b' from 'a.b.c' or 'a.b[\"c\"]')\n        Node baseObject = n.getFirstChild();\n\n        // Check if the base object itself is a GETPROP node (e.g., 'a.b')\n        // This ensures we are dealing with something like Class.prototype\n        if (baseObject != null && baseObject.getType() == Token.GETPROP) {\n           // Get the property name of the base object (e.g., 'b' from 'a.b')\n           // It should be the second child of the GETPROP node.\n           Node prototypeProperty = baseObject.getLastChild(); // Property name node\n\n           // Check if the property name is the string \"prototype\"\n           if (prototypeProperty != null &&\n               prototypeProperty.getType() == Token.STRING &&\n               prototypeProperty.getString().equals(\"prototype\")) {\n             // Matches Class.prototype.something = ... or Class.prototype['something'] = ...\n             return true;\n           }\n        }\n      }\n\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void addChildren(int index, Node... children) {\n        Validate.noNullElements(children);\n        ensureChildNodes();\n\n        // First remove nodes from current parents, if any.\n        // This ensures nodes are detached cleanly before being added,\n        // preventing index issues when moving nodes within the same parent.\n        // It also ensures if a node in `children` is already a child of `this`,\n        // it is removed first before being added back at the specified index.\n        for (Node child : children) {\n            // If the node is already in the tree, remove it from its parent.\n            // Node.remove() handles the null parent case and updates sibling indices.\n            child.remove();\n        }\n\n        // Now add to this node's child list at the specified index.\n        // Iterate backwards through the input children array to maintain order relative to index.\n        for (int i = children.length - 1; i >= 0; i--) {\n            Node in = children[i];\n            // Node should be parentless now. Assign this node as the parent.\n            in.setParentNode(this);\n            // Add the child to the list at the insertion point.\n            childNodes.add(index, in);\n        }\n\n        // Update sibling indices for children from the insertion point onwards.\n        // This ensures that siblingIndex accurately reflects the final position.\n        reindexChildren(index);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

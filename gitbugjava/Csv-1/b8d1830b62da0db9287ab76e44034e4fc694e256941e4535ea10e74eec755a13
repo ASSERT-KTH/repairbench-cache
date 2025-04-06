@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        // Remember the previous character read (or initial state)\n        int previousChar = lastChar; \n        // Read the current character from the underlying stream\n        int current = super.read();\n        // Update the last character read for the next invocation\n        lastChar = current;\n\n        // Increment the line counter based on standard line endings (\\n, \\r, \\r\\n).\n        // This ensures accurate line counting regardless of the CSVFormat's specific line separator.\n        // The CSVFormat's line separator is used by the Lexer/Parser to determine record boundaries,\n        // while this read() method maintains the physical line number count.\n        if (current == '\\n') {\n            // Check if the previous char was \\r; if so, \\r\\n sequence handled by the \\r case\n            if (previousChar != '\\r') {\n                lineCounter++; // Increment for standalone \\n\n            }\n        } else if (current == '\\r') {\n            lineCounter++;     // Increment for \\r (covers standalone \\r and the \\r of \\r\\n)\n        }\n        \n        // Return the character that was actually read from the underlying stream\n        return current;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

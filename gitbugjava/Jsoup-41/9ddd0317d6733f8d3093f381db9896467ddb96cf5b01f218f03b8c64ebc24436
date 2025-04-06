@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n\n        // Cannot rely on super.equals(o) because Node does not override equals() from Object.\n        // We need to compare the fields that define Element's state: tag, attributes, child nodes.\n\n        Element element = (Element) o;\n\n        // Compare fields inherited from Node: attributes and childNodes.\n        // Assumes 'attributes' and 'childNodes' are accessible fields representing Node state.\n        // Uses java.util.Objects.equals for null-safety.\n        // Attributes.equals() correctly compares attribute maps.\n        // childNodes comparison relies on List.equals(), which recursively calls equals() on list elements (Nodes).\n        // This assumes Node subclasses (like TextNode, Element itself) correctly implement equals based on their value/structure.\n        if (!java.util.Objects.equals(attributes, element.attributes)) return false;\n        if (!java.util.Objects.equals(childNodes, element.childNodes)) return false;\n\n        // Compare Element-specific field: tag.\n        // Assumes 'tag' is an accessible field. Tag.equals() compares tag names.\n        return java.util.Objects.equals(tag, element.tag);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

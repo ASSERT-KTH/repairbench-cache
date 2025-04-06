@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node child = node.getFirstChild();\n      // If the function being called is a direct name, add it. (e.g. foo())\n      if (child.getType() == Token.NAME) {\n        changed.add(child.getString());\n      }\n      // If the function is a property access (e.g., obj.foo(), func.call()),\n      // add the base object name if it's a simple name.\n      // This handles cases like \"initialize.call(...)\" in the test case,\n      // where \"initialize\" is the function we are interested in tracking.\n      else if (child.getType() == Token.GETPROP) {\n        Node baseObject = child.getFirstChild();\n        if (baseObject.getType() == Token.NAME) {\n          changed.add(baseObject.getString());\n        }\n      }\n    }\n\n    // Recursively traverse the rest of the subtree.\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

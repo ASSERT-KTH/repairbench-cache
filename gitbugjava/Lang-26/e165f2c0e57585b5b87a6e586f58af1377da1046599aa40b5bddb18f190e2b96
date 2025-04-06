@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.Calendar;\nimport java.util.Date;\nimport java.util.GregorianCalendar;\nimport java.util.Locale;\nimport java.util.TimeZone;\n\n// Note: This is a minimal stub to make the method compile.\n// Assume mTimeZone, mLocale, mMaxLengthEstimate, and applyRules exist and are correctly defined elsewhere.\nabstract class FastDateFormatStub {\n    protected TimeZone mTimeZone;\n    protected Locale mLocale;\n    protected int mMaxLengthEstimate;\n\n    protected abstract StringBuffer applyRules(Calendar calendar, StringBuffer buf);\n\n    /**\n     * <p>Formats a <code>Date</code> object.</p>\n     *\n     * @param date  the date to format\n     * @return the formatted string\n     */\n    public String format(Date date) {\n        // Create calendar using the timezone and locale associated with this formatter\n        // The original code used new GregorianCalendar(mTimeZone), which uses the default locale\n        // instead of the locale specified for the formatter (mLocale).\n        // This caused issues with locale-dependent calculations like week numbers.\n        Calendar c = new GregorianCalendar(mTimeZone, mLocale);\n        c.setTime(date);\n        return applyRules(c, new StringBuffer(mMaxLengthEstimate)).toString();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

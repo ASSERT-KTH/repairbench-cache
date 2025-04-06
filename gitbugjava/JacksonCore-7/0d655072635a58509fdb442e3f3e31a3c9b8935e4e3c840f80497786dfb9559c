@@ -1,0 +1,7 @@
+{
+    "generation": "    public int writeValue() {\n        // Object is the most complicated context\n        if (_type == TYPE_OBJECT) {\n            // Success state: must have gotten field name first\n            if (_gotName) {\n                // Ok, field name was written; now expect value\n                // And after this value, we will need a field name next\n                _gotName = false;\n                ++_index;\n                // Colon should have been written following field name\n                return STATUS_OK_AS_IS;\n            }\n            // Error state: Needs field name, not value\n            // note: Jackson versions 2.0 - 2.2 used return value `STATUS_EXPECT_VALUE` (4) here;\n            // 2.3+ uses `STATUS_EXPECT_NAME` (5) which is what Code Generation uses\n            // => use the one that framework expects (added in 2.3)\n            return STATUS_EXPECT_NAME;\n        }\n\n        // Array context is simpler\n        if (_type == TYPE_ARRAY) {\n            int ix = _index;\n            ++_index;\n             // First element needs no separator, others comma\n            return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n        }\n        \n        // Root context; assumes spaces between values are fine (or handled by separator)\n        ++_index;\n        // First value is fine, subsequent ones need separator\n        return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

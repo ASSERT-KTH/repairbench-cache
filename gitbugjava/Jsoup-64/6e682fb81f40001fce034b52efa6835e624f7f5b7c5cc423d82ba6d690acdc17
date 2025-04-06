@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html#parsing-elements-that-contain-only-text\n        // verbatim insert character data, personaje feed, elements etc\n        tb.insert(startTag);\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n        // If the start tag is self-closing, we need to reset the tokenizer state BEFORE\n        // the synthetic end tag is processed (by the Text state handler). Otherwise,\n        // the tokenizer stays in Rawtext state and mishandles subsequent tokens.\n        if (startTag.isSelfClosing()) {\n            // Process the synthetic end tag by popping the element and switching back insertion mode.\n            // No need to explicitly call tb.process(endTag) here, as HtmlTreeBuilderState.process\n            // already handles that immediately after this method returns.\n            // However, we *must* reset the tokenizer state back to Data as the synthetic end tag\n            // processing in the Text state does not do that.\n            tb.tokeniser.transition(TokeniserState.Data);\n            // The Text state handler will pop the element and transition the parser mode back.\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

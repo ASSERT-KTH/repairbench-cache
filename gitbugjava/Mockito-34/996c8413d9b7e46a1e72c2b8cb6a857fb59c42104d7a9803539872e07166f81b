@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        // Get the arguments from the invocation to avoid multiple calls and allow checking length.\n        Object[] arguments = i.getArguments();\n        int numberOfArguments = arguments.length;\n\n        for (Matcher m : matchers) {\n            // Ensure that we only attempt to capture an argument if one exists at the current index k.\n            // This prevents ArrayIndexOutOfBoundsException when the number of matchers\n            // is potentially greater than the number of arguments (e.g., with varargs matchers\n            // and an invocation with fewer or zero vararg arguments).\n            if (k < numberOfArguments) {\n                if (m instanceof CapturesArguments) {\n                    ((CapturesArguments) m).captureFrom(arguments[k]);\n                }\n            }\n            // Note: This simple index increment assumes a one-to-one correspondence.\n            // Varargs might require more complex handling if a single matcher needs\n            // to capture multiple arguments, but this fix addresses the reported AIOOBE.\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

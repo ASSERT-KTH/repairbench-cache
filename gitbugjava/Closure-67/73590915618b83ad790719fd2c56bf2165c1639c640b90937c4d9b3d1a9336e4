@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild();\n      // Check if the LHS is a property access (GETPROP or GETELEM)\n      // e.g., foo.bar or foo['bar']\n      // and is a valid assignment target.\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) { // Added GETELEM check\n\n        Node objNode = n.getFirstChild(); // The object being accessed (e.g., foo.prototype)\n\n        // Check if the object being accessed is itself a GETPROP node\n        // This ensures we have the structure obj.prop or obj['prop']\n        // and specifically that the 'obj' part looks like 'something.prototype'\n        if (objNode != null && objNode.getType() == Token.GETPROP) {\n          // Check if the property name is \"prototype\"\n          Node grandchild = objNode.getFirstChild().getNext(); // The property name node ('prototype')\n          if (grandchild != null && grandchild.getType() == Token.STRING &&\n              grandchild.getString().equals(\"prototype\")) {\n            // We found the pattern: some_obj.prototype.property = ...\n            // or some_obj.prototype['property'] = ...\n            return true;\n          }\n        }\n      }\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

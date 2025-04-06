@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    char last = getLastChar(); // Store the last character\n\n    // Condition 1: Separate word characters, or backslash followed by word character.\n    // Prevents \"returnfoo\" -> \"return foo\"\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(last)) {\n      append(\" \");\n\n    // Condition 2: Prevent ambiguity when a regex literal follows a division operator\n    // or another regex literal.\n    // Example: /a/ / /b/ should print \"/a/ / /b/\" not \"/a///b/\"\n    // Example: /a/ / 1 should print \"/a/ / 1\" not \"/a//1\" (although less ambiguous)\n    // We add a space if the new code starts with '/' AND the last character was '/',\n    // but ONLY if the new code is not the division operator itself \"/\". This heuristic\n    // assumes that \"add(\"/\")\" is used for the division operator and \"add(\"/.../\")\" is\n    // used for regex literals.\n    } else if (c == '/' && last == '/' && !newcode.equals(\"/\")) {\n      // Add a space before appending the regex literal.\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

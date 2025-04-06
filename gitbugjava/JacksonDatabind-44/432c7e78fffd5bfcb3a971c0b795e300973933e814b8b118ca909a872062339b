@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    @Deprecated\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        // Should not be called on final classes, but just in case...\n        if (_class == subclass) {\n            return this;\n        }\n\n        // 18-Nov-2017, tatu: As per [databind#1833] need to ensure that we don't accidentally\n        //   produce \"more generic\" type -- for now, let's require exact match:\n        // 15-Jan-2016, tatu: Almost yes, but there are some complications with\n        //    placeholder values (`Void`, `NoClass`), so can not quite do yet.\n        // TODO: fix in 2.8 / 2.9? Or maybe 3.0? Requires thorough verification\n        //if (!_class.isAssignableFrom(subclass)) {\n            /*\n            throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                    +_class.getName());\n                    */\n        //}\n\n        // Let's NOT try to statically determine hierarchy; should be dynamic\n        // (SimpleType does note cache much)\n        // And return new instance that does have correct handler overrides\n        // 25-Mar-2017, tatu: As per [databind#1125], need to be careful; specifically,\n        //    re-constructing type hierarchy every time seems necessary.\n        return new SimpleType(subclass, _bindings,\n                 null, null,\n                _valueHandler, _typeHandler, _asStatic);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

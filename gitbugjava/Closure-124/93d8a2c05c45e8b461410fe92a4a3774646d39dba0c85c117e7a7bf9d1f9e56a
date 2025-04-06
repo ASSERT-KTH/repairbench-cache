@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Checks name referenced in node to determine if it might have\n   * changed.\n   * @return Whether the replacement can be made.\n   */\n  private boolean isSafeReplacement(Node node, Node replacement) {\n    // No checks are needed for simple names.\n    if (node.isName()) {\n      return true;\n    }\n    // Check the base name for GETPROPs\n    if (node.isGetProp()) {\n      Node base = node;\n      // Roll up the GETPROP chain to find the base object.\n      while (base.isGetProp()) {\n        base = base.getFirstChild();\n      }\n\n      // If the base object is a name, check if it's assigned to in the\n      // replacement expression.\n      if (base.isName()\n          && isNameAssignedTo(base.getString(), replacement)) {\n        // e.g. a = b.c; a = foo();\n        // It is not safe to replace \"a\" with \"b.c\" in the second assignment,\n        // because foo() might modify \"b\".\n        return false;\n      }\n    }\n\n    // Otherwise, it's safe.\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

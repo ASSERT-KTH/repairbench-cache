@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    // Function expressions in object literals (like getters and setters) are not\n    // reduceable.\n    // TOOD(johnlenz): Support this.\n    if (NodeUtil.isFunctionExpression(n)) {\n      Node parent = n.getParent();\n      if (parent != null) {\n        if (parent.isGetterDef() || parent.isSetterDef()) {\n          // Getters and setters are not reduceable.\n          return false;\n        } else if (parent.isStringKey()) {\n           // Functions as values in object literals are not reduceable.\n           // Example: var x = { get y() { return 1; }, z: function () {} };\n           // The function assigned to 'z' should not be reduced.\n           return false;\n        }\n      }\n      // Otherwise, it is reduceable.\n      return true;\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

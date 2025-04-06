@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Read the factory from serialized state, validating that the class is usable.\n     *\n     * @param is the input stream\n     * @throws IOException if an I/O error occurs\n     * @throws ClassNotFoundException if the class cannot be found\n     * @throws UnsupportedOperationException if the deserialized class is not a Collection subclass\n     */\n    private void readObject(final ObjectInputStream is) throws IOException, ClassNotFoundException {\n        is.defaultReadObject();\n        if (proto == null) {\n            // This could happen if an old version is deserialized, although maybe unlikely.\n            // Or perhaps proto is transient, and defaultReadObject doesn't set it.\n            // However, proto is not transient in the likely source.\n            // If proto was null, the constructor should have prevented it.\n            // If it is null after deserialization, it indicates a serialization issue or corruption.\n            throw new java.io.InvalidObjectException(\"Collection class Class is null\"); // Use standard exception\n        }\n        if (!java.util.Collection.class.isAssignableFrom(proto)) {\n            throw new UnsupportedOperationException(\"Deserialized collection class \" + proto.getName() +\n                                                     \" is not a subclass of Collection\");\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

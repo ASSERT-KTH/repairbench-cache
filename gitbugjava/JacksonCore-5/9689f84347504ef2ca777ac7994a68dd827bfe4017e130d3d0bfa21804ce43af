@@ -1,0 +1,7 @@
+{
+    "generation": "    private final static int _parseIndex(String str) {\n        final int len = str.length();\n        // [Issue#133]: beware of super long indexes; assume we never\n        // have arrays over 2 billion entries so ints are fine.\n        if (len == 0 || len > 10) {\n            return -1;\n        }\n        // Check that all characters are digits\n        for (int i = 0; i < len; ++i) {\n            // char c = str.charAt(i++); // Buggy line: increments i twice\n            char c = str.charAt(i); // Fixed line: removed extra i++\n            if (c > '9' || c < '0') {\n                return -1; // Not a valid digit, return -1\n            }\n        }\n        // If the string consists of digits and has length 10, check for overflow\n        if (len == 10) {\n            long l = NumberInput.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                return -1; // Value exceeds Integer.MAX_VALUE\n            }\n        }\n        // If all checks pass, the string represents a valid non-negative integer\n        // that fits within Integer bounds.\n        return NumberInput.parseInt(str);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

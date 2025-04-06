@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.regex.Matcher;\nimport java.util.regex.Pattern;\n\n  /**\n   * Check to see if the given block comment looks like it should be JSDoc.\n   * This is expected to be called only for comments that start with /*, not /**.\n   */\n  private void handleBlockComment(Comment comment) {\n    // Use a regex to find '@' characters that are at the beginning of the\n    // comment value, or at the beginning of a line, possibly preceded by\n    // whitespace and an optional '*'.\n    // This pattern helps identify comments like:\n    // /* @foo */\n    // /* \\n * @foo */\n    // /* \\n *@foo */\n    // /* \\n * foo\\n * @bar */\n    final Pattern suspiciousCommentPattern = Pattern.compile(\"(^|\\\\n)\\\\s*\\\\*?\\\\s*@\");\n    String commentValue = comment.getValue();\n    Matcher matcher = suspiciousCommentPattern.matcher(commentValue);\n\n    if (matcher.find()) {\n      errorReporter.warning(\n          SUSPICIOUS_COMMENT_WARNING,\n          sourceName,\n          comment.getLineno(), \"\", 0);\n    }\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by an integer x.\n     * This method multiplies this Dfp object by an integer multiplicand x.\n     * It uses {@link #multiplyFast(int)} for small integers (where abs(x) < RADIX)\n     * as an optimization, and the general {@link #multiply(Dfp)} method\n     * for larger integers by first converting x to a Dfp.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n\n        // Check if the integer x is within the range where multiplyFast is applicable.\n        // multiplyFast is likely optimized for x where abs(x) < RADIX.\n        // RADIX is the base of the internal representation (e.g., 10000).\n        if (x > -RADIX && x < RADIX) {\n            // Use the optimized version for small integers.\n            // We assume multiplyFast correctly handles signs and special values of 'this'.\n            return multiplyFast(x);\n        } else {\n            // For integers outside the fast range (x <= -RADIX or x >= RADIX),\n            // convert the integer x to a Dfp object using the field\n            // and then use the general Dfp multiplication method.\n            // This ensures correct handling for all integer values.\n            // Assumes 'field' is non-null, guaranteed by Dfp constructors.\n            return multiply(field.newDfp(x));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

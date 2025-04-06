@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Generate a random sample from the distribution.\n     *\n     * @param sampleSize the number of random values to generate.\n     * @return an array representing the random sample.\n     * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n     * positive.\n     */\n    public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n        if (sampleSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                    sampleSize);\n        }\n\n        // Create an Object array to hold the samples.\n        // This is necessary because the exact class of T might not be known\n        // or the distribution might contain items of different subtypes of T.\n        // Using Object[] ensures that any T returned by sample() can be stored.\n        final Object[] out = new Object[sampleSize];\n\n        for (int i = 0; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n\n        // Cast the Object[] array to T[].\n        // This is a standard way to handle generic array creation in Java,\n        // though it results in an unchecked cast warning.\n        // We suppress the warning as the array is guaranteed to contain\n        // objects of type T (or subtypes) returned by the sample() method.\n        @SuppressWarnings(\"unchecked\")\n        final T[] result = (T[]) out;\n        return result;\n\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}
