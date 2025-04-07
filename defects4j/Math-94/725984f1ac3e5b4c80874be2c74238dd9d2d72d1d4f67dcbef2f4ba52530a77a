@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == Integer.MIN_VALUE || v == Integer.MIN_VALUE) {\n        throw new ArithmeticException(\"Integer.MIN_VALUE is not allowed\");\n    }\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n\n    int k = 0;\n    // Make u and v odd\n    while (((u | v) & 1) == 0) {\n        u >>= 1;\n        v >>= 1;\n        k++;\n    }\n\n    // Make u and v positive\n    u = Math.abs(u);\n    v = Math.abs(v);\n\n    // Swap u and v if necessary\n    if ((u & 1) == 0) {\n        int temp = u;\n        u = v;\n        v = temp;\n    }\n\n    while ((v & 1) == 0) {\n        v >>= 1;\n    }\n\n    while (v != 0) {\n        // Now u and v are both odd\n        if (u > v) {\n            int temp = u;\n            u = v;\n            v = temp;\n        }\n        v -= u;\n        v >>= 1;\n    }\n\n    return u << k;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

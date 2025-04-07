@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _resolveSuperType(JavaType type, TypeTypeBindings bindings) {\n    final Class<?> raw = type.getRawClass();\n    final JavaType superType = type.getSuperClass();\n    if (superType != null) {\n        // 26-Jun-2019, tatu: Need to (re)bind regardless, as per [databind#2460]\n        JavaType resolved = superType.resolve(bindings);\n        // 19-Oct-2018, tatu: [databind#2115] Need to resolve recursive types\n        //   (although not necessarily thru super-types)\n        if (resolved.isTypeOrSubTypeOf(PlaceholderForType.class)) {\n            ResolvedRecursiveType placeholder = new ResolvedRecursiveType(type.getRawClass(), type.getBindings());\n            _incompleteSubTypes.add(placeholder);\n            // [databind#1647] Need to \"set\" resolved super type to have same placeholder\n            // so that we can correctly rebind types\n            placeholder.setSuperClass(resolved);\n        }\n        return resolved;\n    }\n    return superType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

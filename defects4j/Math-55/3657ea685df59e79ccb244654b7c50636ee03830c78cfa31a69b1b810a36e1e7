@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      final double ax = v1.x;\n      final double ay = v1.y;\n      final double az = v1.z;\n      final double bx = v2.x;\n      final double by = v2.y;\n      final double bz = v2.z;\n      final double b2 = bx * bx + by * by + bz * bz;\n      final double rho = ax * bx + ay * by + az * bz;\n      if (Double.isNaN(rho)) {\n          // this happens when v1 is NaN or infinite and v2 is NaN or zero (infinity * 0 = NaN)\n          return new Vector3D(Double.NaN, Double.NaN, Double.NaN);\n      }\n      final double s = Math.scalb(1.0, -FastMath.getExponent(b2)) * rho;\n      final double t = Math.scalb(1.0, -FastMath.getExponent(b2)) * b2;\n\n      final double cax = ay * bz - az * by;\n      final double cay = az * bx - ax * bz;\n      final double caz = ax * by - ay * bx;\n\n      return new Vector3D(cax * (t - s) + ax * (s - t),\n                          cay * (t - s) + ay * (s - t),\n                          caz * (t - s) + az * (s - t));\n\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

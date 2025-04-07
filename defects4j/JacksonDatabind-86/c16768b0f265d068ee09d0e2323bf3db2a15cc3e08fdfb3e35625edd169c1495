@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _resolveSuperType(JavaType type, TypeBindings bindings) {\n    // Need to iterate since we may have multiple levels to unwind\n    while (true) {\n        Class<?> raw = type.getRawClass();\n        JavaType superType = _fromSuperClass(raw, bindings);\n        // 26-Sep-2017, tatu: [databind#1647] need to resolve recursive (or self-referential type)\n        //  so, if we have seen super type (or one of its sub-types), resolve to it directly\n        if (superType != null) {\n            if (superType.isTypeOrSubTypeOf(raw)) {\n                return superType;\n            }\n            // otherwise, iterate, resolve\n            type = superType;\n            continue;\n        }\n        // or, if not, resolve generic (if any) and return\n        Type parent = raw.getGenericSuperclass();\n        if (parent == null) {\n            return null;\n        }\n        JavaType superType2 = _fromUnknownType(raw, parent, bindings);\n        if (superType2 != null) {\n            type = superType2;\n            continue;\n        }\n        // shouldn't we give up if we can't resolve it?\n        // 27-Sep-2017, tatu: We used to, but it turns out that this can be a problem\n        //    with certain unusual types... so we will try to resolve it, instead of giving up\n        //    here (see [databind#1677] for an example)\n        return _fromUnknownType(raw, parent, bindings);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Set the name of the entry.\n * @param name the name to use\n */\nprotected void setName(String name) {\n    if (name != null && !ZipFile.getUseUnicodeExtraFields()) {\n        // COMPRESS-176: WinZip interprets name as UTF-8 encoded\n        // even if no info about charset is given (at least for\n        // versions 11 and 12 and probably all versions).\n        //\n        // This method of checking for non-UTF8 characters is not\n        // bullet proof as a name may contain a character that is\n        // part of a different charset but still is a valid UTF8\n        // sequence.  Still it is a reasonable compromise as it\n        // should be true for most \"normal\" file names.\n        //\n        // On the other hand it may be wrong for non-UTF8 charsets\n        // like UTF16 and lead to wrong names if the bytes in name\n        // are a valid UTF8 sequence.  Still this should be safe\n        // as UTF16 (or UTF32) chars should rather be encoded as\n        // // unicodepath extra field.\n        if (!Charset.forName(\"UTF-8\").newEncoder().canEncode(name)) {\n            this.name = name.replace('\\\\', '/');\n        } else {\n            this.name = name;\n        }\n    } else {\n        this.name = name.replace('\\\\', '/');\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

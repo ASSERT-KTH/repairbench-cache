@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  // If the block has an exception handler, we can't be sure that all\n  // the code will be executed.\n  // TODO(b/6691118): We could be more precise here by checking if all\n  // the exceptions are caught, and if the variable is not used in\n  // the handler.\n  for (Node parent = cfgNode.getParent(); parent != null; parent = parent.getParent()) {\n    if (parent.isTry()) {\n      Node catchNode = parent.getSecondChild();\n      if (catchNode != null) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

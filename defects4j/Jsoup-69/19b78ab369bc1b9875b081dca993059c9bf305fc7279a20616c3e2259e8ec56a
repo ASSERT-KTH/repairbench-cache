@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> formData = new ArrayList<>();\n    for (Element el : this.children()) {\n        if (el instanceof FormElement) {\n            // include form elements that are submittable and not disabled (button.htm form test)\n            FormElement subForm = (FormElement) el;\n            for (Connection.KeyVal keyVal : subForm.formData()) {\n                formData.add(keyVal);\n            }\n        } else if (el instanceof FormElement.Submittable) {\n            FormElement.Submittable sub = (FormElement.Submittable) el;\n            if (sub.isSuccessful()) {\n                formData.add(sub.toKeyValue());\n            }\n        }\n    }\n    return formData;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

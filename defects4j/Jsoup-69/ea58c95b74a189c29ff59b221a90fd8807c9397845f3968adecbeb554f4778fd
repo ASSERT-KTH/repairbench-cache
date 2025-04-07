@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> formData = new ArrayList<>();\n\n    for (Element el : this.children()) {\n        if (!el.isDisabled() && el.tag().isFormSubmittable()) {\n            if (el.hasAttr(\"name\")) { // check if element has 'name' attribute\n                // Check if the element is a file input, and if it's not removed from the DOM\n                if (el.tag().getName().equals(\"input\") && el.attr(\"type\").equals(\"file\") && el.ownerDocument() != null) {\n                    // handle file inputs\n                    File file = el.fileData().file();\n                    if (file != null && file.exists()) {\n                        formData.add(HttpConnection.KeyVal.create(el.attr(\"name\"), file.getName(), el.fileData()));\n                    } else {\n                        formData.add(HttpConnection.KeyVal.create(el.attr(\"name\"), \"\"));\n                    }\n                } else {\n                    formData.add(HttpConnection.KeyVal.create(el.attr(\"name\"), el.val()));\n                }\n            }\n        }\n    }\n\n    return formData;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

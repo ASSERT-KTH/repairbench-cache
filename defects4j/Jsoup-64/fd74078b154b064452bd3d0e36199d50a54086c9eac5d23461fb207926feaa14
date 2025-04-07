@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    tb.insert(startTag);\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    tb.markInsertionMode();\n    tb.transition(Text);\n    // The issue arises from not properly handling the self-closing tag.\n    // We should check if the tag is self-closing and if so, \n    // we should acknowledge the self-closing tag by calling tb.emit(startTag);\n    if (startTag.isSelfClosing()) {\n        tb.emit(startTag);\n        // For Rawtext and RCDATA elements, the self-closing flag should be ignored.\n        // So, we should acknowledge the self-closing by popping the element from the stack.\n        tb.pop();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

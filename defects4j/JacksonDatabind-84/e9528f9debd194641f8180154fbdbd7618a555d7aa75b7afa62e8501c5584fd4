@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> clz, TypeBindings context, BeanDescription beanDesc)\n{\n    // 17-Jul-2012, tatu: Not sure if these checks are redundant or not; trying\n    //   to remove second part...\n    if (_cachedType == null) {\n        JavaType type = _cachedType = new SimpleType(clz);\n        // 25-Sep-2014, ckos: If we don't do this, recursive type resolution will fail.\n        type._valueHandler = this;\n        // [databind#1713]: need to preserve context, in case used for recursive resolution\n        type._context = context;\n        // [databind#2583]: May need to materialize type bindings\n        if (type.getBindings().isUnbound()) {\n            type._bindings = _bindingsForBeanType(clz);\n        }\n    }\n    // Ok: can finally return cached copy\n    return _cachedType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

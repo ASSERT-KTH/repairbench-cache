@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // Some old tar implementations use this strange 'name' pattern\n        // for directories, we check for it after checking the\n        // linkFlag.\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        // COMPRESS-356 check the entry's header\n        try {\n            readCheckSum();\n            return false;\n        } catch (final IOException e) {\n            // assume the file is not a directory because parsing the header fails\n            return false;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

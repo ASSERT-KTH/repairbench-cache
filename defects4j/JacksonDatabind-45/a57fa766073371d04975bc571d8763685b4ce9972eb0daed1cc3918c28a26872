@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JsonSerializer<?> createContextual(SerializerProvider serializers,\n        BeanProperty property) throws JsonMappingException\n{\n    if (property != null) {\n        JsonFormat.Value format = serializers.getAnnotationIntrospector().findFormat((Annotated)property.getMember());\n        if (format != null) {\n            // Simple case first: serialize as numeric timestamp?\n            JsonFormat.Shape shape = format.getShape();\n            if (shape.isNumeric()) {\n                return withFormat(Boolean.TRUE, null);\n            }\n            if (shape == JsonFormat.Shape.STRING) {\n                return withFormat(Boolean.FALSE, null);\n            }\n            // [databind#1393]: Shape.ANY: use global default (not 'string' nor 'numeric')\n            if (shape == JsonFormat.Shape.ANY) {\n                return this;\n            }\n            // otherwise, checking for explicit setting(s)\n            if (format.hasPattern() || format.hasLocale() || format.hasTimeZone()) {\n                return withFormat(Boolean.FALSE, null);\n            }\n        }\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

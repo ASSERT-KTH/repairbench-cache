@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // handle empty unknown tags\n    // when the spec expects an empty tag, will directly hit insertEmpty, so won't generate this fake end tag.\n    if (startTag.isSelfClosing()) {\n        Element el = insertEmpty(startTag);\n        if (!el.tag().isKnownEmpty()) {\n            // for HTML, not XML; if a known tag (which will be autoclosed on next start tag) is self closed, emit an end tag\n            // so that <div /><div></div> parses as <div></div><div></div>. Known tags are treated as self-closing if\n            // the spec declares them empty, so won't reach here.\n            stack.add(el);\n            tokeniser.emit(new Token.EndTag(el.tagName()));  // ensure we get out of whatever state we are in. emitted for yielded processing\n        }\n        return el;\n    }\n    \n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

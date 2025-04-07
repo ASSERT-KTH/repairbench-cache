@@ -1,0 +1,7 @@
+{
+    "generation": "protected Object _coerceEmptyString(DeserializationContext ctxt, boolean alwaysNull) throws JsonProcessingException\n{\n    // As per [databind#403]: should convert to `null`, if (and only if) \"fail on null\" is disabled.\n    if (alwaysNull) {\n        return null;\n    }\n    // For primitive types, can't set to null, so:\n    if (_primitive) {\n        // With one exception: 'boolean()' should be false (not that it really matters)\n        if (_valueClass == Boolean.TYPE) {\n            return Boolean.FALSE;\n        }\n        // 29-Oct-2016, tatu: As per [databind#1277] we are missing one more case: that of\n        //   `char!`; for which default value should be 0.\n        if (_valueClass == Character.TYPE) {\n            return (char) 0;\n        }\n        // but others should default to 0\n        return _coerceZero(ctxt);\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

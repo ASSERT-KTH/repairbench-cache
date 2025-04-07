@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _resolveSuperType(JavaType type, Type parentType) {\n    TypeFactory tf = _typeFactory;\n    Type superType = type.getGenericSuperclass();\n    if (superType == null) {\n        return null;\n    }\n    JavaType superType2 = tf._fromAny(parentType, superType, this);\n    // 21-Sep-2016, tatu: Should be able to just pass \"this\" as argument, but due to\n    //    [databind#1327] (aka [databind#1647]) need to force resolution to get\n    //    bogus types resolved (wrt [databind#1271] that is)\n    JavaType s2 = superType2.getSuperClass();\n    if (s2 != null && s2.getRawClass() == Object.class) {\n        superType2 = superType2.withStaticTyping();\n    }\n    _links.put(superType2, this);\n    return superType2;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

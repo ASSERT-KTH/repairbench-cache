@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    tb.insert(startTag);\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    tb.markInsertionMode();\n    tb.transition(InHead); // changed from Text to InHead to correctly handle empty raw text tags like style and noframes\n    // However, looking at the HtmlTreeBuilder state machine and other handlers, \n    // a more accurate fix would be to use tb.transition(HtmlTreeBuilderState.InHead);\n    // But the exact state to transition to may depend on the specific requirements of the HtmlTreeBuilder.\n    // For this particular problem, we can directly use the correct state.\n    tb.transition(HtmlTreeBuilderState.InHead);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

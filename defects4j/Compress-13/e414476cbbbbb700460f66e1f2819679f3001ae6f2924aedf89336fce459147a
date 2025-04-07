@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Set the name of the entry.\n     * @param name the name to use\n     */\n    protected void setName(String name) {\n        if (name != null && !ZipArchiveOutputStream.STORED_WITH_LANG_FLAG\n            && ZipEncodingHelper.isUTF8(name.getBytes(ZipEncoding.UTF8))) {\n            this.setGeneralPurposeBit(ZipArchiveOutputStream.USE_UTF8);\n        }\n        // Winzip (at least 9.0 SR1) has a bug where it puts the\n        // wrong unicode path extra in the central directory - even\n        // when it puts the correct one into the local file header.\n        // By now we don't use the unicode path extra for anything\n        // else so we can simply ignore the wrong extra data.\n        // See COMPRESS-171\n        // COMPRESS-176: WinZip (at least 11.2) has another bug where\n        // it uses backslashes in the file name entry\n        // COMPRESS-527: ZipFile will ignore backslashes in the file name if the Zip archive has EFS set.\n        // MS-ZIP does not specify EFS as other archivers do, so we have no choice but to always sanitize the names.\n        // See also http://www.info-zip.org/FAQ.html#backslashes\n        this.name = name.replace('\\\\', '/');\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public Object generateId(Object forPojo) {\n    // 04-Jun-2016, tatu: As per [databind#1255], need to consider possibility of\n    //    id being generated for \"alwaysAsId\", but not being written as POJO; regardless,\n    //    need to use existing id if there is one:\n    if (_objectIdInfo.alwaysAsId()) {\n        id = generator.generateId(forPojo);\n    } else {\n        // No change here\n        if (forPojo instanceof BeanPropertyWriter) {\n            BeanPropertyWriter w = (BeanPropertyWriter) forPojo;\n            AnnotatedMember m = w.getMember();\n            if (m instanceof AnnotatedField) {\n                id = ((AnnotatedField) m).getValue(w.getOwner());\n            } else if (m instanceof AnnotatedMethod) {\n                id = ((AnnotatedMethod) m).callOn(w.getOwner());\n            } else {\n                id = generator.generateId(forPojo);\n            }\n        } else {\n            id = generator.generateId(forPojo);\n        }\n    }\n    return id;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

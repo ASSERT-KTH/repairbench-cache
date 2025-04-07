@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _writeFieldName(String name, boolean canonical) throws IOException\n{\n    if (_cfgQuoteFieldNames) {\n        _writeFieldNameQuoted(name);\n    } else {\n        // Ok, can not assume UTF-8 here (since generator may have been\n        // configured to some other encoding)\n        int[] quotas = _outputEscapes;\n        final int quotaCount = quotas.length;\n\n        int i = 0;\n        int last = name.length();\n        final Writer out = _writer;\n\n        loop:\n        while (i < last) {\n            char c = name.charAt(i);\n            if (c < quotaCount && quotas[c] != 0) {\n                break loop;\n            }\n            out.write(c);\n            if (++i >= last) {\n                break;\n            }\n        }\n        // (output stream or writer)\n        if (i < last) {\n            if (_outputBuffer == null) {\n                _writeFieldNameSlow(name, i);\n            } else {\n                _writeFieldNameQuoted(name, i);\n            }\n            return;\n        }\n        out.write(':');\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

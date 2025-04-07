@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // 26-Sep-2019, tatu: We can't make this check yet as there are legitimate\n    //   cases where this check fails. So let's keep it as is for now.\n    //    if (!_class.isAssignableFrom(subclass)) {\n    //        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n    //                +_class.getName());\n    //    }\n    JavaType newType = new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n\n    // Issue 219: handle (or at least try to) case where type handling is needed\n    //  (simple case: just added here; more complex ones handled elsewhere)\n    if (_valueHandler != null) {\n        newType = newType.withValueHandler(_valueHandler);\n    }\n    if (_typeHandler != null) {\n        newType = newType.withTypeHandler(_typeHandler);\n    }\n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

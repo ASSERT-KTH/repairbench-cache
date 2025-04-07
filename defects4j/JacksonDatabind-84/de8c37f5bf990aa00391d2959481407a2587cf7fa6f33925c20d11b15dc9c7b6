@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addFields(Class<?> type, List<BeanPropertyDefinition> props) {\n    // First, a bit of introspection for \"known\" JDK types\n    if (type.isInterface() || Modifier.isStatic(type.getModifiers())) {\n        /* 24-Feb-2014, tatu: Better skip static classes; for example,\n         *   JDK 1.8 adds \"static\" to Member classes of non-static classes\n         *   (see JDK-8033525)\n         */\n        return;\n    }\n    Class<?> parent = type.getSuperclass();\n    if (parent != null) { // should always be true, but let's be paranoid\n        // Let's start by adding superclass properties, if any, before this class' own\n        _addFields(parent, props);\n    }\n    // then add our own if any (and filtering out duplicates)\n    for (Field field : ClassUtil.getDeclaredFields(type)) {\n        // static fields are skipped, as well as ones that are marked transient or have annotation that indicates exclusion\n        int mods = field.getModifiers();\n        if (!Modifier.isStatic(mods)) {\n            if (Modifier.isTransient(mods)) { // transient is NOT to be ignored; it is a hard \"don't include\"\n                continue;\n            }\n            AnnotatedField af = _forField(field);\n            if (!_propertyFilter.hasProperty(af)) { \n                continue;\n            }\n            props.add(af);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

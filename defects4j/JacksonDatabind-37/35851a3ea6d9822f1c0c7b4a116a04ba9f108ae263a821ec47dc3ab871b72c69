@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // 11-May-2017, tatu: Not entirely sure what this check would do (or why),\n    //   but it seems to trigger with certain type bindings (see [databind#1083]\n    //   for details).\n    //   So, for now, just disable it.\n    /*\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n    */\n    // 15-Jan-2015, tatu: Not correct; should really re-resolve...\n    return new SimpleType(subclass, _bindings.fork(), _superClass, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

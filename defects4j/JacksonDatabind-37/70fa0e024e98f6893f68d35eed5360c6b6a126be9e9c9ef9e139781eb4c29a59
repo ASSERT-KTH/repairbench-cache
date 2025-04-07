@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // 15-Jan-2016, tatu: Not perfect, but try to partially verify\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n    JavaType newType = _fromSuperType(subclass);\n    // 26-Jun-2019, tatu: to fix [databind-1083] need to try re-creating bindings\n    //   (shouldn't need to recreate TypeBindings, but just in case there are type vars)\n    // 17-Feb-2020, tatu: [databind-1148] as per comments, may need to re-create handlers too\n    newType = newType._withBindings(_bindings);\n    if (_valueHandler != newType.getValueHandler()) {\n        newType = newType.withValueHandler(_valueHandler);\n    }\n    if (_typeHandler != newType.getTypeHandler()) {\n        newType = newType.withTypeHandler(_typeHandler);\n    }\n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

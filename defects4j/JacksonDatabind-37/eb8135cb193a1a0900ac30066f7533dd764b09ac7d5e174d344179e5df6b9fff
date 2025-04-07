@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // 20-Apr-2016, tatu: For [databind#1083], try to support \"narrowing\" even if\n    //    not really sub-class. Bit of a hack for now, but may be needed for\n    //    some cases.\n    if (_class.isAssignableFrom(subclass)) {\n        // First: if we have \"value handler\", we need to re-create\n        JavaType subtype = _valueHandler == null ? null : SimpleType.constructUnsafe(subclass, _bindings);\n        // but either way, need to re-create type (superclass etc)\n        return new SimpleType(subclass, subtype == null ? _bindings : subtype.getBindings(),\n                _superClass, _superInterfaces,\n                _valueHandler, _typeHandler, _asStatic);\n    }\n    // Should we check that there is a sub-class relationship?\n    throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n            +_class.getName());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

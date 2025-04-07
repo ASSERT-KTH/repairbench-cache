@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> formData = new ArrayList<>();\n\n    // iterate children and for input elements, pull out name, value, and type\n    for (Element el : this.children()) { // changed from children() to this.children() for correctness, though not the cause of the bug\n        if (!el.isDisabled()) {\n            if (el instanceof InputElement) {\n                InputElement input = (InputElement) el;\n                if (input.isCheckbox() || input.isRadio()) {\n                    if (input.isChecked()) {\n                        formData.add(input.keyVal());\n                    }\n                } else {\n                    formData.add(input.keyVal());\n                }\n            } else if (el.tag().getName().equals(\"textarea\")) {\n                TextAreaElement ta = (TextAreaElement) el;\n                formData.add(ta.keyVal());\n            } else if (el.hasAttr(\"name\")) { // changed from is() to hasAttr() for correctness, though not directly related to the bug\n                formData.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n            }\n        }\n    }\n    return formData;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

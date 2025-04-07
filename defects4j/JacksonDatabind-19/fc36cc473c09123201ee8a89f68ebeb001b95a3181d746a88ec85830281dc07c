@@ -1,0 +1,7 @@
+{
+    "generation": "private JavaType _mapType(Class<?> rawClass)\n{\n    // 28-May-2015, tatu: Properties are special, as per [databind#810]\n    JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n    // ok to have no types (\"raw\")\n    if (typeParams == null) {\n        // 28-May-2015, tatu: As per [databind#2411], JDK 11+ will return\n        //   actual type parameters for `Properties`, so we should NOT\n        //   try resolving \"raw\" types; check here (earlier in code\n        //   path it is too late since type resolution has occurred)\n        if (Properties.class.isAssignableFrom(rawClass)) {\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        typeParams = new JavaType[] { _unknownType(), _unknownType() };\n    } else {\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": can not determine type parameters\");\n        }\n    }\n    return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

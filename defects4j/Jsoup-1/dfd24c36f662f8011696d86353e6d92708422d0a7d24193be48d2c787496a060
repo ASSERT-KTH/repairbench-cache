@@ -1,0 +1,7 @@
+{
+    "generation": "// does not recurse.\nprivate void normalise(Element element) {\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node: element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    for (Node node: toMove) {\n        element.removeChild(node);\n        body().prependChild(node); // prepend instead of append\n    }\n    // Only add a space if there are text nodes to move and the first child is not a text node or it's not a space\n    if (!toMove.isEmpty() && !(body().child(0) instanceof TextNode && ((TextNode) body().child(0)).getWholeText().startsWith(\" \"))) {\n        body().prependChild(new TextNode(\" \", \"\"));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

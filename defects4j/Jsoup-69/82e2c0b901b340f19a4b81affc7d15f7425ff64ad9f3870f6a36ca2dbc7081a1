@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> formData = new ArrayList<>();\n\n    for (Element el : this.children()) {\n        if (el instanceof FormElement) {\n            // include form elements that are submittable and not disabled (button, input and etc)\n            FormElement subForm = (FormElement) el;\n            for (Connection.KeyVal keyVal : subForm.formData()) {\n                formData.add(keyVal);\n            }\n        } else if (!(el instanceof Element.FormElement)) {\n            continue;\n        } else if (!el.hasAttr(\"disabled\")) {\n            if (el.tagName().equals(\"input\") && el.attr(\"type\").equals(\"checkbox\")) {\n                if (!el.hasAttr(\"checked\")) {\n                    continue;\n                }\n            } else if (el.tagName().equals(\"input\") && el.attr(\"type\").equals(\"radio\")) {\n                if (!el.hasAttr(\"checked\")) {\n                    continue;\n                }\n            }\n            formData.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n        }\n    }\n\n    // elements with no name have an empty name, not null. \n    // http://www.w3.org/TR/html401/interact/forms.html#form-data-set\n    for (Connection.KeyVal keyVal : formData)\n        keyVal.key(keyVal.key().isEmpty() ? null : keyVal.key());\n\n    return formData;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

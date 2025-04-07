@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  // Decimal, Hex, and Octal literals according to EcmaScript 262 v5\n  if (s.isEmpty()) return false;\n  int len = s.length();\n  if (s.charAt(0) == '-') {\n    if (len == 1) return false;\n    s = s.substring(1);\n    len--;\n  }\n  if (len > 1 && s.charAt(0) == '0') {\n    if (s.charAt(1) == 'x' || s.charAt(1) == 'X') {\n      // Hex\n      for (int index = 2; index < len; index++) {\n        char c = s.charAt(index);\n        if ((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F')) {\n          return false;\n        }\n      }\n      return len > 2;\n    } else if (s.charAt(1) >= '0' && s.charAt(1) <= '7') {\n      // Octal\n      for (int index = 1; index < len; index++) {\n        char c = s.charAt(index);\n        if (c < '0' || c > '7') {\n          return false;\n        }\n      }\n      return true;\n    }\n  }\n  // Decimal\n  boolean hasDecimal = false;\n  for (int index = 0; index < len; index++) {\n    char c = s.charAt(index);\n    if (c == '.') {\n      if (hasDecimal) return false;\n      hasDecimal = true;\n    } else if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean looksLikeUtf8(byte[] input) {\n    int i = 0;\n    // BOM:\n    if (input.length >= 3 && (input[0] & 0xFF) == 0xEF\n        && (input[1] & 0xFF) == 0xBB && (input[2] & 0xFF) == 0xBF) {\n        i = 3;\n    }\n\n    int end;\n    for (int j = input.length; i < j; ++i) {\n        int o = input[i];\n        if ((o & 0x80) == 0) {\n            continue; // ASCII\n        }\n\n        // UTF-8 leading:\n        if ((o & 0xE0) == 0xC0) {\n            end = i + 2; // Changed to 2 to account for the lead and one following byte\n        } else if ((o & 0xF0) == 0xE0) {\n            end = i + 3; // Changed to 3 to account for the lead and two following bytes\n        } else if ((o & 0xF8) == 0xF0) {\n            end = i + 4; // Changed to 4 to account for the lead and three following bytes\n        } else {\n            return false;\n        }\n\n        if(end > input.length) { // Added a check to prevent ArrayIndexOutOfBoundsException\n            return false;\n        }\n\n        while (i < end - 1) { // Changed to end - 1 to prevent ArrayIndexOutOfBoundsException\n            i++;\n            o = input[i];\n            if ((o & 0xC0) != 0x80) {\n                return false;\n            }\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

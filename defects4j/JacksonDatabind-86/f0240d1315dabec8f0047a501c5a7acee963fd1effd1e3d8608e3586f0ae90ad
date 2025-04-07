@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _resolveSuperType(JavaType type, Type parentRef) {\n    // need to resolve?\n    if (type instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType recursiveType = (ResolvedRecursiveType) type;\n        JavaType superClass = _fromAny(parentRef, false);\n        if (superClass != null) {\n            recursiveType.setReference(superClass);\n            superClass._checkAndFixSuperTypes();\n        }\n    } else if (type.isContainerType()) {\n        // [databind#759]\n        ResolvedRecursiveType newRef = _recursiveType(parentRef);\n        ContainerType cont = (ContainerType) type;\n        newRef.setReference(cont.getContentType());\n        JavaType newType = cont.withContentType(_resolveSuperType(cont.getContentType(), parentRef));\n        _fixContainerTypes(type, newRef, newType);\n    } else if (type.isReferenceType()) {\n        ResolvedRecursiveType newRef = _recursiveType(parentRef);\n        ReferenceType ref = (ReferenceType) type;\n        newRef.setReference(ref.getContentType());\n        JavaType newType = ref.withContentType(_resolveSuperType(ref.getContentType(), parentRef));\n        _fixContainerTypes(type, newRef, newType);\n    }\n    // 29-Aug-2019, tatu: With [databind#2468] need to make sure super-types get resolved too\n    //   (although it is not obvious why exactly this is needed)\n    type._checkAndFixSuperTypes();\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

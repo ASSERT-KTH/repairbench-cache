@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        case '/':\n            // self-closing tag with possible attribute name and no value\n            c = r.consume();\n            if (c == '>') {\n                t.emitTagPending();\n                t.transition(Data);\n            } else {\n                t.tagPending.newAttribute();\n                t.tagPending.appendAttributeName(c);\n                t.transition(BeforeAttributeValue);\n            }\n            break;\n        default:\n            t.tagPending.newAttribute();\n            t.tagPending.appendAttributeName(c);\n            t.transition(AfterAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

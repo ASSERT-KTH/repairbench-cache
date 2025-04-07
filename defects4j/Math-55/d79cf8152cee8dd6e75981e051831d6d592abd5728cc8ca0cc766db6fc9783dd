@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      double dx1 = v1.x;\n      double dy1 = v1.y;\n      double dz1 = v1.z;\n      double dx2 = v2.x;\n      double dy2 = v2.y;\n      double dz2 = v2.z;\n\n      // we protect against numerical cancellation by rescaling v1 and v2\n      // before computing the cross product; rescaling preserves the result\n      // (this is equivalent to change of units for some arbitrary length)\n      double max1 = FastMath.max(FastMath.max(FastMath.abs(dx1), FastMath.abs(dy1)), FastMath.abs(dz1));\n      double max2 = FastMath.max(FastMath.max(FastMath.abs(dx2), FastMath.abs(dy2)), FastMath.abs(dz2));\n      double scale1 = FastMath.scalb(1.0, -FastMath.getExponent(max1));\n      double scale2 = FastMath.scalb(1.0, -FastMath.getExponent(max2));\n      dx1 = dx1 * scale1;\n      dy1 = dy1 * scale1;\n      dz1 = dz1 * scale1;\n      dx2 = dx2 * scale2;\n      dy2 = dy2 * scale2;\n      dz2 = dz2 * scale2;\n\n      // compute cross product from v3 and v2 instead of v1 and v2\n      return new Vector3D(dy1 * dz2 - dz1 * dy2, dz1 * dx2 - dx1 * dz2, dx1 * dy2 - dy1 * dx2);\n\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> clz, TypeBindings context, \n        // TypeParameters _params_, \n        JavaType superClass)\n{\n    // [databind#1647] Need to figure out if there are generics in supertype; if not, we can \n    // just shortcut binding\n    if (superClass == null) {\n        superClass = _resolveType(clz.getSuperclass(), context, _typeBindingsForSuper(clz));\n    }\n    // 26-Jun-2019, tatu: This used to be simple check, but has to be more\n    //    complicated due to possibility of \"self-reference\" (or other cycles)\n    //    that `superClass` and/or its parts might have.\n    if (!superClass.isTypeOrSubTypeOf(RecursiveType.class)) {\n        return superClass;\n    }\n    // 26-Jun-2019, tatu: We will try to \"pre-bind\" super-class before resolving\n    //   its type; this will cover most of simple cases, hopefully all we need.\n    //   If this is not enough, we could do a full pass of pre-fetching of\n    //   super types in `TypeFactory`\n    if (superClass instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType self = (ResolvedRecursiveType) superClass;\n        if (self.getSelfType() == null) {\n            self.setSelfType(_fromClass(clz, context, superClass));\n        }\n        return self;\n    }\n    return new ResolvedRecursiveType(clz, context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

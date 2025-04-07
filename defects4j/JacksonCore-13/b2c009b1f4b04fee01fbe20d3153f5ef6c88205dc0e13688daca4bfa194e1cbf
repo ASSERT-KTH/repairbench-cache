@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _writeFieldName(String name, boolean canonical) throws IOException\n{\n    if (_cfgPrettyPrinter != null) {\n        _writePPFieldName(name, canonical);\n        return;\n    }\n    if (_outputPtr >= _outputEnd) {\n        _flush();\n    }\n    if (!_cfgQuoteFieldNames) { // [JACKSON-631]\n        // Hmmh. Should we quote if not canonical?\n        if (canonical) {\n            _writeFieldName(name);\n            return;\n        }\n    }\n    // [core#246]: allow disabling quoting\n    if ((_outputPtr + name.length() + 1) >= _outputEnd) {\n        _flush();\n    }\n    if (_cfgQuoteFieldNames) {\n        _outputBuffer[_outputPtr++] = '\"';\n        _outputPtr = _writeString(name);\n        _outputBuffer[_outputPtr++] = '\"';\n    } else {\n        _outputBuffer[_outputPtr++] = name.charAt(0);\n        _outputPtr = _writeString(name.substring(1));\n    }\n    if (_cfgQuoteFieldNames) {\n        _outputBuffer[_outputPtr++] = ':';\n    } else {\n        _outputBuffer[_outputPtr++] = ':';\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

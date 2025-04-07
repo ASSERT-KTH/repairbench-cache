@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // Some tools (star, gnutar, etc.) do not always set the flag\n        // for directory entries, so check the name as well.\n        // NOTE: Entries with a name ending in '/' are treated as\n        // directories, as per the PAX and GNU specs, but an entry\n        // with a name that ends with a '/' and is not a directory\n        // should be considered as a regular file.\n        // This method will return true for such entries, which may\n        // cause problems for callers that expect this method to\n        // return true only for directories.\n        // See COMPRESS-356 and https://bugs.openjdk.java.net/browse/JDK-8131068\n        // However, this is the \"TarArchiveEntry\" class, and it is\n        // behaving as specified, so we can't fix it here.\n        String n = getName();\n        return n.endsWith(\"/\") && !isPaxHeader() && !isGlobalPaxHeader();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      // we have to compute the cross product in a way that avoids cancellation errors,\n      // see Kahan lecture \"Computing Cross-Products and Rotations in 2- and 3-Dimensional Euclidean Spaces\"\n      // available at http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf\n\n      final double   ax = v1.x;\n      final double   ay = v1.y;\n      final double   az = v1.z;\n      final double   bx = v2.x;\n      final double   by = v2.y;\n      final double   bz = v2.z;\n\n      // compute the cross product components\n      // the original computation is the following (not numerically stable)\n      // final double x = ay * bz - az * by;\n      // final double y = az * bx - ax * bz;\n      // final double z = ax * by - ay * bx;\n      // we use Kahan's method, with 2 multiplications and 5 fused-multiply-add\n      double x =  Math.fma(ay, bz, -az * by);\n      double y =  Math.fma(az, bx, -ax * bz);\n      double z =  Math.fma(ax, by, -ay * bx);\n\n      return new Vector3D(x, y, z);\n\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

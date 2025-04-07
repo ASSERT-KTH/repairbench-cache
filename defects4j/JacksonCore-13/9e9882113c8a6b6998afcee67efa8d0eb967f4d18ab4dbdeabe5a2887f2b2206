@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _writeFieldName(String name, boolean canonical) throws IOException\n{\n    if (_cfgPrettyPrinter != null) {\n        _writePPFieldName(name, canonical);\n        return;\n    }\n    if (_outputPtr >= _outputEnd) {\n        _flushBuffer();\n    }\n    if (!(_features & JsonGenerator.Feature.QUOTE_FIELD_NAMES.getMask()) != 0) { // unquoted names only allowed if setting disabled\n        _writeFieldName(name, canonical);\n        return;\n    }\n    // first: canonical names are simple: always quoted, no escapes\n    if (canonical) {\n        _writeFieldName(name);\n        return;\n    }\n    // Non-canonical: may need quoting or escaping\n    int status = _writeName(name);\n    if (status == WRITE_NAME) {\n        return;\n    }\n    // next: need to quote? (if unquoted, no escapes necessary)\n    if (status == NEEDS_NO_QUOTING) {\n        _writeUnquotedFieldName(name);\n        return;\n    }\n    // close enough?\n    if (status == NEEDS_NO_ESCAPING) {\n        _writeString(name);\n        return;\n    }\n    // otherwise, write via buffer\n    _writeString(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

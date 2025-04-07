@@ -1,0 +1,7 @@
+{
+    "generation": "@Override \npublic void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n        nextName();\n        // If the JsonObject is empty, stackSize might be 1 and there is no pathNames[-1]\n        if (stackSize > 1) {\n            pathNames[stackSize - 2] = \"null\";\n        }\n    } else {\n        popStack();\n        // Check if stackSize is greater than 0 to prevent ArrayIndexOutOfBoundsException\n        if (stackSize > 0) {\n            pathNames[stackSize - 1] = \"null\";\n        }\n    }\n    // Check if stackSize is greater than 0 to prevent ArrayIndexOutOfBoundsException\n    if (stackSize > 0) {\n        pathIndices[stackSize - 1]++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

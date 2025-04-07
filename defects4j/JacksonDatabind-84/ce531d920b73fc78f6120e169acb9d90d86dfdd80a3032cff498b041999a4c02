@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addFields(Class<?> type, BeanDescription beanDesc, TypeBindings bindings, Map<String, AnnotatedMember> fields) {\n    // first: super-class(es)\n    Class<?> parent = type.getSuperclass();\n    if (parent != null) {\n        _addFields(parent, beanDesc, bindings, fields);\n    }\n    // then fields from the class itself:\n    for (BeanPropertyDefinition d : beanDesc.findProperties()) {\n        // [databind#953]: Ignore @Transient properties\n        if (d.isTransient()) {\n            continue;\n        }\n        AnnotatedMember m = d.getAccessor();\n        // only getter/setter, not ctor params (for now?)\n        if (m != null && !m.getDeclaringClass().isInterface()) {\n            String name = d.getName();\n            // 26-Nov-2016, tatu: Ignore name of `log`, since that's very likely\n            //    \"logger\" field (and if not, is still a very unlikely property\n            //    name); and usually static (but not always, which is why we can\n            //    not just check that)\n            if (!name.equals(\"log\")) {\n                fields.put(name, m);\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

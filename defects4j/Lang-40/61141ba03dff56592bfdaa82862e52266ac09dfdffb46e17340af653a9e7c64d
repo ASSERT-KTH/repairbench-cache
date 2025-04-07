@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsIgnoreCase(String str, String searchStr) {\n    if (str == null || searchStr == null) {\n        return false;\n    }\n    int len = searchStr.length();\n    int max = str.length() - len;\n    for (int i = 0; i <= max; i++) {\n        if (regionMatches(str, i, searchStr, 0, len, true)) {\n            return true;\n        }\n    }\n    return false;\n}\n\nprivate static boolean regionMatches(String s1, int s1Start, String s2, int s2Start, int len, boolean ignoreCase) {\n    if (s1 == null || s2 == null) {\n        throw new NullPointerException();\n    }\n    if (s1Start < 0 || s2Start < 0 || len < 0 || s1Start + len > s1.length() || s2Start + len > s2.length()) {\n        return false;\n    }\n    if (!ignoreCase) {\n        return s1.regionMatches(s1Start, s2, s2Start, len);\n    }\n    for (int i = 0; i < len; i++) {\n        char c1 = s1.charAt(s1Start + i);\n        char c2 = s2.charAt(s2Start + i);\n        if (c1 == c2) {\n            continue;\n        }\n        if (Character.toUpperCase(c1) == Character.toUpperCase(c2)) {\n            continue;\n        }\n        if (Character.toLowerCase(c1) == Character.toLowerCase(c2)) {\n            continue;\n        }\n        return false;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n  RecordTypeBuilder builder = new RecordTypeBuilder(registry);\n  for (String property : properties.keySet()) {\n    if (that.toMaybeRecordType().hasProperty(property) &&\n        that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(\n            getPropertyType(property))) {\n      builder.addProperty(property, getPropertyType(property),\n          getPropertyNode(property));\n    }\n  }\n  // Add all properties of both records that were not in the intersection\n  RecordType otherRecordType = that.toMaybeRecordType();\n  for (String property : properties.keySet()) {\n    if (!otherRecordType.hasProperty(property)) {\n      builder.addProperty(property, getPropertyType(property), getPropertyNode(property));\n    }\n  }\n  for (String property : otherRecordType.properties.keySet()) {\n    if (!hasProperty(property)) {\n      builder.addProperty(property, otherRecordType.getPropertyType(property),\n          otherRecordType.getPropertyNode(property));\n    }\n  }\n  JSType result = builder.build();\n  if (result.isEmptyType()) {\n    return registry.createUnionType(this, that);\n  } else {\n    return result;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

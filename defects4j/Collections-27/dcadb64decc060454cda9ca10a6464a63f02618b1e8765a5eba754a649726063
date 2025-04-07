@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    Class<? extends Collection> collectionClass = (Class<? extends Collection>) in.readObject();\n    if (CollectionUtils.isNotSafeClass(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe Collection class: \" + collectionClass.getName());\n    }\n    map = createMap();\n    multiValued = MultiValuedMap.class.isAssignableFrom(collectionClass);\n    collectionFactory = FactoryUtils.instantiateFactory(collectionClass);\n    if (collectionFactory == null) {\n        collectionFactory = FactoryUtils.instantiateFactory(Collection.class.getName() + \"sFactory\");\n    }\n    putAllMap((Map) in.readObject());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

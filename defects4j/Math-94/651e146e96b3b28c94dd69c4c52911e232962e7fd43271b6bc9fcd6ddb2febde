@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == Integer.MIN_VALUE || v == Integer.MIN_VALUE) {\n        throw new ArithmeticException(\"Integer min value not supported by gcd\");\n    }\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n\n    int k = 0;\n    // B1. [Find power of 2]\n    while (((u & 1) == 0) && ((v & 1) == 0) && (k < 31)) { \n        u /= 2;\n        v /= 2;\n        k++; \n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least\n    // one is odd.\n    int t = (u & 1) == 1 ? v : u / 2;\n    if (t < 0) {\n        t = -t;\n    }\n\n    do {\n        // B3. [t is odd]: cast out twos from t.\n        while ((t & 1) == 0) { \n            t /= 2; \n        }\n\n        // B4. [u >= v]\n        if (u > v || u < -v) { \n            t = u;\n            u = v;\n            v = t;\n        }\n\n        // B5. [v <- v - u]: v is even.\n        v -= u;\n\n        t = v;\n    } while (v != 0);\n\n    return u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

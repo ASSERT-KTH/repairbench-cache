@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n\n    for (Element el : this.children()) {\n        if (!el.hasAttr(\"disabled\")) {\n            if (el.tag() == button) {\n                if (el.hasAttr(\"name\") && el.hasAttr(\"value\")) {\n                    data.add(Connection.KeyVal.create(el.attr(\"name\"), el.attr(\"value\")));\n                }\n            } else if (el.tag() == input) {\n                if (el.attr(\"type\").equals(\"checkbox\") || el.attr(\"type\").equals(\"radio\")) {\n                    if (el.hasAttr(\"checked\")) {\n                        data.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n                    }\n                } else {\n                    data.add(Connection.KeyVal.create(el.attr(\"name\"), el.val()));\n                }\n            } else if (el.tag() == textarea) {\n                data.add(Connection.KeyVal.create(el.attr(\"name\"), el.text()));\n            } else if (el.tag() == select) {\n                SelectElement select = new SelectElement((Element) el);\n                List<Connection.KeyVal> selectData = select.getData();\n                data.addAll(selectData);\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

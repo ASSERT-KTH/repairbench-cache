@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsIgnoreCase(String str, String searchStr) {\n    if (str == null || searchStr == null) {\n        return false;\n    }\n    int len = searchStr.length();\n    int max = str.length() - len;\n    for (int i = 0; i <= max; i++) {\n        if (regionMatches(str, i, searchStr, 0, len, true)) {\n            return true;\n        }\n    }\n    return false;\n}\n\nprivate static boolean regionMatches(String text, int textStart, String pattern, int patternStart, int length, boolean ignoreCase) {\n    if (!ignoreCase) {\n        return text.regionMatches(textStart, pattern, patternStart, length);\n    }\n    int textEnd = textStart + length;\n    int patternEnd = patternStart + length;\n    for (int i = textStart, j = patternStart; i < textEnd && j < patternEnd; i++, j++) {\n        char c1 = text.charAt(i);\n        char c2 = pattern.charAt(j);\n        if (c1 != c2) {\n            c1 = Character.toUpperCase(c1);\n            c2 = Character.toUpperCase(c2);\n            if (c1 != c2) {\n                c1 = Character.toLowerCase(c1);\n                c2 = Character.toLowerCase(c2);\n                if (c1 != c2) {\n                    return false;\n                }\n            }\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}
