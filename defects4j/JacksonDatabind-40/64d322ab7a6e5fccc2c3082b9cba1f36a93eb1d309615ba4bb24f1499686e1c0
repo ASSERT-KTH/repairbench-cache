@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object getEmptyValue(DeserializationContext ctxt) throws JsonMappingException {\n    // For primitives, empty String (\"\") should NOT coerce to null (should return default value for primitive type)\n    // but for wrappers, Jackson returns null\n    if (_valueClass.isPrimitive()) {\n        if (_valueClass == Integer.TYPE) {\n            return Integer.valueOf(0);\n        }\n        if (_valueClass == Long.TYPE) {\n            return Long.valueOf(0L);\n        }\n        if (_valueClass == Boolean.TYPE) {\n            return Boolean.FALSE;\n        }\n        if (_valueClass == Double.TYPE) {\n            return Double.valueOf(0.0);\n        }\n        if (_valueClass == Float.TYPE) {\n            return Float.valueOf(0.0f);\n        }\n        if (_valueClass == Byte.TYPE) {\n            return Byte.valueOf((byte) 0);\n        }\n        if (_valueClass == Character.TYPE) {\n            return Character.valueOf((char) 0);\n        }\n        if (_valueClass == Short.TYPE) {\n            return Short.valueOf((short) 0);\n        }\n        // If unknown primitive type, return default\n        throw new IllegalArgumentException(\"Class \"+_valueClass.getName()+\" is not a recognized primitive type\");\n    }\n    // For non-primitives (wrappers), Jackson by default returns null\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // For each field, try to inject ONLY if there isn't already a better match\n    List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n    Set<Object> injectedMocks = new HashSet<>();\n    for (Field field : fields) {\n        Object injected = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        if (injected != null) {\n            injectedMocks.add(injected); // So that same mock can't be injected in multiple fields\n        }\n        mocks.removeAll(injectedMocks);\n        // Remove from mocks what was just injected to prevent ancestor fields from grabbing the same mock\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected RealPointValuePair getSolution() {\n    double[] coefficients = new double[getOriginalNumDecisionVariables()];\n    Integer basicRow =\n        getBasicRow(getNumObjectiveFunctions() + getOriginalNumDecisionVariables());\n    double mostNegative = basicRow == null ? 0 : getEntry(basicRow, getRhsOffset());\n    for (int i = 0; i < coefficients.length; i++) {\n        basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n        double value = (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -\n                (restrictToNonNegative ? 0 : mostNegative);\n        if (basicRow != null) {\n            // Only assign if this variable is basic and column is unit for the current variable (corresponds to variable assignment)\n            boolean isBasicForCurrent = true;\n            for (int j = 0; j < getHeight(); j++) {\n                if (j != basicRow && Math.abs(tableau.getEntry(j, getNumObjectiveFunctions() + i)) > 1.0e-8) {\n                    isBasicForCurrent = false;\n                    break;\n                }\n            }\n            if (Math.abs(tableau.getEntry(basicRow, getNumObjectiveFunctions() + i) - 1.0) > 1.0e-8) {\n                isBasicForCurrent = false;\n            }\n            coefficients[i] = isBasicForCurrent ? value : 0.0;\n        } else {\n            coefficients[i] = 0.0;\n        }\n    }\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

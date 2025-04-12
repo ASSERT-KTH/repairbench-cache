@@ -1,0 +1,7 @@
+{
+    "generation": "  public TypePair getTypesUnderInequality(JSType that) {\n    // unions types\n    if (that instanceof UnionType) {\n      TypePair p = that.getTypesUnderInequality(this);\n      return new TypePair(p.typeB, p.typeA);\n    }\n\n    // other types\n    switch (this.testForEquality(that)) {\n      case TRUE:\n        return new TypePair(null, null);\n\n      case FALSE:\n        return new TypePair(this, that);\n\n      case UNKNOWN:\n        // Exclude the intersection from both types if possible\n        JSType thisRestricted = this.getGreatestSubtypeWithProperty(\"~incompatibleWith\", that);\n        JSType thatRestricted = that.getGreatestSubtypeWithProperty(\"~incompatibleWith\", this);\n\n        // In cases like 'undefined != undefined', restrict to NO_TYPE (None).\n        if (this.equals(that)) {\n          return new TypePair(this.getNativeType(JSTypeNative.NO_TYPE),\n                              that.getNativeType(JSTypeNative.NO_TYPE));\n        }\n\n        return new TypePair(this, that);\n    }\n\n    // switch case is exhaustive\n    throw new IllegalStateException();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

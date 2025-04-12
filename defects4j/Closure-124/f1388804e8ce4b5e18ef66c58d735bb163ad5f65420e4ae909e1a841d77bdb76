@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Checks name referenced in node to determine if it might have\n * changed.\n * @return Whether the replacement can be made.\n */\nprivate boolean isSafeReplacement(Node node, Node replacement) {\n  // No checks are needed for simple names.\n  if (node.isName()) {\n    return true;\n  }\n  Preconditions.checkArgument(node.isGetProp());\n\n  // Ensure both nodes refer to the same property chain.\n  Node orig = node;\n  Node repl = replacement;\n\n  // Walk down both trees to the root.\n  while (orig != null && repl != null && orig.isGetProp() && repl.isGetProp()) {\n    Node origChild = orig.getFirstChild();\n    Node replChild = repl.getFirstChild();\n    Node origProp = orig.getLastChild();\n    Node replProp = repl.getLastChild();\n\n    if (!origProp.getString().equals(replProp.getString())) {\n      // Different property name at this level; unsafe.\n      return false;\n    }\n\n    orig = origChild;\n    repl = replChild;\n  }\n  // Now, check roots.\n  if (orig != null && repl != null && orig.isName() && repl.isName()) {\n    if (!orig.getString().equals(repl.getString())) {\n      // Different roots; unsafe.\n      return false;\n    }\n    if (isNameAssignedTo(orig.getString(), replacement)) {\n      return false;\n    }\n    return true;\n  }\n\n  // Structure mismatch.\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

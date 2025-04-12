@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // Create a copy of mocks to remove injected mocks and avoid double injection\n    Set<Object> availableMocks = new LinkedHashSet<>(mocks);\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Only inject if we still have available mocks\n        Object injected = mockCandidateFilter.filterCandidate(availableMocks, field, fieldInstance).thenInject();\n        if (injected != null) {\n            availableMocks.remove(injected);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

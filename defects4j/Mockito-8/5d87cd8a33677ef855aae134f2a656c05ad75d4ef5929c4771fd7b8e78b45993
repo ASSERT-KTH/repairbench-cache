@@ -1,0 +1,7 @@
+{
+    "generation": "protected void registerTypeVariablesOn(Type classType) {\n    if (!(classType instanceof ParameterizedType)) {\n        return;\n    }\n    ParameterizedType parameterizedType = (ParameterizedType) classType;\n    Type rawType = parameterizedType.getRawType();\n    // Defensive: only proceed if rawType is a Class and has type parameters\n    if (!(rawType instanceof Class<?>)) {\n        return;\n    }\n    TypeVariable<?>[] typeParameters = ((Class<?>) rawType).getTypeParameters();\n    Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n    // Prevent infinite recursion in case of self-referencing, or bad generic signatures\n    int len = Math.min(typeParameters.length, actualTypeArguments.length);\n    for (int i = 0; i < len; i++) {\n        TypeVariable<?> typeParameter = typeParameters[i];\n        Type actualTypeArgument = actualTypeArguments[i];\n        if (actualTypeArgument instanceof TypeVariable) {\n            // Avoid endless mapping of a TypeVariable to itself\n            if (actualTypeArgument.equals(typeParameter)) {\n                continue;\n            }\n        }\n        if (actualTypeArgument instanceof WildcardType) {\n            contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n        } else {\n            contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

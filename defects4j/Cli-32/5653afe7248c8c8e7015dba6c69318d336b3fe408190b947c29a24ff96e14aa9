@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos)\n{\n    int pos;\n\n    // the line ends before the max wrap pos or a new line char found\n    if ((pos = text.indexOf('\\n', startPos)) != -1 && pos <= startPos + width) {\n        return pos + 1;\n    } else if ((pos = text.indexOf('\\t', startPos)) != -1 && pos <= startPos + width) {\n        return pos + 1;\n    } else if (startPos + width >= text.length()) {\n        return -1;\n    }\n\n    // look for the last whitespace character before startPos+width\n    pos = startPos + width - 1; // Fix: subtract 1 to stay within width\n\n    char c;\n\n    while (pos >= startPos) {\n        c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            break;\n        }\n        --pos;\n    }\n\n    // if we found it - just return\n    if (pos >= startPos) {\n        return pos;\n    }\n    \n    // if we didn't find one, simply chop at startPos+width\n    pos = startPos + width;\n    while (pos < text.length()) {\n        c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n        ++pos;\n    }\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

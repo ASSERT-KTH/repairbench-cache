@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Only treat an entry as a directory if its name ends with '/'\n    // and is NOT a PAX header (LF_PAX_HEADER or LF_GNUTYPE_LONGLINK etc.)\n    // In some edge cases (COMPRESS-356), PAX headers may have names ending in '/'.\n    // These should NOT be treated as directories.\n    if (getName().endsWith(\"/\") && linkFlag == LF_NORMAL) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

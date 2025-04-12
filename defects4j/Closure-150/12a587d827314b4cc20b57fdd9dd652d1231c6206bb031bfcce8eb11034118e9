@@ -1,0 +1,7 @@
+{
+    "generation": "@Override public void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      attachLiteralTypes(n); // Attach after defineDeclaredFunction\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      attachLiteralTypes(n); // Attach after defineCatch\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      attachLiteralTypes(n); // Attach after defineVar\n      break;\n    default:\n      attachLiteralTypes(n); // Attach if not special case\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

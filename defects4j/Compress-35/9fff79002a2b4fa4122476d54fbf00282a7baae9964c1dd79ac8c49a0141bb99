@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    // First, extract the stored checksum from the header\n    int chksumStart = CHKSUM_OFFSET;\n    int chksumEnd = CHKSUM_OFFSET + CHKSUMLEN;\n    int end = chksumEnd > header.length ? header.length : chksumEnd;\n\n    // Find where the checksum digits start and end (skip leading whitespace)\n    int i = chksumStart;\n    // skip leading NULs or spaces\n    while (i < end && (header[i] == 0 || header[i] == ' ')) {\n        i++;\n    }\n\n    int digits = 0;\n    while (i < end && '0' <= header[i] && header[i] <= '7' && digits < 6) {\n        storedSum = storedSum * 8 + (header[i] - '0');\n        i++;\n        digits++;\n    }\n\n    // Now sum with the checksum bytes taken as spaces\n    for (int j = 0; j < header.length; j++) {\n        byte b = header[j];\n        if (j >= CHKSUM_OFFSET && j < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' ';\n        }\n        unsignedSum += 0xff & b;\n        signedSum += b;\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

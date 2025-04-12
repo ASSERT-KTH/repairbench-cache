@@ -1,0 +1,7 @@
+{
+    "generation": "    public String chompBalanced(char open, char close) {\n        int start = -1;\n        int end = -1;\n        int depth = 0;\n        boolean inSingleQuote = false;\n        boolean inDoubleQuote = false;\n        char last = 0;\n\n        while (!isEmpty()) {\n            char c = consume();\n            if (last == ESC) {\n                // Do nothing, current char is escaped\n            } else if (c == '\\'') {\n                inSingleQuote = !inSingleQuote && !inDoubleQuote;\n            } else if (c == '\"') {\n                inDoubleQuote = !inDoubleQuote && !inSingleQuote;\n            } else if (!inSingleQuote && !inDoubleQuote) {\n                if (c == open) {\n                    depth++;\n                    if (start == -1)\n                        start = pos;\n                } else if (c == close) {\n                    depth--;\n                }\n            }\n\n            if (depth > 0)\n                end = pos;\n            if (depth == 0 && start != -1)\n                break;\n\n            last = c;\n        }\n        return (start != -1 && end != -1) ? queue.substring(start, end) : \"\";\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

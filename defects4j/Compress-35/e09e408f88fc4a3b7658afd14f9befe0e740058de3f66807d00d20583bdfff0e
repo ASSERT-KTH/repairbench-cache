@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    int digits = 0;\n    boolean foundDigit = false;\n    int chksumStart = CHKSUM_OFFSET;\n    int chksumEnd = CHKSUM_OFFSET + CHKSUMLEN;\n    // See https://issues.apache.org/jira/browse/COMPRESS-191 and COMPRESS-335\n\n    // Read stored checksum, ignoring leading and trailing whitespaces, get up to 6 octal digits\n    for (int i = chksumStart; i < chksumEnd && digits < 6; i++) {\n        byte b = header[i];\n        if (b >= '0' && b <= '7') {\n            storedSum = storedSum * 8 + (b - '0');\n            foundDigit = true;\n            digits++;\n        } else if (!foundDigit && (b == ' ' || b == 0)) {\n            continue; // still in leading whitespace\n        } else {\n            // stop at first non-digit after digits begin\n            break;\n        }\n    }\n    // Now, calculate both possible checksums: unsigned and signed\n    long unsignedSum = 0;\n    long signedSum = 0;\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (chksumStart <= i && i < chksumEnd) {\n            b = ' '; // per the spec, treat chksum region as spaces when computing checksum\n        }\n        unsignedSum += b & 0xFF;\n        signedSum += b;\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

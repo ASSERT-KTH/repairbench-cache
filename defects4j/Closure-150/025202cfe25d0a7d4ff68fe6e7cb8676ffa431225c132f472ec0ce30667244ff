@@ -1,0 +1,7 @@
+{
+    "generation": "@Override public void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n\n  // Attach function or property types to their qualified names even if not declared with 'var'.\n  // This handles function stub declarations and property declarations like goog.foo or this.foo.\n  if (n.isExprResult() && n.getFirstChild() != null && n.getFirstChild().isQualifiedName()) {\n    defineSlot(n.getFirstChild(), n, parent, null);\n  }\n  // Attach property types for property literal assignments (e.g., this.foo = ...)\n  if (n.isAssign() && n.getFirstChild().isGetProp()) {\n    defineSlot(n.getFirstChild(), n, parent, null);\n  }\n    \n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

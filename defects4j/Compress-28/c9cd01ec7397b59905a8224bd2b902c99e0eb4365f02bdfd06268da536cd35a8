@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int read(byte[] buf, int offset, int numToRead) throws IOException {\n    if (hasHitEOF || entryOffset >= entrySize) {\n        return -1;\n    }\n\n    if (currEntry == null) {\n        throw new IllegalStateException(\"No current tar entry\");\n    }\n\n    numToRead = Math.min(numToRead, available());\n\n    int totalRead = is.read(buf, offset, numToRead);\n\n    if (totalRead == -1) {\n        // We've hit EOF in the stream before the expected entry size - truncated entry!\n        if (entryOffset < entrySize) {\n            throw new IOException(\"Truncated TAR archive entry\");\n        }\n        hasHitEOF = true;\n        return -1;\n    } else {\n        entryOffset += totalRead;\n        count(totalRead);\n    }\n\n    return totalRead;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

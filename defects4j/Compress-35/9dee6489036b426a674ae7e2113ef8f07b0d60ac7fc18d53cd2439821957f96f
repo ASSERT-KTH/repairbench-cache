@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    int digits = 0;\n    int chksumStart = CHKSUM_OFFSET;\n    int chksumEnd = CHKSUM_OFFSET + CHKSUMLEN;\n\n    // Calculate stored checksum\n    // Copy checksum field (i.e. 8 bytes) to a separate array for parsing\n    byte[] checksumField = new byte[CHKSUMLEN];\n    System.arraycopy(header, chksumStart, checksumField, 0, CHKSUMLEN);\n    String chkSumString = new String(checksumField, 0, CHKSUMLEN, java.nio.charset.StandardCharsets.US_ASCII).trim();\n    // As per spec: skip leading/trailing spaces, only the first 6 octal digits count\n    int len = 0;\n    while (len < chkSumString.length() && len < 6 && chkSumString.charAt(len) >= '0' && chkSumString.charAt(len) <= '7') {\n        storedSum = storedSum * 8 + (chkSumString.charAt(len) - '0');\n        len++;\n    }\n\n    // For unsigned/signed sum, treat header but spaces in chksum field\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (i >= chksumStart && i < chksumEnd) {\n            b = ' ';\n        }\n        unsignedSum += (b & 0xFF);\n        signedSum += b;\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

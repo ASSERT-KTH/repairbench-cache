@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected void _resolveSuperClass() {\n    // If already resolved, do nothing\n    if (_superClass != null) {\n        return;\n    }\n    if (_rawType == null) {\n        _superClass = null;\n        return;\n    }\n    Class<?> superClass = _rawType.getSuperclass();\n    if (superClass == null) {\n        _superClass = null;\n        return;\n    }\n    JavaType resolved = null;\n    if ((superClass == _rawType) || (superClass == Object.class)) {\n        resolved = TypeFactory.unknownType();\n    } else {\n        // Important fix: use the parent TypeFactory to construct the type with recursive tracking\n        resolved = _typeFactory._fromClass(null, superClass, TypeBindings.emptyBindings());\n    }\n    _superClass = resolved;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

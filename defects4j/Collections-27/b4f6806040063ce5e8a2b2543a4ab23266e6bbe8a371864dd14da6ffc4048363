@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n    try {\n        @SuppressWarnings(\"unchecked\")\n        Class<? extends Collection<?>> collType = (Class<? extends Collection<?>>) ois.readObject();\n        // Only allow known safe collection types (like ArrayList, LinkedList, HashSet)\n        if (!(collType.equals(ArrayList.class) || collType.equals(LinkedList.class) || collType.equals(HashSet.class))) {\n            throw new UnsupportedOperationException(\"Deserialization of MultiValueMap with unsafe collection class is not allowed: \" + collType.getName());\n        }\n        this.collectionClass = collType;\n    } catch (IOException | ClassNotFoundException e) {\n        throw e;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

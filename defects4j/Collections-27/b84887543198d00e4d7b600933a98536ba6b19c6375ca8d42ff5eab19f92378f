@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n\n    // Defensive check: ensure that the collection class is safe\n    if (valueCollectionClazz != null) {\n        // Only allow known safe collection types (e.g., List, ArrayList, LinkedList, HashSet, etc.)\n        if (!(List.class.isAssignableFrom(valueCollectionClazz)\n              || Set.class.isAssignableFrom(valueCollectionClazz)\n              || Queue.class.isAssignableFrom(valueCollectionClazz)\n              || Deque.class.isAssignableFrom(valueCollectionClazz)\n              || valueCollectionClazz.equals(ArrayList.class)\n              || valueCollectionClazz.equals(LinkedList.class)\n              || valueCollectionClazz.equals(HashSet.class)\n              || valueCollectionClazz.equals(TreeSet.class)\n              || valueCollectionClazz.equals(LinkedHashSet.class))) {\n            throw new UnsupportedOperationException(\n                \"Unsupported valueCollectionClazz for deserialization: \" + valueCollectionClazz);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

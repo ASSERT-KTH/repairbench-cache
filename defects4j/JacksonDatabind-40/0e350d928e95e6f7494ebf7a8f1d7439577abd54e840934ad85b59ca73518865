@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object getEmptyValue(DeserializationContext ctxt) throws JsonMappingException {\n    // For primitives, \"empty\" String (or no value) should give their default value (0, false, etc)\n    Class<?> raw = (_valueClass == null) ? this.getClass() : _valueClass;\n    if (raw.isPrimitive()) {\n        if (raw == Boolean.TYPE) {\n            return Boolean.FALSE;\n        }\n        if (raw == Integer.TYPE) {\n            return Integer.valueOf(0);\n        }\n        if (raw == Long.TYPE) {\n            return Long.valueOf(0L);\n        }\n        if (raw == Double.TYPE) {\n            return Double.valueOf(0.0);\n        }\n        if (raw == Float.TYPE) {\n            return Float.valueOf(0.0f);\n        }\n        if (raw == Byte.TYPE) {\n            return Byte.valueOf((byte) 0);\n        }\n        if (raw == Short.TYPE) {\n            return Short.valueOf((short) 0);\n        }\n        if (raw == Character.TYPE) {\n            return Character.valueOf((char) 0);\n        }\n        // unknown primitive, return null (should not happen)\n        return null;\n    }\n    // for non-primitives, Jackson convention is to return null as \"empty\"\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

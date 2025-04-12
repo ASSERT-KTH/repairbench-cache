@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int read(byte[] buf, int offset, int numToRead) throws IOException {\n    int totalRead = 0;\n\n    if (hasHitEOF || entryOffset >= entrySize) {\n        return -1;\n    }\n\n    if (currEntry == null) {\n        throw new IllegalStateException(\"No current tar entry\");\n    }\n\n    numToRead = Math.min(numToRead, available());\n\n    // If we try to read 0 bytes and there are still bytes expected, let's force the lower-level stream to return -1\n    int read = is.read(buf, offset, numToRead);\n\n    if (read == -1) {\n        // This means the underlying stream ended before the entrySize was reached\n        if (entryOffset < entrySize) {\n            throw new IOException(\"Truncated TAR archive: entry '\" \n                + currEntry.getName() + \"' expected \" \n                + entrySize + \" bytes, but read only \" + entryOffset);\n        }\n        hasHitEOF = true;\n    } else {\n        entryOffset += read;\n        count(read);\n        totalRead = read;\n    }\n\n    return totalRead;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

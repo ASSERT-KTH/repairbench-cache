@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the number of uses of the variable varName and store it in\n     * numUseWithinUseCfgNode.\n     */\n    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName() && n.getString().equals(varName)) {\n            // Don't count lhs of top-level assignment chain\n            if (!(parent.isAssign() &&\n                 (parent.getFirstChild() == n) &&\n                 isTopLevelAssignInCfgNode(cfgNode, parent))) {\n              numUsesWithinCfgNode++;\n            }\n          }\n        }\n\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }\n\n    /**\n     * Returns true if the given assign node is a top-level statement in cfgNode.\n     */\n    private boolean isTopLevelAssignInCfgNode(Node cfgNode, Node assignNode) {\n      // Check if assignNode is directly under cfgNode and is an EXPR_RESULT statement\n      Node current = assignNode;\n      Node parent = assignNode.getParent();\n      while (parent != null && parent != cfgNode) {\n        current = parent;\n        parent = parent.getParent();\n      }\n      return parent == cfgNode && current.isExprResult();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

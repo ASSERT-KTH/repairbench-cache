@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // 29-Jan-2016, tatu: Simple skipping for all other tokens, but FIELD_NAME bit\n    //    special unfortunately\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.START_OBJECT) {\n        p.skipChildren(); // skip entire object\n        // advance past END_OBJECT to align with parent object\n        p.nextToken();\n    } else if (t == JsonToken.FIELD_NAME) {\n        // Advance to value and skip it, in case we're at the property level\n        p.nextToken();\n        p.skipChildren();\n        // We do NOT advance past END_OBJECT here, since we're at field level.\n    } else {\n        p.skipChildren();\n        p.nextToken();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

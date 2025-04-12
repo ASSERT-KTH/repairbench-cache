@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    int digits = 0;\n    int chksumEnd = CHKSUM_OFFSET + CHKSUMLEN;\n    // compute storedSum using only first 6 digits (octal), ignoring whitespace leading/trailing\n    for (int i = CHKSUM_OFFSET; i < chksumEnd; i++) {\n        byte b = header[i];\n        if ('0' <= b && b <= '7' && digits < 6) {\n            storedSum = storedSum * 8 + (b - '0');\n            digits++;\n        } else if (digits > 0) {\n            break; // stop when past first contiguous block of octal digits\n        }\n    }\n    // now compute checksums\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < chksumEnd) {\n            b = ' ';\n        }\n        unsignedSum += 0xff & b;\n        signedSum += b;\n    }\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

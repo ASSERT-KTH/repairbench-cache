@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    boolean seenNonWhitespace = false;\n    while (!tq.isEmpty()) {\n        if (tq.matches(\"(\"))\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        else if (tq.matches(\"[\"))\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        else if (tq.matchesAny(Combinators))\n            if (seenNonWhitespace)\n                break;\n            else\n                tq.consume();\n        else {\n            String c = tq.consume();\n            sq.append(c);\n            if (!Character.isWhitespace(c.charAt(0)))\n                seenNonWhitespace = true;\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

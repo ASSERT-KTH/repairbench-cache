@@ -1,0 +1,7 @@
+{
+    "generation": "    public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n        if (sampleSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                    sampleSize);\n        }\n\n        @SuppressWarnings(\"unchecked\")\n        final T[] out = (T[]) java.lang.reflect.Array.newInstance(\n                getSampleType(), sampleSize);\n\n        for (int i = 0; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n\n        return out;\n    }\n\n    /**\n     * Returns the most specific supertype of all singleton elements.\n     */\n    private Class<?> getSampleType() {\n        if (singletons == null || singletons.isEmpty() || singletons.get(0) == null) {\n            return Object.class;\n        }\n        Class<?> type = singletons.get(0).getClass();\n        for (T t : singletons) {\n            if (t != null && !type.isInstance(t)) {\n                // Find common superclass\n                Class<?> curr = t.getClass();\n                while (!type.isAssignableFrom(curr)) {\n                    curr = curr.getSuperclass();\n                }\n                type = curr;\n            }\n        }\n        return type;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

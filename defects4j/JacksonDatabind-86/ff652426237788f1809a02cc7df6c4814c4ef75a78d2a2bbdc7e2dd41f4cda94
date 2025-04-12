@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<BeanPropertyDefinition> findProperties(MapperConfig<?> config, JavaType type, MixInResolver r, boolean forSerialization, String mutatorPrefix) {\n    // [databind#1647]: When handling recursive types, ensure properties from superclasses are included\n    if (_properties == null) {\n        synchronized (this) {\n            if (_properties == null) {\n                _properties = new ArrayList<>();\n                // Collect properties from superclasses first\n                JavaType superType = type.getSuperClass();\n                if (superType != null) {\n                    List<BeanPropertyDefinition> superProps = findProperties(config, superType, r, forSerialization, mutatorPrefix);\n                    if (superProps != null) {\n                        _properties.addAll(superProps);\n                    }\n                }\n                // Add own properties\n                List<BeanPropertyDefinition> ownProps = _findBeanProperties(config, type, r, forSerialization, mutatorPrefix);\n                if (ownProps != null) {\n                    _properties.addAll(ownProps);\n                }\n            }\n        }\n    }\n    return _properties;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

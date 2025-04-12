@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n * <p>\n * {@link #solve} should be called first for this to be the optimal solution.\n * </p>\n * @return current solution\n */\nprotected RealPointValuePair getSolution() {\n    double[] coefficients = new double[getOriginalNumDecisionVariables()];\n    double mostNegative = 0;\n    if (!restrictToNonNegative) {\n        Integer negativeVarBasicRow = getBasicRow(getNumObjectiveFunctions() + getOriginalNumDecisionVariables());\n        mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());\n    }\n    for (int i = 0; i < coefficients.length; i++) {\n        Integer basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n        boolean isBasic = basicRow != null;\n        if (isBasic) {\n            boolean onlyOne = true;\n            // Check if current row corresponds exactly to x_i\n            for (int j = getNumObjectiveFunctions(); j < getNumObjectiveFunctions() + coefficients.length; j++) {\n                if (j != getNumObjectiveFunctions() + i && tableau.getEntry(basicRow, j) != 0) {\n                    onlyOne = false;\n                    break;\n                }\n            }\n            coefficients[i] = onlyOne ? getEntry(basicRow, getRhsOffset()) - (restrictToNonNegative ? 0 : mostNegative) : 0;\n        } else {\n            coefficients[i] = 0;\n        }\n    }\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

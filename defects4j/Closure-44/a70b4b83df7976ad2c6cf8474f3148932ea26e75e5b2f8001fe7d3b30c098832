@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n  maybeEndStatement();\n\n  if (newcode.length() == 0) {\n    return;\n  }\n\n  char c = newcode.charAt(0);\n  if ((isWordChar(c) || c == '\\\\') &&\n      isWordChar(getLastChar())) {\n    // need space to separate. This is not pretty printing.\n    // For example: \"return foo;\"\n    append(\" \");\n  }\n\n  // Special case: Prevent accidental whitespace insertion between two slashes.\n  // E.g., REGEXP DIV REGEXP: / // / /\n  // Do NOT add a space between adjacent slashes.\n  // If the previous char is '/' and newcode starts with '/',\n  // do NOT add a space or modify.\n  if (getLastChar() == '/' && c == '/') {\n    // Do nothing special, just append the newcode as is without adding any space.\n    append(newcode);\n    return;\n  }\n\n  append(newcode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

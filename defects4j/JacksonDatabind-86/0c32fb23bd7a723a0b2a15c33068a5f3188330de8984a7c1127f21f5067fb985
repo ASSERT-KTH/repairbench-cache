@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a) {\n    if (a instanceof AnnotatedField) {\n        Field f = ((AnnotatedField) a).getAnnotated();\n        // [databind#1647]: Fix for handling recursive types; ensure properties from superclass are included\n        // Ensure that fields from superclasses are included in the BeanProperty definitions\n        if (Modifier.isPrivate(f.getModifiers())) {\n            f.setAccessible(true);\n        }\n        return PropertyName.construct(f.getName());\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

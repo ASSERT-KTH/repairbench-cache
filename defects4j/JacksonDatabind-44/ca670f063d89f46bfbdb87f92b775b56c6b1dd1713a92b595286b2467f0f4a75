@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    // 15-Jan-2016, tatu: Avoid recreating SimpleType for same type\n    if (_class == subclass) {\n        return this;\n    }\n    // Check sub-class relationship, but allow java.lang.Object, Void, NoClass as a special case\n    if (!_class.isAssignableFrom(subclass)\n            && !_class.equals(Object.class)\n            && !_class.getName().equals(\"com.fasterxml.jackson.databind.type.TypeFactory$BogusType\")\n            && !_class.equals(Void.TYPE)\n            && !_class.equals(Void.class)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n    return new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

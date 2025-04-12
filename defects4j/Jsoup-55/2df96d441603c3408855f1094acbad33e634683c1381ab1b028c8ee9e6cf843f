@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.current(); // do not consume yet\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.advanceTransition(r); // advance the reader manually by consuming '>'\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case TokeniserState.nullChar:\n        case CharacterReader.EOF:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

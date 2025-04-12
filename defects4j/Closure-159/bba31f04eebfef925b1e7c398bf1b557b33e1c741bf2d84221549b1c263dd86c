@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.isCall()) {\n      Node child = node.getFirstChild();\n      // Only add calls of the form NAME(), not something like obj.method()\n      if (child.isName()) {\n        changed.add(child.getString());\n      }\n    }\n\n    // Only recurse if this node is not a CALL node whose child is NAME\n    // In other words, do not recurse into the callee of direct NAME() calls,\n    // because we already handled the NAME above.\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      // If current node is CALL and this is the first child and it's NAME, skip recursion\n      if (node.isCall() && c == node.getFirstChild() && c.isName()) {\n        continue;\n      }\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

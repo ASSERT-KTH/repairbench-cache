@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null && array2 == null) {\n        return null;\n    } else if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n\n    Class<?> type1 = array1.getClass().getComponentType();\n    Class<?> type2 = array2.getClass().getComponentType();\n\n    // If both types are the same or one is assignable from the other, OK\n    Class<?> joinedType;\n    if (type1.isAssignableFrom(type2)) {\n        joinedType = type1;\n    } else if (type2.isAssignableFrom(type1)) {\n        joinedType = type2;\n    } else {\n        throw new IllegalArgumentException(\"Cannot store elements of type \" + type2.getName() +\n            \" in an array of type \" + type1.getName());\n    }\n\n    int length1 = array1.length;\n    int length2 = array2.length;\n    T[] joinedArray = (T[]) Array.newInstance(joinedType, length1 + length2);\n\n    // Copy with individual assignment to check type compatibility\n    int i = 0;\n    try {\n        for (T element : array1) {\n            joinedArray[i++] = element;\n        }\n        for (T element : array2) {\n            joinedArray[i++] = element;\n        }\n    } catch (ArrayStoreException e) {\n        throw new IllegalArgumentException(\"Cannot store array2 elements in result array: \" + e, e);\n    }\n\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

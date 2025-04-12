@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // The following preconditioning reduces cancellation errors\n    // by subtracting a suitable multiple of v2 from v1 before computing the cross product.\n    // See Kahan: http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf\n\n    double normV2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n    double rho = 0;\n    if (normV2 != 0) {\n        // compute 8-bits approximation of v1.v2 / v2.v2\n        double dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n        long approx = Double.doubleToRawLongBits(dot / normV2);\n        // keep only the top 8 bits of significand (plus sign and exponent)\n        approx &= 0xFFFFFFFFFFFFFF00L;\n        rho = Double.longBitsToDouble(approx);\n    }\n\n    // v3 = v1 - rho * v2\n    double v3x = v1.x - rho * v2.x;\n    double v3y = v1.y - rho * v2.y;\n    double v3z = v1.z - rho * v2.z;\n\n    return new Vector3D(\n            v3y * v2.z - v3z * v2.y,\n            v3z * v2.x - v3x * v2.z,\n            v3x * v2.y - v3y * v2.x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

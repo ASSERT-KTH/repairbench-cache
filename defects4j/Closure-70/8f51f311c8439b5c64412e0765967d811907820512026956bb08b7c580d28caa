@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  Node jsDocParameters = null;\n  if (functionType != null) {\n    jsDocParameters = functionType.getParametersNode();\n  }\n  Node jsDocParameter = (jsDocParameters != null) ? jsDocParameters.getFirstChild() : null;\n\n  for (Node astParameter : astParameters.children()) {\n    JSType type = null;\n    if (functionType != null && jsDocParameter != null) {\n      type = jsDocParameter.getJSType();\n      jsDocParameter = jsDocParameter.getNext();\n    }\n    defineSlot(astParameter, functionNode, type, false); // change to false to indicate it's not 'inferred'\n  }\n} // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

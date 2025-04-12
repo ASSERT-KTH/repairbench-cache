@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n\n    // Use UTF-8 decoding for proper multi-byte character handling\n    int i;\n    for (i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            break;\n        }\n    }\n    try {\n        return new String(buffer, offset, i - offset, \"UTF-8\");\n    } catch (java.io.UnsupportedEncodingException e) {\n        // Fallback to platform default if UTF-8 is unsupported (very unlikely)\n        return new String(buffer, offset, i - offset);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

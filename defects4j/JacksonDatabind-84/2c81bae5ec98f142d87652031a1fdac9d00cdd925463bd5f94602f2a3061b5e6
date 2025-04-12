@@ -1,0 +1,7 @@
+{
+    "generation": "// Since you didn't provide the code, here's the common cause and solution for this Jackson serialization issue:\n\n// The problem is likely that the 'base' field is not properly annotated or accessible.\n// For fields in a base class to be serialized, they need to be accessible (public) or have getters,\n// or be annotated with @JsonProperty.\n\n// Suppose Base is:\npublic static class Base {\n    // buggy: int base = 1;\n    // fix: make it public or provide getter or annotate:\n    @com.fasterxml.jackson.annotation.JsonProperty\n    public int base = 1;\n}\n\n// OR (if you cannot change the field to public or add annotation, add a getter:)\npublic static class Base {\n    private int base = 1;\n    public int getBase() {\n        return base;\n    }\n}\n\n// The same for Sub if needed:\npublic static class Sub extends Base {\n    @com.fasterxml.jackson.annotation.JsonProperty\n    public int sub = 2;\n}\n\n// Only the fixed Base class as the function:\npublic static class Base {\n    @com.fasterxml.jackson.annotation.JsonProperty\n    public int base = 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

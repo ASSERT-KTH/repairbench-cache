@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP\n      ) {\n    // Check if this is a prototype property assignment: x.prototype.y\n    Node propTarget = n.getFirstChild(); // e.g., x.prototype\n    if (propTarget != null && propTarget.getType() == Token.GETPROP) {\n      Node propNameNode = propTarget.getLastChild();\n      if (propNameNode != null &&\n          propNameNode.getType() == Token.STRING &&\n          \"prototype\".equals(propNameNode.getString())) {\n        return true;\n      }\n    }\n  }\n\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

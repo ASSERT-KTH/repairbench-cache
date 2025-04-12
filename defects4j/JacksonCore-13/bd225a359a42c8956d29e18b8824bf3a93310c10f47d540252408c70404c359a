@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException {\n    // First, check whether quoting is enabled for the *generator*, NOT for the factory\n    final boolean quoteFieldNames = isEnabled(Feature.QUOTE_FIELD_NAMES);\n    if (quoteFieldNames) {\n        super.writeFieldName(name);\n    } else {\n        // Custom logic: write field name without quotes\n        _verifyValueWrite(\"write field name\");\n        // Write unquoted field name\n        if (_outputTail >= _outputEnd) {\n            _flushBuffer();\n        }\n        _outputBuffer[_outputTail++] = _fieldValueSeparatorOverride != null ?\n                _fieldValueSeparatorOverride.charAt(0) : ':';\n        if (_outputTail >= _outputEnd) {\n            _flushBuffer();\n        }\n        // Write field name directly, no escaping\n        _writeRaw(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

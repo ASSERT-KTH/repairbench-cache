@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Sort mocks so that exact type matches are prioritized over ancestor matches\n        List<Object> sortedMocks = new ArrayList<>(mocks);\n        sortedMocks.sort((a, b) -> {\n            Class<?> fieldType = field.getType();\n            boolean aExact = fieldType == a.getClass();\n            boolean bExact = fieldType == b.getClass();\n            if (aExact && !bExact) return -1;\n            if (!aExact && bExact) return 1;\n            return 0;\n        });\n        mockCandidateFilter.filterCandidate(sortedMocks, field, fieldInstance).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

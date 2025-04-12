@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // Fix: If current token is FIELD_NAME, skip to the value so skipChildren() works correctly\n    if (p.currentToken() == JsonToken.FIELD_NAME) {\n        p.nextToken();\n    }\n    p.skipChildren();\n    // Also advance parser if necessary to avoid leaving the parser pointing at the value\n    if (!p.isClosed() && p.currentToken() != null && p.currentToken().isStructEnd()) {\n        p.nextToken();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

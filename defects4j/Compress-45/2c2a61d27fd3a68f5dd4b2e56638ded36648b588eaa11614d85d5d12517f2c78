@@ -1,0 +1,7 @@
+{
+    "generation": "public static int formatLongOctalOrBinaryBytes(\n    final long value, final byte[] buf, final int offset, final int length) {\n\n    // Check whether we are dealing with UID/GID or SIZE field\n    final long maxAsOctalChar = length == TarConstants.UIDLEN ? TarConstants.MAXID : TarConstants.MAXSIZE;\n    final boolean negative = value < 0;\n    if (!negative && value <= maxAsOctalChar) { // OK to store as octal chars\n        return formatLongOctalBytes(value, buf, offset, length);\n    }\n\n    if (length < 9) {\n        // For 8 bytes, value must fit into the 8-byte binary field (tar binary encoding)\n        // That is, sign-extended 8 bytes (one bit is reserved for marker)\n        // So the maximum value that can be stored is determined by the field length\n        // The top bit (0x80) is used as an indicator, so only 7 bytes for the value for length==8,\n        // but GNU tar (and commons compress) actually uses all 8 bytes:\n        //  1st byte: 0x80 or 0xff\n        //  next 7 bytes: value\n        // See TarUtils.formatLongBinary for error thrown if fitting fails\n        formatLongBinary(value, buf, offset, length, negative);\n    } else {\n        formatBigIntegerBinary(value, buf, offset, length, negative);\n    }\n\n    buf[offset] = (byte) (negative ? 0xff : 0x80);\n    return offset + length;\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

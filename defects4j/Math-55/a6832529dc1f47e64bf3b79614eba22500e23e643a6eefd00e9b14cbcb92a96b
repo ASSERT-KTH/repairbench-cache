@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      // Reduce cancellation errors by preconditioning,\n      // see Kahan lecture referenced in original comment\n\n      // Compute rho as an 8 bits approximation of v1.v2 / v2.v2\n      final double normV2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n      final double dot    = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n      double rho = 0.0;\n      if (normV2 != 0) {\n          long bits = Double.doubleToLongBits(dot / normV2);\n          // keep only sign and exponent and 8 high-order bits of mantissa\n          bits = bits & 0xFFF8000000000000L;\n          rho = Double.longBitsToDouble(bits);\n      }\n\n      // v3 = v1 - rho * v2\n      final double v3x = v1.x - rho * v2.x;\n      final double v3y = v1.y - rho * v2.y;\n      final double v3z = v1.z - rho * v2.z;\n\n      // compute cross product from v3 and v2 instead of v1 and v2\n      return new Vector3D(\n              v3y * v2.z - v3z * v2.y,\n              v3z * v2.x - v3x * v2.z,\n              v3x * v2.y - v3y * v2.x\n      );\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

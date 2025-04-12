@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null && array2 == null) {\n        return null;\n    } else if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    // Determine common component type\n    Class<?> type1 = array1.getClass().getComponentType();\n    Class<?> type2 = array2.getClass().getComponentType();\n    Class<?> newType;\n    if (type1.isAssignableFrom(type2)) {\n        newType = type1;\n    } else if (type2.isAssignableFrom(type1)) {\n        newType = type2;\n    } else {\n        // No assignable relation, fallback to Object\n        newType = Object.class;\n    }\n    int length1 = array1.length;\n    int length2 = array2.length;\n    T[] joinedArray = (T[]) Array.newInstance(newType, length1 + length2);\n    try {\n        System.arraycopy(array1, 0, joinedArray, 0, length1);\n        System.arraycopy(array2, 0, joinedArray, length1, length2);\n    } catch (ArrayStoreException e) {\n        throw new IllegalArgumentException(\"Incompatible types: cannot store elements of type \" +\n                type2.getName() + \" into array of type \" + type1.getName(), e);\n    }\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

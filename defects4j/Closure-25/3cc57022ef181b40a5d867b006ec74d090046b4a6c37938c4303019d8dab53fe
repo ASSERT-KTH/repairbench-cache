@@ -1,0 +1,7 @@
+{
+    "generation": "  private FlowScope traverseNew(Node n, FlowScope scope) {\n\n    Node constructor = n.getFirstChild();\n    // Collect argument nodes before traversing, so we can call traverse on args after setting new's type.\n    List<Node> argNodes = new ArrayList<Node>();\n    for (Node arg = constructor.getNext(); arg != null; arg = arg.getNext()) {\n      argNodes.add(arg); // preserve argument order\n    }\n\n    scope = traverse(constructor, scope);\n    JSType constructorType = constructor.getJSType();\n    JSType type = null;\n    if (constructorType != null) {\n      constructorType = constructorType.restrictByNotNullOrUndefined();\n      if (constructorType.isUnknownType()) {\n        type = getNativeType(UNKNOWN_TYPE);\n      } else {\n        FunctionType ct = constructorType.toMaybeFunctionType();\n        if (ct == null && constructorType instanceof FunctionType) {\n          ct = (FunctionType) constructorType;\n        }\n        if (ct != null && ct.isConstructor()) {\n          type = ct.getInstanceType();\n        }\n      }\n    }\n    n.setJSType(type);\n\n    // Traverse arguments now, after setting n's type, to enable backwards inference.\n    for (Node arg : argNodes) {\n      scope = traverse(arg, scope);\n    }\n    return scope;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

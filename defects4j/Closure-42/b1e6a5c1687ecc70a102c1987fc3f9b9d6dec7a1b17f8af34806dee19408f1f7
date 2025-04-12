@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n\n    // Detect \"for each\" and throw unsupported error if present.\n    if (loopNode.isForEach()) {\n        errorReporter.error(\"unsupported language extension: for each\",\n                sourceName,\n                loopNode.getLineno(), \"\", 0);\n        // Return a minimal valid AST node after error.\n        return newNode(Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }\n\n    // Return the bare minimum to put the AST in a valid state.\n    return newNode(\n        Token.FOR,\n        transform(loopNode.getIterator()),\n        transform(loopNode.getIteratedObject()),\n        transformBlock(loopNode.getBody()));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

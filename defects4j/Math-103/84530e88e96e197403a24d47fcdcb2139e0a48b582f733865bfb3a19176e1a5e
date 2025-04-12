@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // protect against convergence problems for extremely large/small values\n    final double devs = 20.0;\n    double diff = (x - mean) / standardDeviation;\n    if (diff < -devs) {\n        return 0.0;\n    }\n    if (diff > devs) {\n        return 1.0;\n    }\n    try {\n        return 0.5 * (1.0 + Erf.erf(diff / Math.sqrt(2.0)));\n    } catch (MathException ex) {\n        // Should not happen except in extreme cases, already checked above\n        if (diff < 0) {\n            return 0.0;\n        } else {\n            return 1.0;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

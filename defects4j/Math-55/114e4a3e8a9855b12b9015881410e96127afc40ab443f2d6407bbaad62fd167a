@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      // Kahan's preconditioning to reduce cancellation errors,\n      // we replace v1 by v3 = v1 - rho v2 with rho chosen in order to compute\n      // v3 without loss of precision. See Kahan lecture\n\n      // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n      double norm = v2.getX() * v2.getX() + v2.getY() * v2.getY() + v2.getZ() * v2.getZ();\n      double rho = (norm == 0) ? 0 : Math.rint((v1.dotProduct(v2) / norm) * 256.0) / 256.0;\n\n      // v3 = v1 - rho * v2;\n      double x3 = v1.getX() - rho * v2.getX();\n      double y3 = v1.getY() - rho * v2.getY();\n      double z3 = v1.getZ() - rho * v2.getZ();\n\n      // now compute cross product from v3 and v2\n      return new Vector3D(\n          y3 * v2.getZ() - z3 * v2.getY(),\n          z3 * v2.getX() - x3 * v2.getZ(),\n          x3 * v2.getY() - y3 * v2.getX()\n      );\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

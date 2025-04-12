@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n * will kick in.)\n * @param contentType e.g. \"text/html; charset=EUC-JP\"\n * @return \"EUC-JP\", or null if not found. Charset is trimmed and matches canonical casing if a known charset, or original otherwise.\n */\nstatic String getCharsetFromContentType(String contentType) {\n    if (contentType == null) return null;\n    Matcher m = charsetPattern.matcher(contentType);\n    if (m.find()) {\n        String charset = m.group(1).trim();\n        // remove surrounding quotes\n        if (charset.length() > 1 && (charset.charAt(0) == '\"' || charset.charAt(0) == '\\'')\n                && charset.charAt(charset.length() - 1) == charset.charAt(0))\n            charset = charset.substring(1, charset.length() - 1);\n\n        // Check if the charset is supported\n        try {\n            if (Charset.isSupported(charset)) {\n                // If charset matches \"utf-8\" (case insensitive), return lower case\n                if (charset.equalsIgnoreCase(\"utf-8\"))\n                    return \"utf-8\";\n                else\n                    return Charset.forName(charset).name();\n            }\n        } catch (IllegalCharsetNameException e) {\n            // unsupported or invalid charset\n            return null;\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

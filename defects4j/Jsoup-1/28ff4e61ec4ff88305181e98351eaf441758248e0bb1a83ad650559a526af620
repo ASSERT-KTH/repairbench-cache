@@ -1,0 +1,7 @@
+{
+    "generation": "private void normalise(Element element) {\n    List<TextNode> toMove = new ArrayList<>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // Insert the text nodes at the start of body, in the same order as found\n    Element body = body();\n    int insertPos = 0;\n    for (TextNode tn : toMove) {\n        element.removeChild(tn);\n        body.insertChildren(insertPos++, tn);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

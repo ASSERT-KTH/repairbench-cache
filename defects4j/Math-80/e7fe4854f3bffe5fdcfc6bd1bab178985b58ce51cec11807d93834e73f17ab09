@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Flip qd array if warranted.\n * @param n number of rows in the block\n * @param step within the array (1 for flipping all elements, 2 for flipping\n * only every other element)\n * @return true if qd array was flipped\n */\nprivate boolean flipIfWarranted(final int n, final int step) {\n    if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {\n        // flip array\n        int left = 0;\n        int right = 4 * (n - 1);\n        while (left < right) {\n            for (int k = 0; k < 4; k += step) {\n                final double tmp = work[left + k];\n                work[left + k] = work[right + k];\n                work[right + k] = tmp;\n            }\n            left += 4;\n            right -= 4;\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

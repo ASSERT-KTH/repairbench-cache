@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    final int offsetLocal = getOffset(instantLocal);\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n\n    // if the offsets differ, we must be near a DST boundary\n    if (offsetLocal != offsetAdjusted) {\n        // we need to ensure that time is always after the DST gap,\n        // and for overlaps, we must always favour daylight (summer) time (larger offset)\n        // i.e. always take the larger offset for ambiguous local times (overlaps)\n        if (offsetAdjusted > offsetLocal) {\n            // If the adjusted offset is greater, return it (DST overlap, pick daylight time)\n            return offsetAdjusted;\n        } else {\n            // Otherwise, return the larger of the two (gap or non-overlap, pick daylight)\n            return Math.max(offsetLocal, offsetAdjusted);\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

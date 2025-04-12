@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP) {\n    // Accept both chained assigns (e.g. a.b = a.c = ...) and single assigns.\n    Node maybeGetProp = n;\n    // Look for either direct prototype (a.prototype.foo) or\n    // [] notation (a.prototype[\"foo\"])\n    // For assignment chains: a.x = a.prototype.y = ...\n    while (maybeGetProp != null && maybeGetProp.getType() == Token.GETPROP) {\n      Node child = maybeGetProp.getFirstChild();\n      if (child != null &&\n          child.getType() == Token.GETPROP &&\n          child.getLastChild() != null &&\n          child.getLastChild().isString() &&\n          child.getLastChild().getString().equals(\"prototype\")) {\n        return true;\n      }\n      maybeGetProp = child;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

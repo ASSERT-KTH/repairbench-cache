@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void clear() {\n    // Remove all mappings with this prefix from the backing trie\n    // Must use iterator to avoid concurrent modification and proper removal\n    Iterator<Map.Entry<K, V>> it = PatriciaTrie.this.entrySet().iterator();\n    List<K> keysToRemove = new ArrayList<K>();\n    while (it.hasNext()) {\n        Map.Entry<K, V> entry = it.next();\n        K key = entry.getKey();\n        if (inRange(key, true, true) && isPrefix(key, prefix)) {\n            keysToRemove.add(key);\n        }\n    }\n    for (K key : keysToRemove) {\n        PatriciaTrie.this.remove(key);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

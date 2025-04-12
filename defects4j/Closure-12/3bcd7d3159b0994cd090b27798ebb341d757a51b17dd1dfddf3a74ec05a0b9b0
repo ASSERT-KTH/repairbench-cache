@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  for (Node node = cfgNode; node != null; node = node.getParent()) {\n    if (node.isTry()) {\n      // If the TRY node has a CATCH block, then there is an exception handler.\n      Node sibling = node.getFirstChild();\n      // The structure is TRY_BLOCK, CATCH_BLOCK, (optional FINALLY_BLOCK)\n      if (sibling != null) {\n        sibling = sibling.getNext();\n        if (sibling != null && sibling.isBlock() && node.getSecondChild().getFirstChild() != null) {\n          return true;\n        }\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

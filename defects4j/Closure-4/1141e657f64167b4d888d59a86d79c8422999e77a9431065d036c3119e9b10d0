@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Resolve the referenced type within the enclosing scope.\n */\n@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n  // TODO(user): Investigate whether it is really necessary to keep two\n  // different mechanisms for resolving named types, and if so, which order\n  // makes more sense. Now, resolution via registry is first in order to\n  // avoid triggering the warnings built into the resolution via properties.\n\n  // Check for prototype cycles BEFORE doing anything else to avoid\n  // infinite recursion in pathological cases (e.g. self-referential typedefs/\n  // implements).\n  if (detectImplicitPrototypeCycle()) {\n    handleTypeCycle(t);\n    // After handling the cycle, return this to avoid infinite recursion.\n    return this;\n  }\n\n  boolean resolved = resolveViaRegistry(t, enclosing);\n\n  if (resolved) {\n    super.resolveInternal(t, enclosing);\n    finishPropertyContinuations();\n    return registry.isLastGeneration() ?\n        getReferencedType() : this;\n  }\n\n  resolveViaProperties(t, enclosing);\n\n  // Check again for prototype cycles AFTER resolveViaProperties.\n  if (detectImplicitPrototypeCycle()) {\n    handleTypeCycle(t);\n    return this;\n  }\n\n  super.resolveInternal(t, enclosing);\n  if (isResolved()) {\n    finishPropertyContinuations();\n  }\n  return registry.isLastGeneration() ?\n      getReferencedType() : this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

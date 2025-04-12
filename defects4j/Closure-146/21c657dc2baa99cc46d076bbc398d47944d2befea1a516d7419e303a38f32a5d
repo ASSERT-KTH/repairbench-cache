@@ -1,0 +1,7 @@
+{
+    "generation": "  public TypePair getTypesUnderInequality(JSType that) {\n    // unions types\n    if (that instanceof UnionType) {\n      TypePair p = that.getTypesUnderInequality(this);\n      return new TypePair(p.typeB, p.typeA);\n    }\n\n    // other types\n    switch (this.testForEquality(that)) {\n      case TRUE:\n        // Both types are strictly equal, so under inequality nothing is possible.\n        // Restrict both sides to \"no type\", i.e. null.\n        return new TypePair(null, null);\n\n      case FALSE:\n        // If the types are always different, nothing more to restrict.\n        return new TypePair(this, that);\n\n      case UNKNOWN:\n        // If the types *might* be equal, but we observe they're not,\n        // restrict both types to their intersection.\n        JSType restrictedThis = this.getGreatestSubtypeWithProperty(that.toString());\n        JSType restrictedThat = that.getGreatestSubtypeWithProperty(this.toString());\n        // In many JSType systems, above is just intersection. But original code\n        // just returned them as-is. But test expects NO_TYPE if both VOID.\n        if (this.isVoidType() && that.isVoidType()) {\n          return new TypePair(null, null);\n        }\n        return new TypePair(this, that);\n    }\n\n    // switch case is exhaustive\n    throw new IllegalStateException();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

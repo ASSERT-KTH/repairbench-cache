@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels), and not a LABEL itself.\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    if (n.getType() == Token.LABEL) {\n        // Recurse, only if the LABEL has a single child (standard JS)\n        Node firstChild = n.getFirstChild();\n        // Only consider it \"exactly one\" if it has just one statement,\n        // which is a FUNCTION or DO.\n        // LABEL(foo: FUNCTION ...) or LABEL(foo: DO ...)\n        return firstChild != null && firstChild.getNext() == null &&\n            isOneExactlyFunctionOrDo(firstChild);\n    }\n    return (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

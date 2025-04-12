@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n\n    // Defensive: block known unsafe types in collectionClass\n    if (collectionClass != null) {\n        String clazzName = collectionClass.getName();\n        if (!Collection.class.isAssignableFrom(collectionClass) ||\n             clazzName.equals(\"java.lang.String\") ||\n             clazzName.startsWith(\"java.\")) {\n            throw new UnsupportedOperationException(\"Deserialization rejected for unsafe collection class: \" + clazzName);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

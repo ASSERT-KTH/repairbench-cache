@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation invocation) {\n    Object[] rawArgs = invocation.getRawArguments();\n    int rawArgCount = rawArgs == null ? 0 : rawArgs.length; // Defensive for null\n    int matcherCount = matchers.size();\n\n    // Only handle argument capturing for the positions where both a matcher and argument exists.\n    int count = Math.min(rawArgCount, matcherCount);\n    for (int position = 0; position < count; position++) {\n        Matcher m = matchers.get(position);\n        if (m instanceof CapturesArguments) {\n            ((CapturesArguments) m).captureFrom(rawArgs[position]);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

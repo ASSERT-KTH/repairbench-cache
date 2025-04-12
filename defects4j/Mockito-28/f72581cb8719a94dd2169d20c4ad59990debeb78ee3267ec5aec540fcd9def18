@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // First inject exact type matches\n    List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n    Set<Object> injectedMocks = new HashSet<>();\n    for (Field field : fields) {\n        Object injected = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        if (injected != null) {\n            injectedMocks.add(injected);\n        }\n    }\n    // Remove injected mocks so they are not injected again\n    if (!injectedMocks.isEmpty()) {\n        mocks.removeAll(injectedMocks);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

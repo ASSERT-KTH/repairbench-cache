@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n  maybeEndStatement();\n\n  if (newcode.length() == 0) {\n    return;\n  }\n\n  char c = newcode.charAt(0);\n  char lastChar = getLastChar();\n\n  if ((isWordChar(c) || c == '\\\\') &&\n      isWordChar(lastChar)) {\n    append(\" \");\n  }\n\n  // Special handling for the case of consecutive regexps (\"/\" or \"/ /\")\n  // to avoid inserting unwanted spaces, as in: \"/ // / /\"\n  if (c == '/' && lastChar == '/') {\n    // See if the newcode looks like a regular expression with a space\n    // (i.e., starts with \"/ \", but not just \"//\")\n    if (newcode.length() > 1 && newcode.charAt(1) == ' ') {\n      // Don't append a space between the slashes.\n      // Instead, append the \"/\" first, then the rest\n      append(\"/\");\n      append(newcode.substring(1));\n      return;\n    }\n  }\n\n  append(newcode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

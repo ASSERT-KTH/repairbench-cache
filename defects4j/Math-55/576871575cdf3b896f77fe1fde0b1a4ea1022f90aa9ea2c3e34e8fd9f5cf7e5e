@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n      // Kahan's algorithm to reduce cancellation error in cross product\n\n      // Find the largest absolute component in v2 for scaling\n      double norm = Math.max(Math.abs(v2.x), Math.max(Math.abs(v2.y), Math.abs(v2.z)));\n      if (norm == 0.0) { // fallback if v2 is zero vector\n          return new Vector3D(0.0, 0.0, 0.0);\n      }\n\n      // Scale v2\n      double invNorm = 1.0 / norm;\n      double vx = v2.x * invNorm;\n      double vy = v2.y * invNorm;\n      double vz = v2.z * invNorm;\n\n      // Compute rho = round((v1.v2)/(v2.v2) * 256) / 256 (8 bits of precision)\n      double s = v1.x * vx + v1.y * vy + v1.z * vz;\n      double r = Math.rint(s * 256.0) / 256.0;\n\n      // Preconditioned v3 = v1 - r*v2/norm\n      double v3x = v1.x - r * vx * norm;\n      double v3y = v1.y - r * vy * norm;\n      double v3z = v1.z - r * vz * norm;\n\n      // Compute cross product v3 ^ v2\n      double cx = v3y * v2.z - v3z * v2.y;\n      double cy = v3z * v2.x - v3x * v2.z;\n      double cz = v3x * v2.y - v3y * v2.x;\n\n      return new Vector3D(cx, cy, cz);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

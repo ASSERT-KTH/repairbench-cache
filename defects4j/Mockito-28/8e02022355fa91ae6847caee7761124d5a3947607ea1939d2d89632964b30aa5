@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Only inject if the field has no existing value (i.e. null)\n        try {\n            field.setAccessible(true);\n            if (field.get(fieldInstance) == null) {\n                mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n            }\n        } catch (Exception e) {\n            throw new RuntimeException(\"Failed to inject mock into field: \" + field.getName(), e);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

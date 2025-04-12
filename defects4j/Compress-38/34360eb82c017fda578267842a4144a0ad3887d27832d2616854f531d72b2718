@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Only treat names ending in \"/\" as directory if this entry is not from a pax header (see COMPRESS-356)\n    // Assume that if linkFlag is zero (LF_NORMAL), then we shouldn't infer directory from name\n    // Usually, a directory will have LF_DIR, not just trailing slash\n    // Thus:\n    if (linkFlag == 0 && getName().endsWith(\"/\")) {\n        return false;\n    }\n    if (getName().endsWith(\"/\")) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * For this disbution, X, this method returns P(X &lt; <code>x</code>).\n * @param x the value at which the CDF is evaluated.\n * @return CDF evaluted at <code>x</code>. \n * @throws MathException if the algorithm fails to converge; unless\n * x is more than 20 standard deviations from the mean, in which case the\n * convergence exception is caught and 0 or 1 is returned.\n */\npublic double cumulativeProbability(double x) throws MathException {\n    double dev = x - mean;\n    double sd = standardDeviation;\n    double ret;\n    try {\n        // if x is more than 20 stdev from mean, topcode the return\n        if (Math.abs(dev) > 20 * sd) {\n            if (dev < 0) {\n                ret = 0.0;\n            } else {\n                ret = 1.0;\n            }\n        } else {\n            ret = 0.5 * (1.0 + Erf.erf(dev / (sd * Math.sqrt(2.0))));\n        }\n    } catch (MaxIterationsExceededException ex) {\n        if (dev < 0) {\n            ret = 0.0;\n        } else {\n            ret = 1.0;\n        }\n    }\n    return ret;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

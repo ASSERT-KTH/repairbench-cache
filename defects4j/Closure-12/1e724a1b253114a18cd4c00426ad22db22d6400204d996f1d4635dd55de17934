@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  for (Node n = cfgNode; n != null; n = n.getParent()) {\n    if (n.isTry()) {\n      Node tryNode = n;\n      Node finallyBlock = tryNode.getLastChild();\n      // Check if try node has a catch block or finally block\n      if (tryNode.getChildCount() > 1) {\n        Node maybeCatch = tryNode.getSecondChild();\n        if (maybeCatch.isBlock()) {\n          // catch block exists\n          return true;\n        }\n      }\n      if (finallyBlock != null && finallyBlock.isBlock()) {\n        // finally block exists\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

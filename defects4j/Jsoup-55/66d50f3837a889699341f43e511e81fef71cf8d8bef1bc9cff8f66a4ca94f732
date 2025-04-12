@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    // Do not consume an extra character here, so do not call r.consume()\n    // Fix: Do not consume a character; just set selfClosing and close the tag\n    if (r.matches('>')) {\n        r.consume();\n        t.tagPending.selfClosing = true;\n        t.emitTagPending();\n        t.transition(Data);\n    } else if (r.isEmpty()) {\n        t.eofError(this);\n        t.transition(Data);\n    } else {\n        t.error(this);\n        t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

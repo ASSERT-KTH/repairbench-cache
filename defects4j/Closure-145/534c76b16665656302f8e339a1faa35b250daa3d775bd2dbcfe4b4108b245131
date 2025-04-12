@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a single unlabeled or labeled FUNCTION or DO,\n * not wrapped in a BLOCK.\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    // For labels with block children, ensure that a labeled FUNCTION or DO isn't\n    // generated after extraneous BLOCKs are skipped.\n    // Example: LABEL -> BLOCK -> LABEL -> DO/FUNCTION.\n    // We want to detect patterns like LABEL:DO or LABEL:FUNCTION directly under the IF/ELSE.\n    while (n.isLabel() && n.hasChildren()) {\n        n = n.getFirstChild();\n    }\n    return n.getType() == Token.FUNCTION || n.getType() == Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

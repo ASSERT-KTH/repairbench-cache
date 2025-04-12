@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> void resetMock(T mock) {\n    MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n\n    // Preserve the old MockSettings, especially listeners.\n    MockSettingsImpl settings = (MockSettingsImpl) oldMockHandler.getMockSettings();\n\n    // Ensure defaultAnswer is preserved (from original code).\n    if (settings.getDefaultAnswer() == null) {\n        settings.defaultAnswer(org.mockito.Mockito.RETURNS_DEFAULTS);\n    }\n\n    MockHandler<T> newMockHandler = new MockHandler<T>(settings);\n\n    MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, settings);\n    ((Factory) mock).setCallback(0, newFilter);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

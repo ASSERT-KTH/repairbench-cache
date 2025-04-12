@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @see #findCalledFunctions(Node)\n */\nprivate void findCalledFunctions(\n    Node node, Set<String> changed) {\n  Preconditions.checkArgument(changed != null);\n  // For each referenced function, add a new reference\n  if (node.getToken() == Token.CALL) {\n    Node child = node.getFirstChild();\n    // Only add NAME references that are *not* .call or .apply\n    if (child != null) {\n      if (child.getToken() == Token.NAME) {\n        changed.add(child.getString());\n      } else if (child.getToken() == Token.GETPROP) {\n        // Do not add for .call or .apply\n        String propName = child.getLastChild().getString();\n        if (!(\"call\".equals(propName) || \"apply\".equals(propName))) {\n          // e.g., foo.bar() should not be added as a function reference\n        } else {\n          Node maybeFunc = child.getFirstChild();\n          if (maybeFunc != null && maybeFunc.getToken() == Token.NAME) {\n            changed.add(maybeFunc.getString());\n          }\n        }\n      }\n    }\n  }\n\n  for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n    findCalledFunctions(c, changed);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

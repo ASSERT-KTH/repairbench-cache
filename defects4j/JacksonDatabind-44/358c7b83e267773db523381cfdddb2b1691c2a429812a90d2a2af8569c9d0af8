@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // 15-Jan-2016, tatu: Can't check type hierarchy due to placeholder values like Void, NoClass\n    // [databind#1125] Need to properly handle the case where subclass is not compatible\n    // If the subclass is not assignable, fallback to unknown type handler (Object)\n    if (!_class.isAssignableFrom(subclass)) {\n        // Fallback: construct SimpleType independent of current type's parameters\n        return new SimpleType(subclass);\n    }\n    return new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

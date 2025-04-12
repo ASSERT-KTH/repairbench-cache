@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<BeanPropertyDefinition> findProperties(SerializationConfig config,\n        JavaType type, MixInResolver r)\n{\n    // [databind#1647]: For recursive types, we must ensure that super-class properties are included.\n    // Check if type is a ResolvedRecursiveType and we need to resolve it first.\n    if (type instanceof ResolvedRecursiveType) {\n        JavaType next = ((ResolvedRecursiveType) type).getSelfReferencedType();\n        // If self-referenced JavaType exists, call recursively to fetch properties.\n        if (next != null && next != type) {\n            return findProperties(config, next, r);\n        }\n    }\n    BeanDescription desc = config.introspect(type);\n    return desc.findProperties();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

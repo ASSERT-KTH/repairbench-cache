@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Build a sparse matrix with the supplied row and column dimensions.\n *\n * @param rowDimension Number of rows of the matrix.\n * @param columnDimension Number of columns of the matrix.\n * @throws NumberIsTooLargeException if the total size is too large to allocate\n */\npublic OpenMapRealMatrix(int rowDimension, int columnDimension) {\n    super(rowDimension, columnDimension);\n    this.rows = rowDimension;\n    this.columns = columnDimension;\n\n    // Check for overflow in rowDimension * columnDimension\n    long size = (long) rowDimension * (long) columnDimension;\n    if (size > Integer.MAX_VALUE) {\n        throw new NumberIsTooLargeException(size, Integer.MAX_VALUE, false);\n    }\n\n    this.entries = new OpenIntToDoubleHashMap(0.0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

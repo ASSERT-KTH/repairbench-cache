@@ -1,0 +1,7 @@
+{
+    "generation": "  private Node tryFoldSimpleFunctionCall(Node n) {\n    Preconditions.checkState(n.isCall());\n    Node callTarget = n.getFirstChild();\n    // Only fold String(x) to '' + x if there's exactly one argument.\n    if (callTarget != null && callTarget.isName() &&\n          callTarget.getString().equals(\"String\")) {\n\n      Node firstArg = callTarget.getNext();\n\n      // Check that there is exactly one argument\n      if (firstArg != null && firstArg.getNext() == null) {\n        // Only fold if the argument is an immutable literal (number, string, boolean, null)\n        if (firstArg.isString() || firstArg.isNumber() || firstArg.isTrue()\n            || firstArg.isFalse() || firstArg.isNull()) {\n          Node addition = IR.add(\n              IR.string(\"\").srcref(callTarget),\n              firstArg.detachFromParent());\n          n.getParent().replaceChild(n, addition);\n          reportCodeChange();\n          return addition;\n        }\n      }\n    }\n    return n;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

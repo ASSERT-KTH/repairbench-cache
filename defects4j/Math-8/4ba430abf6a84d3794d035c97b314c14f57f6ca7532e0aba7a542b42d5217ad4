@@ -1,0 +1,7 @@
+{
+    "generation": "    public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n        if (sampleSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                    sampleSize);\n        }\n\n        @SuppressWarnings(\"unchecked\")\n        final T[] out = (T[]) java.lang.reflect.Array.newInstance(this.getRuntimeClass(), sampleSize);\n\n        for (int i = 0; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n\n        return out;\n    }\n\n    /**\n     * Returns the runtime class of the elements in the distribution.\n     * This method should be added to the class and used to properly construct arrays of generic type T.\n     */\n    private Class<?> getRuntimeClass() {\n        for (T singleton : singletons) {\n            if (singleton != null) {\n                return singleton.getClass();\n            }\n        }\n        // Fallback if all are null\n        return Object.class;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

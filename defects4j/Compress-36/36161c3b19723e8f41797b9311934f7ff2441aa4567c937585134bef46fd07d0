@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    // If there are no streams at all, it's an error (no entry at all)\n    if (deferredBlockStreams.isEmpty()) {\n        throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n    }\n\n    // Remove and consume all but the last stream\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n\n    // If the only remaining stream is null (i.e., entry of size 0), we allow it and return null\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

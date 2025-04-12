@@ -1,0 +1,7 @@
+{
+    "generation": "private void findAliases(NodeTraversal t) {\n  Scope scope = t.getScope();\n  for (Var v : scope.getVarIterable()) {\n    Node n = v.getNode();\n    Node parent = n.getParent();\n    // Only consider variable declarations (var, let, const)\n    if (parent != null && parent.isVar()) {\n      // Check if variable has an initializer and if it's a simple qualified name.\n      if (n.hasChildren()) {\n        Node init = n.getFirstChild();\n        if (init.isQualifiedName()) {\n          String name = n.getString();\n          Var aliasVar = scope.getVar(name);\n          aliases.put(name, aliasVar);\n\n          String qualifiedName =\n              aliasVar.getInitialValue().getQualifiedName();\n          transformation.addAlias(name, qualifiedName);\n          // Bleeding functions already get a BAD_PARAMETERS error, so just\n          // do nothing.\n          // Parameters of the scope function also get a BAD_PARAMETERS\n          // error.\n        } else {\n          // This variable is declared but is NOT a simple qualified name RHS.\n          report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n        }\n      } else {\n        // This variable is declared but has no initializer (e.g. var x;)\n        report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n      }\n    } else if (n.isFunction()) {\n      // Function declaration: also invalid.\n      report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    int csLen = cs.length();\n    int searchLen = searchChars.length;\n    int i = 0;\n    while (i < csLen) {\n        int codePoint = Character.codePointAt(cs, i);\n        for (int j = 0; j < searchLen; j++) {\n            if (Character.isSupplementaryCodePoint(codePoint)) {\n                // codePoint is supplementary, so it spans two chars, but searchChars can only match single chars\n                // so skip: we do not match any codepoint > 0xFFFF as a surrogate pair in a char[]\n                continue;\n            } else {\n                // BMP char: codePoint in 0x0000 - 0xFFFF\n                if (searchChars[j] == (char) codePoint) {\n                    return true;\n                }\n            }\n        }\n        i += Character.charCount(codePoint);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

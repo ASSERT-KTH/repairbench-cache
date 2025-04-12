@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // Reduce cancellation errors by Kahan's preconditioning method\n    // Compute rho as 8-bit approximation to (v1.v2)/(v2.v2)\n    double dot12 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n    double dot22 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n\n    double rho = 0;\n    if (dot22 != 0.0) {\n        // 8 bits of mantissa\n        rho = Math.rint(256 * (dot12 / dot22)) / 256;\n    }\n\n    // v3 = v1 - rho * v2\n    double v3x = v1.x - rho * v2.x;\n    double v3y = v1.y - rho * v2.y;\n    double v3z = v1.z - rho * v2.z;\n\n    // (v1 ^ v2) == (v3 ^ v2)\n    return new Vector3D(\n        v3y * v2.z - v3z * v2.y,\n        v3z * v2.x - v3x * v2.z,\n        v3x * v2.y - v3y * v2.x\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    // Read checksum in header, ignoring leading/trailing whitespace and capturing first 6 digits only\n    int digits = 0;\n    for (int i = CHKSUM_OFFSET; i < CHKSUM_OFFSET + CHKSUMLEN; i++) {\n        byte b = header[i];\n        if (digits == 0 && (b == 0 || b == ' ' || b == '\\t')) {\n            continue; // skip leading whitespace (or NUL)\n        }\n        if (digits < 6 && b >= '0' && b <= '7') {\n            storedSum = (storedSum << 3) + (b - '0');\n            digits++;\n        } else {\n            // stop at first non-octal digit after leading whitespace\n            break;\n        }\n    }\n\n    // Now compute unsigned/signed sum, treat chksum field as spaces\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' ';\n        }\n        // To handle Java byte signedness, mask when summing unsigned\n        unsignedSum += b & 0xFF;\n        signedSum += b;\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

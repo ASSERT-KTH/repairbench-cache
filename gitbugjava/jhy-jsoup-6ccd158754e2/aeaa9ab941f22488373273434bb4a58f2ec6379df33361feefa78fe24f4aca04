@@ -1,0 +1,7 @@
+{
+    "generation": "private static void appendToAscii(String s, boolean spaceAsPlus, StringBuilder sb) throws UnsupportedEncodingException {\n    // minimal normalization of Unicode -> Ascii, and space normal. Existing escapes are left as-is.\n    for (int i = 0; i < s.length(); ) {\n        int c = s.codePointAt(i);\n        if (c == ' ') {\n            sb.append(spaceAsPlus ? '+' : \"%20\");\n        } else if (c > 127) { // out of ascii range\n            String enc = URLEncoder.encode(new String(Character.toChars(c)), UTF_8.name());\n            // URLEncoder.encode() encodes space as '+', but since it's not space here, replace any '+' with '%XX'\n            // Also, URLEncoder encodes supplementary codepoints as two %XX sequences of their UTF-16 representation,\n            // but we want a single %F0%9F%92%A9, i.e., actual UTF-8 bytes.\n            byte[] bytes = new String(Character.toChars(c)).getBytes(UTF_8);\n            for (byte b : bytes) {\n                sb.append('%');\n                String hex = Integer.toHexString(b & 0xff).toUpperCase();\n                if (hex.length() == 1) sb.append('0');\n                sb.append(hex);\n            }\n        } else {\n            sb.append((char) c);\n        }\n        i += Character.charCount(c);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

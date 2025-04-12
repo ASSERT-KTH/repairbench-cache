@@ -1,0 +1,7 @@
+{
+    "generation": "    protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                             int nextLineTabStop, String text)\n    {\n        // Handle newlines in the provided text literally: split, render each separately\n        String[] lines = text.split(\"\\\\r?\\\\n\");\n\n        for (int i = 0; i < lines.length; ++i) {\n            String line = lines[i];\n            int pos = findWrapPos(line, width, 0);\n\n            if (pos == -1) {\n                sb.append(rtrim(line));\n            } else {\n                sb.append(rtrim(line.substring(0, pos))).append(defaultNewLine);\n\n                // all following lines must be padded with nextLineTabStop space \n                // characters\n                final String padding = createPadding(nextLineTabStop);\n\n                while (true) {\n                    line = padding + line.substring(pos).trim();\n                    pos = findWrapPos(line, width, nextLineTabStop);\n\n                    if (pos == -1) {\n                        sb.append(line);\n                        break;\n                    }\n\n                    sb.append(rtrim(line.substring(0, pos))).append(defaultNewLine);\n                }\n            }\n\n            // If not the last processed line, add a new line\n            if (i < lines.length - 1) {\n                sb.append(defaultNewLine);\n            }\n        }\n\n        return sb;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

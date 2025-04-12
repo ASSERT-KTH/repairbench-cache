@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean equals(Object other) {\n    if (this == other) {\n        return true;\n    }\n    if (!(other instanceof Complex)) {\n        return false;\n    }\n    Complex rhs = (Complex) other;\n    // Handle NaN\n    if (this.isNaN() && rhs.isNaN()) {\n        return true;\n    }\n    // Handle +0.0 and -0.0 equality properly using ==, NOT doubleToRawLongBits\n    // This matches Double.equals: +0.0 != -0.0, but Complex(0, -0) and Complex(0, 0) are not equal.\n    // Test expects Complex(0, -1) equals Complex(-0.0, -1.0), so we need ==, not bits.\n    return (this.real == rhs.real) && (this.imaginary == rhs.imaginary);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

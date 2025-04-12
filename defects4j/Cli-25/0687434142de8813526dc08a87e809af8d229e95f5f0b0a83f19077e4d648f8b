@@ -1,0 +1,7 @@
+{
+    "generation": "    protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                             int nextLineTabStop, String text)\n    {\n        int pos = findWrapPos(text, width, 0);\n\n        if (pos == -1)\n        {\n            sb.append(rtrim(text));\n\n            return sb;\n        }\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n        if (nextLineTabStop >= width)\n        {\n            // Do not reduce nextLineTabStop to (width-1) if it's not the first line\n            // Let it be - this way, indentation will appear as requested on every new line,\n            // but the wrap width will remain 'width', i.e., the effective text per line\n            // will be width minus indentation visible size.\n        }\n        // all following lines must be padded with nextLineTabStop space \n        // characters\n        final String padding = createPadding(nextLineTabStop);\n\n        while (true)\n        {\n            text = padding + text.substring(pos).trim();\n            pos = findWrapPos(text, width, 0);\n\n            if (pos == -1)\n            {\n                sb.append(text);\n\n                return sb;\n            }\n\n            // Remove the indent awareness: always split at wrap width\n            sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

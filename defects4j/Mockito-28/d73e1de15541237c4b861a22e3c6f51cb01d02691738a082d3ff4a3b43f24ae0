@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // Sort fields so that more specific types come before their supertypes\n    List<Field> fields = new ArrayList<>(orderedInstanceFieldsFrom(awaitingInjectionClazz));\n    fields.sort(Comparator.comparingInt(f -> getClassHierarchyDepth(f.getType())).reversed());\n    for(Field field : fields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n}\n\n// Helper method to determine class depth in the inheritance hierarchy\nprivate int getClassHierarchyDepth(Class<?> clazz) {\n    int depth = 0;\n    while (clazz != null && clazz != Object.class) {\n        depth++;\n        clazz = clazz.getSuperclass();\n    }\n    return depth;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

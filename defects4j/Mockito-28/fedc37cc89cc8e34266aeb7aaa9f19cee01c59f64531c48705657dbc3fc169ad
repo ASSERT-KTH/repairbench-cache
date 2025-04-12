@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // Sort fields: exact type matches come before ancestor type matches\n    List<Field> fields = new ArrayList<>(orderedInstanceFieldsFrom(awaitingInjectionClazz));\n    fields.sort((f1, f2) -> {\n        int c1 = countExactTypeMatches(f1, mocks);\n        int c2 = countExactTypeMatches(f2, mocks);\n        // Fields with more exact type matches are prioritized\n        return Integer.compare(c2, c1);\n    });\n    for(Field field : fields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n}\n\n// Helper method to count how many mocks have exact type match for field\nprivate int countExactTypeMatches(Field field, Set<Object> mocks) {\n    int count = 0;\n    for (Object mock : mocks) {\n        if (field.getType().equals(mock.getClass()) || \n            Arrays.stream(mock.getClass().getInterfaces()).anyMatch(iface -> iface.equals(field.getType()))) {\n            count++;\n        }\n    }\n    return count;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

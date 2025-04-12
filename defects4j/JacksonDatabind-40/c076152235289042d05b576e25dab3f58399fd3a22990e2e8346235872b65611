@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // As of 2.9, need to catch `null` tokens and empty Strings for primitives specially,\n    // to ensure that \"missing\" values are coerced as zeroes (not `null`) if target type is primitive\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.VALUE_NULL\n            || (t == JsonToken.VALUE_STRING && p.getText().length() == 0)) {\n        // For primitive types, coerce empty String (and null) into default\n        if (_primitive) {\n            return getEmptyValue(ctxt);\n        }\n        // For wrappers, coerce empty String (and null) into null value\n        return null;\n    }\n    return _deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // handle empty unknown tags\n    if (startTag.isSelfClosing()) {\n        Tag tag = Tag.valueOf(startTag.name());\n        Element el = new Element(tag, baseUri, startTag.attributes);\n        insertNode(el); // directly add to the tree, do not add to stack\n        // For known tags that are not self-closing per spec, emit an end tag to close them.\n        if (tag.isKnownTag() && !tag.isSelfClosing()) {\n            tokeniser.emit(new Token.EndTag(el.tagName()));\n        }\n        // Do not add to stack for self-closing tags\n        return el;\n    }\n\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

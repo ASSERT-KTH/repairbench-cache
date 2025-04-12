@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] calculateSpans(int[] prices) {\n\n    int[] spans = new int[prices.length];\n    Stack<Integer> indexStack = new Stack<>();\n\n    for (int i = 0; i < prices.length; i++) {\n        while (!indexStack.isEmpty() && prices[indexStack.peek()] < prices[i])\n            indexStack.pop();\n\n        if (indexStack.isEmpty())\n            spans[i] = i + 1;\n        else\n            spans[i] = i - indexStack.peek();\n\n        indexStack.push(i);\n    }\n\n    return spans;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

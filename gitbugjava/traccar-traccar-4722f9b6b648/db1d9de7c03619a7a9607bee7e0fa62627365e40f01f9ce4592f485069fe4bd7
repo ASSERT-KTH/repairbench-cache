@@ -1,0 +1,7 @@
+{
+    "generation": "private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n    buf.readUnsignedShortLE(); // length\n\n    buf.skipBytes(3); // identification header\n    buf.readUnsignedIntLE(); // index\n\n    DeviceSession deviceSession = getDeviceSession(\n            channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n    if (deviceSession == null) {\n        return null;\n    }\n\n    Position position = new Position(getProtocolName());\n    position.setDeviceId(deviceSession.getDeviceId());\n\n    buf.readUnsignedByte(); // session status\n    buf.skipBytes(4); // reserved\n\n    // Date and time field (seconds since 2000-01-01 00:00:00 UTC, little endian)\n    long seconds = buf.readUnsignedIntLE();\n    // Galileo's Iridium packets store the time as seconds since 2000-01-01, not Unix epoch!\n    // So we must convert!\n    final long GALILEO_EPOCH_DIFF = 946684800L; // seconds between 1970-01-01 and 2000-01-01\n    long unixTime = seconds + GALILEO_EPOCH_DIFF;\n    position.setTime(new java.util.Date(unixTime * 1000));\n\n    buf.skipBytes(23); // coordinates block\n\n    buf.skipBytes(3); // data tag header\n    decodeMinimalDataSet(position, buf);\n\n    return position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

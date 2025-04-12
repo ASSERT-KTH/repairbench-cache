@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Check to see if the given block comment looks like it should be JSDoc.\n */\nprivate void handleBlockComment(Comment comment) {\n  // A block comment that contains a line starting with optional whitespace,\n  // then '*', then optional whitespace, then '@' is suspiciously like JSDoc\n  String[] lines = comment.getValue().split(\"\\n\");\n  for (String line : lines) {\n    String trimmedLine = line.trim();\n    // Match lines like \"* @type\", \"*@param\", etc.\n    if (trimmedLine.matches(\"^\\\\*\\\\s*@.*\")) {\n      errorReporter.warning(\n          SUSPICIOUS_COMMENT_WARNING,\n          sourceName,\n          comment.getLineno(), \"\", 0);\n      return;\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

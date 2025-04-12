@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addMethodMixIns(Class<?> targetClass, AnnotatedMethodMap methods,\n        Class<?> mixInCls, AnnotatedMethodMap mixIns)\n{\n    List<Class<?>> parents = new ArrayList<Class<?>>();\n    parents.add(mixInCls);\n    // The bug: the original code passes parents to findSuperTypes, which *adds* to the list\n    // starting from mixInCls, but we want the inheritance chain from superclass-of-mixInCls down to mixInCls\n    // Fix: clear parents, then find super types (excluding Object.class and targetClass)\n    parents = ClassUtil.findSuperTypes(mixInCls, targetClass, false);\n    Collections.reverse(parents); // Go from base to leaf to give precedence to leaf mix-ins\n    for (Class<?> mixin : parents) {\n        for (Method m : mixin.getDeclaredMethods()) {\n            if (!_isIncludableMemberMethod(m)) {\n                continue;\n            }\n            AnnotatedMethod am = methods.find(m);\n            if (am != null) {\n                _addMixUnders(m, am);\n            } else {\n                mixIns.add(_constructMethod(m));\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
