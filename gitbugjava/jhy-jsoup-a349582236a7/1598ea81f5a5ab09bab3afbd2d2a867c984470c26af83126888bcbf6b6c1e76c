@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isInlineable(Document.OutputSettings out) {\n    // must be an inline tag, in a block context, and not in outline mode\n    if (!tag().isInline()\n        || !(parent() == null || parent().isBlock())\n        || out.outline()) {\n        return false;\n    }\n    // find the previous non-blank sibling (skip over whitespace-only text nodes)\n    Node prev = previousSibling();\n    while (prev instanceof TextNode && ((TextNode) prev).text().trim().isEmpty()) {\n        prev = prev.previousSibling();\n    }\n    // inlineable only if there's a real preceding sibling\n    return prev != null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

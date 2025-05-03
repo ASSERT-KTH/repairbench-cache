@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    while (!tq.isEmpty()) {\n        // balanced parentheses\n        if (tq.matches(\"(\")) {\n            sq.append(\"(\")\n              .append(tq.chompBalanced('(', ')'))\n              .append(\")\");\n        }\n        // balanced attribute blocks\n        else if (tq.matches(\"[\")) {\n            sq.append(\"[\")\n              .append(tq.chompBalanced('[', ']'))\n              .append(\"]\");\n        }\n        // comma is the top\u2010level selector splitter \u2013 stop here, leave the comma for the outer parser\n        else if (tq.matches(\",\")) {\n            break;\n        }\n        // other combinators (> + ~ and whitespace)\n        else if (tq.matchesAny(Combinators)) {\n            if (sq.length() > 0) {\n                // we\u2019ve consumed part of the token \u2013 break to return it\n                break;\n            } else {\n                // leading combinator, skip it\n                tq.consume();\n            }\n        }\n        // any other character: part of this sub\u2010query\n        else {\n            sq.append(tq.consume());\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

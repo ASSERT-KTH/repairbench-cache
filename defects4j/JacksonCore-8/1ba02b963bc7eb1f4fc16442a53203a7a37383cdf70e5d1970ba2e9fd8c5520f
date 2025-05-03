@@ -1,0 +1,7 @@
+{
+    "generation": "public char[] getTextBuffer() {\n    // Are we just using shared input buffer?\n    if (_inputStart >= 0) {\n        return _inputBuffer;\n    }\n    // Do we already have an unshared copy?\n    if (_resultArray != null) {\n        return _resultArray;\n    }\n    // Or is there a String we can expand?\n    if (_resultString != null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    // No segments beyond the current one: might be empty, or have one buffer\n    if (!_hasSegments) {\n        // in the 'empty' state _currentSegment may be null\n        return (_currentSegment != null)\n            ? _currentSegment\n            : new char[0];\n    }\n    // Otherwise, need to flatten segments into a single array\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

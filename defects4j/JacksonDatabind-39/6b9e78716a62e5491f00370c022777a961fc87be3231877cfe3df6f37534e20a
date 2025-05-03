@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.FIELD_NAME) {\n        // Need to skip until we are out of this object\n        p.nextToken();\n        p.skipChildren();\n        while ((t = p.nextToken()) == JsonToken.FIELD_NAME) {\n            p.nextToken();\n            p.skipChildren();\n        }\n    } else {\n        p.skipChildren();\n    }\n    // Return a marker value indicating \"unknown type id\", i.e., null.\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

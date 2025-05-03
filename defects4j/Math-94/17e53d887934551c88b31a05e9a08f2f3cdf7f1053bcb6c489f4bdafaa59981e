@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>\n * Gets the greatest common divisor of the absolute value of two numbers,\n * using the Euclidean algorithm.\n * </p>\n *\n * @param u a number\n * @param v a number\n * @return the greatest common divisor, never negative (returns 0 if both u and v are 0)\n */\npublic static int gcd(int u, int v) {\n    // special case: gcd(0,0) == 0\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    // work in long to correctly handle Integer.MIN_VALUE\n    long a = Math.abs((long) u);\n    long b = Math.abs((long) v);\n    // if one is zero, return the other\n    if (a == 0) {\n        return (int) b;\n    }\n    if (b == 0) {\n        return (int) a;\n    }\n    // Euclidean algorithm\n    while (b != 0) {\n        long tmp = b;\n        b = a % b;\n        a = tmp;\n    }\n    // a is now gcd, and fits in int for all cases except both inputs == MIN_VALUE\n    return (int) a;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

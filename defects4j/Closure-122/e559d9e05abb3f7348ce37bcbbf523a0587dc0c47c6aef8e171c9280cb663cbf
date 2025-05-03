@@ -1,0 +1,7 @@
+{
+    "generation": "private void handleBlockComment(Comment comment) {\n  String value = comment.getValue();\n  // Warn on block comments (not /** JSDoc) that contain JSDoc\u2010style tags like \"@type\"\n  // Either \"/*\" followed by optional whitespace then \"@\u2026\", or a line break\n  // followed by optional whitespace, \"*\" then optional whitespace then \"@\u2026\"\n  java.util.regex.Pattern p =\n      java.util.regex.Pattern.compile(\"(/\\\\*\\\\s*@)|(\\\\n\\\\s*\\\\*\\\\s*@)\");\n  if (p.matcher(value).find()) {\n    errorReporter.warning(\n        SUSPICIOUS_COMMENT_WARNING,\n        sourceName,\n        comment.getLineno(), \"\", 0);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

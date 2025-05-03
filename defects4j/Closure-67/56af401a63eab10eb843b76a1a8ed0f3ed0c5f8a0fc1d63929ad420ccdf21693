@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP\n      ) {\n    // We want to exclude the assignment itself from the usage list\n    Node getprop = n;\n    // Check for chained property assignment, e.g. a.b = a.c = fn;\n    // Need to check both direct prototype assignment and aliases.\n    // Handle e.prototype.method = ...\n    Node tgt = getprop.getFirstChild();\n    if (tgt != null && tgt.getType() == Token.GETPROP) {\n      Node maybePrototype = tgt.getFirstChild().getNext();\n      if (maybePrototype != null &&\n          maybePrototype.getType() == Token.STRING &&\n          maybePrototype.getString().equals(\"prototype\")) {\n        return true;\n      }\n    } else {\n      // Also handle: e.prototype['foo'] = ...\n      Node obj = getprop.getFirstChild();\n      Node prop = getprop.getLastChild();\n      if (obj != null && obj.getType() == Token.GETPROP) {\n        Node maybePrototype = obj.getFirstChild().getNext();\n        if (maybePrototype != null &&\n            maybePrototype.getType() == Token.STRING &&\n            maybePrototype.getString().equals(\"prototype\")) {\n          return true;\n        }\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

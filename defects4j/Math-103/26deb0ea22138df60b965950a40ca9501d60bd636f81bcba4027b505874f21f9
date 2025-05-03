@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    double dev = x - mean;\n    double sd = standardDeviation;\n    // Use 20 standard deviations as a cut-off for top-coding\n    if (dev < -20 * sd) {\n        return 0.0;\n    }\n    if (dev > 20 * sd) {\n        return 1.0;\n    }\n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / (sd * Math.sqrt(2.0))));\n    } catch (MaxIterationsExceededException e) {\n        // If exception occurs within 20 sds, re-throw\n        throw new MathException(e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

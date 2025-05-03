@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nInputStream decode(final InputStream in, final Coder coder,\n                   byte[] password) throws IOException {\n    // LZMA properties are 5 bytes: 1 byte props and 4 bytes dictSize (little\u2010endian)\n    if (coder.properties == null || coder.properties.length < 5) {\n        throw new IOException(\"LZMA properties too short\");\n    }\n    byte propsByte = coder.properties[0];\n    long dictSize = (coder.properties[1] & 0xFFL)\n                  | ((coder.properties[2] & 0xFFL) << 8)\n                  | ((coder.properties[3] & 0xFFL) << 16)\n                  | ((coder.properties[4] & 0xFFL) << 24);\n    if (dictSize > LZMAInputStream.DICT_SIZE_MAX) {\n        throw new IOException(\"Dictionary larger than 4GiB maximum size\");\n    }\n    return new LZMAInputStream(in, -1, propsByte, (int) dictSize);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

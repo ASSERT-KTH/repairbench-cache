@@ -1,0 +1,7 @@
+{
+    "generation": "//-----------------------------------------------------------------------\npublic int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    // overridden as superclass algorithm can't handle\n    // 2004-02-29 + 48 months -> 2008-02-29 type dates\n    if (valueToAdd == 0) {\n        return values;\n    }\n    // month is largest field and being added to, such as month-day\n    if (DateTimeUtils.isContiguous(partial)) {\n        // Use 2000 as a \"leap safe\" pivot year so that all months have 29 days\n        // This is consistent with MonthDay which uses year 2000 internally for resolution\n        long instant = iChronology.set(partial, values, 2000);\n        instant = add(instant, valueToAdd);\n        // Decompose the instant into requested fields\n        int[] newValues = iChronology.get(partial, instant);\n        return newValues;\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

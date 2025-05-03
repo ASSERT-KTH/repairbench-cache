@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos) {\n    int textLen = text.length();\n    int end = startPos + width;\n\n    // break at an explicit newline or carriage return if within the wrap width\n    int nl = text.indexOf('\\n', startPos);\n    if (nl != -1 && nl <= end) {\n        return nl + 1;\n    }\n    int cr = text.indexOf('\\r', startPos);\n    if (cr != -1 && cr <= end) {\n        return cr + 1;\n    }\n\n    // no more text to wrap\n    if (end >= textLen) {\n        return -1;\n    }\n\n    // look backwards for the last whitespace before or at 'end'\n    for (int pos = end; pos > startPos; pos--) {\n        char c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n    }\n\n    // no whitespace found -> cut at width\n    return end;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

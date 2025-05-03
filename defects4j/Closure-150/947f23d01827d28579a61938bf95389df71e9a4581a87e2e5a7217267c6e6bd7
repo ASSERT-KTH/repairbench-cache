@@ -1,0 +1,7 @@
+{
+    "generation": "@Override public void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n\n  // Fix: Define qualified and unqualified names with type information, even when not assigned\n  if (n.getType() == Token.NAME || n.getType() == Token.GETPROP) {\n    if ((parent != null && parent.getType() == Token.EXPR_RESULT)\n        && n.getJSDocInfo() != null\n        && !n.isQualifiedName()\n        && scope.isLocal()) {\n      // Unqualified local stub (function stub, constructor, etc)\n      defineSlot(n, parent, n.getJSDocInfo());\n    } else if ((parent != null && parent.getType() == Token.EXPR_RESULT)\n        && n.isQualifiedName()\n        && n.getJSDocInfo() != null) {\n      // Namespaced function stub, or qualified property definition\n      defineSlot(n, parent, n.getJSDocInfo());\n    }\n  }\n\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

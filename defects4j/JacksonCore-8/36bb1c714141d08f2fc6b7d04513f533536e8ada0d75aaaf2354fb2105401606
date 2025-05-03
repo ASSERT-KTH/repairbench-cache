@@ -1,0 +1,7 @@
+{
+    "generation": "public char[] getTextBuffer()\n{\n    // Are we just using shared input buffer?\n    if (_inputStart >= 0) {\n        // if no shared buffer is set, return empty\n        return (_inputBuffer == null) ? new char[0] : _inputBuffer;\n    }\n    if (_resultArray != null) {\n        return _resultArray;\n    }\n    if (_resultString != null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    // Nope; but does it fit in just one segment?\n    if (!_hasSegments) {\n        // if no segment has ever been allocated, return empty\n        return (_currentSegment == null) ? new char[0] : _currentSegment;\n    }\n    // Otherwise build a full array from segments\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

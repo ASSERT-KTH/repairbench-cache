@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token\n */\nprivate boolean isShortOption(String token)\n{\n    // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n    if (token == null || !token.startsWith(\"-\") || token.startsWith(\"--\") || token.length() < 2) {\n        return false;\n    }\n    String t = token.substring(1);\n    int eqIndex = t.indexOf('=');\n    String opt = eqIndex >= 0 ? t.substring(0, eqIndex) : t;\n\n    // Look for the longest match among defined short options\n    // If options.hasShortOption returns true for the whole part after '-', accept it\n    if (options.hasShortOption(opt)) {\n        return true;\n    }\n    // Try to match prefix from left to right, to allow compound short options\n    for (int i = 1; i < opt.length(); ++i) {\n        if (options.hasShortOption(opt.substring(0, i + 1))) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

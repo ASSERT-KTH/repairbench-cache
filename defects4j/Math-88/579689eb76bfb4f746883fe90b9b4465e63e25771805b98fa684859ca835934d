@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n * <p>\n * {@link #solve} should be called first for this to be the optimal solution.\n * </p>\n * @return current solution\n */\nprotected RealPointValuePair getSolution() {\n    int n = getOriginalNumDecisionVariables();\n    double[] coefficients = new double[n];\n    int offset = getNumObjectiveFunctions();\n    if (restrictToNonNegative) {\n        // Simple case: each original variable x_i is in column (offset + i)\n        for (int i = 0; i < n; i++) {\n            Integer row = getBasicRow(offset + i);\n            coefficients[i] = (row == null ? 0.0 : getEntry(row, getRhsOffset()));\n        }\n    } else {\n        // Unrestricted variables: x_i = x_i' - psi\n        int psiCol = offset + n;\n        Integer psiRow = getBasicRow(psiCol);\n        double psi = (psiRow == null ? 0.0 : getEntry(psiRow, getRhsOffset()));\n        for (int i = 0; i < n; i++) {\n            Integer row = getBasicRow(offset + i);\n            double val = (row == null ? 0.0 : getEntry(row, getRhsOffset()));\n            coefficients[i] = val - psi;\n        }\n    }\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

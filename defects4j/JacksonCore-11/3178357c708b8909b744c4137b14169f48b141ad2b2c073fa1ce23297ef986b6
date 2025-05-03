@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        // Expand capacity for possible rehashing (next power of two) if needed\n        int hashAreaLen = _hashArea.length;\n        int newLen = hashAreaLen;\n        if (_needRehash) {\n            // If a rehash is needed, capacity has to grow to at least double\n            newLen = _hashSize << 3;\n            if (newLen <= hashAreaLen) {\n                // Fallback: should never happen, but just in case\n                newLen = hashAreaLen;\n            }\n        }\n        _hashArea = Arrays.copyOf(_hashArea, newLen);\n        _names = Arrays.copyOf(_names, newLen >> 2);\n        _hashShared = false;\n        // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n        //    we rehash as needed, as need-rehash flag is not copied from parent\n    }\n    if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

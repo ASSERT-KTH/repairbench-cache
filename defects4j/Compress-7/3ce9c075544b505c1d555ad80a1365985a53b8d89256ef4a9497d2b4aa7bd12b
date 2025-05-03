@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    // Use US-ASCII so bytes are correctly mapped to chars 0-127 and for others, possibly ISO-8859-1\n    // But TarUtils wants ISO-8859-1 for full preservation of byte values in chars 0..255\n    int nameLen = 0;\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            break;\n        }\n        nameLen++;\n    }\n    // Use ISO-8859-1 to map bytes one-to-one to chars\n    try {\n        return new String(buffer, offset, nameLen, \"ISO-8859-1\");\n    } catch (java.io.UnsupportedEncodingException e) {\n        // Fallback: map manually (should not happen)\n        StringBuilder result = new StringBuilder(nameLen);\n        for (int i = offset; i < offset + nameLen; ++i) {\n            result.append((char) (buffer[i] & 0xFF));\n        }\n        return result.toString();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

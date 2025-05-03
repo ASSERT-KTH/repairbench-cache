@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Visit a node in a local scope, and add any local variables or catch\n * parameters into the local symbol table.\n *\n * @param t The node traversal.\n * @param n The node being visited.\n * @param parent The parent of n\n */\n@Override public void visit(NodeTraversal t, Node n, Node parent) {\n  if (n == scope.getRootNode()) return;\n\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  attachLiteralTypes(n);\n\n  // Always define function stubs and function types on assignments and property declarations,\n  // regardless of their parent, to ensure local stubs are checked.\n  if (n.getType() == Token.FUNCTION) {\n    if (parent.getType() == Token.NAME) {\n      // Do not define named function expressions as vars\n      return;\n    }\n    defineDeclaredFunction(n, parent);\n  } else if (n.getType() == Token.CATCH) {\n    defineCatch(n, parent);\n  } else if (n.getType() == Token.VAR) {\n    defineVar(n, parent);\n  } else if (n.isExprResult()) {\n    Node child = n.getFirstChild();\n    // Handle function stubs like \"goog.foo;\" or \"this.foo;\" and JSDoc property declarations.\n    if (child != null && (child.isGetProp() || child.isName())) {\n      maybeDeclareStubTypedVar(child, n);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

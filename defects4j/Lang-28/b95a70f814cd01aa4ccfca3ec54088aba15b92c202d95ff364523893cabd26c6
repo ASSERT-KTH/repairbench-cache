@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * {@inheritDoc}\n */\n@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    // guard against short inputs\n    if (index + 1 >= input.length() || input.charAt(index) != '&' || input.charAt(index + 1) != '#') {\n        return 0;\n    }\n    int start = index + 2;\n    boolean isHex = false;\n\n    // check for hex indicator\n    if (start < input.length()) {\n        char firstChar = input.charAt(start);\n        if (firstChar == 'x' || firstChar == 'X') {\n            isHex = true;\n            start++;\n        }\n    }\n\n    // find the end ';'\n    int end = start;\n    while (end < input.length() && input.charAt(end) != ';') {\n        end++;\n    }\n    if (end >= input.length()) {\n        // no closing ';'\n        return 0;\n    }\n\n    // parse the number\n    int entityValue;\n    try {\n        String number = input.subSequence(start, end).toString();\n        entityValue = Integer.parseInt(number, isHex ? 16 : 10);\n    } catch (NumberFormatException e) {\n        return 0;\n    }\n\n    // write out the character(s), handling supplementary code points correctly\n    char[] chars = Character.toChars(entityValue);\n    out.write(chars);\n\n    // consumed length = \"&#\" (2) + optional \"x\" (1 if hex) + digits + \";\" (1)\n    return 2 + (isHex ? 1 : 0) + (end - start) + 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

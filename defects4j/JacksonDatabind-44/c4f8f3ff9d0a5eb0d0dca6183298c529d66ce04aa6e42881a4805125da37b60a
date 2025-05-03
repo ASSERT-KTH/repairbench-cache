@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass) {\n    // trivial case: same raw class\n    if (_class == subclass) {\n        return this;\n    }\n    // sanity: must actually be a sub\u2010type\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()\n            +\" not sub-type of \"+_class.getName());\n    }\n    // figure out the immediate super\u2010type for the new subclass\n    Class<?> rawSuper = subclass.getSuperclass();\n    JavaType superType = (rawSuper == _class)\n        ? this\n        : _narrow(rawSuper);\n    // for now keep the same super\u2010interfaces as before\n    return new SimpleType(subclass, _bindings, superType, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

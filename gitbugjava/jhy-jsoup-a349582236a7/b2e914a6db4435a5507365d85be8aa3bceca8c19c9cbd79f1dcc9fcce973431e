@@ -1,0 +1,7 @@
+{
+    "generation": "// In Element.java\nprivate boolean isInlineable(Document.OutputSettings out) {\n    // must be inline, a block-level parent (or no parent), and not in outline mode\n    if (!tag().isInline()\n            || !(parent() == null || parent().isBlock())\n            || out.outline()) {\n        return false;\n    }\n    // skip over any purely-whitespace text nodes\n    Node prev = previousSibling();\n    while (prev instanceof TextNode \n            && ((TextNode) prev).getWholeText().trim().length() == 0) {\n        prev = prev.previousSibling();\n    }\n    // no real previous content => not inlineable\n    if (prev == null) {\n        return false;\n    }\n    // if the previous node is an element, it must itself be inline\n    if (prev instanceof Element) {\n        return ((Element) prev).tag().isInline();\n    }\n    // any non-whitespace text node counts as inlineable\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

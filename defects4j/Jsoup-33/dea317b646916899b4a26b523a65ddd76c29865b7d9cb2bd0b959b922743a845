@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // handle empty unknown tags\n    // when the spec expects an empty tag, will directly hit insertEmpty, so won't generate this fake end tag.\n    if (startTag.isSelfClosing()) {\n        if (Tag.valueOf(startTag.name()).isSelfClosing()) {\n            // Known empty (void) tag: just insertEmpty, do NOT add to stack nor emit fake end tag\n            return insertEmpty(startTag);\n        } else {\n            // Unknown or not void: parse as empty, but force fake end tag as before for non-voids\n            Element el = insertEmpty(startTag);\n            stack.add(el);\n            tokeniser.emit(new Token.EndTag(el.tagName())); // ensure we get out of whatever state we are in. emitted for yielded processing\n            return el;\n        }\n    }\n\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

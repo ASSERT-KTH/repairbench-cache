@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Need at least a leading '?' or '!' and a trailing '?' to form <?...?> or <!...?>\n    if (data == null || data.length() < 2) {\n        return null;\n    }\n    // strip the leading '?' or '!' and the trailing '?'\n    String inner = data.substring(1, data.length() - 1);\n    Document doc = Jsoup.parse(\"<\" + inner + \">\", baseUri(), Parser.xmlParser());\n    // only treat it as a declaration if it parsed into an actual element\n    if (doc.children().isEmpty()) {\n        return null;\n    }\n    Element el = doc.child(0);\n    XmlDeclaration decl = new XmlDeclaration(\n        NodeUtils.parser(doc).settings().normalizeTag(el.tagName()),\n        data.startsWith(\"!\")\n    );\n    decl.attributes().addAll(el.attributes());\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

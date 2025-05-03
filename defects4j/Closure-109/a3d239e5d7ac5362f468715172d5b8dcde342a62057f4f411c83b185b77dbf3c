@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * ContextTypeExpression := BasicTypeExpression | '?' | '*'\n * For expressions on the right hand side of a this: or new:\n */\nprivate Node parseContextTypeExpression(JsDocToken token) {\n  JsDocTokenType tt = token.getType();\n  // allow \"?\" as a structural constructor and \"*\" as ANY type\n  if (tt == JsDocTokenType.QMARK) {\n    // consume the \"?\"\n    nextToken();\n    // produce a QMARK\u2010typed node\n    return Node.newString(Token.QMARK, \"?\");\n  } else if (tt == JsDocTokenType.STAR) {\n    // consume the \"*\"\n    nextToken();\n    // produce a STAR\u2010typed node\n    return Node.newString(Token.STAR, \"*\");\n  }\n  // otherwise it must be a plain type name\n  return parseTypeName(token);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

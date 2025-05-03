@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression (and safe to fold).  We special\u2010case out\n *     event\u2010handler calls (e.g. obj.onchange()) and bracket calls\n *     (e.g. obj['x']()) because of IE\u2019s strange return\u2010value bug.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n    Node maybeExpr = n.getFirstChild();\n\n    // If this is a lone EXPR_RESULT and that is a CALL,\n    // see if the callee is a GETPROP(\"on...\") or a GETELEM;\n    // if so, do NOT fold it into another expression.\n    if (maybeExpr.getType() == Token.EXPR_RESULT) {\n      Node call = maybeExpr.getFirstChild();\n      if (call != null && call.getType() == Token.CALL) {\n        Node callee = call.getFirstChild();\n        if (callee != null) {\n          // skip bracket notation calls\n          if (callee.getType() == Token.GETELEM) {\n            return false;\n          }\n          // skip event\u2010handler calls (properties beginning with \"on\")\n          if (callee.getType() == Token.GETPROP) {\n            String propName = callee.getLastChild().getString();\n            if (propName != null && propName.startsWith(\"on\")) {\n              return false;\n            }\n          }\n        }\n      }\n    }\n\n    return NodeUtil.isExpressionNode(maybeExpr);\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean isEnabled(Feature f) {\n    // If QUOTE_FIELD_NAMES is being checked, must check both settings:\n    if (f == JsonGenerator.Feature.QUOTE_FIELD_NAMES) {\n        // \"per-call\" override via JsonGenerator.setFeatureMask (ie, _cfgFeatures field):\n        if ((_cfgFeatures & JsonGenerator.Feature.QUOTE_FIELD_NAMES.getMask()) != 0) {\n            // If enabled:\n            return true;\n        }\n        // If disabled:\n        if ((_cfgFeaturesToChange & JsonGenerator.Feature.QUOTE_FIELD_NAMES.getMask()) != 0) {\n            return false;\n        }\n        // Else, get from underlying factory:\n        return _jsonFactory.isEnabled(f);\n    }\n    // For others, use per-generator override if exists, otherwise factory default:\n    return (_cfgFeatures & f.getMask()) != 0 || ((_cfgFeaturesToChange & f.getMask()) == 0 && _jsonFactory.isEnabled(f));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

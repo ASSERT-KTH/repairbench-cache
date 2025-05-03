@@ -1,0 +1,7 @@
+{
+    "generation": "public static int formatLongOctalOrBinaryBytes(\n        final long value, final byte[] buf, final int offset, final int length) {\n\n    // Check whether we are dealing with UID/GID or SIZE field\n    final long maxAsOctalChar = length == TarConstants.UIDLEN\n            ? TarConstants.MAXID\n            : TarConstants.MAXSIZE;\n\n    final boolean negative = value < 0;\n    if (!negative && value <= maxAsOctalChar) {\n        // OK to store as octal chars\n        return formatLongOctalBytes(value, buf, offset, length);\n    }\n\n    // For small fields use the long-based two's\u2010complement routine,\n    // otherwise fall back to the BigInteger approach.\n    if (length < 9) {\n        formatLongBinary(value, buf, offset, length, negative);\n    } else {\n        formatBigIntegerBinary(value, buf, offset, length, negative);\n    }\n\n    // Mark this as binary (MSB = 1 for positive, all bits = 1 for negative)\n    buf[offset] = (byte) (negative ? 0xFF : 0x80);\n    return offset + length;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

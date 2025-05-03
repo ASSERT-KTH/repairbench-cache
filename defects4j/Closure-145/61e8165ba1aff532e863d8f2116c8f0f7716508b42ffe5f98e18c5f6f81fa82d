@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is exactly a do-while or function *statement*,\n * possibly labeled, and not part of a block with several children.\n *\n * If n is a LABEL, then only if its child is a FUNCTION or DO node,\n * and that child is the only child for the label, do we consider it true.\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    if (n.getType() == Token.LABEL) {\n        // Unwind single label chain.\n        Node child = n.getFirstChild();\n        // If the label contains a block, skip through single-child blocks.\n        while (child.getType() == Token.BLOCK && child.hasOneChild()) {\n            child = child.getFirstChild();\n        }\n        return (child.getType() == Token.FUNCTION || child.getType() == Token.DO)\n            && child.getNext() == null;\n    } else if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n        // If the only statement in the block is exactly a FUNCTION or DO.\n        Node only = n.getFirstChild();\n        return isOneExactlyFunctionOrDo(only);\n    } else {\n        return (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double evaluate(double x, double epsilon, int maxIterations) {\n    final double small = 1e-50;\n    // Initialize f = b0 = a0 in our notation\n    double f = getA(0, x);\n    // avoid starting from zero\n    if (Precision.equals(f, 0.0, small)) {\n        f = small;\n    }\n    double C = f;\n    double D = 0.0;\n    // Lentz\u2019s algorithm\n    for (int n = 1; n < maxIterations; n++) {\n        double a = getA(n, x);\n        double b = getB(n, x);\n        // update D\n        D = b + a * D;\n        if (Precision.equals(D, 0.0, small)) {\n            D = small;\n        }\n        // update C\n        C = b + a / C;\n        if (Precision.equals(C, 0.0, small)) {\n            C = small;\n        }\n        D = 1.0 / D;\n        double delta = C * D;\n        f *= delta;\n        if (Double.isInfinite(f)) {\n            throw new ConvergenceException(\n                LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);\n        }\n        if (Double.isNaN(f)) {\n            throw new ConvergenceException(\n                LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE, x);\n        }\n        if (FastMath.abs(delta - 1.0) < epsilon) {\n            return f;\n        }\n    }\n    // did not converge within the allowed iterations\n    throw new MaxCountExceededException(\n        LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION, maxIterations, x);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

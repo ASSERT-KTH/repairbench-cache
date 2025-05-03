@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token the command\u2010line token\n */\nprivate boolean isShortOption(String token) {\n    // must start with a single \"-\" and have at least one character after it\n    if (token == null\n        || token.length() < 2\n        || !token.startsWith(\"-\")\n        || token.startsWith(\"--\")) {\n        return false;\n    }\n\n    // strip the leading \"-\" \n    String withoutDash = token.substring(1);\n    // if there's an inline \"=\", split off the value\n    int eq = withoutDash.indexOf('=');\n    String name = (eq == -1 ? withoutDash : withoutDash.substring(0, eq));\n\n    // now see if this matches a (possibly multi\u2010char) short option\n    return options.hasShortOption(name);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

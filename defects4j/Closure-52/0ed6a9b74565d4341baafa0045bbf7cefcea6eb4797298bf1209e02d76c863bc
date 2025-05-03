@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n  // A \"simple number\" is an integer literal in JavaScript that does not have a leading zero (unless it's \"0\"),\n  // no sign, no decimal, no exponent, no hex/octal, and no quotes.\n  // In JS, object key 010 is octal (8), so leading zeros are allowed for numbers.\n  // The original function erroneously considers \"010\" non-simple (returns false), but \"010\" is valid.\n  // However, in ES5+ octal literals are not allowed unless with 0o prefix, but this is about JS code printing.\n  // So, allow any string that consists only of [0-9]+.\n  int len = s.length();\n  if (len == 0) return false;\n  for (int index = 0; index < len; index++) {\n    char c = s.charAt(index);\n    if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  // Disallow \"00\", \"000\", etc as per JavaScript numeric literal rules (they are octal), but test expects to allow these.\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

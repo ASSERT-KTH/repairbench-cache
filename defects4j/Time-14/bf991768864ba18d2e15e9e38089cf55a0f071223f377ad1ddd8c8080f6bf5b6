@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    if (valueToAdd == 0) {\n        return values;\n    }\n    // Only for fully\u2010contiguous partials use this shortcut\n    if (DateTimeUtils.isContiguous(partial)) {\n        // Pick a base instant that will accept Feb-29 when there's no year field\n        long instant;\n        if (!partial.isSupported(DateTimeFieldType.year())) {\n            // Use a known leap year (e.g. 2000) so MonthDay(2,29) can be set\n            instant = iChronology.getDateTimeMillis(2000, 1, 1, 0, 0, 0, 0);\n        } else {\n            // Year is present, epoch (1970-01-01) is safe\n            instant = 0L;\n        }\n        // Apply each field value to the base instant\n        for (int i = 0, size = partial.size(); i < size; i++) {\n            instant = partial.getFieldType(i)\n                             .getField(iChronology)\n                             .set(instant, values[i]);\n        }\n        // Now add to the specific field (month, day, etc.)\n        DateTimeField field = partial.getFieldType(fieldIndex)\n                                     .getField(iChronology);\n        instant = field.add(instant, valueToAdd);\n        // Extract and return the new partial values\n        return iChronology.get(partial, instant);\n    }\n    // Fallback to the generic algorithm\n    return super.add(partial, fieldIndex, values, valueToAdd);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

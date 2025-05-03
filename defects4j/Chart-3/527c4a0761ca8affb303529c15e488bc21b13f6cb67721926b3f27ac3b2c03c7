@@ -1,0 +1,7 @@
+{
+    "generation": "public TimeSeries createCopy(int start, int end)\n        throws CloneNotSupportedException {\n    if (start < 0) {\n        throw new IllegalArgumentException(\"Requires start >= 0.\");\n    }\n    if (end < start) {\n        throw new IllegalArgumentException(\"Requires start <= end.\");\n    }\n    TimeSeries copy = (TimeSeries) super.clone();\n    copy.data = new java.util.ArrayList();\n    if (this.data.size() > 0) {\n        for (int index = start; index <= end && index < this.data.size(); index++) {\n            TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);\n            TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();\n            try {\n                copy.data.add(clone);\n            }\n            catch (Exception e) {\n                e.printStackTrace();\n            }\n        }\n    }\n    // recalculate minY and maxY for the copy\n    copy.updateMinMaxY();\n    return copy;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

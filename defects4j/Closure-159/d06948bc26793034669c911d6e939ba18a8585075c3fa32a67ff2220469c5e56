@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @see #findCalledFunctions(Node)\n */\nprivate void findCalledFunctions(\n    Node node, Set<String> changed) {\n  Preconditions.checkArgument(changed != null);\n  // For each referenced function, add a new reference\n  if (node.isCall()) {\n    Node child = node.getFirstChild();\n    if (child != null && child.isName()) {\n      changed.add(child.getString());\n    }\n  }\n\n  for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n    // Do not traverse into the callee of a .call() or .apply() call\n    if (node.isCall() && c == node.getFirstChild()\n        && c.isGetProp()) {\n      String propName = c.getLastChild() != null ? c.getLastChild().getString() : null;\n      if (\"call\".equals(propName) || \"apply\".equals(propName)) {\n        continue; // skip the callee property itself\n      }\n    }\n    findCalledFunctions(c, changed);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

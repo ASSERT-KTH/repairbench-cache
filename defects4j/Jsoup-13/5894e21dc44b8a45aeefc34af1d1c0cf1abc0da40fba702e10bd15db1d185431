@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Test if this element has an attribute.\n * @param attributeKey The attribute key to check.\n * @return true if the attribute exists, false if not.\n */\npublic boolean hasAttr(String attributeKey) {\n    Validate.notNull(attributeKey);\n\n    // Special handling for \"abs:\" prefix\n    if (attributeKey.startsWith(\"abs:\")) {\n        String key = attributeKey.substring(4);\n        // Has abs attr IFF the normal attr exists and resolves to a non-empty absUrl\n        if (attributes.hasKey(key) && !absUrl(key).isEmpty()) {\n            return true;\n        }\n        return false;\n    }\n\n    return attributes.hasKey(attributeKey);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

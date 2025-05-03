@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    if (len == 0) {\n        return false;\n    }\n    // Hex integer literal? 0x... or 0X...\n    if (len > 2\n        && s.charAt(0) == '0'\n        && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {\n        for (int i = 2; i < len; i++) {\n            char c = s.charAt(i);\n            boolean digit = (c >= '0' && c <= '9');\n            boolean lowerHex = (c >= 'a' && c <= 'f');\n            boolean upperHex = (c >= 'A' && c <= 'F');\n            if (!(digit || lowerHex || upperHex)) {\n                return false;\n            }\n        }\n        return true;\n    }\n    // Decimal integer literal (possibly with leading zeros)\n    for (int i = 0; i < len; i++) {\n        char c = s.charAt(i);\n        if (c < '0' || c > '9') {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

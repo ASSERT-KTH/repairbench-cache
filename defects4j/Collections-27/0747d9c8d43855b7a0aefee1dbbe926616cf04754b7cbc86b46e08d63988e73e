@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    // Ensure the deserialized collectionClass is a real java.util.Collection\n    if (!Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\n            \"Unsupported collection class: \" + collectionClass.getName());\n    }\n    // Ensure it has an accessible no-arg constructor\n    try {\n        collectionClass.getDeclaredConstructor();\n    } catch (Exception ex) {\n        throw new UnsupportedOperationException(\n            \"Cannot instantiate collection class: \" + collectionClass.getName(), ex);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

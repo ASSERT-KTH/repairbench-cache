@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        // nothing to make absolute with\n        return \"\";\n    } else {\n        try {\n            URL base;\n            try {\n                base = new URL(baseUri);\n            } catch (MalformedURLException e) {\n                // base is invalid, but relUrl might be absolute on its own\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            }\n\n            // workaround: java resolves \"base/file + ?foo\" to \"base/?foo\", rather than \"base/file?foo\"\n            if (relUrl.startsWith(\"?\")) {\n                String baseStr = base.toExternalForm();\n                int qIdx = baseStr.indexOf('?');\n                if (qIdx != -1) {\n                    baseStr = baseStr.substring(0, qIdx);\n                }\n                return baseStr + relUrl;\n            }\n\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

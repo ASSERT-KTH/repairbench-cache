@@ -1,0 +1,7 @@
+{
+    "generation": "@Override public void visit(NodeTraversal t, Node n, Node parent) {\n  // Don't re-enter the root.\n  if (n == scope.getRootNode()) {\n    return;\n  }\n\n  // Handle the function parameter list for a local function.\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  // Attach types for literals (booleans, numbers, strings).\n  attachLiteralTypes(n);\n\n  // Handle JSDoc-backed \"stub\" declarations on qualified names,\n  // e.g. /** @param {number} x */ goog.foo;\n  if (n.getType() == Token.GETPROP && n.getJSDocInfo() != null) {\n    defineNameDeclaration(n, parent);\n    return;\n  }\n\n  // Now handle real declarations: functions, catches, vars.\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      // Skip the NAME child of a function declaration\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

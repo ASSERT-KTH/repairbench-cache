@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass) {\n    // no change if it's the same\n    if (_class == subclass) {\n        return this;\n    }\n    // must be a true subtype\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()\n                +\" not sub-type of \"+_class.getName());\n    }\n    // if the base type is an interface, the subclass's \"superInterfaces\"\n    // should include the base; otherwise it is the superClass\n    JavaType newSuperClass;\n    JavaType[] newSuperInterfaces;\n    if (_class.isInterface()) {\n        newSuperClass = null;\n        newSuperInterfaces = new JavaType[] { this };\n    } else {\n        newSuperClass = this;\n        newSuperInterfaces = _superInterfaces;\n    }\n    return new SimpleType(\n            subclass,\n            _bindings,\n            newSuperClass,\n            newSuperInterfaces,\n            _valueHandler,\n            _typeHandler,\n            _asStatic\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "// In XmlTreeBuilder.java\n@Override\nprotected void popStackToClose(Token.EndTag endTag) {\n    // normalize the end tag name according to the ParseSettings,\n    // so that htmlDefault (lower\u2010case) will match even if the input was </DIV>\n    String elName = settings.normalizeTag(endTag.name());\n    Element firstFound = null;\n\n    // find the first matching element in the stack\n    for (int pos = stack.size() - 1; pos >= 0; pos--) {\n        Element next = stack.get(pos);\n        if (next.nodeName().equals(elName)) {\n            firstFound = next;\n            break;\n        }\n    }\n    if (firstFound == null)\n        return; // no match, skip\n\n    // pop stack until (and including) the matched element\n    for (int pos = stack.size() - 1; pos >= 0; pos--) {\n        Element next = stack.remove(pos);\n        if (next == firstFound)\n            break;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

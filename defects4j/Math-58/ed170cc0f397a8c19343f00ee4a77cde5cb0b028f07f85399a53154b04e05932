@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\npublic double[] fit() {\n    final double[] guess = new ParameterGuesser(getObservations()).guess();\n\n    // wrap the standard Gaussian parametrization so that\n    // any invalid (e.g. non\u2010positive sigma) trials just return NaN\n    final Gaussian.Parametric base = new Gaussian.Parametric();\n    ParametricUnivariateRealFunction safeFunc =\n        new ParametricUnivariateRealFunction() {\n            @Override\n            public double value(double x, double[] p) {\n                try {\n                    return base.value(x, p);\n                } catch (RuntimeException ex) {\n                    return Double.NaN;\n                }\n            }\n            @Override\n            public double[] gradient(double x, double[] p) {\n                try {\n                    return base.gradient(x, p);\n                } catch (RuntimeException ex) {\n                    double[] g = new double[p.length];\n                    for (int i = 0; i < g.length; i++) {\n                        g[i] = Double.NaN;\n                    }\n                    return g;\n                }\n            }\n        };\n\n    return fit(safeFunc, guess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

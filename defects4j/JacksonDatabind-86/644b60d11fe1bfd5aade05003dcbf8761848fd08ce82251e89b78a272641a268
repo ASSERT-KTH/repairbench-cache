@@ -1,0 +1,7 @@
+{
+    "generation": "// In TypeFactory.java, replace the old _buildSuperClass (or similarly\u2010named) method\n// so that we no longer skip Object.class; i.e. only return null when there is no superclass.\n\nprotected JavaType _buildSuperClass(ClassStack context,\n                                   Class<?> rawClass,\n                                   TypeBindings bindings,\n                                   boolean asStatic)\n{\n    Class<?> superClass = rawClass.getSuperclass();\n    // only skip if there really is no superclass at all\n    if (superClass == null) {\n        return null;\n    }\n    // previously we special-cased Object.class here; that check is removed so that\n    // even java.lang.Object is represented, allowing RecursiveTypeTest to see a non-null\n    // super-super class\n    return _fromClass(superClass,\n                      TypeBindings.create(superClass, null),\n                      /* outerType */ null,\n                      context,\n                      asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,7 +1,0 @@
-{
-    "generation": "public static int postfixEvaluate(final String exp) {\n    Stack<Integer> s = new Stack<Integer>();\n    Scanner tokens = new Scanner(exp);\n\n    while (tokens.hasNext()) {\n        if (tokens.hasNextInt()) {\n            s.push(tokens.nextInt()); // If int then push to stack\n        } else { // else pop top two values and perform the operation\n            if (s.size() < 2) {\n                throw new IllegalArgumentException(\"exp is not a proper postfix expression.\");\n            }\n            int num2 = s.pop();\n            int num1 = s.pop();\n            String op = tokens.next();\n\n            switch (op) {\n                case \"+\" -> s.push(num1 + num2);\n                case \"-\" -> s.push(num1 - num2);\n                case \"*\" -> s.push(num1 * num2);\n                case \"/\" -> s.push(num1 / num2);\n                default -> throw new IllegalArgumentException(\"exp contains an unknown operation.\");\n            }\n            //  \"+\", \"-\", \"*\", \"/\"\n        }\n    }\n    tokens.close();\n    if (s.size() != 1) {\n        throw new IllegalArgumentException(\"exp is not a proper postfix expression.\");\n    }\n    return s.pop();\n}",
-    "exact_match": false,
-    "ast_match": false,
-    "compile": null,
-    "test": true
-}

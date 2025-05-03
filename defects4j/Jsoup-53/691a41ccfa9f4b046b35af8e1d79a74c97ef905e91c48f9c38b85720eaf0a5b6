@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    char last = 0;\n    char quote = 0;\n\n    do {\n        if (isEmpty()) break;\n        char c = consume();    // auto-unboxes if consume() returns Character\n\n        // only consider quotes and nesting when not escaped\n        if (last != ESC) {\n            if (quote != 0) {\n                // inside a quoted section, only an unescaped matching quote can end it\n                if (c == quote) {\n                    quote = 0;\n                }\n            } else {\n                // start of a quoted section?\n                if (c == '\"' || c == '\\'') {\n                    quote = c;\n                }\n                // not in a quote: handle nesting\n                else if (c == open) {\n                    depth++;\n                    if (start == -1) start = pos;\n                }\n                else if (c == close) {\n                    depth--;\n                }\n            }\n        }\n\n        // if we're inside the outermost open/close, mark the end\n        if (depth > 0) {\n            end = pos;\n        }\n\n        last = c;\n    } while (depth > 0);\n\n    return (end >= 0) ? queue.substring(start, end) : \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

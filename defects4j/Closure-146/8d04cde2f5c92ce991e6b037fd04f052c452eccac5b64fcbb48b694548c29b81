@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic TypePair getTypesUnderInequality(JSType that) {\n  // union types: flip the returned pair\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      // two types are guaranteed equal \u21d2 under \"!=\" this branch is unreachable \u21d2 bottom (NO_TYPE)\n      JSType none = this.getRegistry().getNativeType(JSTypeNative.NO_TYPE);\n      return new TypePair(none, none);\n\n    case FALSE:\n    case UNKNOWN:\n      // either always not equal or maybe not equal \u21d2 no further refinement\n      return new TypePair(this, that);\n  }\n\n  // should be exhaustive\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

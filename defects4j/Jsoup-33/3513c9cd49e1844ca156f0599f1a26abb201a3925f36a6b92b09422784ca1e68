@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    Tag tag = Tag.valueOf(startTag.name());\n    // handle void (empty) elements (e.g. <hr>, <img>) \u2013 always empty, no fake end tag\n    if (tag.isEmpty()) {\n        return insertEmpty(startTag);\n    }\n    // handle explicit self\u2010closing start tags on non\u2010void elements: insert then force an end tag\n    if (startTag.isSelfClosing()) {\n        Element el = new Element(tag, baseUri, startTag.attributes);\n        insert(el);\n        tokeniser.emit(new Token.EndTag(el.tagName()));  // ensure we exit any special state\n        return el;\n    }\n    // normal start tag\n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int parseArguments(Parameters params) throws CmdLineException {\n    String param = null;\n    try {\n        param = params.getParameter(0);\n    } catch (CmdLineException e) {\n        // No explicit parameter (or next token is another option), treat as flag\n    }\n\n    if (param == null) {\n        // --flag   (no value) \u21d2 true, consume 0 tokens\n        setter.addValue(true);\n        return 0;\n    }\n\n    String lower = param.toLowerCase();\n    if (TRUES.contains(lower)) {\n        // --flag true  \u21d2 true, consume 1 token\n        setter.addValue(true);\n        return 1;\n    } else if (FALSES.contains(lower)) {\n        // --flag false \u21d2 false, consume 1 token\n        setter.addValue(false);\n        return 1;\n    } else {\n        // --flag something-else \u21d2 treat as flag, do not consume\n        setter.addValue(true);\n        return 0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

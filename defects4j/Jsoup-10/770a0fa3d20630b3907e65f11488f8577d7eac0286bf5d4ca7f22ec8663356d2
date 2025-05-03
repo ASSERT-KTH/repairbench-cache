@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\";\n    } else {\n        URL base;\n        try {\n            // try to parse the baseUri\n            try {\n                base = new URL(baseUri);\n            } catch (MalformedURLException e) {\n                // baseUri is invalid, maybe relUrl is itself absolute\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            }\n            // special\u2010case: a query-only relative URL (\u201c?foo\u201d) should keep the base path, not drop the filename\n            if (relUrl.startsWith(\"?\")) {\n                String protocol  = base.getProtocol();\n                String authority = base.getAuthority();\n                String path      = base.getPath();\n                return protocol + \"://\" + authority + path + relUrl;\n            }\n            // normal resolution\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            return \"\";\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

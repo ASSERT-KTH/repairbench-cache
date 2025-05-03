@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean useForType(JavaType t) {\n    switch (_appliesFor) {\n    case NON_CONCRETE_AND_ARRAYS:\n        // unwrap arrays to test the element type\n        while (t.isArrayType()) {\n            t = t.getContentType();\n        }\n        // fall through to OBJECT_AND_NON_CONCRETE\n    case OBJECT_AND_NON_CONCRETE:\n        // do NOT apply to Jackson tree models\n        if (TreeNode.class.isAssignableFrom(t.getRawClass())) {\n            return false;\n        }\n        // apply only for Object base type or non-concrete types\n        return (t.getRawClass() == Object.class)\n               || !t.isConcrete();\n\n    case NON_FINAL:\n        // unwrap arrays to test the element type\n        while (t.isArrayType()) {\n            t = t.getContentType();\n        }\n        // do NOT apply to Jackson tree models\n        return !t.isFinal()\n               && !TreeNode.class.isAssignableFrom(t.getRawClass());\n\n    default: // case JAVA_LANG_OBJECT\n        return (t.getRawClass() == Object.class);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

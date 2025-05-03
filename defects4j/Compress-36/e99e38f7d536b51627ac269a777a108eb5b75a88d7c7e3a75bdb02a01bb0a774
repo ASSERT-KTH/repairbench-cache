@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty()) {\n        // No streams have been set up. If we haven't called getNextEntry at all,\n        // that's an error; otherwise it's just an empty entry (size==0), so\n        // return an empty stream (read() will immediately return -1).\n        if (currentEntry == null) {\n            throw new IllegalStateException(\n                \"No current 7z entry (call getNextEntry() first).\");\n        }\n        return new java.io.ByteArrayInputStream(new byte[0]);\n    }\n    // If there are multiple folder\u2010streams queued, skip and close all but the last\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean isNonRetryableHTTPCode(CloseableHttpResponse response, boolean retryHTTP403) {\n  if (response == null) {\n    return false;\n  }\n  int statusCode = response.getStatusLine().getStatusCode();\n\n  // 5xx are retryable except for those >= 600\n  // 408 (Request Timeout) is retryable\n  // 429 (Too Many Requests) is retryable\n  // 403 is retryable iff retryHTTP403==true\n  if (statusCode == 408 || statusCode == 429) {\n    return false;\n  }\n  if (retryHTTP403 && statusCode == 403) {\n    return false;\n  }\n\n  return (statusCode < 500 || statusCode >= 600) && (!retryHTTP403 || statusCode != 403);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

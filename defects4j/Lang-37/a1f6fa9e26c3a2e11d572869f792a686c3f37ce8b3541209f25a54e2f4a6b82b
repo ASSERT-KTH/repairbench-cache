@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    // determine the component types\n    final Class<?> type1 = array1.getClass().getComponentType();\n    final Class<?> type2 = array2.getClass().getComponentType();\n    // ensure we can store all of array2's elements in an array of type1\n    if (! type1.isAssignableFrom(type2)) {\n        throw new IllegalArgumentException(\n            \"Cannot store \" + type2.getName() + \" in an array of \" + type1.getName()\n        );\n    }\n    // create and populate the new array\n    T[] joined = (T[]) Array.newInstance(type1, array1.length + array2.length);\n    System.arraycopy(array1, 0, joined, 0, array1.length);\n    System.arraycopy(array2, 0, joined, array1.length, array2.length);\n    return joined;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

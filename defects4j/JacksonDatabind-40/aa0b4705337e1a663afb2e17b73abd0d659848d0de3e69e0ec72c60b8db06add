@@ -1,0 +1,7 @@
+{
+    "generation": "// In StdDeserializer (or wherever empty\u2010String coercion is handled),\n// update the \u201cfind coercion from empty\u2010string\u201d routine so that\n// AsNull is never honored for primitive types:\n\nprotected CoercionAction _findCoercionFromEmptyString(DeserializationContext ctxt,\n                                                     JavaType targetType)\n{\n    Class<?> raw = targetType.getRawClass();\n    // first, check per\u2010type override\n    ConfigOverride override = ctxt.getConfig().findConfigOverride(raw);\n    if (override != null) {\n        CoercionAction act = override.getCoercion(CoercionInputShape.EmptyString);\n        if (act != null) {\n            // primitives can never really become null: force FAIL instead\n            if (raw.isPrimitive() && act == CoercionAction.AsNull) {\n                return CoercionAction.Fail;\n            }\n            return act;\n        }\n    }\n    // no override, fall back to whatever default logic was\n    return _defaultEmptyStringCoercion(ctxt.getConfig(), targetType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

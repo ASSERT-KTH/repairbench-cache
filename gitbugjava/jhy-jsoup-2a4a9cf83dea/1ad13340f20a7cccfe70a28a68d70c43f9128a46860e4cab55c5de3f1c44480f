@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // evaluate from last to first\n    Element curr = element;\n    Element leftMost = null;\n    for (int i = evaluators.size() - 1; i >= 0; --i) {\n        if (curr == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, curr))\n            return false;\n        // remember the left\u2010most (first) matcher\n        leftMost = curr;\n        curr = curr.parent();\n    }\n    // make sure the left\u2010most matched element is inside the search root\n    for (Element e = leftMost; e != null; e = e.parent()) {\n        if (e == root)\n            return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

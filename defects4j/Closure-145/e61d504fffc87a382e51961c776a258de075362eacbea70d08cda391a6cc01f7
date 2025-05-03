@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels or single-child blocks).\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n  Node curr = n;\n  // Peel off any labels or single-child blocks.\n  while (true) {\n    int type = curr.getType();\n    if (type == Token.LABEL) {\n      curr = curr.getFirstChild();\n    } else if (type == Token.BLOCK) {\n      // If the block is empty or has more than one child, it's not exactly\n      // a FUNCTION or DO.\n      if (curr.getChildCount() != 1) {\n        return false;\n      }\n      curr = curr.getFirstChild();\n    } else {\n      break;\n    }\n  }\n  return curr.getType() == Token.FUNCTION || curr.getType() == Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

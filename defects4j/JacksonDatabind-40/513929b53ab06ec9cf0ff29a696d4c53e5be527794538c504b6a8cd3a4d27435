@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@SuppressWarnings(\"unchecked\")\nprotected final T _coerceEmptyString(DeserializationContext ctxt, T defaultValue)\n    throws IOException\n{\n    // first consult the coercion\u2010config: may be set to FAIL, AsNull, AsEmpty, etc.\n    CoercionAction action = _findCoercion(ctxt, CoercionInputShape.EmptyString);\n\n    // explicit FAIL must always win \u2013 even on primitives\n    if (action == CoercionAction.Fail) {\n        // will throw a MismatchedInputException\n        return (T) ctxt.handleCoercionProblem(\n            _valueClass,\n            /* inputValue */ \"\",\n            /* action */ action,\n            /* shape */ CoercionInputShape.EmptyString\n        );\n    }\n    // for primitives or AsNull we return the default primitive value\n    if (_primitive || action == CoercionAction.AsNull) {\n        return defaultValue;\n    }\n    // AsEmpty \u2192 get the type's empty value (for non\u2010primitives)\n    if (action == CoercionAction.AsEmpty) {\n        return getEmptyValue(ctxt);\n    }\n    // fallback to default\n    return defaultValue;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

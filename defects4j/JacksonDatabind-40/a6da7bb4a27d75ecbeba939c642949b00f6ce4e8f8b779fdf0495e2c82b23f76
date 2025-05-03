@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.VALUE_NUMBER_INT) {\n        return p.getIntValue();\n    }\n    if (t == JsonToken.VALUE_STRING) {\n        String text = p.getText().trim();\n        // if empty and feature enabled, coerce to null-equivalent (null for wrapper, default for primitive)\n        if (text.isEmpty()\n            && ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n            // getNullValue() will return null for Integer.class,\n            // and Integer.valueOf(0) for int.class\n            @SuppressWarnings(\"unchecked\")\n            Integer n = (Integer) getNullValue(ctxt);\n            return n;\n        }\n        try {\n            return Integer.valueOf(NumberInput.parseInt(text));\n        } catch (IllegalArgumentException iae) {\n            return (Integer) ctxt.handleWeirdStringValue(_valueClass, text,\n                    \"not a valid Integer value\");\n        }\n    }\n    if (t == JsonToken.VALUE_NULL) {\n        // JSON literal null: use standard null-provider\n        @SuppressWarnings(\"unchecked\")\n        Integer n = (Integer) getNullValue(ctxt);\n        return n;\n    }\n    // all other token types are unexpected here\n    return (Integer) ctxt.handleUnexpectedToken(_valueClass, p);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

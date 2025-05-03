@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass) {\n    // no change if already the same class\n    if (_class == subclass) {\n        return this;\n    }\n    // Instead of blindly copying the old super\u2010class/interfaces,\n    // re\u2010resolve the JavaType for the new subclass so that\n    // its supertypes (and hence its bean properties, annotations, etc.)\n    // are correctly discovered\n    com.fasterxml.jackson.databind.TypeFactory tf = com.fasterxml.jackson.databind.TypeFactory.defaultInstance();\n    JavaType newType = tf.constructType(subclass);\n    // preserve any handlers and static\u2010typing flag\n    if (_valueHandler != null) {\n        newType = newType.withValueHandler(_valueHandler);\n    }\n    if (_typeHandler != null) {\n        newType = newType.withTypeHandler(_typeHandler);\n    }\n    if (_asStatic) {\n        newType = newType.withStaticTyping();\n    }\n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

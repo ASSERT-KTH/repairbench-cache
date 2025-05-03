@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        // skip any leading spaces\n        while (!tq.isEmpty() && tq.matches(\" \")) {\n            tq.consume();\n        }\n        // read until next combinator (space, \">\", \"+\", \"~\", or comma)\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\")) {\n                sq.append(\"(\")\n                  .append(tq.chompBalanced('(', ')'))\n                  .append(\")\");\n            } else if (tq.matches(\"[\")) {\n                sq.append(\"[\")\n                  .append(tq.chompBalanced('[', ']'))\n                  .append(\"]\");\n            } else if (tq.matchesAny(Combinators)) {\n                break;\n            } else {\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

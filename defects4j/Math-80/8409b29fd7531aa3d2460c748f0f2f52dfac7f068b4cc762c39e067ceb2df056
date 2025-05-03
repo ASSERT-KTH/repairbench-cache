@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Flip qd array if warranted.\n * @param n number of rows in the block\n * @param step within the array (1 for flipping all elements, 2 for flipping\n * only every other element)\n * @return true if qd array was flipped\n */\nprivate boolean flipIfWarranted(final int n, final int step) {\n    // test whether the \"end\" value dominates the \"start\" value\n    if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {\n        /*\n         * We only need to swap floor(n/2) blocks when step==2\n         * (to avoid a self\u2010swap of the middle block when n is odd),\n         * but when step==1 we must run (n+1)/2 iterations to\n         * replicate the original full\u2010reverse behavior.\n         */\n        int numSwaps = (step == 1 ? (n + 1) / 2 : n / 2);\n        int j = 4 * n - 1;\n        for (int s = 0; s < numSwaps; s++) {\n            int i = s * 4;\n            for (int k = 0; k < 4; k += step) {\n                double tmp      = work[i + k];\n                work[i + k]     = work[j - k];\n                work[j - k]     = tmp;\n            }\n            j -= 4;\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

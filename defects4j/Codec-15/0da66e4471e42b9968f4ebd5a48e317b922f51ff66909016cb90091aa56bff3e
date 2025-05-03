@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Used internally by the Soundex algorithm.\n *\n * Consonants from the same code group separated by W or H are treated as one.\n *\n * @param str\n *            the cleaned working string to encode (in upper case).\n * @param index\n *            the character position to encode\n * @return Mapping code for a particular character, or 0 if it must be\n *         suppressed by the H/W rule\n * @throws IllegalArgumentException\n *             if the character is not mapped\n */\nprivate char getMappingCode(final String str, final int index) {\n    // map() throws IllegalArgumentException\n    final char mappedChar = this.map(str.charAt(index));\n    // only apply HW\u2010separator logic to actual codes, not '0' (vowels/etc.)\n    if (mappedChar != '0') {\n        int prev = index - 1;\n        // if the immediately prior character is H or W, skip backward over\n        // any run of H/W and compare the real preceding letter's code\n        if (prev >= 0 && (str.charAt(prev) == 'H' || str.charAt(prev) == 'W')) {\n            while (prev >= 0 && (str.charAt(prev) == 'H' || str.charAt(prev) == 'W')) {\n                prev--;\n            }\n            if (prev >= 0 && this.map(str.charAt(prev)) == mappedChar) {\n                // suppress this code: same group separated only by H/W\n                return 0;\n            }\n        }\n    }\n    return mappedChar;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n    Node maybeExpr = n.getFirstChild();\n    // IE has a bug where event handlers behave differently when\n    // their return value is used vs. when their return value is in\n    // an EXPR_RESULT. It's pretty freaking weird. See:\n    // http://code.google.com/p/closure-compiler/issues/detail?id=291\n    // We try to detect this case, and not fold EXPR_RESULTs\n    // into other expressions.\n    // We only have to worry about methods with an implicit 'this'\n    // param, or this doesn't happen.\n    if (!NodeUtil.isExpressionNode(maybeExpr)) {\n      return false;\n    }\n    // Don't fold into other expressions if it's a call to a \".onXXX\" handler.\n    if (maybeExpr.getType() == Token.EXPR_RESULT) {\n      Node call = maybeExpr.getFirstChild();\n      if (call != null && call.getType() == Token.CALL) {\n        Node target = call.getFirstChild();\n        if (target != null && target.getType() == Token.GETPROP) {\n          String prop = target.getLastChild().getString();\n          if (prop != null && prop.startsWith(\"on\")) {\n            return false;\n          }\n        }\n      }\n    }\n    return true;\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

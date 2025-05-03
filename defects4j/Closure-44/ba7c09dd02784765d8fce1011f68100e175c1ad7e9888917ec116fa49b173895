@@ -1,0 +1,7 @@
+{
+    "generation": "void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n        return;\n    }\n\n    char c = newcode.charAt(0);\n    char last = getLastChar();\n\n    // need space to separate word\u2010chars and backslashes (e.g. \"return foo\")\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(last)) {\n        append(\" \");\n    }\n    // separate a DIV ('/') from a following REGEXP literal (e.g. / / / / \u2192 / // / /)\n    if (c == '/' && newcode.length() > 1 && last == '/') {\n        append(\" \");\n    }\n\n    append(newcode);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

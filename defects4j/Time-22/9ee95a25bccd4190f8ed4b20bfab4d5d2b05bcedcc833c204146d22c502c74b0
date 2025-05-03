@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Creates a period from the given millisecond duration with the standard period type\n * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n * <p>\n * The calculation uses the hour, minute, second and millisecond fields.\n *\n * @param duration  the duration, in milliseconds\n */\nprotected BasePeriod(long duration) {\n    long rem = duration;\n    int hours   = (int)(rem / DateTimeConstants.MILLIS_PER_HOUR);\n    rem         = rem % DateTimeConstants.MILLIS_PER_HOUR;\n    int minutes = (int)(rem / DateTimeConstants.MILLIS_PER_MINUTE);\n    rem         = rem % DateTimeConstants.MILLIS_PER_MINUTE;\n    int seconds = (int)(rem / DateTimeConstants.MILLIS_PER_SECOND);\n    int millis  = (int)(rem % DateTimeConstants.MILLIS_PER_SECOND);\n    // build a standard\u2010type period but only populate the time fields\n    this(0, 0, 0, 0, hours, minutes, seconds, millis,\n         PeriodType.standard(), ISOChronology.getInstanceUTC());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

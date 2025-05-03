@@ -1,0 +1,7 @@
+{
+    "generation": "public Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        // block unsupported/raw\u2010data elements\n        if (\"script\".equalsIgnoreCase(tagName)\n                || \"style\".equalsIgnoreCase(tagName)\n                || \"noscript\".equalsIgnoreCase(tagName)) {\n            throw new ValidationException(\"unsupported tag: \" + tagName);\n        }\n        TagName tn;\n        try {\n            tn = TagName.valueOf(tagName);\n        } catch (IllegalArgumentException e) {\n            throw new ValidationException(\"unsupported tag: \" + tagName);\n        }\n        tagNames.add(tn);\n    }\n\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (normally a backslash or custom escape)\n    final int c = in.read();\n    if (c == END_OF_STREAM) {\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    }\n    switch (c) {\n        // standard character escapes\n        case 'r':\n            return CR;\n        case 'n':\n            return LF;\n        case 't':\n            return TAB;\n        case 'b':\n            return BACKSPACE;\n        case 'f':\n            return FF;\n        // already\u2010escaped control characters (e.g. \"\\n\" where '\\n' is actually in the stream)\n        case CR:\n        case LF:\n        case FF:\n        case TAB:\n        case BACKSPACE:\n            return c;\n        default:\n            /* \n             * meta\u2010characters that we do want to unescape (drop the escape\n             * and return the char itself): the delimiter, the quote, or the escape\n             */\n            if (c == delimiter || c == quoteChar || c == escapeChar) {\n                return c;\n            }\n            /*\n             * anything else is _not_ a recognized escape sequence;\n             * put the character back so it will be read next,\n             * and return the escape char itself\n             */\n            in.unread(c);\n            return escapeChar;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

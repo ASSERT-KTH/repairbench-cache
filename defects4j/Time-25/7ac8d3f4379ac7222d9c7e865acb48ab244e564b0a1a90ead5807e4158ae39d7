@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    // get the offset at instantLocal (first estimate)\n    final int offsetLocal = getOffset(instantLocal);\n    // adjust instantLocal using the estimate and recalc the offset\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n    // if the offsets differ, we must be near a DST boundary\n    if (offsetLocal != offsetAdjusted) {\n        // Overlap (autumn): the local time occurs twice; prefer the later offset (usually summer/daylight time)\n        // Gap (spring): the local time does not occur; prefer the later offset (after the gap)\n        // Correct handling: always pick the offset with the higher value\n        // (which will be the daylight time in overlap or after-gap in spring)\n        return Math.max(offsetLocal, offsetAdjusted);\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

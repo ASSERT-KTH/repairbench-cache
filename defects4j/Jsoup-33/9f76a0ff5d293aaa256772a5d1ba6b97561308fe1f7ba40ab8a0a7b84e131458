@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nElement insert(Token.StartTag startTag) {\n    // look up the tag definition\n    Tag tag = Tag.valueOf(startTag.name());\n    // only force a fake end tag on self\u2010closing for non\u2010void (non\u2010empty) tags.\n    // void elements (img, hr, br, etc.) are handled in the state machine and never hit this branch.\n    if (startTag.isSelfClosing() && !tag.isEmpty()) {\n        Element el = insertEmpty(startTag);\n        // push so that the fake end tag will match\n        stack.add(el);\n        // emit a matching end tag to close it immediately\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n    // normal insertion for other start tags\n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

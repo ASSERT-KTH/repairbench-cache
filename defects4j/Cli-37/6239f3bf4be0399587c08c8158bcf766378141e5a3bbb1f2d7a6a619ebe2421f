@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token the command\u2010line token to check\n */\nprivate boolean isShortOption(String token) {\n    // must start with a single dash and have at least one character after it\n    if (token == null || !token.startsWith(\"-\") || token.length() < 2) {\n        return false;\n    }\n    // strip the leading dash\n    String withoutDash = token.substring(1);\n    // if there's an '=' split it off (e.g. \"-opt=val\" \u2192 \"opt\")\n    int eq = withoutDash.indexOf('=');\n    String optPart = (eq > 0) ? withoutDash.substring(0, eq) : withoutDash;\n    // first try a multi\u2010character short option\n    if (options.hasShortOption(optPart)) {\n        return true;\n    }\n    // fallback to single\u2010character grouping e.g. \"-abc\" \u2192 'a'\n    return optPart.length() > 1\n        && options.hasShortOption(optPart.substring(0, 1));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

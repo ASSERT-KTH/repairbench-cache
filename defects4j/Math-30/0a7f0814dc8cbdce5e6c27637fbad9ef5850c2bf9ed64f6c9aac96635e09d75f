@@ -1,0 +1,7 @@
+{
+    "generation": "private double calculateAsymptoticPValue(final double Umin,\n                                         final int n1,\n                                         final int n2)\n    throws ConvergenceException, MaxCountExceededException {\n\n    // avoid integer overflow by doing the products in double\n    final double n1n2 = (double) n1 * n2;\n\n    // Mann\u2013Whitney U normal approximation\n    final double meanU = n1n2 / 2.0;\n    final double varU  = n1n2 * (n1 + n2 + 1.0) / 12.0;\n    final double z     = (Umin - meanU) / FastMath.sqrt(varU);\n\n    final NormalDistribution nd = new NormalDistribution(0, 1);\n    // two\u2010sided p\u2010value = 2 * \u03a6(\u2212|z|)\n    return 2.0 * nd.cumulativeProbability(-FastMath.abs(z));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

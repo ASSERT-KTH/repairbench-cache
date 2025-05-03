@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\";\n    }\n    URL base;\n    try {\n        base = new URL(baseUri);\n    } catch (MalformedURLException e) {\n        // base is unsuitable, try relUrl as absolute\n        try {\n            return new URL(relUrl).toExternalForm();\n        } catch (MalformedURLException ex) {\n            return \"\";\n        }\n    }\n    // Workaround: when relUrl is a query-only reference (e.g. \"?foo\"), java.net.URL drops the filename.\n    if (relUrl.startsWith(\"?\")) {\n        String baseStr = baseUri;\n        int q = baseStr.indexOf('?');\n        int h = baseStr.indexOf('#');\n        int cut = -1;\n        if (q >= 0 && h >= 0) {\n            cut = Math.min(q, h);\n        } else if (q >= 0) {\n            cut = q;\n        } else if (h >= 0) {\n            cut = h;\n        }\n        String baseWithoutQuery = (cut >= 0 ? baseStr.substring(0, cut) : baseStr);\n        return baseWithoutQuery + relUrl;\n    }\n    try {\n        return new URL(base, relUrl).toExternalForm();\n    } catch (MalformedURLException e) {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

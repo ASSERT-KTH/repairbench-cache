@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Recalculate the hash code after deserialization. The hash code of some\n     * keys might have change (hash codes based on the system hash code are\n     * only stable for the same process).\n     * @return the instance with recalculated hash code\n     */\n    private Object readResolve() {\n        calculateHashCode(this.keys);\n        // fixes: also recalculate hashCode for subclasses if necessary\n        if (getClass() != MultiKey.class) {\n            try {\n                java.lang.reflect.Field field = null;\n                Class<?> c = getClass();\n                // Search for the hashCode field in this class or its superclasses\n                while (c != null) {\n                    try {\n                        field = c.getDeclaredField(\"hashCode\");\n                        break;\n                    } catch (NoSuchFieldException nsfe) {\n                        c = c.getSuperclass();\n                    }\n                }\n                if (field != null) {\n                    field.setAccessible(true);\n                    field.setInt(this, calculateHashCode(this.keys));\n                }\n            } catch (Exception ex) {\n                // ignore, best effort only\n            }\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Should we check that there is a sub\u2010class relationship?\n    // 15-Jan-2016, tatu: Almost yes, but there are some complications with\n    //    placeholder values, so no.\n    /*\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n    */\n    // Instead of reusing our old super\u2010type info, re-resolve for the new subclass:\n    TypeFactory tf = _bindings.getTypeFactory();\n    // resolve its (possibly generic) super\u2010class\n    JavaType newSuper = null;\n    Type genericSuper = subclass.getGenericSuperclass();\n    if (genericSuper != null) {\n        newSuper = tf.constructType(genericSuper);\n    }\n    // resolve its (possibly generic) interfaces\n    Type[] genericInts = subclass.getGenericInterfaces();\n    JavaType[] newInts = new JavaType[genericInts.length];\n    for (int i = 0; i < genericInts.length; i++) {\n        newInts[i] = tf.constructType(genericInts[i]);\n    }\n    return new SimpleType(subclass, _bindings, newSuper, newInts,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

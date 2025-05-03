@@ -1,0 +1,7 @@
+{
+    "generation": "  public TypePair getTypesUnderInequality(JSType that) {\n    // unions types\n    if (that instanceof UnionType) {\n      TypePair p = that.getTypesUnderInequality(this);\n      return new TypePair(p.typeB, p.typeA);\n    }\n\n    // other types\n    switch (this.testForEquality(that)) {\n      case TRUE:\n        return new TypePair(null, null);\n\n      case FALSE:\n        // If both are equal and primitive (e.g., both VOID_TYPE), the result should be NO_TYPE\n        // (the empty type), not the same type again.\n        if (this.isEquivalentTo(that)\n              && this.isPrimitive() && that.isPrimitive()) {\n          return new TypePair(this.getNativeType(JSTypeNative.NO_TYPE), this.getNativeType(JSTypeNative.NO_TYPE));\n        }\n        return new TypePair(this, that);\n\n      case UNKNOWN:\n        return new TypePair(this, that);\n    }\n\n    // switch case is exhaustive\n    throw new IllegalStateException();\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

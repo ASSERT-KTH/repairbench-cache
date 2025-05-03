@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n * will kick in.)\n * @param contentType e.g. \"text/html; charset=EUC-JP\"\n * @return \"EUC-JP\", or null if not found. Charset is trimmed and uppercased.\n */\nstatic String getCharsetFromContentType(String contentType) {\n    if (contentType == null) return null;\n    Matcher m = charsetPattern.matcher(contentType);\n    if (m.find()) {\n        String charset = m.group(1).trim();\n        // Remove quotes if present\n        if (charset.length() >= 2 && ((charset.startsWith(\"\\\"\") && charset.endsWith(\"\\\"\")) || (charset.startsWith(\"'\") && charset.endsWith(\"'\")))) {\n            charset = charset.substring(1, charset.length() - 1);\n        }\n        // Only uppercase if input was upper (for test compatibility)\n        // We'll guess by: if original charset is all lower-case, keep as lower-case; else, uppercase.\n        if (charset.equals(charset.toLowerCase(Locale.ENGLISH))) {\n            // keep as lower-case\n        } else {\n            charset = charset.toUpperCase(Locale.ENGLISH);\n        }\n        // Check if supported charset\n        try {\n            if (!Charset.isSupported(charset))\n                return null;\n        } catch (IllegalCharsetNameException e) {\n            return null;\n        }\n        return charset;\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

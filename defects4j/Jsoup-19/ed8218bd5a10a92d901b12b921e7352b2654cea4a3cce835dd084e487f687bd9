@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // get the raw attribute value\n    String orig = attr.getValue();\n    // try to resolve to an absolute URL\n    String abs = el.absUrl(attr.getKey());\n    // if absUrl() returned nothing, fall back to the original\n    String value = abs.isEmpty() ? orig : abs;\n    // optionally update the attribute to the resolved value\n    if (!preserveRelativeLinks) {\n        attr.setValue(value);\n    }\n    String norm = value.trim().toLowerCase();\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (norm.startsWith(prot)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

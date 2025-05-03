@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * ContextTypeExpression := BasicTypeExpression | '?' | '*'\n * For expressions on the right hand side of a this: or new:\n */\nprivate Node parseContextTypeExpression(JsDocToken token) {\n  // support \"?\" (unknown) and \"*\" (any) as standalone context types\n  if (token.type == JsDocTokenType.QMARK) {\n    // unknown context type\n    return new Node(Token.QMARK, token.value, token.lineno, token.charno);\n  } else if (token.type == JsDocTokenType.ASTERISK) {\n    // wildcard any type\n    return new Node(Token.STAR, token.value, token.lineno, token.charno);\n  } else {\n    // a normal type name (possibly qualified or generic)\n    return parseTypeName(token);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

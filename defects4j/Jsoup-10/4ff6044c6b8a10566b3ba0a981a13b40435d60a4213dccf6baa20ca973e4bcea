@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey))\n        return \"\";\n    // bugfix: handle cases like \"?foo\" specially, as per\n    // https://github.com/jhy/jsoup/issues/392\n    try {\n        try {\n            URL base = new URL(baseUri);\n\n            // Java resolves base + \"?foo\" to just the path + \"?foo\", dropping existing path if base has query.\n            // To workaround, if the relUrl starts with '?', append to base path without its query/fragment.\n            if (relUrl.startsWith(\"?\")) {\n                String basePath = base.getProtocol() + \"://\" + base.getHost();\n                if (base.getPort() != -1)\n                    basePath += \":\" + base.getPort();\n                if (base.getPath() != null && !base.getPath().isEmpty())\n                    basePath += base.getPath();\n                basePath += relUrl;\n                return basePath;\n            }\n\n            URL abs = new URL(base, relUrl);\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            // the base is unsuitable, but the attribute may be abs on its own, so try that\n            URL abs = new URL(relUrl);\n            return abs.toExternalForm();\n        }\n    } catch (MalformedURLException e) {\n        return \"\";\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

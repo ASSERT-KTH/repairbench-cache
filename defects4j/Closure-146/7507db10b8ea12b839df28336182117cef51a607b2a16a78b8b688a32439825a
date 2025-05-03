@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic TypePair getTypesUnderInequality(JSType that) {\n  // Handle union types by flipping the result.\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  // undefined != undefined or null != null is impossible \u2192 bottom (NO_TYPE)\n  if ((this.isVoidType() && that.isVoidType())\n      || (this.isNullType() && that.isNullType())) {\n    JSType none = registry.getNativeType(JSTypeNative.NO_TYPE);\n    return new TypePair(none, none);\n  }\n\n  // Otherwise, dispatch on the equality test\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      // always equal \u2192 inequality branch is unreachable \u2192 bottom\n      JSType noneEq = registry.getNativeType(JSTypeNative.NO_TYPE);\n      return new TypePair(noneEq, noneEq);\n    case FALSE:\n    case UNKNOWN:\n      // either always or maybe not equal \u2192 no further restriction\n      return new TypePair(this, that);\n  }\n\n  // Should be unreachable\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

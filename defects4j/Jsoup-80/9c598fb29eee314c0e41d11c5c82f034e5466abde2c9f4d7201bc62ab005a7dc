@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) { // xml declarations are emitted as bogus comments\n        String data = comment.getData();\n        if (data.length() > 1 && (data.startsWith(\"!\") || data.startsWith(\"?\"))) {\n            // strip the leading \"!\" or \"?\" and the trailing one, to build a fake element\n            String inner = data.substring(1, data.length() - 1);\n            try {\n                Document doc = Jsoup.parse(\"<\" + inner + \">\", baseUri, Parser.xmlParser());\n                // pull out the first real element if there is one\n                Element el = doc.children().first();\n                if (el != null) {\n                    XmlDeclaration decl = new XmlDeclaration(\n                        settings.normalizeTag(el.tagName()),\n                        data.startsWith(\"!\")\n                    );\n                    decl.attributes().addAll(el.attributes());\n                    insert = decl;\n                }\n            } catch (Exception e) {\n                // if parsing fails, fall back to treating it as a normal comment\n            }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

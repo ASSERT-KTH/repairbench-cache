@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the node is a block with a single statement that is\n   *     an expression, and folding is safe (see issue 291).\n   */\n  private boolean isFoldableExpressBlock(Node n) {\n    if (n.getType() == Token.BLOCK) {\n      if (n.hasOneChild()) {\n        Node maybeExpr = n.getFirstChild();\n        // Only fold expression results, and not function calls with a property named \"onchange\".\n        if (NodeUtil.isExprCall(maybeExpr)) {\n          Node callTarget = maybeExpr.getFirstChild();\n          // Protect code like: f.onchange();\n          if (callTarget.isGetProp() && \"onchange\".equals(callTarget.getLastChild().getString())) {\n            return false;\n          }\n        }\n        return NodeUtil.isExpressionNode(maybeExpr);\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

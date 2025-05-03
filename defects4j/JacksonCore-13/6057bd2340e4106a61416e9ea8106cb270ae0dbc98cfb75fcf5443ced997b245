@@ -1,0 +1,7 @@
+{
+    "generation": "// In com.fasterxml.jackson.core.json.UTF8JsonGenerator (or similarly in WriterBasedJsonGenerator),\n// replace the existing writeFieldName(String) with the following so that\n// it obeys the QUOTE_FIELD_NAMES flag correctly:\n\n@Override\npublic void writeFieldName(String name) throws IOException {\n    // verify that we may write a field name here\n    _verifyValueWrite(\"write field name\");\n\n    // if a pretty\u2010printer is configured, defer to it\n    if (_cfgPrettyPrinter != null) {\n        _writePPFieldName(name);\n        return;\n    }\n\n    // write the field name, with or without quotes according to the feature\n    if (isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n        writeRaw('\"');\n        writeRaw(name);\n        writeRaw('\"');\n    } else {\n        writeRaw(name);\n    }\n\n    // then the colon separator\n    writeRaw(':');\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

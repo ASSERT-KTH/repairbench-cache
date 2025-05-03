@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation invocation) {\n    Object[] rawArguments = invocation.getRawArguments();\n    Method method = invocation.getMethod();\n    Class<?>[] paramTypes = method.getParameterTypes();\n    boolean isVarArgs = method.isVarArgs();\n    int varargPosition = isVarArgs ? paramTypes.length - 1 : -1;\n\n    for (int position = 0; position < matchers.size(); position++) {\n        Matcher matcher = matchers.get(position);\n        if (!(matcher instanceof CapturesArguments)) {\n            continue;\n        }\n        if (position >= rawArguments.length) {\n            continue;\n        }\n        CapturesArguments captor = (CapturesArguments) matcher;\n\n        // handle the varargs parameter specially\n        if (isVarArgs && position == varargPosition) {\n            Object varArgArray = rawArguments[position];\n            if (varArgArray != null && varArgArray.getClass().isArray()) {\n                int length = Array.getLength(varArgArray);\n                for (int i = 0; i < length; i++) {\n                    captor.captureFrom(Array.get(varArgArray, i));\n                }\n            }\n            // once varargs are captured, no need to process further matchers\n            return;\n        }\n\n        // non\u2010vararg or preceding parameters\n        captor.captureFrom(rawArguments[position]);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

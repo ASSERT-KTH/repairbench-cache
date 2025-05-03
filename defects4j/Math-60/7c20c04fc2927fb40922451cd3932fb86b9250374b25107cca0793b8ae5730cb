@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // handle NaN and infinities explicitly\n    if (Double.isNaN(x)) {\n        return Double.NaN;\n    }\n    if (x == Double.POSITIVE_INFINITY) {\n        return 1.0;\n    }\n    if (x == Double.NEGATIVE_INFINITY) {\n        return 0.0;\n    }\n    final double dev = x - mean;\n    final double sd  = standardDeviation;\n    // top-code at 40 standard deviations\n    final double limit = 40.0 * sd;\n    if (dev <= -limit) {\n        return 0.0;\n    }\n    if (dev >= limit) {\n        return 1.0;\n    }\n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / (sd * FastMath.sqrt(2.0))));\n    } catch (MathException ex) {\n        // if the internal algorithm fails, fall back to 20 \u03c3 top-coding\n        final double fallback = 20.0 * sd;\n        if (dev <= -fallback) {\n            return 0.0;\n        } else if (dev >= fallback) {\n            return 1.0;\n        }\n        throw ex;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

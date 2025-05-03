@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n *\n * @return current solution\n */\nprotected RealPointValuePair getSolution() {\n    // For problems with unrestricted (can-be-negative) variables we\n    // introduced a single \"shift\" variable.  Here we recover its\n    // final value so we can shift back all original variables.\n    double shift = 0;\n    if (!restrictToNonNegative) {\n        int negCol = columnLabels.indexOf(NEGATIVE_VAR_COLUMN_LABEL);\n        if (negCol >= 0) {\n            Integer negRow = getBasicRow(negCol);\n            if (negRow != null) {\n                shift = getEntry(negRow, getRhsOffset());\n            }\n        }\n    }\n\n    // Now build the solution for the original decision variables.\n    int n = getOriginalNumDecisionVariables();\n    double[] point = new double[n];\n    for (int i = 0; i < n; i++) {\n        int col = columnLabels.indexOf(\"x\" + i);\n        Integer basicRow = (col >= 0) ? getBasicRow(col) : null;\n        double value = (basicRow == null) ? 0.0 : getEntry(basicRow, getRhsOffset());\n        point[i] = value - shift;\n    }\n\n    return new RealPointValuePair(point, f.getValue(point));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

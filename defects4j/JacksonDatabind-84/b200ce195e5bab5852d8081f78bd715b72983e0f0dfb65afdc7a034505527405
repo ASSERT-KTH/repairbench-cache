@@ -1,0 +1,7 @@
+{
+    "generation": "// In TypeFactory.java, replace the existing _fromClass(...) with this version:\n\nprotected JavaType _fromClass(Class<?> raw,\n                              TypeBindings bindings,\n                              JavaType superClass,\n                              JavaType[] superInterfaces) {\n    // If there are type\u2010variable bindings, we must always rebuild\n    // (so that Base<Sub> does not accidentally reuse a raw Base<?> cache entry)\n    if (bindings != null && !bindings.isEmpty()) {\n        return _fromClass2(raw, bindings, superClass, superInterfaces);\n    }\n    // Otherwise (no type parameters) we may safely cache by raw class\n    ClassKey key = new ClassKey(raw);\n    JavaType cached = _typeCache.get(key);\n    if (cached != null) {\n        return cached;\n    }\n    JavaType result = _fromClass2(raw, bindings, superClass, superInterfaces);\n    _typeCache.put(key, result);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

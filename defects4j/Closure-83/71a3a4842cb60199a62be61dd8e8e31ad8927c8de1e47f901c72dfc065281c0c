@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int parseArguments(Parameters params) throws CmdLineException {\n  String param;\n  // In jargs, getParameter throws if there's no parameter or\n  // if the next token looks like an option.  We want to treat\n  // that case as \"no explicit value\", i.e. flag only.\n  try {\n    param = params.getParameter(0);\n  } catch (CmdLineException e) {\n    setter.addValue(true);\n    return 0;\n  }\n\n  // If getParameter returned null, there's no explicit value.\n  if (param == null) {\n    setter.addValue(true);\n    return 0;\n  }\n\n  String lowerParam = param.toLowerCase();\n  if (TRUES.contains(lowerParam)) {\n    setter.addValue(true);\n    return 1;\n  } else if (FALSES.contains(lowerParam)) {\n    setter.addValue(false);\n    return 1;\n  } else {\n    // Unrecognized value: don't consume it, just treat as flag\n    setter.addValue(true);\n    return 0;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

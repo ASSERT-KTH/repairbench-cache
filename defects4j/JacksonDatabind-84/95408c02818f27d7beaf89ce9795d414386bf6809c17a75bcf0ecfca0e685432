@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    // if someone passes us a JavaType directly, just return it:\n    if (type instanceof JavaType) {\n        return (JavaType) type;\n    }\n\n    // choose raw key for Class<?>, generic key for anything else:\n    final TypeKey key = (type instanceof Class<?>)\n        ? TypeKey.raw(type)\n        : TypeKey.generic(type);\n\n    JavaType result;\n    synchronized (_typeCache) {\n        result = _typeCache.get(key);\n    }\n    if (result == null) {\n        // fall back to the normal slow\u2010path\n        result = _fromAny(type, EMPTY_BINDINGS, null, null);\n        synchronized (_typeCache) {\n            JavaType old = _typeCache.get(key);\n            if (old == null) {\n                _typeCache.put(key, result);\n            } else {\n                result = old;\n            }\n        }\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

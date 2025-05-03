@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression (and not a call to an \u201con*\u201d event handler, which\n *     IE treats differently in EXPR_RESULT vs. expression context).\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n    Node stmt = n.getFirstChild();\n    if (stmt.getType() == Token.EXPR_RESULT) {\n      // Unwrap the expression.\n      Node expr = stmt.getFirstChild();\n      // IE bug workaround: do not fold calls to .on* handlers.\n      if (expr.getType() == Token.CALL) {\n        Node target = expr.getFirstChild();\n        if (target.getType() == Token.GETPROP) {\n          String name = target.getLastChild().getString();\n          if (name.startsWith(\"on\")) {\n            return false;\n          }\n        }\n      }\n      return NodeUtil.isExpressionNode(expr);\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

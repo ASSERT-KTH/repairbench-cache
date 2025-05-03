@@ -1,0 +1,7 @@
+{
+    "generation": "public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    // overridden as superclass algorithm can't handle\n    // 2004-02-29 + 48 months -> 2008-02-29 type dates\n    if (valueToAdd == 0) {\n        return values;\n    }\n    if (DateTimeUtils.isContiguous(partial)) {\n        long instant;\n        // If the partial has a year field (e.g. YearMonth or YearMonthDay), start from epoch.\n        // Otherwise (e.g. MonthDay) pick a known leap\u2010year base so Feb 29 is valid.\n        if (partial.getFieldType(0).getDurationType() == org.joda.time.DurationFieldType.years()) {\n            instant = 0L;\n        } else {\n            instant = iChronology.getDateTimeMillis(2000, 1, 1, 0, 0, 0, 0);\n        }\n        // set all the fields\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n        }\n        // do the add on the chosen field\n        instant = add(instant, valueToAdd);\n        // extract the new partial values\n        return iChronology.get(partial, instant);\n    } else {\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int parseArguments(Parameters params) throws CmdLineException {\n    // Try to get the next token\n    String param = params.getParameter(0);\n\n    // If there's no explicit value, or the next token looks like an option,\n    // treat this boolean flag as \"true\" and consume no extra args.\n    if (param == null || param.startsWith(\"-\")) {\n        setter.addValue(true);\n        return 0;\n    }\n\n    // Otherwise see if the user supplied an explicit true/false\n    String lower = param.toLowerCase(Locale.US);\n    if (TRUES.contains(lower)) {\n        setter.addValue(true);\n        return 1;  // consumed the \"true\"\n    }\n    if (FALSES.contains(lower)) {\n        setter.addValue(false);\n        return 1;  // consumed the \"false\"\n    }\n\n    // Unrecognized value\u2014fall back to \"true\" without consuming it\n    setter.addValue(true);\n    return 0;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

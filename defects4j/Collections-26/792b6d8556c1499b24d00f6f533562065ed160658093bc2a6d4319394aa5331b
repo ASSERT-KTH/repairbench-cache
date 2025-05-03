@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Recalculate the hash code after deserialization. The hash code of some\n     * keys might have change (hash codes based on the system hash code are\n     * only stable for the same process).\n     * @return the instance with recalculated hash code\n     */\n    private Object readResolve() {\n        calculateHashCode(keys);\n        // When subclassed, must ensure subclass state is also restored\n        if (this.getClass() != org.apache.commons.collections4.keyvalue.MultiKey.class) {\n            try {\n                final java.lang.reflect.Method method = this.getClass().getDeclaredMethod(\"calculateHashCode\", Object[].class);\n                method.setAccessible(true);\n                method.invoke(this, (Object)keys);\n            } catch (Exception e) {\n                // ignore, fallback to base class\n            }\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

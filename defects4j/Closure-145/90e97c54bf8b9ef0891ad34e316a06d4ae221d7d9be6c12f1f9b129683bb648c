@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels and extraneous single\u2010statement blocks).\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n  Node node = n;\n  // Unwrap any labels\n  while (node.getType() == Token.LABEL) {\n    Node stmt = node.getFirstChild();\n    if (stmt == null) {\n      // weird empty label\n      return false;\n    }\n    node = stmt;\n  }\n  // Unwrap single\u2010statement blocks, but bail on empty or multi\u2010statement blocks\n  while (node.getType() == Token.BLOCK) {\n    Node first = node.getFirstChild();\n    if (first == null || first.getNext() != null) {\n      // either empty or more than one child \u2192 not \"exactly\" a function or do\n      return false;\n    }\n    node = first;\n  }\n  // Finally check for FUNCTION or DO\n  return node.getType() == Token.FUNCTION\n      || node.getType() == Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

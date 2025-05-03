@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns the number of characters between the current position and the next instance of the input sequence\n *\n * @param seq scan target\n * @return offset between current position and next instance of target. -1 if not found.\n */\nint nextIndexOf(CharSequence seq) {\n    // doesn't handle scanning for surrogates\n    char startChar = seq.charAt(0);\n    int seqLen = seq.length();\n\n    outer: for (int offset = pos; offset <= length - seqLen; offset++) {\n        // scan to first instance of startchar:\n        if (startChar != input[offset]) {\n            while (++offset <= length - seqLen && startChar != input[offset]);\n            if (offset > length - seqLen)\n                break;\n        }\n        // Now at possible match\n        for (int j = 1; j < seqLen; j++) {\n            if (seq.charAt(j) != input[offset + j])\n                continue outer;\n        }\n        return offset - pos;\n    }\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

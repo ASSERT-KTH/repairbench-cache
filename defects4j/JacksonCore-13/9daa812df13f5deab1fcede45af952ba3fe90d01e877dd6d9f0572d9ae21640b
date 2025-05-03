@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException, JsonGenerationException\n{\n    final boolean quoteFieldNames;\n    if (_cfgUnqNames != null) {\n        quoteFieldNames = _cfgUnqNames.booleanValue();\n    } else {\n        quoteFieldNames = _quoteFieldNames;\n    }\n    if (_writeContext.writeFieldName(name) == JsonWriteContext.STATUS_EXPECT_NAME) {\n        _reportError(\"Can not write a field name, expecting a value\");\n    }\n    if (_outputPrettyPrinter != null) {\n        _outputPrettyPrinter.writeObjectEntrySeparator(this);\n    } else if (_outputTail >= _outputEnd) {\n        _flushBuffer();\n    }\n    if (_outputTail == _outputHead) { // only if not preceded by anything\n        _outputTail = _outputHead;\n    }\n    if (quoteFieldNames) {\n        _outputBuffer[_outputTail++] = '\"';\n        _writeString(name);\n        _outputBuffer[_outputTail++] = '\"';\n    } else {\n        _writeString(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

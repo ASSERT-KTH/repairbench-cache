@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n\n    // Added security check for valueCollection type\n    if (valueCollection != null) {\n        String className = valueCollection.getName();\n        if (!ArrayList.class.getName().equals(className) &&\n            !LinkedList.class.getName().equals(className) &&\n            !HashSet.class.getName().equals(className) &&\n            !LinkedHashSet.class.getName().equals(className) &&\n            !TreeSet.class.getName().equals(className) &&\n            !Vector.class.getName().equals(className)) {\n            throw new UnsupportedOperationException(\"Unsafe valueCollection class deserialized: \" + className);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

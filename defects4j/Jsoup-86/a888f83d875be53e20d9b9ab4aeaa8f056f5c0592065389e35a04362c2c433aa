@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // guard against very short comments\n    if (data.length() <= 1) {\n        return null;\n    }\n    // only treat strings starting with '?' or '!' and ending with '?'\n    char first = data.charAt(0);\n    char last = data.charAt(data.length() - 1);\n    if ((first != '?' && first != '!') || last != '?') {\n        return null;\n    }\n    // strip the wrapping markers\n    String inner = data.substring(1, data.length() - 1);\n    // parse the inner as a single XML element so we can extract name + attributes\n    Document doc = Jsoup.parse(\"<\" + inner + \">\", baseUri(), Parser.xmlParser());\n    // must have produced at least one element\n    if (doc.children().isEmpty()) {\n        return null;\n    }\n    Element el = doc.child(0);\n    String tagName = NodeUtils.parser(doc).settings().normalizeTag(el.tagName());\n    XmlDeclaration decl = new XmlDeclaration(tagName, first == '!');\n    decl.attributes().addAll(el.attributes());\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

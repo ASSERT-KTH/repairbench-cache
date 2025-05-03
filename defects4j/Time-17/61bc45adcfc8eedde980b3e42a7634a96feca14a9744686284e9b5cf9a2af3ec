@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Adjusts the offset to be the earlier or later one during an overlap.\n *\n * @param instant         the instant to adjust (UTC milliseconds)\n * @param earlierOrLater  false for earlier, true for later\n * @return the adjusted instant millis\n */\npublic long adjustOffset(long instant, boolean earlierOrLater) {\n    // Look up 3 hours either side to detect a transition.\n    long beforeInstant = instant - 3 * DateTimeConstants.MILLIS_PER_HOUR;\n    long afterInstant  = instant + 3 * DateTimeConstants.MILLIS_PER_HOUR;\n    long beforeLocal   = convertUTCToLocal(beforeInstant);\n    long afterLocal    = convertUTCToLocal(afterInstant);\n\n    // If local\u2010time is unchanged, there's no overlap here\n    if (beforeLocal == afterLocal) {\n        return instant;\n    }\n\n    // We're in a potential overlap \u2013 rebuild the UTC instant for the same local time,\n    // choosing the mapping closest to either beforeInstant or afterInstant.\n    long localInstant     = convertUTCToLocal(instant);\n    long referenceInstant = earlierOrLater ? afterInstant : beforeInstant;\n    return convertLocalToUTC(localInstant, false, referenceInstant);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

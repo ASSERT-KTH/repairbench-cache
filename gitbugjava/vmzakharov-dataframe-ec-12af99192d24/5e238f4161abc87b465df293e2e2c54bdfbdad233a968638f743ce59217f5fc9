@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic String asStringLiteral()\n{\n    String v = this.value;\n    boolean hasSingle = v.indexOf('\\'') >= 0;\n    boolean hasDouble = v.indexOf('\"') >= 0;\n    // if it contains a double\u2010quote but no single\u2010quote, use single\u2010quote delimiters;\n    // otherwise default to double\u2010quote delimiters\n    char delim = (hasDouble && !hasSingle) ? '\\'' : '\"';\n\n    StringBuilder sb = new StringBuilder();\n    sb.append(delim);\n    for (int i = 0; i < v.length(); i++)\n    {\n        char c = v.charAt(i);\n        if (c == delim || c == '\\\\')\n        {\n            sb.append('\\\\').append(c);\n        }\n        else if (c == '\\n')\n        {\n            sb.append(\"\\\\n\");\n        }\n        else if (c == '\\r')\n        {\n            sb.append(\"\\\\r\");\n        }\n        else if (c == '\\t')\n        {\n            sb.append(\"\\\\t\");\n        }\n        else\n        {\n            sb.append(c);\n        }\n    }\n    sb.append(delim);\n    return sb.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

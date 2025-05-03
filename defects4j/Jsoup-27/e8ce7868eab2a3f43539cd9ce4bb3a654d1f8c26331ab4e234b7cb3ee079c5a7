@@ -1,0 +1,7 @@
+{
+    "generation": "static String getCharsetFromContentType(String contentType) {\n    if (contentType == null) return null;\n    Matcher m = charsetPattern.matcher(contentType);\n    if (m.find()) {\n        // grab the raw charset (no surrounding quotes), preserve its case\n        String charset = m.group(1).trim().replaceAll(\"[\\\"']\", \"\");\n        try {\n            // validate that the JVM knows this charset\n            java.nio.charset.Charset.forName(charset);\n            return charset;\n        } catch (Exception e) {\n            // unsupported or illegal charset name\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

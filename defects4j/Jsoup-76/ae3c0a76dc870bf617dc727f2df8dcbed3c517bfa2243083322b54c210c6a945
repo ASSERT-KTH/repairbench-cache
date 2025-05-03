@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        case Character: {\n            Token.Character c = t.asCharacter();\n            // Skip the first newline in a <pre> or <listing> block:\n            String data = c.getData();\n            String nodeName = tb.currentElement().nodeName();\n            if ((nodeName.equals(\"pre\") || nodeName.equals(\"listing\"))\n                    && data.length() > 0 && data.charAt(0) == '\\n') {\n                // drop that leading LF\n                data = data.substring(1);\n                c.data(data);\n                // if it was just \"\\n\" then there's nothing left to insert\n                if (data.isEmpty())\n                    break;\n            }\n            if (c.getData().equals(nullString)) {\n                tb.error(this);\n                return false;\n            } else if (tb.framesetOk() && isWhitespace(c)) { // don't check whitespace if frames already closed\n                tb.reconstructFormattingElements();\n                tb.insert(c);\n            } else {\n                tb.reconstructFormattingElements();\n                tb.insert(c);\n                tb.framesetOk(false);\n            }\n            break;\n        }\n\n        // ... the rest of your existing cases unchanged ...\n\n        default:\n            // whatever your default/fall\u2010through is\n            break;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

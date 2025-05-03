@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int end = -1;\n    int depth = 0;\n    char last = 0;\n    char inQuote = 0;\n\n    do {\n        if (isEmpty())\n            break;\n\n        // read next char\n        char c = consume();\n\n        // toggle in\u2010quote state if we see ' or \" (and it isn't escaped)\n        if (last != ESC && (c == '\\'' || c == '\"')) {\n            if (inQuote == 0) {\n                inQuote = c;\n            } else if (inQuote == c) {\n                inQuote = 0;\n            }\n        }\n        // only count opens/closes when not inside a quote and not escaped\n        else if (inQuote == 0 && last != ESC) {\n            if (c == open) {\n                depth++;\n                if (start == -1)\n                    start = pos;\n            } else if (c == close) {\n                depth--;\n            }\n        }\n\n        // record the end index while we're inside the outermost pair\n        if (depth > 0 && last != 0)\n            end = pos;\n\n        last = c;\n    } while (depth > 0);\n\n    return (end >= 0) ? queue.substring(start, end) : \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

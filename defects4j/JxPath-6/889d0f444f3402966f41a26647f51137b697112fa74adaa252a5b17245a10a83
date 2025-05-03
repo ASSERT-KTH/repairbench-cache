@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Compares two values\n */\nprotected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right) \n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    //\n    // If the result of compute() is actually a node\u2010set context,\n    // turn it into a full iterator of values, not a single node pointer.\n    //\n    if (l instanceof EvalContext) {\n        l = left.iterate(context);\n    }\n    if (r instanceof EvalContext) {\n        r = right.iterate(context);\n    }\n\n    // If it's a Java Collection, turn it into an iterator\n    if (l instanceof Collection) {\n        l = ((Collection) l).iterator();\n    }\n    if (r instanceof Collection) {\n        r = ((Collection) r).iterator();\n    }\n\n    // Now apply the XPath '=' semantics:\n    // node-set = atomic \u21d2 true if any node in the set equals the atomic\n    if (l instanceof Iterator && !(r instanceof Iterator)) {\n        return contains((Iterator) l, r);\n    }\n    if (!(l instanceof Iterator) && (r instanceof Iterator)) {\n        return contains((Iterator) r, l);\n    }\n    // node-set = node-set \u21d2 true if there is any pair of nodes whose\n    // string-values are equal\n    if (l instanceof Iterator && r instanceof Iterator) {\n        return findMatch((Iterator) l, (Iterator) r);\n    }\n    // atomic = atomic\n    return equal(l, r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

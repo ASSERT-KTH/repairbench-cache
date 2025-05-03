@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Check if data has length >= 2 before substring, to avoid IndexOutOfBoundsException\n    if (data.length() < 2)\n        return null;\n    String trimmedData = data.substring(1, data.length() - 1);\n    // Avoid attempting to parse if the trimmed data is empty or malformed\n    if (trimmedData.trim().isEmpty())\n        return null;\n    Document doc = Jsoup.parse(\"<\" + trimmedData + \">\", baseUri(), Parser.xmlParser());\n    XmlDeclaration decl = null;\n    // The document may have the root as \"#root\" with child nodes in childNodes()\n    for (org.jsoup.nodes.Node node : doc.childNodes()) {\n        if (node instanceof Element) {\n            Element el = (Element) node;\n            decl = new XmlDeclaration(NodeUtils.parser(doc).settings().normalizeTag(el.tagName()), data.startsWith(\"!\"));\n            decl.attributes().addAll(el.attributes());\n            break;\n        }\n    }\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

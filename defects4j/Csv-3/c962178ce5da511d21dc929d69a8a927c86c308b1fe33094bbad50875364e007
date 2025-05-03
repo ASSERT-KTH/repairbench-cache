@@ -1,0 +1,7 @@
+{
+    "generation": "int readEscape() throws IOException {\n    // the escape char has just been read (normally a backslash or user\u2010supplied escape)\n    final int c = in.read();\n    if (c == END_OF_STREAM) {\n        throw new IOException(\"EOF whilst processing escape sequence\");\n    }\n    // common Java\u2010style escapes\n    if (c == 'r') {\n        return CR;\n    }\n    if (c == 'n') {\n        return LF;\n    }\n    if (c == 't') {\n        return TAB;\n    }\n    if (c == 'b') {\n        return BACKSPACE;\n    }\n    if (c == 'f') {\n        return FF;\n    }\n    // valid literal escapes: escapeChar, delimiter, quoteChar, or actual control\u2010chars\n    if (c == escapeChar\n            || c == delimiter\n            || c == quoteChar\n            || c == CR\n            || c == LF\n            || c == FF\n            || c == TAB\n            || c == BACKSPACE) {\n        return c;\n    }\n    // not a legal escape \u2013 push the char back and treat the escape itself as literal\n    in.unread();\n    return escapeChar;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

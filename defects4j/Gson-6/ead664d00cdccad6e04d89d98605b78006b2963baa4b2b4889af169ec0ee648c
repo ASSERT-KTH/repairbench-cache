@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\") // Casts guarded by conditionals.\nstatic TypeAdapter<?> getTypeAdapter(ConstructorConstructor constructorConstructor, Gson gson,\n    TypeToken<?> fieldType, JsonAdapter annotation) {\n  Class<?> value = annotation.value();\n  TypeAdapter<?> typeAdapter;\n  if (TypeAdapter.class.isAssignableFrom(value)) {\n    // user supplied a TypeAdapter\n    Class<? extends TypeAdapter<?>> adapterClass = (Class<? extends TypeAdapter<?>>) value;\n    typeAdapter = constructorConstructor.get(TypeToken.get(adapterClass)).construct();\n  } else if (TypeAdapterFactory.class.isAssignableFrom(value)) {\n    // user supplied a TypeAdapterFactory\n    Class<? extends TypeAdapterFactory> factoryClass =\n        (Class<? extends TypeAdapterFactory>) value;\n    TypeAdapterFactory factory =\n        constructorConstructor.get(TypeToken.get(factoryClass)).construct();\n    typeAdapter = factory.create(gson, fieldType);\n  } else {\n    throw new IllegalArgumentException(\n        \"@JsonAdapter value must be TypeAdapter or TypeAdapterFactory reference.\");\n  }\n\n  // honor the nullSafe flag on the annotation\n  return annotation.nullSafe()\n      ? typeAdapter.nullSafe()\n      : typeAdapter;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

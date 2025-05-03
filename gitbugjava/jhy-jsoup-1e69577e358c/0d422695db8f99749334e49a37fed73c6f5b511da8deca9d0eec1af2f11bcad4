@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // use the URI class to encode non-ASCII in the path but preserve existing percent\u2010encoded sequences\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            // puny\u2010code the host after any percent\u2010decoding there\n            IDN.toASCII(decodePart(u.getHost())),\n            u.getPort(),\n            // do NOT decode the path \u2013 leave %XX sequences intact\n            u.getPath(),\n            null, null\n        );\n\n        String normUrl = uri.toASCIIString();\n        // append query and fragment by hand so we don't re-encode them\n        if (q != null || u.getRef() != null) {\n            StringBuilder sb = StringUtil.borrowBuilder().append(normUrl);\n            if (q != null) {\n                sb.append('?');\n                appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n            }\n            if (u.getRef() != null) {\n                sb.append('#');\n                appendToAscii(u.getRef(), false, sb);\n            }\n            normUrl = StringUtil.releaseBuilder(sb);\n        }\n        u = new URL(normUrl);\n        return u;\n    } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n        // on error, fall back to the original URL\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

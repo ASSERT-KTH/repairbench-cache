@@ -1,0 +1,7 @@
+{
+    "generation": "// in com/fasterxml/jackson/databind/type/TypeFactory.java\n\n@Override\nprotected JavaType _constructSuperClass(Class<?> rawType,\n                                        TypeBindings bindings,\n                                        JavaType referenceType)\n{\n    // find the raw superclass (null for Object or interfaces)\n    Class<?> superRaw = ClassUtil.getSuperClass(rawType);\n    if (superRaw == null) {\n        return null;\n    }\n    // see if there is actually a generic superclass declaration\n    Type generic = rawType.getGenericSuperclass();\n    if (generic != null) {\n        // do NOT propagate referenceType here; pass null so that\n        // we will reuse the cached Base type (which already has its own super set)\n        return _constructType(generic, /*contextType*/ null);\n    }\n    // plain raw superclass: likewise drop referenceType so that\n    // _fromClass will look in cache first and return the fully resolved Base\n    return _fromClass(superRaw,\n                      TypeBindings.emptyBindings(),\n                      /*superClass*/ null,\n                      /*superInterfaces*/ null);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

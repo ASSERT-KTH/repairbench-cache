@@ -1,0 +1,7 @@
+{
+    "generation": "// performance sensitive\npublic boolean hasClass(String className) {\n    final String classAttr = attr(\"class\");\n    if (classAttr.isEmpty()) {\n        return false;\n    }\n    final int wantLen = className.length();\n    final int len = classAttr.length();\n    int start = 0;\n    // scan through the classAttr string once, matching tokens against className\n    for (int i = 0; i <= len; i++) {\n        if (i == len || Character.isWhitespace(classAttr.charAt(i))) {\n            // we've reached the end of a token [start, i)\n            if (i - start == wantLen\n                && classAttr.regionMatches(true, start, className, 0, wantLen)) {\n                return true;\n            }\n            // advance to the start of the next token\n            start = i + 1;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

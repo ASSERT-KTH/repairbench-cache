@@ -1,0 +1,7 @@
+{
+    "generation": "    public double cumulativeProbability(double x) throws MathException {\n        // If x is more than 20 standard deviations from the mean, short-circuit the computation\n        double dev = (x - mean) / standardDeviation;\n        if (dev > 20) {\n            return 1.0;\n        }\n        if (dev < -20) {\n            return 0.0;\n        }\n        try {\n            return 0.5 * (1.0 + Erf.erf((x - mean) /\n                    (standardDeviation * Math.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            // If x is more than 20 std deviations from the mean, return 0 or 1, else re-throw\n            if (dev > 0) {\n                return 1.0;\n            } else {\n                return 0.0;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

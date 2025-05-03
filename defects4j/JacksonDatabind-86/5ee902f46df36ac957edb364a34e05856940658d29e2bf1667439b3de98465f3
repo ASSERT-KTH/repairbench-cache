@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Map<String, AnnotatedMember> findBackReferences() {\n    // 24-Jun-2016, tatu: As per [databind#1647], when resolving recursive types,\n    //   we may end up with super-type only being resolved into `ResolvedRecursiveType`\n    //   placeholder. We must resolve it properly before using fields.\n    Map<String, AnnotatedMember> result = _backRefs;\n    if (result == null) {\n        result = new HashMap<>();\n        // Collect back references from superclass first\n        JavaType superType = getSuperClass();\n        if (superType != null) {\n            result.putAll(superType.findBackReferences());\n        }\n        // Then add back references from our own properties, overriding any from the superclass\n        for (BeanPropertyDefinition propDef : _properties) {\n            AnnotatedMember m = propDef.getMutator();\n            if (m != null) {\n                Object refType = _annotationIntrospector.findReferenceType(m);\n                if (refType != null && _annotationIntrospector.isBackReference(refType)) {\n                    String name = _annotationIntrospector.findReferenceName(m);\n                    if (name == null) {\n                        name = \"defaultReference\";\n                    }\n                    result.put(name, m);\n                }\n            }\n        }\n        _backRefs = result;\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

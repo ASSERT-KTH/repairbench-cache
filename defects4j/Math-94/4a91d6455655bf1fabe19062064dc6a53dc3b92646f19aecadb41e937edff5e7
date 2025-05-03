@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    if (u == 0 || v == 0) {\n        return Math.abs(u) + Math.abs(v);\n    }\n    // keep u and v negative\n    if (u > 0) {\n        u = -u;\n    }\n    if (v > 0) {\n        v = -v;\n    }\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    // At this point, at least one of u or v is odd\n    int t;\n    do {\n        while ((u & 1) == 0) {\n            u /= 2;\n        }\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        if (u <= v) {\n            v = v - u;\n        } else {\n            int diff = u - v;\n            u = v;\n            v = diff;\n        }\n    } while (v != 0);\n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

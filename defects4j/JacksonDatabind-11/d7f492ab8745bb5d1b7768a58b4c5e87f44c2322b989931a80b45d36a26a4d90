@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n    final String name = type.getName();\n\n    // If we have a binding for this variable, use it:\n    if (context != null) {\n        JavaType bound = context.findType(name);\n        if (bound != null) {\n            return bound;\n        }\n    }\n\n    // No binding found: fall back to the first declared bound.\n    Type[] bounds = type.getBounds();\n    if (bounds.length == 0) {\n        // Should not happen (Object is implicit), but just in case:\n        return _unknownType();\n    }\n\n    // For recursive\u2010type detection, add a placeholder when we have a context:\n    if (context != null) {\n        context._addPlaceholder(name);\n        return _constructType(bounds[0], context);\n    } else {\n        // No context: just resolve the bound directly\n        return _constructType(bounds[0], null);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

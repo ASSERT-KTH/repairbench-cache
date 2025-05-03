@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n @param tags tag names to allow\n @return this (for chaining)\n */\npublic Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        TagName name = TagName.valueOf(tagName);\n        // disallow meta/document\u2010level or scripting tags\n        switch (name) {\n            case SCRIPT:\n            case STYLE:\n            case NOSCRIPT:\n            case HEAD:\n            case HTML:\n            case BODY:\n            case TITLE:\n            case META:\n            case LINK:\n            case BASE:\n                throw new ValidationException(\"Tag '\" + tagName + \"' unsupported\");\n        }\n        tagNames.add(name);\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

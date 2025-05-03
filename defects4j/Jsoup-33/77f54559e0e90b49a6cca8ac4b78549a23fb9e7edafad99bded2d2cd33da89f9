@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // treat either an explicit self\u2010closing tag or any known empty tag as empty\n    Tag tag = Tag.valueOf(startTag.name());\n    if (startTag.isSelfClosing() || tag.isEmpty()) {\n        Element el = insertEmpty(startTag);\n        // push then immediately pop via a synthetic end\u2010tag so the treebuilder state is correct\n        stack.add(el);\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n        return el;\n    }\n    \n    // normal start\u2010tag\n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

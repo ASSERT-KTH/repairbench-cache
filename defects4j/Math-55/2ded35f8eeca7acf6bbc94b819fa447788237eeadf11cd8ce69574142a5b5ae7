@@ -1,0 +1,7 @@
+{
+    "generation": "/** Compute the cross-product of two vectors with cancellation pre-conditioning. */\npublic static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // extract components\n    double x1 = v1.x;\n    double y1 = v1.y;\n    double z1 = v1.z;\n    double x2 = v2.x;\n    double y2 = v2.y;\n    double z2 = v2.z;\n\n    // compute projection factor rho = (v1\u00b7v2)/(v2\u00b7v2) approximated to 8 bits\n    double dot   = x1 * x2 + y1 * y2 + z1 * z2;\n    double norm2 = x2 * x2 + y2 * y2 + z2 * z2;\n    double rho;\n    if (norm2 == 0.0) {\n        rho = 0.0;\n    } else {\n        rho = dot / norm2;\n        // quantize rho to 8-bit resolution to reduce cancellation\n        rho = FastMath.rint(rho * 256.0) / 256.0;\n    }\n\n    // form v3 = v1 - rho * v2\n    double ux = x1 - rho * x2;\n    double uy = y1 - rho * y2;\n    double uz = z1 - rho * z2;\n\n    // compute cross(v3, v2)\n    return new Vector3D(\n        uy * z2 - uz * y2,\n        uz * x2 - ux * z2,\n        ux * y2 - uy * x2\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n    final String name = type.getName();\n    // if no binding context, fall back to \"unknown\"\n    if (context == null) {\n        return _unknownType();\n    }\n    // try to resolve from existing bindings; but if binding is just the\n    // generic erasure (unknownType), skip it so we can fall back to bounds:\n    JavaType actual = context.findType(name);\n    if (actual != null && actual != _unknownType()) {\n        return actual;\n    }\n    // otherwise use the first declared bound\n    Type[] bounds = type.getBounds();\n    // add a placeholder for recursive types (e.g. T extends Comparable<T>)\n    context._addPlaceholder(name);\n    return _constructType(bounds[0], context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

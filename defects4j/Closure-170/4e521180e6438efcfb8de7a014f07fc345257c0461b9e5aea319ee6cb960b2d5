@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and store it in\n * numUseWithinUseCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      // Count every occurrence of the name, including assignment LHS,\n      // so that writes to the variable also prevent inlining.\n      if (n.isName() && n.getString().equals(varName)) {\n        numUsesWithinCfgNode++;\n      }\n    }\n  };\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

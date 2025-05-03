@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  } else if (parent.isAssign() && n == parent.getFirstChild()) {\n    // In an assignment's LHS: only check for null/undefined, skip existence checks.\n    validator.expectNotNullOrUndefined(\n        t, n, childType,\n        \"No properties on this expression\",\n        getNativeType(OBJECT_TYPE));\n  } else if (validator.expectNotNullOrUndefined(\n      t, n, childType,\n      \"No properties on this expression\",\n      getNativeType(OBJECT_TYPE))) {\n    checkPropertyAccess(childType, property.getString(), t, n);\n  }\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

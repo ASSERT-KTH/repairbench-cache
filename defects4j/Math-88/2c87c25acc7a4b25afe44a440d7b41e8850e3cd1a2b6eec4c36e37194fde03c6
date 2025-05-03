@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected RealPointValuePair getSolution() {\n    // Number of original decision variables\n    final int n = getOriginalNumDecisionVariables();\n    double[] coefficients = new double[n];\n    // If variables are unrestricted we may have shifted them by \"mostNegative\"\n    Integer shiftRow = getBasicRow(getNumObjectiveFunctions() + n);\n    double mostNegative = (shiftRow == null) ? 0.0 : getEntry(shiftRow, getRhsOffset());\n\n    // For each original variable, if its column is basic read the RHS, else zero\n    for (int i = 0; i < n; i++) {\n        Integer row = getBasicRow(getNumObjectiveFunctions() + i);\n        if (row != null) {\n            double value = getEntry(row, getRhsOffset());\n            coefficients[i] = restrictToNonNegative\n                              ? value\n                              : (value - mostNegative);\n        } else {\n            coefficients[i] = 0.0;\n        }\n    }\n\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

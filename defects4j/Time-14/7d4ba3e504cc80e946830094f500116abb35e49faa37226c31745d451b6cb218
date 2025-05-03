@@ -1,0 +1,7 @@
+{
+    "generation": "//-----------------------------------------------------------------------\n@Override\npublic int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n    // if nothing to add, just return\n    if (valueToAdd == 0) {\n        return values;\n    }\n    // month/day (and other truly contiguous partials) can be handled\n    if (DateTimeUtils.isContiguous(partial)) {\n        // Use a leap\u2010year base (e.g. year 2000) so that FEB\u201029 is valid\n        long instant = iChronology.year().set(0L, 2000);\n        // set all the partial fields on that base instant\n        for (int i = 0, isize = partial.size(); i < isize; i++) {\n            instant = partial.getFieldType(i)\n                             .getField(iChronology)\n                             .set(instant, values[i]);\n        }\n        // do the actual add (months, days, etc.)\n        instant = add(instant, valueToAdd);\n        // extract the fields back into an int[]\n        return iChronology.get(partial, instant);\n    } else {\n        // fall back to the default algorithm\n        return super.add(partial, fieldIndex, values, valueToAdd);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

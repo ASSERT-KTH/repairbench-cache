@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Visits a GETPROP node.\n *\n * @param t The node traversal object that supplies context, such as the\n * scope chain to use in name lookups as well as error reporting.\n * @param n The node being visited.\n * @param parent The parent of <code>n</code>\n */\nprivate void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  // Disallow dict access via dot.\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  }\n\n  // Always check for null/undefined.  But if this GETPROP\n  // is the l-value of an assignment (obj.prop = ...), skip\n  // the property-existence check (we allow new properties to be added),\n  // while still guarding against null/undefined.\n  if (validator.expectNotNullOrUndefined(\n          t, n, childType,\n          \"No properties on this expression\",\n          getNativeType(OBJECT_TYPE))) {\n    boolean isAssignLhs = parent.isAssign() && n == parent.getFirstChild();\n    if (!isAssignLhs) {\n      checkPropertyAccess(childType, property.getString(), t, n);\n    }\n  }\n\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

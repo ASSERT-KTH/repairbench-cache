@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected void _serializeXmlNull(JsonGenerator jgen) throws IOException\n{\n    if (jgen instanceof ToXmlGenerator) {\n        ToXmlGenerator txg = (ToXmlGenerator) jgen;\n        // if caller has explicitly overridden the root name, use that;\n        // otherwise fall back to the default \"null\" name\n        PropertyName override = _config.getRootName();\n        if (override != null && override.getSimpleName() != null && !override.getSimpleName().isEmpty()) {\n            // only use the local part; namespaces/prefixes not covered by this test\n            txg.setNextName(new QName(override.getSimpleName()));\n        } else {\n            _initWithRootName(txg, ROOT_NAME_FOR_NULL);\n        }\n    }\n    super.serializeValue(jgen, null);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void inferPropertyTypesToMatchConstraint(\n    JSType type, JSType constraint) {\n  if (type == null || constraint == null) {\n    return;\n  }\n  // If the actual type is a union, recurse into each member.\n  if (type.isUnionType()) {\n    for (JSType alt : type.toMaybeUnionType().getAlternates()) {\n      inferPropertyTypesToMatchConstraint(alt, constraint);\n    }\n    return;\n  }\n  // If the constraint is a union, recurse into each alternative constraint.\n  if (constraint.isUnionType()) {\n    for (JSType altConstraint : constraint.toMaybeUnionType().getAlternates()) {\n      inferPropertyTypesToMatchConstraint(type, altConstraint);\n    }\n    return;\n  }\n\n  ObjectType constraintObj =\n      ObjectType.cast(constraint.restrictByNotNullOrUndefined());\n  if (constraintObj != null && constraintObj.isRecordType()) {\n    ObjectType objType =\n        ObjectType.cast(type.restrictByNotNullOrUndefined());\n    if (objType != null) {\n      for (String prop : constraintObj.getOwnPropertyNames()) {\n        JSType propType = constraintObj.getPropertyType(prop);\n        if (!objType.isPropertyTypeDeclared(prop)) {\n          JSType typeToInfer = propType;\n          if (!objType.hasProperty(prop)) {\n            typeToInfer =\n                getNativeType(VOID_TYPE).getLeastSupertype(propType);\n          }\n          objType.defineInferredProperty(prop, typeToInfer, null);\n        }\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

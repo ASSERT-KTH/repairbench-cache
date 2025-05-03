@@ -1,0 +1,7 @@
+{
+    "generation": "public TimeSeries createCopy(int start, int end)\n        throws CloneNotSupportedException {\n    if (start < 0) {\n        throw new IllegalArgumentException(\"Requires start >= 0.\");\n    }\n    if (end < start) {\n        throw new IllegalArgumentException(\"Requires start <= end.\");\n    }\n    // clone all of the series attributes, but clear out the data list\n    TimeSeries copy = (TimeSeries) super.clone();\n    copy.data = new java.util.ArrayList();\n\n    // reset the stored range bounds so they will be recomputed correctly\n    copy.minY = Double.POSITIVE_INFINITY;\n    copy.maxY = Double.NEGATIVE_INFINITY;\n    // if you also track domain bounds, reset them here:\n    // copy.minX = Long.MAX_VALUE;\n    // copy.maxX = Long.MIN_VALUE;\n\n    // now copy just the requested sub\u2010range of items\n    if (this.data.size() > 0) {\n        for (int index = start; index <= end; index++) {\n            TimeSeriesDataItem item\n                = (TimeSeriesDataItem) this.data.get(index);\n            TimeSeriesDataItem cloneItem\n                = (TimeSeriesDataItem) item.clone();\n            try {\n                copy.add(cloneItem);\n            }\n            catch (SeriesException e) {\n                // this should not happen when cloning\n                e.printStackTrace();\n            }\n        }\n    }\n    return copy;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

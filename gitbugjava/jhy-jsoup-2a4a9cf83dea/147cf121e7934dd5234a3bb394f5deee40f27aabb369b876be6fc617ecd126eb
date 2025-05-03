@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // Start evaluation from the element upwards, without traversing beyond the original context element.\n    Element curr = element;\n    for (int i = evaluators.size() - 1; i >= 0; --i) {\n        if (curr == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, curr))\n            return false;\n        // Only traverse to parent if there are more evaluators to check,\n        // to avoid moving above the provided element context.\n        if (i > 0)\n            curr = curr.parent();\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

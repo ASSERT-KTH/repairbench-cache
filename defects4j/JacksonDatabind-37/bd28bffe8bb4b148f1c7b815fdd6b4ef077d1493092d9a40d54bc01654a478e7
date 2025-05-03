@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    // if already same class, no change\n    if (_class == subclass) {\n        return this;\n    }\n    // sanity check: must be a true subclass\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()\n                +\" not sub-type of \"+_class.getName());\n    }\n    // fully re-resolve the new type (so supertypes, bindings, etc, are recomputed)\n    com.fasterxml.jackson.databind.type.TypeFactory tf = com.fasterxml.jackson.databind.type.TypeFactory.defaultInstance();\n    JavaType base = tf.constructType(subclass);\n    // propagate any handlers from the original\n    if (_valueHandler != null) {\n        base = base.withValueHandler(_valueHandler);\n    }\n    if (_typeHandler != null) {\n        base = base.withTypeHandler(_typeHandler);\n    }\n    // preserve static-typing flag\n    if (_asStatic) {\n        base = base.withStaticTyping();\n    }\n    return base;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

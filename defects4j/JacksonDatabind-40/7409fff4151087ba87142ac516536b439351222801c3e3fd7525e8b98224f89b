@@ -1,0 +1,7 @@
+{
+    "generation": "// In NumberDeserializers (and the Primitive variants) replace the old \u201cempty\u2010String\u201d helper\n// with this version so that empty\u2010Strings honoring ACCEPT_EMPTY_STRING_AS_NULL_OBJECT\n// will return getNullValue(), which for primitives is the zero\u2010value, and for wrappers is null:\n\n@Override\nprotected final T _coerceEmptyString(DeserializationContext ctxt) throws JsonMappingException {\n    if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n        // for primitives: default (0, 0L, 0.0, etc.); for wrappers: null\n        return getNullValue(ctxt);\n    }\n    // otherwise fall back to reporting a mismatch\n    return (T) ctxt.handleWeirdStringValue(_valueClass, \"\", \n            \"not a valid \" + _valueClass.getSimpleName() + \" value\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

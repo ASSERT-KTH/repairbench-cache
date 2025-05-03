@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds the next text wrap position after <code>startPos</code> for the\n * text in <code>text</code> with the column width <code>width</code>.\n * The wrap point is the last position before startPos+width having a \n * whitespace character (space, \\n, \\r). If there is no whitespace character\n * before startPos+width, it will return startPos+width.\n *\n * @param text The text being searched for the wrap position\n * @param width width of the wrapped text\n * @param startPos position from which to start the lookup whitespace\n * character\n * @return position on which the text must be wrapped or -1 if the wrap\n * position is at the end of the text\n */\nprotected int findWrapPos(String text, int width, int startPos) {\n    int textLen = text.length();\n    // handle newline within wrap width\n    int nl = text.indexOf('\\n', startPos);\n    if (nl != -1 && nl <= startPos + width) {\n        return nl + 1;\n    }\n    // no more text to wrap\n    if (startPos + width >= textLen) {\n        return -1;\n    }\n    // look backwards for the last whitespace before startPos+width\n    int pos = startPos + width;\n    while (pos > startPos) {\n        char c = text.charAt(pos);\n        if (c == ' ' || c == '\\n' || c == '\\r') {\n            return pos;\n        }\n        pos--;\n    }\n    // no whitespace found, cut at width\n    return startPos + width;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

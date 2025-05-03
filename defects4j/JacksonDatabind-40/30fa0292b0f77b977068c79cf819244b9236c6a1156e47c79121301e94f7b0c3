@@ -1,0 +1,7 @@
+{
+    "generation": "// In StdDeserializer.java, patch the textual\u2010null coercion so that \"AsNull\" on a primitive empty\n// string will fail rather than return the primitive default:\n@Override\nprotected String _coerceTextualNull(JsonParser p, DeserializationContext ctxt)\n        throws IOException\n{\n    String text = p.getValueAsString();\n    if (text.length() == 0) {\n        // find configured action for empty-string -> target type\n        CoercionAction act = _findCoercionFromString(ctxt,\n                // depending on your version this may be _valueClass or handledType()\n                handledType(),\n                CoercionInputShape.EmptyString);\n        switch (act) {\n        case AsNull:\n            // if target is a primitive, AsNull(empty) must fail\n            if (handledType().isPrimitive()) {\n                _reportFailedNullCoercion(ctxt, \"empty String\");\n            }\n            return null;\n        case AsEmpty:\n            Object empty = getEmptyValue(ctxt);\n            // may return null or empty.toString()\n            return (empty == null) ? null : empty.toString();\n        case Fail:\n            _reportFailedNullCoercion(ctxt, \"empty String\");\n            break;\n        case TryConvert:\n        default:\n            // fall through to try normal conversion\n        }\n    }\n    return text;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

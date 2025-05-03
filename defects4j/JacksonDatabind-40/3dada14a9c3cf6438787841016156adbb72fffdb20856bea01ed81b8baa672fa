@@ -1,0 +1,7 @@
+{
+    "generation": "// In StdDeserializer.java, replace the existing _coerceEmptyString method with:\n\n@Override\nprotected T _coerceEmptyString(DeserializationContext ctxt, T emptyValue) throws JsonMappingException {\n    // If empty\u2010string\u2010as\u2010null is enabled, only coerce for non\u2010primitive targets;\n    // for primitives we must fail rather than return the default primitive.\n    if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n        if (_valueClass.isPrimitive()) {\n            // fail on empty String for primitive types\n            return (T) ctxt.handleUnexpectedToken(\n                _valueClass,\n                JsonToken.VALUE_STRING,\n                ctxt.getParser(),\n                \"Cannot coerce empty String to primitive %s value\",\n                _valueClass.getSimpleName()\n            );\n        }\n        // non\u2010primitive: coerce to null (emptyValue will be null for reference types)\n        return emptyValue;\n    }\n    // if the feature is not enabled, always fail\n    return (T) ctxt.handleUnexpectedToken(\n        _valueClass,\n        JsonToken.VALUE_STRING,\n        ctxt.getParser(),\n        \"Cannot coerce empty String to %s value\",\n        _valueClass.getSimpleName()\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

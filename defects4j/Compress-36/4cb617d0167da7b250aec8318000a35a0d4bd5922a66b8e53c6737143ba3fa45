@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    // If there are no deferred streams, either no entry was selected\n    // (error) or it's a zero-length entry (return an empty stream).\n    if (deferredBlockStreams.isEmpty()) {\n        if (currentEntry == null) {\n            throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n        }\n        // Zero\u2010length entry: return an empty stream that immediately EOFs.\n        return new java.io.ByteArrayInputStream(new byte[0]);\n    }\n    // In solid mode skip and close all but the first stream so that\n    // the head of the list is always the current entry's data.\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

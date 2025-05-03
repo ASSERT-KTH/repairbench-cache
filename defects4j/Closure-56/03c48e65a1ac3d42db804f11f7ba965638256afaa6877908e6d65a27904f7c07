@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic String getLine(int lineNumber) {\n  String js;\n  try {\n    js = getCode();\n  } catch (IOException e) {\n    return null;\n  }\n\n  int pos = 0;\n  int startLine = 1;\n  // If we've saved a previous offset and it's for a line less than the\n  // one we're searching for, then start at that point.\n  if (lineNumber >= lastLine) {\n    pos = lastOffset;\n    startLine = lastLine;\n  }\n\n  // Advance to the start of the requested line.\n  for (int n = startLine; n < lineNumber; n++) {\n    int nextPos = js.indexOf('\\n', pos);\n    if (nextPos == -1) {\n      return null;\n    }\n    pos = nextPos + 1;\n  }\n\n  // Remember this offset for the next search.\n  lastOffset = pos;\n  lastLine = lineNumber;\n\n  // If we're past the end of the content, there's no such line.\n  if (pos >= js.length()) {\n    return null;\n  }\n  // Find the end of the line (the next newline or end-of-file).\n  int nextNewline = js.indexOf('\\n', pos);\n  if (nextNewline == -1) {\n    // No trailing newline: return from pos to end.\n    return js.substring(pos);\n  } else {\n    // Return the contents up to (but not including) the newline.\n    return js.substring(pos, nextNewline);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

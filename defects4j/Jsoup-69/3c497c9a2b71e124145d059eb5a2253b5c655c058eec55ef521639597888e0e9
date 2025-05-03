@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void remove() {\n    // Remove from parent as usual\n    super.remove();\n\n    // If this element is a form control and has a parent FormElement, remove from the formControls list as well\n    Element parent = this.parent();\n    // walk up to parent FormElement, since parent() may be null now\n    Element maybeForm = null;\n    for (Element p = this; p != null; p = p.parent()) {\n        if (p instanceof FormElement) {\n            maybeForm = p;\n            break;\n        }\n    }\n    if (maybeForm instanceof FormElement && FormElement.isFormControl(this)) {\n        ((FormElement) maybeForm).elements.remove(this);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

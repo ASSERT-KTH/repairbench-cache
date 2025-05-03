@@ -1,0 +1,7 @@
+{
+    "generation": "public static Try<Done> registerCallContext(\n    final ActorRef<CallContextProviderMessage> callContextProvider,\n    final String callContext,\n    final AriCommand ariCommand) {\n\n  // Do not register a call\u2010context on DELETE (or any non\u2010creation) commands\n  final var cmdType = ariCommand.extractCommandType();\n  if (cmdType.isDeletionCommand() || !cmdType.isCreationCommand()) {\n    return Try.success(Done.done());\n  }\n\n  // For creation commands, we must find the created resource\n  final Option<AriResource> maybeResource =\n      ariCommand\n        .extractResourceRelations()\n        .find(AriResourceRelation::isCreated)\n        .map(AriResourceRelation::getResource);\n\n  if (maybeResource.isEmpty()) {\n    return Try.failure(\n        new RuntimeException(\n            String.format(\n                \"Failed to extract resourceId from command '%s'\", ariCommand.toString())));\n  }\n\n  // Register the context for the newly created resource\n  final AriResource resource = maybeResource.get();\n  callContextProvider.tell(new RegisterCallContext(resource.getId(), callContext));\n  return Try.success(Done.done());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

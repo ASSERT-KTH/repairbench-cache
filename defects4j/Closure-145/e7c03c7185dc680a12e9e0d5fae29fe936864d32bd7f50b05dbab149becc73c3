@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is EXACTLY a DO or FUNCTION, possibly wrapped in a label.\n *\n * For labels, checks that its child is a DO or FUNCTION (and not more), so that\n * we wrap \"A:do foo();while(y)\" and \"A:function f(){}\" but not \"A:{...}\" or \"A:stmt;stmt\".\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    // Handle labels that point directly to a DO or FUNCTION statement.\n    if (n.getType() == Token.LABEL) {\n        Node labeled = n.getLastChild();\n        // The label must have a single child that is FUNCTION or DO (not a BLOCK).\n        return labeled != null && (labeled.getType() == Token.FUNCTION || labeled.getType() == Token.DO);\n    }\n    return n.getType() == Token.FUNCTION || n.getType() == Token.DO;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  // Only skip LHS\u2010names when the entire cfgNode is a top\u2010level assignment chain:\n  final boolean skipLhsOfTopLevelAssignChain =\n      cfgNode.isAssign() ||\n      (cfgNode.isExprResult() && cfgNode.getFirstChild().isAssign());\n\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // If this is the LHS of an assign, only skip it in the\n        // special top\u2010level\u2010chain case.\n        if (parent.isAssign()\n            && parent.getFirstChild() == n\n            && skipLhsOfTopLevelAssignChain) {\n          return;\n        }\n        numUsesWithinCfgNode++;\n      }\n    }\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

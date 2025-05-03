@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name, boolean requiredQuoting) throws IOException {\n    // [core#246]: Add support to force quoting, without changing feature flag\n    final boolean quoteFieldNames = requiredQuoting || isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    if (_cfgPrettyPrinter != null) {\n        _cfgPrettyPrinter.writeObjectEntrySeparator(this);\n    } else {\n        if (_outputTail >= _outputEnd) {\n            _flushBuffer();\n        }\n    }\n    if (quoteFieldNames) {\n        if (_outputTail >= _outputEnd) {\n            _flushBuffer();\n        }\n        _outputBuffer[_outputTail++] = '\"';\n        writeString(name);\n        if (_outputTail >= _outputEnd) {\n            _flushBuffer();\n        }\n        _outputBuffer[_outputTail++] = '\"';\n    } else {\n        writeString(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

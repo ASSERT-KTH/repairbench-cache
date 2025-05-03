@@ -1,0 +1,7 @@
+{
+    "generation": "protected boolean equal(\n    EvalContext context,\n    Expression left,\n    Expression right) \n{\n    Object l = left.compute(context);\n    Object r = right.compute(context);\n\n    // If either side is a context, unwrap it to its actual value\n    if (l instanceof InitialContext || l instanceof SelfContext) {\n        org.apache.commons.jxpath.ri.model.NodePointer np =\n            ((EvalContext) l).getSingleNodePointer();\n        l = (np != null ? np.getValue() : null);\n    }\n    if (r instanceof InitialContext || r instanceof SelfContext) {\n        org.apache.commons.jxpath.ri.model.NodePointer np =\n            ((EvalContext) r).getSingleNodePointer();\n        r = (np != null ? np.getValue() : null);\n    }\n\n    // If it's a collection, iterate over its elements\n    if (l instanceof Collection) {\n        l = ((Collection) l).iterator();\n    }\n    if (r instanceof Collection) {\n        r = ((Collection) r).iterator();\n    }\n\n    // Handle iterator vs. scalar, or iterator vs. iterator comparisons\n    if ((l instanceof Iterator) && !(r instanceof Iterator)) {\n        return contains((Iterator) l, r);\n    }\n    if (!(l instanceof Iterator) && (r instanceof Iterator)) {\n        return contains((Iterator) r, l);\n    }\n    if (l instanceof Iterator && r instanceof Iterator) {\n        return findMatch((Iterator) l, (Iterator) r);\n    }\n\n    // Fallback to atomic comparison\n    return equal(l, r);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

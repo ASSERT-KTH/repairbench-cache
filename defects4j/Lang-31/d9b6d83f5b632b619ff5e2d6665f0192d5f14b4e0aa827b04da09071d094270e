@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    // Convert the searchChars array into an array of code\u2010points\n    int[] searchCodePoints = new int[searchChars.length];\n    int searchCpCount = 0;\n    for (int i = 0; i < searchChars.length; i++) {\n        char ch = searchChars[i];\n        if (Character.isHighSurrogate(ch)\n            && i + 1 < searchChars.length\n            && Character.isLowSurrogate(searchChars[i + 1])) {\n            searchCodePoints[searchCpCount++] = Character.toCodePoint(ch, searchChars[++i]);\n        } else {\n            searchCodePoints[searchCpCount++] = ch;\n        }\n    }\n    // Scan the input CharSequence by code\u2010point\n    int csLen = cs.length();\n    for (int i = 0; i < csLen; ) {\n        int cp = Character.codePointAt(cs, i);\n        // Advance i by 1 if BMP or by 2 if supplementary\n        i += Character.charCount(cp);\n        // Check against all search code\u2010points\n        for (int j = 0; j < searchCpCount; j++) {\n            if (searchCodePoints[j] == cp) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected Object decode(DeviceSession deviceSession, MqttPublishMessage message) throws Exception {\n\n    JsonObject json;\n    try (ByteBufferInputStream inputStream = new ByteBufferInputStream(message.payload().nioBuffer())) {\n        json = Json.createReader(inputStream).readObject();\n    }\n\n    String type = json.getString(\"rpt\");\n    switch (type) {\n        case \"hf\":\n        case \"loc\":\n            Position position = new Position(getProtocolName());\n            position.setDeviceId(deviceSession.getDeviceId());\n            position.setValid(true);\n\n            // parse ISO\u20118601 timestamp\n            position.setTime(Date.from(java.time.Instant.parse(json.getString(\"ts\"))));\n\n            JsonObject location = json.getJsonObject(\"location\");\n            position.setLatitude(location.getJsonNumber(\"lat\").doubleValue());\n            position.setLongitude(location.getJsonNumber(\"lon\").doubleValue());\n\n            position.setCourse(json.getInt(\"bear\"));\n            position.setSpeed(UnitsConverter.knotsFromCps(json.getInt(\"spd\")));\n\n            position.set(Position.KEY_IGNITION, \"on\".equals(json.getString(\"ign\")));\n\n            return position;\n\n        default:\n            return null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

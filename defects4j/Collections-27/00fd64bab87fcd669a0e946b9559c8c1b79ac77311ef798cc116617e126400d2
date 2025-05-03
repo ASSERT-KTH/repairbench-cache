@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n    // if the factory is an InstantiateFactory, the stored class must be a Collection\n    if (factory instanceof InstantiateFactory<?>) {\n        @SuppressWarnings(\"unchecked\")\n        Class<?> cls = ((InstantiateFactory<?>) factory).getInstanceClass();\n        if (!Collection.class.isAssignableFrom(cls)) {\n            throw new UnsupportedOperationException(\"unsafe clazz accepted when de-serializing MultiValueMap\");\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(SerializableString name) throws IOException {\n    // if a pretty\u2010printer is set, defer to it\n    if (_cfgPrettyPrinter != null) {\n        _writePPFieldName(name);\n        return;\n    }\n    // write comma if this is not the first field\n    if (_writeContext.writeFieldName(name.getValue())) {\n        _writeRaw(',');\n    }\n    // write field name, quoting or not based on the live feature flag\n    if (isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n        _writeRaw('\\\"');\n        _writeRaw(name.getValue());\n        _writeRaw('\\\"');\n    } else {\n        _writeRaw(name.getValue());\n    }\n    // always follow with a colon\n    _writeRaw(':');\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // Attempt to re-resolve super-class and super-interfaces for correct type hierarchy\n    JavaType superClass = (_superClass == null) ? null : _superClass._narrow(subclass.getSuperclass());\n    JavaType[] superInterfaces = null;\n    Class<?>[] interfaces = subclass.getInterfaces();\n    if (interfaces.length > 0) {\n        superInterfaces = new JavaType[interfaces.length];\n        for (int i = 0; i < interfaces.length; ++i) {\n            superInterfaces[i] = _superClass == null ? null : _superClass._narrow(interfaces[i]);\n        }\n    }\n    return new SimpleType(subclass, _bindings, superClass, superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

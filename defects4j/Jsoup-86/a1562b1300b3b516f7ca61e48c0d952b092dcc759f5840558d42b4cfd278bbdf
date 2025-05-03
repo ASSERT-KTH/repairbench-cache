@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Ensure data is long enough to substring and looks like an XML decl (e.g., \"!xml ...\", \"?xml ...\")\n    if (data.length() < 3) {\n        return null;\n    }\n    // Only continue if the comment looks like it starts with ! or ?\n    char firstChar = data.charAt(0);\n    if (firstChar != '!' && firstChar != '?') {\n        return null;\n    }\n    // Defensive: substring only if it matches the pattern expected of a decl (skip ! or ?)\n    String declData = data.substring(1, data.length() - 1 > 1 ? data.length() - 1 : data.length());\n    Document doc = Jsoup.parse(\"<\" + declData + \">\", baseUri(), Parser.xmlParser());\n    XmlDeclaration decl = null;\n    if (doc.childNodeSize() > 0 && doc.child(0) instanceof Element) {\n        Element el = doc.child(0);\n        decl = new XmlDeclaration(NodeUtils.parser(doc).settings().normalizeTag(el.tagName()), data.startsWith(\"!\"));\n        decl.attributes().addAll(el.attributes());\n    }\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

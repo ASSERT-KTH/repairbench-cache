@@ -1,0 +1,7 @@
+{
+    "generation": "public static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    // Use ISO-8859-1 to match 1:1 with bytes in the (0..255) range\n    int actualLen = 0;\n    for (int i = offset; i < end; ++i) {\n        if (buffer[i] == 0) {\n            break;\n        }\n        actualLen++;\n    }\n    try {\n        return new String(buffer, offset, actualLen, \"ISO-8859-1\");\n    } catch (java.io.UnsupportedEncodingException e) {\n        // Should never happen, fallback\n        StringBuilder result = new StringBuilder(length);\n        for (int i = offset; i < offset + actualLen; ++i) {\n            result.append((char) (buffer[i] & 0xff));\n        }\n        return result.toString();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  // 1) dicts can never have properties\n  if (childType.isDict()) {\n    report(t, property,\n           TypeValidator.ILLEGAL_PROPERTY_ACCESS,\n           \"'.'\", \"dict\");\n  } else {\n    // 2) null/undefined never have properties\n    if (validator.expectNotNullOrUndefined(\n            t, n, childType,\n            \"No properties on this expression\",\n            getNativeType(OBJECT_TYPE))) {\n      // 3) for a property assignment LHS we allow new props,\n      //    so skip the \"never defined\" check only in that case\n      if (!(parent.isAssign() && parent.getFirstChild() == n)) {\n        checkPropertyAccess(childType, property.getString(), t, n);\n      }\n    }\n  }\n\n  // Ensure the GETPROP node has a type\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

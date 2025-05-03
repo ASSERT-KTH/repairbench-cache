@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // 29-Jan-2016, tatu: Need to skip *value* if at FIELD_NAME, but not the whole object!\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.FIELD_NAME) {\n        p.nextToken(); // move to value\n        p.skipChildren(); // skip the value of unrecognized type\n    } else {\n        p.skipChildren();\n    }\n    // Indicate that this property should be set as null\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

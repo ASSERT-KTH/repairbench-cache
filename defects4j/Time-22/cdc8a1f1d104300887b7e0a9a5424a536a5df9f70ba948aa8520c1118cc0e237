@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Creates a period from the given millisecond duration with the standard period type\n * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n * <p>\n * The calculation uses the hour, minute, second and millisecond fields.\n *\n * @param duration  the duration, in milliseconds\n */\nprotected BasePeriod(long duration) {\n    // bug [3264409] \u2013 convert using only time fields and leave date fields at zero\n    long millis = duration;\n    boolean negative = (millis < 0);\n    if (negative) {\n        millis = -millis;\n    }\n    int hours = (int)(millis / DateTimeConstants.MILLIS_PER_HOUR);\n    millis -= (long)hours * DateTimeConstants.MILLIS_PER_HOUR;\n    int minutes = (int)(millis / DateTimeConstants.MILLIS_PER_MINUTE);\n    millis -= (long)minutes * DateTimeConstants.MILLIS_PER_MINUTE;\n    int seconds = (int)(millis / DateTimeConstants.MILLIS_PER_SECOND);\n    int ms = (int)(millis - (long)seconds * DateTimeConstants.MILLIS_PER_SECOND);\n    if (negative) {\n        hours = -hours;\n        minutes = -minutes;\n        seconds = -seconds;\n        ms = -ms;\n    }\n    // delegate to the int-args constructor (zero years, months, weeks, days)\n    this(0, 0, 0, 0, hours, minutes, seconds, ms);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

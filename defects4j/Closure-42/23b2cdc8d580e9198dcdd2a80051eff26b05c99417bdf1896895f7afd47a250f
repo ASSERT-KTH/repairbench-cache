@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nNode processForInLoop(ForInLoop loopNode) {\n    if (loopNode.isForEach()) {\n        // \"for each\" is an unsupported language extension.\n        errorReporter.error(\"unsupported language extension: for each\", \n            loopNode.getSourceFileName(), loopNode.getLineno(), \n            null, 0);\n        // Return minimal AST node to keep tree intact.\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }\n    // Standard for-in loop processing\n    return newNode(\n        Token.FOR,\n        transform(loopNode.getIterator()),\n        transform(loopNode.getIteratedObject()),\n        transformBlock(loopNode.getBody()));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

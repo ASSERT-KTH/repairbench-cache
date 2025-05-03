@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // the raw values provided by the user\n    List rawValues = (List) values.get(option);\n    List valueList = rawValues;\n\n    // if the user didn't supply anything, start with the argument\u2010level defaults\n    if (rawValues == null || rawValues.isEmpty()) {\n        valueList = defaultValues;\n    }\n\n    // if we still have nothing, fall back to the parser\u2010level defaults\n    if (valueList == null || valueList.isEmpty()) {\n        valueList = (List) this.defaultValues.get(option);\n    }\n\n    // if the user supplied some values, but fewer than the argument defaults,\n    // fill in the remainder from the argument defaults\n    if (rawValues != null && !rawValues.isEmpty()\n        && defaultValues != null && !defaultValues.isEmpty()) {\n        int rawSize = rawValues.size();\n        int defSize = defaultValues.size();\n        if (rawSize < defSize) {\n            List merged = new ArrayList(defSize);\n            merged.addAll(rawValues);\n            merged.addAll(defaultValues.subList(rawSize, defSize));\n            valueList = merged;\n        }\n    }\n\n    return (valueList == null) ? Collections.EMPTY_LIST : valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

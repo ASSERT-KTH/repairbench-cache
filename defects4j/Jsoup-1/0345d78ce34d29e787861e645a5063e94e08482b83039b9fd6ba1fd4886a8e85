@@ -1,0 +1,7 @@
+{
+    "generation": "// does not recurse.\nprivate void normalise(Element element) {\n    // collect any non\u2010blank text nodes under this element\n    List<Node> toMove = new ArrayList<Node>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank()) {\n                toMove.add(node);\n            }\n        }\n    }\n    // move them into the body at the front, preserving original order\n    Element body = body();\n    int insertPos = 0;\n    for (Node node : toMove) {\n        element.removeChild(node);\n        // insert a space and then the text node at the current front position\n        body.insertChildren(insertPos, new TextNode(\" \", \"\"));\n        body.insertChildren(insertPos + 1, node);\n        insertPos += 2;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

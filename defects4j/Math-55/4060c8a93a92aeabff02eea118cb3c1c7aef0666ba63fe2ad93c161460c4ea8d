@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // pre\u2010condition to reduce cancellation (see Kahan)\n    double dotVV = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n    if (dotVV == 0.0) {\n        // v2 is zero \u21d2 cross product is zero\n        return new Vector3D(0.0, 0.0, 0.0);\n    }\n    double dotV1V2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n    // exact ratio\n    double rho = dotV1V2 / dotVV;\n    // round rho to an 8-bit approximation (truncate mantissa to 8 bits)\n    long bits    = Double.doubleToRawLongBits(rho);\n    long signExp = bits & 0xFFF0000000000000L;       // sign + exponent\n    long mant    = bits & 0x000FFFFFFFFFFFFFL;       // full mantissa\n    long top8    = mant >> (52 - 8);                 // keep only top 8 bits\n    long trunc   = top8 << (52 - 8);                 // shift back\n    rho = Double.longBitsToDouble(signExp | trunc);\n    // form v3 = v1 \u2212 rho\u00b7v2 (now v3 and v2 are well\u2010conditioned)\n    double v3x = v1.x - rho * v2.x;\n    double v3y = v1.y - rho * v2.y;\n    double v3z = v1.z - rho * v2.z;\n    // compute cross\u2010product of v3 and v2\n    return new Vector3D(\n        v3y * v2.z - v3z * v2.y,\n        v3z * v2.x - v3x * v2.z,\n        v3x * v2.y - v3y * v2.x\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType constructSpecializedType(JavaType baseType, Class<?> subclass) {\n    if (baseType == null) {\n        throw new IllegalArgumentException(\"Base type must not be null\");\n    }\n    Class<?> rawSuper = baseType.getRawClass();\n    if (!rawSuper.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"\n            + subclass.getName()\n            + \" not a subtype of base \"\n            + rawSuper.getName());\n    }\n    /* Wrap the supplied base\u2010type in a recursion placeholder so that\n     * subType.getSuperClass() returns a ResolvedRecursiveType, and that\n     * placeholder in turn points back to the real baseType. This\n     * fixes databind#1647.\n     */\n    ResolvedRecursiveType placeholder = new ResolvedRecursiveType(rawSuper);\n    placeholder.setSelfReference(baseType);\n    // Bind any generic parameters from the baseType into the subclass\n    TypeBindings bindings = TypeBindings.create(subclass, baseType);\n    // Delegate to the core constructor, passing our placeholder as the super\u2010class\n    return _constructType(subclass, bindings, placeholder, null, _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

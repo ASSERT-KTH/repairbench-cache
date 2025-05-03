@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void matchConstraint(ObjectType constraintObj) {\n  // We only want to match constraints on anonymous (i.e. literal) types.\n  if (!isAnonymousType()) {\n    return;\n  }\n\n  // Handle the case where the constraint object is a record type.\n  if (constraintObj.isRecordType()) {\n    for (String prop : constraintObj.getOwnPropertyNames()) {\n      JSType propType = constraintObj.getPropertyType(prop);\n      // Only infer when the target has no declared type for that prop.\n      if (!isPropertyTypeDeclared(prop)) {\n        JSType typeToInfer = propType;\n        // If the literal didn't actually have the property, make it optional.\n        if (!hasProperty(prop)) {\n          typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)\n              .getLeastSupertype(propType);\n        }\n        defineInferredProperty(prop, typeToInfer, null);\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

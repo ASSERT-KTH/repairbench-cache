@@ -1,0 +1,7 @@
+{
+    "generation": "private VariableLiveness isVariableReadBeforeKill(Node n, String variable) {\n  // A direct \u201c=\u201d assignment to our variable is a KILL but only after\n  // evaluating its LHS and its RHS.  So we scan the children first.\n  if (n.getType() == Token.ASSIGN\n      && NodeUtil.isName(n.getFirstChild())\n      && variable.equals(n.getFirstChild().getString())) {\n    for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n      if (!ControlFlowGraph.isEnteringNewCfgNode(child)) {\n        VariableLiveness state = isVariableReadBeforeKill(child, variable);\n        if (state != VariableLiveness.MAYBE_LIVE) {\n          return state;\n        }\n      }\n    }\n    return VariableLiveness.KILL;\n  }\n\n  // A use of the name that is not on the LHS of an assignment is a READ.\n  if (NodeUtil.isName(n)\n      && variable.equals(n.getString())\n      && !NodeUtil.isLhs(n, n.getParent())) {\n    return VariableLiveness.READ;\n  }\n\n  // Otherwise, recurse into children (left-to-right, depth\u2010first),\n  // skipping any new CFG nodes (FUNCTIONs).\n  for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(c)) {\n      VariableLiveness state = isVariableReadBeforeKill(c, variable);\n      if (state != VariableLiveness.MAYBE_LIVE) {\n        return state;\n      }\n    }\n  }\n  return VariableLiveness.MAYBE_LIVE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

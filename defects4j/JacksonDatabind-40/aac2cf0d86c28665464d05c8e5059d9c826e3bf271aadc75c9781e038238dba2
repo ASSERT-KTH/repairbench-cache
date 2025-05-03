@@ -1,0 +1,7 @@
+{
+    "generation": "// In PrimitiveOrWrapperDeserializer (or equivalent), replace the empty\u2010string branch so primitives fail:\n@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n    if (p.hasToken(JsonToken.VALUE_STRING)) {\n        String text = p.getText().trim();\n        if (text.isEmpty()) {\n            if (_isPrimitive) {\n                // primitives may no longer silently coerce \"\" \u2192 0; instead signal error\n                throw JsonMappingException.from(p,\n                    String.format(\"Cannot coerce empty String (\\\"\\\") to primitive type %s\",\n                                  _valueClass.getSimpleName()));\n            }\n            // wrappers still coerce \"\" \u2192 null\n            return null;\n        }\n        // ... fall through to regular textual parsing ...\n    }\n    // ... original handling for numbers, booleans, etc. ...\n    return super.deserialize(p, ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

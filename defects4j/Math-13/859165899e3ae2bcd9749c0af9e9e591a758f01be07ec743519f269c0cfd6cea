@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // most weight matrices in fitting are diagonal \u21d2 avoid a full eigen\u2010decomposition\n    if (m instanceof DiagonalMatrix) {\n        final int n = m.getRowDimension();\n        final double[] sqrtDiag = new double[n];\n        for (int i = 0; i < n; i++) {\n            // getEntry(i,i) on a DiagonalMatrix is O(1)\n            sqrtDiag[i] = Math.sqrt(m.getEntry(i, i));\n        }\n        return new DiagonalMatrix(sqrtDiag);\n    } else {\n        // fall back to general method only for non\u2010diagonal matrices\n        final EigenDecomposition dec = new EigenDecomposition(m);\n        return dec.getSquareRoot();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

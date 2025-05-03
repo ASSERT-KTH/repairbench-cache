@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns the remainder of the line.\n   *\n   * This method preserves the length of the original JSDoc line\n   * by replacing trimmed prefix spaces with corresponding spaces,\n   * ensuring position information remains consistent.\n   */\n  private String getRemainingJSDocLine() {\n    String originalLine = stream.getOriginalJSDocLine();\n    int position = stream.getPositionOnLine();\n    // Defensive: handle position > length\n    if (position >= originalLine.length()) {\n      return \"\";\n    }\n    // Preserve the segment for position mapping: replace trimmed out spaces with spaces\n    char[] remaining = new char[originalLine.length() - position];\n    for (int i = 0; i < remaining.length; i++) {\n      char c = originalLine.charAt(position + i);\n      remaining[i] = (c == '\\t' || c == ' ') ? ' ' : c;\n    }\n    return new String(remaining);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

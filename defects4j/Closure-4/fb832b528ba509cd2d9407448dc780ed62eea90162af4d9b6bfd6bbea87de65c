@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n  // Bail out immediately on a prototype\u2010inheritance cycle to avoid\n  // infinite recursion and spurious \"can only implement interfaces\" warnings.\n  if (detectImplicitPrototypeCycle()) {\n    handleTypeCycle(t);\n    return registry.isLastGeneration()\n        ? getReferencedType()\n        : this;\n  }\n\n  // First, try to resolve the name directly via the registry.\n  boolean viaRegistry = resolveViaRegistry(t, enclosing);\n  if (viaRegistry) {\n    super.resolveInternal(t, enclosing);\n    finishPropertyContinuations();\n    return registry.isLastGeneration()\n        ? getReferencedType()\n        : this;\n  }\n\n  // Otherwise, fall back to resolving by walking properties.\n  resolveViaProperties(t, enclosing);\n  if (detectImplicitPrototypeCycle()) {\n    handleTypeCycle(t);\n    return registry.isLastGeneration()\n        ? getReferencedType()\n        : this;\n  }\n\n  // Final resolution and property fix\u2010ups.\n  super.resolveInternal(t, enclosing);\n  if (isResolved()) {\n    finishPropertyContinuations();\n  }\n  return registry.isLastGeneration()\n      ? getReferencedType()\n      : this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

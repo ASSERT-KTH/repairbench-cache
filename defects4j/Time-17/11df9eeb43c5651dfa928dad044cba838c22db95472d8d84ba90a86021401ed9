@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Adjusts the offset to be the earlier or later one during an overlap.\n * \n * @param instant  the instant to adjust\n * @param earlierOrLater  false for earlier, true for later\n * @return the adjusted instant millis\n */\npublic long adjustOffset(long instant, boolean earlierOrLater) {\n    // Convert the target instant to local millis\n    long local = convertUTCToLocal(instant);\n    // Pick two reference instants (in UTC) guaranteed to lie outside any overlap\n    long before = instant - 3 * DateTimeConstants.MILLIS_PER_HOUR;\n    long after  = instant + 3 * DateTimeConstants.MILLIS_PER_HOUR;\n    // Convert back to UTC using each reference to force earlier or later offset choice\n    long earliest = convertLocalToUTC(local, false, before);\n    long latest   = convertLocalToUTC(local, false, after);\n    // If they agree, there was no overlap \u2013 return the original instant\n    if (earliest == latest) {\n        return instant;\n    }\n    // Otherwise pick the requested mapping\n    return earlierOrLater ? latest : earliest;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic byte[] getBinaryValue(Base64Variant b64variant)\n    throws IOException, JsonParseException\n{\n    JsonNode n = currentNode();\n    if (n != null) {\n        // If this is a TextNode, decode using the passed-in variant\n        if (n.isTextual()) {\n            String text = n.textValue();\n            com.fasterxml.jackson.core.util.ByteArrayBuilder builder =\n                new com.fasterxml.jackson.core.util.ByteArrayBuilder(text.length());\n            try {\n                b64variant.decode(text, builder);\n            } catch (IllegalArgumentException e) {\n                JsonParseException jpe = new JsonParseException(this,\n                    \"Cannot access contents of TextNode as binary due to broken Base64 encoding: \"\n                    + e.getMessage());\n                jpe.initCause(e);\n                throw jpe;\n            }\n            return builder.toByteArray();\n        }\n        // For non\u2010text nodes, defer to JsonNode.binaryValue()\n        byte[] data = n.binaryValue();\n        if (data != null) {\n            return data;\n        }\n        // Embedded POJO node wrapping a byte[]\n        if (n.isPojo()) {\n            Object ob = ((POJONode) n).getPojo();\n            if (ob instanceof byte[]) {\n                return (byte[]) ob;\n            }\n        }\n    }\n    // no binary content\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "static String getCharsetFromContentType(String contentType) {\n    if (contentType == null) return null;\n    Matcher m = charsetPattern.matcher(contentType);\n    if (m.find()) {\n        String charset = m.group(1).trim();\n        // strip surrounding quotes, if any\n        if ((charset.startsWith(\"\\\"\") && charset.endsWith(\"\\\"\"))\n                || (charset.startsWith(\"'\") && charset.endsWith(\"'\"))) {\n            charset = charset.substring(1, charset.length() - 1);\n        }\n        if (charset.isEmpty()) return null;\n        try {\n            if (java.nio.charset.Charset.isSupported(charset)) {\n                return charset;\n            }\n        } catch (java.nio.charset.IllegalCharsetNameException e) {\n            // invalid charset name\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

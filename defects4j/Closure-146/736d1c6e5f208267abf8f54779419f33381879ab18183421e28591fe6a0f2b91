@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic TypePair getTypesUnderInequality(JSType that) {\n  // union types: swap the result of the recursive call\n  if (that instanceof UnionType) {\n    TypePair p = that.getTypesUnderInequality(this);\n    return new TypePair(p.typeB, p.typeA);\n  }\n\n  // other types\n  switch (this.testForEquality(that)) {\n    case TRUE:\n      // if two types are always equal, then the \"!=\" branch is impossible:\n      // restrict both to the bottom type (NO_TYPE)\n      JSType noType = this.getRegistry().getNativeType(JSTypeNative.NO_TYPE);\n      return new TypePair(noType, noType);\n\n    case FALSE:\n    case UNKNOWN:\n      // no further narrowing\n      return new TypePair(this, that);\n  }\n\n  // should be unreachable\n  throw new IllegalStateException();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

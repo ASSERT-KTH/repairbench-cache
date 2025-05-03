@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean flipIfWarranted(final int n, final int step) {\n    // Compare magnitudes, not signed values, to decide if we should reverse\n    int firstIndex = pingPong;\n    int lastIndex  = 4 * (n - 1) + pingPong;\n    double first   = work[firstIndex];\n    double last    = work[lastIndex];\n    if (Math.abs(first) * 1.5 < Math.abs(last)) {\n        // flip the blocks of size 4 in 'work'\n        int j = 4 * n - 1;\n        for (int i = 0; i < j; i += 4) {\n            for (int k = 0; k < 4; k += step) {\n                double tmp      = work[i + k];\n                work[i + k]     = work[j - k];\n                work[j - k]     = tmp;\n            }\n            j -= 4;\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

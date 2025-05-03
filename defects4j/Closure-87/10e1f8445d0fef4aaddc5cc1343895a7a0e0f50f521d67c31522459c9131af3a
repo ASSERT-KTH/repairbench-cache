@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // See: http://code.google.com/p/closure-compiler/issues/detail?id=291\n      // Do not fold EXPR_RESULT if it is a call on a property named \"onchange\".\n      if (NodeUtil.isExprCall(maybeExpr)) {\n        Node callTarget = maybeExpr.getFirstChild();\n        if (callTarget != null && callTarget.isGetProp()) {\n          Node prop = callTarget.getLastChild();\n          if (prop != null && prop.isString() && \"onchange\".equals(prop.getString())) {\n            return false;\n          }\n        }\n      }\n      return NodeUtil.isExpressionNode(maybeExpr);\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Deprecated\npublic void addValue(Object v) {\n    // reject non\u2010Comparable (but allow nulls through to the Comparable API)\n    if (v != null && !(v instanceof Comparable<?>)) {\n        throw new IllegalArgumentException(\"Value must implement Comparable\");\n    }\n    try {\n        // if v is null this will pass a null through to the Comparable API,\n        // otherwise a proper cast has been guaranteed\n        addValue((Comparable<?>) v);\n    } catch (ClassCastException ex) {\n        // thrown if v.compareTo(...) fails due to incompatible types\n        throw new IllegalArgumentException(\"Value is not comparable with existing entries\", ex);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

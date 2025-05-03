@@ -1,0 +1,7 @@
+{
+    "generation": "protected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    // first detach any of these nodes from their current parent, to avoid stale\u2010index issues\n    for (Node child : children) {\n        if (child.parent() != null) {\n            child.remove();\n        }\n    }\n    // now reparent and insert in order at the correct offset\n    for (int i = 0; i < children.length; i++) {\n        Node in = children[i];\n        reparentChild(in);\n        childNodes.add(index + i, in);\n    }\n    reindexChildren(index);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // get any values explicitly parsed for this option\n    List parsed = (List) values.get(option);\n\n    // if no explicit values, fall back to provided defaults or global defaults\n    if (parsed == null || parsed.isEmpty()) {\n        if (defaultValues != null && !defaultValues.isEmpty()) {\n            // return a copy of the per\u2010option defaults\n            return new ArrayList(defaultValues);\n        }\n        List globalDefaults = (List) this.defaultValues.get(option);\n        if (globalDefaults != null && !globalDefaults.isEmpty()) {\n            return new ArrayList(globalDefaults);\n        }\n        return Collections.EMPTY_LIST;\n    }\n\n    // we have explicit values \u2013 start with a copy of them\n    List result = new ArrayList(parsed);\n\n    // if there are more per\u2010option defaults than explicit values,\n    // append the \"overflow\" defaults\n    if (defaultValues != null) {\n        int start = parsed.size();\n        int end = defaultValues.size();\n        for (int i = start; i < end; i++) {\n            result.add(defaultValues.get(i));\n        }\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

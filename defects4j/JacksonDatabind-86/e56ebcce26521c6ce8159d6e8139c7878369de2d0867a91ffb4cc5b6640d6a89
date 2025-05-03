@@ -1,0 +1,7 @@
+{
+    "generation": "// In TypeFactory.java, replace the public constructType(Type) so that it\n// clears any leftover recursion\u2010tracking state before and after use.\n\n@Override\npublic JavaType constructType(Type type) {\n    // Clear any stale 'in\u2010progress' recursion map so we don't pick up\n    // placeholders from a previous call.\n    _classStack = null;\n    try {\n        // delegate to the real constructor\n        return _constructType(type, NO_BINDINGS, null, true);\n    } finally {\n        // ensure state is cleared for the next invocation\n        _classStack = null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

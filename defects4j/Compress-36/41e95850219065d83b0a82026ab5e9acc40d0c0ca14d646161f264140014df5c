@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    if (deferredBlockStreams.isEmpty()) {\n        // For zero\u2010length entries we should return an empty stream, not throw.\n        if (currentEntry != null && currentEntry.getSize() == 0) {\n            return new java.io.ByteArrayInputStream(new byte[0]);\n        }\n        throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n    }\n    // Skip and close all but the last deferred block stream\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

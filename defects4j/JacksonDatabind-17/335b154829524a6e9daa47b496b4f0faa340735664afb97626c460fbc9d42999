@@ -1,0 +1,7 @@
+{
+    "generation": "public boolean useForType(JavaType t) {\n    switch (_appliesFor) {\n    case NON_CONCRETE_AND_ARRAYS:\n        // for array types, peel off the array layer\n        while (t.isArrayType()) {\n            t = t.getContentType();\n        }\n        // fall through\n\n    case OBJECT_AND_NON_CONCRETE:\n        // always apply for plain Object\n        if (t.getRawClass() == Object.class) {\n            return true;\n        }\n        // apply only for non\u2010concrete types that are NOT Jackson TreeNode types\n        return !t.isConcrete()\n            && !TreeNode.class.isAssignableFrom(t.getRawClass());\n\n    case NON_FINAL:\n        // for array types, peel off the array layer\n        while (t.isArrayType()) {\n            t = t.getContentType();\n        }\n        // apply to any non\u2010final type except Jackson TreeNode\n        return !t.isFinal()\n            && !TreeNode.class.isAssignableFrom(t.getRawClass());\n\n    default: // JAVA_LANG_OBJECT\n        return (t.getRawClass() == Object.class);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean isReduceableFunctionExpression(Node n) {\n  // unwrap any casts so we see through (/** @type {...} */ expr) etc.\n  n = NodeUtil.stripCast(n);\n  // a bare function expression is obviously reducible\n  if (NodeUtil.isFunctionExpression(n)) {\n    return true;\n  }\n  // also treat an IIFE -- (function(){\u2026})() -- as a reducible function\n  if (n.isCall()) {\n    Node callee = n.getFirstChild();\n    if (NodeUtil.isFunctionExpression(callee)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

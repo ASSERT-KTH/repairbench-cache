@@ -1,0 +1,7 @@
+{
+    "generation": "boolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // ... other cases ...\n\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n\n            if (name.equals(\"html\")) {\n                // ... unchanged ...\n            }\n            // ... many other branches ...\n            else if (name.equals(\"image\")) {\n                // change <image> to <img>, unless in a <svg> context\n                if (tb.getFromStack(\"svg\") == null) {\n                    // not inside an <svg>, so convert to <img>\n                    return tb.process(startTag.name(\"img\"));\n                }\n                // inside <svg>, keep as <image>\n                tb.insert(startTag);\n                break;\n            }\n            else if (name.equals(\"isindex\")) {\n                // ... unchanged ...\n            }\n            // ... the rest of the StartTag branches ...\n            break;\n\n        // ... other cases ...\n\n        case EndTag:\n            // ... unchanged ...\n            break;\n\n        case EOF:\n            // ... unchanged ...\n            break;\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

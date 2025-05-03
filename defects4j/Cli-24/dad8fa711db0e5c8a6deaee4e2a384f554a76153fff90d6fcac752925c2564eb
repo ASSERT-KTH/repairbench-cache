@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    // If the indent pushes us past the available width, ignore word\u2010wrap\n    // and emit one character per line at the last column.\n    if (nextLineTabStop >= width) {\n        int pad = Math.max(0, width - 1);\n        final String padding = createPadding(pad);\n        String trimmed = text.trim();\n        for (int i = 0; i < trimmed.length(); i++) {\n            sb.append(padding)\n              .append(trimmed.charAt(i))\n              .append(defaultNewLine);\n        }\n        return sb;\n    }\n\n    int pos = findWrapPos(text, width, 0);\n    if (pos == -1) {\n        sb.append(rtrim(text));\n        return sb;\n    }\n\n    sb.append(rtrim(text.substring(0, pos)))\n      .append(defaultNewLine);\n\n    final String padding = createPadding(nextLineTabStop);\n    while (true) {\n        text = padding + text.substring(pos).trim();\n        pos = findWrapPos(text, width, 0);\n\n        if (pos == -1) {\n            sb.append(text);\n            return sb;\n        }\n        // Avoid infinite loop when the first break is at the indent boundary\n        if ((text.length() > width) && (pos == nextLineTabStop - 1)) {\n            pos = width;\n        }\n        sb.append(rtrim(text.substring(0, pos)))\n          .append(defaultNewLine);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

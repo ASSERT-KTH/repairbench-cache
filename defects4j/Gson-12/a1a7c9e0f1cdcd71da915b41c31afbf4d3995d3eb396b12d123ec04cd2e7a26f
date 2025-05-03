@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void skipValue() throws IOException {\n  // If we're at a property name, consume the name first.\n  if (peek() == JsonToken.NAME) {\n    nextName();\n  }\n  // If there's only one element on the stack, it's the root; just pop it.\n  if (stackSize == 1) {\n    popStack();\n    return;\n  }\n  // Otherwise, do a depth\u2010first skip of whatever value is next.\n  int depth = 0;\n  do {\n    JsonToken token = peek();\n    switch (token) {\n      case BEGIN_ARRAY:\n        beginArray();\n        depth++;\n        break;\n      case END_ARRAY:\n        endArray();\n        depth--;\n        break;\n      case BEGIN_OBJECT:\n        beginObject();\n        depth++;\n        break;\n      case END_OBJECT:\n        endObject();\n        depth--;\n        break;\n      case NAME:\n        nextName();\n        break;\n      case STRING:\n      case NUMBER:\n        nextString();\n        break;\n      case BOOLEAN:\n        nextBoolean();\n        break;\n      case NULL:\n        nextNull();\n        break;\n      case END_DOCUMENT:\n        return;\n      default:\n        throw new IllegalStateException(\"Unexpected token: \" + token);\n    }\n  } while (depth != 0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

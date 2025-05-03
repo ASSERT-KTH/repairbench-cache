@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass) {\n    // trivial case: same class\n    if (_class == subclass) {\n        return this;\n    }\n    // sanity check: must actually be a sub\u2010type\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()\n                +\" not sub-type of \"+_class.getName());\n    }\n    // Delegate to TypeFactory to rebuild the SimpleType for the subclass\n    JavaType narrowed = TypeFactory.defaultInstance()\n            .constructSimpleType(subclass, _bindings);\n    // carry over any handlers\n    if (_valueHandler != null) {\n        narrowed = narrowed.withValueHandler(_valueHandler);\n    }\n    if (_typeHandler != null) {\n        narrowed = narrowed.withTypeHandler(_typeHandler);\n    }\n    // preserve \"static typing\" flag\n    if (_asStatic) {\n        narrowed = narrowed.withStaticTyping();\n    }\n    return narrowed;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

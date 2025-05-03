@@ -1,0 +1,7 @@
+{
+    "generation": "private VariableLiveness isVariableReadBeforeKill(\n    Node n, String variable) {\n  // If this node is a simple assignment to our variable,\n  // the RHS is evaluated before the kill occurs.\n  if (n.getType() == Token.ASSIGN) {\n    Node lhs = n.getFirstChild();\n    if (NodeUtil.isName(lhs) && variable.equals(lhs.getString())) {\n      // Recurse into the RHS; if we see a read there, it's READ,\n      // otherwise it's a KILL of the previous value.\n      Node rhs = lhs.getNext();\n      VariableLiveness state = isVariableReadBeforeKill(rhs, variable);\n      return (state == VariableLiveness.READ)\n          ? VariableLiveness.READ\n          : VariableLiveness.KILL;\n    }\n  }\n\n  // Any other occurrence of the name is a read.\n  if (NodeUtil.isName(n) && variable.equals(n.getString())) {\n    return VariableLiveness.READ;\n  }\n\n  // Otherwise, walk the children in eval\u2010order, skipping new CFG nodes.\n  for (Node child = n.getFirstChild(); child != null; child = child.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(child)) {\n      VariableLiveness state = isVariableReadBeforeKill(child, variable);\n      if (state != VariableLiveness.MAYBE_LIVE) {\n        return state;\n      }\n    }\n  }\n  return VariableLiveness.MAYBE_LIVE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

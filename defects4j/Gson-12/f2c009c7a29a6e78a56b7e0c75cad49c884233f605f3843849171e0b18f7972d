@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void skipValue() throws IOException {\n  // When we're positioned before a NAME token in an object, consume the name first.\n  if (peek() == JsonToken.NAME) {\n    nextName();\n    // clear out the pathNames entry for that skipped name, if in bounds\n    if (stackSize >= 2) {\n      pathNames[stackSize - 2] = null;\n    }\n  } else {\n    // pop the current value (object, array, primitive or null)\n    popStack();\n    // clear the pathNames entry for this level, if in bounds\n    if (stackSize > 0) {\n      pathNames[stackSize - 1] = null;\n    }\n  }\n  // advance the index in the parent container, if any\n  if (stackSize > 0) {\n    pathIndices[stackSize - 1]++;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

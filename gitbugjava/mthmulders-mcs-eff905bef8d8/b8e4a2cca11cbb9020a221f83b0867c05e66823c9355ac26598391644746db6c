@@ -1,0 +1,7 @@
+{
+    "generation": "private void printRow(final Help.TextTable table, final SearchResponse.Response.Doc doc) {\n    // build GAV coordinate (including classifier if present)\n    StringBuilder gav = new StringBuilder()\n        .append(doc.groupId())\n        .append(':')\n        .append(doc.artifactId());\n    if (doc.classifier() != null && !doc.classifier().isEmpty()) {\n        gav.append(':').append(doc.classifier());\n    }\n    gav.append(':').append(doc.version());\n\n    var lastUpdated = DATE_TIME_FORMATTER.format(\n        Instant.ofEpochMilli(doc.timestamp()).atZone(ZoneId.systemDefault())\n    );\n\n    table.addRowValues(gav.toString(), lastUpdated);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n        nextName();\n        // clear the name we just consumed\n        pathNames[stackSize - 2] = \"null\";\n    } else {\n        popStack();\n        // if we've popped the root, don't touch pathNames\n        if (stackSize > 0) {\n            pathNames[stackSize - 1] = \"null\";\n        }\n    }\n    // if there's still a containing scope, bump its index\n    if (stackSize > 0) {\n        pathIndices[stackSize - 1]++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

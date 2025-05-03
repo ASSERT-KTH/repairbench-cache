@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token\n */\nprivate boolean isShortOption(String token) {\n    // must start with \"-\" and be longer than 1 char\n    if (!token.startsWith(\"-\") || token.length() == 1) {\n        return false;\n    }\n    // strip off any \"=value\"\n    int eq = token.indexOf(\"=\");\n    String name = (eq == -1)\n        ? token.substring(1)\n        : token.substring(1, eq);\n    // exact match: e.g. \"-t1\"\n    if (options.hasShortOption(name)) {\n        return true;\n    }\n    // clustered options: e.g. \"-ab\" => \"-a\" and \"-b\"\n    if (eq == -1 && name.length() > 1) {\n        for (char c : name.toCharArray()) {\n            if (!options.hasShortOption(String.valueOf(c))) {\n                return false;\n            }\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

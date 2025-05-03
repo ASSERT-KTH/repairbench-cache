@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, excluding IE\u2010sensitive event handlers or bracket\n *     property calls (which can't be safely folded into &&/|| forms).\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() != Token.BLOCK || !n.hasOneChild()) {\n    return false;\n  }\n  Node stmt = n.getFirstChild();\n  if (!NodeUtil.isExpressionNode(stmt)) {\n    return false;\n  }\n  // Unwrap EXPR_RESULT to inspect the actual expression.\n  Node expr = (stmt.getType() == Token.EXPR_RESULT)\n      ? stmt.getFirstChild()\n      : stmt;\n  // If it's a CALL, reject GETPROP(\"on*\") and any GETELEM.\n  if (expr.getType() == Token.CALL) {\n    Node callTarget = expr.getFirstChild();\n    if (callTarget.getType() == Token.GETPROP) {\n      String propName = callTarget.getLastChild().getString();\n      if (propName.startsWith(\"on\")) {\n        return false;\n      }\n    } else if (callTarget.getType() == Token.GETELEM) {\n      return false;\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Creates a period from the given millisecond duration with the standard period type\n * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n * <p>\n * The calculation uses the hour, minute, second and millisecond fields.\n *\n * @param duration  the duration, in milliseconds\n */\nprotected BasePeriod(long duration) {\n    // Use the time-only period type to prevent imprecise calculation of days, months, etc.\n    this(0, 0, 0, 0, \n         (int) (duration / DateTimeConstants.MILLIS_PER_HOUR),\n         (int) ((duration % DateTimeConstants.MILLIS_PER_HOUR) / DateTimeConstants.MILLIS_PER_MINUTE),\n         (int) ((duration % DateTimeConstants.MILLIS_PER_MINUTE) / DateTimeConstants.MILLIS_PER_SECOND),\n         (int) (duration % DateTimeConstants.MILLIS_PER_SECOND),\n         PeriodType.standard());\n    // bug [3264409] fixed: only populate time fields from a duration\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nJSType meet(JSType that) {\n  UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n  // Add any alternates of this union that are subtypes of that.\n  for (JSType alternate : alternates) {\n    if (alternate.isSubtype(that)) {\n      builder.addAlternate(alternate);\n    }\n  }\n  // Add any alternates of that union (or that itself) that are subtypes of this.\n  if (that instanceof UnionType) {\n    for (JSType otherAlternate : ((UnionType) that).alternates) {\n      if (otherAlternate.isSubtype(this)) {\n        builder.addAlternate(otherAlternate);\n      }\n    }\n  } else if (that.isSubtype(this)) {\n    builder.addAlternate(that);\n  }\n  // If we found any common subtypes, return their union.\n  JSType result = builder.build();\n  if (result != null) {\n    return result;\n  }\n  // Otherwise, if both operands are object\u2010subtypes, the greatest subtype\n  // is the empty object set; else it's the empty type.\n  JSType objectType = getNativeType(JSTypeNative.OBJECT_TYPE);\n  if (this.isSubtype(objectType) && that.isSubtype(objectType)) {\n    return getNativeType(JSTypeNative.NO_OBJECT_TYPE);\n  } else {\n    return getNativeType(JSTypeNative.NO_TYPE);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

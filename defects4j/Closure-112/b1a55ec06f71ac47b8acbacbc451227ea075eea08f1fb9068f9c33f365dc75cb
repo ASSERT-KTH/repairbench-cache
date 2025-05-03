@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean inferTemplatedTypesForCall(\n    Node n, FunctionType fnType) {\n  // Only try inference if the function actually has its own template parameters.\n  final ImmutableList<TemplateType> keys =\n      fnType.getTemplateTypeMap().getTemplateKeys();\n  if (keys.isEmpty()) {\n    return false;\n  }\n\n  // Try to infer the template types from the actual call-site arguments.\n  Map<TemplateType, JSType> inferred =\n      inferTemplateTypesFromParameters(fnType, n);\n\n  // Only keep the entries for the templates that are declared on this function.\n  // (Don\u2019t accidentally infer class\u2010level or other stray TemplateTypes.)\n  Map<TemplateType, JSType> mapForReplacer = new LinkedHashMap<>();\n  for (TemplateType key : keys) {\n    if (inferred.containsKey(key)) {\n      mapForReplacer.put(key, inferred.get(key));\n    }\n  }\n\n  // Replace all template occurrences in the function signature.\n  // Un\u2010inferred templates become UNKNOWN.\n  TemplateTypeReplacer replacer =\n      new TemplateTypeReplacer(registry, mapForReplacer);\n\n  Node callTarget = n.getFirstChild();\n  FunctionType replacementFnType =\n      fnType.visit(replacer).toMaybeFunctionType();\n  Preconditions.checkNotNull(replacementFnType);\n\n  // Update the AST with the instantiated function type and its return type.\n  callTarget.setJSType(replacementFnType);\n  n.setJSType(replacementFnType.getReturnType());\n\n  return replacer.madeChanges;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

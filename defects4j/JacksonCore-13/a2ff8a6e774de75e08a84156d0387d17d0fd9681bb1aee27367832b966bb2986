@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected void _checkStdFeatureChanges(JsonGenerator.Feature f, boolean state) {\n    // existing dynamic feature-handling:\n    if (f == JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS) {\n        _cfgNumbersAsStrings = state;\n    } else if (f == JsonGenerator.Feature.ESCAPE_NON_ASCII) {\n        _cfgEscapeNonAscii = state;\n    } else if (f == JsonGenerator.Feature.STRICT_DUPLICATE_DETECTION) {\n        if (state) {\n            _writeContext = _writeContext.withDupDetector(DupDetector.rootDetector(this));\n        } else {\n            _writeContext = _writeContext.withDupDetector(null);\n        }\n    }\n    // --- HERE IS THE FIX ---\n    else if (f == JsonGenerator.Feature.QUOTE_FIELD_NAMES) {\n        // must update this flag when user enables/disables at generator level\n        _cfgQuoteNames = state;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

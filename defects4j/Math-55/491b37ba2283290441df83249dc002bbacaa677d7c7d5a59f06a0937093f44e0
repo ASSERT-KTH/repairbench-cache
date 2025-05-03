@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // Implement Kahan's trick for precision: compute v3 = v1 - rho v2 with\n    // rho = nearestFloat(v1\u00b7v2 / v2\u00b7v2) (here, using 8 bits of mantissa for rho).\n    final double normV2Squared = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n    double rho = (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z) / normV2Squared;\n    if (Double.isNaN(rho) || Double.isInfinite(rho)) {\n        // cannot precondition, just do the straightforward cross product\n        return new Vector3D(\n            v1.y * v2.z - v1.z * v2.y,\n            v1.z * v2.x - v1.x * v2.z,\n            v1.x * v2.y - v1.y * v2.x\n        );\n    }\n    // round rho to 8 significant bits\n    final long bits = Double.doubleToRawLongBits(rho);\n    // zero-out lower bits for mantissa: 52-8=44 bits\n    final long mask = ~((1L << 44) - 1); // keep sign, exponent and first 8 bits of mantissa\n    final double rhoRounded = Double.longBitsToDouble(bits & mask);\n\n    // v3 = v1 - rhoRounded * v2\n    final double v3x = v1.x - rhoRounded * v2.x;\n    final double v3y = v1.y - rhoRounded * v2.y;\n    final double v3z = v1.z - rhoRounded * v2.z;\n\n    // cross(v3, v2)\n    return new Vector3D(\n        v3y * v2.z - v3z * v2.y,\n        v3z * v2.x - v3x * v2.z,\n        v3x * v2.y - v3y * v2.x\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "// In StdDeserializer (or wherever empty\u2010string coercion is handled), replace the\n// AsNull branch so it uses getNullValue(ctxt) (honoring primitives\u2019 default)\n// instead of returning literal null:\n\n@Override\nprotected final T _coerceEmptyString(DeserializationContext ctxt,\n                                     T emptyValue) throws IOException\n{\n    // look up what to do with empty\u2010string inputs for this type:\n    CoercionAction action = ctxt.findCoercionAction(_valueType,\n                                                   CoercionInputShape.EmptyString);\n    switch (action) {\n    case AsEmpty:\n        // explicit \"as empty\" \u2192 use empty\u2010value (for wrapper: null or for primitive: default)\n        return emptyValue;\n    case AsNull:\n        // explicit \"as null\" \u2192 delegate to null\u2010handling (will respect\n        // FAIL_ON_NULL_FOR_PRIMITIVES and primitive default)\n        return getNullValue(ctxt);\n    case Fail:\n        // explicit \"fail\" \u2192 report an error\n        return (T) ctxt.handleWeirdStringValue(_valueClass,\n            ctxt.getParser().getText(),\n            \"Cannot coerce empty String ('\\\"\\\"') to %s\",\n            _valueClass.getName());\n    default:\n        // TryConvert, TryConvertOrNull, etc \u2192 fall back to emptyValue\n        return emptyValue;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

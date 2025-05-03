@@ -1,0 +1,7 @@
+{
+    "generation": "public static String abbreviate(String str, int lower, int upper, String appendToEnd) {\n    // initial parameter checks\n    if (str == null) {\n        return null;\n    }\n    if (str.length() == 0) {\n        return StringUtils.EMPTY;\n    }\n\n    // Adjust bounds\n    if (lower > str.length()) {\n        lower = str.length();\n    }\n    if (upper == -1 || upper > str.length()) {\n        upper = str.length();\n    }\n    if (upper < lower) {\n        upper = lower;\n    }\n    // If the whole string would be returned or if no chars would be appended, fast path\n    if (lower >= str.length() || upper == 0) {\n        return \"\";\n    }\n\n    StringBuffer result = new StringBuffer();\n    int index = StringUtils.indexOf(str, \" \", lower);\n    if (index == -1 || index > upper) {\n        // No space found after 'lower', or the first space is after 'upper'\n        result.append(str.substring(0, upper));\n        // Only append if abbreviation occurred\n        if (upper != str.length()) {\n            result.append(StringUtils.defaultString(appendToEnd));\n        }\n    } else {\n        // The first space found after 'lower' and before or at 'upper'\n        result.append(str.substring(0, index));\n        result.append(StringUtils.defaultString(appendToEnd));\n    }\n    return result.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

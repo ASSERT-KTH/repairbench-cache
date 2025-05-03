@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    // After deserialization validate that the factory really makes Collections\n    if (factory instanceof org.apache.commons.collections4.functors.InstantiateFactory) {\n        @SuppressWarnings(\"unchecked\")\n        org.apache.commons.collections4.functors.InstantiateFactory<? extends java.util.Collection<?>> f =\n            (org.apache.commons.collections4.functors.InstantiateFactory<? extends java.util.Collection<?>>) factory;\n        Class<?> cls = f.getInstanceClass();\n        if (!java.util.Collection.class.isAssignableFrom(cls)) {\n            throw new UnsupportedOperationException(\n                \"Unsafe factory class for MultiValueMap: \" + cls.getName());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

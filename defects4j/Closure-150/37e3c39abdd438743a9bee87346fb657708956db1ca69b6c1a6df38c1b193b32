@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  // Don't re\u2010visit the scope root.\n  if (n == scope.getRootNode()) {\n    return;\n  }\n\n  // The LP under the FUNCTION is the parameter list.\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  // First hook up literal\u2010value types.\n  attachLiteralTypes(n);\n\n  // Then handle any declared names in this local scope,\n  // including stub declarations on qualified names.\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      // Skip the NAME node of a named function expression.\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n\n    case Token.GETPROP:\n    case Token.GETELEM:\n      // Handle JSDoc \u201cstubs\u201d like /** @param {number} x */ goog.foo;\n      defineQualifiedName(n, parent);\n      break;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

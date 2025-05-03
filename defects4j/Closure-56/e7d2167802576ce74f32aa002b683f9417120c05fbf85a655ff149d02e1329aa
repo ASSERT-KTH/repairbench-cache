@@ -1,0 +1,7 @@
+{
+    "generation": "public String getLine(int lineNumber) {\n  String js;\n  try {\n    js = getCode();\n  } catch (IOException e) {\n    return null;\n  }\n\n  int pos = 0;\n  int startLine = 1;\n  if (lineNumber >= lastLine) {\n    pos = lastOffset;\n    startLine = lastLine;\n  }\n\n  // Skip up to the requested line.\n  for (int n = startLine; n < lineNumber; n++) {\n    int nextPos = js.indexOf('\\n', pos);\n    if (nextPos == -1) {\n      return null;\n    }\n    pos = nextPos + 1;\n  }\n\n  // Cache for future calls.\n  lastOffset = pos;\n  lastLine = lineNumber;\n\n  // Find the end of this line.\n  int endPos = js.indexOf('\\n', pos);\n  if (endPos == -1) {\n    // No newline \u2013 either past EOF or last line without a trailing newline.\n    return (pos < js.length()) ? js.substring(pos) : null;\n  } else {\n    return js.substring(pos, endPos);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

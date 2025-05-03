@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, and (for fold\u2010into\u2010expression rewrites) not an\n *     IE event\u2010handler or computed\u2010property call.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n    Node maybeExpr = n.getFirstChild();\n    // Only fold single EXPR_RESULT statements.\n    if (!NodeUtil.isExpressionNode(maybeExpr)) {\n      return false;\n    }\n    // Detect calls we should NOT fold into other expressions:\n    // 1) f.onchange() (event handlers named \"on*\")\n    // 2) any computed\u2010property call f['x']()\n    Node expr = maybeExpr.getFirstChild();\n    if (expr != null && expr.getType() == Token.CALL) {\n      Node target = expr.getFirstChild();\n      if (target.getType() == Token.GETPROP) {\n        String propName = target.getLastChild().getString();\n        if (propName.startsWith(\"on\")) {\n          return false;\n        }\n      } else if (target.getType() == Token.GETELEM) {\n        return false;\n      }\n    }\n    return true;\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n *\n * @return current solution\n */\n@Override\nprotected RealPointValuePair getSolution() {\n    final int n = getOriginalNumDecisionVariables();\n    final double[] sol = new double[n];\n\n    // figure out the global shift (if we introduced a single negative\u2010variable column)\n    int negCol = columnLabels.indexOf(NEGATIVE_VAR_COLUMN_LABEL);\n    Integer negBasicRow = (negCol >= 0) ? getBasicRow(negCol) : null;\n    double shift = (negBasicRow == null) ? 0.0 : getEntry(negBasicRow, getRhsOffset());\n\n    // extract each original variable\n    for (int i = 0; i < n; i++) {\n        String var = \"x\" + i;\n        int col = columnLabels.indexOf(var);\n        double value = 0.0;\n        if (col >= 0) {\n            Integer row = getBasicRow(col);\n            if (row != null) {\n                value = getEntry(row, getRhsOffset());\n            }\n            // if we allowed negatives, undo the shift\n            if (!restrictToNonNegative) {\n                value -= shift;\n            }\n        }\n        // enforce non\u2010negativity if requested (guard against tiny negatives)\n        if (restrictToNonNegative && value < 0.0) {\n            value = 0.0;\n        }\n        sol[i] = value;\n    }\n\n    // compute the objective value at the point\n    return new RealPointValuePair(sol, f.getValue(sol));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

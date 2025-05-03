@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    // guard against too-short input\n    if (index + 1 >= input.length() || input.charAt(index) != '&' || input.charAt(index + 1) != '#') {\n        return 0;\n    }\n    int start = index + 2;\n    boolean isHex = false;\n    if (start < input.length()) {\n        char c = input.charAt(start);\n        if (c == 'x' || c == 'X') {\n            isHex = true;\n            start++;\n        }\n    }\n    int end = start;\n    while (end < input.length() && input.charAt(end) != ';') {\n        end++;\n    }\n    if (end >= input.length()) {\n        return 0;\n    }\n    int entityValue;\n    try {\n        String number = input.subSequence(start, end).toString();\n        entityValue = Integer.parseInt(number, isHex ? 16 : 10);\n    } catch (NumberFormatException nfe) {\n        return 0;\n    }\n    // write BMP or supplementary characters correctly\n    char[] chars = Character.toChars(entityValue);\n    out.write(chars, 0, chars.length);\n    // consumed: \"&\" \"#\" [ \"x\" ] digits \";\"\n    return 2 + (isHex ? 1 : 0) + (end - start) + 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

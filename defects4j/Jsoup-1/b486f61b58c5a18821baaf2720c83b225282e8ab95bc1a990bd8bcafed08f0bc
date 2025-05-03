@@ -1,0 +1,7 @@
+{
+    "generation": "// does not recurse.\nprivate void normalise(Element element) {\n    List<TextNode> toMove = new ArrayList<TextNode>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // Insert preserved whitespace between moved nodes if there are multiple, but in correct order\n    // Insert them at the beginning of the body, preserving order\n    Element body = body();\n    int insertPos = 0;\n    for (TextNode tn : toMove) {\n        element.removeChild(tn);\n        body.insertChildren(insertPos++, tn);\n        // insert a space after, except after the last node\n        // (original code always appended \" \", but that's incorrect)\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

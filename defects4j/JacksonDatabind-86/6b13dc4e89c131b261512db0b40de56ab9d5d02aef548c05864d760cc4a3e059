@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void resolveSuperClass(JavaType superClass) {\n    // Only set once; needed to avoid infinite loops, since this gets\n    // called for all super classes and interfaces recursively\n    if (_superClass == null) {\n        _superClass = superClass;\n        // [databind#1647]: propagate property definitions upwards in recursive case\n        if (superClass instanceof ResolvedRecursiveType) {\n            ResolvedRecursiveType resolvedSuper = (ResolvedRecursiveType) superClass;\n            if (resolvedSuper._referencedType != null && resolvedSuper._referencedType.isPojoType()) {\n                this._typeHandler = resolvedSuper._referencedType.getTypeHandler();\n                this._valueHandler = resolvedSuper._referencedType.getValueHandler();\n                this._asStatic = resolvedSuper._referencedType.isStatic();\n                // Copy the property definitions of the referenced type\n                if (_beanType != null && resolvedSuper._referencedType instanceof ResolvedRecursiveType) {\n                    // Copy _beanType (required for property discovery) if not yet set\n                    this._beanType = ((ResolvedRecursiveType) resolvedSuper._referencedType)._beanType;\n                }\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

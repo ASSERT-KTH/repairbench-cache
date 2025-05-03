@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // fast-path for diagonal weight matrices to avoid O(n\u00b2) eigen decomposition\n    if (m instanceof DiagonalMatrix) {\n        DiagonalMatrix dm = (DiagonalMatrix) m;\n        double[] diag = dm.getData();\n        double[] sqrt = new double[diag.length];\n        for (int i = 0; i < diag.length; i++) {\n            if (diag[i] <= 0) {\n                // weight matrix must be positive\u2010definite\n                throw new NonPositiveDefiniteMatrixException();\n            }\n            sqrt[i] = FastMath.sqrt(diag[i]);\n        }\n        return new DiagonalMatrix(sqrt);\n    }\n    // general case: use eigen decomposition for full SPD matrices\n    EigenDecomposition dec = new EigenDecomposition(m);\n    return dec.getSquareRoot();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

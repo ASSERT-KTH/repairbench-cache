@@ -1,0 +1,7 @@
+{
+    "generation": "private void removeUnreferencedFunctionArgs(Scope fnScope) {\n  Node function = fnScope.getRootNode();\n  Preconditions.checkState(function.isFunction());\n  if (NodeUtil.isGetOrSetKey(function.getParent())) {\n    // The parameters object literal setters cannot be removed.\n    return;\n  }\n  // Only remove unreferenced parameters when we are allowed to\n  // update all the call sites (e.g. in ADVANCED mode).\n  if (modifyCallSites && callSiteOptimizer.canModifyCallers(function)) {\n    callSiteOptimizer.optimize(fnScope, referenced);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    long storedSum = 0;\n    long unsignedSum = 0;\n    long signedSum = 0;\n\n    // Calculate unsigned and signed sums, treating the checksum field as spaces\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            unsignedSum += 0xff & ' ';\n            signedSum += ' ';\n        } else {\n            unsignedSum += 0xff & b;\n            signedSum += b;\n        }\n    }\n\n    // Parse the stored checksum value\n    // Per Wikipedia: Ignore leading and trailing whitespace and get first six digits.\n    // The checksum field is 8 bytes at offset CHKSUM_OFFSET\n    int start = CHKSUM_OFFSET;\n    int end = CHKSUM_OFFSET + CHKSUMLEN;\n\n    // Skip leading whitespace (spaces or NULs)\n    while (start < end && (header[start] == 0 || header[start] == (byte) ' ')) {\n        start++;\n    }\n    // Get up to 6 octal digits\n    int digits = 0;\n    for (int i = start; i < end && digits < 6; i++) {\n        byte b = header[i];\n        if (b >= '0' && b <= '7') {\n            storedSum = storedSum * 8 + (b - '0');\n            digits++;\n        } else {\n            break;\n        }\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

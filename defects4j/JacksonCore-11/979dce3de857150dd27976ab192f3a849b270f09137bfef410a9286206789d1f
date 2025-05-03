@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n        _names = Arrays.copyOf(_names, _names.length);\n        _hashShared = false;\n    }\n    // Always rehash if needed, regardless of _hashShared state,\n    // because the \"need rehash\" flag may not be copied properly when \n    // table is expanded and shared (see jackson-core#216).\n    // Here, we must check _needRehash after we've unshared arrays,\n    // so that rehash can actually expand arrays as needed.\n    if (_needRehash) {\n        // Need to clear sharing, so rehash can expand properly.\n        _rehash();\n        _needRehash = false;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _addMethodMixIns(Class<?> targetClass, AnnotatedMethodMap methods,\n        Class<?> mixInCls, AnnotatedMethodMap mixIns)\n{\n    List<Class<?>> parents = new ArrayList<Class<?>>();\n    /* The following is the bug: collecting parent classes into 'parents' starts from 'mixInCls'\n     * but 'findSuperTypes' (as implemented) adds parents after the first element.\n     * The correct order is from Object down _to_ mixInCls.\n     * We must reverse to apply mix-ins from root to leaf (most-specific last).\n     */\n    parents.add(mixInCls);\n    ClassUtil.findSuperTypes(mixInCls, targetClass, parents);\n\n    // Reverse to ensure root mix-in methods are added first, leaves can override\n    Collections.reverse(parents);\n\n    for (Class<?> mixin : parents) {\n        for (Method m : mixin.getDeclaredMethods()) {\n            if (!_isIncludableMemberMethod(m)) {\n                continue;\n            }\n            AnnotatedMethod am = methods.find(m);\n            if (am != null) {\n                _addMixUnders(m, am);\n            } else {\n                mixIns.add(_constructMethod(m));\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

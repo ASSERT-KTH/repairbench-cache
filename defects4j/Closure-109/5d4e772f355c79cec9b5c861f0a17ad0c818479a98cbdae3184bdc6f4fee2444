@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * ContextTypeExpression := BasicTypeExpression | '?'\n * For expressions on the right hand side of a this: or new:\n */\nprivate Node parseContextTypeExpression(JsDocToken token) {\n    // Allow both '?' (unknown) and '*' (wildcard) here,\n    // otherwise fall back to regular named types.\n    if (token.type == JsDocToken.Type.QMARK) {\n        return Node.newString(Token.QMARK, token.value);\n    } else if (token.type == JsDocToken.Type.STAR) {\n        return Node.newString(Token.STAR, token.value);\n    } else {\n        return parseTypeName(token);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private Element insert(Token.StartTag startTag) {\n    // look up the HTML semantics of this tag\n    Tag tag = Tag.valueOf(startTag.name());\n\n    // if it\u2019s a \u201cvoid\u201d element by spec (img, hr, br, etc.), always treat as empty\n    if (tag.isEmpty()) {\n        return insertEmpty(startTag);\n    }\n\n    // otherwise, normal element insertion\n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n\n    // if the author supplied a self\u2010close slash on a non\u2010void tag,\n    // force a fake end tag so it closes immediately\n    if (startTag.isSelfClosing()) {\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n    }\n\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

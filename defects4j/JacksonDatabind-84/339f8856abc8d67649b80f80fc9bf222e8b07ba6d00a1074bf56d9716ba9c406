@@ -1,0 +1,7 @@
+{
+    "generation": "// In com/fasterxml/jackson/databind/type/TypeFactory.java\n// Replace the existing _fromClass(...) method with this fixed version:\n\n@Override\nprotected JavaType _fromClass(Class<?> cls, TypeBindings bindings,\n        JavaType contextType, JavaType superClass, JavaType[] superInterfaces)\n{\n    // key for caching\n    TypeKey key = new TypeKey(cls, bindings);\n    // if we already have a cached type, just return it\n    JavaType cached = _typeCache.get(key);\n    if (cached != null) {\n        return cached;\n    }\n    // create a placeholder to break recursion\n    SimpleType placeholder = new SimpleType(cls, bindings, superClass, superInterfaces);\n    _typeCache.put(key, placeholder);\n    // now fully resolve supertypes (this returns a new SimpleType with superClass/interfaces set)\n    SimpleType fullyResolved = (SimpleType) _resolveSuperTypes(placeholder, cls);\n    // replace the placeholder in cache with the fully\u2010resolved type\n    _typeCache.put(key, fullyResolved);\n    return fullyResolved;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // xml\u2010style self\u2010closing (\"/>\") outside of void elements:\n    // \u2013 known HTML tags: treat as empty by forcing a synthetic end tag\n    // \u2013 unknown tags: truly self\u2010close with no extra end tag\n    if (startTag.isSelfClosing()) {\n        Element el = insertEmpty(startTag);\n        if (Tag.isKnownTag(startTag.name())) {\n            // for a known (non\u2010void) tag, push & emit a matching end tag so it pops immediately\n            stack.add(el);\n            tokeniser.emit(new Token.EndTag(el.tagName()));\n        }\n        return el;\n    }\n\n    // normal start tag\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

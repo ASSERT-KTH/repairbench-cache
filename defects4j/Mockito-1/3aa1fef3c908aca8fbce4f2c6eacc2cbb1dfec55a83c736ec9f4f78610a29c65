@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation invocation) {\n    if (invocation.getMethod().isVarArgs()) {\n        // Handle varargs correctly when capturing arguments\n        int rawArgLength = invocation.getRawArguments().length;\n        int matcherCount = matchers.size();\n        for (int position = 0; position < matcherCount; position++) {\n            Matcher m = matchers.get(position);\n            if (m instanceof CapturesArguments) {\n                Object argumentValue;\n                if (rawArgLength > position) {\n                    argumentValue = invocation.getRawArguments()[position];\n                } else {\n                    // If there are more matchers than arguments, pass null (this can happen with varargs and nulls)\n                    argumentValue = null;\n                }\n                ((CapturesArguments) m).captureFrom(argumentValue);\n            }\n        }\n    } else {\n        for (int position = 0; position < matchers.size(); position++) {\n            Matcher m = matchers.get(position);\n            if (m instanceof CapturesArguments) {\n                ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(position, Object.class));\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

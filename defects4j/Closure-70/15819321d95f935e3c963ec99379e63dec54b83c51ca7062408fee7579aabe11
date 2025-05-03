@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  if (functionType != null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters != null) {\n      Node jsDocParameter = jsDocParameters.getFirstChild();\n      for (Node astParameter : astParameters.children()) {\n        // If the AST parameter already has a declared type on the node (from JSDoc),\n        // then don't override it with jsDocParameter's type. Use that declared type.\n        JSType typeToDeclare = null;\n        if (astParameter.getJSType() != null) {\n          typeToDeclare = astParameter.getJSType();\n        } else if (jsDocParameter != null) {\n          typeToDeclare = jsDocParameter.getJSType();\n        }\n        defineSlot(astParameter, functionNode, typeToDeclare, true);\n        if (jsDocParameter != null) {\n          jsDocParameter = jsDocParameter.getNext();\n        }\n      }\n    } else {\n      // This case covers no jsdoc param types at all, declare with what's on the node (from local jsdoc)\n      for (Node astParameter : astParameters.children()) {\n        defineSlot(astParameter, functionNode, astParameter.getJSType(), true);\n      }\n    }\n  }\n} // end declareArguments",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

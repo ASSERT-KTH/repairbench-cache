@@ -1,0 +1,7 @@
+{
+    "generation": "public char[] getTextBuffer() {\n    // Are we just using shared input buffer?\n    if (_inputStart >= 0) {\n        return _inputBuffer;\n    }\n    // Do we already have a raw char[] ready?\n    if (_resultArray != null) {\n        return _resultArray;\n    }\n    // Do we already have a String ready to convert?\n    if (_resultString != null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    // No segments started, return whatever is in the current segment\n    if (!_hasSegments) {\n        // _currentSegment may be null if nothing has ever been added\n        return (_currentSegment == null)\n            ? new char[0]\n            : _currentSegment;\n    }\n    // We have multiple segments: flatten into one and return\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

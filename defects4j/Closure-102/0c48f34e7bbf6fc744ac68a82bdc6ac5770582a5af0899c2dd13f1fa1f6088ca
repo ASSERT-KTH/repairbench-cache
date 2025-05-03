@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void process(Node externs, Node root) {\n  // First do all the normal traversal work\n  NodeTraversal.traverse(compiler, root, this);\n  // Collapse any single\u2010child VARs (e.g. var x = ... -> x = ...) and\n  // remove duplicate names in multi\u2010decl VARs.\n  removeDuplicateDeclarations(root);\n  // Now, if we're making locals unique, do that on the already\u2010flattened code.\n  if (MAKE_LOCAL_NAMES_UNIQUE) {\n    MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();\n    NodeTraversal t = new NodeTraversal(compiler, renamer);\n    t.traverseRoots(externs, root);\n  }\n  // Finally propagate any @const annotations.\n  new PropogateConstantAnnotations(compiler, assertOnChange)\n      .process(externs, root);\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

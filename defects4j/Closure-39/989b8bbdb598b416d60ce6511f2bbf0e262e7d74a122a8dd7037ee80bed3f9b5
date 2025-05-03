@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nString toStringHelper(boolean forAnnotations) {\n  if (hasReferenceName()) {\n    return getReferenceName();\n  }\n  // Recursion guard: if we're already pretty-printing, stop here.\n  if (!prettyPrint) {\n    return forAnnotations ? \"?\" : \"{...}\";\n  }\n\n  // Perform the full pretty-print.\n  prettyPrint = false;\n  // Collect and sort property names.\n  Set<String> propertyNames = Sets.newTreeSet();\n  for (ObjectType current = this;\n       current != null && !current.isNativeObjectType();\n       current = current.getImplicitPrototype()) {\n    propertyNames.addAll(current.getOwnPropertyNames());\n    // If not in annotation mode, we only need up to the MAX limit\n    if (!forAnnotations && propertyNames.size() > MAX_PRETTY_PRINTED_PROPERTIES) {\n      break;\n    }\n  }\n\n  StringBuilder sb = new StringBuilder(\"{\");\n  int count = 0;\n  for (String prop : propertyNames) {\n    if (count > 0) {\n      sb.append(\", \");\n    }\n    sb.append(prop).append(\": \");\n    JSType pt = getPropertyType(prop);\n    sb.append(forAnnotations ? pt.toAnnotationString() : pt.toString());\n\n    count++;\n    if (!forAnnotations && count == MAX_PRETTY_PRINTED_PROPERTIES) {\n      sb.append(\", ...\");\n      break;\n    }\n  }\n  sb.append(\"}\");\n  prettyPrint = true;\n  return sb.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

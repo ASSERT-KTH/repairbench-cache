@@ -1,0 +1,7 @@
+{
+    "generation": "private Attribute parseAttribute() {\n    // skip leading whitespace\n    tq.consumeWhitespace();\n    // grab the key\n    String key = tq.consumeAttributeKey();\n    // if there's no key, skip over the junk until we hit whitespace or a tag boundary\n    if (key.length() == 0) {\n        while (!tq.matchesAny(\"<\", \"/>\", \">\") \n               && !tq.matchesWhitespace() \n               && !tq.isEmpty()) {\n            tq.consume();\n        }\n        return null;\n    }\n    // otherwise we have a key, so try to read a value\n    String value = \"\";\n    tq.consumeWhitespace();\n    if (tq.matchChomp(\"=\")) {\n        tq.consumeWhitespace();\n        if (tq.matchChomp(SQ)) {\n            value = tq.chompTo(SQ);\n            // closing quote if present\n            tq.matchChomp(SQ);\n        } else if (tq.matchChomp(DQ)) {\n            value = tq.chompTo(DQ);\n            // closing quote if present\n            tq.matchChomp(DQ);\n        } else {\n            // unquoted value: read until whitespace or tag boundary\n            StringBuilder sb = new StringBuilder();\n            while (!tq.matchesAny(\"<\", \"/>\", \">\")\n                   && !tq.matchesWhitespace()\n                   && !tq.isEmpty()) {\n                sb.append(tq.consume());\n            }\n            value = sb.toString();\n        }\n        tq.consumeWhitespace();\n    }\n    return Attribute.createFromEncoded(key, value);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

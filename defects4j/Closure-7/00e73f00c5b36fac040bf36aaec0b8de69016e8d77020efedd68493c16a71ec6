@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType caseObjectType(ObjectType type) {\n  // Handle typeof x == \"function\" or != \"function\"\n  if (value.equals(\"function\")) {\n    JSType fnCtor = getNativeType(U2U_CONSTRUCTOR_TYPE);\n    boolean isFn = fnCtor.isSubtype(type);\n    if (resultEqualsValue) {\n      // typeof x == \"function\": keep only the Function type\n      return isFn ? fnCtor : null;\n    } else {\n      // typeof x != \"function\": drop all Function subtypes\n      return isFn ? null : type;\n    }\n  }\n  // All other typeof\u2010\"object\" tests go through the default path\n  return matchesExpectation(\"object\") ? type : null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // collect fields in original order\n    List<Field> fields = new ArrayList<Field>();\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        fields.add(field);\n    }\n    // split into exact\u2010type matches and ancestor matches\n    List<Field> exactMatchFields = new ArrayList<Field>();\n    List<Field> ancestorFields   = new ArrayList<Field>();\n    for (Field field : fields) {\n        boolean exactMatch = false;\n        Class<?> fieldType = field.getType();\n        for (Object mock : mocks) {\n            if (mock.getClass().equals(fieldType)) {\n                exactMatch = true;\n                break;\n            }\n        }\n        if (exactMatch) {\n            exactMatchFields.add(field);\n        } else {\n            ancestorFields.add(field);\n        }\n    }\n    // first inject exact matches, then inject by ancestor (supertype) matches\n    for (Field field : exactMatchFields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n    for (Field field : ancestorFields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

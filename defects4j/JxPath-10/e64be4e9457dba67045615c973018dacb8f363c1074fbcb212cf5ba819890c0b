@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic final Object computeValue(EvalContext context) {\n    Object left = args[0].computeValue(context);\n    Object right = args[1].computeValue(context);\n\n    // Per XPath spec, if either side is an empty node\u2010set, all comparisons must be false.\n    if (left instanceof NodeIterator) {\n        NodeIterator ni = (NodeIterator) left;\n        int saved = ni.getPosition();\n        if (!ni.setPosition(1)) {\n            ni.setPosition(saved);\n            return Boolean.FALSE;\n        }\n        ni.setPosition(saved);\n    }\n    if (right instanceof NodeIterator) {\n        NodeIterator ni = (NodeIterator) right;\n        int saved = ni.getPosition();\n        if (!ni.setPosition(1)) {\n            ni.setPosition(saved);\n            return Boolean.FALSE;\n        }\n        ni.setPosition(saved);\n    }\n\n    // Also treat empty Java collections or arrays as empty node\u2010sets.\n    if (left instanceof java.util.Collection && ((java.util.Collection<?>) left).isEmpty()\n        || right instanceof java.util.Collection && ((java.util.Collection<?>) right).isEmpty()\n        || (left != null && left.getClass().isArray() && java.lang.reflect.Array.getLength(left) == 0)\n        || (right != null && right.getClass().isArray() && java.lang.reflect.Array.getLength(right) == 0)) {\n        return Boolean.FALSE;\n    }\n\n    return compute(left, right) ? Boolean.TRUE : Boolean.FALSE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

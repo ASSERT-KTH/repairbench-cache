@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and store it in\n * numUsesWithinCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  // Only suppress counting the LHS when this node is really a top\u2010level\n  // assignment (or an ExprResult wrapping one), i.e. an assignment\u2010chain.\n  final boolean isAssignmentChain =\n      cfgNode.isAssign()\n      || (cfgNode.isExprResult() && cfgNode.getFirstChild().isAssign());\n\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName() && n.getString().equals(varName)) {\n            // Skip the LHS of a top\u2010level assignment chain only.\n            if (parent.isAssign()\n                && parent.getFirstChild() == n\n                && isAssignmentChain) {\n              return;\n            }\n            numUsesWithinCfgNode++;\n          }\n        }\n      };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

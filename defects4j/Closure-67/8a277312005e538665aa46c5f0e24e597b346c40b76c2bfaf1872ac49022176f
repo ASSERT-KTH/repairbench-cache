@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP\n      ) {\n    // Check if the property being assigned is a prototype property\n    Node propOwner = n.getFirstChild();\n    if (propOwner != null && propOwner.getType() == Token.GETPROP) {\n      Node middle = propOwner.getFirstChild();\n      Node right = middle != null ? middle.getNext() : null;\n      if (right != null && right.getType() == Token.STRING &&\n          \"prototype\".equals(right.getString())) {\n        return true;\n      }\n    }\n    // Also handle the quoted (string) property style: obj['prototype'].foo = ...\n    Node obj = n.getFirstChild();\n    Node prop = obj != null ? obj.getNext() : null;\n    if (obj != null && obj.getType() == Token.GETPROP) {\n      // already handled above\n    } else if (obj != null && obj.getType() == Token.GETELEM) {\n      Node objBase = obj.getFirstChild();\n      Node objProp = objBase != null ? objBase.getNext() : null;\n      if (objProp != null && objProp.getType() == Token.STRING &&\n          \"prototype\".equals(objProp.getString())) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns a clone of the time series.\n *\n * @return A clone of the time series.\n *\n * @throws CloneNotSupportedException not thrown by this class, but\n *         subclasses may differ.\n */\n@Override\npublic Object clone() throws CloneNotSupportedException {\n    // special case for an empty series \u2013 avoid createCopy(0, -1)\n    if (getItemCount() == 0) {\n        TimeSeries copy = (TimeSeries) super.clone();\n        // give the clone its own empty data list\n        copy.data = new java.util.ArrayList();\n        return copy;\n    }\n    // for non\u2010empty series, delegate to the existing createCopy method\n    return createCopy(0, getItemCount() - 1);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

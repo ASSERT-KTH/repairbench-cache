@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null && array2 == null) {\n        return null;\n    } else if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    Class<?> type1 = array1.getClass().getComponentType();\n    Class<?> type2 = array2.getClass().getComponentType();\n\n    // Special handling for different array types\n    if (!type1.isAssignableFrom(type2) && !type2.isAssignableFrom(type1)) {\n        // Use the most general common supertype, i.e., Object\n        Class<?> newType = Object.class;\n        Object[] joinedArray = (Object[]) Array.newInstance(newType, array1.length + array2.length);\n        System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n        return (T[]) joinedArray;\n    }\n\n    // If one component type can hold all elements, use that common type\n    Class<?> resultingType = type1.isAssignableFrom(type2) ? type2 : type1;\n    T[] joinedArray = (T[]) Array.newInstance(resultingType, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

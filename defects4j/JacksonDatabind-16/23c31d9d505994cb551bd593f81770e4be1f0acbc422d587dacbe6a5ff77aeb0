@@ -1,0 +1,7 @@
+{
+    "generation": "protected final boolean _add(Annotation ann) {\n    if (_annotations == null) {\n        _annotations = new HashMap<Class<? extends Annotation>,Annotation>();\n    }\n    Class<? extends Annotation> type = ann.annotationType();\n    // if this is an annotation\u2010bundle, unwrap its contents\n    if (type.isAnnotationPresent(com.fasterxml.jackson.annotation.JacksonAnnotationsInside.class)) {\n        boolean changed = false;\n        for (Annotation meta : type.getDeclaredAnnotations()) {\n            Class<? extends Annotation> mt = meta.annotationType();\n            // skip the bundle marker itself and any standard java.lang.annotation metas\n            if (mt == com.fasterxml.jackson.annotation.JacksonAnnotationsInside.class\n                || mt.getName().startsWith(\"java.lang.annotation\")) {\n                continue;\n            }\n            if (_add(meta)) {\n                changed = true;\n            }\n        }\n        return changed;\n    }\n    Annotation previous = _annotations.put(type, ann);\n    // return true if we actually added or replaced an existing entry\n    return (previous == null) || !previous.equals(ann);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

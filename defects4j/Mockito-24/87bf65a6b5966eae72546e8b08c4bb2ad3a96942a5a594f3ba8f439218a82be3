@@ -1,0 +1,7 @@
+{
+    "generation": "public Object answer(InvocationOnMock invocation) {\n    if (methodsGuru.isToString(invocation.getMethod())) {\n        Object mock = invocation.getMock();\n        MockName name = mockUtil.getMockName(mock);\n        if (name.isDefault()) {\n            return \"Mock for \" +\n                   mockUtil.getMockSettings(mock)\n                           .getTypeToMock()\n                           .getSimpleName() +\n                   \", hashCode: \" + mock.hashCode();\n        } else {\n            return name.toString();\n        }\n    } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {\n        Object mock = invocation.getMock();\n        Object other = invocation.getArguments()[0];\n        // if comparing the mock to itself return zero, otherwise non-zero\n        return mock == other ? 0 : 1;\n    }\n    Class<?> returnType = invocation.getMethod().getReturnType();\n    return returnValueFor(returnType);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

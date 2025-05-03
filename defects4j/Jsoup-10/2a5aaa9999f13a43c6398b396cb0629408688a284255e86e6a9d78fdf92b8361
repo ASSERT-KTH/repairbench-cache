@@ -1,0 +1,7 @@
+{
+    "generation": "public String absUrl(String attributeKey) {\n    Validate.notEmpty(attributeKey);\n\n    String relUrl = attr(attributeKey);\n    if (!hasAttr(attributeKey)) {\n        return \"\"; // nothing to make absolute with\n    } else {\n        try {\n            // try to parse the base URI\n            URL base = new URL(baseUri);\n            URL abs;\n            // Workaround: when the relative URL is just a query (?foo),\n            // Java drops the filename. We want to keep it.\n            if (relUrl.startsWith(\"?\")) {\n                String path = base.getPath(); // e.g. \"/path/file\"\n                abs = new URL(\n                    base.getProtocol(),\n                    base.getHost(),\n                    base.getPort(),\n                    path + relUrl\n                );\n            } else {\n                abs = new URL(base, relUrl);\n            }\n            return abs.toExternalForm();\n        } catch (MalformedURLException e) {\n            // if baseUri is bad, or the new URL fails, try relUrl as absolute\n            try {\n                URL abs = new URL(relUrl);\n                return abs.toExternalForm();\n            } catch (MalformedURLException e2) {\n                return \"\";\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

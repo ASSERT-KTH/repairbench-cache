@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    // If there are no data\u2010blocks for the current entry, it's a zero\u2010length\n    // entry: return an empty stream rather than fail.\n    if (deferredBlockStreams.isEmpty()) {\n        return new ByteArrayInputStream(new byte[0]);\n    }\n    // In solid mode we may have built up multiple folder streams; skip\n    // and close all but the last so the one we return is positioned\n    // at the start of the desired entry.\n    while (deferredBlockStreams.size() > 1) {\n        InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

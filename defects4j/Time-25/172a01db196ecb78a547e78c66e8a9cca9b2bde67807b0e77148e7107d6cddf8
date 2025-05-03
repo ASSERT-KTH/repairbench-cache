@@ -1,0 +1,7 @@
+{
+    "generation": "public int getOffsetFromLocal(long instantLocal) {\n    // get the offset at instantLocal (first estimate)\n    final int offsetLocal = getOffset(instantLocal);\n    // adjust instantLocal using the estimate and recalc the offset\n    final long instantAdjusted = instantLocal - offsetLocal;\n    final int offsetAdjusted = getOffset(instantAdjusted);\n    // if the offsets differ, we must be near a DST boundary\n    if (offsetLocal != offsetAdjusted) {\n        // If we're in an overlap, choose the later offset (typically the summer/daylight time)\n        // This corrects the fallback transition to use the higher offset where both are valid\n        if (offsetAdjusted > offsetLocal) {\n            return offsetAdjusted;\n        }\n    }\n    return offsetAdjusted;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

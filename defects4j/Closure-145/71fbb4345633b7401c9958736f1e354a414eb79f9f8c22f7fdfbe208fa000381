@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels), but NOT a labeled DO or FUNCTION (which must be wrapped in a block).\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n    // For labels, only return true if the label directly wraps a DO or FUNCTION\n    // and is not itself labeled.\n    if (n.isLabel()) {\n        Node child = n.getFirstChild();\n        // If the label's immediate child is a DO or FUNCTION, it is considered one\n        // labeled DO or FUNCTION, so return false: it has to be wrapped in a BLOCK.\n        if (child != null && (child.getType() == Token.FUNCTION || child.getType() == Token.DO)) {\n            return false;\n        }\n    }\n    return (n.getType() == Token.FUNCTION || n.getType() == Token.DO);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

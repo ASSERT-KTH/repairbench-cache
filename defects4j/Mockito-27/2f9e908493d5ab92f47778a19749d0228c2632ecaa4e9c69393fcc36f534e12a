@@ -1,0 +1,7 @@
+{
+    "generation": "public <T> void resetMock(T mock) {\n    // grab the old handler and its settings (so we keep listeners, default answer, etc.)\n    MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n    MockSettingsImpl settings = ((MockHandler<T>) oldMockHandler).getMockSettings();\n\n    // create a fresh handler (clears invocations/stubbings) but leaves settings intact\n    MockHandler<T> newMockHandler = new MockHandler<T>(oldMockHandler);\n\n    // re\u2010install the interceptor filter with the preserved settings\n    MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, settings);\n    ((Factory) mock).setCallback(0, newFilter);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

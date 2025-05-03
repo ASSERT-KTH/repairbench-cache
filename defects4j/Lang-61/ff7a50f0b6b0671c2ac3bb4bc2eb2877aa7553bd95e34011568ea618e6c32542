@@ -1,0 +1,7 @@
+{
+    "generation": "public int indexOf(String str, int startIndex) {\n    if (str == null) {\n        return -1;\n    }\n    int searchLen = str.length();\n    int thisLen = size;\n    // clamp startIndex to [0, thisLen]\n    if (startIndex < 0) {\n        startIndex = 0;\n    } else if (startIndex > thisLen) {\n        startIndex = thisLen;\n    }\n    // empty string always matches at the clamped startIndex\n    if (searchLen == 0) {\n        return startIndex;\n    }\n    // no room for the search string\n    if (searchLen > thisLen - startIndex) {\n        return -1;\n    }\n    // single\u2010char search optimization\n    if (searchLen == 1) {\n        return indexOf(str.charAt(0), startIndex);\n    }\n    char[] buf = buffer;\n    int max = thisLen - searchLen;\n    outer:\n    for (int i = startIndex; i <= max; i++) {\n        for (int j = 0; j < searchLen; j++) {\n            if (buf[i + j] != str.charAt(j)) {\n                continue outer;\n            }\n        }\n        return i;\n    }\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

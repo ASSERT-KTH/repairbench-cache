@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Create a number from a String. If a . is present, it creates a \n *    Double, otherwise a Long. </p>\n *\n * @param str the value\n * @return the number represented by <code>str</code>, if <code>str</code>\n * is not a number, null is returned.\n */\npublic static Number createNumber(String str)\n{\n    try\n    {\n        Number num = org.apache.commons.lang.math.NumberUtils.createNumber(str);\n        // If it's a Float, return a Double (to match what PatternOptionBuilder expects)\n        if (num instanceof Float) {\n            return Double.valueOf(num.doubleValue());\n        }\n        // If it's a BigDecimal, and it fits in Double, return Double\n        if (num instanceof java.math.BigDecimal) {\n            try {\n                double d = ((java.math.BigDecimal) num).doubleValue();\n                if (Double.valueOf(d).equals(num)) {\n                    return Double.valueOf(d);\n                }\n            } catch (NumberFormatException ignore) {}\n        }\n        return num;\n    }\n    catch (NumberFormatException nfe)\n    {\n        System.err.println(nfe.getMessage());\n    }\n\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

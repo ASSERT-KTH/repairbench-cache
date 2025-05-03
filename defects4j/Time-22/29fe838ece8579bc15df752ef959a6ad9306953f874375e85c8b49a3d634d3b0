@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Creates a period from the given millisecond duration with the standard period type\n * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n * <p>\n * The calculation uses the hour, minute, second and millisecond fields.\n *\n * @param duration  the duration, in milliseconds\n */\nprotected BasePeriod(long duration) {\n    // split the duration into time-only fields\n    long hours = duration / DateTimeConstants.MILLIS_PER_HOUR;\n    long remainder = duration % DateTimeConstants.MILLIS_PER_HOUR;\n    long minutes = remainder / DateTimeConstants.MILLIS_PER_MINUTE;\n    remainder = remainder % DateTimeConstants.MILLIS_PER_MINUTE;\n    long seconds = remainder / DateTimeConstants.MILLIS_PER_SECOND;\n    int millis = (int)(remainder % DateTimeConstants.MILLIS_PER_SECOND);\n\n    // assign the standard period type and populate values\n    iType = PeriodType.standard();\n    iValues = new int[] {\n        0,        // years\n        0,        // months\n        0,        // weeks\n        0,        // days\n        (int)hours,\n        (int)minutes,\n        (int)seconds,\n        millis\n    };\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

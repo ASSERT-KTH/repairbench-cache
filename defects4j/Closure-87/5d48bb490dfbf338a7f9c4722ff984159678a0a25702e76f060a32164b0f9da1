@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression and whose expression can be safely folded into\n *     another expression (i.e. not an event\u2010handler call or a GETELEM call).\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  // Must be a BLOCK with exactly one child.\n  if (n.getType() != Token.BLOCK || !n.hasOneChild()) {\n    return false;\n  }\n  Node stmt = n.getFirstChild();\n  // That child must be an expression statement (EXPR_RESULT, RETURN, etc.).\n  if (!NodeUtil.isExpressionNode(stmt)) {\n    return false;\n  }\n  // If it's a call, make sure it isn't a bracket-call or an \"onX\" event-handler.\n  Node expr = stmt.getFirstChild();\n  if (expr != null && expr.isCall()) {\n    Node target = expr.getFirstChild();\n    if (target != null) {\n      if (target.isGetElem()) {\n        // f['x']() \u2013 we do not fold GETELEM calls.\n        return false;\n      }\n      if (target.isGetProp()) {\n        // f.onchange() \u2013 skip folding event-handler calls into expressions.\n        String propName = target.getLastChild().getString();\n        if (NodeUtil.isEventHandlerName(propName)) {\n          return false;\n        }\n      }\n    }\n  }\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

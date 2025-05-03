@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    // handle zeroes\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n    // use long to avoid overflow when taking abs(Integer.MIN_VALUE)\n    long a = Math.abs((long) u);\n    long b = Math.abs((long) v);\n    // Euclidean algorithm\n    while (b != 0) {\n        long t = a % b;\n        a = b;\n        b = t;\n    }\n    // detect the 2^31 overflow case\n    if (a > Integer.MAX_VALUE) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    return (int) a;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

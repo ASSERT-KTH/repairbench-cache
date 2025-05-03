@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected JavaType _narrow(Class<?> subclass) {\n        // no change if already the same\n        if (_class == subclass) {\n            return this;\n        }\n        // preserve the old comments about checking assignability, etc:\n        // Should we check that there is a sub-class relationship?\n        // 15-Jan-2016, tatu: Almost yes, but there are some complications with\n        //    placeholder values, so no.\n        /*\n        if (!_class.isAssignableFrom(subclass)) {\n            throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                    +_class.getName());\n        }\n        */\n        // fully re-resolve the new subtype (so that super-classes/interfaces\n        // and any type\u2010bindings get correctly rebuilt), then copy any handlers/static\n        TypeFactory tf = TypeFactory.defaultInstance();\n        JavaType resolved = tf.constructType(subclass);\n        if (_valueHandler != null) {\n            resolved = resolved.withValueHandler(_valueHandler);\n        }\n        if (_typeHandler != null) {\n            resolved = resolved.withTypeHandler(_typeHandler);\n        }\n        if (_asStatic) {\n            resolved = resolved.withStaticTyping();\n        }\n        return resolved;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

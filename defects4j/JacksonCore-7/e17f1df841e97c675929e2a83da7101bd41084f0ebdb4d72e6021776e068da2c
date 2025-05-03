@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int writeValue() {\n    // Object context: must have just written a field name\n    if (_type == TYPE_OBJECT) {\n        if (!_gotName) {\n            // illegal: writing a value without a field name \u2192 trigger generator error\n            return -1;\n        }\n        _gotName = false;\n        ++_index;\n        return STATUS_OK_AFTER_COLON;\n    }\n\n    // Array context\n    if (_type == TYPE_ARRAY) {\n        int ix = _index;\n        ++_index;\n        return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n    }\n\n    // Root context: no commas, but separate values with space\n    ++_index;\n    return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

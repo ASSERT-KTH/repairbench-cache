@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  // Report dict\u2010style property access first.\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  } else {\n    // Always check for null/undefined on the receiver.\n    if (validator.expectNotNullOrUndefined(\n            t, n, childType,\n            \"No properties on this expression\",\n            getNativeType(OBJECT_TYPE))) {\n      // If this GETPROP is the left side of an assignment, it's a write\n      // (i.e. defining a property), so skip the \"unknown property\" error.\n      boolean isWrite =\n          parent.isAssign() && parent.getFirstChild() == n;\n      if (!isWrite) {\n        checkPropertyAccess(childType, property.getString(), t, n);\n      }\n    }\n  }\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

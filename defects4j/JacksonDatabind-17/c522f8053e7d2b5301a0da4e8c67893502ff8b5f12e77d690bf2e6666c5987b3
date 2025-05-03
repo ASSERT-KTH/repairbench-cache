@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Method called to check if the default type handler should be\n * used for given type.\n * Note: \"natural types\" (String, Boolean, Integer, Double) will never\n * use typing; that is both due to them being concrete and final,\n * and since actual serializers and deserializers will also ignore any\n * attempts to enforce typing.\n */\npublic boolean useForType(JavaType t)\n{\n    switch (_appliesFor) {\n    case NON_CONCRETE_AND_ARRAYS:\n        while (t.isArrayType()) {\n            t = t.getContentType();\n        }\n        // fall through\n    case OBJECT_AND_NON_CONCRETE:\n        // Do NOT apply default typing to TreeNode (JsonNode) subclasses\n        Class<?> raw = t.getRawClass();\n        return (raw == Object.class)\n                || (!t.isConcrete()\n                    // Should not apply to JSON tree models:\n                    && !TreeNode.class.isAssignableFrom(raw));\n    case NON_FINAL:\n        while (t.isArrayType()) {\n            t = t.getContentType();\n        }\n        // Should not apply to JSON tree models:\n        raw = t.getRawClass();\n        return !t.isFinal() && !TreeNode.class.isAssignableFrom(raw);\n    default:\n    //case JAVA_LANG_OBJECT:\n        return (t.getRawClass() == Object.class);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

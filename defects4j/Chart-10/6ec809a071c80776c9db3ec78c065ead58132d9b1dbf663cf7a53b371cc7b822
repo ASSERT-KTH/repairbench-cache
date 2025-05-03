@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generates a tooltip string to go in an HTML image map,\n * escaping special HTML characters.\n *\n * @param toolTipText  the tooltip (may be null).\n * @return The formatted HTML area tag attribute(s).\n */\npublic String generateToolTipFragment(String toolTipText) {\n    StringBuilder sb = new StringBuilder();\n    sb.append(\" title=\\\"\");\n    if (toolTipText != null) {\n        for (int i = 0; i < toolTipText.length(); i++) {\n            char ch = toolTipText.charAt(i);\n            switch (ch) {\n                case '&':\n                    sb.append(\"&amp;\");\n                    break;\n                case '<':\n                    sb.append(\"&lt;\");\n                    break;\n                case '>':\n                    sb.append(\"&gt;\");\n                    break;\n                case '\"':\n                    sb.append(\"&quot;\");\n                    break;\n                case '\\'':\n                    sb.append(\"&#39;\");\n                    break;\n                default:\n                    sb.append(ch);\n            }\n        }\n    }\n    sb.append(\"\\\" alt=\\\"\\\"\");\n    return sb.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

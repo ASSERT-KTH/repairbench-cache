@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n\n    // Kahan's correction for cancellation errors in cross product computation\n\n    // Compute rho as an 8-bit approximation of v1.v2 / v2.v2\n    double v1DotV2 = v1.dotProduct(v2);\n    double v2DotV2 = v2.dotProduct(v2);\n    double rho = (v2DotV2 == 0) ? 0 : Math.rint((256 * v1DotV2 / v2DotV2)) / 256.0;\n\n    // Compute compensated v1: v3 = v1 - rho * v2\n    Vector3D v3 = v1.subtract(v2.scalarMultiply(rho));\n\n    // Return cross product of compensated v3 and v2\n    return new Vector3D(\n            v3.y * v2.z - v3.z * v2.y,\n            v3.z * v2.x - v3.x * v2.z,\n            v3.x * v2.y - v3.y * v2.x);\n\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

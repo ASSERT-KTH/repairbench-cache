@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    Tag tag = Tag.valueOf(startTag.name());\n    // handle void elements (spec\u2010defined empty tags) and explicit self\u2010closing tags\n    if (tag.isEmpty() || startTag.isSelfClosing()) {\n        Element el = insertEmpty(startTag);\n        // if the author wrote a self\u2010closing slash on a non\u2010void tag, force a fake end tag\n        if (startTag.isSelfClosing()) {\n            stack.add(el);\n            tokeniser.emit(new Token.EndTag(el.tagName()));\n        }\n        return el;\n    }\n    // normal start tag\n    Element el = new Element(tag, baseUri, startTag.attributes);\n    insert(el);\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

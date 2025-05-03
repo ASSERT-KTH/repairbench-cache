@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node lhs = assign.getFirstChild();\n  // Must be a simple/property\u2010assignment LHS and either .foo or ['foo']\n  if (lhs == null\n      || !NodeUtil.isVarOrSimpleAssignLhs(lhs, assign)\n      || (lhs.getType() != Token.GETPROP\n          && lhs.getType() != Token.GETELEM)) {\n    return false;\n  }\n  // Check for a chain of the form:  Something.prototype.<prop>\n  Node inner = lhs.getFirstChild();\n  if (inner == null || inner.getType() != Token.GETPROP) {\n    return false;\n  }\n  // inner is Something.prototype \u2192 verify the \"prototype\" string\n  Node protoName = inner.getSecondChild();\n  if (protoName != null\n      && protoName.getType() == Token.STRING\n      && \"prototype\".equals(protoName.getString())) {\n    return true;\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

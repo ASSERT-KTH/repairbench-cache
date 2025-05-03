@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForSerialization(Annotated a) {\n    // Fix: Check superclass properties for recursive types to ensure they are included.\n    PropertyName name = null;\n    if (a instanceof AnnotatedField) {\n        name = findNameFromAnnotation((AnnotatedField) a);\n    }\n    if (name == null || name == PropertyName.USE_DEFAULT) {\n        // Traverse superclass for recursive type properties\n        AnnotatedClass ac = (a instanceof AnnotatedMember) ? ((AnnotatedMember) a).getDeclaringClass() : null;\n        while (ac != null) {\n            name = findNameFromAnnotation(ac);\n            if (name != null && name != PropertyName.USE_DEFAULT) {\n                break;\n            }\n            ac = ac.getSuperType();\n        }\n    }\n    return name;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // try to resolve relative urls to abs, and optionally update the attribute so output html has abs.\n    // rels without a baseuri get removed\n    String attrValue = attr.getValue();\n    String absValue = el.absUrl(attr.getKey());\n\n    String value;\n    if (attrValue == null)\n        value = \"\";\n    else\n        value = attrValue.trim();\n\n    boolean isRelative = (absValue != null && !absValue.isEmpty() && !attrValue.equals(absValue));\n\n    // If preserveRelativeLinks is false and absValue is a proper absolute URL, update the attribute\n    if (!preserveRelativeLinks && isRelative)\n        attr.setValue(absValue);\n\n    // The protocol match must be against the ORIGINAL VALUE (e.g. \"data:\", \"cid:\")!\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString().toLowerCase() + \":\";\n        if (value.toLowerCase().startsWith(prot)) {\n            return true;\n        }\n    }\n    // If none matched and value is a valid absolute url, try to match its protocol too\n    if (!value.isEmpty() && isRelative) {\n        for (Protocol protocol : protocols) {\n            String prot = protocol.toString().toLowerCase() + \":\";\n            if (absValue.toLowerCase().startsWith(prot)) {\n                return true;\n            }\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

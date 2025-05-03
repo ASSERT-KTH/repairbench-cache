@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns a clone of the time series.\n *\n * @return A clone of the time series.\n *\n * @throws CloneNotSupportedException not thrown by this class, but\n *         subclasses may differ.\n */\npublic Object clone() throws CloneNotSupportedException {\n    int count = getItemCount();\n    if (count == 0) {\n        // no data items, build an empty series with the same settings\n        TimeSeries result = new TimeSeries(\n                getKey(),\n                getTimePeriodClass(),\n                getDomainDescription(),\n                getRangeDescription()\n        );\n        result.setMaximumItemCount(getMaximumItemCount());\n        result.setMaximumItemAge(getMaximumItemAge());\n        result.setNotify(getNotify());\n        return result;\n    }\n    else {\n        // delegate to the general copy routine for non\u2010empty series\n        return createCopy(0, count - 1);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

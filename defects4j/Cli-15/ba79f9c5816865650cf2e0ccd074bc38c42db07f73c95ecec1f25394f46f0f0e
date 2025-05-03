@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // The raw values explicitly provided by the user\n    List userValues = (List) values.get(option);\n    // Determine which defaults to use: first the argument\u2010level defaults,\n    // then (if none) any parser\u2010level defaults for this option\n    List defaults = defaultValues;\n    if (defaults == null || defaults.isEmpty()) {\n        defaults = (List) this.defaultValues.get(option);\n    }\n\n    // If the user provided no values, return a copy of the defaults (or empty)\n    if (userValues == null || userValues.isEmpty()) {\n        if (defaults == null || defaults.isEmpty()) {\n            return Collections.EMPTY_LIST;\n        }\n        return new ArrayList(defaults);\n    }\n\n    // The user did provide some values.  If there are more defaults\n    // than user\u2010supplied entries, append only the \"tail\" of the defaults.\n    if (defaults != null && defaults.size() > userValues.size()) {\n        List result = new ArrayList(userValues);\n        for (int i = userValues.size(); i < defaults.size(); i++) {\n            result.add(defaults.get(i));\n        }\n        return result;\n    }\n\n    // Otherwise just return a copy of what the user gave us\n    return new ArrayList(userValues);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

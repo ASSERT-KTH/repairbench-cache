@@ -1,0 +1,7 @@
+{
+    "generation": "// In HtmlTreeBuilderState.InBody:\nboolean process(Token t, HtmlTreeBuilder tb) {\n    switch (t.type) {\n        // \u2026 all the other cases unchanged \u2026\n        case StartTag:\n            Token.StartTag startTag = t.asStartTag();\n            String name = startTag.name();\n            // \u2026 all the other branches unchanged \u2026\n            else if (name.equals(\"image\")) {\n                // change <image> to <img>, unless in an svg context\n                boolean inSvg = false;\n                for (Element el : tb.getStack()) {\n                    if (el.nodeName().equals(\"svg\")) {\n                        inSvg = true;\n                        break;\n                    }\n                }\n                if (inSvg) {\n                    // inside an <svg>, treat <image> as a foreign tag\n                    tb.insert(startTag);\n                } else {\n                    // convert to <img> and reprocess\n                    startTag.name(\"img\");\n                    return tb.process(startTag);\n                }\n            }\n            // \u2026 the rest of the StartTag branches unchanged \u2026\n            break;\n        // \u2026 other token types unchanged \u2026\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

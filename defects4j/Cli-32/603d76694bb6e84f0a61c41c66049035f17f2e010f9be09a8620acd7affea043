@@ -1,0 +1,7 @@
+{
+    "generation": "protected int findWrapPos(String text, int width, int startPos)\n{\n    int pos;\n\n    // Find the index of a newline or tab character after startPos and before startPos+width\n    int newline = text.indexOf('\\n', startPos);\n    int tab = text.indexOf('\\t', startPos);\n\n    int wrapLimit = Math.min(text.length(), startPos + width);\n\n    if ((newline != -1 && newline < wrapLimit)) {\n        return newline + 1;\n    } else if ((tab != -1 && tab < wrapLimit)) {\n        return tab + 1;\n    } else if (startPos + width >= text.length()) {\n        return -1;\n    }\n\n    // Search backwards for a whitespace character before startPos+width\n    pos = startPos + width - 1; // fix: -1 to be zero-based inclusive at width\n\n    char c;\n    while ((pos >= startPos) && ((c = text.charAt(pos)) != ' ')\n            && (c != '\\n') && (c != '\\r')) {\n        --pos;\n    }\n\n    // if we found it - just return\n    if (pos >= startPos) {\n        return pos;\n    }\n\n    // if we didn't find one, simply chop at startPos+width\n    pos = startPos + width - 1; // fix: start from width-1\n    int textLength = text.length();\n    while ((pos + 1 < textLength) && ((c = text.charAt(pos + 1)) != ' ')\n           && (c != '\\n') && (c != '\\r')) {\n        ++pos;\n    }\n\n    pos++; // The position returned should be the next character after the last checked\n\n    return pos == textLength ? -1 : pos;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

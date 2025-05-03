@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    // Insert the <style> or <noframes> element\n    tb.insert(startTag);\n    // If author wrote <style/> or <noframes/>, treat as empty (ignore self\u2010closing),\n    // pop it immediately, and go back to Data state so subsequent tags parse normally.\n    if (startTag.isSelfClosing()) {\n        tb.tokeniser.transition(TokeniserState.Data);\n        tb.pop();\n        return;\n    }\n    // Otherwise, enter rawtext parsing mode\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    tb.markInsertionMode();\n    tb.transition(Text);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<Connection.KeyVal>();\n    for (Element el : elements) {\n        // skip controls that have been removed (or moved out of) this form\n        if (!el.parents().contains(this))\n            continue;\n\n        String name = el.attr(\"name\");\n        if (name.length() == 0)\n            continue;\n\n        String tag = el.tagName();\n        if (\"input\".equals(tag)) {\n            String type = el.attr(\"type\").toLowerCase();\n            if (\"checkbox\".equals(type) || \"radio\".equals(type)) {\n                if (!el.hasAttr(\"checked\"))\n                    continue;\n            }\n            // include text, password, submit, etc.\n            data.add(Connection.KeyVal.create(name, el.val()));\n\n        } else if (\"textarea\".equals(tag)) {\n            data.add(Connection.KeyVal.create(name, el.text()));\n\n        } else if (\"select\".equals(tag)) {\n            // gather all selected options, or if none, all options\n            Elements opts = el.select(\"option[selected]\");\n            if (opts.isEmpty())\n                opts = el.select(\"option\");\n            for (Element option : opts) {\n                data.add(Connection.KeyVal.create(name, option.val()));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

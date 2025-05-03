@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // ensure more specific (sub\u2010type) fields are injected before their supertypes\n    List<Field> fields = new ArrayList<Field>(orderedInstanceFieldsFrom(awaitingInjectionClazz));\n    Collections.sort(fields, new Comparator<Field>() {\n        @Override\n        public int compare(Field f1, Field f2) {\n            Class<?> c1 = f1.getType();\n            Class<?> c2 = f2.getType();\n            if (c1.equals(c2)) {\n                return 0;\n            }\n            // if c2 is a subtype of c1, c2 should come first\n            if (c1.isAssignableFrom(c2)) {\n                return 1;\n            }\n            // if c1 is a subtype of c2, c1 should come first\n            if (c2.isAssignableFrom(c1)) {\n                return -1;\n            }\n            return 0;\n        }\n    });\n    for (Field field : fields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

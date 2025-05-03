@@ -1,0 +1,7 @@
+{
+    "generation": "public Class getGenericType(Field field) {\n    Type genericType = field.getGenericType();\n    if (genericType instanceof ParameterizedType) {\n        ParameterizedType paramType = (ParameterizedType) genericType;\n        // the declared raw type of the field, e.g. List.class or ArgumentCaptor.class\n        Class<?> fieldRawType = field.getType();\n        // start with the first actual type argument\n        Type argType = paramType.getActualTypeArguments()[0];\n        // if you have nested generics of the same kind (e.g. List<List<\u2026>>),\n        // skip those wrapper levels\n        while (argType instanceof ParameterizedType\n            && ((ParameterizedType) argType).getRawType().equals(fieldRawType)) {\n            Type[] nestedArgs = ((ParameterizedType) argType).getActualTypeArguments();\n            if (nestedArgs.length == 0) {\n                break;\n            }\n            argType = nestedArgs[0];\n        }\n        // if it's a plain Class, return it\n        if (argType instanceof Class) {\n            return (Class) argType;\n        }\n        // if it's still a ParameterizedType, return its raw type\n        if (argType instanceof ParameterizedType) {\n            Type raw = ((ParameterizedType) argType).getRawType();\n            if (raw instanceof Class) {\n                return (Class) raw;\n            }\n        }\n    }\n    return Object.class;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

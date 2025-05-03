@@ -1,0 +1,7 @@
+{
+    "generation": "int nextIndexOf(CharSequence seq) {\n    // doesn't handle scanning for surrogates\n    int seqLen = seq.length();\n    if (seqLen == 0) return -1; // no empty matches\n    char startChar = seq.charAt(0);\n    int searchLimit = length - seqLen + 1; // make sure we don't scan past the end\n    for (int offset = pos; offset < searchLimit; offset++) {\n        // scan to first instance of startchar:\n        if (startChar != input[offset])\n            while (++offset < searchLimit && startChar != input[offset]);\n        if (offset < searchLimit) {\n            int i = offset + 1;\n            int last = i + seqLen - 1;\n            int j = 1;\n            for (; i < last && seq.charAt(j) == input[i]; i++, j++);\n            if (j == seqLen) // found full sequence\n                return offset - pos;\n        }\n    }\n    return -1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

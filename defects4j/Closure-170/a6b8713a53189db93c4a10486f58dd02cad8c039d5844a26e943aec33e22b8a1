@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and stores it in\n * numUsesWithinCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n        @Override\n        public boolean shouldTraverse(\n            NodeTraversal t, Node n, Node parent) {\n          // Override the default CFG\u2010based pruning so that we\n          // see every occurrence of varName (even in pure sub\u2010expressions).\n          return true;\n        }\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName()\n              && n.getString().equals(varName)\n              // still don't count the LHS of a top\u2010level assignment chain\n              && !(parent.isAssign()\n                   && parent.getFirstChild() == n)) {\n            numUsesWithinCfgNode++;\n          }\n        }\n      };\n\n  // Traverse the entire subtree of this cfgNode (no pruning).\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

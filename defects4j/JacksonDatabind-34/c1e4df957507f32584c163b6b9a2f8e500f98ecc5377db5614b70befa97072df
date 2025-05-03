@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void acceptJsonFormatVisitor(JsonFormatVisitorWrapper visitor, JavaType typeHint)\n        throws JsonMappingException\n{\n    if (_isInt) {\n        // BigInteger case\n        visitIntFormat(visitor, typeHint, JsonParser.NumberType.BIG_INTEGER);\n    } else {\n        Class<?> h = handledType();\n        if (h == BigDecimal.class) {\n            // BigDecimal must be reported as BIG_DECIMAL, not BIG_INTEGER\n            visitFloatFormat(visitor, typeHint, JsonParser.NumberType.BIG_DECIMAL);\n        } else {\n            // fallback for other numeric types\n            visitor.expectNumberFormat(typeHint);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

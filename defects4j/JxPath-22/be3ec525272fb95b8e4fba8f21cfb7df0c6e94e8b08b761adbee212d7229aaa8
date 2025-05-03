@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the ns uri of the specified node.\n * @param node Node to check\n * @return String ns uri (\"\" if no namespace, or null if prefix is unbound)\n */\npublic static String getNamespaceURI(Node node) {\n    if (node instanceof Document) {\n        node = ((Document) node).getDocumentElement();\n    }\n\n    Element element = (Element) node;\n    String uri = element.getNamespaceURI();\n    if (uri == null) {\n        String prefix = getPrefix(node);\n        String qname = (prefix == null) ? \"xmlns\" : \"xmlns:\" + prefix;\n\n        Node aNode = node;\n        while (aNode != null) {\n            if (aNode.getNodeType() == Node.ELEMENT_NODE) {\n                Attr attr = ((Element) aNode).getAttributeNode(qname);\n                if (attr != null) {\n                    return attr.getValue();\n                }\n            }\n            aNode = aNode.getParentNode();\n        }\n        // No namespace declaration found:\n        // if unprefixed, that means \"no namespace\" => return empty string\n        if (prefix == null) {\n            return \"\";\n        }\n        // prefixed but unbound => return null\n        return null;\n    }\n    return uri;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

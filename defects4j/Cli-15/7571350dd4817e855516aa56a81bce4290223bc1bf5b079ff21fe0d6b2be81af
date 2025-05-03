@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // get any user\u2010supplied values\n    List valueList = (List) values.get(option);\n\n    // if no user values, return the full default list (from parameter or map)\n    if (valueList == null || valueList.isEmpty()) {\n        List defVals = defaultValues;\n        if (defVals == null || defVals.isEmpty()) {\n            defVals = (List) this.defaultValues.get(option);\n        }\n        if (defVals == null || defVals.isEmpty()) {\n            return Collections.EMPTY_LIST;\n        }\n        // copy so we don't leak internal lists\n        return new ArrayList(defVals);\n    }\n\n    // user supplied some values \u2013 see if there's a next default to append\n    List defVals = defaultValues;\n    if (defVals == null || defVals.isEmpty()) {\n        defVals = (List) this.defaultValues.get(option);\n    }\n    if (defVals != null && valueList.size() < defVals.size()) {\n        // copy user list and append the default at the next position\n        List result = new ArrayList(valueList);\n        result.add(defVals.get(valueList.size()));\n        return result;\n    }\n\n    // otherwise just return what the user supplied\n    return valueList;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

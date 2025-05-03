@@ -1,0 +1,7 @@
+{
+    "generation": "private void _verifySharing()\n{\n    if (_hashShared) {\n        // first, make our own private copy of the tables\n        _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n        _names    = Arrays.copyOf(_names,    _names.length);\n        _hashShared = false;\n        // and since the \"need\u2010rehash\" flag may not have been carried over,\n        // re-compute whether we already exceeded the load threshold\n        int bucketCount = _names.length;\n        int threshold = bucketCount - (bucketCount >> 2); // 75% load\n        if (_count >= threshold) {\n            _needRehash = true;\n        }\n    }\n    if (_needRehash) {\n        rehash();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

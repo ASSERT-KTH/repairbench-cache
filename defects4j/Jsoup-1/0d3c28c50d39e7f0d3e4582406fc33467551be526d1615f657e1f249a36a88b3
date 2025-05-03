@@ -1,0 +1,7 @@
+{
+    "generation": "// does not recurse.\nprivate void normalise(Element element) {\n    List<TextNode> toMove = new ArrayList<TextNode>();\n    for (Node node : element.childNodes) {\n        if (node instanceof TextNode) {\n            TextNode tn = (TextNode) node;\n            if (!tn.isBlank())\n                toMove.add(tn);\n        }\n    }\n\n    // Insert at the front of body in order\n    int insertPos = 0;\n    for (TextNode tn : toMove) {\n        element.removeChild(tn);\n        // Optionally add space if necessary, as original code did, but not appending a separate space node.\n        body().insertChildren(insertPos++, tn);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

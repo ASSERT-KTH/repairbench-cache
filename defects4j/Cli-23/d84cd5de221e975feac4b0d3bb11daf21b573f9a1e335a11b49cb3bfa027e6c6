@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    int pos = findWrapPos(text, width, 0);\n\n    // if there's nowhere to wrap, just append the (trimmed) text\n    if (pos == -1)\n    {\n        sb.append(rtrim(text));\n        return sb;\n    }\n\n    // append the first chunk\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // prepare padding for all following lines\n    final String padding = createPadding(nextLineTabStop);\n\n    while (true)\n    {\n        int lastPos = pos;\n        // trim off what we've already rendered, then re\u2010pad\n        text = padding + text.substring(pos).trim();\n        pos = findWrapPos(text, width, 0);\n\n        // no natural wrap point \u2014 just emit the rest\n        if (pos == -1)\n        {\n            sb.append(text);\n            return sb;\n        }\n        // no progress since last time? emit the rest to avoid an infinite loop\n        else if (pos == lastPos)\n        {\n            sb.append(text);\n            return sb;\n        }\n\n        // otherwise emit this chunk and loop again\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

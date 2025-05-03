@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    try {\n        final Object collectionClazz = in.readObject();\n        if (!(collectionClazz instanceof Class)) {\n            throw new UnsupportedOperationException(\"Deserialization failed: collectionClazz is not a Class\");\n        }\n        final Class<?> clazz = (Class<?>) collectionClazz;\n        if (!Collection.class.isAssignableFrom(clazz)) {\n            throw new UnsupportedOperationException(\"Deserialization failed: collectionClazz is not assignable to Collection\");\n        }\n        // Only allow standard collection types to be deserialized for safety\n        if (!(clazz.equals(ArrayList.class) ||\n              clazz.equals(LinkedList.class) ||\n              clazz.equals(HashSet.class) ||\n              clazz.equals(TreeSet.class) ||\n              clazz.equals(LinkedHashSet.class) ||\n              clazz.equals(Vector.class) ||\n              clazz.equals(Stack.class) ||\n              clazz.equals(PriorityQueue.class))) {\n            throw new UnsupportedOperationException(\"Deserialization failed: unsafe clazz \" + clazz.getName());\n        }\n        this.collectionClass = clazz;\n    } catch (IOException | ClassNotFoundException ex) {\n        throw ex;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

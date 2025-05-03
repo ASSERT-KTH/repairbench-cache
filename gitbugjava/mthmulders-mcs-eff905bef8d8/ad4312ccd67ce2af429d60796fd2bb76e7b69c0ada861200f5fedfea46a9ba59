@@ -1,0 +1,7 @@
+{
+    "generation": "private void printRow(final Help.TextTable table, final SearchResponse.Response.Doc doc) {\n    // build the full GAV (group:artifact:version) \u2013 if there's a classifier, append it too\n    var gav = new StringBuilder(doc.id())\n        .append(\":\").append(doc.version());\n    if (doc.classifier() != null && !doc.classifier().isEmpty()) {\n        gav.append(\":\").append(doc.classifier());\n    }\n\n    var lastUpdated = DATE_TIME_FORMATTER.format(\n        Instant.ofEpochMilli(doc.timestamp()).atZone(ZoneId.systemDefault())\n    );\n\n    table.addRowValues(gav.toString(), lastUpdated);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

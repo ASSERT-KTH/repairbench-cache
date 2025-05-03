@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Tells if the token looks like a short option.\n * \n * @param token\n */\nprivate boolean isShortOption(String token) {\n    // not a short option if it doesn't start with \"-\" or is just \"-\" or starts with \"--\"\n    if (!token.startsWith(\"-\") || token.length() < 2 || token.startsWith(\"--\")) {\n        return false;\n    }\n    // strip the leading \"-\" and any \"=value\" suffix\n    String body = token.substring(1);\n    int eq = body.indexOf('=');\n    String name = (eq != -1) ? body.substring(0, eq) : body;\n    // if the whole name matches a long option, it's not a short one\n    if (options.hasLongOption(name)) {\n        return false;\n    }\n    // otherwise we treat it as a short option if its first character is registered\n    return options.hasShortOption(name.substring(0, 1));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

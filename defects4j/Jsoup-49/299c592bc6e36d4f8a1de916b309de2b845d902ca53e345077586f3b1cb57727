@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected void addChildren(int index, Node... children) {\n    Validate.noNullElements(children);\n    ensureChildNodes();\n    // first detach any existing parents so we truly move the nodes\n    for (Node child : children) {\n        if (child.parentNode != null) {\n            child.remove();\n        }\n    }\n    // then re\u2010parent and insert in the requested order\n    int curr = index;\n    for (Node child : children) {\n        reparentChild(child);\n        childNodes.add(curr++, child);\n    }\n    // update sibling indexes from the insertion point\n    reindexChildren(index);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

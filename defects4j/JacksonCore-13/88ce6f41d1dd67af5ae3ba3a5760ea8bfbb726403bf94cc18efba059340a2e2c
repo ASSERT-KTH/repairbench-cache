@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException {\n    // if pretty\u2010printer is set, let it handle spacing/commas\n    if (_cfgPrettyPrinter != null) {\n        _writePPFieldName(name);\n        return;\n    }\n    // verify that we can write a name here\n    int status = _writeContext.writeFieldName(name);\n    if (status == JsonWriteContext.STATUS_EXPECT_NAME) {\n        _reportError(\"Can not write a field name, expecting a value\");\n    }\n    // if not first entry, output comma\n    if (status == JsonWriteContext.STATUS_OK_AFTER_COMMA) {\n        _writeRaw(',');\n    }\n    // if duplicate\u2010detector is enabled, check for dups\n    if (_writeContext.hasDupDetector()) {\n        _checkDup(name);\n    }\n    // write the field name, quoting or not based on the current generator feature\n    if (isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n        _writeRaw('\"');\n        _writeString(name);\n        _writeRaw('\"');\n    } else {\n        _writeRaw(name);\n    }\n    // then write the colon (no space by default)\n    _writeRaw(':');\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context) {\n    String name = type.getName();\n    if (context == null) {\n        // no context at all, can\u2019t resolve type variable\n        return _unknownType();\n    }\n    // 1) direct binding\n    JavaType found = context.findType(name);\n    if (found != null) {\n        return found;\n    }\n    // 2) try the declaring class (e.g. T declared on Owner<T>)\n    Class<?> owner = context.getDeclaringClass(); // this is the raw class for these bindings\n    if (owner != null) {\n        TypeVariable<?>[] classTVs = owner.getTypeParameters();\n        for (int i = 0, len = classTVs.length; i < len; ++i) {\n            if (classTVs[i].getName().equals(name)) {\n                // resolve against the context\u2019s binding of the class-level parameters\n                JavaType[] actuals = context.getTypeParameters(); \n                if (actuals != null && i < actuals.length && actuals[i] != null) {\n                    return actuals[i];\n                }\n            }\n        }\n    }\n    // 3) fall back to the first bound\n    Type[] bounds = type.getBounds();\n    context._addPlaceholder(name);\n    return _constructType(bounds[0], context);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

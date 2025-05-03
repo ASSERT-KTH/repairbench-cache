@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Removes unreferenced arguments from a function declaration and when\n * possible the function's callSites.\n *\n * @param fnScope The scope inside the function\n */\nprivate void removeUnreferencedFunctionArgs(Scope fnScope) {\n  Node function = fnScope.getRootNode();\n  Preconditions.checkState(function.isFunction());\n  if (NodeUtil.isGetOrSetKey(function.getParent())) {\n    // The parameters object literal setters cannot be removed.\n    return;\n  }\n\n  // Only strip function args in advanced mode (when we're allowed to\n  // rewrite call sites). In simple/whitespace modes we must leave\n  // the signature alone or we will break external callers.\n  if (!modifyCallSites) {\n    return;\n  }\n\n  Node argList = getFunctionArgList(function);\n  // If we can update callers, do the full call\u2010site optimization.\n  if (callSiteOptimizer.canModifyCallers(function)) {\n    callSiteOptimizer.optimize(fnScope, referenced);\n  } else {\n    // Otherwise only drop unreferenced args at the end of the list.\n    Node lastArg;\n    while ((lastArg = argList.getLastChild()) != null) {\n      Var var = fnScope.getVar(lastArg.getString());\n      if (!referenced.contains(var)) {\n        argList.removeChild(lastArg);\n        compiler.reportCodeChange();\n      } else {\n        break;\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

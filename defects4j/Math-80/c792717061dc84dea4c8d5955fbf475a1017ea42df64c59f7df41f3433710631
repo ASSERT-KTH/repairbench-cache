@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Flip qd array if warranted.\n * @param n number of rows in the block\n * @param step within the array (1 for flipping all elements, 2 for flipping\n * only every other element)\n * @return true if qd array was flipped\n */\nprivate boolean flipIfWarranted(final int n, final int step) {\n    // compute the first and last indices of the current qd\u2010sequence\n    int start = pingPong;\n    int end   = pingPong + 4 * (n - 1);\n    // if the tail is more than 1.5\u00d7 the head, reverse the sequence\n    if (1.5 * work[start] < work[end]) {\n        while (start < end) {\n            for (int k = 0; k < 4; k += step) {\n                double tmp        = work[start + k];\n                work[start + k]   = work[end   - k];\n                work[end   - k]   = tmp;\n            }\n            start += 4;\n            end   -= 4;\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

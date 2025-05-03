@@ -1,0 +1,7 @@
+{
+    "generation": "// performance sensitive\npublic boolean hasClass(String className) {\n    // use attr() (case\u2010insensitive lookup) instead of direct attributes.get\n    final String classAttr = attr(\"class\");\n    final int len = classAttr.length();\n    final int wantLen = className.length();\n    if (len == 0 || len < wantLen) {\n        return false;\n    }\n    // exact length \u2014 just do a case\u2010insensitive equals\n    if (len == wantLen) {\n        return classAttr.equalsIgnoreCase(className);\n    }\n    // otherwise scan tokens\n    boolean inClass = false;\n    int start = 0;\n    for (int i = 0; i < len; i++) {\n        char c = classAttr.charAt(i);\n        if (Character.isWhitespace(c)) {\n            if (inClass) {\n                // end of a token \u2014 compare\n                if (i - start == wantLen\n                        && classAttr.regionMatches(true, start, className, 0, wantLen)) {\n                    return true;\n                }\n                inClass = false;\n            }\n        } else if (!inClass) {\n            // start of a token\n            inClass = true;\n            start = i;\n        }\n    }\n    // final token\n    if (inClass && len - start == wantLen) {\n        return classAttr.regionMatches(true, start, className, 0, wantLen);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@SuppressWarnings(\"unchecked\")\npublic static <T> T[] addAll(T[] array1, T... array2) {\n    if (array1 == null && array2 == null) {\n        return null;\n    } else if (array1 == null) {\n        return clone(array2);\n    } else if (array2 == null) {\n        return clone(array1);\n    }\n    final Class<?> type1 = array1.getClass().getComponentType();\n    final Class<?> type2 = array2.getClass().getComponentType();\n\n    // Check component types: if arrays are of different, incompatible types, throw IllegalArgumentException\n    if (!type1.isAssignableFrom(type2) && !type2.isAssignableFrom(type1) && !(type1.isPrimitive() && type2.isPrimitive())) {\n        throw new IllegalArgumentException(\"Cannot store \" + type2.getName() + \" elements in an array of \" + type1.getName());\n    }\n\n    if (!type1.isAssignableFrom(type2)) {\n        // type1 cannot accept type2 items\n        throw new IllegalArgumentException(\"Cannot store \" + type2.getName() + \" elements in an array of \" + type1.getName());\n    }\n\n    T[] joinedArray = (T[]) Array.newInstance(type1, array1.length + array2.length);\n    System.arraycopy(array1, 0, joinedArray, 0, array1.length);\n    try {\n        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);\n    } catch (ArrayStoreException ex) {\n        throw new IllegalArgumentException(\"array2 cannot be stored in array1: \" + ex.getMessage(), ex);\n    }\n    return joinedArray;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

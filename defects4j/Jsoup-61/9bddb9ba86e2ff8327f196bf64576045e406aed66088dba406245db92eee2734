@@ -1,0 +1,7 @@
+{
+    "generation": "// performance sensitive\npublic boolean hasClass(String className) {\n    if (className == null || className.isEmpty())\n        return false;\n    String classAttr = attributes.get(\"class\");\n    if (classAttr == null || classAttr.isEmpty())\n        return false;\n    int len = classAttr.length();\n    int wantLen = className.length();\n    if (len < wantLen)\n        return false;\n    if (len == wantLen) {\n        return className.equalsIgnoreCase(classAttr);\n    }\n    // scan for the className as a distinct token, case\u2010insensitive\n    for (int i = 0, max = len - wantLen; i <= max; i++) {\n        if ((i == 0 || Character.isWhitespace(classAttr.charAt(i - 1)))\n            && classAttr.regionMatches(true, i, className, 0, wantLen)\n            && (i + wantLen == len || Character.isWhitespace(classAttr.charAt(i + wantLen)))) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void feedInput(byte[] buf, int start, int end) throws IOException\n{\n    // Must not have remaining input\n    if (_inputPtr < _inputEnd) {\n        _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\",\n                     _inputEnd - _inputPtr);\n    }\n    if (end < start) {\n        _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n    }\n    if (_endOfInput) {\n        _reportError(\"Already closed, can not feed more input\");\n    }\n    // FIRST: account for all bytes of the previous buffer\n    _currInputProcessed += _origBufferLen;\n    // row\u2010start in the new buffer is the old row\u2010start moved back by the full length\n    // of the old buffer (so that column arithmetic still works)\n    _currInputRowStart -= _origBufferLen;\n\n    // Now slice out just the new bytes so that inputPtr/inputEnd are relative to 0\n    int newLen = end - start;\n    byte[] slice = new byte[newLen];\n    System.arraycopy(buf, start, slice, 0, newLen);\n    _inputBuffer = slice;\n    _inputPtr = 0;\n    _inputEnd = newLen;\n    _origBufferLen = newLen;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

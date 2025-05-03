@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Only consider variables declared WITHIN a function body (not global scope).\n  // If the variable is in a global scope, assignment may happen more than once (e.g., across invocations).\n  BasicBlock block = ref.getBasicBlock();\n  boolean foundFunction = false;\n  for (BasicBlock b = block; b != null; b = b.getParent()) {\n    if (b.isFunction) {\n      foundFunction = true;\n      break;\n    }\n  }\n  if (!foundFunction) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop.\n  for (BasicBlock b = block; b != null; b = b.getParent()) {\n    if (b.isLoop) {\n      return false;\n    }\n    if (b.isFunction) {\n      break;\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

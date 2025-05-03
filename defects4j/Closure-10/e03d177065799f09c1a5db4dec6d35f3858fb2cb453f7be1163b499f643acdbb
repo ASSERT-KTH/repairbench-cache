@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n  if (!recurse) {\n    return mayBeStringHelper(n);\n  }\n  // The result of a conditional (?:) may be a string if either arm may be.\n  if (n.isHook()) {\n    return mayBeString(n.getSecondChild(), true)\n        || mayBeString(n.getLastChild(), true);\n  }\n  // The result of || or && is one of its operands, so it may be a string\n  // if either side may be.\n  if (n.isOr() || n.isAnd()) {\n    return mayBeString(n.getFirstChild(), true)\n        || mayBeString(n.getLastChild(), true);\n  }\n  // In all other cases, only if every sub-node can produce a string do we\n  // treat the whole subtree as a \"may-be-string\".\n  return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

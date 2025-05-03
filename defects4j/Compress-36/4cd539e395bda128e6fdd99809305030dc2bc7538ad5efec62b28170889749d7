@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    // If there are no deferred streams, this must be a zero-length entry:\n    // return an empty stream so reads immediately return EOF (\u20131).\n    if (deferredBlockStreams.isEmpty()) {\n        return new java.io.ByteArrayInputStream(new byte[0]);\n    }\n    // In solid mode skip and close all but the last stream\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

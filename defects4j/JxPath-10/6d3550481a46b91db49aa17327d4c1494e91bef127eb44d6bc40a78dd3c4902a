@@ -1,0 +1,7 @@
+{
+    "generation": "public final Object computeValue(EvalContext context) {\n    Object value1 = args[0].computeValue(context);\n    Object value2 = args[1].computeValue(context);\n\n    // If either operand is an empty node\u2010set (and it's not a boolean vs. node\u2010set),\n    // XPath comparison must return false.\n    boolean isEmpty1 = value1 instanceof NodeIterator && !((NodeIterator) value1).hasNext();\n    boolean isEmpty2 = value2 instanceof NodeIterator && !((NodeIterator) value2).hasNext();\n    boolean booleanVsEmpty = (value1 instanceof Boolean && isEmpty2)\n                           || (value2 instanceof Boolean && isEmpty1);\n    if ((isEmpty1 || isEmpty2) && !booleanVsEmpty) {\n        return Boolean.FALSE;\n    }\n\n    return compute(value1, value2) ? Boolean.TRUE : Boolean.FALSE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

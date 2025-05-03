@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    // special cases:\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n\n    // keep u and v negative, as negative integers range down to\n    // -2^31, while positive numbers can only be as large as 2^31-1\n    // (i.e. we can't necessarily negate a negative number without\n    // overflow)\n    if (u > 0) {\n        u = -u;\n    } // make u negative\n    if (v > 0) {\n        v = -v;\n    } // make v negative\n\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) {\n        u /= 2;\n        v /= 2;\n        k++;\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least one is odd.\n    int t;\n    do {\n        // Make u odd\n        while ((u & 1) == 0) {\n            u /= 2;\n        }\n        // Make v odd\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        // Now both u, v are odd, swap if necessary so u <= v, then set v = v - u\n        if (u > v) {\n            int tmp = u;\n            u = v;\n            v = tmp;\n        }\n        v = v - u;\n    } while (v != 0);\n\n    return -u * (1 << k);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

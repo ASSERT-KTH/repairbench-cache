@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n  // A conditional (hook) may produce a string if either branch does.\n  if (n.isHook()) {\n    Node first = n.getFirstChild();\n    Node thenBranch = first.getNext();\n    Node elseBranch = thenBranch.getNext();\n    return mayBeString(thenBranch, true)\n        || mayBeString(elseBranch, true);\n  }\n  // A boolean AND/OR may produce a string if either operand does.\n  if (n.isOr() || n.isAnd()) {\n    Node left = n.getFirstChild();\n    Node right = left.getNext();\n    return mayBeString(left, true)\n        || mayBeString(right, true);\n  }\n  // Fallback to the old logic.\n  if (recurse) {\n    return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n  } else {\n    return mayBeStringHelper(n);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

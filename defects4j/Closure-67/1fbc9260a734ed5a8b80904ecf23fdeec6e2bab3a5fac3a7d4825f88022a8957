@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node lhs = assign.getFirstChild();\n  if (lhs == null || !NodeUtil.isVarOrSimpleAssignLhs(lhs, assign)) {\n    return false;\n  }\n  // Accept both dot and bracket on the left-hand side:\n  if (lhs.getType() != Token.GETPROP && lhs.getType() != Token.GETELEM) {\n    return false;\n  }\n  // We want to exclude the assignment itself from the usage list;\n  // the receiver of that GETPROP/GETELEM must itself be a GETPROP/GETELEM\n  Node owner = lhs.getFirstChild();\n  if (owner == null ||\n      (owner.getType() != Token.GETPROP && owner.getType() != Token.GETELEM)) {\n    return false;\n  }\n  // Check that the inner property name is the literal \"prototype\"\n  Node propKey = owner.getFirstChild().getNext();\n  return propKey != null\n      && propKey.getType() == Token.STRING\n      && \"prototype\".equals(propKey.getString());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

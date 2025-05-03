@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException\n{\n    // [core#246]: Should fully override (generator setting beats factory!)\n    final boolean quote = (_cfgFeatureMask & JsonGenerator.Feature.QUOTE_FIELD_NAMES.getMask()) != 0;\n    if (_outputContext.writeFieldName(name) == JsonWriteContext.STATUS_EXPECT_VALUE) {\n        _reportError(\"Can not write a field name, expecting a value\");\n    }\n    if (_cfgPrettyPrinter != null) {\n        _cfgPrettyPrinter.writeObjectFieldValueSeparator(this);\n    } else {\n        writeRaw(':');\n    }\n    if (quote) {\n        _writeString(name);\n    } else {\n        writeRaw(name);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

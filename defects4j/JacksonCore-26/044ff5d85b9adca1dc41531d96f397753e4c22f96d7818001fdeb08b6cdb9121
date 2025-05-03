@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void feedInput(byte[] buf, int start, int end) throws IOException\n{\n    // Must not have any leftover from previous feed\n    if (_inputPtr < _inputEnd) {\n        _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\",\n                     _inputEnd - _inputPtr);\n    }\n    // Sanity\n    if (end < start) {\n        _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n    }\n    if (_endOfInput) {\n        _reportError(\"Already closed, can not feed more input\");\n    }\n\n    // First, update how many bytes we processed in the previous buffer\n    _currInputProcessed += _origBufferLen;\n    // And shift the row\u2010start marker by that same amount\n    _currInputRowStart -= _origBufferLen;\n\n    // Copy the new slice [start..end) into our working buffer at 0..len\n    int len = end - start;\n    if (_inputBuffer == null || _inputBuffer.length < len) {\n        _inputBuffer = new byte[len];\n    }\n    System.arraycopy(buf, start, _inputBuffer, 0, len);\n\n    // Reset pointers to the start of the internal buffer\n    _inputPtr = 0;\n    _inputEnd = len;\n    // Remember this chunk's length for the next feed\n    _origBufferLen = len;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

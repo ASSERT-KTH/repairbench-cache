@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    final Object valueClazz = in.readObject();\n    if (valueClazz instanceof Class<?>) {\n        Class<?> clazz = (Class<?>) valueClazz;\n        // Only allow known safe types for values, e.g., ArrayList\n        if (!ArrayList.class.equals(clazz)) {\n            throw new UnsupportedOperationException(\"Unsafe deserialization: only ArrayList is supported as valueCollectionClass\");\n        }\n        valueCollectionClass = clazz;\n    } else {\n        valueCollectionClass = ArrayList.class; // fallback\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void removeUnreferencedFunctionArgs(Scope fnScope) {\n  Node function = fnScope.getRootNode();\n  Preconditions.checkState(function.isFunction());\n\n  // Only strip unused parameters when we're removing globals (i.e., in advanced mode).\n  if (!removeGlobal) {\n    return;\n  }\n\n  if (NodeUtil.isGetOrSetKey(function.getParent())) {\n    // The parameters on object literal setters/getters must not be removed.\n    return;\n  }\n\n  Node argList = getFunctionArgList(function);\n  boolean modifyCallers = modifyCallSites\n      && callSiteOptimizer.canModifyCallers(function);\n\n  if (!modifyCallers) {\n    // Strip unreferenced args off the end of the function declaration.\n    Node lastArg;\n    while ((lastArg = argList.getLastChild()) != null) {\n      Var var = fnScope.getVar(lastArg.getString());\n      if (!referenced.contains(var)) {\n        argList.removeChild(lastArg);\n        compiler.reportCodeChange();\n      } else {\n        break;\n      }\n    }\n  } else {\n    // In advanced mode we may also rewrite the call sites.\n    callSiteOptimizer.optimize(fnScope, referenced);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

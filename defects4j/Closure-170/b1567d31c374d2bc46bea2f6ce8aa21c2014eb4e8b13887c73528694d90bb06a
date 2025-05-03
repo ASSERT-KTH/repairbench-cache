@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the number of uses of the variable varName and stores it in\n * numUsesWithinCfgNode.\n */\nprivate void getNumUseInUseCfgNode(final Node cfgNode) {\n  numUsesWithinCfgNode = 0;\n\n  // Only suppress counting the LHS of an assignment when that assignment\n  // is literally the entire CFG node (or an expression\u2010result/return\n  // whose direct child is an ASSIGN).  In all other cases (e.g. an\n  // assignment deep inside a hook), we want to count even the LHS.\n  final boolean isAssignmentChain =\n      cfgNode.isAssign()\n      || ((cfgNode.isExprResult() || cfgNode.isReturn())\n          && cfgNode.getFirstChild().isAssign());\n\n  AbstractCfgNodeTraversalCallback gatherCb =\n      new AbstractCfgNodeTraversalCallback() {\n    @Override\n    public void visit(NodeTraversal t, Node n, Node parent) {\n      if (n.isName() && n.getString().equals(varName)) {\n        // Don't count the LHS of a top\u2010level assignment chain.\n        if (parent.isAssign()\n            && parent.getFirstChild() == n\n            && isAssignmentChain) {\n          return;\n        }\n        numUsesWithinCfgNode++;\n      }\n    }\n  };\n\n  NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

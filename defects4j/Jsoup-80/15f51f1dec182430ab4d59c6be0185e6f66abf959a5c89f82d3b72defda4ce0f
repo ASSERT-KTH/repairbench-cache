@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nvoid insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) { // xml declarations are emitted as bogus comments\n        // hack: parse the data as an element to pull out tag name + attributes\n        String data = comment.getData();\n        if (data.length() > 1 && (data.startsWith(\"!\") || data.startsWith(\"?\"))) {\n            char prefix = data.charAt(0);\n            // strip off the leading prefix, and only strip a trailing match if present\n            String body = data.substring(1);\n            if (!body.isEmpty() && body.charAt(body.length() - 1) == prefix) {\n                body = body.substring(0, body.length() - 1);\n            }\n            String xml = \"<\" + body + \">\";\n            Document hack = Jsoup.parse(xml, baseUri, Parser.xmlParser());\n            if (hack.childNodeSize() > 0) {\n                Element el = hack.child(0);\n                XmlDeclaration decl = new XmlDeclaration(\n                    settings.normalizeTag(el.tagName()),\n                    prefix == '!'\n                );\n                decl.attributes().addAll(el.attributes());\n                insert = decl;\n            }\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

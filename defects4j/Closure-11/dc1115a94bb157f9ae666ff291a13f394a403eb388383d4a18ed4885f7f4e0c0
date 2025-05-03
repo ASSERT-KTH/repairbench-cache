@@ -1,0 +1,7 @@
+{
+    "generation": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  // Dictionary types allow any property access via [\"x\"], but not obj.x\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  } else {\n    // Always reject null/undefined bases (even on the lhs of an assignment).\n    if (!validator.expectNotNullOrUndefined(\n            t, n, childType,\n            \"No properties on this expression\",\n            getNativeType(OBJECT_TYPE))) {\n      ensureTyped(t, n);\n      return;\n    }\n\n    String propName = property.getString();\n    // If the base is the 'unknown' type (e.g. an un\u2010typed parameter),\n    // treat any property access as a missing\u2010property error.\n    if (childType.isUnknownType()) {\n      String baseName = objNode.isName()\n          ? objNode.getString()\n          : childType.toString();\n      report(t, property, TypeValidator.PROPERTY_NOT_DEFINED,\n             propName, baseName);\n    } else {\n      // For a known (non\u2010dict, non\u2010unknown) type, do the normal lookup\n      checkPropertyAccess(childType, propName, t, n);\n    }\n  }\n\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

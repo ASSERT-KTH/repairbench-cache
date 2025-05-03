@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic int translate(CharSequence input, int index, Writer out) throws IOException {\n    int len = input.length();\n    // Protect against too-short sequences\n    if (index + 1 >= len || input.charAt(index) != '&' || input.charAt(index + 1) != '#') {\n        return 0;\n    }\n    int start = index + 2;\n    boolean isHex = false;\n    // Check for hex marker\n    if (start < len) {\n        char c = input.charAt(start);\n        if (c == 'x' || c == 'X') {\n            isHex = true;\n            start++;\n        }\n    }\n    // No room for digits\n    if (start >= len) {\n        return 0;\n    }\n    // Find the semicolon\n    int end = start;\n    while (end < len && input.charAt(end) != ';') {\n        end++;\n    }\n    // If we ran off the end, bail out\n    if (end == len) {\n        return 0;\n    }\n    // Parse the number\n    String num = input.subSequence(start, end).toString();\n    int entityValue;\n    try {\n        entityValue = Integer.parseInt(num, isHex ? 16 : 10);\n    } catch (NumberFormatException nfe) {\n        return 0;\n    }\n    // Write the code point (handles BMP and supplementary via surrogate pairs)\n    char[] chars = Character.toChars(entityValue);\n    out.write(chars);\n    // Return the length consumed: from '&' to ';' inclusive\n    return end - index + 1;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

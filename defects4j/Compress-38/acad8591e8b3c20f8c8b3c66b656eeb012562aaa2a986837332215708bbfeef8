@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Only treat names ending with '/' as directory if not a PAX extension header\n    if (getName() != null && getName().endsWith(\"/\") && !isPaxHeader()) {\n        return true;\n    }\n\n    return false;\n}\n\n// Add this helper method if not already present\nprivate boolean isPaxHeader() {\n    // PAX extended header types as defined in the Tar specification\n    return linkFlag == LF_PAX_EXTENDED_HEADER || linkFlag == LF_PAX_GLOBAL_EXTENDED_HEADER;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

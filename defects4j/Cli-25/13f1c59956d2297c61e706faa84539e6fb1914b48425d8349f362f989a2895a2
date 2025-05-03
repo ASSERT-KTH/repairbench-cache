@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width, \n                                         int nextLineTabStop, String text)\n{\n    int pos = findWrapPos(text, width, 0);\n\n    if (pos == -1)\n    {\n        sb.append(rtrim(text));\n\n        return sb;\n    }\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // If indent would exceed width, do not indent wrapped lines\n    final String padding = (nextLineTabStop >= width) ? \"\" : createPadding(nextLineTabStop);\n\n    while (true)\n    {\n        text = padding + text.substring(pos).trim();\n        pos = findWrapPos(text, width, 0);\n\n        if (pos == -1)\n        {\n            sb.append(text);\n\n            return sb;\n        }\n\n        // Remove this special-casing of pos==nextLineTabStop-1, as it's unnecessary and causes the error.\n        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

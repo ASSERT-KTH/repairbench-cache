@@ -1,0 +1,7 @@
+{
+    "generation": "    private double calculateAsymptoticPValue(final double Umin,\n                                             final int n1,\n                                             final int n2)\n        throws ConvergenceException, MaxCountExceededException {\n\n        final int n1n2prod = n1 * n2;\n\n        // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation\n        final double EU = n1n2prod / 2.0;\n        final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n\n        final double z = (Umin - EU) / FastMath.sqrt(VarU);\n\n        final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n        double p = 2 * Math.min(standardNormal.cumulativeProbability(z), 1.0 - standardNormal.cumulativeProbability(z));\n        // make sure p-value is at most 1.0 and at least 0.0\n        return Math.min(Math.max(p, 0.0), 1.0);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

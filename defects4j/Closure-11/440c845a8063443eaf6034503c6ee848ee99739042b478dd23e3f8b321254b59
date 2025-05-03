@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Visits a GETPROP node.\n *\n * @param t The node traversal object that supplies context, such as the\n * scope chain to use in name lookups as well as error reporting.\n * @param n The node being visited.\n * @param parent The parent of <code>n</code>\n */\nprivate void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  } else {\n    // Always check null/undefined on the receiver\n    if (validator.expectNotNullOrUndefined(\n            t, n, childType,\n            \"No properties on this expression\",\n            getNativeType(OBJECT_TYPE))) {\n      // Only enforce property\u2010existence on reads (not on the LHS of an assignment)\n      if (!(parent.isAssign() && parent.getFirstChild() == n)) {\n        checkPropertyAccess(childType, property.getString(), t, n);\n      }\n    }\n  }\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

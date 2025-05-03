@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass) {\n    if (_class == subclass) {\n        return this;\n    }\n    // verify that subclass is actually a subtype\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()\n                +\" not sub-type of \"+_class.getName());\n    }\n    // Delegate to TypeFactory to rebuild the full type hierarchy correctly\n    JavaType specialized = com.fasterxml.jackson.databind.type.TypeFactory\n        .defaultInstance()\n        .constructSpecializedType(this, subclass);\n    // copy over any handlers and static\u2010typing flag\n    if (_valueHandler != null) {\n        specialized = specialized.withValueHandler(_valueHandler);\n    }\n    if (_typeHandler != null) {\n        specialized = specialized.withTypeHandler(_typeHandler);\n    }\n    if (_asStatic) {\n        specialized = specialized.withStaticTyping();\n    }\n    return specialized;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

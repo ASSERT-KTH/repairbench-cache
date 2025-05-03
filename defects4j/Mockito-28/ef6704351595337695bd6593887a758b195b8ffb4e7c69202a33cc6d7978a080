@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    Set<Object> usedMocks = new HashSet<>();\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        // Only pass mocks that haven't been injected yet\n        Set<Object> availableMocks = new HashSet<>(mocks);\n        availableMocks.removeAll(usedMocks);\n\n        Object injectedMock = mockCandidateFilter.filterCandidate(availableMocks, field, fieldInstance).thenInject();\n        if (injectedMock != null) {\n            usedMocks.add(injectedMock);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

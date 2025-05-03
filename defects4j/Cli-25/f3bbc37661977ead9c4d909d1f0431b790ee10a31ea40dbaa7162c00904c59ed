@@ -1,0 +1,7 @@
+{
+    "generation": "protected StringBuffer renderWrappedText(StringBuffer sb, int width,\n                                         int nextLineTabStop, String text) {\n    // first, find where to wrap the very first line\n    int pos = findWrapPos(text, width, 0);\n    if (pos == -1) {\n        // no wrap needed\n        sb.append(rtrim(text));\n        return sb;\n    }\n\n    // wrap first line\n    sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);\n\n    // ensure the indent for following lines is valid\n    if (nextLineTabStop >= width) {\n        nextLineTabStop = width - 1;\n    }\n    final String padding = createPadding(nextLineTabStop);\n\n    // prepare the remainder of the text\n    String remaining = text.substring(pos).trim();\n\n    // wrap subsequent lines with the given indent\n    while (true) {\n        // compute wrap position in the remainder, accounting for indent\n        int wrapPos = findWrapPos(remaining, width - nextLineTabStop, 0);\n        if (wrapPos == -1) {\n            // no further wrap needed\n            sb.append(padding).append(rtrim(remaining));\n            return sb;\n        }\n        // wrap and append\n        sb.append(padding)\n          .append(rtrim(remaining.substring(0, wrapPos)))\n          .append(defaultNewLine);\n        remaining = remaining.substring(wrapPos).trim();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

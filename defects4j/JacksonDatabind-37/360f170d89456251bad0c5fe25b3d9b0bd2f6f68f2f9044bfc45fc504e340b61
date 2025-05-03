@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n    // sanity check: subclass really is a subtype of this raw class\n    if (!_class.isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()\n                +\" not sub-type of \"+_class.getName());\n    }\n    /*\n      Instead of re-using the old super\u2010type information we must re\u2010resolve\n      supertypes/interfaces for the new raw class so that any generic\n      bindings, etc, are correct.\n    */\n    TypeFactory tf = TypeFactory.defaultInstance();\n    JavaType newSuper = tf._resolveSuperClass(subclass, _bindings);\n    JavaType[] newInts = tf._resolveSuperInterfaces(subclass, _bindings);\n    return new SimpleType(subclass,\n                          _bindings,\n                          newSuper,\n                          newInts,\n                          _valueHandler,\n                          _typeHandler,\n                          _asStatic);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

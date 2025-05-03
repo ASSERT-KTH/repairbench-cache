@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // get any user-supplied values\n    List userValues = (List) values.get(option);\n    if (userValues != null && !userValues.isEmpty()) {\n        // copy the user values\n        List result = new ArrayList(userValues);\n        // if there are default\u2010values on the option, append those\n        // defaults whose index is >= the number of supplied values\n        if (defaultValues != null && !defaultValues.isEmpty()) {\n            int start = userValues.size();\n            for (int i = start; i < defaultValues.size(); i++) {\n                result.add(defaultValues.get(i));\n            }\n        }\n        return result;\n    }\n    // no user values, fall back to the option's default\u2010values\n    if (defaultValues != null && !defaultValues.isEmpty()) {\n        return new ArrayList(defaultValues);\n    }\n    // no option defaults, fall back to parser\u2010level defaults\n    List parserDefaults = (List) this.defaultValues.get(option);\n    if (parserDefaults != null && !parserDefaults.isEmpty()) {\n        return new ArrayList(parserDefaults);\n    }\n    return Collections.EMPTY_LIST;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

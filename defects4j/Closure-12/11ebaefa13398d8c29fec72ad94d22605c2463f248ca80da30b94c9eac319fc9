@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  // Walk up the AST from the given node to check if it is inside a 'try' with 'catch' or 'finally'\n  for (Node n = cfgNode; n != null; n = n.getParent()) {\n    if (n.isTry()) {\n      Node tryNode = n;\n      // If the try has a catch or finally section, then an exception handler exists\n      if (tryNode.getSecondChild() != null || tryNode.getChildCount() == 3) {\n        return true;\n      }\n    }\n    // No need to check higher than a function boundary\n    if (n.isFunction()) {\n      break;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

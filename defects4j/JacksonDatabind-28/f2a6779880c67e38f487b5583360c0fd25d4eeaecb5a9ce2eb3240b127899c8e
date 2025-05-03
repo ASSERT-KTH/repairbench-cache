@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = p.getCurrentToken();\n    if (t == JsonToken.START_OBJECT) {\n        p.nextToken();\n        return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n    }\n    // Accept FIELD_NAME (i.e., just entered object)\n    if (t == JsonToken.FIELD_NAME) {\n        return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n    }\n    // Accept END_OBJECT for empty Objects\n    if (t == JsonToken.END_OBJECT) {\n        // Create and return empty ObjectNode\n        return ctxt.getNodeFactory().objectNode();\n    }\n    throw ctxt.mappingException(ObjectNode.class);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

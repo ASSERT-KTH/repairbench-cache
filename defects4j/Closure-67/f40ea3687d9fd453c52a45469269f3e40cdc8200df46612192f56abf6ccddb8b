@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node lhs = assign.getFirstChild();\n  // Allow both dot and bracket access on the LHS\n  if (lhs != null\n      && NodeUtil.isVarOrSimpleAssignLhs(lhs, assign)\n      && (lhs.getType() == Token.GETPROP || lhs.getType() == Token.GETELEM)) {\n    Node targetObj = lhs.getFirstChild();\n    // We only care about assignments to X.prototype.Y or X.prototype['Y']\n    if (targetObj != null\n        && (targetObj.getType() == Token.GETPROP || targetObj.getType() == Token.GETELEM)) {\n      // In both GETPROP and GETELEM the \"prototype\" name is the second child of targetObj\n      Node protoName = targetObj.getFirstChild().getNext();\n      if (protoName != null\n          && protoName.getType() == Token.STRING\n          && \"prototype\".equals(protoName.getString())) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

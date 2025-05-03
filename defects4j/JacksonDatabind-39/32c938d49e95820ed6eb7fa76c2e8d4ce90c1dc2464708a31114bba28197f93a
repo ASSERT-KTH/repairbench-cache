@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    // skip any children of the current token (e.g. nested objects/arrays)\n    p.skipChildren();\n    // record the context we need to return to (parent of the current parsing context)\n    JsonStreamContext returnTo = p.getParsingContext().getParent();\n    // keep reading until we've popped back to that parent context\n    JsonToken t;\n    while ((t = p.nextToken()) != null && p.getParsingContext() != returnTo) {\n        p.skipChildren();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

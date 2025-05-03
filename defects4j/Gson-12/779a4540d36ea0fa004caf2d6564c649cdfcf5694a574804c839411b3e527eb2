@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void skipValue() throws IOException {\n  JsonToken token = peek();\n  if (token == JsonToken.NAME) {\n    nextName();\n    // clear the consumed name if we have a parent\n    if (stackSize >= 2) {\n      pathNames[stackSize - 2] = \"null\";\n    }\n  } else {\n    popStack();\n    // clear the name at the new top of stack, if any\n    if (stackSize >= 1) {\n      pathNames[stackSize - 1] = \"null\";\n    }\n  }\n  // bump the index in the enclosing array/object, if any\n  if (stackSize >= 1) {\n    pathIndices[stackSize - 1]++;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

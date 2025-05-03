@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void feedInput(byte[] buf, int start, int end) throws IOException\n{\n    // Must not have any leftover bytes\n    if (_inputPtr < _inputEnd) {\n        _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\",\n                     _inputEnd - _inputPtr);\n    }\n    if (end < start) {\n        _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n    }\n    if (_endOfInput) {\n        _reportError(\"Already closed, can not feed more input\");\n    }\n    // 1) update how many bytes we've fully consumed so far\n    int prevLen = _origBufferLen;\n    _currInputProcessed += prevLen;\n    // 2) adjust row\u2010start so that it remains correct in the new buffer\n    _currInputRowStart -= prevLen;\n\n    // 3) copy just the new slice into a fresh buffer so pointers can start at zero\n    int len = end - start;\n    byte[] slice = new byte[len];\n    System.arraycopy(buf, start, slice, 0, len);\n\n    // 4) reset parser pointers to the sliced buffer\n    _inputBuffer    = slice;\n    _inputPtr       = 0;\n    _inputEnd       = len;\n    _origBufferLen  = len;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

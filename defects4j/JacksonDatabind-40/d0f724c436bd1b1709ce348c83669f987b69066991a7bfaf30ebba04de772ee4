@@ -1,0 +1,7 @@
+{
+    "generation": "// In StdDeserializer (or your common base for scalar deserializers), replace the old\n// \"_coerceEmptyString\" with the following.  This will ensure that empty\u2010string\u2192null\n// coercion only happens when the type allows it (e.g. wrappers) *and* the feature is enabled;\n// primitives (emptyAsNull=false) will still fail by default.\n\n@Override\nprotected final T _coerceEmptyString(DeserializationContext ctxt,\n                                      JsonParser p,\n                                      boolean emptyAsNull)\n    throws IOException\n{\n    // only coerce empty String to null if caller said it's OK AND the feature is enabled\n    if (emptyAsNull && ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n        return getNullValue(ctxt);\n    }\n    // otherwise signal an error (empty String is not allowed here)\n    // this will throw a MismatchedInputException / JsonMappingException\n    @SuppressWarnings(\"unchecked\")\n    T result = (T) ctxt.handleUnexpectedToken(getValueClass(), p);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

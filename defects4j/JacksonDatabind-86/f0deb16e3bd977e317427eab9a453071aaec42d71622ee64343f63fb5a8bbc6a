@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<BeanPropertyDefinition> findProperties(DeserializationConfig config,\n        JavaType type, MixInResolver r, boolean forSerialization)\n{\n    AnnotatedClass ac = AnnotatedClassResolver.resolve(config,\n            type, config.introspector(), r);\n    // BEGIN FIX\n    List<BeanPropertyDefinition> props = _propertiesCollector(config, ac, type, forSerialization).getProperties();\n    if (type.isContainerType() && !props.isEmpty() && type.isReferenceType()) {\n        // Remove synthetic property for reference types (workaround for recursive type cache issue)\n        props.removeIf(prop -> prop.getName().equals(\"\"));\n    }\n    return props;\n    // END FIX\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * <p>Gets the greatest common divisor of the absolute value of\n * two numbers, using the \"binary gcd\" method which avoids\n * division and modulo operations.  See Knuth 4.5.2 algorithm B.\n * This algorithm is due to Josef Stein (1961).</p>\n *\n * @param u  a non-zero number\n * @param v  a non-zero number\n * @return the greatest common divisor, never zero\n */\nprivate static int greatestCommonDivisor(int u, int v) {\n    // Special cases (this is mainly for Integer.MIN_VALUE support):\n    if (u == 0 || v == 0) {\n        return Math.abs(u) + Math.abs(v);\n    }\n\n    // Adapt to use positive inputs, as that allows correct halving\n    int a = Math.abs(u);\n    int b = Math.abs(v);\n\n    // Find common power of two for a and b\n    int shift = 0;\n    while (((a | b) & 1) == 0 && shift < 31) {\n        a >>= 1;\n        b >>= 1;\n        shift++;\n    }\n    if (shift == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    // Remove remaining factors of 2 from a\n    while ((a & 1) == 0) {\n        a >>= 1;\n    }\n\n    // gcd(a, b) = gcd(|a|, |b|)\n    do {\n        while ((b & 1) == 0) {\n            b >>= 1;\n        }\n        if (a > b) {\n            int tmp = a;\n            a = b;\n            b = tmp;\n        }\n        b = b - a;\n    } while (b != 0);\n\n    return a << shift;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

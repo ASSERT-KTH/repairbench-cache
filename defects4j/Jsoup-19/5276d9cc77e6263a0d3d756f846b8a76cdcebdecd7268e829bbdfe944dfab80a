@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    // get the original value and the absolute URL (if resolvable)\n    String origVal = attr.getValue();\n    String absVal = el.absUrl(attr.getKey());\n    // choose which to test: absolute if present, otherwise the original\n    String testVal = absVal.length() > 0 ? absVal : origVal;\n    // if we're rewriting to absolute, only override when we actually have one\n    if (!preserveRelativeLinks && absVal.length() > 0) {\n        attr.setValue(absVal);\n    }\n    // check against allowed protocols\n    String lower = testVal.toLowerCase();\n    for (Protocol protocol : protocols) {\n        String prot = protocol.toString() + \":\";\n        if (lower.startsWith(prot)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

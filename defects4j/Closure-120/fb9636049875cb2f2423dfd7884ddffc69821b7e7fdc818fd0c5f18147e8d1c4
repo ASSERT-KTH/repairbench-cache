@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the variable is only assigned a value once for its\n *     lifetime.\n */\nboolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Make sure this assignment is not in a loop or a function that can be called multiple times.\n  for (BasicBlock block = ref.getBasicBlock();\n       block != null; block = block.getParent()) {\n    if (block.isLoop) {\n      return false;\n    }\n    if (block.isFunction) {\n      // If the assignment is in a function, only allow if the variable is declared in the same scope,\n      // i.e. not a global variable modified within a function that can be called multiple times.\n      // So if the variable is not declared in the block corresponding to the function, it can be assigned multiple times.\n      if (!declaredInBlock(block)) {\n        return false;\n      }\n      break;\n    }\n  }\n\n  return true;\n}\n\n/**\n * Helper method to check if the variable is declared in the given block.\n */\nprivate boolean declaredInBlock(BasicBlock block) {\n  // You may need to adapt this, depending on how declaration info is stored.\n  // This is a stub assuming a 'declaration' field for this variable.\n  return this.declaration != null && this.declaration.getBasicBlock() == block;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    // If this is a POSIX \u201custar\u201d header, assume it\u2019s valid even if\n    // the checksum doesn\u2019t match exactly.\n    if (header.length >= MAGIC_OFFSET + 5\n        && header[MAGIC_OFFSET]   == 'u'\n        && header[MAGIC_OFFSET+1] == 's'\n        && header[MAGIC_OFFSET+2] == 't'\n        && header[MAGIC_OFFSET+3] == 'a'\n        && header[MAGIC_OFFSET+4] == 'r') {\n        return true;\n    }\n\n    long storedSum   = 0;\n    long unsignedSum = 0;\n    long signedSum   = 0;\n    int digits       = 0;\n\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            // parse up to 6 octal digits\n            if (digits < 6 && b >= '0' && b <= '7') {\n                storedSum = (storedSum << 3) + (b - '0');\n                digits++;\n            } else if (digits > 0) {\n                // once we hit a non-digit after starting, stop parsing\n                digits = 6;\n            }\n            // treat any byte in the checksum field as a space\n            b = ' ';\n        }\n        unsignedSum += (b & 0xFF);\n        signedSum   += b;\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

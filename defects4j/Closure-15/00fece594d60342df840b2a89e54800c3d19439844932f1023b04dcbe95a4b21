@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean apply(Node n) {\n  // When the node is null it means we reached the implicit return\n  // where the function returns (possibly without an return statement)\n  if (n == null) {\n    return false;\n  }\n\n  // Calls or constructors with side\u2010effects prevent inlining.\n  if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n    return true;\n  }\n  if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n    return true;\n  }\n\n  // Deleting a property/name is side\u2010effectful.\n  if (n.isDelProp() || n.isDelName()) {\n    return true;\n  }\n\n  // Recurse, but don\u2019t enter new CFG nodes (e.g., function bodies).\n  for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

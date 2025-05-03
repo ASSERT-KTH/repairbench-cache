@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean verifyCheckSum(byte[] header) {\n    // Parse the stored checksum: ignore any non\u2010octal characters and take the first 6 octal digits\n    long storedSum = 0;\n    int count = 0;\n    for (int i = CHKSUM_OFFSET; i < CHKSUM_OFFSET + CHKSUMLEN; i++) {\n        byte b = header[i];\n        if (b >= '0' && b <= '7') {\n            // multiply by 8 and add this octal digit\n            storedSum = (storedSum << 3) + (b - '0');\n            if (++count == 6) {\n                break;\n            }\n        }\n    }\n    // no valid digits \u21d2 not a TAR header\n    if (count == 0) {\n        return false;\n    }\n\n    // Compute both unsigned and signed sums of the header,\n    // treating the checksum field itself as spaces (0x20)\n    long unsignedSum = 0;\n    long signedSum = 0;\n    for (int i = 0; i < header.length; i++) {\n        byte b = header[i];\n        if (i >= CHKSUM_OFFSET && i < CHKSUM_OFFSET + CHKSUMLEN) {\n            b = ' ';\n        }\n        unsignedSum += b & 0xff;\n        signedSum += b;\n    }\n\n    return storedSum == unsignedSum || storedSum == signedSum;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

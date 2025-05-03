@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected String doFormat(final String code, final LineEnding ending) throws IOException {\n    // Parse the CSS\n    final var source = new InputSource(new StringReader(code));\n    final var parser = new CSSOMParser(new SACParserCSS3());\n    final var sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);\n    String formattedCode = sheet.getCssText(this.formatter);\n\n    // Patch converted 'tab' back to '\\9' for IE7/8/9 hack (cssparser turns it into a real tab)\n    formattedCode = formattedCode.replace(\"\\t;\", \"\\\\9;\");\n\n    // Normalize all line\u2010endings to '\\n'\n    formattedCode = formattedCode.replace(\"\\r\\n\", \"\\n\").replace(\"\\r\", \"\\n\");\n    // Then convert '\\n' to the requested ending (LF or CRLF)\n    formattedCode = formattedCode.replace(\"\\n\", ending.getChars());\n\n    // If nothing changed, signal \"no-op\"\n    if (code.equals(formattedCode)) {\n        return null;\n    }\n    return formattedCode;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

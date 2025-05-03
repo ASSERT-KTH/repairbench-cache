@@ -1,0 +1,7 @@
+{
+    "generation": "void read(Tokeniser t, CharacterReader r) {\n    char c = r.consume();\n    switch (c) {\n        case '>':\n            t.tagPending.selfClosing = true;\n            t.emitTagPending();\n            t.transition(Data);\n            break;\n        case eof:\n            t.eofError(this);\n            t.transition(Data);\n            break;\n        default:\n            t.error(this);\n            // the character wasn't a '>', so reconsume it as the start of an attribute name\n            r.unconsume();\n            t.transition(BeforeAttributeName);\n    }\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

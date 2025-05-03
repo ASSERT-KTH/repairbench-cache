@@ -1,0 +1,7 @@
+{
+    "generation": "private int compareNodePointers(\n        NodePointer p1,\n        int depth1,\n        NodePointer p2,\n        int depth2) \n{\n    // first bring the two pointers to the same depth\n    if (depth1 < depth2) {\n        int r = compareNodePointers(p1, depth1, p2.parent, depth2 - 1);\n        return r == 0 ? -1 : r;\n    }\n    if (depth1 > depth2) {\n        int r = compareNodePointers(p1.parent, depth1 - 1, p2, depth2);\n        return r == 0 ? 1 : r;\n    }\n\n    // now they are at the same depth\n    if (p1 == null && p2 == null) {\n        return 0;\n    }\n    if (p1 != null && p1.equals(p2)) {\n        return 0;\n    }\n\n    // if we've reached the root of each tree and they differ,  \n    // fall back to comparing their string representations\n    if (depth1 == 1) {\n        String s1 = p1 == null ? \"\" : p1.toString();\n        String s2 = p2 == null ? \"\" : p2.toString();\n        return s1.compareTo(s2);\n    }\n\n    // climb up one level and compare again\n    int r = compareNodePointers(p1.parent, depth1 - 1, p2.parent, depth2 - 1);\n    if (r != 0) {\n        return r;\n    }\n\n    // finally, if they share the same parent, compare by child order\n    return p1.parent.compareChildNodePointers(p1, p2);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // get the values provided by the user\n    List valueList = (List) values.get(option);\n\n    // if no user values, fall back to the option's defaults or parser-level defaults\n    if (valueList == null || valueList.isEmpty()) {\n        if (defaultValues != null && !defaultValues.isEmpty()) {\n            return new ArrayList(defaultValues);\n        }\n        List parserDefaults = (List) this.defaultValues.get(option);\n        if (parserDefaults != null && !parserDefaults.isEmpty()) {\n            return new ArrayList(parserDefaults);\n        }\n        return Collections.EMPTY_LIST;\n    }\n\n    // user did supply values; if there are no option-level defaults, just return them\n    if (defaultValues == null || defaultValues.isEmpty()) {\n        return new ArrayList(valueList);\n    }\n\n    // merge user values with option defaults: for each index, use the user value if present,\n    // otherwise fall back to the default at that position\n    List merged = new ArrayList();\n    int userSize = valueList.size();\n    int defaultSize = defaultValues.size();\n    int max = Math.max(userSize, defaultSize);\n\n    for (int i = 0; i < max; i++) {\n        if (i < userSize) {\n            merged.add(valueList.get(i));\n        } else {\n            merged.add(defaultValues.get(i));\n        }\n    }\n    return merged;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

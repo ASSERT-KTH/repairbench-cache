@@ -1,0 +1,7 @@
+{
+    "generation": "Element insert(Token.StartTag startTag) {\n    // all tags, self\u2010closing or not, should go through the normal insert() routine,\n    // but if the token was self\u2010closing, immediately queue a fake end tag so that\n    // the element is popped right away.\n    Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n    insert(el);\n    if (startTag.isSelfClosing()) {\n        tokeniser.emit(new Token.EndTag(el.tagName()));\n    }\n    return el;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

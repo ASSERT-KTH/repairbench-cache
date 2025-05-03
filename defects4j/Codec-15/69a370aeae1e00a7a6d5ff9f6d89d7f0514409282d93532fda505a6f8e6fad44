@@ -1,0 +1,7 @@
+{
+    "generation": "private char getMappingCode(final String str, final int index) {\n    // map() throws IllegalArgumentException\n    final char mappedChar = this.map(str.charAt(index));\n    // if this char has a valid code and is preceded by H or W, apply the HW rule\n    if (mappedChar != '0' && index > 1) {\n        char prev = str.charAt(index - 1);\n        if (prev == 'H' || prev == 'W') {\n            // skip all H/W separators to find the preceding consonant\n            int j = index - 2;\n            while (j >= 0 && (str.charAt(j) == 'H' || str.charAt(j) == 'W')) {\n                j--;\n            }\n            // if that consonant has the same code, suppress this one\n            if (j >= 0 && this.map(str.charAt(j)) == mappedChar) {\n                return 0;\n            }\n        }\n    }\n    return mappedChar;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

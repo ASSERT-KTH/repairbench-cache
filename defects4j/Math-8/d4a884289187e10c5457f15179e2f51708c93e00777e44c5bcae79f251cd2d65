@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generate a random sample from the distribution.\n *\n * @param sampleSize the number of random values to generate.\n * @return an array representing the random sample.\n * @throws NotStrictlyPositiveException if {@code sampleSize} is not\n * positive.\n */\n@SuppressWarnings(\"unchecked\")\npublic T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n    if (sampleSize <= 0) {\n        throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                sampleSize);\n    }\n\n    final T firstSample = sample();\n    final T[] out = (T[]) java.lang.reflect.Array.newInstance(firstSample.getClass(), sampleSize);\n    out[0] = firstSample;\n\n    for (int i = 1; i < sampleSize; i++) {\n        out[i] = sample();\n    }\n\n    return out;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

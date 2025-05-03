@@ -1,0 +1,7 @@
+{
+    "generation": "private static int greatestCommonDivisor(int u, int v) {\n    // Handle zero arguments (though Fraction logic avoids calling gcd with 0/0)\n    if (u == 0 || v == 0) {\n        long t = (u == 0 ? (long) v : (long) u);\n        t = t < 0 ? -t : t;\n        if (t > Integer.MAX_VALUE) {\n            throw new ArithmeticException(\"overflow: gcd is 2^31\");\n        }\n        return (int) t;\n    }\n    // Use the Euclidean algorithm on positive values carried in a long\n    long a = u < 0 ? -(long) u : (long) u;\n    long b = v < 0 ? -(long) v : (long) v;\n    while (b != 0) {\n        long tmp = a % b;\n        a = b;\n        b = tmp;\n    }\n    if (a > Integer.MAX_VALUE) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n    return (int) a;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

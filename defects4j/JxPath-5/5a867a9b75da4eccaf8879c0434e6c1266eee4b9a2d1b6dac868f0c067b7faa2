@@ -1,0 +1,7 @@
+{
+    "generation": "private int compareNodePointers(\n    NodePointer p1,\n    int depth1,\n    NodePointer p2,\n    int depth2) \n{\n    // First, bring both pointers to the same depth.\n    if (depth1 < depth2) {\n        int r = compareNodePointers(p1, depth1, p2.parent, depth2 - 1);\n        return r == 0 ? -1 : r;\n    }\n    if (depth1 > depth2) {\n        int r = compareNodePointers(p1.parent, depth1 - 1, p2, depth2);\n        return r == 0 ? 1 : r;\n    }\n\n    // If both are null or actually the same pointer, they're equal.\n    if (p1 == null && p2 == null) {\n        return 0;\n    }\n    if (p1 != null && p1.equals(p2)) {\n        return 0;\n    }\n\n    // If we're at the root of two *different* trees, fall back to\n    // a stable ordering rather than throwing an exception.\n    if (depth1 == 1) {\n        // Use the string representation of the pointer for a consistent order.\n        return p1.toString().compareTo(p2.toString());\n    }\n\n    // Otherwise compare their parents first.\n    int r = compareNodePointers(p1.parent, depth1 - 1, p2.parent, depth2 - 1);\n    if (r != 0) {\n        return r;\n    }\n\n    // Finally, they're siblings under the same parent, so delegate\n    // to the parent to decide the order of these two children.\n    return p1.parent.compareChildNodePointers(p1, p2);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

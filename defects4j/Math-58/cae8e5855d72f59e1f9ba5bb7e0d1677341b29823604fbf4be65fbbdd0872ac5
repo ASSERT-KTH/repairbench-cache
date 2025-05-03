@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Fits a Gaussian function to the observed points.\n *\n * @return the parameters of the Gaussian function that best fits the\n * observed points (in the same order as above).\n */\n@Override\npublic double[] fit() {\n    // compute a first guess for [amplitude, mean, sigma]\n    final double[] guess = new ParameterGuesser(getObservations()).guess();\n\n    // wrap the Gaussian.Parametric so that any X<=0 sigma trial\n    // does not throw, but returns NaN instead\n    final ParametricUnivariateFunction base = new Gaussian.Parametric();\n    final ParametricUnivariateFunction safeModel = new ParametricUnivariateFunction() {\n        @Override\n        public double value(double x, double... p) {\n            try {\n                return base.value(x, p);\n            } catch (RuntimeException ex) {\n                return Double.NaN;\n            }\n        }\n        @Override\n        public double[] gradient(double x, double... p) {\n            try {\n                return base.gradient(x, p);\n            } catch (RuntimeException ex) {\n                double[] g = new double[p.length];\n                java.util.Arrays.fill(g, Double.NaN);\n                return g;\n            }\n        }\n    };\n\n    // run the optimizer on the wrapped model\n    return fit(safeModel, guess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeEmbeddedObject(Object object) throws IOException {\n    // as per [core#318], support a few basic cases\n    if (object == null) {\n        writeNull();\n        return;\n    }\n    if (object instanceof byte[]) {\n        byte[] data = (byte[]) object;\n        // use default Base64 variant via convenience API\n        writeBinary(data, 0, data.length);\n        return;\n    }\n    // no other opaque types supported by default\n    throw new JsonGenerationException(\n        \"No native support for writing embedded objects\",\n        this\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void inlineAliases(GlobalNamespace namespace) {\n  // Invariant: All the names in the worklist meet condition (a).\n  Deque<Name> workList = new ArrayDeque<Name>(namespace.getNameForest());\n  while (!workList.isEmpty()) {\n    Name name = workList.pop();\n\n    // Don't attempt to inline a getter or setter property as a variable.\n    if (name.type == Name.Type.GET || name.type == Name.Type.SET) {\n      continue;\n    }\n\n    // Condition (b): exactly one global write, no local writes,\n    // and at least one aliasing GET.\n    if (name.globalSets == 1 && name.localSets == 0 && name.aliasingGets > 0) {\n      List<Ref> refs = Lists.newArrayList(name.getRefs());\n      for (Ref ref : refs) {\n        // Condition (c): we only inline aliases that were created in a local scope.\n        if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {\n          if (inlineAliasIfPossible(ref, namespace)) {\n            name.removeRef(ref);\n          }\n        }\n      }\n    }\n\n    // Now that we've inlined any aliases for `name`, if it has\n    // no remaining aliasing GETs and no local writes, we can\n    // descend to its children (they satisfy condition (a)).\n    if ((name.type == Name.Type.OBJECTLIT ||\n         name.type == Name.Type.FUNCTION) &&\n        name.aliasingGets == 0 && name.localSets == 0 &&\n        name.props != null) {\n      workList.addAll(name.props);\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

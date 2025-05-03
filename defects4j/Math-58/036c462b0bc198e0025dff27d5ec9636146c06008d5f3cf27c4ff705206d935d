@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic double[] fit() {\n    // Initial guess for [amplitude, mean, sigma]\n    final double[] guess = new ParameterGuesser(getObservations()).guess();\n    // Underlying Gaussian.Parametric which may throw on \u03c3\u22640\n    final Gaussian.Parametric base = new Gaussian.Parametric();\n    // A \"safe\" wrapper that catches those exceptions and returns NaN\n    final Gaussian.Parametric safe = new Gaussian.Parametric() {\n        @Override\n        public double value(double x, double[] parameters) {\n            try {\n                return base.value(x, parameters);\n            } catch (Exception ex) {\n                // if \u03c3\u22640 (or any other problem), return NaN so optimizer can continue\n                return Double.NaN;\n            }\n        }\n        @Override\n        public double[] gradient(double x, double[] parameters) {\n            try {\n                return base.gradient(x, parameters);\n            } catch (Exception ex) {\n                // likewise, return a NaN\u2010filled gradient\n                double[] g = new double[parameters.length];\n                java.util.Arrays.fill(g, Double.NaN);\n                return g;\n            }\n        }\n    };\n    // Perform the fit with the safe wrapper\n    return fit(safe, guess);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

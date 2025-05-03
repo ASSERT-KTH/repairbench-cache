@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isPrototypePropertyAssign(Node assign) {\n  Node n = assign.getFirstChild();\n  if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n      && n.getType() == Token.GETPROP) {\n    // Match both obj.prototype.prop = ... and obj.prototype['prop'] = ...\n    Node target = n.getFirstChild();\n    if (target != null && target.getType() == Token.GETPROP) {\n      Node object = target.getFirstChild();\n      Node property = object != null ? object.getNext() : null;\n      if (property != null && property.getType() == Token.STRING &&\n          property.getString().equals(\"prototype\")) {\n        return true;\n      }\n    }\n    // Also allow obj.prototype['prop'] = ...\n    Node obj = n.getFirstChild();\n    Node prop = obj != null ? obj.getNext() : null;\n    if (obj != null && obj.getType() == Token.GETPROP &&\n        prop != null && (prop.getType() == Token.STRING || prop.getType() == Token.STRING_KEY)) {\n      Node prototype = obj.getFirstChild() != null ? obj.getFirstChild().getNext() : null;\n      if (prototype != null && prototype.getType() == Token.STRING &&\n          prototype.getString().equals(\"prototype\")) {\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

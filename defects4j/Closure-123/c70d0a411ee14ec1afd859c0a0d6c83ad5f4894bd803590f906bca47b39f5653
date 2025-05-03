@@ -1,0 +1,7 @@
+{
+    "generation": "void add(Node n, Context context) {\n  // \u2026 all the existing code up to the HOOK case \u2026\n\n  case Token.HOOK: {\n    Preconditions.checkState(childCount == 3);\n    int p = NodeUtil.precedence(type);\n    // We only ever special\u2010case the IN operator in a for\u2010init context;\n    // otherwise fall back to the normal lower\u2010bound of 1.\n    Context rhsContext = Context.OTHER;\n\n    // condition\n    addExpr(first, p + 1, context);\n    cc.addOp(\"?\", true);\n\n    // true\u2010branch\n    addExpr(first.getNext(), 1, rhsContext);\n    cc.addOp(\":\", true);\n\n    // false\u2010branch: if we're in a for\u2010init clause and it's an IN op,\n    // force parentheses so the parser doesn't see `for(a in b;;)` as a for\u2010in.\n    if (context == Context.IN_FOR_INIT_CLAUSE && last.getType() == Token.IN) {\n      cc.add(\"(\");\n      // propagate the same for\u2010init context into the nested IN\n      add(last, Context.IN_FOR_INIT_CLAUSE);\n      cc.add(\")\");\n    } else {\n      addExpr(last, 1, rhsContext);\n    }\n    break;\n  }\n\n  // \u2026 the rest of the existing code \u2026\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

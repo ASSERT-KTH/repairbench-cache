@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n    // explicit directory flag\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n    // do not treat PAX extended headers as directories merely because their name ends with '/'\n    if (linkFlag == LF_PAX_EXTENDED_HEADER_LC\n        || linkFlag == LF_PAX_EXTENDED_HEADER_UC) {\n        return false;\n    }\n    // fallback: a name ending with '/' is a directory for normal entries\n    return getName().endsWith(\"/\");\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

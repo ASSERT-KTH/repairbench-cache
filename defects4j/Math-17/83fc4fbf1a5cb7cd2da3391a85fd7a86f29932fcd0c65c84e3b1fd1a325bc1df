@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n        // Special case handling for zero, infinity, and NaN\n        if (isNaN()) {\n            return newInstance(field.getZero().dotrap(DfpField.FLAG_INVALID, \"multiply\", field.getNaN(), this, field.newDfp(x)));\n        }\n        if (x == 0) {\n            // Determine the sign of zero\n            Dfp result = newInstance(getZero());\n            result.sign = (sign == -1 || x < 0 ? -1 : 1);\n            if (isInfinite()) {\n                field.setIEEEFlagsBits(DfpField.FLAG_INVALID);\n                result = newInstance(field.getNaN());\n            }\n            return result;\n        }\n        if (isInfinite()) {\n            Dfp result = newInstance(this);\n            result.sign = (sign == -1 ^ x < 0) ? -1 : 1;\n            if (x != 0) {\n                return result;\n            }\n            // infinity * 0 = NaN\n            field.setIEEEFlagsBits(DfpField.FLAG_INVALID);\n            return newInstance(field.getNaN());\n        }\n        // Handle overflow and underflow could be inside multiplyFast()\n        Dfp result = multiplyFast(x);\n        // Correct sign for negative multipliers\n        if (x < 0) {\n            result.sign *= -1;\n        }\n        return result;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n    // explicit dir\u2010type entries are always directories\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n    // some tars mark directories by a trailing '/' in the name,\n    // but only for normal files (not for PAX headers, symlinks, etc.)\n    if ((linkFlag == LF_NORMAL || linkFlag == LF_OLDNORM)\n            && getName().endsWith(\"/\")) {\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

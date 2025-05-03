@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * For this distribution, X, this method returns P(X < x).\n * If x is more than 20 standard deviations from the mean we\n * \"top\u2010code\" to 0 or 1 rather than risk a convergence failure\n * in the Erf approximation.\n */\npublic double cumulativeProbability(double x) throws MathException {\n    double dev = x - mean;\n    double sd  = standardDeviation;\n    double z   = dev / sd;\n    // top\u2010code extremes to avoid Erf convergence failures\n    if (z <= -20.0) {\n        return 0.0;\n    }\n    if (z >= 20.0) {\n        return 1.0;\n    }\n    // otherwise delegate to the standard Erf-based formula\n    return 0.5 * (1.0 + Erf.erf(dev / (sd * Math.sqrt(2.0))));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

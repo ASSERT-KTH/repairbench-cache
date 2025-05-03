@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    // if the parent is a block\u2010level tag, or we're in outline mode, that forces block formatting\n    boolean parentBlock = parent() != null && parent().tag().formatAsBlock();\n    boolean outline = out.outline();\n\n    // honor an inline\u2010display style, but don't let it suppress a block parent or outline\n    String style = attr(\"style\");\n    if (style != null && !style.isEmpty()) {\n        String lower = style.toLowerCase(Locale.ROOT);\n        for (String decl : lower.split(\";\")) {\n            int idx = decl.indexOf(':');\n            if (idx > 0) {\n                String key = decl.substring(0, idx).trim();\n                String val = decl.substring(idx + 1).trim();\n                if (\"display\".equals(key)) {\n                    if (\"inline\".equals(val)) {\n                        // inline only if not inside a block or outline mode\n                        return parentBlock || outline;\n                    }\n                    if (\"block\".equals(val)) {\n                        // force block if styled as block\n                        return true;\n                    }\n                    break;\n                }\n            }\n        }\n    }\n\n    // default: block if the tag itself is block, or parent is block, or outline mode\n    return tag.formatAsBlock() || parentBlock || outline;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

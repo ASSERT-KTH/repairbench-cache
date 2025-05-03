@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements) {\n        // skip any controls that have been removed from this form\n        boolean inForm = false;\n        for (Node node = el; node != null; node = node.parent()) {\n            if (node == this) {\n                inForm = true;\n                break;\n            }\n        }\n        if (!inForm)\n            continue;\n\n        String name = el.attr(\"name\");\n        if (name.isEmpty())\n            continue;\n\n        String tag = el.tagName();\n        if (\"input\".equals(tag)) {\n            String type = el.attr(\"type\").toLowerCase();\n            // unchecked radios/checkboxes do not submit\n            if ((\"checkbox\".equals(type) || \"radio\".equals(type)) && !el.hasAttr(\"checked\"))\n                continue;\n            data.add(Connection.KeyVal.create(name, el.val()));\n\n        } else if (\"textarea\".equals(tag)) {\n            data.add(Connection.KeyVal.create(name, el.text()));\n\n        } else if (\"select\".equals(tag)) {\n            for (Element opt : el.select(\"option[selected]\")) {\n                String val = opt.hasAttr(\"value\") ? opt.attr(\"value\") : opt.text();\n                data.add(Connection.KeyVal.create(name, val));\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

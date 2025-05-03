@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic char[] getTextBuffer() {\n    // Are we just using a shared input buffer?\n    if (_inputStart >= 0) {\n        // if no buffer has been set yet, return an empty array\n        return (_inputBuffer != null) ? _inputBuffer : new char[0];\n    }\n    // if we already have a char[] result, just return it\n    if (_resultArray != null) {\n        return _resultArray;\n    }\n    // if we have a String result, materialize it once into a char[]\n    if (_resultString != null) {\n        return (_resultArray = _resultString.toCharArray());\n    }\n    // if we never had to segment, return the current segment (or empty)\n    if (!_hasSegments) {\n        return (_currentSegment != null) ? _currentSegment : new char[0];\n    }\n    // otherwise concat all segments into one array\n    return contentsAsArray();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

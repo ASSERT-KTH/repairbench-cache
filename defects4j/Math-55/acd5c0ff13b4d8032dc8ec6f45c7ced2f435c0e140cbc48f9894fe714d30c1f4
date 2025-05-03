@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Extract components\n    double x1 = v1.getX();\n    double y1 = v1.getY();\n    double z1 = v1.getZ();\n    double x2 = v2.getX();\n    double y2 = v2.getY();\n    double z2 = v2.getZ();\n\n    // Precondition v1 by subtracting an 8-bit approximation of (v1\u00b7v2)/(v2\u00b7v2) times v2\n    double dot = x1 * x2 + y1 * y2 + z1 * z2;\n    double norm2 = x2 * x2 + y2 * y2 + z2 * z2;\n    double rho = 0;\n    if (norm2 != 0) {\n        // inv = (dot/norm2) * 2^8\n        double inv = FastMath.scalb(dot / norm2, 8);\n        // rho = round(inv) / 2^8\n        rho = FastMath.scalb(FastMath.rint(inv), -8);\n    }\n\n    // v3 = v1 - rho * v2\n    double x3 = x1 - rho * x2;\n    double y3 = y1 - rho * y2;\n    double z3 = z1 - rho * z2;\n\n    // Return v3 \u00d7 v2\n    return new Vector3D(\n        y3 * z2 - z3 * y2,\n        z3 * x2 - x3 * z2,\n        x3 * y2 - y3 * x2\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

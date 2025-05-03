@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic byte[] getBinaryValue(Base64Variant b64variant)\n    throws IOException, JsonParseException\n{\n    JsonNode n = currentNode();\n    if (n != null) {\n        // If it's a real binary node, just return its contents:\n        if (n.isBinary()) {\n            return n.binaryValue();\n        }\n        // If it's a POJO wrapping a byte[], unwrap it:\n        if (n.isPojo()) {\n            Object ob = ((POJONode) n).getPojo();\n            if (ob instanceof byte[]) {\n                return (byte[]) ob;\n            }\n        }\n        // If it's textual, decode using the requested Base64 variant:\n        if (n.isTextual()) {\n            String text = n.textValue();\n            if (text != null) {\n                try {\n                    return b64variant.decode(text);\n                } catch (IllegalArgumentException iae) {\n                    // wrap base64 decoding errors as a JsonParseException\n                    throw _constructError(\"Cannot access contents of TextNode as binary due to broken Base64 encoding: \"\n                            + iae.getMessage());\n                }\n            }\n        }\n    }\n    // no binary data available\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

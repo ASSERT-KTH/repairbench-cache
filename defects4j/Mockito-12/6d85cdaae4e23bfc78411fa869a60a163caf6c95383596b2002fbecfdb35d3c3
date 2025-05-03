@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class.\n *\n * @param field the field to inspect\n * @return the most\u2010nested raw class of the first type argument, or Object.class if none\n */\npublic Class getGenericType(Field field) {\n    Type genericType = field.getGenericType();\n    Class result = Object.class;\n    // Walk down into nested parameterized types, always picking the first type argument,\n    // but remember the raw type at each level.\n    while (genericType instanceof ParameterizedType) {\n        ParameterizedType pt = (ParameterizedType) genericType;\n        // capture the raw type (e.g. List, Set, etc.)\n        Type raw = pt.getRawType();\n        if (raw instanceof Class) {\n            result = (Class) raw;\n        } else {\n            break;\n        }\n        // descend into the first type argument\n        Type[] args = pt.getActualTypeArguments();\n        if (args.length == 0) {\n            break;\n        }\n        genericType = args[0];\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void processProperties(Properties properties) {\n    if (properties == null) {\n        return;\n    }\n\n    for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements();) {\n        String option = e.nextElement().toString();\n\n        // skip if already set on the command line\n        if (cmd.hasOption(option)) {\n            continue;\n        }\n\n        Option opt = getOptions().getOption(option);\n        // skip unknown options\n        if (opt == null) {\n            continue;\n        }\n\n        String value = properties.getProperty(option);\n\n        if (opt.hasArg()) {\n            // only add one property value per option\n            if (opt.getValues() == null || opt.getValues().length == 0) {\n                try {\n                    opt.addValueForProcessing(value);\n                } catch (RuntimeException ignore) {\n                    // ignore invalid values\n                }\n            }\n        } else {\n            // flag options: only add if value is yes/true/1 (case\u2010insensitive)\n            if (!\"yes\".equalsIgnoreCase(value)\n                && !\"true\".equalsIgnoreCase(value)\n                && !\"1\".equalsIgnoreCase(value)) {\n                continue;\n            }\n        }\n\n        cmd.addOption(opt);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

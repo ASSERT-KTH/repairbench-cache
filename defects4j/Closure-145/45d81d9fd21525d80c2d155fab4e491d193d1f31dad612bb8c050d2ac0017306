@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the Node is a DO or FUNCTION (with or without\n * labels or single\u2010statement BLOCK wrappers).\n */\nprivate boolean isOneExactlyFunctionOrDo(Node n) {\n  // Direct function/do\n  if (n.getType() == Token.FUNCTION || n.getType() == Token.DO) {\n    return true;\n  }\n  // Unwrap LABELs\n  if (n.getType() == Token.LABEL) {\n    return isOneExactlyFunctionOrDo(n.getFirstChild());\n  }\n  // Unwrap single\u2010child BLOCKs\n  if (n.getType() == Token.BLOCK) {\n    // empty BLOCK or multi\u2010statement BLOCK is not a single function/do\n    if (n.getChildCount() != 1) {\n      return false;\n    }\n    return isOneExactlyFunctionOrDo(n.getFirstChild());\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

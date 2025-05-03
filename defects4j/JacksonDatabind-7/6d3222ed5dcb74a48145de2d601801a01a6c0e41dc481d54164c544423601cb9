@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n * \n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n{\n    JsonToken t = jp.getCurrentToken();\n    // special case: if parser is already at a FIELD_NAME, assume we missed the START_OBJECT\n    if (t == JsonToken.FIELD_NAME) {\n        writeStartObject();\n        // copy all fields up to the matching END_OBJECT\n        do {\n            copyCurrentStructure(jp);\n        } while (jp.nextToken() == JsonToken.FIELD_NAME);\n        writeEndObject();\n    } else {\n        // normal case: copy the entire current structure\n        copyCurrentStructure(jp);\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public void feedInput(byte[] buf, int start, int end) throws IOException\n    {\n        // Must not have remaining input\n        if (_inputPtr < _inputEnd) {\n            _reportError(\"Still have %d undecoded bytes, should not call 'feedInput'\",\n                         _inputEnd - _inputPtr);\n        }\n        if (end < start) {\n            _reportError(\"Input end (%d) may not be before start (%d)\", end, start);\n        }\n        if (_endOfInput) {\n            _reportError(\"Already closed, can not feed more input\");\n        }\n\n        // Adjust row\u2010start so that offsets within new buffer\n        // reflect the total stream offset correctly\n        _currInputRowStart = start - (_inputEnd - _currInputRowStart);\n        // Reset processed count so that getByteOffset() = (_currInputProcessed + _inputPtr)\n        // yields the correct byte\u2010count from the beginning of the (logical) stream\n        _currInputProcessed = -_currInputRowStart;\n\n        // Finally switch to the new input buffer\n        _inputBuffer = buf;\n        _inputPtr    = start;\n        _inputEnd    = end;\n        _origBufferLen = end - start;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // copy fields into a list so we can reorder them\n    List<Field> fields = new ArrayList<Field>();\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        fields.add(field);\n    }\n    // sort by how specifically the field type matches any mock:\n    // exact match (0) first, then assignable supertypes (1), then non\u2010matches (2)\n    final Set<Object> mockSet = mocks;\n    Collections.sort(fields, new Comparator<Field>() {\n        public int compare(Field f1, Field f2) {\n            return specificity(f1) - specificity(f2);\n        }\n        private int specificity(Field f) {\n            Class<?> type = f.getType();\n            // 0 = exact type match\n            for (Object mock : mockSet) {\n                if (type.equals(mock.getClass())) {\n                    return 0;\n                }\n            }\n            // 1 = assignable (ancestor) match\n            for (Object mock : mockSet) {\n                if (type.isAssignableFrom(mock.getClass())) {\n                    return 1;\n                }\n            }\n            // 2 = no match\n            return 2;\n        }\n    });\n    // perform injection in the new order\n    for (Field field : fields) {\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

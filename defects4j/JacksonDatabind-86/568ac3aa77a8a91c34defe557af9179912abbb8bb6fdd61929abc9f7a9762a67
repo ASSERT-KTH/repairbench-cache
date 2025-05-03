@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<BeanPropertyDefinition> findProperties(MapperConfig<?> config,\n        JavaType type, MixInResolver r, boolean forSerialization)\n{\n    // 29-May-2017, tatu: [databind#1647]\n    // RecursiveType might be missing super types, so let's do a careful walk.\n    List<BeanPropertyDefinition> result = new ArrayList<>();\n    JavaType currType = type;\n    Set<Class<?>> seen = new HashSet<>();\n    // Only traverse super classes/interfaces for BeanType base\n    while (currType != null && !currType.isJavaLangObject()) {\n        final Class<?> raw = currType.getRawClass();\n        // To avoid infinite loops from recursion\n        if (!seen.add(raw)) {\n            break;\n        }\n        BeanDescription desc = config.introspectForSerialization(currType);\n        List<BeanPropertyDefinition> props = desc.findProperties();\n        // Add in order, but avoid duplicates by name\n        for (BeanPropertyDefinition prop : props) {\n            String name = prop.getName();\n            boolean exists = false;\n            for (BeanPropertyDefinition prevProp : result) {\n                if (prevProp.getName().equals(name)) {\n                    exists = true;\n                    break;\n                }\n            }\n            if (!exists) {\n                result.add(prop);\n            }\n        }\n        currType = currType.getSuperClass();\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

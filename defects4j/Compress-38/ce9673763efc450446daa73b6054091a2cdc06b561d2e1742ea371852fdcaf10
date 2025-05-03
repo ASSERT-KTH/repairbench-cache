@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Only treat trailing slash as directory if not a PAX header entry, as PAX can use names ending with '/'\n    // but not actually be a directory (COMPRESS-356)\n    if (getName() != null && getName().endsWith(\"/\") && linkFlag != LF_GNUTYPE_PAX_HEADER) {\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

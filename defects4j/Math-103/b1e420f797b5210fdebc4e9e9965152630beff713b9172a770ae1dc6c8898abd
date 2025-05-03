@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * For this distribution, X, this method returns P(X < <code>x</code>).\n * @param x the value at which the CDF is evaluated.\n * @return CDF evaluated at <code>x</code>. \n * @throws MathException if the algorithm fails to converge; unless\n * an extreme tail is detected, in which case 0 or 1 is returned.\n */\npublic double cumulativeProbability(double x) throws MathException {\n    double dev = (x - mean) / standardDeviation;\n    // if we're far out in the tails, just return 0 or 1\n    if (dev < -20.0) {\n        return 0.0;\n    }\n    if (dev > 20.0) {\n        return 1.0;\n    }\n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / Math.sqrt(2.0)));\n    } catch (MathException ex) {\n        // on convergence failure assume tail\n        return (dev < 0) ? 0.0 : 1.0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

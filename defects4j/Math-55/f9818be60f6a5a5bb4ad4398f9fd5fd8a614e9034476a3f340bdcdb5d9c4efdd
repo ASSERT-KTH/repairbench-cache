@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // extract components of v2\n    double x2 = v2.x;\n    double y2 = v2.y;\n    double z2 = v2.z;\n    // compute dot product and squared norm of v2\n    double dot = v1.x * x2 + v1.y * y2 + v1.z * z2;\n    double n2  = x2 * x2 + y2 * y2 + z2 * z2;\n    if (n2 == 0) {\n        // v2 is zero vector \u2192 cross\u2010product is zero\n        return new Vector3D(0, 0, 0);\n    }\n    // approximate rho = (v1\u00b7v2)/(v2\u00b7v2) to 8 bits of mantissa\n    double ratio = dot / n2;\n    long bits = Double.doubleToLongBits(ratio);\n    long sign = bits & 0x8000000000000000L;\n    long exp  = bits & 0x7FF0000000000000L;\n    long frac = bits & 0x000FFFFFFFFFFFFFL;\n    // keep only the top 7 fraction bits (8 bits total including the implicit 1)\n    long mask = ~((1L << 45) - 1) & 0x000FFFFFFFFFFFFFL;\n    double rho = Double.longBitsToDouble(sign | exp | (frac & mask));\n    // form v3 = v1 - rho * v2\n    double x3 = v1.x - rho * x2;\n    double y3 = v1.y - rho * y2;\n    double z3 = v1.z - rho * z2;\n    // return cross\u2010product of v3 and v2\n    return new Vector3D(\n        y3 * z2 - z3 * y2,\n        z3 * x2 - x3 * z2,\n        x3 * y2 - y3 * x2\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

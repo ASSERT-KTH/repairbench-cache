@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    // Insert the <script> or <style> (or <noframes>) element\n    tb.insert(startTag);\n    // If it was written with a trailing \"/\", treat it as self\u2010closed:\n    // pop it immediately and do not enter rawtext mode\n    if (startTag.isSelfClosing()) {\n        tb.pop();\n        return;\n    }\n    // Otherwise switch into Rawtext so that inner content is treated as text\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    tb.markInsertionMode();\n    tb.transition(Text);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

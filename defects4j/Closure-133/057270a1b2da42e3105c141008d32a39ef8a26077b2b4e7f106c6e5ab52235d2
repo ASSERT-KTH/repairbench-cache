@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Returns the remainder of the current JSDoc line, with the leading\n * comment\u2010prefix (whitespace + '*' + optional space) and any trailing\n * \"*/\" stripped off.\n */\nprivate String getRemainingJSDocLine() {\n  String line = stream.getRemainingJSDocLine();\n  if (line == null) {\n    return null;\n  }\n  // Strip a trailing comment-close if it's there.\n  if (line.endsWith(\"*/\")) {\n    line = line.substring(0, line.length() - 2);\n  }\n  // Skip any leading whitespace.\n  int idx = 0;\n  while (idx < line.length() && Character.isWhitespace(line.charAt(idx))) {\n    idx++;\n  }\n  // Skip one '*' (the JSDoc marker) \u2026\n  if (idx < line.length() && line.charAt(idx) == '*') {\n    idx++;\n    // \u2026 and one space after it, if present.\n    if (idx < line.length() && line.charAt(idx) == ' ') {\n      idx++;\n    }\n  }\n  return line.substring(idx);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

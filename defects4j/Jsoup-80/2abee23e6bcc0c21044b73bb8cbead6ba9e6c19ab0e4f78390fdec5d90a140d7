@@ -1,0 +1,7 @@
+{
+    "generation": "void insert(Token.Comment commentToken) {\n    Comment comment = new Comment(commentToken.getData());\n    Node insert = comment;\n    if (commentToken.bogus) {  // xml declarations and doctype come in as bogus comments\n        String data = comment.getData();\n        if (data.length() > 1 && (data.startsWith(\"!\") || data.startsWith(\"?\"))) {\n            // strip off the leading marker\n            String content = data.substring(1);\n            // if there was a trailing '?' (in a well-formed PI), strip that too\n            if (content.endsWith(\"?\")) {\n                content = content.substring(0, content.length() - 1);\n            }\n            // parse as a self\u2010closing element so we pick up tagName + attributes\n            Document doc = Jsoup.parse(\"<\" + content + \"/>\", baseUri, Parser.xmlParser());\n            Element el = doc.child(0);\n            insert = new XmlDeclaration(settings.normalizeTag(el.tagName()),\n                                        data.startsWith(\"!\"));\n            insert.attributes().addAll(el.attributes());\n        }\n    }\n    insertNode(insert);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

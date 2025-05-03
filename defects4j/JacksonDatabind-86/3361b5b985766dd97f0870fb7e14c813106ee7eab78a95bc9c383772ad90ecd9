@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic PropertyName findNameForDeserialization(Annotated a) {\n    JsonProperty prop = _findAnnotation(a, JsonProperty.class);\n    if (prop != null) {\n        return PropertyName.construct(prop.value());\n    }\n    // Bug fix: Check for @JsonPropertyOrder for super types\n    if (a instanceof AnnotatedField || a instanceof AnnotatedMethod) {\n        Class<?> declaring = a.getDeclaringClass();\n        JsonPropertyOrder order = _findAnnotation(declaring, JsonPropertyOrder.class);\n        if (order != null && order.value().length > 0) {\n            for (String propName : order.value()) {\n                if (a.getName().equals(propName)) {\n                    return PropertyName.construct(propName);\n                }\n            }\n        }\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

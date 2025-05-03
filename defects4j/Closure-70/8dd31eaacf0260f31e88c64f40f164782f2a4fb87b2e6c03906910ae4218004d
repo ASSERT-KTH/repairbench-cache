@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  // The AST children are: FUNCTION -> name -> params -> body\n  Node astParameters = functionNode.getFirstChild().getNext();\n  // We don't actually use the body here, but keep for symmetry with the old code.\n  @SuppressWarnings(\"unused\")\n  Node body = astParameters.getNext();\n\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  Node jsDocParameters = (functionType == null)\n      ? null\n      : functionType.getParametersNode();\n  Node jsDocParameter = (jsDocParameters == null)\n      ? null\n      : jsDocParameters.getFirstChild();\n\n  // Always declare each AST parameter.  If there is a matching JSDoc\n  // param node, use its JSType and mark it as an explicit (declared) type;\n  // otherwise give it a null type (to be inferred later).\n  for (Node astParameter : astParameters.children()) {\n    JSType paramType = null;\n    boolean inferred = true;\n    if (jsDocParameter != null) {\n      paramType = jsDocParameter.getJSType();\n      jsDocParameter = jsDocParameter.getNext();\n      inferred = false;  // this type came from @param, not from inference\n    }\n    defineSlot(astParameter, functionNode, paramType, inferred);\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  // Don't re-enter the root of this scope.\n  if (n == scope.getRootNode()) {\n    return;\n  }\n\n  // Handle the parameter list for this function.\n  if (n.getType() == Token.LP && parent == scope.getRootNode()) {\n    handleFunctionInputs(parent);\n    return;\n  }\n\n  // Attach types to literal nodes.\n  attachLiteralTypes(n);\n\n  // Create any \"stub\" declarations for qualified names or this-refs\n  // that carry JSDoc (e.g. /** @param */ goog.foo;  or  /** @return */ this.bar;).\n  JSDocInfo jsdoc = n.getJSDocInfo();\n  if (jsdoc != null && n.getType() == Token.GETPROP) {\n    defineQualifiedNameBasedStubDeclarations(n, parent);\n    return;\n  }\n\n  // Handle ordinary declarations.\n  switch (n.getType()) {\n    case Token.FUNCTION:\n      // Skip the NAME of a function declaration; that is handled\n      // in the FUNCTION node itself.\n      if (parent.getType() == Token.NAME) {\n        return;\n      }\n      defineDeclaredFunction(n, parent);\n      break;\n\n    case Token.CATCH:\n      defineCatch(n, parent);\n      break;\n\n    case Token.VAR:\n      defineVar(n, parent);\n      break;\n\n    default:\n      // no-op\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

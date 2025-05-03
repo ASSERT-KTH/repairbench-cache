@@ -1,0 +1,7 @@
+{
+    "generation": "public List getValues(final Option option, List defaultValues) {\n    // The values explicitly provided by the user\n    List userValues = (List) values.get(option);\n\n    // Determine the canonical default list: prefer the passed\u2010in defaults,\n    // otherwise fall back to any defaults registered in this.defaultValues\n    List defaults = defaultValues;\n    if (defaults == null || defaults.isEmpty()) {\n        defaults = (List) this.defaultValues.get(option);\n    }\n\n    // If the user supplied nothing, return a copy of the defaults (or empty)\n    if (userValues == null || userValues.isEmpty()) {\n        if (defaults == null || defaults.isEmpty()) {\n            return Collections.EMPTY_LIST;\n        } else {\n            return new ArrayList(defaults);\n        }\n    }\n\n    // Otherwise, copy what the user gave us...\n    List result = new ArrayList(userValues);\n\n    // ...and augment with any remaining defaults (for positions beyond those provided)\n    if (defaults != null && !defaults.isEmpty()) {\n        for (int i = userValues.size(); i < defaults.size(); i++) {\n            result.add(defaults.get(i));\n        }\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

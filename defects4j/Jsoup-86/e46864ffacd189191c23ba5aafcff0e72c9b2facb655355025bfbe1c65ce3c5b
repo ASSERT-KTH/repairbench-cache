@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Attempt to cast this comment to an XML Declaration note.\n * @return an XML declaration if it could be parsed as one, null otherwise.\n */\npublic XmlDeclaration asXmlDeclaration() {\n    String data = getData();\n    // Safely try to parse data as an XML declaration (e.g., \"!DOCTYPE html\" or \"?xml version='1.0'?\" etc.)\n    // XML declarations start with ? and DOCTYPE start with !\n    // Must have at least <?...?> or <!DOCTYPE ...>\n    if (data == null || data.length() < 3) {\n        return null;\n    }\n    char first = data.charAt(0);\n    char last = data.charAt(data.length() - 1);\n    if ((first != '!' && first != '?') || (last != '?' && last != '>')) {\n        return null;\n    }\n    // Remove the comment markers if applicable\n    String declData = data.substring(1, data.length() - 1).trim();\n    // Reconstruct a node around the extracted data\n    Document doc;\n    try {\n        doc = Jsoup.parse(\"<\" + declData + \">\", baseUri(), Parser.xmlParser());\n    } catch (Exception e) {\n        return null;\n    }\n    XmlDeclaration decl = null;\n    for (Node node : doc.childNodes()) {\n        if (node instanceof XmlDeclaration) {\n            decl = (XmlDeclaration) node;\n            break;\n        }\n    }\n    return decl;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

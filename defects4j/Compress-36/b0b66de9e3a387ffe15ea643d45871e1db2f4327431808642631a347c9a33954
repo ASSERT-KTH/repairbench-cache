@@ -1,0 +1,7 @@
+{
+    "generation": "private InputStream getCurrentStream() throws IOException {\n    // If there are no deferred streams, it may be an empty entry.\n    if (deferredBlockStreams.isEmpty()) {\n        // special\u2010case zero\u2010length entries: return an empty stream rather than error\n        if (currentEntry != null && currentEntry.getSize() == 0) {\n            return new ByteArrayInputStream(new byte[0]);\n        }\n        throw new IllegalStateException(\"No current 7z entry (call getNextEntry() first).\");\n    }\n    // In solid mode we skip/close all but the last folder stream\n    while (deferredBlockStreams.size() > 1) {\n        final InputStream stream = deferredBlockStreams.remove(0);\n        IOUtils.skip(stream, Long.MAX_VALUE);\n        stream.close();\n    }\n    return deferredBlockStreams.get(0);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        } catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    } else {\n        // Only insert at calculated position if autoSort AND duplicates are NOT allowed.\n        // If duplicates ARE allowed, always append.\n        if (this.autoSort && !this.allowDuplicateXValues) {\n            this.data.add(-index - 1, new XYDataItem(x, y));\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, and safe to fold into another expression.  We\n *     exclude dynamic property calls and event-handler calls (on*)\n *     because of IE bugs when their return values are folded into\n *     other expressions.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK && n.hasOneChild()) {\n    Node maybeExpr = n.getFirstChild();\n    if (NodeUtil.isExpressionNode(maybeExpr)) {\n      // Don't fold a CALL whose target is a dynamic property\n      // (GETELEM) or an event handler (GETPROP whose name starts with \"on\").\n      Node expr = maybeExpr.getFirstChild();\n      if (expr.getType() == Token.CALL) {\n        Node target = expr.getFirstChild();\n        if (target.getType() == Token.GETELEM) {\n          return false;\n        }\n        if (target.getType() == Token.GETPROP) {\n          String propName = target.getLastChild().getString();\n          if (propName.startsWith(\"on\")) {\n            return false;\n          }\n        }\n      }\n      return true;\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

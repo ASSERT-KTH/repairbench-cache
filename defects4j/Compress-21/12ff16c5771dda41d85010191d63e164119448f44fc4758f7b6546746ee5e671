@@ -1,0 +1,7 @@
+{
+    "generation": "private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {\n    int cache = 0;\n    int bitCount = 0;\n    for (int i = 0; i < length; i++) {\n        if (bits.get(i)) {\n            // place the next bit in the MSB-first position\n            cache |= 1 << (7 - bitCount);\n        }\n        bitCount++;\n        if (bitCount == 8) {\n            header.write(cache);\n            cache = 0;\n            bitCount = 0;\n        }\n    }\n    // flush any remaining bits (pad low\u2010order bits with zeros)\n    if (bitCount > 0) {\n        header.write(cache);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

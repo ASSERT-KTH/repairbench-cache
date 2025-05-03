@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Resolve the referenced type within the enclosing scope.\n   */\n  @Override\n  JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // First try registry-based resolution to avoid property\u2010based warnings.\n    boolean resolvedViaRegistry = resolveViaRegistry(t, enclosing);\n    if (!resolvedViaRegistry) {\n      // Fall back to the old \"resolve by properties\" mechanism.\n      resolveViaProperties(t, enclosing);\n    }\n\n    // Perform the standard superclass resolution.\n    super.resolveInternal(t, enclosing);\n\n    // Now detect any cycles in the inheritance (extends/implements) chain.\n    if (detectImplicitPrototypeCycle()) {\n      handleTypeCycle(t);\n      // Bail out immediately on cycle.\n      return registry.isLastGeneration() ? getReferencedType() : this;\n    }\n\n    // If we really got a resolution, finish up any property continuations.\n    if (isResolved()) {\n      finishPropertyContinuations();\n    }\n\n    // On the last generation pass, unwrap the NamedType to its real JSType.\n    return registry.isLastGeneration() ? getReferencedType() : this;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

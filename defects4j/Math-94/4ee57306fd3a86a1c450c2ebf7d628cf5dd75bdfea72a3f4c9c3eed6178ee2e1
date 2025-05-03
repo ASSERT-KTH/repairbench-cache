@@ -1,0 +1,7 @@
+{
+    "generation": "public static int gcd(int u, int v) {\n    // Special cases:\n    if (u == 0 && v == 0) {\n        return 0;\n    }\n    if (u == 0) {\n        return Math.abs(v);\n    }\n    if (v == 0) {\n        return Math.abs(u);\n    }\n\n    // keep u and v negative, as negative integers range down to\n    // -2^31, while positive numbers can only be as large as 2^31-1\n    // (i.e. we can't necessarily negate a negative number without\n    // overflow)\n    if (u > 0) {\n        u = -u;\n    } // make u negative\n    if (v > 0) {\n        v = -v;\n    } // make v negative\n\n    // B1. [Find power of 2]\n    int k = 0;\n    while ((u & 1) == 0 && (v & 1) == 0 && k < 31) { // while u and v are both even...\n        u /= 2;\n        v /= 2;\n        k++; // cast out twos.\n    }\n    if (k == 31) {\n        throw new ArithmeticException(\"overflow: gcd is 2^31\");\n    }\n\n    // B2. Initialize: u and v have been divided by 2^k and at least one is odd.\n    // Instead of treating odd/even differently, always ensure one value is odd\n    while ((u & 1) == 0) {\n        u /= 2;\n    }\n    do {\n        while ((v & 1) == 0) {\n            v /= 2;\n        }\n        // Now both u and v are odd.\n        if (u > v) {\n            int tmp = u;\n            u = v;\n            v = tmp;\n        }\n        v = v - u;\n    } while (v != 0);\n\n    return -u * (1 << k); // gcd is u*2^k\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

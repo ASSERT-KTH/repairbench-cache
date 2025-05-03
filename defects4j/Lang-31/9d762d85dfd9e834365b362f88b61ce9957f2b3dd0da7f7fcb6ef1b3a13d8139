@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean containsAny(CharSequence cs, char[] searchChars) {\n    if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n        return false;\n    }\n    int csLength = cs.length();\n    int searchLength = searchChars.length;\n\n    int i = 0;\n    while (i < csLength) {\n        final int cp = Character.codePointAt(cs, i);\n        for (int j = 0; j < searchLength; j++) {\n            char searchChar = searchChars[j];\n            // Only match if cp is in BMP and equals searchChar\n            if (cp <= Character.MAX_VALUE && cp == searchChar) {\n                return true;\n            }\n        }\n        i += Character.charCount(cp);\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

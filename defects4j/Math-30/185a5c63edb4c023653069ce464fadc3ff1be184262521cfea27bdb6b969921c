@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @param Umin smallest Mann-Whitney U value\n * @param n1 number of subjects in first sample\n * @param n2 number of subjects in second sample\n * @return two-sided asymptotic p-value\n * @throws ConvergenceException if the p-value can not be computed\n * due to a convergence error\n * @throws MaxCountExceededException if the maximum number of\n * iterations is exceeded\n */\nprivate double calculateAsymptoticPValue(final double Umin,\n                                         final int n1,\n                                         final int n2)\n    throws ConvergenceException, MaxCountExceededException {\n\n    // avoid integer overflow by doing the product in double\n    final double n1n2 = (double) n1 * n2;\n\n    // expected value of U\n    final double EU = n1n2 / 2.0;\n    // variance of U\n    final double VarU = n1n2 * (n1 + n2 + 1) / 12.0;\n\n    // standard normal deviate\n    final double z = (Umin - EU) / FastMath.sqrt(VarU);\n\n    // two\u2010sided p\u2010value\n    final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n    double p = 2 * standardNormal.cumulativeProbability(z);\n    // clamp to [0,1]\n    return p > 1.0 ? 1.0 : (p < 0.0 ? 0.0 : p);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

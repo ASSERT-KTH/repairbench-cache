@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType caseObjectType(ObjectType type) {\n  if (value.equals(\"function\")) {\n    JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n    boolean isCtorSubtype = ctorType.isSubtype(type);\n    boolean isTypeSubtype = type.isSubtype(ctorType);\n    if (resultEqualsValue) {\n      // typeof x == \"function\"\n      if (isCtorSubtype) {\n        // general Object \u2192 Function\n        return ctorType;\n      } else if (isTypeSubtype) {\n        // already a subtype of Function\n        return type;\n      } else {\n        // not a function\n        return null;\n      }\n    } else {\n      // typeof x != \"function\"\n      if (isTypeSubtype) {\n        // drop all Function subtypes\n        return null;\n      } else {\n        // keep non-function objects\n        return type;\n      }\n    }\n  }\n  // default case for \"object\"\n  return matchesExpectation(\"object\") ? type : null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

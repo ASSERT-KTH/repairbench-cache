@@ -1,0 +1,7 @@
+{
+    "generation": "public static long safeMultiply(long val1, int val2) {\n    switch (val2) {\n        case -1:\n            if (val1 == Long.MIN_VALUE) {\n                throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n            }\n            return -val1;\n        case 0:\n            return 0L;\n        case 1:\n            return val1;\n    }\n    long total = val1 * val2;\n    // Special case: If val2 == Long.MIN_VALUE (-2147483648) then total / val2 == val1 is true for val1 == -1 (since total == 2147483648, but it overflows the range of int)\n    // But that's already handled above.\n    // Now need to check for overflow in multiplication\n    if (((val2 != 0) && (total / val2 != val1)) ||\n        (val1 == Long.MIN_VALUE && val2 == -1)) { // redundant due to above case, but protected anyway\n        throw new ArithmeticException(\"Multiplication overflows a long: \" + val1 + \" * \" + val2);\n    }\n    return total;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

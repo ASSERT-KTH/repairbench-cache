@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isFormatAsBlock(Document.OutputSettings out) {\n    // outline mode forces block formatting\n    if (out.outline()) {\n        return true;\n    }\n    // honor a CSS \"display\" declaration in the inline style\n    if (hasAttr(\"style\")) {\n        String style = attr(\"style\");\n        for (String decl : style.split(\";\")) {\n            String[] parts = decl.split(\":\", 2);\n            if (parts.length == 2 && parts[0].trim().equalsIgnoreCase(\"display\")) {\n                String value = parts[1].trim().toLowerCase();\n                if (\"inline\".equals(value)) {\n                    return false;\n                } else if (\"block\".equals(value)) {\n                    return true;\n                }\n                // other display values fall through to default handling\n            }\n        }\n    }\n    // fallback to the tag's block\u2010level setting or inherit from parent\n    return tag.formatAsBlock()\n        || (parent() != null && parent().isFormatAsBlock(out));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

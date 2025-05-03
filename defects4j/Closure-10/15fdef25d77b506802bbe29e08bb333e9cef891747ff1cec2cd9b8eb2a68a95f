@@ -1,0 +1,7 @@
+{
+    "generation": "static boolean mayBeString(Node n, boolean recurse) {\n  if (!recurse) {\n    return mayBeStringHelper(n);\n  }\n  // First check the simple cases.\n  if (mayBeStringHelper(n)) {\n    return true;\n  }\n  switch (n.getType()) {\n    case Token.HOOK:\n      // A ? B : C may produce a string if B or C may produce a string.\n      return mayBeString(n.getSecondChild(), true)\n          || mayBeString(n.getLastChild(), true);\n    case Token.OR:\n    case Token.AND:\n      // A || B or A && B may produce a string if A or B may produce a string.\n      return mayBeString(n.getFirstChild(), true)\n          || mayBeString(n.getLastChild(), true);\n    case Token.COMMA:\n      // (A, B) yields B.\n      return mayBeString(n.getLastChild(), true);\n    default:\n      return false;\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

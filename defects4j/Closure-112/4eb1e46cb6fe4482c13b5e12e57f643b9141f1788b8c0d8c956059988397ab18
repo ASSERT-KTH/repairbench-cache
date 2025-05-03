@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean inferTemplatedTypesForCall(\n    Node n, FunctionType fnType) {\n  final ImmutableList<TemplateType> keys =\n      fnType.getTemplateTypeMap().getTemplateKeys();\n  if (keys.isEmpty()) {\n    return false;\n  }\n\n  // Try to infer the template types\n  Map<TemplateType, JSType> inferred =\n      inferTemplateTypesFromParameters(fnType, n);\n\n  // Make a full map of replacements: use the inferred type when we have one,\n  // otherwise fall back to UNKNOWN.\n  Map<TemplateType, JSType> replacementMap =\n      new java.util.LinkedHashMap<TemplateType, JSType>();\n  JSType unknownType = registry.getNativeUnknownType();\n  for (TemplateType key : keys) {\n    JSType tgt = inferred.get(key);\n    replacementMap.put(key, (tgt != null) ? tgt : unknownType);\n  }\n\n  // Replace all template types in the function signature.\n  TemplateTypeReplacer replacer =\n      new TemplateTypeReplacer(registry, replacementMap);\n  Node callTarget = n.getFirstChild();\n\n  FunctionType replacementFnType =\n      replacer.visit(fnType).toMaybeFunctionType();\n  Preconditions.checkNotNull(replacementFnType);\n\n  callTarget.setJSType(replacementFnType);\n  n.setJSType(replacementFnType.getReturnType());\n\n  return replacer.madeChanges;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void validateSubType(DeserializationContext ctxt, JavaType type) throws JsonMappingException {\n    final Class<?> raw = type.getRawClass();\n    String full = raw.getName();\n\n    main_check:\n    do {\n        // first, exact-name blacklist\n        if (_cfgIllegalClassNames.contains(full)) {\n            break;\n        }\n        // spring\u2010framework special cases: only for real classes (not interfaces)\n        if (!raw.isInterface() && full.startsWith(PREFIX_STRING)) {\n            // walk up superclasses, guard against interfaces (getSuperclass() may return null)\n            for (Class<?> cls = raw; cls != null && cls != Object.class; cls = cls.getSuperclass()) {\n                String name = cls.getSimpleName();\n                if (\"AbstractPointcutAdvisor\".equals(name)\n                        || \"AbstractApplicationContext\".equals(name)) {\n                    // found one of the nasty Spring classes: reject\n                    break main_check;\n                }\n            }\n        }\n        // if we get here, subtype is allowed\n        return;\n    } while (false);\n\n    // fall through to rejection\n    throw JsonMappingException.from(ctxt,\n        String.format(\"Illegal type (%s) to deserialize: prevented for security reasons\", full));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

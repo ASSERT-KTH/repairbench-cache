@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException\n{\n    // mark in the context; false->error\n    boolean first = _writeContext.writeFieldName(name);\n\n    // if no pretty-printer, just emit raw or quoted name+colon\n    if (_cfgPrettyPrinter == null) {\n        // dynamically check if quoting is currently enabled\n        if (isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n            _writeFieldName(name, first);\n        } else {\n            _writeUnqFieldName(name, first);\n        }\n        return;\n    }\n    // otherwise delegate to pretty printer\n    _cfgPrettyPrinter.writeFieldName(this, name, first);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * @return Whether the node is a block with a single statement that is\n *     an expression, and safe to fold.\n */\nprivate boolean isFoldableExpressBlock(Node n) {\n  if (n.getType() == Token.BLOCK) {\n    if (n.hasOneChild()) {\n      Node maybeExpr = n.getFirstChild();\n      // IE has a bug where event handlers behave differently when\n      // their return value is used vs. when their return value is in\n      // an EXPR_RESULT. It's pretty freaking weird. See:\n      // http://code.google.com/p/closure-compiler/issues/detail?id=291\n      // We try to detect this case, and not fold EXPR_RESULTs\n      // into other expressions.\n\n      // Specifically, avoid folding calls to .onchange, .onmouseover, etc.\n      if (NodeUtil.isExpressionNode(maybeExpr)) {\n        if (maybeExpr.getType() == Token.EXPR_RESULT) {\n          Node child = maybeExpr.getFirstChild();\n          if (child.isCall()) {\n            Node fn = child.getFirstChild();\n            if (fn != null && fn.isGetProp()) {\n              String propName = fn.getLastChild().getString();\n              if (propName.startsWith(\"on\")) {\n                return false;\n              }\n            }\n          }\n        }\n        return true;\n      }\n    }\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

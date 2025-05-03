@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n * <p>\n * {@link #solve} should be called first for this to be the optimal solution.\n * </p>\n * @return current solution\n */\n@Override\nprotected RealPointValuePair getSolution() {\n    int n = getOriginalNumDecisionVariables();\n    double[] coefficients = new double[n];\n    // compute shift if variables were allowed to be negative\n    Integer shiftRow = getBasicRow(getNumObjectiveFunctions() + n);\n    double mostNegative = (shiftRow == null) ? 0 : getEntry(shiftRow, getRhsOffset());\n    for (int i = 0; i < n; i++) {\n        int col = getNumObjectiveFunctions() + i;\n        Integer row = getBasicRow(col);\n        // get the raw value (or zero if non\u2010basic)\n        double value = (row == null ? 0 : getEntry(row, getRhsOffset()));\n        // undo shift if we allowed negative variables\n        if (!restrictToNonNegative) {\n            value -= mostNegative;\n        }\n        // if more than one variable is basic in the same row, only keep the first one\n        if (row != null) {\n            for (int j = 0; j < i; j++) {\n                Integer prevRow = getBasicRow(getNumObjectiveFunctions() + j);\n                if (row.equals(prevRow)) {\n                    value = 0;\n                    break;\n                }\n            }\n        }\n        coefficients[i] = value;\n    }\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

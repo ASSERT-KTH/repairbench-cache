@@ -1,0 +1,7 @@
+{
+    "generation": "public int parseInto(DateTimeParserBucket bucket, String text, int position) {\n    String best = null;\n    int bestLen = 0;\n    int textLen = text.length();\n    for (String id : ALL_IDS) {\n        int idLen = id.length();\n        if (position + idLen <= textLen\n            && text.regionMatches(position, id, 0, idLen)\n            && idLen > bestLen) {\n            best = id;\n            bestLen = idLen;\n        }\n    }\n    if (best != null) {\n        bucket.setZone(DateTimeZone.forID(best));\n        return position + bestLen;\n    }\n    return ~position;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

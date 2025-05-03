@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean isShortOption(String token) {\n    // short options (-S, -SV, -S=V, -SV1=V2, -S1S2, or concatenated like -ab)\n    if (!token.startsWith(\"-\") || token.length() == 1) {\n        return false;\n    }\n    // strip leading \"-\" and any \"=value\" suffix\n    int pos = token.indexOf(\"=\");\n    String optName = token.substring(1, pos < 0 ? token.length() : pos);\n    // direct match of a multi-character short option\n    if (options.hasShortOption(optName)) {\n        return true;\n    }\n    // check for concatenated single-character short options (e.g. -ab)\n    if (optName.length() > 1) {\n        for (char c : optName.toCharArray()) {\n            if (!options.hasShortOption(String.valueOf(c))) {\n                return false;\n            }\n        }\n        return true;\n    }\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

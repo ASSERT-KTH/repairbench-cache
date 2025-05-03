@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n * <p>\n * {@link #solve} should be called first for this to be the optimal solution.\n * </p>\n * @return current solution\n */\nprotected RealPointValuePair getSolution() {\n    final int n = getOriginalNumDecisionVariables();\n    final double[] coefficients = new double[n];\n\n    // compute shift if variables are allowed to be negative\n    Integer offsetRow = getBasicRow(getNumObjectiveFunctions() + n);\n    double mostNegative = (offsetRow == null ? 0 : getEntry(offsetRow, getRhsOffset()));\n\n    // extract each original variable's value\n    for (int i = 0; i < n; i++) {\n        Integer basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n        double value = (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset()));\n        coefficients[i] = value - (restrictToNonNegative ? 0 : mostNegative);\n    }\n\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double cumulativeProbability(double x) throws MathException {\n    // compute the normalized deviation from the mean\n    double dev = (x - mean) / standardDeviation;\n    // top\u2010code extreme values to avoid convergence problems in Erf\n    if (dev < -20.0) {\n        return 0.0;\n    }\n    if (dev > 20.0) {\n        return 1.0;\n    }\n    // otherwise delegate to the error function, catching any convergence exception\n    try {\n        return 0.5 * (1.0 + Erf.erf(dev / Math.sqrt(2.0)));\n    } catch (MathException ex) {\n        // if erf fails to converge, return the appropriate tail\n        return (dev < 0) ? 0.0 : 1.0;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

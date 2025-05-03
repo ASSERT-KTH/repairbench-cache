@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation invocation) {\n        // Support for varargs\n        Object[] rawArguments = invocation.getRawArguments();\n        int rawArgsCount = rawArguments == null ? 0 : rawArguments.length;\n        int matcherCount = matchers.size();\n\n        for (int position = 0; position < matcherCount; position++) {\n            Matcher m = matchers.get(position);\n\n            if (m instanceof CapturesArguments) {\n                Object toCapture = null;\n\n                // For varargs methods, capture argument array as whole for the last matcher, if needed\n                if (invocation.getMethod().isVarArgs() && position == matcherCount - 1 && rawArgsCount >= matcherCount) {\n                    // At this point, the last argument in rawArguments is the vararg array\n                    toCapture = rawArguments.length > position ? rawArguments[position] : null;\n                } else {\n                    // Non-vararg or other arguments: capture directly\n                    toCapture = rawArguments.length > position ? rawArguments[position] : null;\n                }\n\n                ((CapturesArguments) m).captureFrom(toCapture);\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

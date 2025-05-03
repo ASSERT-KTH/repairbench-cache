@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\nprotected T _coerceEmptyString(DeserializationContext ctxt, String value)\n    throws JacksonException\n{\n    // figure out configured action for empty\u2010string \u2192 null/empty/fail\n    CoercionAction act = _checkCoercionFromEmptyString(ctxt, _valueClass, String.class);\n    // if user asked for AsNull on a primitive, that must not silently become 0;\n    // must instead be treated as a coercion failure\n    if (_valueClass.isPrimitive() && act == CoercionAction.AsNull) {\n        act = CoercionAction.Fail;\n    }\n    // now handle\n    if (act == CoercionAction.Fail) {\n        // will throw a JsonMappingException\n        return (T) ctxt.handleCoercionFail(\n            _valueClass, logicalType(), String.class, value);\n    }\n    if (act == CoercionAction.AsNull) {\n        return null;\n    }\n    // AsEmpty \u2192 default empty/zero/false etc for target type\n    return getEmptyValue(ctxt);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

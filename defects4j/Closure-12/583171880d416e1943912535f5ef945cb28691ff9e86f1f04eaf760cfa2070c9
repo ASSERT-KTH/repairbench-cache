@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean hasExceptionHandler(Node cfgNode) {\n  // Check if the given node or any of its parents up to the root is a 'try' with a 'catch' block.\n  Node current = cfgNode;\n  while (current != null) {\n    if (current.isTry()) {\n      Node tryNode = current;\n      if (tryNode.getNext() != null && tryNode.getNext().isBlock()) {\n        // This is the 'catch' block following 'try'.\n        return true;\n      }\n      // Or, in the usual AST, try/catch/finally blocks are children of TRY node\n      // child(1) is catch block for TRY node if exists (for \"try { ... } catch(e){ ... }\")\n      if (tryNode.getChildCount() > 1 && tryNode.getSecondChild().isBlock()) {\n        return true;\n      }\n    }\n    current = current.getParent();\n  }\n  return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

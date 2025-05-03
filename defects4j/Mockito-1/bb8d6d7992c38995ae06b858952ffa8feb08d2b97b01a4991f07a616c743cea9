@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void captureArgumentsFrom(Invocation invocation) {\n    for (int position = 0; position < matchers.size(); position++) {\n        Matcher m = matchers.get(position);\n        // we only care about matchers that capture arguments and positions that actually exist\n        if (!(m instanceof CapturesArguments) || invocation.getRawArguments().length <= position) {\n            continue;\n        }\n        // special handling for var\u2010arg parameter at the last position\n        if (invocation.getMethod().isVarArgs()\n            && position == invocation.getRawArguments().length - 1) {\n            Object array = invocation.getRawArguments()[position];\n            if (array != null && array.getClass().isArray()) {\n                int len = Array.getLength(array);\n                for (int i = 0; i < len; i++) {\n                    ((CapturesArguments) m).captureFrom(Array.get(array, i));\n                }\n            }\n            // once we captured all varargs, we're done\n            return;\n        }\n        // normal (non\u2010vararg or fixed) argument capture\n        ((CapturesArguments) m).captureFrom(invocation.getRawArguments()[position]);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

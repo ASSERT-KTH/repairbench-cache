@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method that can be called on backends that support passing opaque datatypes of\n     * non-JSON formats\n     *\n     * @since 2.8\n     */\n    @Override\n    public void writeEmbeddedObject(Object object) throws IOException {\n        if (object == null) {\n            writeNull();\n            return;\n        }\n        // handle raw binary\n        if (object instanceof byte[]) {\n            byte[] data = (byte[]) object;\n            writeBinary(_base64Variant, data, 0, data.length);\n            return;\n        }\n        if (object instanceof java.nio.ByteBuffer) {\n            java.nio.ByteBuffer bb = (java.nio.ByteBuffer) object;\n            int len = bb.remaining();\n            if (bb.hasArray()) {\n                writeBinary(_base64Variant,\n                            bb.array(),\n                            bb.arrayOffset() + bb.position(),\n                            len);\n            } else {\n                byte[] buf = new byte[len];\n                bb.duplicate().get(buf);\n                writeBinary(_base64Variant, buf, 0, len);\n            }\n            return;\n        }\n        // handle raw JSON value\n        if (object instanceof RawValue) {\n            writeRawValue(object.toString());\n            return;\n        }\n        // all other types not supported\n        throw new JsonGenerationException(\n            \"No native support for writing embedded objects\", this);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

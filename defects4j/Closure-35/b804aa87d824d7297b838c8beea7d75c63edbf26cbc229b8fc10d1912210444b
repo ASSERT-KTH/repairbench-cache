@@ -1,0 +1,7 @@
+{
+    "generation": "private void inferPropertyTypesToMatchConstraint(\n    JSType type, JSType constraint) {\n  if (type == null || constraint == null) {\n    return;\n  }\n\n  ObjectType constraintObj =\n      ObjectType.cast(constraint.restrictByNotNullOrUndefined());\n  if (constraintObj != null && constraintObj.isRecordType()) {\n    ObjectType objType = ObjectType.cast(type.restrictByNotNullOrUndefined());\n    if (objType != null) {\n      for (String prop : constraintObj.getOwnPropertyNames()) {\n        JSType propType = constraintObj.getPropertyType(prop);\n        if (!objType.isPropertyTypeDeclared(prop)) {\n          JSType typeToInfer = propType;\n          if (!objType.hasOwnProperty(prop)) {\n            // Add (undefined) to inferred type if property does not exist on the object.\n            typeToInfer =\n                propType.getWithProperty(VOID_TYPE);\n            // But if getWithProperty is not available, fallback:\n            typeToInfer =\n                getNativeType(VOID_TYPE).getLeastSupertype(propType);\n          } else {\n            // If the property exists in the object's prototype, allow undefined.\n            // See https://github.com/google/closure-compiler/issues/669\n            typeToInfer =\n                getNativeType(VOID_TYPE).getLeastSupertype(propType);\n          }\n          objType.defineInferredProperty(prop, typeToInfer, null);\n        }\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

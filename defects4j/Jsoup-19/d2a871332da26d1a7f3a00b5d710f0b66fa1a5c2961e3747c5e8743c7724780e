@@ -1,0 +1,7 @@
+{
+    "generation": "private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n    String value = el.attr(attr.getKey());\n    if (!preserveRelativeLinks) {\n        // try to resolve relative urls to abs, and optionally update the attribute so output html has abs.\n        String abs = el.absUrl(attr.getKey());\n        if (!abs.isEmpty()) value = abs;\n        attr.setValue(value);\n    }\n\n    // Use original (possibly relative) value for protocol validation, as intended for custom schemes like cid: and data:\n    String checkVal = value.trim().toLowerCase();\n    int colonPos = checkVal.indexOf(':');\n    if (colonPos > 0) {\n        String prot = checkVal.substring(0, colonPos);\n        for (Protocol protocol : protocols) {\n            if (prot.equals(protocol.toString().toLowerCase())) {\n                return true;\n            }\n        }\n        return false;\n    } else {\n        // No protocol - e.g. /path, //host/path\n        return protocols.contains(Protocol.RELATIVE);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

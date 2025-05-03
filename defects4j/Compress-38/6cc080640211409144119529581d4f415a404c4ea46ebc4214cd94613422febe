@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Only treat trailing slash as directory for non-PAX format or when name is not empty\n    String name = getName();\n    // Some PAX headers may set name to 'foo/bar/' for a file. According to COMPRESS-356, do not treat it as a dir if not flagged as dir\n    if (name != null && name.endsWith(\"/\") && !name.equals(\"/\")) {\n        // Some tar creators use trailing slash only for actual dirs\n        // Heuristically, if LF_NORMAL or LF_OLDNORM, trailing slash does NOT mean directory.\n        if (linkFlag != LF_NORMAL && linkFlag != LF_OLDNORM) {\n            return true;\n        }\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

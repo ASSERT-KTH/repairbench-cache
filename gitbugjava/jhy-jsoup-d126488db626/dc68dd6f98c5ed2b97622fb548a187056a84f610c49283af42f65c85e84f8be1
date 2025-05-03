@@ -1,0 +1,7 @@
+{
+    "generation": "private String consumeSubQuery() {\n    StringBuilder sq = StringUtil.borrowBuilder();\n    while (!tq.isEmpty()) {\n        if (tq.matches(\"(\")) {\n            sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n        } else if (tq.matches(\"[\")) {\n            sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n        } else if (tq.matchesAny(Combinators)) {\n            if (sq.length() > 0) {\n                // we've read some of the subquery, so a combinator means we're done\n                break;\n            } else {\n                // at start: only skip whitespace, not other combinators (e.g. >, +, ~)\n                if (tq.matches(\" \")) {\n                    tq.consume();\n                    continue;\n                } else {\n                    // leave '>', '+', '~' (etc) for the parser to pick up\n                    break;\n                }\n            }\n        } else {\n            sq.append(tq.consume());\n        }\n    }\n    return StringUtil.releaseBuilder(sq);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public double solve(double min, double max)\n    throws MaxIterationsExceededException, FunctionEvaluationException {\n\n    clearResult();\n    verifyInterval(min, max);\n\n    // evaluate endpoints\n    double yMin = f.value(min);\n    // check if min is (approximately) a root\n    if (Math.abs(yMin) <= getFunctionValueAccuracy()) {\n        return min;\n    }\n\n    double yMax = f.value(max);\n    // check if max is (approximately) a root\n    if (Math.abs(yMax) <= getFunctionValueAccuracy()) {\n        return max;\n    }\n\n    // verify that the interval actually brackets a root\n    if (yMin * yMax > 0.0) {\n        throw new IllegalArgumentException(\n            \"Function values at endpoints do not have different signs.\" +\n            \"  Endpoints: [\" + min + \",\" + max + \"]\" +\n            \"  Values: [\" + yMin + \",\" + yMax + \"]\"\n        );\n    }\n\n    // proceed with Brent's method\n    return solve(min, yMin, max, yMax, min, yMin);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void writeFieldName(String name) throws IOException {\n    if (_cfgPrettyPrinter != null) {\n        _writePPFieldName(name);\n        return;\n    }\n    // validate context\n    if (_writeContext.writeFieldName(name)) {\n        _reportError(\"Can not write a field name, expecting a value\");\n    }\n    // use the CURRENT feature\u2010flag, not the one captured at construction\n    if (!isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)) {\n        _writer.write(name);\n    } else {\n        // quote (and escape) via the existing helper\n        _writeQuotedName(name);\n    }\n    _writer.write(':');\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

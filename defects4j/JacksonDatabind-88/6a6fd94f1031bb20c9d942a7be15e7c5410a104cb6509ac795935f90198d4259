@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _typeFromId(String id, DatabindContext ctxt) throws IOException\n{\n    /* 30-Jan-2010, tatu: Most ids are basic class names; so let's first\n     *    check if any generics info is added; and only then ask factory\n     *    to do translation when necessary\n     */\n    TypeFactory tf = ctxt.getTypeFactory();\n    if (id.indexOf('<') > 0) {\n        JavaType t = tf.constructFromCanonical(id);\n        // 17-Aug-2017, tatu: Per [databind#1735] ensure assignment compatibility eagerly\n        if (!_baseType.isJavaLangObject() && !t.isTypeOrSubTypeOf(_baseType.getRawClass())) {\n            throw new IllegalArgumentException(\"Invalid type id '\"+id+\"' (for id type 'Id.class'): \"\n                    + \"Type \"+t+\" not subtype of \"+_baseType);\n        }\n        return t;\n    }\n    Class<?> cls;\n    try {\n        cls =  tf.findClass(id);\n    } catch (ClassNotFoundException e) {\n        if (ctxt instanceof DeserializationContext) {\n            DeserializationContext dctxt = (DeserializationContext) ctxt;\n            return dctxt.handleUnknownTypeId(_baseType, id, this, \"no such class found\");\n        }\n        return null;\n    } catch (Exception e) {\n        throw new IllegalArgumentException(\"Invalid type id '\"+id+\"' (for id type 'Id.class'): \"+e.getMessage(), e);\n    }\n    JavaType t = tf.constructSpecializedType(_baseType, cls);\n    return t;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

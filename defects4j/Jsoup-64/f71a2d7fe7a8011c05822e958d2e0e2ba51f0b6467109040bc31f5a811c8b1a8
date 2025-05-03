@@ -1,0 +1,7 @@
+{
+    "generation": "private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n    // Insert the <style> or <noframes> element\n    tb.insert(startTag);\n    // If it was self\u2010closing, immediately pop it and don\u2019t switch to Rawtext/Text mode\n    if (startTag.isSelfClosing()) {\n        tb.acknowledgeSelfClosingFlag();\n        tb.pop();\n        return;\n    }\n    // Otherwise, consume everything up to the matching end tag as raw text\n    tb.tokeniser.transition(TokeniserState.Rawtext);\n    tb.markInsertionMode();\n    tb.transition(Text);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

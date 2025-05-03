@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Kahan's trick: compute v3 = v1 - rho * v2 with rho an 8-bit approximation\n    // of (v1\u00b7v2)/(v2\u00b7v2), then cross(v1,v2) = cross(v3,v2) but with much less cancellation.\n    double x2 = v2.x;\n    double y2 = v2.y;\n    double z2 = v2.z;\n    // dot products\n    double dot    = v1.x * x2 + v1.y * y2 + v1.z * z2;\n    double norm2  = x2 * x2   + y2 * y2   + z2 * z2;\n    if (norm2 == 0) {\n        // v2 is zero \u21d2 cross product is zero\n        return new Vector3D(0, 0, 0);\n    }\n    // exact ratio\n    double ratio = dot / norm2;\n    // 8-bit approximation of the ratio: round(ratio*256)/256\n    double rho = FastMath.scalb(FastMath.rint(FastMath.scalb(ratio, 8)), -8);\n    // build v3 = v1 - rho * v2\n    double x3 = v1.x - rho * x2;\n    double y3 = v1.y - rho * y2;\n    double z3 = v1.z - rho * z2;\n    // return cross(v3, v2)\n    return new Vector3D(\n        y3 * z2 - z3 * y2,\n        z3 * x2 - x3 * z2,\n        x3 * y2 - y3 * x2\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

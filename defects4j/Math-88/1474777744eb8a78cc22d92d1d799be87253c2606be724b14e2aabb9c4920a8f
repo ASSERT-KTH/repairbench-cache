@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Get the current solution.\n * <p>\n * {@link #solve} should be called first for this to be the optimal solution.\n * </p>\n * @return current solution\n */\nprotected RealPointValuePair getSolution() {\n    int n = getOriginalNumDecisionVariables();\n    double[] coefficients = new double[n];\n\n    // if variables are not constrained to be non\u2010negative, we\n    // must shift them back by the smallest RHS we see\n    double offset = 0;\n    if (!restrictToNonNegative) {\n        double min = Double.POSITIVE_INFINITY;\n        // constraint rows start at getNumObjectiveFunctions()\n        for (int row = getNumObjectiveFunctions(); row < tableau.getRowDimension(); row++) {\n            min = Math.min(min, tableau.getEntry(row, getRhsOffset()));\n        }\n        if (min < 0) {\n            offset = min;\n        }\n    }\n\n    // recover the value of each original variable\n    for (int i = 0; i < n; i++) {\n        Integer basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n        double value = (basicRow == null ? 0.0 : getEntry(basicRow, getRhsOffset()));\n        // undo shift if we had one\n        if (!restrictToNonNegative) {\n            value -= offset;\n        }\n        coefficients[i] = value;\n    }\n\n    return new RealPointValuePair(coefficients, f.getValue(coefficients));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

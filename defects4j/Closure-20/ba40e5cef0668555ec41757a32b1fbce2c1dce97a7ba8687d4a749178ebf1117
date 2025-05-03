@@ -1,0 +1,7 @@
+{
+    "generation": "private Node tryFoldSimpleFunctionCall(Node n) {\n  Preconditions.checkState(n.isCall());\n  Node callTarget = n.getFirstChild();\n  // Only fold String(x) if there is exactly one argument.\n  if (callTarget != null && callTarget.isName() &&\n        callTarget.getString().equals(\"String\")) {\n    Node arg1 = callTarget.getNext();\n    // Check *only one* argument, and no more.\n    if (arg1 != null && arg1.getNext() == null) {\n      Node addition = IR.add(\n          IR.string(\"\").srcref(callTarget),\n          arg1.detachFromParent());\n      n.getParent().replaceChild(n, addition);\n      reportCodeChange();\n      return addition;\n    }\n  }\n  return n;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

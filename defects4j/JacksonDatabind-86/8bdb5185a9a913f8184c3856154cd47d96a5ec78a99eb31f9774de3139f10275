@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<BeanPropertyDefinition> findProperties() {\n    List<BeanPropertyDefinition> props = super.findProperties();\n    // Workaround for recursive type resolution issue: ensure superclass properties are included\n    JavaType superType = type.getSuperClass();\n    if (superType != null && superType.getRawClass() != Object.class) {\n        BeanDescription superDesc = config.introspect(superType);\n        List<BeanPropertyDefinition> superProps = superDesc.findProperties();\n\n        // Avoid duplicate properties\n        Set<String> existing = new HashSet<>();\n        for (BeanPropertyDefinition prop : props) {\n            existing.add(prop.getName());\n        }\n        for (BeanPropertyDefinition prop : superProps) {\n            if (!existing.contains(prop.getName())) {\n                props.add(prop);\n            }\n        }\n    }\n    return props;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

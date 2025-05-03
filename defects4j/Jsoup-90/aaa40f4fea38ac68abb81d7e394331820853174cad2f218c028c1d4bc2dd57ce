@@ -1,0 +1,7 @@
+{
+    "generation": "private static boolean looksLikeUtf8(byte[] input) {\n    int i = 0;\n    // BOM:\n    if (input.length >= 3\n        && (input[0] & 0xFF) == 0xEF\n        && (input[1] & 0xFF) == 0xBB\n        && (input[2] & 0xFF) == 0xBF) {\n        i = 3;\n    }\n\n    int len = input.length;\n    while (i < len) {\n        int b = input[i] & 0xFF;\n        if ((b & 0x80) == 0) {\n            // ASCII\n            i++;\n        } else {\n            int need;\n            if ((b & 0xE0) == 0xC0) {\n                need = 1;\n            } else if ((b & 0xF0) == 0xE0) {\n                need = 2;\n            } else if ((b & 0xF8) == 0xF0) {\n                need = 3;\n            } else {\n                return false;\n            }\n            // not enough bytes left\n            if (i + need >= len) {\n                return false;\n            }\n            // check continuation bytes\n            for (int j = 1; j <= need; j++) {\n                int nb = input[i + j] & 0xFF;\n                if ((nb & 0xC0) != 0x80) {\n                    return false;\n                }\n            }\n            i += need + 1;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
