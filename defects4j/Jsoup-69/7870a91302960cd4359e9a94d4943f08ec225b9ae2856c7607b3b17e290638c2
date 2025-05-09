@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements()) {\n        if (el instanceof FormElement) continue; // skip nested forms\n        if (!el.tag().isFormSubmittable()) continue;\n        String name = el.absUrl(\"name\");\n        if (name.isEmpty()) continue;\n        String type = el.attr(\"type\");\n        if (type.equals(\"submit\")) {\n            if (el.hasAttr(\"name\") && !el.hasAttr(\"value\")) continue; // skip submit without value\n        } else if (type.equals(\"checkbox\") || type.equals(\"radio\")) {\n            if (!el.hasAttr(\"checked\")) continue; // skip unchecked checkbox or radio\n        } else if (type.equals(\"file\")) {\n            continue; // skip file inputs\n        }\n        String value = el.val();\n        if (value == null) value = \"\";\n        data.add(new Connection.KeyVal(name, value));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

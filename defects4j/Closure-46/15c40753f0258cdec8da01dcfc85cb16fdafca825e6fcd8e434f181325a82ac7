@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n\n  // If either type is empty, return the other type\n  if (properties.isEmpty()) {\n    return that;\n  }\n  if (that.toMaybeRecordType().getProperties().isEmpty()) {\n    return this;\n  }\n\n  // Check if one type is a subtype of the other\n  if (isSubtype(that)) {\n    return that;\n  }\n  if (that.isSubtype(this)) {\n    return this;\n  }\n\n  // Otherwise, create a union type\n  return registry.createUnionType(this, that);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

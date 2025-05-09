@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    final Object map = in.readObject();\n    final Object collectionClass = in.readObject();\n\n    if (!(map instanceof Map)) {\n        throw new InvalidObjectException(\"Map type required\");\n    }\n\n    if (!(collectionClass instanceof Class)) {\n        throw new InvalidObjectException(\"Class type required for collection class\");\n    }\n\n    // Validate the collection class is a valid collection type\n    if (!Collection.class.isAssignableFrom((Class<?>) collectionClass)) {\n        throw new UnsupportedOperationException(\"Invalid collection class: \" + collectionClass);\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    final Class<? extends Collection> clazz = (Class<? extends Collection>) collectionClass;\n    this.map = (Map<K, Collection<V>>) map;\n    this.collectionClass = clazz;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

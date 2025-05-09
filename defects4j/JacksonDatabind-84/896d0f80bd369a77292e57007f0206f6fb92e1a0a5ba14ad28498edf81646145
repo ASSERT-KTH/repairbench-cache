@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // Ensure we properly handle the type hierarchy\n    JavaType type = _typeCache.get(cls);\n    if (type == null) {\n        type = _constructType(cls);\n        _typeCache.put(cls, type);\n\n        // Additional logic to ensure supertype properties are included\n        Class<?> superClass = cls.getSuperclass();\n        if (superClass != null && superClass != Object.class) {\n            constructType(superClass); // Ensure supertype is also registered\n        }\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        clearResult();\n        verifyInterval(min, max);\n        double ret = Double.NaN;\n        double x = initial;\n        double fx = 0.0;\n\n        int i = 0;\n        while (i < maximalIterationCount) {\n            fx = f.value(x);\n            if (Math.abs(fx) <= absoluteAccuracy) {\n                ret = x;\n                break;\n            }\n            if (f.value(min) * fx < 0) {\n                max = x;\n            } else {\n                min = x;\n                if (f.value(max) * fx < 0) {\n                    min = x;\n                } else {\n                    max = x;\n                }\n            }\n            if (Math.abs(max - min) <= absoluteAccuracy) {\n                ret = x;\n                break;\n            }\n            x = (min + max) / 2.0;\n            i++;\n        }\n\n        if (Double.isNaN(ret)) {\n            throw new MaxIterationsExceededException(maximalIterationCount);\n        }\n        return ret;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

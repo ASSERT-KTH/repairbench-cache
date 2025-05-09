@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K key) {\n    if (key == null) {\n        return new UnmodifiableSortedMap<>(new TreeMap<>());\n    }\n    final SortedMap<K, V> map = new TreeMap<>(getComparator());\n    final K prefix = getKeyAnalyzer().increment(key);\n    for (final Map.Entry<K, V> entry : entrySet()) {\n        if (entry.getKey().compareTo(key) >= 0 && entry.getKey().compareTo(prefix) < 0) {\n            map.put(entry.getKey(), entry.getValue());\n        }\n    }\n    return new PrefixRangeMap(map, key, prefix);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

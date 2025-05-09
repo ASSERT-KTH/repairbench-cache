@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        List<Object> filteredCandidates = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance);\n        if (!filteredCandidates.isEmpty()) {\n            // Find the most specific type match\n            Object bestMatch = findMostSpecificMatch(filteredCandidates, field.getType());\n            mockCandidateFilter.inject(field, fieldInstance, bestMatch);\n        }\n    }\n}\n\nprivate Object findMostSpecificMatch(List<Object> candidates, Class<?> fieldType) {\n    Object bestMatch = null;\n    Class<?> bestMatchType = null;\n\n    for (Object candidate : candidates) {\n        Class<?> candidateType = candidate.getClass();\n        if (fieldType.isAssignableFrom(candidateType)) {\n            if (bestMatch == null ||\n                bestMatchType.isAssignableFrom(candidateType)) {\n                bestMatch = candidate;\n                bestMatchType = candidateType;\n            }\n        }\n    }\n    return bestMatch;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

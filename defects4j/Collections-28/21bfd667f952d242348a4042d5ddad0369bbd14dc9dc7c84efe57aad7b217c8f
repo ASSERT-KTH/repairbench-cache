@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K key) {\n    if (key == null) {\n        return new UnmodifiableSortedMap<>(this);\n    }\n\n    final PatriciaTrie<K, V> prefixMap = new PatriciaTrie<>(this);\n    prefixMap.root = getKeyNode(key);\n    if (prefixMap.root == null) {\n        prefixMap.root = new PatriciaTrieNode<>(null, null, 0);\n    }\n\n    return new PrefixRangeMap(prefixMap, key);\n}\n\nprivate static class PrefixRangeMap<K, V> extends AbstractSortedMap<K, V> {\n    private final PatriciaTrie<K, V> trie;\n    private final K prefix;\n\n    PrefixRangeMap(PatriciaTrie<K, V> trie, K prefix) {\n        this.trie = trie;\n        this.prefix = prefix;\n    }\n\n    @Override\n    public void clear() {\n        // Get all keys that start with the prefix\n        Set<K> keysToRemove = new HashSet<>(keySet());\n        // Remove them from the underlying trie\n        for (K key : keysToRemove) {\n            trie.remove(key);\n        }\n    }\n\n    // ... rest of the PrefixRangeMap implementation ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

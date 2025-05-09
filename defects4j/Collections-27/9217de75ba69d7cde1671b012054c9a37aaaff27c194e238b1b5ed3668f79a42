@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\") // will throw CCE as required if types are wrong\n    final Map<K, Object> map = (Map<K, Object>) in.readObject();\n    @SuppressWarnings(\"unchecked\") // will throw CCE as required if types are wrong\n    final Class<?> collectionClass = (Class<?>) in.readObject();\n\n    // Validate collection class during deserialization\n    if (!Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\n            \"Collection class must implement java.util.Collection interface\");\n    }\n\n    this.map = map;\n    this.collectionClass = collectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

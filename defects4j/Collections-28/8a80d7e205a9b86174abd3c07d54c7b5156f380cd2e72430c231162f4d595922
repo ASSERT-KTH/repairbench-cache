@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K key) {\n    if (key == null) {\n        return new UnmodifiableSortedMap<>(new TreeMap<K, V>());\n    }\n\n    final PatriciaTrie<K, V> prefixTrie = new PatriciaTrie<>();\n    final Iterator<Entry<K, V>> iterator = entryIterator(key, null);\n\n    while (iterator.hasNext()) {\n        final Entry<K, V> entry = iterator.next();\n        prefixTrie.put(entry.getKey(), entry.getValue());\n    }\n\n    return new PrefixMap<>(this, prefixTrie, key);\n}\n\nprivate static class PrefixMap<K, V> extends AbstractSortedMap<K, V> {\n    private final PatriciaTrie<K, V> parent;\n    private final PatriciaTrie<K, V> prefixTrie;\n    private final K prefix;\n\n    PrefixMap(PatriciaTrie<K, V> parent, PatriciaTrie<K, V> prefixTrie, K prefix) {\n        this.parent = parent;\n        this.prefixTrie = prefixTrie;\n        this.prefix = prefix;\n    }\n\n    @Override\n    public void clear() {\n        // Remove all entries from the parent trie that start with the prefix\n        final Iterator<K> keyIterator = prefixTrie.keySet().iterator();\n        while (keyIterator.hasNext()) {\n            parent.remove(keyIterator.next());\n        }\n        prefixTrie.clear();\n    }\n\n    // ... other required methods ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

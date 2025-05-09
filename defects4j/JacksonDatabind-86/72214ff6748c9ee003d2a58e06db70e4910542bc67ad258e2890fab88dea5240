@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _resolveSuperClass(JavaType superType, MapperFeature[] fromFeatures)\n{\n    // First try simple case\n    if (superType == null) {\n        return null;\n    }\n    // If we already have a resolved type, can return as-is\n    if (superType.isFinal()) {\n        return superType;\n    }\n    // Otherwise need to resolve\n    JavaType resolved = superType;\n    if (superType instanceof ResolvedRecursiveType) {\n        resolved = ((ResolvedRecursiveType) superType).getSelfReferencedType();\n    } else {\n        resolved = _resolveType(superType, fromFeatures);\n    }\n    // Ensure we properly cache the resolved type to maintain consistency\n    if (resolved != superType) {\n        if (superType instanceof ResolvedRecursiveType) {\n            ((ResolvedRecursiveType) superType).setSelfReferencedType(resolved);\n        }\n    }\n    return resolved;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

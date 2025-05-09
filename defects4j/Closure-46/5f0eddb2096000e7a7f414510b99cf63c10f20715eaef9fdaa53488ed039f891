@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n\n  // If the records have exactly the same properties with equivalent types,\n  // return either record type (they're equivalent)\n  RecordType otherRecord = that.toMaybeRecordType();\n  if (properties.keySet().equals(otherRecord.properties.keySet())) {\n    boolean allEquivalent = true;\n    for (String property : properties.keySet()) {\n      if (!getPropertyType(property).isEquivalentTo(\n          otherRecord.getPropertyType(property))) {\n        allEquivalent = false;\n        break;\n      }\n    }\n    if (allEquivalent) {\n      return this;\n    }\n  }\n\n  // Otherwise return the union of the two record types\n  return registry.createUnionType(this, that);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _fromClass(Class<?> cls, TypeBindings bindings)\n{\n    // First try to find from cache\n    JavaType t = _typeCache.get(cls, bindings);\n    if (t != null) {\n        return t;\n    }\n\n    // If not found, need to construct\n    if (cls.isPrimitive()) {\n        return _fromPrimitive(cls, bindings);\n    }\n    if (cls.isArray()) {\n        return _fromArray(cls, bindings);\n    }\n\n    // [databind#1647] Ensure we handle recursive references properly\n    if (bindings == null) {\n        bindings = TypeBindings.emptyBindings();\n    }\n\n    // Construct the type and cache it before resolving superclass\n    t = new SimpleType(cls, bindings, null, null);\n    _typeCache.add(t);\n\n    // Now resolve superclass and interfaces\n    Class<?> superClass = cls.getSuperclass();\n    if (superClass != null && superClass != Object.class) {\n        JavaType superType = _fromClass(superClass, bindings);\n        if (t instanceof SimpleType) {\n            ((SimpleType) t)._superClass = superType;\n        }\n    }\n\n    return t;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

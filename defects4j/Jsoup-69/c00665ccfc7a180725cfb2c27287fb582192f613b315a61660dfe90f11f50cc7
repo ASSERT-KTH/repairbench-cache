@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : this.elements()) {\n        if (el.tag().isFormSubmittable() && !el.tag().isSelfClosing()) {\n            String name = el.attr(\"name\");\n            if (name.length() > 0) {\n                String type = el.attr(\"type\");\n                if (el.tagName().equals(\"input\")) {\n                    if (!\"submit\".equalsIgnoreCase(type) && !\"image\".equalsIgnoreCase(type) && !\"password\".equalsIgnoreCase(type))\n                        data.add(new Connection.KeyVal(name, el.val()));\n                } else if (el.tagName().equals(\"textarea\")) {\n                    data.add(new Connection.KeyVal(name, el.text()));\n                } else if (el.tagName().equals(\"select\")) {\n                    Elements options = el.select(\"option[selected]\");\n                    if (options.size() == 0)\n                        options = el.select(\"option\");\n                    for (Element option : options) {\n                        data.add(new Connection.KeyVal(name, option.val()));\n                    }\n                }\n            }\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

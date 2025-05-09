@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _resolveSuperClass(JavaType superClass, JavaType currentType)\n{\n    // First: may have to resolve the super class type\n    if (superClass != null) {\n        if (superClass.isContainerType()) {\n            // 22-Jun-2016, tatu: [databind#1283] Need to ensure we resolve\n            //    super-class to avoid recursion issues\n            superClass = superClass.withContentType(superClass.getContentType());\n        }\n        // 22-Jan-2022, tatu: [databind#1647] Ensure proper resolution of recursive types\n        if (superClass.isRecursive()) {\n            superClass = ((ResolvedRecursiveType) superClass).getSelfReferencedType();\n        }\n    }\n    return superClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object expected) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configOverride(type).setCoercionConfig(CoercionConfig.forEmptyToNull());\n\n    // For primitives, empty should not be coerced to null but to default values\n    if (type.isPrimitive()) {\n        Object result = mapper.readValue(\"\\\"\\\"\", type);\n        assertEquals(\"Should have default value for primitive\", expected, result);\n    } else {\n        Object result = mapper.readValue(\"\\\"\\\"\", type);\n        assertNull(\"Should have been coerced to null\", result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

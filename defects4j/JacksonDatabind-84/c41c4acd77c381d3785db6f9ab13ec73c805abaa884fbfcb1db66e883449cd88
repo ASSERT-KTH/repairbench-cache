@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, Class<?> contextClass) {\n    // Existing type resolution logic\n\n    // Additional check to ensure proper handling of polymorphic types\n    if (type instanceof Class<?>) {\n        Class<?> cls = (Class<?>) type;\n        if (cls.getSuperclass() != null && cls.getSuperclass() != Object.class) {\n            // Ensure we properly track both base and sub types\n            JavaType superType = _findSuperType(cls);\n            if (superType != null) {\n                return _constructType(type, superType);\n            }\n        }\n    }\n\n    return _constructType(type);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

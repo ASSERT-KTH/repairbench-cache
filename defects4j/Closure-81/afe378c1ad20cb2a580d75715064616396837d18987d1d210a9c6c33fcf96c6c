@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processFunctionNode(FunctionNode functionNode) {\n      Name name = functionNode.getFunctionName();\n      if (name == null) {\n        throw new RuntimeException(\"unnamed function statement\");\n      }\n\n      Node node = newNode(Token.FUNCTION);\n      Node newName = transform(name);\n      node.addChildToBack(newName);\n\n      Node lp = newNode(Token.LP);\n      // The left paren's complicated because it's not represented by an\n      // AstNode, so there's nothing that has the actual line number that it\n      // appeared on.  We know the paren has to appear on the same line as the\n      // function name (or else a semicolon will be inserted.)  If there's no\n      // function name, assume the paren was on the same line as the function.\n      lp.setLineno(name.getLineno());\n      int lparenCharno = functionNode.getLp() +\n          functionNode.getAbsolutePosition();\n      lp.setCharno(position2charno(lparenCharno));\n\n      for (AstNode param : functionNode.getParams()) {\n        lp.addChildToBack(transform(param));\n      }\n      node.addChildToBack(lp);\n\n      Node bodyNode = transform(functionNode.getBody());\n      parseDirectives(bodyNode);\n      node.addChildToBack(bodyNode);\n      return node;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

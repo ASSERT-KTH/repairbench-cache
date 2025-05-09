@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory f, boolean enableQuoting, boolean expectedQuoted,\n        String expected) throws IOException\n{\n    StringWriter sw = new StringWriter();\n    JsonGenerator jg = f.createGenerator(sw);\n\n    if (enableQuoting) {\n        jg.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        jg.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n\n    jg.writeStartObject();\n    jg.writeNumberField(\"foo\", 1);\n    jg.writeEndObject();\n    jg.close();\n\n    String result = sw.toString();\n    if (expectedQuoted) {\n        assertEquals(expected, result);\n    } else {\n        // If not expected to be quoted, we might need to handle both cases\n        // depending on the factory's default settings\n        if (expected.equals(result)) {\n            // This is fine\n        } else {\n            // Alternative check for unquoted case\n            assertEquals(expected, result);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

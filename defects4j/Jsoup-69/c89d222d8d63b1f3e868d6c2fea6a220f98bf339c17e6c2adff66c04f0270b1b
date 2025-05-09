@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    for (Element el : elements()) {\n        if (el instanceof FormElement) {\n            // skip nested forms\n            continue;\n        }\n        String name = el.attr(\"name\");\n        if (name.length() > 0) {\n            String type = el.attr(\"type\");\n            String value = el.val();\n            // don't add submit buttons if they weren't clicked\n            if (\"submit\".equalsIgnoreCase(type) && !el.hasAttr(\"data-jsoup-clicked\"))\n                continue;\n            data.add(Connection.KeyVal.create(name, value));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

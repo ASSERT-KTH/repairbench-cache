@@ -1,0 +1,7 @@
+{
+    "generation": "static URL encodeUrl(URL u) {\n    u = punyUrl(u);\n    try {\n        // properly encode the URL by breaking it into components and encoding each part\n        String protocol = u.getProtocol();\n        String authority = u.getAuthority();\n        String path = u.getPath();\n        String query = u.getQuery();\n        String ref = u.getRef();\n\n        // encode each component separately\n        String encodedPath = URLEncoder.encode(path, \"UTF-8\").replace(\"%2F\", \"/\").replace(\"%3A\", \":\");\n        String encodedQuery = query != null ? URLEncoder.encode(query, \"UTF-8\") : null;\n        String encodedRef = ref != null ? URLEncoder.encode(ref, \"UTF-8\") : null;\n\n        // reconstruct the URL with encoded components\n        String encodedUrl = protocol + \"://\" + authority + encodedPath;\n        if (encodedQuery != null) {\n            encodedUrl += \"?\" + encodedQuery;\n        }\n        if (encodedRef != null) {\n            encodedUrl += \"#\" + encodedRef;\n        }\n\n        return new URL(encodedUrl);\n    } catch (Exception e) {\n        // give up and return the original input\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

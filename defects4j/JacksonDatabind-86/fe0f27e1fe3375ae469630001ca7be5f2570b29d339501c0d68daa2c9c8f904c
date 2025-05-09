@@ -1,0 +1,7 @@
+{
+    "generation": "protected JavaType _findSuperType(Class<?> superClass, JavaType currentType)\n{\n    // First try to find from cache\n    JavaType superType = _typeCache.get(superClass);\n    if (superType != null) {\n        return superType;\n    }\n\n    // If not found, construct it properly\n    superType = _constructType(superClass, currentType.getBindings());\n\n    // Ensure we properly handle recursive types and cache the result\n    if (superType.isRecursive()) {\n        superType = ((ResolvedRecursiveType) superType).getSelfReferencedType();\n    }\n    _typeCache.put(superClass, superType);\n    return superType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

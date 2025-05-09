@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        return fit(new Gaussian.Parametric() {\n            @Override\n            public double[] gradient(double x, double[] p) {\n                double[] grad = super.gradient(x, p);\n                // Ensure sigma (p[2]) remains positive\n                if (p[2] <= 0) {\n                    grad[2] = 0; // Prevent negative sigma\n                }\n                return grad;\n            }\n        }, guess);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

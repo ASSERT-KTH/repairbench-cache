@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    // First try to find from cache\n    JavaType result = _typeCache.get(type);\n    if (result != null) {\n        return result;\n    }\n\n    // If not found, construct and cache\n    result = _constructType(type);\n    _typeCache.put(type, result);\n\n    // Important: need to resolve recursive types after caching\n    if (result.isRecursive()) {\n        result = ((ResolvedRecursiveType) result).resolveRecursive(this);\n        _typeCache.put(type, result);\n    }\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object expected) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.setSerializationInclusion(Include.NON_NULL);\n    mapper.setDefaultSetterInfo(JsonSetter.Value.forContentNulls(Nulls.SKIP));\n\n    // For primitives, we should not allow empty-to-null coercion\n    if (type.isPrimitive()) {\n        try {\n            mapper.readerFor(type).with(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)\n                .readValue(\"{}\");\n            fail(\"Should not have passed\");\n        } catch (JsonMappingException e) {\n            // expected\n        }\n    } else {\n        Object result = mapper.readerFor(type).with(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)\n            .readValue(\"\\\"\\\"\");\n        assertEquals(expected, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

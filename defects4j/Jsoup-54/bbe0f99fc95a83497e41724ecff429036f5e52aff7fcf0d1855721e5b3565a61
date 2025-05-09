@@ -1,0 +1,7 @@
+{
+    "generation": "private void copyAttributes(org.jsoup.nodes.Node source, Element el) {\n    for (Attribute attribute : source.attributes()) {\n        String key = attribute.getKey();\n        // Skip attributes with empty keys or those that would become empty after sanitization\n        if (key.isEmpty()) {\n            continue;\n        }\n        // Sanitize the attribute name to valid XML characters\n        String sanitizedKey = key.replaceAll(\"[^-a-zA-Z0-9_:.]\", \"\");\n        if (sanitizedKey.isEmpty()) {\n            continue; // Skip if the key becomes empty after sanitization\n        }\n        el.setAttribute(sanitizedKey, attribute.getValue());\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

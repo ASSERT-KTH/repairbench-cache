@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements inputs = this.getElementsByTag(\"input\");\n    for (Element input : inputs) {\n        if (!input.hasAttr(\"name\") || input.attr(\"name\").isEmpty())\n            continue;\n        String name = input.attr(\"name\");\n        String type = input.attr(\"type\");\n        String value = input.val();\n\n        if (type.equals(\"submit\") && !input.hasAttr(\"name\"))\n            continue;\n\n        if (!type.equals(\"password\") && !type.equals(\"file\") && !type.equals(\"checkbox\") && !type.equals(\"radio\") &&\n            !type.equals(\"submit\") && !type.equals(\"image\") && !type.equals(\"button\")) {\n            data.add(new Connection.KeyVal(name, value));\n        } else if ((type.equals(\"checkbox\") || type.equals(\"radio\")) && input.hasAttr(\"checked\")) {\n            data.add(new Connection.KeyVal(name, value));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

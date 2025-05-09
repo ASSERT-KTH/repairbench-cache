@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object expected) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.setCoercionConfig(CoercionConfigs.forType(type).setEmptyAsNull(true));\n\n    // For primitives, empty-to-null coercion should fail\n    if (type.isPrimitive()) {\n        try {\n            mapper.readValue(\"\\\"\\\"\", type);\n            fail(\"Should not have passed\");\n        } catch (JsonMappingException e) {\n            // Expected\n        }\n    } else {\n        assertEquals(expected, mapper.readValue(\"\\\"\\\"\", type));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

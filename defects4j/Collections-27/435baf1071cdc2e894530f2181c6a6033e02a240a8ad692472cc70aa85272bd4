@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    @SuppressWarnings(\"unchecked\")\n    final Map<K, Collection<V>> map = (Map<K, Collection<V>>) in.readObject();\n    @SuppressWarnings(\"unchecked\")\n    final Class<?> collectionClass = (Class<?>) in.readObject();\n\n    // Validate the collection class is safe\n    if (!Collection.class.isAssignableFrom(collectionClass)) {\n        throw new UnsupportedOperationException(\"Unsafe collection class type: \" + collectionClass);\n    }\n\n    this.map = map;\n    this.collectionClass = collectionClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n        for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n            // Find all possible candidates for this field\n            List<Object> candidates = new ArrayList<>();\n            for (Object mock : mocks) {\n                if (field.getType().isAssignableFrom(mock.getClass())) {\n                    candidates.add(mock);\n                }\n            }\n\n            // Select the most specific candidate (closest to the field type)\n            Object bestCandidate = null;\n            for (Object candidate : candidates) {\n                if (bestCandidate == null ||\n                    candidate.getClass().isAssignableFrom(bestCandidate.getClass())) {\n                    bestCandidate = candidate;\n                }\n            }\n\n            if (bestCandidate != null) {\n                mockCandidateFilter.filterCandidate(Collections.singleton(bestCandidate), field, fieldInstance).thenInject();\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

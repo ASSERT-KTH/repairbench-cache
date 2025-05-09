@@ -1,0 +1,7 @@
+{
+    "generation": "    public List getValues(final Option option,\n                          List defaultValues) {\n        // initialize the return list\n        List valueList = (List) values.get(option);\n\n        // grab the correct default values\n        if ((valueList == null) || valueList.isEmpty()) {\n            valueList = defaultValues;\n        }\n\n        // augment the list with the default values if we have fewer values than expected\n        if (valueList != null && !valueList.isEmpty()) {\n            List optionDefaults = (List) this.defaultValues.get(option);\n            if (optionDefaults != null && !optionDefaults.isEmpty()) {\n                // Create a new list to avoid modifying the original\n                List combinedList = new ArrayList(valueList);\n                // Add remaining default values if we have fewer values than the maximum\n                int maxArgs = option.getArgument().getMaximum();\n                if (maxArgs > valueList.size()) {\n                    for (int i = valueList.size(); i < maxArgs; i++) {\n                        if (i < optionDefaults.size()) {\n                            combinedList.add(optionDefaults.get(i));\n                        }\n                    }\n                }\n                valueList = combinedList;\n            }\n        }\n\n        return valueList == null ? Collections.EMPTY_LIST : valueList;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

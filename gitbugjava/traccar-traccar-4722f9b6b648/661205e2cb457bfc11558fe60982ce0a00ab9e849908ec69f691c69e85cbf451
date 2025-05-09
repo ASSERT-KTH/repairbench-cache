@@ -1,0 +1,7 @@
+{
+    "generation": "    private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n        buf.readUnsignedShortLE(); // length\n\n        buf.skipBytes(3); // identification header\n        buf.readUnsignedIntLE(); // index\n\n        DeviceSession deviceSession = getDeviceSession(\n                channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n        if (deviceSession == null) {\n            return null;\n        }\n\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        buf.readUnsignedByte(); // session status\n        buf.skipBytes(4); // reserved\n        buf.readUnsignedIntLE(); // date and time\n\n        // Parse coordinates instead of skipping them\n        double latitude = buf.readIntLE() / 1000000.0;\n        double longitude = buf.readIntLE() / 1000000.0;\n        position.setLatitude(latitude);\n        position.setLongitude(longitude);\n\n        buf.readUnsignedShortLE(); // altitude\n        buf.readUnsignedShortLE(); // speed\n        buf.readUnsignedShortLE(); // heading\n\n        buf.skipBytes(3); // data tag header\n        decodeMinimalDataSet(position, buf);\n\n        return position;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

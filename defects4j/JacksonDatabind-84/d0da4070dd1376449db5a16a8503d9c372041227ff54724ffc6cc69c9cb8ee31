@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> cls) {\n    // First check if we already have this type\n    JavaType type = _typeCache.get(cls);\n    if (type != null) {\n        return type;\n    }\n\n    // If not, construct it and cache it\n    type = _constructType(cls);\n    _typeCache.put(cls, type);\n\n    // Also ensure all super types are registered\n    Class<?> current = cls;\n    while ((current = current.getSuperclass()) != null && current != Object.class) {\n        if (!_typeCache.containsKey(current)) {\n            _constructType(current);\n        }\n    }\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
