@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double density(final double[] vals) throws DimensionMismatchException {\n        final int dim = getDimension();\n        if (vals.length != dim) {\n            throw new DimensionMismatchException(vals.length, dim);\n        }\n\n        final double meanDiff[] = new double[dim];\n        for (int i = 0; i < dim; i++) {\n            meanDiff[i] = vals[i] - mean[i];\n        }\n\n        final double exponentTerm = -0.5 * getPrecisionMatrix().multiply(meanDiff).dotProduct(meanDiff);\n\n        return FastMath.pow(2 * FastMath.PI, -dim / 2) *\n            FastMath.pow(covarianceMatrixDeterminant, -0.5) *\n            FastMath.exp(exponentTerm);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

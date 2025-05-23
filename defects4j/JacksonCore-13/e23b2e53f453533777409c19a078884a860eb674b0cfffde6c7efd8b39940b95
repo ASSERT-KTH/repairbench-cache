@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory factory, boolean useQuotes, boolean expectQuotes, String expectedJson) throws IOException {\n    JsonGenerator generator = factory.createGenerator(new ByteArrayOutputStream());\n    generator.useDefaultPrettyPrinter();\n    if (useQuotes) {\n        generator.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        generator.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n    generator.writeStartObject();\n    generator.writeFieldName(\"foo\");\n    generator.writeNumber(1);\n    generator.writeEndObject();\n    generator.close();\n\n    String actualJson = new String(((ByteArrayOutputStream) generator.getOutputTarget()).toByteArray());\n    assertEquals(expectedJson, actualJson);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

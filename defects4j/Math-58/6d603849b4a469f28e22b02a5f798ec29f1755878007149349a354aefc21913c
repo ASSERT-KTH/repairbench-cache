@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        final Gaussian.Parametric gaussian = new Gaussian.Parametric();\n        gaussian.addParameterConstraint(new ParameterConstraint() {\n            @Override\n            public void impose(double[] point) {\n                for (int i = 0; i < point.length; i++) {\n                    if (point[i] <= 0) {\n                        point[i] = 0.001; // Set a minimum positive value\n                    }\n                }\n            }\n        });\n        return fit(gaussian, guess);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

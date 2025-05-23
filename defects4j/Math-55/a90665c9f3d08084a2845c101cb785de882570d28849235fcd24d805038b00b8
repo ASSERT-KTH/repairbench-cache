@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // Ensure v1 and v2 are not the same vector to avoid precision issues\n    if (v1.equals(v2)) {\n        return Vector3D.ZERO;\n    }\n\n    // Compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    double rho = v1.dotProduct(v2) / v2.dotProduct(v2);\n\n    // Compute v3 = v1 - rho * v2\n    Vector3D v3 = new Vector3D(\n        v1.x - rho * v2.x,\n        v1.y - rho * v2.y,\n        v1.z - rho * v2.z\n    );\n\n    // Compute cross product from v3 and v2\n    return new Vector3D(\n        v3.y * v2.z - v3.z * v2.y,\n        v3.z * v2.x - v3.x * v2.z,\n        v3.x * v2.y - v3.y * v2.x\n    );\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

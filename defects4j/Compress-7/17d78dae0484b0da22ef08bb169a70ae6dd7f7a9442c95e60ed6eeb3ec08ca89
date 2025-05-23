@@ -1,0 +1,7 @@
+{
+    "generation": "import java.nio.charset.StandardCharsets;\nimport java.nio.ByteBuffer;\nimport java.nio.CharBuffer;\nimport java.nio.charset.CharsetDecoder;\nimport java.nio.charset.CodingErrorAction;\n\npublic static String parseName(byte[] buffer, final int offset, final int length) {\n    int end = offset + length;\n    ByteBuffer byteBuffer = ByteBuffer.wrap(buffer, offset, length);\n    CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder()\n            .onMalformedInput(CodingErrorAction.REPLACE)\n            .onUnmappableCharacter(CodingErrorAction.REPLACE);\n\n    CharBuffer charBuffer = decoder.decode(byteBuffer);\n\n    for (int i = 0; i < charBuffer.length(); i++) {\n        if (charBuffer.charAt(i) == 0) {\n            return charBuffer.subSequence(0, i).toString();\n        }\n    }\n\n    return charBuffer.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

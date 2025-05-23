@@ -1,0 +1,7 @@
+{
+    "generation": "  position.set(Position.KEY_BATTERY, buf.readUnsignedShort() * 0.1);\n  ```\n\n  Unfortunately, **this scales by 0.1**, resulting in a value like `3.95` only if the source buffer contains `3950`, which is **not consistent** with the test value.\n\n- **Case 0xD5** handles \"lock battery\" scenarios and also processes regular battery, but only **when length == 2**:\n\n  ```java\n  if (length == 2) {\n      position.set(Position.KEY_BATTERY, buf.readUnsignedShort() * 0.01);\n  }\n  ```\n\n  This line yields the precise value `3.95` if the encoded value is `395`. However, **in this test**, that `if` condition might be **false** \u2014 possibly because the length is `3`, not `2`. But the code handles that in an else block **that does not set the battery**, which leaves the value **null**.\n\n---\n\n### **The Solution**\n\nThe code fails to handle a case where the battery is encoded alongside multiple lock battery values but we still want to extract the **main battery level**. Thus, we must:\n\n1. Retain the 0.01 scaling logic in the `case 0xD5` block, which gives the correct result for `395 * 0.01 = 3.95`.\n2. Fix the assumption that battery is only set **if** the length is 2.\n3. Extract battery even if the length is greater than 2 \u2014 assuming that battery is the **first 2 bytes** of the data.\n\n---\n\n### \u2705 **Fixed Version of the Function**\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

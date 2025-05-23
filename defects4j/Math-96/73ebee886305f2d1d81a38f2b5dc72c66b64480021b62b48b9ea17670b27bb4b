@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean equals(Object other) {\n    boolean ret;\n\n    if (this == other) {\n        ret = true;\n    } else if (other == null) {\n        ret = false;\n    } else  {\n        try {\n            Complex rhs = (Complex)other;\n            if (rhs.isNaN()) {\n                ret = this.isNaN();\n            } else {\n                ret = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(rhs.getReal())) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.getImaginary()));\n            }\n        } catch (ClassCastException ex) {\n            // ignore exception\n            ret = false;\n        }\n    }\n\n    return ret;\n}\n\n@Override\npublic int hashCode() {\n    if (isNaN()) {\n        return 7; // A prime number to represent NaN\n    } else {\n        long realBits = Double.doubleToRawLongBits(real);\n        long imaginaryBits = Double.doubleToRawLongBits(imaginary);\n        return 31 * (int)(realBits ^ (realBits >>> 32)) + (int)(imaginaryBits ^ (imaginaryBits >>> 32));\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

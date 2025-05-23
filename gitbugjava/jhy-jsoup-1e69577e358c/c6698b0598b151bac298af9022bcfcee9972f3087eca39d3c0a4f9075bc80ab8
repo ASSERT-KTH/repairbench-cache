@@ -1,0 +1,7 @@
+{
+    "generation": "URL build() {\n    try {\n        // Use decoded path directly instead of decodePart to prevent double-decoding and preserve original encodings\n        URI uri = new URI(\n            u.getProtocol(),\n            u.getUserInfo(),\n            IDN.toASCII(decodePart(u.getHost())), // still decode for IDN hostname normalization\n            u.getPort(),\n            u.getPath(), // use raw decoded path without unnecessary decodePart\n            null, null // query and fragment appended manually\n        );\n\n        String normUrl = uri.toASCIIString();\n        if (q != null || u.getRef() != null) {\n            StringBuilder sb = StringUtil.borrowBuilder().append(normUrl);\n            if (q != null) {\n                sb.append('?');\n                appendToAscii(StringUtil.releaseBuilder(q), true, sb);\n            }\n            if (u.getRef() != null) {\n                sb.append('#');\n                appendToAscii(u.getRef(), false, sb);\n            }\n            normUrl = StringUtil.releaseBuilder(sb);\n        }\n        u = new URL(normUrl);\n        return u;\n    } catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException e) {\n        assert Validate.assertFail(e.toString());\n        return u;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

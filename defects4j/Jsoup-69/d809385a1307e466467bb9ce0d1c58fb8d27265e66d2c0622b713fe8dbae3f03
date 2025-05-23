@@ -1,0 +1,7 @@
+{
+    "generation": "package org.jsoup.nodes;\n\nimport org.jsoup.Connection;\nimport org.jsoup.helper.Validate;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class FormElement extends Element {\n\n    public List<Connection.KeyVal> formData() {\n        List<Connection.KeyVal> formData = new ArrayList<>();\n        for (Element input : select(\"input,select,textarea\")) {\n            if (input.hasAttr(\"name\")) {\n                String name = input.attr(\"abs:name\");\n                String value = input.attr(\"value\");\n                if (value.isEmpty()) {\n                    value = input.html();\n                }\n                formData.add(new Connection.KeyVal(name, value));\n            }\n        }\n        return formData;\n    }\n\n    public void remove() {\n        super.remove();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

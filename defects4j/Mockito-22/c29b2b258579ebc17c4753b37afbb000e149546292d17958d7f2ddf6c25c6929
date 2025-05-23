@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null || o2 == null) {\n        return o1 == null && o2 == null;\n    } else if (isArray(o1)) {\n        return isArray(o2) && areArraysEqual(o1, o2);\n    } else {\n        return o1.equals(o2);\n    }\n}\n\nprivate static boolean isArray(Object obj) {\n    return obj.getClass().isArray();\n}\n\nprivate static boolean areArraysEqual(Object arr1, Object arr2) {\n    if (arr1.getClass() != arr2.getClass()) {\n        return false;\n    }\n\n    int length1 = Array.getLength(arr1);\n    int length2 = Array.getLength(arr2);\n\n    if (length1 != length2) {\n        return false;\n    }\n\n    for (int i = 0; i < length1; i++) {\n        Object e1 = Array.get(arr1, i);\n        Object e2 = Array.get(arr2, i);\n\n        if (e1 == null && e2 == null) {\n            continue;\n        } else if (e1 == null || e2 == null) {\n            return false;\n        } else if (e1.getClass().isPrimitive() || e2.getClass().isPrimitive()) {\n            if (e1.getClass() != e2.getClass()) {\n                return false;\n            }\n        } else if (!areEqual(e1, e2)) {\n            return false;\n        }\n    }\n\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

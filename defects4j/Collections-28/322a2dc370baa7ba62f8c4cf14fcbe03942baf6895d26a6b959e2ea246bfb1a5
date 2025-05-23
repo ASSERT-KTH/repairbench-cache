@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic SortedMap<K, V> prefixMap(final K prefix) {\n    final SortedMap<K, V> map = new TreeMap<>();\n    this.prefixMap(prefix, map);\n    return map;\n}\n\nprivate void prefixMap(final K prefix, final SortedMap<K, V> map) {\n    if (prefix == null) {\n        throw new IllegalArgumentException(\"Prefix cannot be null\");\n    }\n    final Node<K, V> node = this.getNode(prefix);\n    if (node != null) {\n        this.collectPrefixes(node, prefix, map);\n    }\n}\n\nprivate void collectPrefixes(final Node<K, V> node, final K prefix, final SortedMap<K, V> map) {\n    if (node.getValue() != null) {\n        map.put(prefix, node.getValue());\n    }\n    for (final Map.Entry<K, Node<K, V>> entry : node.getChildren().entrySet()) {\n        final K key = entry.getKey();\n        final Node<K, V> child = entry.getValue();\n        if (child != null) {\n            final K newPrefix = this.createPrefix(prefix, key);\n            this.collectPrefixes(child, newPrefix, map);\n        }\n    }\n}\n\nprivate K createPrefix(final K prefix, final K key) {\n    if (prefix == null) {\n        return key;\n    }\n    final StringBuilder sb = new StringBuilder(prefix.toString());\n    sb.append(key.toString());\n    return (K) sb.toString();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

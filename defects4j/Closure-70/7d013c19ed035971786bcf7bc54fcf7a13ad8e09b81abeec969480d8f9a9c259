@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Declares all of a function's arguments.\n */\nprivate void declareArguments(Node functionNode) {\n  Node astParameters = functionNode.getFirstChild().getNext();\n  Node body = astParameters.getNext();\n  FunctionType functionType = (FunctionType) functionNode.getJSType();\n  if (functionType != null) {\n    Node jsDocParameters = functionType.getParametersNode();\n    if (jsDocParameters != null) {\n      Node jsDocParameter = jsDocParameters.getFirstChild();\n      for (Node astParameter : astParameters.children()) {\n        if (jsDocParameter != null) {\n          defineSlot(astParameter, functionNode, jsDocParameter.getJSType(), true);\n          jsDocParameter = jsDocParameter.getNext();\n        } else {\n          defineSlot(astParameter, functionNode, null, true);\n        }\n      }\n    }\n  }\n  // Check for duplicate local variable declarations\n  checkForDuplicateLocalVarDecl(functionNode, astParameters);\n}\n\nprivate void checkForDuplicateLocalVarDecl(Node functionNode, Node astParameters) {\n  Node body = astParameters.getNext();\n  for (Node child : body.children()) {\n    if (child.isVar()) {\n      for (Node astParameter : astParameters.children()) {\n        if (child.getFirstChild().getString().equals(astParameter.getFirstChild().getString())) {\n          report(JavascriptError.JSC_DUP_VAR_DECLARATION, child);\n        }\n      }\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

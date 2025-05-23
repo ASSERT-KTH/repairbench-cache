@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    for (Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n        if (mockCandidateFilter.filterCandidate(mocks, field, fieldInstance)) {\n            field.setAccessible(true);\n            try {\n                field.set(fieldInstance, mocks.stream()\n                    .filter(mock -> field.getType().isAssignableFrom(mock.getClass()))\n                    .findFirst()\n                    .orElse(null));\n            } catch (IllegalAccessException e) {\n                e.printStackTrace();\n            }\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

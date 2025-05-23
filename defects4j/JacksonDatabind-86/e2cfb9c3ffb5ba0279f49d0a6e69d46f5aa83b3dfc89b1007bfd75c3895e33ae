@@ -1,0 +1,7 @@
+{
+    "generation": "public class TypeFactory {\n    private final Map<Class<?>, JavaType> _typeCache = new HashMap<>();\n\n    public JavaType constructType(Class<?> type) {\n        JavaType cachedType = _typeCache.get(type);\n        if (cachedType != null) {\n            return cachedType;\n        }\n\n        JavaType constructedType = new JavaTypeImpl(type);\n        if (type.getSuperclass() != null) {\n            JavaType superType = constructType(type.getSuperclass());\n            constructedType.setSuperClass(superType);\n        }\n\n        _typeCache.put(type, constructedType);\n        return constructedType;\n    }\n\n    // Other methods and classes...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

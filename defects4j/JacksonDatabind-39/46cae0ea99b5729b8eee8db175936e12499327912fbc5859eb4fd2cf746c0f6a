@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n{\n    JsonNode node = p.readValueAsTree();\n    // Handle the deserialization logic here\n    // For example, you might need to map the JSON fields to your object properties\n    // This is a placeholder implementation; you need to adjust it based on your actual class structure\n\n    // Assuming you have a class CallRecord with fields version, application, item, and item2\n    CallRecord record = new CallRecord();\n    if (node.has(\"version\")) {\n        record.version = node.get(\"version\").asDouble();\n    }\n    if (node.has(\"application\")) {\n        record.application = node.get(\"application\").asText();\n    }\n    if (node.has(\"item\")) {\n        JsonNode itemNode = node.get(\"item\");\n        if (itemNode.has(\"type\") && itemNode.has(\"location\")) {\n            record.item = new Item(itemNode.get(\"type\").asText(), itemNode.get(\"location\").asText());\n        }\n    }\n    if (node.has(\"item2\")) {\n        JsonNode item2Node = node.get(\"item2\");\n        if (item2Node.has(\"type\") && item2Node.has(\"location\")) {\n            record.item2 = new Item(item2Node.get(\"type\").asText(), item2Node.get(\"location\").asText());\n        }\n    }\n    return record;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

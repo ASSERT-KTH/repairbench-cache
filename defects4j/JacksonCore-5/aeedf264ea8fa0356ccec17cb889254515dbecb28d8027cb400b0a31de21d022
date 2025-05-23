@@ -1,0 +1,7 @@
+{
+    "generation": "private final static int _parseIndex(String str) {\n    final int len = str.length();\n    // [Issue#133]: beware of super long indexes; assume we never\n    // have arrays over 2 billion entries so ints are fine.\n    if (len == 0 || len > 10) {\n        return -1;\n    }\n    for (int i = 0; i < len; ++i) {\n        char c = str.charAt(i);\n        if (c == 'e' || c == 'E') {\n            // Check if the character 'e' or 'E' is followed by a valid exponent\n            if (i + 1 < len && (str.charAt(i + 1) == '+' || str.charAt(i + 1) == '-' || Character.isDigit(str.charAt(i + 1)))) {\n                continue;\n            }\n        }\n        if (c > '9' || c < '0' && c != 'e' && c != 'E' && c != '.') {\n            return -1;\n        }\n    }\n    try {\n        long l = NumberInput.parseLong(str);\n        if (l > Integer.MAX_VALUE) {\n            return -1;\n        }\n    } catch (NumberFormatException e) {\n        return -1;\n    }\n    return NumberInput.parseInt(str);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> rawType) {\n    if (rawType == null) {\n        throw new IllegalArgumentException(\"Can not construct type for null\");\n    }\n    // Ensure that all super types are registered\n    Class<?> current = rawType;\n    while (current != null) {\n        if (current.getSuperclass() != null) {\n            constructType(current.getSuperclass());\n        }\n        for (Class<?> iface : current.getInterfaces()) {\n            constructType(iface);\n        }\n        current = current.getSuperclass();\n    }\n    return _typeMap.computeIfAbsent(rawType, k -> _typeFactory.constructType(k));\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

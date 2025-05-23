@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> rawType) {\n    // Check if the type is already in the cache\n    JavaType result = _typeCache.get(rawType);\n    if (result != null) {\n        return result;\n    }\n\n    // Create a new type\n    result = new TypeBuilder(rawType, null, null, null, null, null).build();\n\n    // If the type has a superclass, resolve it recursively\n    Class<?> superClass = rawType.getSuperclass();\n    if (superClass != null && superClass != Object.class) {\n        JavaType superType = constructType(superClass);\n        result = new TypeBuilder(rawType, superType, null, null, null, null).build();\n    }\n\n    // Cache the result\n    _typeCache.put(rawType, result);\n\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

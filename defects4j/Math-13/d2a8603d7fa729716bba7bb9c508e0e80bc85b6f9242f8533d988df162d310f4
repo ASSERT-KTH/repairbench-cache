@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n * @throws IllegalArgumentException if the matrix is not positive definite\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    try {\n        final EigenDecomposition dec = new EigenDecomposition(m);\n        if (dec.getEigenvalues().stream().anyMatch(eigenvalue -> eigenvalue.getReal() <= 0)) {\n            throw new IllegalArgumentException(\"Matrix is not positive definite\");\n        }\n        return dec.getSquareRoot();\n    } catch (IllegalArgumentException | MathIllegalArgumentException e) {\n        throw new IllegalArgumentException(\"Matrix is not positive definite\", e);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

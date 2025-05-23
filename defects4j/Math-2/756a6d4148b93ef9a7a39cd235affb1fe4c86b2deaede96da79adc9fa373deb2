@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Generates a random sample from the hypergeometric distribution.\n * This method ensures that the generated sample is within the valid range [0, n].\n *\n * @return a random sample from the distribution\n */\n@Override\npublic int sample() {\n    // Ensure the sample size is within the valid range\n    if (sampleSize > Math.min(numberOfSuccesses, populationSize - numberOfSuccesses)) {\n        throw new IllegalArgumentException(\"Sample size is too large for the given population and number of successes\");\n    }\n\n    // Generate a sample using a suitable algorithm\n    // For simplicity, we use a binomial distribution approximation\n    BinomialDistribution binomial = new BinomialDistribution(sampleSize, (double) numberOfSuccesses / populationSize);\n    int sample = binomial.sample();\n\n    // Ensure the sample is within the valid range [0, sampleSize]\n    if (sample < 0 || sample > sampleSize) {\n        sample = 0; // or handle it in a different way, e.g., retry sampling\n    }\n\n    return sample;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

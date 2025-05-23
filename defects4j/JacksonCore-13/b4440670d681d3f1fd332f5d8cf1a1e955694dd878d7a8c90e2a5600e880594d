@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _testFieldNameQuotingEnabled(JsonFactory jf, boolean expectQuotes, boolean quoteFieldNames, String expectedJson) throws IOException {\n        ObjectMapper mapper = new ObjectMapper(jf);\n        JsonGenerator jg = mapper.getFactory().createGenerator(new StringWriter());\n\n        if (quoteFieldNames) {\n            jg.useDefaultPrettyPrinter();\n        } else {\n            jg.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n        }\n\n        jg.writeStartObject();\n        jg.writeStringField(\"foo\", \"1\");\n        jg.writeEndObject();\n\n        jg.close();\n\n        String actualJson = ((StringWriter) jg.getOutputTarget()).toString();\n        assertEquals(\"JSON output mismatch\", expectedJson, actualJson);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "} else if (id == 385) {\n    ByteBuf data = buf.readSlice(length);\n    data.readUnsignedByte(); // data part\n    int index = 1;\n    while (data.isReadable()) {\n        int flags = data.readUnsignedByte();\n        if (BitUtil.from(flags, 4) > 0) {\n            position.set(\"tag\" + index + \"Uuid\", ByteBufUtil.hexDump(data.readSlice(16)));\n            position.set(\"tag\" + index + \"Major\", data.readUnsignedShort());\n            position.set(\"tag\" + index + \"Minor\", data.readUnsignedShort());\n        } else {\n            position.set(\"tag\" + index + \"Namespace\", ByteBufUtil.hexDump(data.readSlice(10)));\n            position.set(\"tag\" + index + \"Instance\", ByteBufUtil.hexDump(data.readSlice(6)));\n        }\n\n        position.set(\"tag\" + index + \"Rssi\", (int) data.readByte());\n\n        if (BitUtil.check(flags, 1)) {\n            position.set(\"tag\" + index + \"Battery\", data.readUnsignedShort() * 0.01);\n        }\n\n        if (BitUtil.check(flags, 2)) {\n            position.set(\"tag\" + index + \"Temp\", data.readUnsignedShort());\n        }\n\n        index += 1;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

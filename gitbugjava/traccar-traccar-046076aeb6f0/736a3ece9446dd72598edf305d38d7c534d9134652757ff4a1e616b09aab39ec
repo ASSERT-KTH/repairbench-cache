@@ -1,0 +1,7 @@
+{
+    "generation": "if (dataLength > 10) {\n    int extensionBits = buf.readUnsignedShort();\n    int hours = (extensionBits >> 4) / 100;\n    int minutes = (extensionBits >> 4) % 100;\n    int offset = (hours * 60 + minutes) * 60;\n    if ((extensionBits & 0x8) != 0) {\n        offset = -offset;\n    }\n    if (deviceSession != null) {\n        TimeZone timeZone = deviceSession.get(DeviceSession.KEY_TIMEZONE);\n        if (timeZone.getRawOffset() == 0) {\n            timeZone.setRawOffset(offset * 1000);\n            deviceSession.set(DeviceSession.KEY_TIMEZONE, timeZone);\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
