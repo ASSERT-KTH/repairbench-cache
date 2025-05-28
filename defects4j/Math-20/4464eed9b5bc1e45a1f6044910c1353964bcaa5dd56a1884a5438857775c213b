@@ -1,0 +1,7 @@
+{
+    "generation": "        /**\n         * @param x Normalized objective variables.\n         * @return the original objective variables, possibly repaired.\n         */\n        public double[] repairAndDecode(final double[] x) {\n            // First, decode the normalized variables to the original search space.\n            // The 'decode' method maps values from [-1, 1] (normalized) to [lower, upper] (original).\n            final double[] decoded = decode(x);\n\n            // Repair the decoded variables by explicitly clipping them to be within the\n            // defined lower and upper bounds. This is necessary because numerical precision\n            // issues or slight excursions of the normalized 'x' values outside the\n            // theoretical [-1, 1] range during the optimization process can cause 'decode'\n            // to produce values slightly outside the strict [lower, upper] range.\n            for (int i = 0; i < decoded.length; i++) {\n                if (decoded[i] < lowerBounds[i]) {\n                    decoded[i] = lowerBounds[i];\n                } else if (decoded[i] > upperBounds[i]) {\n                    decoded[i] = upperBounds[i];\n                }\n            }\n            return decoded;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

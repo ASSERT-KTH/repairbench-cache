@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean hasExceptionHandler(Node cfgNode) {\n    Node current = cfgNode;\n    while (current != null) {\n      Node parent = current.getParent();\n      if (parent != null && parent.isTry()) {\n        // A TRY node has children:\n        // 1. The try block (a BLOCK node)\n        // 2. The catch block (a CATCH node, optional)\n        // 3. The finally block (a BLOCK node, optional)\n\n        // We need to check if the current node in the ancestor chain\n        // is the 'try' block child of the TRY node,\n        // and if that TRY node also has a 'catch' block.\n        if (current == parent.getFirstChild()) {\n          Node catchBlock = parent.getSecondChild();\n          if (catchBlock != null && catchBlock.isCatch()) {\n            return true;\n          }\n        }\n      }\n      current = parent;\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

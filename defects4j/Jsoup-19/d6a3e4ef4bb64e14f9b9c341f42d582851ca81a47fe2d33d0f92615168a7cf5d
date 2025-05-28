@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n        // try to resolve relative urls to abs, and optionally update the attribute so output html has abs.\n        // rels without a baseuri get removed\n        String value = el.absUrl(attr.getKey());\n        if (!preserveRelativeLinks)\n            attr.setValue(value);\n        \n        // Iterate over the set using Object to safely handle both Protocol enum instances\n        // and String instances (for custom protocols passed due to type erasure).\n        for (Object obj : protocols) {\n            String protStr;\n            if (obj instanceof Protocol) {\n                // If it's a standard Protocol enum, get its string representation\n                protStr = ((Protocol) obj).toString();\n            } else if (obj instanceof String) {\n                // If it's a custom protocol passed as a String (due to type erasure), use it directly\n                protStr = (String) obj;\n            } else {\n                // If an unexpected type is encountered, skip it\n                continue;\n            }\n\n            // Check if the attribute value starts with the protocol string followed by a colon\n            if (value.toLowerCase().startsWith(protStr + \":\")) {\n                return true;\n            }\n        }\n        return false;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

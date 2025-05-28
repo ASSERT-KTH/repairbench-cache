@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override public void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n      nextName(); // Consumes the NAME token and positions the reader on the VALUE.\n                  // After this, pathNames[stackSize - 1] holds the key.\n    }\n\n    // Now, the reader is positioned on the value to be skipped (either a primitive\n    // or a container like JsonObject/JsonArray).\n    // Assuming popStack() for JsonTreeReader fully consumes the current JsonElement,\n    // including its children if it's a JsonObject or JsonArray.\n    popStack();\n\n    // After popping the value, update the path information for the parent,\n    // but only if there is still a parent on the stack.\n    if (stackSize > 0) {\n      // These lines are typically part of an internal 'incrementPath()' method\n      // which updates the path for the element that was just processed.\n      // For object properties, the name should be cleared after the value is processed.\n      pathNames[stackSize - 1] = \"null\";\n      // For array elements, the index should be incremented.\n      pathIndices[stackSize - 1]++;\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

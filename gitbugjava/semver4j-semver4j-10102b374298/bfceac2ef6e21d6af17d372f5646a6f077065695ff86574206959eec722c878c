@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        // The test `shouldOmitOuterParentheses` expects the ranges to be joined by \" and \".\n        // For the input \">=3.0.0 <=3.0.1\", the expected output is \">=3.0.0 and <=3.0.1\".\n        // The current implementation uses `OR_JOINER`, which would result in \">=3.0.0 or <=3.0.1\"\n        // if `rangesList` contains individual ranges that are meant to be AND-ed.\n        // This implies that for the given structure of `rangesList` (likely a List of individual Range objects\n        // that represent an AND conjunction), the joiner should be \" and \".\n        // Assuming `AND_JOINER` is a constant available in the context (like `OR_JOINER`),\n        // or using the literal string \" and \" if not. The test suggests \" and \" is the literal string needed.\n        return rangesList.stream()\n            .map(RangesList::formatRanges)\n            .collect(joining(\" and \"));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

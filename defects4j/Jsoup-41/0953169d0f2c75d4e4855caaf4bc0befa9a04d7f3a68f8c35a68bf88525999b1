@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public boolean equals(Object o) {\n        // Optimization: if it's the exact same object reference, they are equal.\n        if (this == o) return true;\n        // Standard checks: if the other object is null or not of the same class, they are not equal.\n        // (Using getClass() != o.getClass() ensures strict class equality, not just instanceof.)\n        if (o == null || getClass() != o.getClass()) return false;\n\n        // The original Element.equals (and its superclass Node.equals) in Jsoup\n        // is typically not implemented for structural equality; it often just checks\n        // for reference equality (this == o).\n        // However, the provided test `testHashAndEquals` clearly expects `Element.equals`\n        // to perform a structural comparison (i.e., comparing the content, attributes,\n        // and child nodes of the elements).\n        //\n        // Jsoup's `Node` class provides a `sameAs(Object o)` method specifically\n        // designed for performing a deep, structural comparison of nodes (checking\n        // tag, attributes, and recursively, child nodes).\n        //\n        // By delegating to `this.sameAs(o)`, we implement the structural equality\n        // required by the test.\n        return this.sameAs(o);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

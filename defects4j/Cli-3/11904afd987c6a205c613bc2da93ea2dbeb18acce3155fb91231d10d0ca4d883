@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Create a number from a String. If a . is present, it creates a \n     *    Double, otherwise a Long. </p>\n     *\n     * @param str the value\n     * @return the number represented by <code>str</code>, if <code>str</code>\n     * is not a number, null is returned.\n     */\n    public static Number createNumber(String str)\n    {\n        try\n        {\n            Number num = org.apache.commons.lang.math.NumberUtils.createNumber(str);\n            // According to the Javadoc: \"If a . is present, it creates a Double\".\n            // NumberUtils.createNumber might return a Float for decimal numbers\n            // (e.g., \"4.5\") depending on its internal logic or version.\n            // If it returns a Float and the string contained a decimal point,\n            // convert it to a Double to satisfy the specified contract and the failing test.\n            if (num instanceof Float && str != null && str.indexOf('.') != -1) {\n                return new Double(num.doubleValue());\n            }\n            return num;\n        }\n        catch (NumberFormatException nfe)\n        {\n            System.err.println(nfe.getMessage());\n        }\n\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

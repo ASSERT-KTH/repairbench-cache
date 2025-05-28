@@ -1,0 +1,7 @@
+{
+    "generation": "    public ObjectMapper _mapper() {\n        ObjectMapper mapper = new ObjectMapper();\n        // The original bug likely involved misconfiguration of DeserializationFeatures,\n        // allowing empty strings to be coerced to default primitive values (like 0)\n        // instead of throwing an exception.\n        // Specifically, if DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES was disabled\n        // (its default is enabled), and/or DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT\n        // was enabled (its default is disabled), this behavior could occur.\n\n        // To fix this, we ensure that:\n        // 1. Deserializing 'null' (or an empty string coerced to null) to a primitive type fails.\n        //    This is achieved by ensuring FAIL_ON_NULL_FOR_PRIMITIVES is enabled (its default).\n        mapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);\n\n        // 2. Empty strings are not generally accepted as 'null' objects, especially for primitives.\n        //    This ensures strict parsing, where \"\" should not be valid input for a number.\n        //    ACCEPT_EMPTY_STRING_AS_NULL_OBJECT is false by default, but explicitly disabling\n        //    it here if it was enabled in the buggy code provides a robust fix.\n        mapper.disable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);\n\n        return mapper;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

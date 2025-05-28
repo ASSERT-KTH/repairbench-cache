@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the number of uses of the variable varName and store it in\n     * numUseWithinUseCfgNode.\n     */\n    private void getNumUseInUseCfgNode(final Node cfgNode) {\n\n      numUsesWithinCfgNode = 0;\n      AbstractCfgNodeTraversalCallback gatherCb =\n          new AbstractCfgNodeTraversalCallback() {\n\n        @Override\n        public void visit(NodeTraversal t, Node n, Node parent) {\n          if (n.isName() && n.getString().equals(varName)) {\n            // Count all occurrences of the variable name.\n            // For flow-sensitive inlining, an assignment to the variable\n            // within a CFG node (e.g., `x = y`) also constitutes a reference\n            // to 'x' that must be recognized. If 'x' is replaced by an inlined\n            // value (e.g., `0 = y`), it would change the semantics or create\n            // invalid code. Therefore, both read and write occurrences of\n            // the variable name within the CFG node should prevent inlining.\n            numUsesWithinCfgNode++;\n          }\n        }\n\n      };\n\n      NodeTraversal.traverse(compiler, cfgNode, gatherCb);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

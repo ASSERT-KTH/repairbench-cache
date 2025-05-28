@@ -1,0 +1,7 @@
+{
+    "generation": "    public Object generateId(Object forPojo) {\n        // 04-Jun-2016, tatu: As per [databind#1255], need to consider possibility of\n        //    id being generated for \"alwaysAsId\", but not being written as POJO; regardless,\n        //    need to use existing id if there is one:\n        \n        // This function assumes the class it belongs to has a transient map\n        // (e.g., `private transient java.util.Map<Object, Object> _currentIds;`)\n        // that is managed and cleared at the start of each serialization session.\n        // This map is used to cache object-to-id mappings for the current session.\n        if (_currentIds == null) {\n            _currentIds = new java.util.IdentityHashMap<Object, Object>();\n        }\n\n        Object id;\n        Object existingId = _currentIds.get(forPojo);\n\n        if (existingId != null) {\n            id = existingId;\n        } else {\n            // No existing ID found, generate a new one and store it\n            id = generator.generateId(forPojo);\n            _currentIds.put(forPojo, id);\n        }\n        return id;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

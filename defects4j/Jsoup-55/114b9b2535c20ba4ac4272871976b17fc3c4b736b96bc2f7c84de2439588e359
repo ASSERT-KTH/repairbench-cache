@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case Tokeniser.eof: // Assuming 'eof' is a static constant in Tokeniser or accessible via Tokeniser.eof\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // This case handles situations where a '/' is encountered in a start tag,\n                    // but it's not immediately followed by '>', e.g., \"<img /onerror='doMyJob'/>\".\n                    // According to the HTML5 spec for \"Self-closing start tag state\":\n                    // If anything other than '>' or EOF is found, it's a parse error,\n                    // and the parser transitions to \"Before attribute name state\",\n                    // with the current input character re-consumed in that state.\n                    t.error(this);\n                    r.unconsume(); // Put the character back into the stream to be re-processed.\n                    t.transition(BeforeAttributeName);\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

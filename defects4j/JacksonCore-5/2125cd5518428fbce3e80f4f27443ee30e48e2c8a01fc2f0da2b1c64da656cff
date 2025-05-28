@@ -1,0 +1,7 @@
+{
+    "generation": "    private final static int _parseIndex(String str) {\n        final int len = str.length();\n        // [Issue#133]: beware of super long indexes; assume we never\n        // have arrays over 2 billion entries so ints are fine.\n        if (len == 0 || len > 10) {\n            return -1;\n        }\n        for (int i = 0; i < len; ++i) {\n            // BUG FIX: 'i' was incremented twice (once in loop declaration, once inside charAt()).\n            // This caused some characters to be skipped during validation.\n            char c = str.charAt(i); \n            if (c > '9' || c < '0') {\n                return -1;\n            }\n        }\n        if (len == 10) {\n            // This block handles potential overflow for 10-digit numbers.\n            // A 10-digit string can represent a number larger than Integer.MAX_VALUE.\n            // Example: \"2147483648\" (Integer.MAX_VALUE + 1)\n            long l = NumberInput.parseLong(str);\n            if (l > Integer.MAX_VALUE) {\n                return -1;\n            }\n        }\n        // If all checks pass, parse the string into an integer.\n        // This will only be called if 'str' consists purely of digits\n        // and, if 10 digits long, fits within Integer.MAX_VALUE.\n        return NumberInput.parseInt(str);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

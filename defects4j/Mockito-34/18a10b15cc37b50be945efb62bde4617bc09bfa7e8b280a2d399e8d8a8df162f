@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        Object[] actualArguments = i.getArguments();\n        int k = 0;\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Ensure that 'k' is a valid index for the actual arguments array.\n                // This prevents ArrayIndexOutOfBoundsException when the number of actual\n                // arguments is less than the number of matchers, especially when an\n                // ArgumentCaptor is present for an argument that was not provided\n                // in the actual invocation (e.g., in a varargs scenario where 0 arguments\n                // are matched by an AnyVararg, but an ArgumentCaptor is expected).\n                if (k < actualArguments.length) {\n                    ((CapturesArguments) m).captureFrom(actualArguments[k]);\n                }\n            }\n            // Increment 'k' for every matcher, regardless of whether it's a CapturesArguments.\n            // This maintains the 1:1 conceptual mapping between matchers and argument positions,\n            // even if a matcher like AnyVararg might consume multiple arguments in actual matching.\n            // For capturing, each CapturesArguments matcher is associated with a single argument position.\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

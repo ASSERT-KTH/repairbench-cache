@@ -1,0 +1,7 @@
+{
+    "generation": "                case 0xFE:\n                    if (length == 1) {\n                        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n                    } else { // This path is taken when length is not 1 (e.g., length == 2)\n                        int mark = buf.readUnsignedByte(); // Reads the first data byte (e.g., 0x00 in fe02001e)\n                        if (mark == 0x7C) { // This block is for a nested structure (alarms)\n                            while (buf.readerIndex() < endIndex) {\n                                // ... parses extendedType and extendedLength ...\n                                // This loop consumes bytes up to endIndex.\n                            }\n                        }\n                        // This line is executed unconditionally after the if (mark == 0x7C) block,\n                        // or if mark is not 0x7C.\n                        // For fe02001e, mark is 0x00, so this reads the next byte (0x1E).\n                        // If mark was 0x7C and length was small (e.g., 2), this line would read past endIndex.\n                        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n                    }\n                    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

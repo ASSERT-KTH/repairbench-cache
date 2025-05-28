@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // If the element being matched is the root (context) itself,\n            // and this selector involves checking parents (i.e., has more than one evaluator in the chain),\n            // then it should not match. This prevents `root.select(\"A > B\")` from matching `root`\n            // when `A` is an ancestor of `root` (and thus outside `root`'s direct descendants).\n            // This addresses the specific case where li2.select(\"ul > li\") was matching li2 itself.\n            if (element == root && evaluators.size() > 1) {\n                return false;\n            }\n\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                if (element == null)\n                    return false;\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n                element = element.parent();\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

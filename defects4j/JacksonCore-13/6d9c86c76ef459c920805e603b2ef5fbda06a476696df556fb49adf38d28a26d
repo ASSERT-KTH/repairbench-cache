@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public void writeFieldName(String name) throws IOException\n    {\n        // First, ensure context allows writing a field name\n        int status = _writeContext.writeFieldName(name);\n        if (status == JsonWriteContext.STATUS_EXPECT_VALUE) {\n            _reportError(\"Can not write a field name, expecting a value\");\n        }\n\n        // The core fix for [core#246]:\n        // Determine whether to quote the field name based on the generator's feature settings.\n        // F_QUOTE_FIELD_NAMES is a protected static final int representing the mask for\n        // JsonGenerator.Feature.QUOTE_FIELD_NAMES, typically inherited from GeneratorBase.\n        final boolean quoted = (_features & F_QUOTE_FIELD_NAMES) != 0;\n\n        // Delegate the actual writing to a helper method that handles quoting based on the 'quoted' flag.\n        _writeFieldName(name, quoted);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

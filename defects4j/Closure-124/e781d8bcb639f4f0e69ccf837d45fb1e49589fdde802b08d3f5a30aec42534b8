@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Checks name referenced in node to determine if it might have\n   * changed.\n   * @return Whether the replacement can be made.\n   */\n  private boolean isSafeReplacement(Node node, Node replacement) {\n    // No checks are needed for simple names.\n    if (node.isName()) {\n      return true;\n    }\n    // Precondition: If it's not a simple name, it must be a GETPROP.\n    Preconditions.checkArgument(node.isGetProp());\n\n    // The original code only went one level deep (e.g., if node was a.b.c,\n    // it would check a.b). This is insufficient for chained property accesses.\n    // We need to get to the root name (e.g., 'a' in 'a.b.c').\n    Node rootNameNode = com.google.javascript.rhino.NodeUtil.getQualifiedNameRoot(node);\n\n    // If the root of the qualified name is a simple name, and that name\n    // is assigned to within the 'replacement' subtree, then the replacement\n    // might modify the state of the name 'node' depends on, making it unsafe.\n    if (rootNameNode.isName()\n        && isNameAssignedTo(rootNameNode.getString(), replacement)) {\n      return false;\n    }\n\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    // Handle JSON null values explicitly.\n    // If the next token is NULL, consume it and return Java null.\n    if (in.peek() == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n\n    // The adapter expects a string value for the date.\n    // If the next token is not a string (e.g., BEGIN_OBJECT, as in testUnexpectedToken),\n    // calling in.nextString() will automatically throw an IllegalStateException,\n    // which matches the expectation of DefaultDateTypeAdapterTest::testUnexpectedToken.\n    // The original explicit check and JsonParseException is removed because it conflicts\n    // with the expected IllegalStateException for non-null, non-string tokens.\n    Date date = deserializeToDate(in.nextString());\n\n    // Convert the deserialized Date object to the specific type requested by the adapter's configuration.\n    if (dateType == Date.class) {\n      return date;\n    } else if (dateType == Timestamp.class) {\n      return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n      return new java.sql.Date(date.getTime());\n    } else {\n      // This assertion ensures that 'dateType' is one of the supported types.\n      // This should ideally never be reached as 'dateType' is guarded in the primary constructor.\n      throw new AssertionError();\n    }\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

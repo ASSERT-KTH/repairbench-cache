@@ -1,0 +1,7 @@
+{
+    "generation": "    protected final boolean _add(Annotation ann) {\n        if (_annotations == null) {\n            _annotations = new HashMap<Class<? extends Annotation>,Annotation>();\n        }\n        Class<? extends Annotation> type = ann.annotationType();\n        \n        // Check if an annotation of this type already exists.\n        Annotation previous = _annotations.get(type);\n\n        if (previous != null) {\n            // An annotation of this type already exists.\n            // To implement \"first-one-wins\" (as implied by the test failure for mix-ins),\n            // we do NOT replace the existing annotation.\n            // The method's original return contract: returns true if the previous annotation\n            // was identical to the new one (i.e., the put would have been redundant).\n            return previous.equals(ann);\n        }\n        \n        // No annotation of this type exists, so add the new one.\n        _annotations.put(type, ann);\n        // A new annotation was genuinely added (not a duplicate of an existing one),\n        // so return false (as per the original method's logic for new additions/replacements).\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

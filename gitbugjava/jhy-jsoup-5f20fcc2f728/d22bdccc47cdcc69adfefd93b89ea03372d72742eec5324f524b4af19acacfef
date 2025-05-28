@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            // The 'noscript' tag is a special case that should not be allowed in safelists,\n            // as its content is treated as raw data by browsers and might contain\n            // unsanitized script-like content or comments if explicitly allowed.\n            // It should always be removed by the cleaner for safety.\n            if (tagName.equalsIgnoreCase(\"noscript\")) {\n                throw new Validate.ValidationException(\"The 'noscript' tag is unsupported in safelists.\");\n            }\n            tagNames.add(TagName.valueOf(tagName));\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

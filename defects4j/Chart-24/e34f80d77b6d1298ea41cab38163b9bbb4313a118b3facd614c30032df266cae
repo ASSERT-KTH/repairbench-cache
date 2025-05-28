@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns a paint for the specified value.\n     * \n     * @param value  the value (must be within the range specified by the\n     *         lower and upper bounds for the scale).\n     * \n     * @return A paint for the specified value.\n     */\n    public Paint getPaint(double value) {\n        // Clamp the value to ensure it's within the defined bounds.\n        // This handles cases where the input value is outside the scale's range.\n        double v = Math.max(value, this.lowerBound);\n        v = Math.min(v, this.upperBound);\n\n        // Calculate the gray component (g) using the clamped value 'v'.\n        // The previous bug used the original 'value' which could be outside\n        // the bounds, leading to 'g' being out of the [0, 255] range\n        // required by java.awt.Color.\n        int g = (int) ((v - this.lowerBound) / (this.upperBound\n                - this.lowerBound) * 255.0);\n\n        // Ensure g is within the valid range [0, 255] in case of floating point\n        // inaccuracies or edge cases where upperBound == lowerBound (resulting in NaN which casts to 0).\n        // While the clamping of 'v' should ensure this for most valid scales,\n        // explicit clamping here provides robustness.\n        g = Math.max(0, Math.min(255, g));\n        \n        return new Color(g, g, g);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

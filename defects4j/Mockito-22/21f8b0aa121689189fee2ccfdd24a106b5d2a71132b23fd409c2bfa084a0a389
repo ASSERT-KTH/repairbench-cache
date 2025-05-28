@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean areEqual(Object o1, Object o2) {\n        if (o1 == o2) { // Handles (null, null) and (obj, obj) cases\n            return true;\n        }\n        // At this point, o1 and o2 are not the same instance.\n        // So if one is null, the other is not, meaning they are not equal.\n        if (o1 == null || o2 == null) {\n            return false;\n        }\n\n        // Both o1 and o2 are non-null and distinct instances.\n        if (isArray(o1)) {\n            // If o1 is an array, o2 must also be an array for them to be equal.\n            return isArray(o2) && areArraysEqual(o1, o2);\n        } else {\n            // For non-array objects, try to use their equals method.\n            // Wrap in try-catch to handle potential RuntimeExceptions from broken equals implementations.\n            try {\n                return o1.equals(o2);\n            } catch (RuntimeException e) {\n                // If o1.equals(o2) throws an exception, consider the objects unequal\n                // as the comparison itself failed.\n                return false;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

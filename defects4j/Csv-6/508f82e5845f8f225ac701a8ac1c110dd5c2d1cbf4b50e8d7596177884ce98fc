@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Puts all values of this record into the given Map.\n     *\n     * @param map The Map to populate.\n     * @return the given map.\n     */\n    <M extends Map<String, String>> M putIn(final M map) {\n        for (final Entry<String, Integer> entry : mapping.entrySet()) {\n            final int col = entry.getValue().intValue();\n            // Check if the column index from the header mapping is within the bounds\n            // of the actual record values array.\n            if (col < values.length) {\n                map.put(entry.getKey(), values[col]);\n            } else {\n                // If the record is shorter than the number of headers,\n                // the corresponding value for this header is missing.\n                // According to CSVRecord.get(int), null is returned for out-of-bounds indices.\n                // So, we put null for the missing value.\n                map.put(entry.getKey(), null);\n            }\n        }\n        return map;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

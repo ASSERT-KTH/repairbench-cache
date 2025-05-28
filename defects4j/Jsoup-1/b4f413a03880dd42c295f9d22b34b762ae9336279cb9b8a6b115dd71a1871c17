@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // Iterate the collected nodes in reverse order.\n        // This is crucial for `prependChild` to maintain the original relative order\n        // of the nodes being moved. If we prepend node A, then node B, the result is B, A.\n        // By prepending B then A, the order becomes A, B.\n        for (int i = toMove.size() - 1; i >= 0; i--) {\n            Node node = toMove.get(i);\n            element.removeChild(node);\n            // The original code used appendChild, which put the node at the end.\n            // It also added an extra space node, which is not desired for the test case\n            // \"foo bar baz\" (expected \"foo bar baz\" not \" foo bar baz\").\n            // Using prependChild places the node at the start of the body.\n            body().prependChild(node);\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

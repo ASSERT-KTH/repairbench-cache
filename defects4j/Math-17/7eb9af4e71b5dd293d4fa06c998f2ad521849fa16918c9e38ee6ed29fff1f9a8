@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Multiply this by a single digit x.\n     * @param x multiplicand\n     * @return product of this and x\n     */\n    public Dfp multiply(final int x) {\n            // The original implementation used multiplyFast(x).\n            // This seems to be an optimization intended for \"single digits\" or small integers.\n            // However, the test case `testMultiply #37` involves multiplying by 10000,\n            // which is not a single digit. The failure \"x = NaN flags = 1\" for this test\n            // indicates that multiplyFast(10000) is producing an invalid result (NaN).\n            // To correctly handle any integer multiplicand `x`, it's more robust\n            // to convert `x` into a Dfp object and then use the general Dfp-Dfp\n            // multiplication method.\n            // DfpField provides a newDfp(long x) method for this conversion.\n            return multiply(getField().newDfp((long) x));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public char[] getTextBuffer()\n    {\n        // Are we just using shared input buffer?\n        if (_inputStart >= 0) return _inputBuffer;\n        if (_resultArray != null)  return _resultArray;\n        if (_resultString != null) {\n            return (_resultArray = _resultString.toCharArray());\n        }\n        // Nope; but does it fit in just one segment?\n        // If _hasSegments is false, it means all the content (if any) is within _currentSegment.\n        // For an empty buffer (e.g., after resetWithEmpty()), _currentSegment might be null.\n        // In such a case, returning a null _currentSegment would lead to a NullPointerException\n        // if its .length is accessed. We should return an empty char array.\n        if (!_hasSegments)  {\n            // If _currentSegment is null, it means no content has been accumulated yet\n            // and no segment has been allocated, implying the buffer is empty.\n            if (_currentSegment == null) {\n                return com.fasterxml.jackson.core.util.CharTypes.EMPTY_CHAR_ARRAY;\n            }\n            return _currentSegment;\n        }\n        // Nope, need to have/create a non-segmented array and return it\n        return contentsAsArray();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

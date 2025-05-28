@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Checks if the locale specified is in the list of available locales.</p>\n     *\n     * @param locale the Locale object to check if it is available\n     * @return true if the locale is a known locale\n     */\n    public static boolean isAvailableLocale(Locale locale) {\n        // The original code `return cAvailableLocaleSet.contains(locale);`\n        // throws a NullPointerException because `cAvailableLocaleSet` is not initialized\n        // when this method is called.\n        //\n        // The `availableLocaleSet()` method is typically responsible for lazy-initializing\n        // and returning the singleton instance of the set of available locales.\n        // By delegating to `availableLocaleSet()`, we ensure that `cAvailableLocaleSet`\n        // is properly initialized before `contains` is called on it.\n        // This also aligns with the test `testIsAvailableLocale` which calls\n        // `LocaleUtils.availableLocaleSet()` before checking `isAvailableLocale`.\n        return availableLocaleSet().contains(locale);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

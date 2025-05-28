@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.regex.Matcher;\nimport java.util.regex.Pattern;\n\n// Assuming this class imports com.google.javascript.rhino.IR.Comment and related classes.\n// The Pattern is declared as a static final field to ensure it's compiled only once.\nprivate static final Pattern SUSPICIOUS_JSDOC_TAG_PATTERN = Pattern.compile(\"(^|\\\\n\\\\s*\\\\*\\\\s*)@\");\n\n  /**\n   * Check to see if the given block comment looks like it should be JSDoc.\n   */\n  private void handleBlockComment(Comment comment) {\n    // Get the content of the block comment, excluding the \"/*\" and \"*/\" delimiters.\n    String commentValue = comment.getValue();\n\n    // Use a Matcher to find if the defined pattern for suspicious JSDoc-like tags exists\n    // anywhere within the comment's value.\n    Matcher matcher = SUSPICIOUS_JSDOC_TAG_PATTERN.matcher(commentValue);\n\n    if (matcher.find()) {\n      // If the pattern is found, it indicates a suspicious block comment that\n      // might be intended as JSDoc but is not correctly formatted.\n      errorReporter.warning(\n          SUSPICIOUS_COMMENT_WARNING,\n          sourceName,\n          comment.getLineno(), \"\", 0);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

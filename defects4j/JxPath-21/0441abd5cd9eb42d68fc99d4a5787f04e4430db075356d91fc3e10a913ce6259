@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object baseValue = getBaseValue();\n        if (baseValue == null) {\n            // According to the failing test cases (e.g., testNull, testMapValueEquality),\n            // when a property evaluates to null, it should still be treatable as a\n            // single node that can be indexed at [1]. This is consistent with JXPath's\n            // treatment of other non-collection atomic values (like String, Integer)\n            // which also have a length of 1 for indexing purposes.\n            // If ValueUtils.getLength(null) (which returns 0) were used directly,\n            // expressions like \"$testnull/nothing[1]\" would result in an empty iterator\n            // instead of an iterator containing null.\n            return 1;\n        }\n        return ValueUtils.getLength(baseValue);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Check to see if the given block comment looks like it should be JSDoc.\n   */\n  private void handleBlockComment(Comment comment) {\n    // JSDoc-like comments often contain an '@' symbol on a new line,\n    // optionally preceded by a '*' and/or spaces, or at the very beginning of the comment content.\n    // The getValue() method usually returns the content between /* and */.\n\n    // Regex explanation:\n    // (?m) enables multiline mode, so '^' matches the start of the string AND the start of each line.\n    // (?:^|\\n) matches either the very beginning of the string or a newline character.\n    // \\s* matches zero or more whitespace characters.\n    // \\*? matches an optional asterisk.\n    // \\s* matches zero or more whitespace characters.\n    // @ matches the literal '@' character.\n    // This pattern broadly covers cases like: \"@type\", \"\\n@type\", \"\\n *@type\", \"\\n * @type\", etc.\n    java.util.regex.Pattern JSDOC_LIKE_TAG_PATTERN = java.util.regex.Pattern.compile(\"(?m)(?:^|\\\\n)\\\\s*\\\\*?\\\\s*@\");\n\n    if (JSDOC_LIKE_TAG_PATTERN.matcher(comment.getValue()).find()) {\n      errorReporter.warning(\n          SUSPICIOUS_COMMENT_WARNING,\n          sourceName,\n          comment.getLineno(), \"\", 0);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

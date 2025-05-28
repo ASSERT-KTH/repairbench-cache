@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns true iff they are equal as defined by\n     * {@link #equals(double,double,int) equals(x, y, 1)}.\n     *\n     * @param x first value\n     * @param y second value\n     * @return {@code true} if the values are equal.\n     */\n    public static boolean equals(double x, double y) {\n        // The original implementation `(Double.isNaN(x) && Double.isNaN(y)) || x == y`\n        // considered two NaN values to be equal.\n        // However, the test `testArrayEquals` includes an assertion:\n        // `assertFalse(MathUtils.equals(new double[] { Double.NaN }, new double[] { Double.NaN }));`\n        // This implies that when comparing array elements, `Double.NaN` should *not* be equal to `Double.NaN`.\n        // If this `equals(double, double)` method is used for element comparison in the array `equals` method,\n        // then it must return `false` for `Double.NaN, Double.NaN`.\n        // Standard IEEE 754 floating-point comparison `x == y` already handles NaN by returning `false`\n        // if either `x` or `y` is NaN (including `NaN == NaN` which is `false`).\n        // Therefore, simply relying on the `x == y` comparison aligns with the test's expectation\n        // and typical strict floating-point equality.\n        return x == y;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

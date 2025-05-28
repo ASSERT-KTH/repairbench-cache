@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    if (!NodeUtil.isFunctionExpression(n)) {\n      return false;\n    }\n\n    // Do not consider functions in GETTER_DEF or SETTER_DEF nodes belonging\n    // to an object literal as \"reducible\" for the purposes of the FunctionRewriter.\n    // Rewriting such functions can lead to incorrect AST transformations or\n    // subsequent errors in other compiler passes, as demonstrated by testIssue538.\n    Node parent = n.getParent();\n    if (parent != null && (parent.isGetterDef() || parent.isSetterDef())) {\n      Node grandParent = parent.getParent();\n      if (grandParent != null && grandParent.isObjectLit()) {\n        return false;\n      }\n    }\n\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

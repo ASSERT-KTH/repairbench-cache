@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?'\n   * For expressions on the right hand side of a this: or new:\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    if (token == JsDocToken.QUESTION) {\n      // ContextTypeExpression can be '?'\n      next(); // Consume the '?' token\n      return createNode(Token.QMARK); // Represent '?' as a QMARK node\n    } else if (token == JsDocToken.STAR) {\n      // While not explicitly in the ContextTypeExpression grammar in the comment,\n      // tests show '*' is also allowed and needs special handling here.\n      next(); // Consume the '*' token\n      return createNode(Token.STAR); // Represent '*' as a STAR node\n    }\n    // For other types, delegate to parseTypeName\n    return parseTypeName(token);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

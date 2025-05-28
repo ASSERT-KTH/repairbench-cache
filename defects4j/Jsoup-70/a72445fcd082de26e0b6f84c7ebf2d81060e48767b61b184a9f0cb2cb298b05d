@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        Node curr = node;\n        // Iterate up to 5 times (checking parent, grandparent, etc.), plus the initial node itself.\n        // This covers the node itself (level 0) and up to 5 levels of ancestors (levels 1-5).\n        for (int i = 0; i <= 5 && curr != null; i++) {\n            if (curr instanceof Element) {\n                Element el = (Element) curr;\n                if (el.tag.preserveWhitespace()) {\n                    return true;\n                }\n            }\n            curr = curr.parent(); // Move up to the next parent\n        }\n        return false; // No whitespace-preserving element found in the chain\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

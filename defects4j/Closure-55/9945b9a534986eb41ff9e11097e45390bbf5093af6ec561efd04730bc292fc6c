@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic void visit(NodeTraversal t, Node n, Node parent) {\n  if (isReduceableFunctionExpression(n)) { // Case 1: n is a direct FUNCTION node\n    reduceFunction(t, n);\n  } else if (n.isGetterDef() || n.isSetterDef()) { // Case 2: n is a GETTER_DEF/SETTER_DEF\n    Node functionNode = n.getLastChild(); // Get the actual FUNCTION node inside\n    if (isReduceableFunctionExpression(functionNode)) {\n      reduceFunction(t, functionNode); // reduceFunction is called with the FUNCTION node\n    }\n  } else if (n.isCall()) { // Case 3: n is a CALL node (e.g., an IIFE)\n    Node fn = n.getFirstChild(); // Get the function expression if it's an IIFE\n    if (isReduceableFunctionExpression(fn) && fn.isFunction()) {\n      reduceFunction(t, fn); // reduceFunction is called with the FUNCTION node\n    }\n  }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

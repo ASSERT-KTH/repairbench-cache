@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    t.eofError(this);\n                    // The spec says: \"Emit the current tag token. Reconsume the character in the data state.\"\n                    // Jsoup's error handling for EOF typically implies end of parse,\n                    // and emitTagPending would have happened on a well-formed tag.\n                    // For the purpose of this specific fix related to attribute parsing,\n                    // this path is not the one causing the observed test failure.\n                    t.transition(Data);\n                    break;\n                default:\n                    // Spec: \"Parse error. Reconsume the character in the before attribute name state.\"\n                    t.error(this);\n                    r.unconsume(); // Reconsume the character by putting it back to be processed by the next state\n                    t.transition(BeforeAttributeName);\n            }\n        }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u);\n        try {\n            // The URI constructor handles the necessary encoding of characters\n            // within the path, query, and fragment components. This is the correct\n            // and robust way to encode URLs, as opposed to manual string replacements.\n            final URI uri = new URI(\n                u.getProtocol(),    // scheme\n                u.getUserInfo(),    // userInfo (e.g., username:password)\n                u.getHost(),        // host (should already be punycode if punyUrl worked)\n                u.getPort(),        // port\n                u.getPath(),        // path (will be encoded, e.g., ' ' to %20, '[' to %5B)\n                u.getQuery(),       // query (will be encoded, e.g., ' ' to %20)\n                u.getRef()          // fragment (will be encoded)\n            );\n            return uri.toURL(); // Convert the properly encoded URI back to a URL object\n        } catch (URISyntaxException | MalformedURLException e) {\n            // If the URL's components are fundamentally malformed such that a URI\n            // cannot be constructed, or if the URI cannot be converted back to a URL,\n            // we fall back to returning the original, unencoded URL.\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

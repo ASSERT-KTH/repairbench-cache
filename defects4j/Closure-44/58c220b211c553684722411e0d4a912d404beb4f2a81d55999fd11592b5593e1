@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    char lastChar = getLastChar(); // Assumed to get the last character written to the output buffer.\n\n    // Original condition: Add a space between word characters or after a backslash if the next char is a word character.\n    // For example: \"return foo;\" should print as \"return foo;\".\n    if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(lastChar)) {\n      append(\" \");\n    }\n    // New condition: Add a space to separate a division operator (DIV) from a regular expression literal (REGEXP).\n    // This addresses the specific case where a '/' (from a DIV operator) is followed by another '/'\n    // (the start of a REGEXP literal). Without a space, it could be misparsed or look like a comment.\n    // Example: \"a / /b/\" should print as \"a / /b/\".\n    // We use a heuristic: if the last character was a '/' and the new string also starts with '/',\n    // and the new string's length is greater than 1 (implying it's a REGEXP literal like \"/pattern/\"),\n    // then we add a space. This distinguishes it from a sequence of DIVs or REGEXP followed by DIV.\n    else if (lastChar == '/' && c == '/' && newcode.length() > 1) {\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

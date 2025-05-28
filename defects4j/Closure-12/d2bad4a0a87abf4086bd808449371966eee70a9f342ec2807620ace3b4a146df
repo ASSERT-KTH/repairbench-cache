@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean hasExceptionHandler(Node cfgNode) {\n    // Traverse up the AST from the given CFG node.\n    Node current = cfgNode;\n    while (current != null) {\n      // If the current node is a TRY statement.\n      if (current.isTry()) {\n        // A TRY node typically has the following children:\n        // 0: The try block (BLOCK)\n        // 1: The catch clause (CATCH) (optional)\n        // 2: The finally block (BLOCK) (optional)\n        // To determine if there's an exception handler, we need to check if\n        // the TRY node has a CATCH child. The CATCH node is always the second child\n        // if it exists (at index 1).\n        if (current.getChildCount() >= 2 && current.getChildAtIndex(1).isCatch()) {\n          // Found a TRY statement that has a CATCH clause, meaning it handles exceptions.\n          return true;\n        }\n      }\n      // Move to the parent node to continue the upward traversal.\n      current = current.getParent();\n    }\n    // No TRY statement with a CATCH clause was found in the ancestry of cfgNode.\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

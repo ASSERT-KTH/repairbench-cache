@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override public void skipValue() throws IOException {\n    if (peek() == JsonToken.NAME) {\n      nextName();\n      // The pathNames[stackSize - 2] access needs to be guarded.\n      // If stackSize is 0 or 1, stackSize - 2 will be negative.\n      // This line is executed after nextName(), which pushes a value onto the stack,\n      // so stackSize is at least 1 (for the initial JsonElement) + 1 (for the value).\n      // Thus, stackSize will be at least 2 for this line to be meaningful (stackSize - 2 >= 0).\n      if (stackSize > 1) {\n        pathNames[stackSize - 2] = \"null\";\n      }\n    } else {\n      // For non-NAME tokens (e.g., BEGIN_OBJECT, STRING, NUMBER, etc.), pop the current value.\n      popStack();\n      // After popStack(), stackSize might be 0.\n      // The original code accessed pathNames[stackSize - 1] here, leading to AIOOBE if stackSize was 0.\n      if (stackSize > 0) {\n        pathNames[stackSize - 1] = \"null\";\n      }\n    }\n    // This line was originally outside the if/else block, meaning it always executed.\n    // It also needs to be guarded as stackSize might be 0 after popStack() in the else branch.\n    if (stackSize > 0) {\n      pathIndices[stackSize - 1]++;\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

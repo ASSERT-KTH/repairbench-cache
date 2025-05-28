@@ -1,0 +1,7 @@
+{
+    "generation": "            if (f1 * fx < 0) { // Case 1: Root in [x, x1]\n                x0 = x1; // BUG: This should be x0 = x\n                f0 = f1; // BUG: This should be f0 = fx\n                inverted = !inverted; // This effectively swaps x0 and x1 conceptually\n            } else { // Case 2: Root in [x0, x] AND apply scaling\n                switch (method) {\n                case ILLINOIS:\n                    f0 *= 0.5; // Scales f0 (correctly for this case)\n                    break;\n                case PEGASUS:\n                    f0 *= f1 / (f1 + fx); // Scales f0 (correctly for this case)\n                    break;\n                // ...\n                }\n            }\n            // This is unconditionally applied after the if/else.\n            x1 = x;\n            f1 = fx;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

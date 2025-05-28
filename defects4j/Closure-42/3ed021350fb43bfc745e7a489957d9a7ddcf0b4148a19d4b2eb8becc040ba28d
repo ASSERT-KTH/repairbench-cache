@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // \"for each\" is an unsupported language extension in Closure Compiler.\n        // If the AST node represents a \"for each\" loop (as determined by loopNode.isForEach()),\n        // an error should be reported to align with the expected behavior of the parser.\n        // The test 'testForEach' specifically expects an error for this construct.\n        if (loopNode.isForEach()) {\n            // The 'report' method (assumed to be available in the current class's context,\n            // e.g., in IRFactory) typically throws a RuntimeException upon reporting an error,\n            // which causes the parsing to fail as expected by the 'parseError' test utility.\n            // IRFactory.UNSUPPORTED_FOR_EACH is a predefined JSError for this specific issue.\n            report(IRFactory.UNSUPPORTED_FOR_EACH.forNode(loopNode));\n        }\n\n        // For standard \"for-in\" loops (e.g., \"for (var x in obj)\"),\n        // transform the components into a Node with Token.FOR.\n        return newNode(\n            Token.FOR,\n            transform(loopNode.getIterator()),\n            transform(loopNode.getIteratedObject()),\n            transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

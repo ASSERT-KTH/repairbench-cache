@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean isJSIdentifier(String s) {\n      int length = s.length();\n\n      if (length == 0) {\n        return false;\n      }\n\n      // According to ECMAScript standard, JS identifiers can start with $, _, or any Unicode letter.\n      // Subsequent characters can also be digits, combining marks, or connector punctuation.\n      // However, for the purpose of converting to dotted properties in Closure Compiler,\n      // a stricter definition is used, typically limiting to ASCII letters, digits, '_' and '$'.\n      // This aligns with the comment in testDoNotConvert: \"only allow simple Latin (aka ASCII) to be converted.\"\n\n      char firstChar = s.charAt(0);\n      if (!(firstChar == '$' || firstChar == '_' ||\n            (firstChar >= 'a' && firstChar <= 'z') ||\n            (firstChar >= 'A' && firstChar <= 'Z'))) {\n        return false;\n      }\n\n      for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (!(c == '$' || c == '_' ||\n              (c >= 'a' && c <= 'z') ||\n              (c >= 'A' && c <= 'Z') ||\n              (c >= '0' && c <= '9'))) {\n          return false;\n        }\n      }\n\n      return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

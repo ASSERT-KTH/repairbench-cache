@@ -1,0 +1,7 @@
+{
+    "generation": "    public char[] getTextBuffer()\n    {\n        // Are we just using shared input buffer?\n        if (_inputStart >= 0) return _inputBuffer;\n        if (_resultArray != null)  return _resultArray;\n        if (_resultString != null) {\n            return (_resultArray = _resultString.toCharArray());\n        }\n        // Nope; but does it fit in just one segment?\n        if (!_hasSegments) {\n            // 23-Nov-2015, tatu: This is the problem case for [core#182],\n            //   where an empty buffer was returning null here.\n            //   Should instead return a proper empty char array.\n            if (_currentSegment == null) { // Must be empty\n                return NO_CHARS; // NO_CHARS is a private static final char[] field initialized to new char[0]\n            }\n            return _currentSegment;\n        }\n        // Nope, need to have/create a non-segmented array and return it\n        return contentsAsArray();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

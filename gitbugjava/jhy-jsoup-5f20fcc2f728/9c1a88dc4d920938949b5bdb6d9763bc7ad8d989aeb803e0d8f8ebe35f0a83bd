@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            // Prevent adding inherently unsupported or dangerous tags to the safelist.\n            // \"NOSCRIPT\" is a common example of such a tag that should not be explicitly allowed,\n            // as it can be used for XSS in certain contexts (e.g., bypassing client-side JS validation).\n            // A more comprehensive solution might use a static Set of forbidden tags.\n            String normalizedTagName = tagName.toLowerCase(java.util.Locale.ROOT);\n            if (normalizedTagName.equals(\"noscript\")) {\n                throw new org.jsoup.ValidationException(\"Unsupported tag '%s' in safelist\", tagName);\n            }\n            tagNames.add(TagName.valueOf(tagName));\n        }\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

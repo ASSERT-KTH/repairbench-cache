@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public byte[] getBinaryValue(Base64Variant b64variant)\n        throws IOException, JsonParseException\n    {\n        JsonNode n = currentNode();\n        if (n != null) {\n            // [databind#2096]: coercion from TextNode requires variant.\n            // For BinaryNode or POJONode, `binaryValue()` (or POJO check) is sufficient.\n            if (n.isTextual()) {\n                // If it's a TextNode, we MUST use the provided b64variant for decoding.\n                // TextNode's binaryValue() uses Base64Variants.getDefaultVariant(), which may not be correct.\n                return ((TextNode) n).getBinaryValue(b64variant);\n            }\n            // For other nodes (like BinaryNode), try their default binary representation\n            byte[] data = n.binaryValue();\n            if (data != null) {\n                return data;\n            }\n            // As a fallback, check if it's a POJONode wrapping a byte array\n            if (n.isPojo()) {\n                Object ob = ((POJONode) n).getPojo();\n                if (ob instanceof byte[]) {\n                    return (byte[]) ob;\n                }\n            }\n        }\n        // otherwise return null to mark we have no binary content\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

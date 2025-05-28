@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {\n        // Store the original value of the attribute for protocol validation.\n        String originalValue = attr.getValue();\n        // Resolve the URL to an absolute form. This value might be used for output formatting.\n        String resolvedValue = el.absUrl(attr.getKey());\n\n        // If not preserving relative links, update the attribute value to its resolved (absolute) form.\n        // This is for output HTML presentation, not for determining protocol validity.\n        if (!preserveRelativeLinks) {\n            attr.setValue(resolvedValue);\n        }\n        \n        // Check if the original attribute value starts with any of the allowed protocols.\n        // This ensures protocols like 'cid:' or 'data:' are validated based on their original form,\n        // without being affected by absUrl's potential transformations when a baseUri is present.\n        for (Protocol protocol : protocols) {\n            String prot = protocol.toString() + \":\";\n            if (originalValue.toLowerCase().startsWith(prot)) {\n                return true;\n            }\n        }\n        return false;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

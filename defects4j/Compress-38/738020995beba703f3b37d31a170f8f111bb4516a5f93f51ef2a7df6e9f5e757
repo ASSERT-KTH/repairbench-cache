@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // The linkFlag (or typeflag in tar) is the definitive indicator for a directory.\n        // A name ending in '/' is a convention, but not always reliable, especially for\n        // pax headers or names containing slashes that are not actual directory markers.\n        // COMPRESS-356 shows that relying on `getName().endsWith(\"/\")` can incorrectly\n        // classify regular files as directories, leading to parsing errors.\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // This heuristic should not be used as it can incorrectly classify files.\n        // The linkFlag is the authoritative source.\n        // if (getName().endsWith(\"/\")) {\n        //     return true;\n        // }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

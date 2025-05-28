@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Creates a new, clean document, from the original dirty document, containing only elements allowed by the whitelist.\n     The original document is not modified. Only elements from the dirt document's <code>body</code> are used.\n     @param dirtyDocument Untrusted base document to clean.\n     @return cleaned document.\n     */\n    public Document clean(Document dirtyDocument) {\n        Validate.notNull(dirtyDocument);\n\n        Document clean = Document.createShell(dirtyDocument.baseUri());\n\n        // A document parsed from HTML that contains a <frameset> element at the top-level\n        // (i.e., as a direct child of <html>) will not have a <body> element.\n        // In such cases, dirtyDocument.body() will return null.\n        // To prevent a NullPointerException, we must check if the body exists before attempting to copy nodes from it.\n        // For frameset documents, the cleaner should effectively produce an empty body,\n        // as no safe content is typically present in such a structure for cleaning.\n        if (dirtyDocument.body() != null) {\n            copySafeNodes(dirtyDocument.body(), clean.body());\n        }\n\n        return clean;\n    }",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

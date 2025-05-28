@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                if (element == null)\n                    return false;\n\n                // Added condition: If the current 'element' in the parent traversal\n                // is no longer a descendant of 'root' and is not 'root' itself,\n                // then this path is outside the selection scope defined by 'root'.\n                // Jsoup's Element.contains(Element) checks if 'this' element contains 'other' element,\n                // i.e., if 'other' is a descendant of 'this'. It does not count itself.\n                // So, if 'element' is not contained by 'root' AND 'element' is not 'root' itself,\n                // it implies 'element' is an ancestor of 'root' (or unrelated), thus out of scope.\n                if (!root.contains(element) && element != root) {\n                    return false;\n                }\n\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n                element = element.parent();\n            }\n            return true;\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

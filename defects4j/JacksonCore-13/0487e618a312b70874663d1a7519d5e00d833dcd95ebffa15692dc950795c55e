@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testFieldNameQuotingEnabled(com.fasterxml.jackson.core.JsonFactory f, boolean usePrettyPrinter,\n        boolean enableQuotesForGenerator, String expected) throws java.io.IOException\n{\n    java.io.StringWriter sw = new java.io.StringWriter();\n    com.fasterxml.jackson.core.JsonGenerator gen = f.createGenerator(sw);\n    if (usePrettyPrinter) {\n        // Use DefaultPrettyPrinter for pretty-printing behavior\n        gen.setPrettyPrinter(new com.fasterxml.jackson.core.util.DefaultPrettyPrinter());\n    }\n\n    // Configure the QUOTE_FIELD_NAMES feature on the generator\n    if (enableQuotesForGenerator) {\n        gen.enable(com.fasterxml.jackson.core.JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        gen.disable(com.fasterxml.jackson.core.JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n\n    // Write a simple JSON object\n    gen.writeStartObject();\n    gen.writeFieldName(\"foo\");\n    gen.writeNumber(1);\n    gen.writeEndObject();\n    gen.close();\n\n    // Get the actual generated JSON string\n    String actual = sw.toString();\n\n    // Assert that the actual output matches the expected output\n    // This assumes standard JUnit 3/4 assertion\n    junit.framework.Assert.assertEquals(expected, actual);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

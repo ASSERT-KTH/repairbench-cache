@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        String val = this.value;\n\n        boolean containsDoubleQuote = val.contains(\"\\\"\");\n        boolean containsSingleQuote = val.contains(\"'\");\n\n        if (containsDoubleQuote && !containsSingleQuote) {\n            // If the string contains double quotes but not single quotes, it's safer and cleaner\n            // to enclose it in single quotes to avoid escaping.\n            return \"'\" + val + \"'\";\n        } else if (containsSingleQuote && !containsDoubleQuote) {\n            // If the string contains single quotes but not double quotes, enclose it in double quotes.\n            return \"\\\"\" + val + \"\\\"\";\n        } else {\n            // This covers two remaining cases:\n            // 1. The string contains both single and double quotes. In this scenario, one type of quote\n            //    must be escaped. The convention is to use double quotes and escape internal double quotes\n            //    with a backslash.\n            // 2. The string contains neither single nor double quotes. In this case, defaulting to\n            //    double quotes is standard, and no escaping is needed (replace will be a no-op).\n            return \"\\\"\" + val.replace(\"\\\"\", \"\\\\\\\"\") + \"\\\"\";\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

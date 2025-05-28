@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected String doFormat(final String code, final LineEnding ending) throws IOException {\n\n        final var source = new InputSource(new StringReader(code));\n        final var parser = new CSSOMParser(new SACParserCSS3());\n        final var sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);\n        var formattedCode = sheet.getCssText(this.formatter);\n\n        // Patch converted 'tab' back to '\\9' for IE 7,8, and 9 hack. Cssparser switches it to 'tab'.\n        formattedCode = formattedCode.replace(\"\\t;\", \"\\\\9;\");\n\n        // Normalize line endings of the formatted code to the desired ending.\n        // The CSSOMParser might produce fixed line endings (e.g., LF),\n        // so we need to convert them to what is expected.\n        formattedCode = ending.normalize(formattedCode);\n\n        // Normalize original code to the same line ending for a fair comparison.\n        // If the original code already has the desired formatting AND line endings,\n        // we should return null to indicate no change is needed.\n        final String normalizedOriginalCode = ending.normalize(code);\n\n        if (normalizedOriginalCode.equals(formattedCode)) {\n            return null;\n        }\n        return formattedCode;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

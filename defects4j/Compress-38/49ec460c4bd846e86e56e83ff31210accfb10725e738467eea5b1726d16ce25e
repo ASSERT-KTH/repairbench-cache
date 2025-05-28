@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // Prioritize explicit directory type\n        if (linkFlag == LF_DIR /* || linkFlag == LF_GNUTYPE_DIRECTORY */) {\n            return true;\n        }\n\n        // Prioritize explicit non-directory types\n        // Note: LF_NORMAL_FILE ('0') is handled separately below as it can be ambiguous\n        // with old archives representing directories.\n        switch (linkFlag) {\n            case LF_LINK: // '1'\n            case LF_SYMLINK: // '2'\n            case LF_CHR: // '3'\n            case LF_BLK: // '4'\n            case LF_FIFO: // '6'\n                return false; // Explicitly not a directory\n            case LF_NORMAL_FILE: // '0' - Can be a file or a directory if name ends with '/'\n                // Fall through to name check\n            default:\n                // For LF_NORMAL_FILE ('0') or unknown types, use the name heuristic.\n                // This means an LF_NORMAL_FILE entry with a name ending in '/' will be treated as a directory.\n                // An unknown type with a name ending in '/' will also be treated as a directory.\n                return getName().endsWith(\"/\");\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

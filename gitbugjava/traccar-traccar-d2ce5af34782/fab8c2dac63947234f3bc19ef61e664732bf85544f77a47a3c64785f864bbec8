@@ -1,0 +1,7 @@
+{
+    "generation": "        } else if (type == MSG_ALARM) {\n\n            boolean extendedAlarm = dataLength > 7; // This is true for the failing test case (dataLength = 134)\n            if (extendedAlarm) {\n                // Buggy line:\n                // decodeGps(position, buf, false, false, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));\n                // This call uses BaseProtocolDecoder.decodeGps with hasCourse=false, hasSpeed=false, hasStatus=false.\n                // It consumes 6 bytes (time) + 4 bytes (latitude) + 4 bytes (longitude) = 14 bytes.\n            } else {\n                // ... (not taken for the failing test)\n            }\n            short alarmType = buf.readUnsignedByte(); // Reads the byte immediately after GPS data\n            switch (alarmType) {\n                case 0x01:\n                    position.set(Position.KEY_ALARM, extendedAlarm ? Position.ALARM_SOS : Position.ALARM_GENERAL);\n                    break;\n                case 0x80:\n                    position.set(Position.KEY_ALARM, Position.ALARM_VIBRATION);\n                    break;\n                // ... other alarm types\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

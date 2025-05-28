@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        if (rangesList.isEmpty()) {\n            return \"\";\n        }\n\n        // Map each internal range representation to its formatted string.\n        // It's assumed that RangesList::formatRanges correctly produces a string for each\n        // internal range (e.g., \"(>=1.0.0 and <2.0.0)\" or \">=3.0.0\").\n        List<String> formattedRanges = rangesList.stream()\n            .map(RangesList::formatRanges)\n            .collect(Collectors.toList());\n\n        // If there's only one formatted range, and it's wrapped in parentheses,\n        // remove those outer parentheses to omit them as per the test case.\n        if (formattedRanges.size() == 1) {\n            String singleRange = formattedRanges.get(0);\n            if (singleRange.startsWith(\"(\") && singleRange.endsWith(\")\") && singleRange.length() > 2) {\n                return singleRange.substring(1, singleRange.length() - 1);\n            }\n            return singleRange;\n        } else {\n            // For multiple ranges, join them with the OR_JOINER.\n            // Each individual formatted range should already include its own parentheses\n            // if it represents a conjunction (e.g., \"(A and B)\").\n            return formattedRanges.stream().collect(joining(OR_JOINER));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

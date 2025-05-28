@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _verifySharing()\n    {\n        if (_hashShared) {\n            _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n            _names = Arrays.copyOf(_names, _names.length);\n            _hashShared = false;\n            // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n            //    we rehash as needed, as need-rehash flag is not copied from parent\n            // When breaking sharing, the 'need rehash' status of the parent table\n            // might not have been propagated to this new independent instance.\n            // We need to re-evaluate if a rehash is necessary based on the current\n            // state (size of table, number of symbols) inherited from the parent.\n            // If the number of symbols already equals or exceeds the nominal\n            // hash size, then a rehash is indeed needed.\n            _needRehash = (_size >= _hashSize);\n        }\n        if (_needRehash) {\n            rehash();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

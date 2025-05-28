@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        // First, call the superclass's clone method.\n        // Node.clone() (the superclass for Element) handles cloning the 'attributes' object correctly.\n        Element clone = (Element) super.clone();\n\n        // Element has a 'classNames' field which caches the parsed class names (a Set<String>).\n        // If the original Element's 'classNames' field was already initialized (e.g., by a prior call to classNames()),\n        // Object.clone() performs a shallow copy of this field. This means both the original\n        // and the cloned Element would share the same ClassSet instance.\n        // To ensure that modifications to the class names of the clone do not affect the original\n        // (and vice-versa), we must nullify the 'classNames' field in the cloned object.\n        // This forces the clone to re-initialize its own distinct ClassSet from its (already cloned)\n        // attributes upon the first subsequent call to 'clone.classNames()'.\n        clone.classNames = null; \n\n        return clone;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

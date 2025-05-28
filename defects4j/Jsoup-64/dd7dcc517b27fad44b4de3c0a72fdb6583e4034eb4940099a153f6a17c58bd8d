@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        tb.insert(startTag);\n        if (startTag.isSelfClosing()) {\n            // If the start tag is self-closing (e.g., <style />),\n            // it implies an immediately closed element.\n            // According to HTML5 spec, rawtext elements like style/script\n            // should always require an explicit end tag, even if a self-closing\n            // flag is present. However, Jsoup's tests indicate it should\n            // handle `<style />` as `<style></style>`.\n            // Therefore, if it's explicitly self-closing, immediately close the element.\n            tb.pop();\n            // Do not transition the tokeniser or parser, as there's no raw text content to capture.\n        } else {\n            // For a regular rawtext start tag (e.g., <style>),\n            // transition the tokeniser to Rawtext state to capture all content\n            // until the corresponding end tag. Also, change the insertion mode\n            // to Text for parsing the element's content.\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode(); // Save the current insertion mode to restore later.\n            tb.transition(Text); // Switch to Text insertion mode for raw text content.\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

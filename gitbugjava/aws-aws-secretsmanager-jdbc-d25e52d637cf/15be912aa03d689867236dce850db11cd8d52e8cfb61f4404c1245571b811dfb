@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String constructUrlFromEndpointPortDatabase(String endpoint, String port, String dbname) {\n        // Start building the URL with the base and endpoint.\n        StringBuilder urlBuilder = new StringBuilder(\"jdbc:postgresql://\").append(endpoint);\n\n        // Append port if it's not null or empty.\n        // Assuming StringUtils.isNullOrEmpty works as expected for 'port' (i.e., returns true for null or empty strings).\n        if (!StringUtils.isNullOrEmpty(port)) {\n            urlBuilder.append(\":\").append(port);\n        }\n\n        // Append database name if it's not null or empty.\n        // The original code failed for `test_constructUrlNullDatabase` by adding a trailing slash ('/').\n        // This implies that either `StringUtils.isNullOrEmpty(null)` returns `false` in the test environment,\n        // or that appending `\"/\" + null` results in just `/` instead of `/null` (which is non-standard Java behavior).\n        // To fix this, we explicitly check if `dbname` is non-null and non-empty. This ensures\n        // that the leading slash and the database name are only appended when a valid database name is provided.\n        if (dbname != null && !dbname.isEmpty()) {\n            urlBuilder.append(\"/\").append(dbname);\n        }\n\n        return urlBuilder.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

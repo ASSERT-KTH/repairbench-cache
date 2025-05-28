@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        Object[] actualArguments = i.getArguments();\n        int k = 0;\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Ensure that the index 'k' is within the bounds of the actual arguments array.\n                // This is crucial for scenarios where:\n                // 1. The number of matchers exceeds the number of actual arguments.\n                // 2. A vararg matcher (like AnyVararg) is used, but the actual invocation\n                //    has an empty vararg list (e.g., mock.foo() matching anyVararg()).\n                // In these cases, there is no corresponding actual argument at index 'k'\n                // to capture, so we skip the capture operation to prevent ArrayIndexOutOfBoundsException.\n                if (k < actualArguments.length) {\n                    ((CapturesArguments) m).captureFrom(actualArguments[k]);\n                }\n            }\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

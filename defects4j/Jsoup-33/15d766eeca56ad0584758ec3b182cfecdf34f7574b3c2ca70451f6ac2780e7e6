@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        // handle empty unknown tags\n        // when the spec expects an empty tag, will directly hit insertEmpty, so won't generate this fake end tag.\n        if (startTag.isSelfClosing()) {\n            Element el = insertEmpty(startTag); // 1. Calls insertEmpty(Token.StartTag), which appends `el` to the current element but does NOT add it to the stack.\n            stack.add(el);                       // 2. Adds `el` to the stack.\n            tokeniser.emit(new Token.EndTag(el.tagName()));  // 3. Emits an end tag, which will cause `el` to be popped from the stack.\n            return el;\n        }\n        \n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el); // 4. This calls another `insert(Element el)` method, which typically adds `el` to the stack.\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // The base JSType.getLeastSupertype method already provides the correct\n    // logic for determining the least supertype:\n    // 1. If 'this' is a subtype of 'that', 'that' is the least supertype.\n    // 2. If 'that' is a subtype of 'this', 'this' is the least supertype.\n    // 3. Otherwise (if they are unrelated by subtyping), their least common\n    //    supertype is typically represented as a UnionType of the two types.\n    //\n    // The original implementation for RecordType, when 'that' was also a RecordType,\n    // incorrectly computed an intersection of properties (a form of greatest subtype)\n    // rather than the least supertype expected by the tests (which was a UnionType).\n    // By deferring to the superclass implementation, we ensure consistent and\n    // correct behavior as per the test expectations.\n    return super.getLeastSupertype(that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

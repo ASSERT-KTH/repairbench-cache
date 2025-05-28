@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // To maintain the original order of the nodes while moving them to the front of the body,\n        // we iterate through the 'toMove' list in reverse order and prepend each node.\n        // Also, the additional space node is removed as it's not desired by the test case.\n        for (int i = toMove.size() - 1; i >= 0; i--) {\n            Node node = toMove.get(i);\n            element.removeChild(node);\n            // The original implementation appended to the body, causing incorrect order.\n            // It also added an unnecessary space.\n            // body().appendChild(new TextNode(\" \", \"\")); // Removed\n            body().prependChild(node); // Changed to prepend\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

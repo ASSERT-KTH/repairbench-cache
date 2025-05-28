@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    char lastChar = getLastChar();\n\n    // Original condition: Add a space if the new code starts with a word character or backslash,\n    // and the last character printed was a word character. This separates words.\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(lastChar)) {\n      append(\" \");\n    }\n    // New condition: Add a space if the last character printed was a forward slash (likely a DIV operator),\n    // and the new code also starts with a forward slash (likely a REGEXP literal).\n    // This prevents \"DIVREGEXP\" from being parsed as a comment or concatenated unexpectedly,\n    // as described in the original comment: \"Do not allow a forward slash to appear after a DIV.\"\n    // For example, \"REGEXP / REGEXP\" is valid and should print as \"/ // / /\", where a space\n    // separates the division operator from the subsequent regular expression literal.\n    // The failing test case `alert(/ / / / /);` expecting `alert(/ // / /)`\n    // demonstrates the need for a space when `lastChar` is '/' (from a DIV) and `c` is '/' (starting a REGEXP).\n    else if (c == '/' && lastChar == '/') {\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

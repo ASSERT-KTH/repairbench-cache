@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n      * Returns the percentage of values that are equal to v\n     * (as a proportion between 0 and 1).\n     * <p>\n     * Returns <code>Double.NaN</code> if no values have been added.</p>\n     *\n     * @param v the value to lookup\n     * @return the proportion of values equal to v\n     * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0\n     */\n    @Deprecated\n    public double getPct(Object v) {\n        // The original implementation incorrectly called getCumPct,\n        // which returns the cumulative percentage (less than or equal to v),\n        // instead of the percentage of values equal to v.\n        // This method should calculate (count of v) / (total count of all values).\n        long sumFreq = getSumFreq(); // Get the total number of values added\n\n        if (sumFreq == 0) {\n            return Double.NaN; // Return NaN if no values have been added\n        }\n\n        // Get the count of the specific value 'v'\n        long countV = getCount(v);\n\n        // Calculate the percentage\n        return (double) countV / sumFreq;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

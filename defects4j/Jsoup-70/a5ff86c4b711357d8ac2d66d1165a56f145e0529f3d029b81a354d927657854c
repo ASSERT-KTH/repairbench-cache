@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node == null) {\n            return false;\n        }\n\n        Node current = node;\n\n        // If the node itself is not an Element (e.g., a TextNode, Comment, CData, etc.),\n        // start checking from its parent element for whitespace preservation context.\n        // Whitespace preservation is determined by the containing Element's tag.\n        if (!(current instanceof Element)) {\n            current = current.parent();\n        }\n\n        int depth = 0;\n        final int MAX_DEPTH = 5; // Check the current element (or its parent if not an element) and up to 5 ancestors.\n\n        while (current != null && depth <= MAX_DEPTH) {\n            if (current instanceof Element) {\n                Element el = (Element) current;\n                if (el.tag.preserveWhitespace()) {\n                    return true;\n                }\n            }\n            current = current.parent();\n            depth++;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

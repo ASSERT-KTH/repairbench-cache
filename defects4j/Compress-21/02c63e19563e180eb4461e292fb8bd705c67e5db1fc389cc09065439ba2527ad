@@ -1,0 +1,7 @@
+{
+    "generation": "    private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {\n        int cache = 0;\n        int shift = 7;\n        for (int i = 0; i < length; i++) {\n            cache |= ((bits.get(i) ? 1 : 0) << shift);\n            --shift;\n            // A byte is full when shift becomes -1 (meaning bits 7 down to 0 have been placed).\n            if (shift < 0) {\n                header.write(cache);\n                shift = 7; // Reset shift for the next byte\n                cache = 0; // Clear cache for the next byte\n            }\n        }\n        // After the loop, if there are any remaining bits in cache (shift < 7),\n        // and length > 0 (to avoid writing an empty byte for length 0),\n        // write the final partial byte.\n        // If shift is 7, it means either length was 0, or the last byte was perfectly filled and written in the loop.\n        if (length > 0 && shift < 7) {\n            header.write(cache);\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

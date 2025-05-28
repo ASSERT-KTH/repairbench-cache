@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        // If the string value contains a double quote but no single quotes,\n        // it's more readable and avoids complex escaping to enclose the literal in single quotes.\n        // For example, a value of `ba\"r` becomes `'ba\"r'` instead of `\"ba\\\"r\"`.\n        if (this.value.contains(\"\\\"\") && !this.value.contains(\"'\")) {\n            return \"'\" + this.value + \"'\";\n        } else {\n            // Otherwise (if it contains no double quotes, or contains single quotes, or contains both),\n            // enclose the literal in double quotes.\n            // Any internal double quotes and backslashes must be escaped to form a valid literal.\n            // Common escape sequences like \\n, \\t etc. are assumed to be handled by the context\n            // that populates `this.value` or are not required for this pretty-printing scope.\n            // We specifically escape `\\` and `\"` characters.\n            String escapedValue = this.value.replace(\"\\\\\", \"\\\\\\\\\").replace(\"\\\"\", \"\\\\\\\"\");\n            return \"\\\"\" + escapedValue + \"\\\"\";\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

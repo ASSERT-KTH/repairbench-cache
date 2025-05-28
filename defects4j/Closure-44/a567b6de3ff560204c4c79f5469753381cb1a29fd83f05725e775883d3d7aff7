@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    char lastChar = getLastChar(); // Cache the last character to avoid multiple calls\n\n    // Condition to add a space:\n    // 1. Separate word characters (e.g., \"return foo\")\n    // 2. Separate a forward slash (/) from another forward slash (/).\n    //    This is crucial for disambiguating between regex literals and division operators.\n    //    For example: `/foo/ / bar` should print with a space between the regex and div.\n    //    Also, `a / / b` (div operator followed by regex literal) should print with a space.\n    if (\n        ((isWordChar(c) || c == '\\\\') && isWordChar(lastChar)) ||\n        (lastChar == '/' && c == '/')\n    ) {\n      // The original comment below is retained, though its phrasing\n      // \"Do not allow\" might be confusing in an 'add space' context.\n      // It implies that adding a space ensures a forward slash does not\n      // *immediately* follow a DIV, thus preventing misinterpretation\n      // (e.g., `a//b` instead of `a / / b`).\n      // For example,\n      // REGEXP DIV REGEXP\n      // is valid and should print like\n      // / // / /\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

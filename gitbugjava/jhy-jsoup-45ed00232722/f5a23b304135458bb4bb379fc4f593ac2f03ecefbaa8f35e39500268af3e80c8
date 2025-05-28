@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // assuming punyUrl handles domain encoding and returns a URL\n        try {\n            // Decompose the URL into components and use the URI constructor that\n            // automatically handles proper encoding of path, query, and fragment components.\n            String scheme = u.getProtocol();\n            String userInfo = u.getUserInfo(); // Can be null\n            String host = u.getHost();\n            int port = u.getPort(); // Returns -1 if port is not set\n            String path = u.getPath(); // Returns \"\" if no path, or starts with /\n            String query = u.getQuery(); // Can be null\n            String fragment = u.getRef(); // Can be null\n\n            // The URI(scheme, userInfo, host, port, path, query, fragment) constructor\n            // correctly escapes characters in the path, query, and fragment parts.\n            final URI uri = new URI(scheme, userInfo, host, port, path, query, fragment);\n\n            // Convert the properly constructed URI to its ASCII (encoded) string representation,\n            // then create a new URL object from it.\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // In case of an encoding or URL format error, give up and return the original input URL.\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

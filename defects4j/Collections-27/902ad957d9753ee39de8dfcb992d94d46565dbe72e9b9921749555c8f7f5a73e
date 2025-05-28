@@ -1,0 +1,7 @@
+{
+    "generation": "    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n\n        // Validate the deserialized 'collectionClass' to prevent unsafe deserialization.\n        // The 'collectionClass' field must represent a type that is a Collection.\n        // If a malicious stream replaces it with an arbitrary or unsafe class (e.g., String.class),\n        // this check will throw an exception, preventing potential abuse.\n        if (collectionClass != null && !Collection.class.isAssignableFrom(collectionClass)) {\n            throw new UnsupportedOperationException(\n                \"The deserialized collectionClass must be a Collection type for MultiValueMap to ensure safe deserialization. \" +\n                \"Attempted to deserialize with an unsafe collection type: \" + collectionClass\n            );\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

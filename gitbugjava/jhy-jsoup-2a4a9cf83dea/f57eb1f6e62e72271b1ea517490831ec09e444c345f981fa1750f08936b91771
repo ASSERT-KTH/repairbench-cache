@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                if (element == null)\n                    return false;\n\n                // If the current element being checked is not the root itself,\n                // and it's no longer contained within the root's subtree,\n                // it means we've traversed up past the selection context.\n                // In this case, the match fails for this element path.\n                if (element != root && !root.contains(element)) {\n                    return false;\n                }\n\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n                element = element.parent();\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

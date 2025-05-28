@@ -1,0 +1,7 @@
+{
+    "generation": "    protected final boolean _add(Annotation ann) {\n        if (_annotations == null) {\n            _annotations = new HashMap<Class<? extends Annotation>,Annotation>();\n            if (_initial != null) {\n                for (Annotation oldAnn : _initial) {\n                    _annotations.put(oldAnn.annotationType(), oldAnn);\n                }\n                _initial = null; // can be gc'd\n            }\n        }\n        Annotation previous = _annotations.put(ann.annotationType(), ann);\n        // Original: return (previous != null) && previous.equals(ann);\n        // The previous return value signals if the annotation added was identical to an existing one.\n        // If this signal is used by external logic to skip further processing (e.g., for mixins),\n        // and the annotation should always be considered effective,\n        // returning 'false' indicates a change or non-redundancy,\n        // potentially resolving cases where mixin annotations are implicitly ignored.\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

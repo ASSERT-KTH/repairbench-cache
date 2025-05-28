@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns the remainder of the line.\n   * This method also advances the stream's position past the returned line.\n   */\n  private String getRemainingJSDocLine() {\n    String result = stream.getRemainingJSDocLine();\n    // The stream's internal pointer needs to be advanced by the length of the\n    // string that was just read. The `getRemainingJSDocLine` method on the\n    // stream typically only \"peeks\" or returns the content without advancing\n    // the underlying stream's cursor.\n    // The `IllegalStateException: Recorded bad position information` error\n    // suggests that the parser's internal state regarding the consumed text\n    // is not being updated correctly, leading to discrepancies in start/end\n    // offsets if the stream's pointer isn't moved after consumption.\n    stream.advance(result.length());\n    return result;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

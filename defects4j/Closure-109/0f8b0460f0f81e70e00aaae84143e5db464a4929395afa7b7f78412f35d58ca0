@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?' | '*'\n   * For expressions on the right hand side of a this: or new:\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    if (token == JsDocToken.QMARK) {\n      // If the token is '?', it represents the UNKNOWN type.\n      // Create a node for UNKNOWN_TYPE associated with the QMARK token.\n      Node typeNode = createJSTypeNode(getNativeType(UNKNOWN_TYPE), token);\n      // Consume the '?' token.\n      next();\n      return typeNode;\n    } else if (token == JsDocToken.STAR) {\n      // If the token is '*', it represents the ALL type.\n      // Although the Javadoc strictly defines it as BasicTypeExpression | '?',\n      // tests suggest that '*' should also be parsed here, leading to a later semantic check.\n      // Create a node for ALL_TYPE associated with the STAR token.\n      Node typeNode = createJSTypeNode(getNativeType(ALL_TYPE), token);\n      // Consume the '*' token.\n      next();\n      return typeNode;\n    }\n    // Otherwise, parse it as a more complex BasicTypeExpression.\n    // This handles cases like type names, function types, record types, etc.\n    return parseTypeName(token);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public DefaultPrettyPrinter createInstance() {\n        // [core#502]: Ensure sub-classes that do not override this method\n        // (as they are required to do) will fail fast.\n        // If 'this' is not a DefaultPrettyPrinter instance, but a subclass instance\n        // that has not overridden this method, it's an invalid state.\n        if (getClass() != DefaultPrettyPrinter.class) {\n            throw new IllegalStateException(\"DefaultPrettyPrinter.createInstance() called on custom sub-class (\"\n                    + getClass().getName() + \"), but it does not override createInstance() method. \"\n                    + \"This is an invalid use: sub-classes MUST override that method to return \"\n                    + \"an instance of their own type.\");\n        }\n        // If it is a DefaultPrettyPrinter instance, create a new one based on this.\n        return new DefaultPrettyPrinter(this);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

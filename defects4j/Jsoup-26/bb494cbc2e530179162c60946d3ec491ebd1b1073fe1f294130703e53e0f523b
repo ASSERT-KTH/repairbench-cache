@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Creates a new, clean document, from the original dirty document, containing only elements allowed by the whitelist.\n     The original document is not modified. Only elements from the dirt document's <code>body</code> are used.\n     @param dirtyDocument Untrusted base document to clean.\n     @return cleaned document.\n     */\n    public Document clean(Document dirtyDocument) {\n        Validate.notNull(dirtyDocument);\n\n        Document clean = Document.createShell(dirtyDocument.baseUri());\n        // Ensure that the dirty document actually has a body element before attempting to copy its contents.\n        // Documents with <frameset> or other specific structures might not have a <body>,\n        // in which case dirtyDocument.body() would return null, leading to a NullPointerException\n        // in copySafeNodes if not handled.\n        if (dirtyDocument.body() != null) {\n            copySafeNodes(dirtyDocument.body(), clean.body());\n        }\n\n        return clean;\n    }",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

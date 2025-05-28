@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    char lastChar = getLastChar();\n\n    // The current CodePrinter rules sometimes fail to add a space between a\n    // division operator (/) and a subsequent regular expression literal (which\n    // also starts with /). This is problematic for sequences like 'a / / b'\n    // where the middle '/' is a DIV and the third '/' starts a REGEXP.\n    // The test case `alert(/ / / / /);` demonstrates this, where the output\n    // `alert(/ //[]/ /)` is missing a space between the second and third slashes.\n    // The expected output `alert(/ // / /)` shows spaces in such contexts.\n    // This condition addresses specifically when both the last character printed\n    // and the first character of the new code segment are forward slashes.\n    // This applies to both \"DIV REGEXP\" and \"REGEXP DIV\" sequences of single '/' tokens\n    // which need separation in the context of the given test case.\n    if (lastChar == '/' && c == '/') {\n      append(\" \");\n    } else if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(lastChar)) {\n      // original condition for separating word characters or backslashes\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

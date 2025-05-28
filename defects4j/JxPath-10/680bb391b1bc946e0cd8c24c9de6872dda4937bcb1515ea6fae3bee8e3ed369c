@@ -1,0 +1,7 @@
+{
+    "generation": "    public final Object computeValue(EvalContext context) {\n        Object value1 = args[0].computeValue(context);\n        Object value2 = args[1].computeValue(context);\n\n        // According to XPath 1.0 specification (section 3.4, Comparisons):\n        // When a comparison involves a node-set and another type (number, string, boolean),\n        // or two node-sets, the comparison is true if and only if there is\n        // a node in the first node-set (and potentially a node in the second node-set if both are node-sets)\n        // such that the comparison holds.\n        // If either (or both) of the node-sets involved in the comparison is empty,\n        // then the condition \"there is a node in the node-set\" can never be met.\n        // Therefore, any relational comparison (=, !=, <, <=, >, >=) where at least one\n        // operand evaluates to an empty node-set must result in Boolean.FALSE.\n        if (org.apache.commons.jxpath.util.TypeUtils.isEmpty(value1) || org.apache.commons.jxpath.util.TypeUtils.isEmpty(value2)) {\n            return Boolean.FALSE;\n        }\n\n        return compute(value1, value2) ? Boolean.TRUE : Boolean.FALSE;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

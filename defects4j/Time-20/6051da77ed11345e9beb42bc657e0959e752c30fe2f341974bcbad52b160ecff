@@ -1,0 +1,7 @@
+{
+    "generation": "        public int parseInto(DateTimeParserBucket bucket, String text, int position) {\n            String str = text.substring(position);\n            String bestMatchId = null;\n            int bestMatchLength = 0;\n\n            // Iterate through all known time zone IDs.\n            // To handle cases where one ID is a prefix of another (e.g., \"America/Dawson\" and \"America/Dawson_Creek\"),\n            // we must find the longest possible match. The original code would pick the first match found,\n            // which could be the shorter prefix if it appears earlier in ALL_IDS.\n            for (String id : ALL_IDS) {\n                if (str.startsWith(id)) {\n                    // If the current ID matches and is longer than the previously found best match,\n                    // update the best match.\n                    if (id.length() > bestMatchLength) {\n                        bestMatchId = id;\n                        bestMatchLength = id.length();\n                    }\n                }\n            }\n\n            // If a best match was found, set the time zone and return the new position.\n            if (bestMatchId != null) {\n                bucket.setZone(DateTimeZone.forID(bestMatchId));\n                return position + bestMatchLength;\n            } else {\n                // No valid time zone ID was found at the current position.\n                return ~position;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "        boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {\n            // When ParseSettings.preserveCase is enabled, Element.nodeName() returns the original case.\n            // However, t.asEndTag().normalName() always returns the lowercase name.\n            // This mismatch causes the comparison 'node.nodeName().equals(name)' to fail\n            // if the original tag name contains uppercase characters (e.g., 'X' vs 'x').\n            // To ensure correct matching for case-sensitive parsing, we should use the original\n            // tag name from the end tag token for comparison.\n            String name = t.asEndTag().tagName(); \n            ArrayList<Element> stack = tb.getStack();\n            for (int pos = stack.size() -1; pos >= 0; pos--) {\n                Element node = stack.get(pos);\n                if (node.nodeName().equals(name)) {\n                    tb.generateImpliedEndTags(name);\n                    if (!name.equals(tb.currentElement().nodeName()))\n                        tb.error(this);\n                    tb.popStackToClose(name);\n                    break;\n                } else {\n                    if (tb.isSpecial(node)) {\n                        tb.error(this);\n                        return false;\n                    }\n                }\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

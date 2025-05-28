@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        if (startTag.isSelfClosing()) { // This block is entered if the input token ends with '/>'\n            Element el = insertEmpty(startTag); // insertEmpty typically creates the element and appends it to the parent. Its behavior regarding the stack can vary.\n            stack.add(el); // Problem: This unconditionally adds the element to the stack.\n            tokeniser.emit(new Token.EndTag(el.tagName()));  // Problem: This unconditionally emits an end tag token.\n            return el;\n        }\n\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el); // This is for normal, non-self-closing tags, and correctly manages the stack via insert(Element el).\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

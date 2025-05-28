@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        Element clone = (Element) super.clone();\n        // The 'attributes' field is a mutable object (an Attributes instance) and needs to be deep-copied\n        // to ensure the clone is independent from the original Element.\n        // Although the super.clone() (from Node) might already handle attributes cloning,\n        // a common cause for AssertionFailedError in clone tests related to shared mutable state\n        // is an incomplete deep copy. Explicitly cloning mutable fields ensures independence.\n        if (attributes != null) {\n            clone.attributes = attributes.clone();\n        }\n        // The original line `clone.classNames();` was a no-op (it just called a method and ignored its return value).\n        // It does not contribute to the cloning logic and has been removed.\n        return clone;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

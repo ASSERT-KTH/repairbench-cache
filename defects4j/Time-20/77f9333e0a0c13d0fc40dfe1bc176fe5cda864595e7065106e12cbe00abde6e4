@@ -1,0 +1,7 @@
+{
+    "generation": "        public int parseInto(DateTimeParserBucket bucket, String text, int position) {\n            String str = text.substring(position);\n            \n            String bestId = null;\n            int bestLength = -1;\n\n            // Iterate through all available IDs to find the longest matching one.\n            for (String id : ALL_IDS) {\n                if (str.startsWith(id)) {\n                    // If a match is found, check if it's longer than the current best match.\n                    if (id.length() > bestLength) {\n                        bestId = id;\n                        bestLength = id.length();\n                    }\n                }\n            }\n\n            // If a best match was found, set the time zone and return the new position.\n            if (bestId != null) {\n                bucket.setZone(DateTimeZone.forID(bestId));\n                return position + bestId.length();\n            } else {\n                // No matching ID found, return a parse error signal.\n                return ~position;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

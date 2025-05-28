@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node callee = node.getFirstChild();\n      Node rootCallee = callee;\n      // Traverse down the first child chain of the callee.\n      // This handles cases like:\n      //   - `foo()`: rootCallee remains `foo` (a NAME node)\n      //   - `obj.method()`: rootCallee becomes `obj`\n      //   - `obj.method().anotherMethod()`: rootCallee becomes `obj`\n      //   - `initialize.call()`: rootCallee becomes `initialize`\n      while (rootCallee != null &&\n             (rootCallee.isGetProp() || rootCallee.isGetElem() || rootCallee.isCall())) {\n        rootCallee = rootCallee.getFirstChild();\n      }\n      if (rootCallee != null && rootCallee.isName()) {\n        changed.add(rootCallee.getString());\n      }\n    }\n\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

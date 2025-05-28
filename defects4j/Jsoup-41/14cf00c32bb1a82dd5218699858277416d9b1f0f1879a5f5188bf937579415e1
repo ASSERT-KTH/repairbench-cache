@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n\n        // The original code had `if (!super.equals(o)) return false;`\n        // Node.equals (the superclass) only checks for identity (this == o).\n        // Including it here would make this equals method also only check identity,\n        // which defeats the purpose of structural equality for Element.\n        // Therefore, this line must be removed.\n\n        Element other = (Element) o;\n\n        // Compare the tag\n        if (!tag().equals(other.tag())) return false;\n\n        // Compare attributes\n        // The Attributes class has its own equals method for deep comparison.\n        if (!attributes().equals(other.attributes())) return false;\n\n        // Compare children: first by size, then recursively by content.\n        int numChildren = childNodeSize();\n        if (numChildren != other.childNodeSize()) return false;\n\n        for (int i = 0; i < numChildren; i++) {\n            // Get child nodes directly from the protected 'childNodes' list inherited from Node.\n            // This calls the appropriate equals method for the Node subtype (e.g., Element, TextNode).\n            if (!childNodes.get(i).equals(other.childNodes.get(i))) {\n                return false;\n            }\n        }\n\n        return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  private static String extractClassNameIfGoog(Node node, Node parent,\n      String functionName){\n    String className = null;\n    if (NodeUtil.isExprCall(parent)) {\n      Node callee = node.getFirstChild();\n      if (callee != null && callee.getType() == Token.GETPROP) {\n        String qualifiedName = callee.getQualifiedName();\n        if (functionName.equals(qualifiedName)) {\n          // 'node' is the CALL node.\n          // The first child of CALL is the function being called (callee).\n          // The subsequent children are the arguments.\n          // We are interested in the first argument, which is 'callee.getNext()'.\n          Node target = callee.getNext();\n          // The class name should only be extracted if the argument is a string literal.\n          // The original code extracted the string for any node type, which led to\n          // incorrect results for non-string literal arguments (e.g., `goog.require(foo)`).\n          if (target != null && target.getType() == Token.STRING) {\n            className = target.getString();\n          }\n        }\n      }\n    }\n    return className;\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

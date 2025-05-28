@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // If the linkFlag explicitly states it's a directory, it is.\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // If the linkFlag explicitly states it's a known non-directory type, it isn't.\n        // This handles cases like COMPRESS-356 where a PAX header might make the\n        // name end with '/', but the entry is actually a normal file (LF_NORMAL).\n        if (linkFlag == LF_NORMAL || linkFlag == LF_LINK || linkFlag == LF_SYMLINK ||\n            linkFlag == LF_CHR || linkFlag == LF_BLK || linkFlag == LF_FIFO) {\n            return false;\n        }\n\n        // For cases where linkFlag might be ambiguous or not one of the standard types,\n        // use the convention of the name ending with a slash as a fallback.\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

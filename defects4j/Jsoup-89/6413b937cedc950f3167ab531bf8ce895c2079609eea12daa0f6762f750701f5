@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Set the attribute value.\n     @param val the new attribute value; must not be null\n     */\n    public String setValue(String val) {\n        // Store the current value of *this* attribute object before modification.\n        // This is the 'oldVal' that should be returned.\n        String oldVal = this.val;\n\n        // If this attribute is associated with a parent (Attributes collection),\n        // update its value within that collection as well.\n        if (parent != null) {\n            int i = parent.indexOfKey(this.key);\n            if (i != Attributes.NotFound) {\n                // Assuming parent.vals is an array of Strings representing values\n                // and parent.keys is an array of Strings representing keys.\n                // This updates the value in the parent's internal storage.\n                parent.vals[i] = val;\n            }\n        }\n        \n        // Always update the value stored directly in *this* Attribute object.\n        this.val = val;\n        \n        // Return the value that was stored in *this* attribute object before the update.\n        // Attributes.checkNotNull ensures the returned oldVal is not null,\n        // which is consistent with how Attribute values are generally handled.\n        return Attributes.checkNotNull(oldVal);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

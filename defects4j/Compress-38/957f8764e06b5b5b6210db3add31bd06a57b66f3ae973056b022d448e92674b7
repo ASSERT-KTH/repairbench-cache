@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // Explicit directory type flag (POSIX standard)\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // Explicit non-directory type flags should always return false, regardless of name.\n        // This includes PAX headers, hard links, symbolic links, character/block devices, FIFOs, and contiguous files.\n        // LF_NORMAL (0) is specifically omitted here because it's ambiguous and\n        // can be used for directories with trailing slashes in old tar formats (e.g., macOS tar).\n        if (linkFlag == LF_PAX_EXTENDED_HEADER || linkFlag == LF_PAX_GLOBAL_EXTENDED_HEADER ||\n            linkFlag == LF_LINK || linkFlag == LF_SYMLINK || linkFlag == LF_CHR ||\n            linkFlag == LF_BLK || linkFlag == LF_FIFO || linkFlag == LF_CONTIG) {\n            return false;\n        }\n\n        // For ambiguous or older tar formats (e.g., LF_NORMAL where LF_DIR wasn't used),\n        // rely on the name ending with a slash as a heuristic for directories.\n        // This is necessary to support cases like macOS tar which uses type=0 for directories\n        // and relies on the trailing slash in the name.\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

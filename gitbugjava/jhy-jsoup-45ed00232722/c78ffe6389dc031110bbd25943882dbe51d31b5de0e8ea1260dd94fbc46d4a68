@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // Assumed to handle internationalized domain names\n        try {\n            // Extract components from the URL.\n            // URL.getPath(), getQuery(), getRef() return the *decoded* forms.\n            String scheme = u.getProtocol();\n            String userInfo = u.getUserInfo();\n            String host = u.getHost();\n            int port = u.getPort();\n            String path = u.getPath();\n            String query = u.getQuery();\n            String fragment = u.getRef();\n\n            // Construct a new URI using the multi-argument constructor.\n            // This constructor automatically encodes unsafe characters in path, query, and fragment.\n            // For example, spaces will be encoded to %20, and [ to %5B, ] to %5D.\n            final URI uri = new URI(scheme, userInfo, host, port, path, query, fragment);\n\n            // Convert the correctly encoded URI back to a URL.\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // In case of any fundamental issue that prevents URI/URL construction\n            // from the extracted components, return the original input URL as a fallback.\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

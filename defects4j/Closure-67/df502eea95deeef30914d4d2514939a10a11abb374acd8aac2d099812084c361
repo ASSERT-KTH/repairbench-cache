@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild();\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)\n          ) {\n        // We want to exclude the assignment itself from the usage list\n        // For an expression like 'obj.prototype.method = ...' or 'obj.prototype['method'] = ...'\n        // 'n' would be 'obj.prototype.method' or 'obj.prototype['method']'.\n        // 'n.getFirstChild()' would be 'obj.prototype'.\n        // We check if 'obj.prototype' itself is a GETPROP, which it should be.\n        boolean isChainedProperty =\n            n.getFirstChild().getType() == Token.GETPROP;\n\n        if (isChainedProperty) {\n          // If n.getFirstChild() is 'obj.prototype' (which is a GETPROP node),\n          // then n.getFirstChild().getFirstChild() is 'obj'.\n          // And n.getFirstChild().getFirstChild().getNext() is the property string 'prototype'.\n          Node child = n.getFirstChild().getFirstChild().getNext();\n\n          if (child != null && child.getType() == Token.STRING &&\n              child.getString().equals(\"prototype\")) {\n            return true;\n          }\n        }\n      }\n\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

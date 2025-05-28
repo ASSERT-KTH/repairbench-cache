@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n      // When 'recurse' is true, we want to determine if the given node, representing\n      // an expression, *may* evaluate to a string type. For complex expressions\n      // like ternary operators (HOOK), logical OR, or logical AND, this means\n      // checking if *any* of their possible execution paths or outcomes can result\n      // in a string.\n      //\n      // The original code used 'allResultsMatch'. This helper function, as its\n      // name suggests, typically returns true only if *all* possible results of\n      // the expression satisfy the given predicate. For 'mayBeString', this is\n      // incorrect because if one branch of a ternary is a string and another is a number,\n      // the expression *may* be a string, but 'allResultsMatch' would return false.\n      //\n      // To correctly identify if an expression *may* be a string, we need to\n      // check if *any* of its potential results satisfy the MAY_BE_STRING_PREDICATE.\n      // Therefore, 'anyResultsMatch' is the appropriate helper function here.\n      return anyResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n      // When 'recurse' is false, we perform a simpler check, typically for\n      // immediate node types or non-recursive cases, handled by mayBeStringHelper.\n      return mayBeStringHelper(n);\n    }\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

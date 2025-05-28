@@ -1,0 +1,7 @@
+{
+    "generation": "        private void readTypeVariables() {\n            // It's possible that typeVariable.getBounds() returns a collection containing null elements.\n            // Iterate over the bounds and register only non-null types.\n            if (typeVariable.getBounds() != null) { // Defensive check, though common collections return empty not null\n                for (Type type : typeVariable.getBounds()) {\n                    if (type != null) {\n                        registerTypeVariablesOn(type);\n                    }\n                }\n            }\n\n            // getActualTypeArgumentFor(typeVariable) might return null if no actual type argument is available\n            // for the given type variable (e.g., for unresolved generic parameters).\n            // Register only if a non-null type is returned.\n            Type actualTypeArgument = getActualTypeArgumentFor(typeVariable);\n            if (actualTypeArgument != null) {\n                registerTypeVariablesOn(actualTypeArgument);\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

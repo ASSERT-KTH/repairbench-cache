@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  protected CompilerOptions createOptions() {\n    CompilerOptions options = new CompilerOptions();\n    options.setCodingConvention(new ClosureCodingConvention());\n    CompilationLevel level = flags.compilation_level;\n    level.setOptionsForCompilationLevel(options);\n    if (flags.debug) {\n      level.setDebugOptionsForCompilationLevel(options);\n    }\n\n    WarningLevel wLevel = flags.warning_level;\n    wLevel.setOptionsForWarningLevel(options);\n    for (FormattingOption formattingOption : flags.formatting) {\n      formattingOption.applyToOptions(options);\n    }\n    // The original logic for flags.process_closure_primitives was here.\n    // It only set options.closurePass to true, relying on it being false by default.\n    // If initOptionsFromFlags or other default initializations set it to true incorrectly,\n    // this logic would not correct it to false.\n\n    initOptionsFromFlags(options);\n\n    // Fix: Explicitly set options.closurePass based on flags.process_closure_primitives\n    // This should be done after initOptionsFromFlags to ensure the command-line flag\n    // takes precedence over any defaults or implicit settings from initOptionsFromFlags.\n    options.closurePass = flags.process_closure_primitives;\n\n    return options;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // The predicate should return true if the node (or its children) has\n        // any side effects that prevent inlining. This includes function/constructor\n        // calls as well as other operations like DELETE, ASSIGN, etc.\n        // The previous check was too narrow, missing operations like 'delete'.\n        if (NodeUtil.nodeHasSideEffects(n)) {\n          return true;\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          // If the child node does not start a new control flow graph node,\n          // continue checking its subtree for side effects.\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

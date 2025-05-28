@@ -1,0 +1,7 @@
+{
+    "generation": "    //-----------------------------------------------------------------------\n    public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {\n        // overridden as superclass algorithm can't handle\n        // 2004-02-29 + 48 months -> 2008-02-29 type dates\n        if (valueToAdd == 0) {\n            return values;\n        }\n            // month is largest field and being added to, such as month-day\n        if (DateTimeUtils.isContiguous(partial)) {\n            // When converting a MonthDay (which has no year) to a long instant,\n            // a year context is needed. If the original MonthDay is Feb 29,\n            // using 0L (epoch 1970-01-01, which is not a leap year) will cause\n            // an IllegalFieldValueException when setting the day to 29 in February.\n            // By setting the base year to a known leap year (e.g., 2000), Feb 29\n            // can be correctly represented during the intermediate instant calculation.\n            long instant = iChronology.setYear(0L, 2000); \n            for (int i = 0, isize = partial.size(); i < isize; i++) {\n                instant = partial.getFieldType(i).getField(iChronology).set(instant, values[i]);\n            }\n            instant = add(instant, valueToAdd);\n            return iChronology.get(partial, instant);\n        } else {\n            return super.add(partial, fieldIndex, values, valueToAdd);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

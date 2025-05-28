@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n     * will kick in.)\n     * @param contentType e.g. \"text/html; charset=EUC-JP\"\n     * @return \"EUC-JP\", or null if not found. Charset is trimmed and uppercased.\n     */\n    static String getCharsetFromContentType(String contentType) {\n        if (contentType == null) return null;\n        Matcher m = charsetPattern.matcher(contentType);\n        if (m.find()) {\n            String charset = m.group(1).trim();\n            // The original code uppercased the charset (charset = charset.toUpperCase(Locale.ENGLISH);).\n            // This conflicts with test expectations like \"utf-8\" input yielding \"utf-8\" output,\n            // while the original code would produce \"UTF-8\".\n            // Additionally, the Javadoc states \"If the charset is not supported, returns null\".\n            // This requires checking if the extracted charset is supported.\n            // Charset.isSupported() handles case-insensitivity itself.\n            if (java.nio.charset.Charset.isSupported(charset)) {\n                return charset; // Return the charset as found (trimmed), preserving its case.\n            } else {\n                return null; // Charset is not supported, return null.\n            }\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

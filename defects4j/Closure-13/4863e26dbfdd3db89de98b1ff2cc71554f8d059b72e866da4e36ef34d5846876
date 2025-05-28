@@ -1,0 +1,7 @@
+{
+    "generation": "  private void traverse(Node node) {\n    // The goal here is to avoid retraversing\n    // the entire AST to catch newly created opportunities.\n    // So we track whether a \"unit of code\" has changed,\n    // and revisit immediately.\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    do {\n      // It is crucial to iterate over children in a way that is robust to\n      // structural changes (additions, removals, replacements) that might occur\n      // during the traversal of a child node.\n      // Iterating backwards is a common pattern to safely handle child\n      // removals or replacements, as getting the 'previous' sibling is less\n      // likely to be invalidated if the 'current' child is removed.\n      Node c = node.getLastChild();\n      while(c != null) {\n        Node prev = c.getPrevious(); // Get the previous sibling *before* traversing 'c'\n        traverse(c);\n        // After traverse(c), 'c' might have been removed, replaced, or new\n        // siblings might have been added. By storing 'prev' beforehand,\n        // we ensure we always have a valid reference to continue the iteration,\n        // even if 'c' itself is no longer attached or its 'getNext()' becomes invalid.\n        c = prev;\n      }\n\n      visit(node);\n      visits++;\n\n      Preconditions.checkState(visits < 10000, \"too many interations\");\n    } while (shouldRetraverse(node));\n\n    exitNode(node);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType getSuperClass() {\n    if (_referencedType != null) {\n        return _referencedType.getSuperClass();\n    }\n    // If the referenced type is not yet resolved, this ResolvedRecursiveType\n    // behaves like a placeholder. In most cases where this method is called,\n    // the reference _should_ have been set by the TypeFactory.\n    // If it's still null, it means the type is currently being resolved,\n    // and its superclass information might not be fully available through\n    // this placeholder's initial state.\n    // In such cases, delegating to the superclass (ReferenceType -> JavaType)\n    // might result in null if the _superClass field was never explicitly set\n    // on this placeholder type, which is typically the case.\n    // The critical part for the failing tests is when _referencedType IS NOT null,\n    // and it must correctly delegate.\n    return super.getSuperClass();\n}",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

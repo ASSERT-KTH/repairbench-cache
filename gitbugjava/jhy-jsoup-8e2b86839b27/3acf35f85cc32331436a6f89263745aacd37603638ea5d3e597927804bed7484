@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isFormatAsBlock(Document.OutputSettings out) {\n        // If the tag itself is a block-level element, it should be formatted as a block.\n        if (tag.formatAsBlock()) {\n            return true;\n        }\n\n        // If the element's parent is a block-level element, its children often inherit block-like formatting\n        // for pretty printing, ensuring proper indentation and line breaks within block containers.\n        if (parent() != null && parent().tag().formatAsBlock()) {\n            return true;\n        }\n\n        // If output outlining is enabled, all elements are formatted as blocks for consistent readability.\n        if (out.outline()) {\n            return true;\n        }\n\n        // Additional heuristic: If this element contains any direct child that is a block-level element,\n        // then this element should also be formatted as a block, as it effectively encloses block content.\n        // This helps in cases where a container element (like a table cell) might not be explicitly\n        // identified as a block in all contexts but contains block-level children (e.g., <p> inside <td>).\n        for (Node child : childNodes()) {\n            if (child instanceof Element childEl && childEl.tag().formatAsBlock()) {\n                return true;\n            }\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

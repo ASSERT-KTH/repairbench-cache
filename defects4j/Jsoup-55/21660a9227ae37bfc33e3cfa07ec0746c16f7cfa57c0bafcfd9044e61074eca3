@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // This state is SelfClosingStartTag. If it encounters anything other than '>' or EOF,\n                    // it's an error. Per HTML5 spec, it should parse error, switch to BeforeAttributeName,\n                    // and then reconsume the character that triggered the default.\n                    t.error(this);\n                    t.transition(BeforeAttributeName);\n                    r.unconsume(); // Reconsume the character for the next state\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        if (loopNode.isForEach()) {\n            // \"for each\" is an unsupported language extension (Mozilla E4X).\n            // Report an error using the class's error reporting mechanism.\n            // This 'report' method is assumed to be available in the class containing\n            // this function (e.g., AstToNodeTranslator) and is expected to throw\n            // a JSError or similar exception in test configurations.\n            report(DiagnosticType.UNSUPPORTED_LANGUAGE_FEATURE, loopNode, \"for each\");\n            // The line below should ideally be unreachable if 'report' throws,\n            // which is expected for fatal errors in a test setup.\n            return null; // Return null to satisfy method signature, although control flow should exit via exception.\n        }\n\n        // Return the bare minimum to put the AST in a valid state for standard for...in loops.\n      return newNode(\n          Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

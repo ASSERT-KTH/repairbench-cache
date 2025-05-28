@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            JsonToken t = p.getCurrentToken();\n            // If START_OBJECT, advance to FIELD_NAME or END_OBJECT\n            if (t == JsonToken.START_OBJECT) {\n                t = p.nextToken();\n            }\n            // At this point, `t` should be either FIELD_NAME (for objects with properties)\n            // or END_OBJECT (for empty objects).\n            // The `deserializeObject` method is capable of handling both these cases:\n            // - If t is FIELD_NAME, it proceeds to parse key-value pairs.\n            // - If t is END_OBJECT, `p.nextFieldName()` will immediately return null,\n            //   and an empty ObjectNode will be returned, which is correct.\n            if (t == JsonToken.FIELD_NAME || t == JsonToken.END_OBJECT) {\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // For any other token, it's an unexpected input for an ObjectNode.\n            throw ctxt.mappingException(ObjectNode.class);\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

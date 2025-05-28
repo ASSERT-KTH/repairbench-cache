@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        // If both p and q are smaller than the current root,\n        // their LCA must be in the left subtree.\n        if (p.val < root.val && q.val < root.val) {\n            return lowestCommonAncestor(root.left, p, q);\n        }\n        // If both p and q are larger than the current root,\n        // their LCA must be in the right subtree.\n        else if (p.val > root.val && q.val > root.val) {\n            return lowestCommonAncestor(root.right, p, q);\n        }\n        // If one is smaller and the other is larger, or one of them is\n        // equal to the current root, then the current root is the LCA.\n        else {\n            return root;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

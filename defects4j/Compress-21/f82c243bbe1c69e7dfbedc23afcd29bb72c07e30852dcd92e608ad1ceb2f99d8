@@ -1,0 +1,7 @@
+{
+    "generation": "    private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {\n        int cache = 0;\n        int shift = 7; // Represents the current bit position (0-7) within the byte being assembled, starting from MSB (7)\n        for (int i = 0; i < length; i++) {\n            // Get the i-th bit from the BitSet and shift it into the current cache byte.\n            // If bits.get(i) is true, it's 1, otherwise 0.\n            cache |= ((bits.get(i) ? 1 : 0) << shift);\n            --shift; // Prepare for the next bit, moving towards LSB\n            // If shift becomes -1, it means the bit just processed was placed at position 0,\n            // completing a full 8-bit byte. This byte should now be written.\n            if (shift == -1) {\n                header.write(cache);\n                shift = 7; // Reset shift for the next byte\n                cache = 0; // Reset cache for the next byte\n            }\n        }\n        // After the loop, check if there are any remaining bits in `cache` that haven't been written.\n        // This is true if `length` was greater than 0 (meaning bits were processed) AND\n        // `shift` is not 7 (its initial value or reset value after a full byte was written).\n        // If `shift` is not 7, it means `cache` contains a partial byte.\n        if (length > 0 && shift != 7) {\n            header.write(cache);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

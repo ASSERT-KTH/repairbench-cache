@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        if (_class == subclass) {\n            return this;\n        }\n        // The original comment \"15-Jan-2015, tatu: Not correct; should really re-resolve...\"\n        // indicates that simply creating a new SimpleType with copied properties is insufficient.\n        // The core issue, as identified by JACKSON-1083 (which this test addresses),\n        // is that _narrow must properly re-resolve the type for the subclass,\n        // including its generic bindings, super-type hierarchy, and ensuring it's the\n        // correct JavaType subtype (e.g., BeanType for POJOs, CollectionType for collections).\n        //\n        // The ideal fix involves having access to a TypeFactory instance.\n        // Since this method's signature cannot be changed to accept a TypeFactory parameter\n        // and adding a TypeFactory field to the class is outside the scope of fixing\n        // \"only that function\", the pragmatic solution is to use the default TypeFactory instance\n        // to properly construct the new JavaType based on the subclass and the current type as context.\n        return com.fasterxml.jackson.databind.type.TypeFactory.defaultInstance().constructType(subclass, this);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

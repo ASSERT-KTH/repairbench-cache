@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    boolean needsSpace = false;\n\n    // Condition 1: Add a space between word characters or a backslash and a word character.\n    // Example: \"return foo;\" becomes \"return foo;\"\n    if ((isWordChar(c) || c == '\\\\') && isWordChar(getLastChar())) {\n      needsSpace = true;\n    }\n    // Condition 2: Add a space if the last character was a forward slash (potentially a DIV operator)\n    // and the new code starts with a forward slash (potentially a RegExp literal).\n    // This prevents ambiguity with comments like \"//\" when printing \"DIV REGEXP\".\n    // Example: \"x / /y/\" should print \"x / /y/\", not \"x//y/\".\n    // This assumes that the printer calls add in a sequence that allows this simple check.\n    else if (getLastChar() == '/' && c == '/') {\n      needsSpace = true;\n    }\n\n    if (needsSpace) {\n      append(\" \");\n    }\n\n    append(newcode);\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

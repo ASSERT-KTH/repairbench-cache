@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        Object[] actualArguments = i.getArguments();\n        for (Matcher m : matchers) {\n            // Check if there are enough actual arguments remaining to match the current matcher's position 'k'\n            // and if the matcher is capable of capturing arguments.\n            // This prevents ArrayIndexOutOfBoundsException if the invocation has fewer arguments\n            // than the number of matchers, or if the arguments array is empty.\n            if (k < actualArguments.length && m instanceof CapturesArguments) {\n                ((CapturesArguments) m).captureFrom(actualArguments[k]);\n            }\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

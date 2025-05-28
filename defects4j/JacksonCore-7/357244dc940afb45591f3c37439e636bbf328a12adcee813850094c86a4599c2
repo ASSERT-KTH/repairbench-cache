@@ -1,0 +1,7 @@
+{
+    "generation": "    public int writeValue() {\n        // Most likely, object:\n        if (_type == TYPE_OBJECT) {\n            // [core#177]: Can't write a value without a field name in an Object context.\n            // If '_gotName' is false, it means we are currently expecting a field name,\n            // so returning STATUS_EXPECT_NAME signals an error to the caller.\n            if (!_gotName) {\n                return STATUS_EXPECT_NAME; // Assumes STATUS_EXPECT_NAME is a defined constant (e.g., 5)\n            }\n            // Ok, a field name was present (_gotName was true),\n            // now reset _gotName as the value is about to be written.\n            _gotName = false;\n            ++_index;\n            return STATUS_OK_AFTER_COLON;\n        }\n\n        // Ok, array?\n        if (_type == TYPE_ARRAY) {\n            int ix = _index;\n            ++_index;\n            // For array, determine if a comma is needed (not for the very first element).\n            return (ix < 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_COMMA;\n        }\n        \n        // Nope, root context\n        // No commas within root context, but need space between multiple top-level values.\n        ++_index;\n        // For root context, the first value needs no prefix; subsequent values need a space.\n        return (_index == 0) ? STATUS_OK_AS_IS : STATUS_OK_AFTER_SPACE;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

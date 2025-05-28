@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double density(final double[] vals) throws DimensionMismatchException {\n        final int dim = getDimension();\n        if (vals.length != dim) {\n            throw new DimensionMismatchException(vals.length, dim);\n        }\n\n        // The exponent for (2 * FastMath.PI) should be -dim / 2.0 (floating-point division),\n        // not -dim / 2 (integer division).\n        // For dim = 1, -dim / 2 evaluates to 0, which is incorrect.\n        // It should be -0.5.\n        return FastMath.pow(2 * FastMath.PI, -0.5 * dim) *\n            FastMath.pow(covarianceMatrixDeterminant, -0.5) *\n            getExponentTerm(vals);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

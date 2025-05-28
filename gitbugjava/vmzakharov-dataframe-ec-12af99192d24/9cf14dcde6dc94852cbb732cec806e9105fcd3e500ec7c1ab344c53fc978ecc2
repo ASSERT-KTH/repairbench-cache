@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        boolean containsSingleQuote = this.value.indexOf('\\'') >= 0;\n        boolean containsDoubleQuote = this.value.indexOf('\"') >= 0;\n\n        // If the value contains double quotes but no single quotes,\n        // use single quotes as delimiters to avoid escaping the double quotes.\n        // Example: For value `ba\"r`, return `'ba\"r'`\n        if (containsDoubleQuote && !containsSingleQuote) {\n            return \"'\" + this.value + \"'\";\n        }\n\n        // Otherwise (value contains single quotes, or both, or neither),\n        // use double quotes as delimiters.\n        // Internal double quotes must be escaped with backslashes.\n        // Example: For value `wal'do`, return `\"wal'do\"`\n        // Example: For value `foo`, return `\"foo\"`\n        // Example: For value `it's a \"test\"`, return `\"it's a \\\"test\\\"\"`\n        StringBuilder sb = new StringBuilder();\n        sb.append('\"');\n        for (int i = 0; i < this.value.length(); i++) {\n            char c = this.value.charAt(i);\n            if (c == '\"') {\n                sb.append('\\\\'); // Escape internal double quotes\n            }\n            sb.append(c);\n        }\n        sb.append('\"');\n        return sb.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

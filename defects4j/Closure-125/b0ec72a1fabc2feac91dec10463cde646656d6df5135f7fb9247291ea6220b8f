@@ -1,0 +1,7 @@
+{
+    "generation": "if (type.isConstructor() || type.isEmptyType() || type.isUnknownType()) {\n  FunctionType fnType = type.toMaybeFunctionType();\n  if (fnType != null) { // This implies 'type' was a FunctionType.\n    // If 'type' was a FunctionType, then 'type.isConstructor()' must have been true\n    // for this block to be entered based on the 'isConstructor()' part of the outer condition.\n    // If it entered based on 'isEmptyType()' or 'isUnknownType()', then 'fnType' would be null.\n    // So, it implies fnType.isConstructor() should be true here.\n    visitParameterList(t, n, fnType);\n    ensureTyped(t, n, fnType.getInstanceType()); // <-- Problem likely here\n  } else {\n    ensureTyped(t, n);\n  }\n} else {\n  report(t, n, NOT_A_CONSTRUCTOR);\n  ensureTyped(t, n);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

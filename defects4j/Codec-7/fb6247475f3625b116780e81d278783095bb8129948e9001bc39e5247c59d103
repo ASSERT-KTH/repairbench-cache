@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Encodes binary data using the base64 algorithm into 76 character blocks separated by CRLF.\n     *\n     * @param binaryData\n     *            binary data to encode\n     * @return String containing Base64 characters.\n     * @since 1.4\n     */    \n    public static String encodeBase64String(byte[] binaryData) {\n        // The original implementation called encodeBase64 with `true` for `useChunking`.\n        // This caused the output to include a CRLF line ending, even for short inputs,\n        // which conflicted with the expectations of tests like `testRfc4648Section10Encode`\n        // and `testByteToStringVariations`. These tests expect a plain, unchunked Base64 string\n        // according to RFC 4648 for basic encoding, which does not mandate line breaks.\n        //\n        // To align with the test expectations and the common interpretation of a Base64 String\n        // utility method (i.e., producing a single, unchunked string),\n        // we set `useChunking` to `false`.\n        // If chunked output is specifically desired (e.g., for MIME compliance),\n        // the `encodeBase64(byte[], boolean)` method should be called directly\n        // with `true` for the chunking parameter, and then converted to a String.\n        return StringUtils.newStringUtf8(encodeBase64(binaryData, false));\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

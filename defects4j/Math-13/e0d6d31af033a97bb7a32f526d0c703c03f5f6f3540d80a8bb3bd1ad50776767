@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        // The matrix 'm' is the weight matrix, which is constructed as a diagonal matrix\n        // (MatrixUtils.createRealDiagonalMatrix(residualsWeights)) in LevenbergMarquardtOptimizer.solve().\n        // For a diagonal matrix D, its square root is obtained by taking the square root of each diagonal element.\n        // Applying EigenDecomposition to a very large diagonal matrix, as can occur with many\n        // observed points (e.g., 40,000 in testLargeSample), is highly inefficient and leads to\n        // OutOfMemoryError due to the large memory footprint required for the eigenvalue and eigenvector matrices.\n        // This optimized implementation directly computes the square root for a diagonal matrix.\n\n        final int dim = m.getRowDimension();\n        final double[] diag = new double[dim];\n        for (int i = 0; i < dim; ++i) {\n            diag[i] = FastMath.sqrt(m.getEntry(i, i));\n        }\n        return MatrixUtils.createRealDiagonalMatrix(diag);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

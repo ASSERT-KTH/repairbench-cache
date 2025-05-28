@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?' | '*'\n   * For expressions on the right hand side of a this: or new:\n   *\n   * The JSDoc specification allows '?' (unknown type) and '*' (any type)\n   * in the position where a constructed type is expected (e.g., in `new:?` or `new:*`).\n   * The original implementation incorrectly tried to parse these as regular type names\n   * via `parseTypeName`, which led to syntax errors because `?` and `*` are not valid\n   * identifiers for type names.\n   * This fix explicitly handles `JsDocToken.QMARK` and `JsDocToken.STAR` by creating\n   * the corresponding AST nodes `Token.QMARK` and `Token.STAR`, and then consuming\n   * the token. For all other tokens, it defers to `parseTypeName`.\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    if (token == JsDocToken.QMARK) {\n      next(); // Consume the '?' token\n      return new Node(Token.QMARK); // Represent the '?' type as an AST node\n    } else if (token == JsDocToken.STAR) {\n      next(); // Consume the '*' token\n      return new Node(Token.STAR); // Represent the '*' type as an AST node\n    } else {\n      // If it's not '?' or '*', it should be a regular type name.\n      // parseTypeName is responsible for consuming the token it receives.\n      return parseTypeName(token);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

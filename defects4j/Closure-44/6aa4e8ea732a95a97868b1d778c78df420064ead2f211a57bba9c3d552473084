@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // Determine if a space is needed. This is not pretty printing.\n    // For example: \"return foo;\" needs a space between \"return\" and \"foo\".\n    // Also, handle the specific case of ambiguity with division operators\n    // and regular expression literals.\n    // For example: \"REGEXP DIV REGEXP\" should print as \"/ // / /\" to avoid\n    // being parsed as a single long regular expression or comment.\n    // This specifically means a space is needed if the last character printed\n    // was a '/' (e.g., from a DIV operator) and the new code starts with '/'\n    // (e.g., the start of a RegExp literal).\n    if ( ((isWordChar(c) || c == '\\\\') && isWordChar(getLastChar())) ||\n         (getLastChar() == '/' && c == '/') ) {\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

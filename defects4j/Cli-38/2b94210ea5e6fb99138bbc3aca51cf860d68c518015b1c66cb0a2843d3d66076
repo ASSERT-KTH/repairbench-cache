@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Tells if the token looks like a short option.\n     * \n     * @param token\n     */\n    private boolean isShortOption(String token)\n    {\n        // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n        if (!token.startsWith(\"-\") || token.length() == 1) // Handles \"-\" itself\n        {\n            return false;\n        }\n\n        // The original logic would incorrectly return false for concatenated short options\n        // like \"-ab\" or \"-t1\" if \"ab\" or \"t1\" were not explicitly defined as single options.\n        // For concatenated short options, or a short option followed by a value,\n        // we only need to check if the *first character* after the hyphen is a valid short option.\n        // The parser's subsequent logic will then handle the breakdown of the rest of the token.\n        char firstCharAfterHyphen = token.charAt(1);\n        return options.hasShortOption(String.valueOf(firstCharAfterHyphen));\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

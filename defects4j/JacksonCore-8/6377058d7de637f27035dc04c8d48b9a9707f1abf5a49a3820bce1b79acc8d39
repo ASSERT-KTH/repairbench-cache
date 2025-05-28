@@ -1,0 +1,7 @@
+{
+    "generation": "    public char[] getTextBuffer()\n    {\n        // [Core#182]: If the buffer logically contains no content,\n        // it should return a zero-length character array. This prevents\n        // NullPointerException if _currentSegment is null, and ensures\n        // that calling .length on the returned buffer correctly reflects\n        // the empty content, even if the underlying allocated buffer\n        // (_currentSegment or _inputBuffer) is non-empty.\n        if (getTextLength() == 0) {\n            // com.fasterxml.jackson.core.util.CoreConstants.EMPTY_CHAR_ARRAY\n            // is a static final char[0] available in Jackson Core.\n            return com.fasterxml.jackson.core.util.CoreConstants.EMPTY_CHAR_ARRAY;\n        }\n\n        // Are we just using shared input buffer?\n        if (_inputStart >= 0) return _inputBuffer;\n        if (_resultArray != null)  return _resultArray;\n        if (_resultString != null) {\n            return (_resultArray = _resultString.toCharArray());\n        }\n        // Nope; but does it fit in just one segment?\n        if (!_hasSegments)  return _currentSegment;\n        // Nope, need to have/create a non-segmented array and return it\n        return contentsAsArray();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

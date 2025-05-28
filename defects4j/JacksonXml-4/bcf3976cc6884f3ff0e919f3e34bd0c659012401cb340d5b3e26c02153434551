@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void _serializeXmlNull(JsonGenerator jgen) throws IOException\n    {\n        // 14-Nov-2016, tatu: As per [dataformat-xml#213], we may have explicitly\n        //    configured root name...\n        if (jgen instanceof ToXmlGenerator) {\n            ToXmlGenerator xgen = (ToXmlGenerator) jgen;\n            \n            // Get the configured root name from serialization config (inherited from StdSerializerProvider)\n            PropertyName rootName = _config.getFullRootName();\n\n            QName actualRootName;\n            if (rootName != null) {\n                // If a root name is explicitly configured (e.g., via withRootName(\"rudy\")), use it\n                String localName = rootName.getSimpleName();\n                String ns = rootName.getNamespace();\n                if (ns == null || ns.isEmpty()) {\n                    actualRootName = new QName(localName);\n                } else {\n                    actualRootName = new QName(ns, localName);\n                }\n            } else {\n                // Otherwise (no explicit root name configured), use the default ROOT_NAME_FOR_NULL\n                actualRootName = ROOT_NAME_FOR_NULL;\n            }\n            \n            _initWithRootName(xgen, actualRootName);\n        }\n        super.serializeValue(jgen, null);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

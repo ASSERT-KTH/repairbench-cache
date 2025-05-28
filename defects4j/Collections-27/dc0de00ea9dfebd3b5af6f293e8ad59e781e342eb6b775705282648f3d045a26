@@ -1,0 +1,7 @@
+{
+    "generation": "    private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject();\n        // Check if the deserialized valueCollectionClass is a valid Collection type.\n        // If a malicious stream sets it to an unsafe or non-Collection class (like String.class),\n        // we must reject it to prevent arbitrary object instantiation or other attacks.\n        if (!Collection.class.isAssignableFrom(this.valueCollectionClass)) {\n            throw new UnsupportedOperationException(\"The valueCollectionClass must be a Collection. \" +\n                                                    \"Unsupported type: \" + this.valueCollectionClass);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

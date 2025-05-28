@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        try {\n            final double[] guess = (new ParameterGuesser(getObservations())).guess();\n            return fit(new Gaussian.Parametric(), guess);\n        } catch (org.apache.commons.math.exception.NotStrictlyPositiveException e) {\n            // As indicated by testMath519, if the optimizer attempts to use a\n            // non-positive sigma value, a NotStrictlyPositiveException is thrown\n            // from the Gaussian function evaluation. In such cases, the fitter\n            // should return NaN values for the parameters instead of propagating\n            // the exception. A Gaussian has 3 parameters: norm, mean, sigma.\n            return new double[] { Double.NaN, Double.NaN, Double.NaN };\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

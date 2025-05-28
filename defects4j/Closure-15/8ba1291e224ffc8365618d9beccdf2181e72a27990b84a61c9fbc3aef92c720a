@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n        // The 'delete' operator has side effects.\n        // This check was missing and causes 'delete a[b]' to be incorrectly\n        // considered side-effect free in some contexts, leading to test failures.\n        if (n.isDelProp()) {\n          return true;\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }\n",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

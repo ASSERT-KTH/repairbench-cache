@@ -1,0 +1,7 @@
+{
+    "generation": "    private static <E extends Element> Integer indexInList(Element search, List<E> elements) {\n        Validate.notNull(search);\n        Validate.notNull(elements);\n\n        for (int i = 0; i < elements.size(); i++) {\n            E element = elements.get(i);\n            // Changed from element.equals(search) to element == search.\n            // When searching for an element's index within a list of its siblings,\n            // we are looking for the exact object instance. Element.equals()\n            // in Jsoup can be problematic for this purpose as it compares\n            // siblingIndex, which is what we are trying to find.\n            // Using object identity (==) ensures we find the precise element object.\n            if (element == search)\n                return i;\n        }\n        return null;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

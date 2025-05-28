@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object baseValue = getBaseValue();\n        // According to the Javadoc: \"If the property contains a collection, then the length of that\n        // collection, otherwise - 1.\"\n\n        // The ValueUtils.getLength(Object) method in JXPath returns:\n        // - 0 for null\n        // - size() for Collection\n        // - Array.getLength() for arrays\n        // - 1 for any other single object (e.g., String, Number, custom object)\n\n        // This `getLength()` method's contract specifically requires -1 for non-collection types.\n        // Therefore, we need to check if the baseValue is a collection or array\n        // and only then use ValueUtils.getLength. Otherwise, return -1.\n        if (ValueUtils.isCollection(baseValue) || ValueUtils.isArray(baseValue)) {\n            // If baseValue is a Collection or an array, return its actual length.\n            // ValueUtils.getLength will correctly handle these types.\n            return ValueUtils.getLength(baseValue);\n        } else {\n            // If baseValue is null or any other single non-collection object,\n            // according to the Javadoc, the length should be -1.\n            return -1;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

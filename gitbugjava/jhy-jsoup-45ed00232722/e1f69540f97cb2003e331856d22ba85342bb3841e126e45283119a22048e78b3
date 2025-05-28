@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // Handles Punycode conversion for internationalized domain names\n        try {\n            // Convert the URL to a URI object. The URL.toURI() method is designed\n            // to produce a syntactically correct URI from the URL, handling existing\n            // components and preparing for proper encoding.\n            final URI uri = u.toURI();\n\n            // Use uri.toASCIIString() to get the fully percent-encoded URI string.\n            // This method correctly encodes characters that are not permitted in a URI\n            // component (like spaces, square brackets in the path/query/fragment)\n            // or non-ASCII characters, ensuring the result is valid and safe.\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // If conversion to URI fails (e.g., the original URL was severely malformed)\n            // or if the resulting URI string cannot be converted back to a URL,\n            // return the original input URL as a fallback.\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

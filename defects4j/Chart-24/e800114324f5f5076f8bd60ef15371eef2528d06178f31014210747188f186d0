@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Returns a paint for the specified value.\n     * \n     * @param value  the value (must be within the range specified by the\n     *         lower and upper bounds for the scale).\n     * \n     * @return A paint for the specified value.\n     */\n    public Paint getPaint(double value) {\n        // Clamp the input value to be within the defined lower and upper bounds.\n        // This ensures that calculations based on 'v' will not result in out-of-range values.\n        double v = Math.max(value, this.lowerBound);\n        v = Math.min(v, this.upperBound);\n\n        // Calculate the grayscale component 'g'.\n        // The previous bug was that 'value' was used here instead of the clamped 'v'.\n        // Using 'value' could lead to 'g' being negative or greater than 255,\n        // resulting in an IllegalArgumentException when creating the Color object.\n        int g = (int) ((v - this.lowerBound) / (this.upperBound\n                - this.lowerBound) * 255.0);\n        \n        // Handle potential floating point inaccuracies that might make g slightly\n        // outside [0, 255] even after clamping v, especially for edge cases.\n        // This makes the conversion to int robust.\n        g = Math.max(0, g);\n        g = Math.min(255, g);\n\n        return new Color(g, g, g);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

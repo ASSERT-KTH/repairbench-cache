@@ -1,0 +1,7 @@
+{
+    "generation": "    private InputStream getCurrentStream() throws IOException {\n        // If deferredBlockStreams is empty, it implies that the current entry\n        // does not have an associated data stream, likely because it's a\n        // directory or a zero-byte file that doesn't consume data from a block.\n        // In such a scenario, the caller (e.g., the read() method) might still\n        // request an InputStream. Instead of throwing an IllegalStateException,\n        // which signals an unexpected state, we should provide an empty stream.\n        // This allows the caller to proceed, and a read operation on this stream\n        // will immediately return -1 (end of stream), which is the correct\n        // behavior for zero-length entries.\n        if (deferredBlockStreams.isEmpty()) {\n            return new ByteArrayInputStream(new byte[0]); // Return an empty stream\n        }\n        \n        while (deferredBlockStreams.size() > 1) {\n            // In solid compression mode we need to decompress all leading folder'\n            // streams to get access to an entry. We defer this until really needed\n            // so that entire blocks can be skipped without wasting time for decompression.\n            final InputStream stream = deferredBlockStreams.remove(0);\n            IOUtils.skip(stream, Long.MAX_VALUE);\n            stream.close();\n        }\n\n        return deferredBlockStreams.get(0);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

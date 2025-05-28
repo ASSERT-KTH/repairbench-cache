@@ -1,0 +1,7 @@
+{
+    "generation": "    protected final boolean _add(Annotation ann) {\n        if (_annotations == null) {\n            _annotations = new HashMap<Class<? extends Annotation>,Annotation>();\n        }\n        Annotation previous = _annotations.put(ann.annotationType(), ann);\n        // The original return value `(previous != null) && previous.equals(ann)` meant\n        // \"true if the exact same annotation instance was already present\".\n        // This is problematic because when a mixin annotation (ann) replaces an\n        // existing annotation (previous) of the same type but with different values,\n        // it would return false (since previous.equals(ann) would be false).\n        // This false return could lead the calling code to believe the mixin\n        // annotation was not effectively applied, thus falling back to the\n        // original annotation, leading to the \"stuff\" vs \"bar\" discrepancy.\n        //\n        // The fix is to return true if the annotation was actually added\n        // (previous was null) or if a different annotation was replaced\n        // (previous was not null and previous.equals(ann) is false).\n        // Return false only if an identical annotation was already present,\n        // meaning no effective change occurred.\n        return (previous == null) || !previous.equals(ann);\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

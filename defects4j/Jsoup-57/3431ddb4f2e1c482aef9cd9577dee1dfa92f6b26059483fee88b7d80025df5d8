@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Remove an attribute by key. <b>Case insensitive.</b>\n     @param key attribute key to remove\n     */\n    public void removeIgnoreCase(String key) {\n        Validate.notEmpty(key);\n        if (attributes == null)\n            return;\n\n        // To avoid ConcurrentModificationException when modifying the map\n        // while iterating over its key set, collect keys to remove first.\n        List<String> keysToRemove = new ArrayList<>();\n        for (String attrKey : attributes.keySet()) {\n            if (attrKey.equalsIgnoreCase(key)) {\n                keysToRemove.add(attrKey);\n            }\n        }\n\n        // Now remove the collected keys from the map\n        for (String keyToRemove : keysToRemove) {\n            attributes.remove(keyToRemove);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

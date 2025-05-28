@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Puts all values of this record into the given Map.\n     *\n     * @param map The Map to populate.\n     * @return the given map.\n     */\n    <M extends Map<String, String>> M putIn(final M map) {\n        // The 'mapping' field (which maps header names to column indices) can be null\n        // if the CSVFormat was configured without headers.\n        // In such cases, attempting to call entrySet() on a null 'mapping' will result in a NullPointerException.\n        // If there's no mapping, there are no header names to map values to,\n        // so the map should remain empty as per test expectations.\n        if (mapping != null) {\n            for (final Entry<String, Integer> entry : mapping.entrySet()) {\n                final int col = entry.getValue().intValue();\n                if (col < values.length) {\n                    map.put(entry.getKey(), values[col]);\n                }\n            }\n        }\n        return map;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

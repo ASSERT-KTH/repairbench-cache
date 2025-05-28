@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild();\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && (n.isGetProp() || n.isGetElem()) // Allow both dot and bracket notation for the LHS\n          ) {\n        // We want to exclude the assignment itself from the usage list\n        Node objectOfLhs = n.getFirstChild();\n\n        // Check if the object of the LHS is a property access itself (e.g., `e.prototype` in `e.prototype.method`)\n        if (objectOfLhs.isGetProp() || objectOfLhs.isGetElem()) {\n          // Get the property name node of the 'objectOfLhs' (e.g., the 'prototype' in `e.prototype`)\n          Node prototypePropertyNameNode = objectOfLhs.getLastChild();\n\n          // Check if this property name node is a STRING literal and its value is \"prototype\"\n          if (prototypePropertyNameNode != null && prototypePropertyNameNode.isString() &&\n              prototypePropertyNameNode.getString().equals(\"prototype\")) {\n            return true;\n          }\n        }\n      }\n\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

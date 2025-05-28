@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        StringBuffer result = new StringBuffer(length);\n        int          end = offset + length;\n\n        for (int i = offset; i < end; ++i) {\n            if (buffer[i] == 0) {\n                break;\n            }\n            // The original code `(char) buffer[i]` incorrectly converts negative byte\n            // values (which represent byte values > 127) into characters in higher\n            // Unicode planes (e.g., U+FFxx).\n            // To correctly interpret the bytes as 8-bit characters (like ISO-8859-1,\n            // where byte values 0-255 directly map to Unicode code points U+0000-U+00FF),\n            // the byte must be masked with 0xFF to treat it as an unsigned value\n            // before casting to char.\n            result.append((char) (buffer[i] & 0xFF));\n        }\n\n        return result.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

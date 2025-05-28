@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // In SelfClosingStartTag state, encountering a character other than '>' or EOF\n                    // (e.g., '/o' where 'o' is `c`) is a parse error.\n                    // The HTML5 parsing algorithm for such cases typically involves treating the '/'\n                    // as if it were not there for attribute parsing purposes and re-processing\n                    // the character 'c' as the start of an attribute name.\n                    // To do this, we unconsume 'c' so it's available for the next state.\n                    t.error(this);\n                    r.unconsume(); // Put the character back into the reader\n                    t.transition(BeforeAttributeName); // Transition to parse an attribute name\n            }\n        }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

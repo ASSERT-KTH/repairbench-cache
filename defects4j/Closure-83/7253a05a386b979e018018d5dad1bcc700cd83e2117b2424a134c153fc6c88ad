@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public int parseArguments(Parameters params) throws CmdLineException {\n        String param = params.getParameter(0);\n\n        if (param == null) {\n          // No value specified, like \"--flag\". Default to true.\n          setter.addValue(true);\n          return 0; // Consumes 0 parameters\n        } else {\n          // Value specified, like \"--flag=value\".\n          String lowerParam = param.toLowerCase();\n          if (TRUES.contains(lowerParam)) {\n            setter.addValue(true);\n          } else if (FALSES.contains(lowerParam)) {\n            setter.addValue(false);\n          } else {\n            // If the value is not \"true\" or \"false\" (case-insensitive),\n            // it's an invalid boolean value. Throw a CmdLineException.\n            // The original code incorrectly defaulted to true and consumed 0 parameters,\n            // leaving the invalid value unparsed, which could lead to further errors.\n            throw new CmdLineException(owner, \"\\\"\" + param + \"\\\" is not a legal boolean value\");\n          }\n          return 1; // Consumes 1 parameter (the value)\n        }\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

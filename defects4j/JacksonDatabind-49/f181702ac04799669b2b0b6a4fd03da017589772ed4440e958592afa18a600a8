@@ -1,0 +1,7 @@
+{
+    "generation": "    public Object generateId(Object forPojo) {\n        // 04-Jun-2016, tatu: As per [databind#1255], need to consider possibility of\n        //    id being generated for \"alwaysAsId\", but not being written as POJO; regardless,\n        //    need to use existing id if there is one:\n        Object id;\n        if (forPojo == null) {\n            id = null;\n        } else {\n            // PropertyGenerator must ensure that the delegate generator always\n            // provides the same id for a given POJO. This means first trying\n            // to retrieve an existing id, and only generating a new one if needed.\n            // The original bug was calling `generator.generateId(forPojo)` which\n            // always creates a new id according to SimpleObjectIdGenerator's contract.\n            \n            // Try to find an existing id for this POJO from the delegate generator\n            id = generator.key(forPojo);\n            // If no existing id is found, generate a new one and associate it\n            if (id == null) {\n                 id = generator.newId(forPojo);\n            }\n        }\n        return id;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

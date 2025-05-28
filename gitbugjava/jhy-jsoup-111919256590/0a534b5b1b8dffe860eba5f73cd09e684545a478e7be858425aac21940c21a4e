@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline())\n            return false;\n\n        // If the preceding sibling is a block element, this inline element should generally\n        // start on a new line (i.e., not be inlineable).\n        // This handles cases like `<div><p>Foo</p><br></div>` where `<br>` should be on a new line.\n        Node prev = previousSibling();\n        if (prev instanceof Element prevEl && prevEl.tag().isBlock()) {\n            return false;\n        }\n\n        // A <br> tag is special. It should usually not get a newline *before* it if it's\n        // the first child of a block, but it always emits a newline *after* itself.\n        // It can be inlineable even if it's effectively first.\n        if (tag.getName().equals(\"br\")) {\n            return (parent() == null || parent().isBlock()) && !out.outline();\n        }\n\n        // General case for other inline elements:\n        // An inline element is inlineable if its parent is a block (or null),\n        // it's not the first effectively (i.e., has non-whitespace content before it),\n        // and outlining is enabled.\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

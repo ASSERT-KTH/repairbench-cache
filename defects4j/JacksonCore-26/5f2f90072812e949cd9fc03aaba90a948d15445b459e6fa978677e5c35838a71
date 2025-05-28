@@ -1,0 +1,7 @@
+{
+    "generation": "    // Time to update pointers first\n    // Note: old `_inputEnd` is actually the length of data from previous buffer.\n    _currInputProcessed += _inputEnd; // accumulate previous buffer's full length (from its 0 to _inputEnd)\n\n    // Also need to adjust row start, to work as if it extended into the past wrt new buffer\n    // This line is often associated with column tracking.\n    _currInputRowStart = start - (_inputEnd - _currInputRowStart);\n\n    // And then update buffer settings\n    _inputBuffer = buf;\n    _inputPtr = start;\n    _inputEnd = end;\n    _origBufferLen = end - start;\n\n    // Now, after new _inputPtr is set, adjust _currInputProcessed such that\n    // `_currInputProcessed + _inputPtr` (which is `start`) yields the logical\n    // current byte offset. This means subtracting `start` from `_currInputProcessed`.\n    _currInputProcessed -= _inputPtr; // Equivalent to `_currInputProcessed -= start;`",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

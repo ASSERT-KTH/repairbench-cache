@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read();\n        if (current == '\\n') {\n            // If the current character is a newline, increment the line counter.\n            // However, if the previous character was a carriage return ('\\r'),\n            // then this '\\n' is part of a '\\r\\n' sequence, which should count\n            // as a single line break. In this case, the line counter would have\n            // already been incremented by the '\\r', so we don't increment again.\n            if (lastChar != '\\r') {\n                lineCounter++;\n            }\n        } else if (current == '\\r') {\n            // If the current character is a carriage return, increment the line counter.\n            // This handles '\\r' as a line break (e.g., Mac style, or as configured).\n            lineCounter++;\n        }\n        lastChar = current;\n        return lastChar;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

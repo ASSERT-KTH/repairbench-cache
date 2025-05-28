@@ -1,0 +1,7 @@
+{
+    "generation": "        int bottom = stack.size() -1;\n        if (bottom > MaxScopeSearchDepth) { // If stack is deeper than MaxScopeSearchDepth,\n            bottom = MaxScopeSearchDepth;   // 'bottom' (starting index of search) is capped to MaxScopeSearchDepth.\n                                            // This means it starts searching from an absolute index, not relative to current.\n        }\n        final int top = bottom > MaxScopeSearchDepth ? bottom - MaxScopeSearchDepth : 0;\n        // This calculation for 'top' also relies on the potentially capped 'bottom', leading to incorrect range.\n        // For example, if stack.size() is 200 and MaxScopeSearchDepth is 100:\n        // bottom becomes 100.\n        // top becomes (100 > 100 ? 100 - 100 : 0) -> 0.\n        // The loop becomes `for (int pos = 100; pos >= 0; pos--)`.\n        // This means it searches elements from index 100 down to 0, completely ignoring elements from index 101 to 199.\n        // If a scope-breaking element is at index 150, this function will miss it.",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

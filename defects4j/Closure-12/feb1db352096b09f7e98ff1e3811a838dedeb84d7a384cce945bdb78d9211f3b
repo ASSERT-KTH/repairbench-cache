@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean hasExceptionHandler(Node cfgNode) {\n    // Traverse up the AST from the given node to its ancestors.\n    for (Node current = cfgNode; current != null; current = current.getParent()) {\n      // If the current node is a TRY block, we need to check if it has a CATCH handler.\n      if (current.isTry()) {\n        // A TRY node in Closure Compiler has the following structure for its children:\n        // 1. The BLOCK node representing the 'try' body. (getFirstChild())\n        // 2. The CATCH node (if a 'catch' block is present). (getSecondChild())\n        // 3. The FINALLY BLOCK node (if a 'finally' block is present). (getThirdChild())\n        //\n        // To determine if there's an exception handler, we check if the second child exists\n        // and is specifically a CATCH node.\n        Node catchOrFinallyNode = current.getSecondChild();\n        if (catchOrFinallyNode != null && catchOrFinallyNode.isCatch()) {\n          return true; // Found a TRY block with an associated CATCH handler.\n        }\n      }\n    }\n    // If no TRY block with a CATCH handler was found in the ancestry,\n    // this node does not have an exception handler associated with it.\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node != null && node instanceof Element) {\n            Element el = (Element) node;\n            Element current = el;\n            int levelsChecked = 0;\n            // Iterate up the parent chain for a maximum of 5 levels (plus the current element itself)\n            // to check if any ancestor preserves whitespace.\n            while (current != null && levelsChecked < 6) {\n                if (current.tag.preserveWhitespace()) {\n                    return true;\n                }\n                current = current.parent();\n                levelsChecked++;\n            }\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

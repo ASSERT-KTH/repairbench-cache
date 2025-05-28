@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline()) {\n            return false;\n        }\n\n        // The br tag does not get an artificial new line before it IF it's in a paragraph or other non-block-containing\n        // block, and that br isn't itself directly causing a paragraph break.\n        // It does get a new line before it if in a Div or other block-containing block.\n        if (tag.getName().equals(\"br\")) {\n            return !out.outline() && (parent() == null || !parent().tag().canContainBlock() || (parent().tag().isBlock() && !parent().hasText()));\n        }\n\n        // For other inline elements, they're inlineable if their parent is block, they're not effectively first\n        // and not in outline mode.\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

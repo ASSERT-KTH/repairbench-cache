@@ -1,0 +1,7 @@
+{
+    "generation": "    protected final boolean _add(Annotation ann) {\n        if (_annotations == null) {\n            _annotations = new HashMap<Class<? extends Annotation>,Annotation>();\n        }\n        Annotation previous = _annotations.put(ann.annotationType(), ann);\n        // The original logic `return (previous != null) && previous.equals(ann);`\n        // returned true only if an identical annotation already existed, and false for new\n        // additions or replacements of different annotations. This behavior was\n        // incorrect for indicating whether the map's contents effectively changed.\n        //\n        // For mixins, an annotation from the mixin should override an existing one.\n        // This method should return true if the annotation map changed its effective\n        // state for the given annotation type, meaning:\n        // 1. A new annotation was added (previous was null).\n        // 2. An existing annotation was replaced by a different one (previous was not null and not equal to new).\n        // It should return false if an identical annotation was 'replaced' (no effective change).\n        // This is correctly captured by `!java.util.Objects.equals(previous, ann)`.\n        return !java.util.Objects.equals(previous, ann);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

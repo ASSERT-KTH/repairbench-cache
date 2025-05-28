@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        Element clone = (Element) super.clone();\n        // The Attributes.clone() method, which is called indirectly by Node.clone(),\n        // performs a shallow copy of its 'classNames' field (a cached Set<String>).\n        // This means that the original Element and its clone would share the same\n        // underlying Set for class names, leading to unintended modifications\n        // affecting both elements.\n\n        // To fix this, we need to ensure that the cloned Element has its own\n        // independent Set of class names. The 'attr()' method on Element/Node,\n        // when setting the \"class\" attribute, has a side effect of clearing\n        // the internal classNames cache in the Attributes object.\n        // By re-setting the \"class\" attribute to its current value, we force\n        // the cache to be invalidated. The next call to classNames() on the\n        // cloned element will then re-parse the \"class\" attribute string\n        // into a new, distinct Set.\n        if (clone.attributes() != null) { // Ensure attributes exist to avoid NullPointerException, though attr() typically handles it\n            String currentClassAttr = clone.attr(\"class\");\n            clone.attr(\"class\", currentClassAttr); // This operation clears the classNames cache in clone.attributes\n        }\n        return clone;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        String val = this.value;\n        boolean containsDoubleQuote = val.contains(\"\\\"\");\n        boolean containsSingleQuote = val.contains(\"'\");\n\n        if (!containsDoubleQuote) {\n            // If the string does not contain any double quotes, we can safely wrap it in double quotes.\n            // This is generally the preferred default for simplicity and readability.\n            return '\"' + val + '\"';\n        } else if (!containsSingleQuote) {\n            // If the string contains double quotes but no single quotes,\n            // we can wrap it in single quotes to avoid escaping.\n            return \"'\" + val + \"'\";\n        } else {\n            // If the string contains both single and double quotes,\n            // we must choose one type of delimiter and escape the instances of that delimiter within the string.\n            // Standard practice in Java is to use double quotes as delimiters and escape inner double quotes with a backslash.\n            return '\"' + val.replace(\"\\\"\", \"\\\\\\\"\") + '\"';\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * For this disbution, X, this method returns P(X &lt; <code>x</code>).\n     * @param x the value at which the CDF is evaluated.\n     * @return CDF evaluted at <code>x</code>. \n     * @throws MathException if the algorithm fails to converge; unless\n     * x is more than 20 standard deviations from the mean, in which case the\n     * convergence exception is caught and 0 or 1 is returned.\n     */\n    public double cumulativeProbability(double x) throws MathException {\n        // Calculate the number of standard deviations x is from the mean\n        double z = (x - mean) / standardDeviation;\n\n        // According to the Javadoc, for values more than 20 standard deviations\n        // from the mean, return 0 or 1 to avoid convergence issues with Erf.erf.\n        // This specifically addresses the MaxIterationsExceededException for extreme values.\n        if (z < -20) {\n            return 0.0;\n        } else if (z > 20) {\n            return 1.0;\n        } else {\n            // For values within 20 standard deviations, use the standard formula.\n            return 0.5 * (1.0 + Erf.erf(z / Math.sqrt(2.0)));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

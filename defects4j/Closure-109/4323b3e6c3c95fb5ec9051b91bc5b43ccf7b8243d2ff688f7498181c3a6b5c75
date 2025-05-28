@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?'\n   * For expressions on the right hand side of a this: or new:\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    if (token.isType(JsDocToken.QMARK)) {\n      // '?' represents an unknown type in JSDoc.\n      // In Closure Compiler's AST, this maps to Token.QMARK.\n      return createJSTypeNode(token.getStartLine(), token.getStartChar(), Token.QMARK);\n    } else if (token.isType(JsDocToken.STAR)) {\n      // '*' represents an all type in JSDoc.\n      // In Closure Compiler's AST, this maps to Token.STAR.\n      // Although the comment only explicitly mentions '?', the failing test for `new:*` indicates\n      // that '*' should also be handled explicitly here, similar to '?'.\n      return createJSTypeNode(token.getStartLine(), token.getStartChar(), Token.STAR);\n    }\n    // If it's neither '?' nor '*', try to parse it as a basic type name.\n    return parseTypeName(token);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

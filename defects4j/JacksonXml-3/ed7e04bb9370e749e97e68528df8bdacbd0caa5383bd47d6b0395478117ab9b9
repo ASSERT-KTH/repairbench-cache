@@ -1,0 +1,7 @@
+{
+    "generation": "             case XmlTokenStream.XML_ATTRIBUTE_VALUE:\n                 _currText = _xmlTokens.getText(); // This gets \"7\"\n                 _currToken = JsonToken.VALUE_STRING;\n                 break; // PROBLEM: It breaks here, and the method then falls through to `return null;`\n     ```\nThis `break` statement is the direct cause of `null` being returned, even when `_currText` correctly holds the attribute's value. The `nextTextValue()` method is designed to return the text value it finds, similar to how `XML_TEXT` or `XML_END_ELEMENT` (when `_mayBeLeaf`) cases already return `_currText`.\n\nThe fix is to ensure that when `XML_ATTRIBUTE_VALUE` is directly consumed by `nextTextValue()`, the method immediately returns the extracted text value.\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

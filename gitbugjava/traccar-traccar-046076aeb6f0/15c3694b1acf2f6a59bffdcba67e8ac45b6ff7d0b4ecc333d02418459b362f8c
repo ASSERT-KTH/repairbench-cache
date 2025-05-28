@@ -1,0 +1,7 @@
+{
+    "generation": "        } else if (type == MSG_HEARTBEAT) {\n\n            // ... (previous code) ...\n\n            // int length = buf.readUnsignedByte(); // 'length' bytes follow this byte.\n            // 'length' = 1 (Protocol Type) + Data.length + 2 (Info Serial No.) + 2 (Error Check)\n            // So, dataLength = length - 5; // 'dataLength' is the true length of the variable Data payload.\n\n            // After initial 'length' byte is read: buf.readableBytes() == length\n            // After 'type' (1 byte) is read: buf.readableBytes() == length - 1\n            // After 'status' (1 byte) is read: buf.readableBytes() == length - 2\n\n            // At this point, buf.readableBytes() contains:\n            // (remaining optional data payload) + 2 (Info Serial No.) + 2 (Error Check)\n            // = (remaining optional data payload) + 4 bytes.\n\n            // So, for reading 'X' bytes of optional data, the check should be:\n            // buf.readableBytes() >= X + 4 (for the fixed 4-byte trailer)\n\n            if (buf.readableBytes() >= 2 + 6) { // Original: 2 bytes for battery, plus 6 magic offset\n                position.set(Position.KEY_BATTERY, buf.readUnsignedShort() * 0.01);\n            }\n            if (buf.readableBytes() >= 1 + 6) { // Original: 1 byte for RSSI, plus 6 magic offset\n                position.set(Position.KEY_RSSI, buf.readUnsignedByte());\n            }\n\n            // ... (rest of the code) ...\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

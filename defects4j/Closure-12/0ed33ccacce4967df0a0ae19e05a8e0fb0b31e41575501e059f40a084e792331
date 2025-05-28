@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean hasExceptionHandler(Node cfgNode) {\n    // Traverse up the AST from the given node.\n    // We are looking for an enclosing TRY statement.\n    for (Node current = cfgNode; current != null; current = current.getParent()) {\n      // If we find an ancestor that is a TRY node, it means the code at 'cfgNode'\n      // is inside a try block.\n      // In JavaScript (and represented in Closure Compiler's AST), a TRY statement\n      // must always be accompanied by either a CATCH block or a FINALLY block (or both).\n      // This means that if 'cfgNode' is an ancestor of a TRY node, any exception\n      // thrown by the code represented by 'cfgNode' would be handled by that TRY statement.\n      if (current.isTry()) {\n        return true;\n      }\n    }\n    // No TRY ancestor was found, so this code is not within an explicit\n    // try-catch/finally block, meaning it does not have a local exception handler.\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

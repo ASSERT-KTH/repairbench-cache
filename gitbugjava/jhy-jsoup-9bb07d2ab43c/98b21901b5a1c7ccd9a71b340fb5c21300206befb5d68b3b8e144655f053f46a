@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void replaceChild(Node out, Node in) {\n        // If the node is replacing itself, no actual DOM modification is needed.\n        // This prevents the node from being removed and then re-inserted,\n        // which can lead to incorrect sibling indexing or loss of nodes\n        // if the remove operation alters the list before the insert/set.\n        if (out == in) {\n            return;\n        }\n\n        Validate.isTrue(out.parentNode == this);\n        Validate.notNull(in);\n        if (in.parentNode != null)\n            in.parentNode.removeChild(in);\n\n        final int index = out.siblingIndex;\n        ensureChildNodes().set(index, in);\n        in.parentNode = this;\n        in.setSiblingIndex(index);\n        out.parentNode = null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

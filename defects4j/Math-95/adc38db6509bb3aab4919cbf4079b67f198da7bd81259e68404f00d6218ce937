@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Access the initial domain value, based on <code>p</code>, used to\n     * bracket a CDF root.  This method is used by\n     * {@link #inverseCumulativeProbability(double)} to find critical values.\n     * \n     * @param p the desired probability for the critical value\n     * @return initial domain value\n     */\n    protected double getInitialDomain(double p) {\n        double d = getDenominatorDegreesOfFreedom();\n        // The mean of the F-distribution is defined as d / (d - 2.0) only for d > 2.0.\n        // If d <= 2.0, the mean is undefined or infinite, and the formula\n        // results in a non-positive or division-by-zero value, which is not\n        // a valid initial guess for a domain that starts at 0.\n        if (d > 2.0) {\n            return d / (d - 2.0);\n        } else {\n            // For d <= 2.0, return a reasonable positive default value.\n            // 1.0 is a common default initial guess in similar distributions\n            // when the mean is not applicable or leads to an invalid value.\n            return 1.0;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

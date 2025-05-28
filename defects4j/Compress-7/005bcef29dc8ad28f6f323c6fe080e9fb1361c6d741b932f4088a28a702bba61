@@ -1,0 +1,7 @@
+{
+    "generation": "package org.apache.commons.compress.archivers.tar;\n\nimport java.nio.charset.StandardCharsets;\n\npublic class TarUtils {\n    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        // Find the actual end of the string, which is either a NUL byte or the specified length limit.\n        int end = offset;\n        final int limit = offset + length;\n        for (; end < limit; ++end) {\n            if (buffer[end] == 0) {\n                break;\n            }\n        }\n\n        // Convert the relevant segment of the byte array to a String using UTF-8 encoding.\n        // This correctly handles multi-byte characters and characters outside the ASCII range,\n        // avoiding the issues caused by direct byte-to-char casting.\n        return new String(buffer, offset, end - offset, StandardCharsets.UTF_8);\n    }\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Remove an attribute by key. <b>Case insensitive.</b>\n     @param key attribute key to remove\n     */\n    public void removeIgnoreCase(String key) {\n        Validate.notEmpty(key);\n        if (attributes == null)\n            return;\n\n        // The original code caused a ConcurrentModificationException because it\n        // modified the 'attributes' map directly (attributes.remove(attrKey))\n        // while iterating over its keySet.\n        // To safely remove elements during iteration, the Iterator's own remove()\n        // method must be used.\n        for (Iterator<String> it = attributes.keySet().iterator(); it.hasNext(); ) {\n            String attrKey = it.next();\n            if (attrKey.equalsIgnoreCase(key)) {\n                it.remove(); // Safely removes the current entry from the underlying map\n                // In Jsoup's Attributes class, attribute keys are canonicalized to lowercase\n                // upon insertion, meaning there will only be one entry in the map\n                // that matches a given key case-insensitively.\n                // Therefore, we can break the loop once the matching attribute is found and removed.\n                break;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

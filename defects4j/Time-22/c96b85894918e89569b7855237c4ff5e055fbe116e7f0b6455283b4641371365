@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Creates a period from the given millisecond duration with the standard period type\n     * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n     * <p>\n     * The calculation uses the hour, minute, second and millisecond fields.\n     *\n     * @param duration  the duration, in milliseconds\n     */\n    protected BasePeriod(long duration) {\n        // The original intent of this constructor, despite mentioning \"standard period type\"\n        // in the first line of the Javadoc, explicitly states \"ensuring that the calculation\n        // is performed with the time-only period type\" and \"The calculation uses the hour,\n        // minute, second and millisecond fields.\"\n        // This implies that the PeriodType used for breaking down the duration should be\n        // time-only, not standard. The bug [3264409] likely relates to durations\n        // being incorrectly broken down into larger fields (like days, months, years)\n        // when only time fields were intended.\n        // By passing PeriodType.time(), we ensure only hours, minutes, seconds, and milliseconds\n        // are used in the calculation, which aligns with the latter part of the Javadoc.\n        this(duration, PeriodType.time(), null);\n        // bug [3264409]\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

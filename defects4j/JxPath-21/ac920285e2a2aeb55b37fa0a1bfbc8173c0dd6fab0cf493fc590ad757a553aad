@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object value = getBaseValue();\n\n        if (value == null) {\n            // As per Javadoc: \"otherwise - 1\" when the property does not contain a collection.\n            // A null value certainly does not contain a collection.\n            return -1;\n        }\n\n        // Check if the value is a known collection type (Collection, Array, Iterator, Enumeration, Map).\n        // ValueUtils.getLength handles these types correctly by returning their actual size/count.\n        if (value instanceof java.util.Collection\n            || value.getClass().isArray()\n            || value instanceof java.util.Iterator\n            || value instanceof java.util.Enumeration\n            || value instanceof java.util.Map)\n        {\n            // It's a collection type; return its actual length.\n            return ValueUtils.getLength(value);\n        } else {\n            // It's a single value (non-collection object).\n            // As per Javadoc: \"otherwise - 1\".\n            return -1;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

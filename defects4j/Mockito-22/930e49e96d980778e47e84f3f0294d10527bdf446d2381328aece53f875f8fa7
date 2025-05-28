@@ -1,0 +1,7 @@
+{
+    "generation": "import java.lang.reflect.Array;\n\npublic static boolean areEqual(Object o1, Object o2) {\n    if (o1 == o2) {\n        return true;\n    }\n    if (o1 == null || o2 == null) {\n        return false;\n    }\n\n    boolean o1IsArray = o1.getClass().isArray();\n    boolean o2IsArray = o2.getClass().isArray();\n\n    if (o1IsArray && o2IsArray) {\n        int length1 = Array.getLength(o1);\n        int length2 = Array.getLength(o2);\n\n        if (length1 != length2) {\n            return false;\n        }\n\n        for (int i = 0; i < length1; i++) {\n            Object element1 = Array.get(o1, i);\n            Object element2 = Array.get(o2, i);\n            if (!areEqual(element1, element2)) { // Recursive call to compare elements\n                return false;\n            }\n        }\n        return true;\n    } else if (o1IsArray != o2IsArray) {\n        // One is an array, the other is not. They cannot be equal.\n        return false;\n    } else {\n        // Neither is an array, use standard equals method\n        return o1.equals(o2);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

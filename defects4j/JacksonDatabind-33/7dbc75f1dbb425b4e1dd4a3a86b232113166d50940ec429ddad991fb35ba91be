@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public PropertyName findNameForSerialization(Annotated a)\n    {\n        String name = null;\n\n        JsonGetter jg = _findAnnotation(a, JsonGetter.class);\n        if (jg != null) {\n            name = jg.value();\n        } else {\n            JsonProperty pann = _findAnnotation(a, JsonProperty.class);\n            if (pann != null) {\n                name = pann.value();\n                /* 22-Apr-2014, tatu: Should figure out a better way to do this, but\n                 *   it's actually bit tricky to do it more efficiently (meta-annotations\n                 *   add more lookups; AnnotationMap costs etc)\n                 */\n            } else if (_hasAnnotation(a, com.fasterxml.jackson.annotation.JsonUnwrapped.class)) {\n                // If unwrapped, it's still a property to be processed, but its \"name\"\n                // in this context is empty as its contents are flattened.\n                name = \"\";\n            } else if (_hasAnnotation(a, com.fasterxml.jackson.databind.annotation.JsonSerialize.class)\n                    || _hasAnnotation(a, com.fasterxml.jackson.databind.annotation.JsonView.class)\n                    || _hasAnnotation(a, com.fasterxml.jackson.annotation.JsonRawValue.class)) {\n                name = \"\";\n            } else {\n                return null;\n            }\n        }\n        return PropertyName.construct(name);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public int parseArguments(Parameters params) throws CmdLineException {\n        String param = params.getParameter(0);\n\n        if (param == null) {\n          // If no explicit parameter value is provided (e.g., just \"--flag\"),\n          // treat it as true by default. This consumes 0 arguments from params.\n          setter.addValue(true);\n          return 0;\n        } else {\n          String lowerParam = param.toLowerCase();\n          if (TRUES.contains(lowerParam)) {\n            // Explicit \"true\" value provided (e.g., \"--flag=true\"). Consume 1 argument.\n            setter.addValue(true);\n            return 1;\n          } else if (FALSES.contains(lowerParam)) {\n            // Explicit \"false\" value provided (e.g., \"--flag=false\"). Consume 1 argument.\n            setter.addValue(false);\n            return 1;\n          } else {\n            // If the parameter is not a recognized boolean string (e.g., \"--flag=foo\", or \"--version\"),\n            // this handler cannot process it. It should not modify the setter's value\n            // and should return 0 to indicate that the argument was not consumed by this handler.\n            // This allows other handlers (e.g., a specific handler for \"--version\") to process it.\n            // The original code erroneously set `setter.addValue(true)` here, causing unintended side effects.\n            return 0;\n          }\n        }\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Method that can be called on backends that support passing opaque datatypes of\n     * non-JSON formats\n     *\n     * @since 2.8\n     */\n    public void writeEmbeddedObject(Object object) throws IOException {\n        // 01-Sep-2016, tatu: As per [core#318], handle small number of cases\n        if (object == null) {\n            writeNull();\n        } else if (object instanceof byte[]) {\n            // As per [core#318], specifically support byte[] for embedded object\n            // This is primarily for backends that support binary data directly,\n            // but also useful as a general way to indicate \"raw\" binary, for example\n            // as Base64 encoded String (which is how textual backend would write it)\n            writeBinary((byte[]) object);\n        } else {\n            throw new JsonGenerationException(\"No native support for writing embedded objects of type \" + object.getClass().getName(),\n                    this);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

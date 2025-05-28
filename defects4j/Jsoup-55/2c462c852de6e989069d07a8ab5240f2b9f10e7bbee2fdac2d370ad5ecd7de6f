@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof: // Assuming 'eof' is a defined constant representing EOF, e.g., CharacterReader.EOF\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // This state is entered when a '/' character was consumed\n                    // and then the next character 'c' is not a '>' or EOF.\n                    // This typically means the '/' was an erroneous character, not intended for self-closing.\n                    // The character 'c' should be re-evaluated in the BeforeAttributeName state.\n                    t.error(this);\n                    r.unconsume(); // Push the character 'c' back onto the reader.\n                    t.transition(BeforeAttributeName);\n            }\n        }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

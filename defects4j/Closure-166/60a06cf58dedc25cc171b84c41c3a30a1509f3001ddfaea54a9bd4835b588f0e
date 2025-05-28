@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n      return;\n    }\n\n    // Handle union types first, as they may contain record types or other constraints.\n    // If the constraint is a union, we apply each alternative of the union as a\n    // separate constraint. This is crucial for cases like\n    // `/** @param {{a: T}|{b: U}} x */` applied to an empty object `{}`.\n    // The object should gain both 'a' and 'b' properties.\n    if (constraint.isUnionType()) {\n      for (JSType alt : constraint.getAlternatives()) {\n        // Recursively apply the constraint from each alternative.\n        matchConstraint(alt);\n      }\n      // After processing all alternatives, the union constraint is fully handled,\n      // so we can return.\n      return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    // We want to modify the object literal to match the constraint, by\n    // taking each property on the record and trying to match\n    // properties on this object.\n    if (constraint.isRecordType()) {\n      matchRecordTypeConstraint(constraint.toObjectType());\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

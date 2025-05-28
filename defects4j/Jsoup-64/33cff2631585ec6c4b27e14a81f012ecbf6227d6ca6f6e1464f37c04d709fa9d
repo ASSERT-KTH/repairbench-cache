@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        // According to HTML5 parsing rules for non-void elements (like style, script, noframes),\n        // a self-closing flag (e.g., <style />) is generally treated as a parse error and ignored.\n        // However, Jsoup tests expect <style /> to be parsed as <style></style>.\n        // If a rawtext element is self-closing, it means it has no content.\n        // In this case, we should insert the start tag and immediately close it,\n        // without transitioning the tokeniser or insertion mode to handle raw text content.\n        if (startTag.isSelfClosing()) {\n            tb.insert(startTag); // Inserts the start tag (e.g., <style>)\n            tb.pop(); // Immediately closes the element (e.g., </style>)\n            return; // No need to transition to Rawtext mode or Text insertion mode\n        }\n\n        // Original logic for elements that are not self-closing or\n        // are expected to contain raw text content.\n        tb.insert(startTag);\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

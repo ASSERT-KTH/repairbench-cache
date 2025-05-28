@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Compute the maximum of two values\n     * @param a first value\n     * @param b second value\n     * @return b if a is lesser or equal to b, a otherwise\n     */\n    public static float max(final float a, final float b) {\n        // Handle NaN: if either argument is NaN, the result is NaN.\n        // According to Math.max behavior, if 'a' is NaN, 'a' is returned.\n        // If 'a' is not NaN but 'b' is NaN, 'b' is returned.\n        if (a != a) { // Checks if 'a' is NaN\n            return a;\n        }\n        if (b != b) { // Checks if 'b' is NaN\n            return b;\n        }\n\n        // Handle signed zeros as per Math.max behavior.\n        // Math.max considers -0.0f strictly smaller than +0.0f.\n        // The simple comparison (a >= b) ? a : b would incorrectly return -0.0f\n        // for max(-0.0f, +0.0f) because -0.0f == +0.0f is true in Java,\n        // making -0.0f >= +0.0f also true, thus returning 'a' (-0.0f).\n        // This specific check ensures that if 'a' is -0.0f and 'b' is +0.0f,\n        // 'b' (+0.0f) is returned.\n        if (a == 0.0f && b == 0.0f && Float.floatToRawIntBits(a) == 0x80000000) {\n            return b;\n        }\n\n        // Standard comparison for non-NaN and non-conflicting zero cases.\n        // For max(+0.0f, -0.0f), (a >= b) is true (+0.0f >= -0.0f), so 'a' (+0.0f) is returned, which is correct.\n        return (a >= b) ? a : b;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

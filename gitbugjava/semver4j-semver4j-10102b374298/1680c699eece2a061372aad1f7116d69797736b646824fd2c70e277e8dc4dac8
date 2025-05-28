@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        if (rangesList.isEmpty()) {\n            return \"\";\n        }\n        if (rangesList.size() == 1) {\n            // If there's only one 'Ranges' object in the list, format it directly.\n            // It's assumed that the 'toString()' method of the 'Ranges' object itself\n            // provides the correct string representation (e.g., \">=3.0.0 and <=3.0.1\")\n            // without any extraneous outer parentheses. This avoids adding parentheses\n            // that 'RangesList::formatRanges' might include for grouping when multiple\n            // 'Ranges' objects are joined by OR.\n            return rangesList.get(0).toString();\n        } else {\n            // For multiple 'Ranges' objects, stream and format each one,\n            // then join them using the OR_JOINER. 'RangesList::formatRanges' is\n            // expected to correctly format each individual 'Ranges' object,\n            // potentially adding parentheses around them if they need grouping\n            // when part of an 'OR' expression.\n            return rangesList.stream()\n                .map(RangesList::formatRanges)\n                .collect(joining(OR_JOINER));\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Encodes {@code value}.\n   *\n   * @param value a finite value. May not be {@link Double#isNaN() NaNs} or\n   *     {@link Double#isInfinite() infinities}.\n   * @return this writer.\n   */\n  public JsonWriter value(double value) throws IOException {\n    writeDeferredName();\n    if (Double.isNaN(value) || Double.isInfinite(value)) {\n      // Per RFC 7159, JSON numbers must be finite. GSON provides a lenient mode\n      // that allows non-finite numbers to be written, matching JavaScript's\n      // JSON.stringify behavior for these values.\n      if (!lenient) { // Assuming 'lenient' is a boolean field or accessible via isLenient()\n        throw new IllegalArgumentException(\"Numeric values must be finite, but was \" + value);\n      }\n    }\n    beforeValue();\n    out.append(Double.toString(value));\n    return this;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

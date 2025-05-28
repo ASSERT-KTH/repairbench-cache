@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public JSType caseObjectType(ObjectType type) {\n      if (value.equals(\"function\")) {\n        JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n        if (resultEqualsValue) {\n          // If 'typeof x == \"function\"' is true, then the type must be 'Function'.\n          // This applies to both generic ObjectType and explicit FunctionType.\n          return ctorType;\n        } else {\n          // If 'typeof x != \"function\"' is true:\n          // 1. If 'type' is a FunctionType (or subtype of Function), it is no longer possible.\n          // 2. If 'type' is a generic ObjectType (not a FunctionType), it is still possible.\n          if (type.isSubtype(ctorType)) {\n            // 'type' is a function type (e.g., FunctionType), but we know it's not a function.\n            // Remove this type from the possible types.\n            return null;\n          }\n          // 'type' is a generic object type (not a function type), and we know it's not a function.\n          // It can still be this type, so return it.\n          return type;\n        }\n      }\n      return matchesExpectation(\"object\") ? type : null;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

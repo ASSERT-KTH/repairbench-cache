@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the Node is a DO or FUNCTION (with or without\n   * labels).\n   */\n  private boolean isOneExactlyFunctionOrDo(Node n) {\n    // If n is a FUNCTION or DO node itself, return true.\n    if (n.getType() == Token.FUNCTION || n.getType() == Token.DO) {\n      return true;\n    }\n    // If n is a LABEL node, check if its immediate child is a FUNCTION or DO node.\n    // This handles cases like \"A: function foo() {}\" or \"A: do {} while(cond);\".\n    // This is necessary because in some compatibility modes (e.g., Safari/IE),\n    // a labeled FUNCTION or DO statement as a direct child of an IF/ELSE\n    // requires wrapping in a BLOCK, which depends on this function\n    // recognizing the labeled statement as a \"FUNCTION or DO\".\n    if (n.getType() == Token.LABEL) {\n      Node labeledStatement = n.getFirstChild();\n      if (labeledStatement != null) {\n        return (labeledStatement.getType() == Token.FUNCTION ||\n                labeledStatement.getType() == Token.DO);\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

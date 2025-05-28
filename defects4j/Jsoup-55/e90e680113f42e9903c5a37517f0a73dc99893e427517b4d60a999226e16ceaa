@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case CharacterReader.EOF: // Use CharacterReader.EOF for consistency with Jsoup's internal constant\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // This state is reached after consuming a '/' (e.g. <img /onerror)\n                    // The character `c` is the one *after* the '/'.\n                    // Per HTML5 spec, the '/' should be an error, and we should re-process `c`\n                    // in the BeforeAttributeName state. The character `c` must be unconsumed\n                    // so BeforeAttributeName can properly consume it as the start of an attribute name.\n                    t.error(this);\n                    r.unconsume(); // Put 'c' back into the reader\n                    t.transition(BeforeAttributeName);\n                    break;\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

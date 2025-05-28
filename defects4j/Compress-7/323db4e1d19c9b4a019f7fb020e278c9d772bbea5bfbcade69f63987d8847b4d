@@ -1,0 +1,7 @@
+{
+    "generation": "import java.nio.charset.StandardCharsets;\n\npublic class TarUtils {\n    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        // Determine the actual length of the string, which is limited by 'length'\n        // and the first NUL byte encountered.\n        int effectiveLength = 0;\n        for (int i = 0; i < length; ++i) {\n            if (buffer[offset + i] == 0) {\n                break;\n            }\n            effectiveLength++;\n        }\n\n        // Use the determined effective length to create the String using UTF-8 encoding.\n        // This is a common practice in modern TarUtils to handle names with non-ASCII characters,\n        // aligning with the typical default encoding for tar entries.\n        return new String(buffer, offset, effectiveLength, StandardCharsets.UTF_8);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

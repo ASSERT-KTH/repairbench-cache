@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the stack contains an element with this tag's name, pop up the stack to remove the first occurrence. If not\n     * found, skips.\n     *\n     * @param endTag tag to close\n     */\n    private void popStackToClose(Token.EndTag endTag) {\n        // Normalize the end tag name using the current parse settings.\n        // This ensures consistent case-sensitivity behavior (e.g., \"div\" vs \"DIV\")\n        // especially when an XML parser is configured with HTML-like settings.\n        String elName = settings.normalizeTag(endTag.name());\n        Element firstFound = null;\n\n        for (int pos = stack.size() -1; pos >= 0; pos--) {\n            Element next = stack.get(pos);\n            // Normalize the element's node name before comparison to match the normalized end tag name.\n            if (settings.normalizeTag(next.nodeName()).equals(elName)) {\n                firstFound = next;\n                break;\n            }\n        }\n        if (firstFound == null)\n            return; // not found, skip\n\n        // Pop elements from the stack until the 'firstFound' element is removed.\n        // This loop correctly removes elements from the top of the stack downwards.\n        for (int pos = stack.size() -1; pos >= 0; pos--) {\n            Element next = stack.get(pos);\n            stack.remove(pos);\n            if (next == firstFound)\n                break;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double solve(final UnivariateRealFunction f, double min, double max, double initial)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        // The original code 'return solve(min, max);' failed because\n        // the provided function 'f' was not associated with the solver instance.\n        // The internal solving methods (like doSolve() called via solve(min, max))\n        // expect 'this.function' to be set.\n\n        // First, set the function for the solver to use.\n        setFunction(f);\n\n        // Then, delegate to the core solving method. The 'initial' guess\n        // is typically not used by the bisection algorithm itself, so we can\n        // delegate to the two-parameter solve method which will then call doSolve().\n        return solve(min, max);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

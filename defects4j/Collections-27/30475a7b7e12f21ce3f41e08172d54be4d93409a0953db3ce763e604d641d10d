@@ -1,0 +1,7 @@
+{
+    "generation": "    private void readObject(final java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {\n        in.defaultReadObject();\n\n        // Validate that the deserialized 'collectionClass' is a valid Collection type.\n        // If it's null or not assignable from Collection.class, it's considered unsafe\n        // and should throw an exception to prevent potential security vulnerabilities\n        // or invalid states.\n        if (collectionClass == null || !java.util.Collection.class.isAssignableFrom(collectionClass)) {\n            throw new UnsupportedOperationException(\"The deserialized collection type is not a Collection class: \" + collectionClass);\n        }\n\n        // Re-initialize transient fields that depend on collectionClass, if necessary.\n        // In MultiValueMap, the collectionFactory is typically transient and needs to be\n        // rebuilt from the validated collectionClass. This line may already exist\n        // in the original readObject or be implicitly handled, but is included for completeness\n        // in a typical scenario where a transient field relies on a deserialized one.\n        // However, the primary bug fix is the validation above.\n        // this.collectionFactory = new org.apache.commons.collections4.functors.ReflectionCollectionFactory(collectionClass);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    if (!NodeUtil.isFunctionExpression(n)) {\n      return false;\n    }\n\n    Node parent = n.getParent();\n    if (parent == null) {\n      // A top-level function expression, or a function expression that is\n      // a child of the SCRIPT or BLOCK node, can be considered reducible.\n      return true;\n    }\n\n    // Disallow function expressions that are part of GET/SET properties.\n    // These are special \"named functions\" on property definitions that\n    // have specific semantics and cannot be safely rewritten or reduced\n    // like regular function expressions without potentially breaking the\n    // accessor behavior. The test `testIssue538` specifically covers\n    // this scenario with getter properties.\n    if (parent.isGet() || parent.isSet()) {\n      return false;\n    }\n\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

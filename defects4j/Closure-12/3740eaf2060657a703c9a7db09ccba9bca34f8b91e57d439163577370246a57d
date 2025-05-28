@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean hasExceptionHandler(Node cfgNode) {\n    Node current = cfgNode;\n    while (current != null) {\n      if (current.isTry()) {\n        // A TRY node has children: tryBody (BLOCK), catchBlock (CATCH, optional), finallyBlock (BLOCK, optional).\n        // We need to check if this TRY node has a CATCH child, which indicates an exception handler.\n        for (Node child = current.getFirstChild(); child != null; child = child.getNext()) {\n          if (child.isCatch()) {\n            return true; // Found a TRY block with a CATCH handler.\n          }\n        }\n      }\n      // Move up to the parent to check if any enclosing block is a TRY with a handler.\n      current = current.getParent();\n    }\n    return false; // No ancestor TRY node with a CATCH handler was found.\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

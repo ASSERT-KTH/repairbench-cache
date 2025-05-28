@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // Rhino's ForInLoop represents both 'for...in' and 'for each...in'.\n        // 'for each...in' is an unsupported language extension in Closure Compiler.\n        if (loopNode.isForEach()) {\n            // Report an error for unsupported 'for each' syntax.\n            // The parseError method in IRFactory typically calls the errorReporter,\n            // which is configured to throw an exception for fatal errors during parsing.\n            parseError(\"unsupported language extension: for each\", loopNode);\n\n            // Return an empty node as a placeholder. This return value will likely not be\n            // used if the parseError method causes an exception to be thrown immediately,\n            // which is the expected behavior for the test case.\n            return newNode(Token.EMPTY);\n        }\n\n        // Original logic for standard 'for...in' loops.\n        // Return the bare minimum to put the AST in a valid state for 'for...in'.\n      return newNode(\n          Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

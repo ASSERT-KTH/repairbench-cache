@@ -1,0 +1,7 @@
+{
+    "generation": "  JSType meet(JSType that) {\n    UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n\n    if (that instanceof UnionType) {\n      UnionType otherUnion = (UnionType) that;\n      for (JSType thisAlternate : alternates) {\n        for (JSType thatAlternate : otherUnion.alternates) {\n          // The meet of two union types distributes: meet(A|B, C|D) = (meet(A,C) | meet(A,D) | meet(B,C) | meet(B,D))\n          // Recursively call getGreatestSubtype on the individual components.\n          builder.addAlternate(thisAlternate.getGreatestSubtype(thatAlternate));\n        }\n      }\n    } else { // 'that' is a non-union type\n      for (JSType thisAlternate : alternates) {\n        // The meet of a union type and a non-union type distributes: meet(A|B, C) = (meet(A,C) | meet(B,C))\n        // Recursively call getGreatestSubtype on each component of 'this' and 'that'.\n        builder.addAlternate(thisAlternate.getGreatestSubtype(that));\n      }\n    }\n\n    JSType result = builder.build();\n    if (result != null) {\n      return result;\n    } else if (this.isObject() && that.isObject()) {\n      return getNativeType(JSTypeNative.NO_OBJECT_TYPE);\n    } else {\n      return getNativeType(JSTypeNative.NO_TYPE);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        tb.insert(startTag);\n\n        // For elements like <style/> or <noframes/>, Jsoup's HtmlTreeBuilder.insert()\n        // already handles the self-closing aspect by creating an empty element and\n        // immediately processing a synthetic end tag. This means there's no raw text\n        // content to parse, and the element is already conceptually closed.\n        // Therefore, the tokeniser should not transition to Rawtext mode in this case.\n        if (startTag.isSelfClosing()) {\n            return;\n        }\n\n        // For non-self-closing rawtext elements (e.g., <style>),\n        // the tokeniser needs to switch to Rawtext mode to consume the content\n        // until a matching end tag.\n        tb.tokeniser.transition(TokeniserState.Rawtext);\n        tb.markInsertionMode();\n        tb.transition(Text);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

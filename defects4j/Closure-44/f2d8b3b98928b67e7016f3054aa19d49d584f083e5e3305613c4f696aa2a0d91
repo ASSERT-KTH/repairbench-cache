@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    // Original condition for separating words.\n    // Example: \"return foo;\" -> \"return foo;\"\n    // Added condition: Separate consecutive forward slashes to avoid comment ambiguity\n    // and resolve regexp/div ambiguity (e.g., /foo//bar/ or a//b).\n    // The test case specifically shows this is needed when a '/' from a DIV\n    // is followed by a '/' from a REGEXP literal.\n    if (((isWordChar(c) || c == '\\\\') && isWordChar(getLastChar())) ||\n        (c == '/' && getLastChar() == '/')) {\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

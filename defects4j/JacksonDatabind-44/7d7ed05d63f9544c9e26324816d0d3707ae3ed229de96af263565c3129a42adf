@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    @Deprecated\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        if (_class == subclass) {\n            return this;\n        }\n        // Should we check that there is a sub-class relationship?\n        // 15-Jan-2016, tatu: Almost yes, but there are some complications with\n        //    placeholder values (`Void`, `NoClass`), so can not quite do yet.\n        // TODO: fix in 2.8\n            /*\n            throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                    +_class.getName());\n                    */\n            // 15-Jan-2016, tatu: As per [databind#1085], may need to\n            //   re-evaluate _typeHandler and _valueHandler; for now,\n            //   simplest is to just NOT pass them.\n            //   However, if handlers are class-specific, they would\n            //   fail anyway. So let's clear them to be safe.\n            //   _asStatic is always inherited.\n            return new SimpleType(subclass, _bindings, this, _superInterfaces,\n                    null, null, _asStatic); // Clear handlers for the new type\n        // Otherwise, stitch together the hierarchy. First, super-class\n        // if not found, try a super-interface\n        // should not get here but...\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

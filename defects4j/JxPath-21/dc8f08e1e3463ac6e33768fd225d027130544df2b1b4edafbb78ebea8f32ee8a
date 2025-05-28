@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object baseValue = getBaseValue();\n        // The XPath engine expects a length of 1 for a single null value,\n        // allowing it to be indexed (e.g., node[1]).\n        // ValueUtils.getLength(null) returns 0, which would incorrectly\n        // interpret a null property as an empty collection, leading to\n        // issues like \"expected:<[null]> but was:<[]>\".\n        // Therefore, explicitly handle null to indicate a length of 1.\n        if (baseValue == null) {\n            return 1;\n        }\n        // For non-null values, delegate to ValueUtils.getLength which correctly\n        // calculates lengths for collections, strings (as character count),\n        // and returns 1 for other atomic types.\n        return ValueUtils.getLength(baseValue);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public Date read(JsonReader in) throws IOException {\n    if (in.peek() == JsonToken.NULL) {\n      in.nextNull();\n      return null;\n    }\n    // If the token is not a STRING, in.nextString() will throw an IllegalStateException,\n    // which is the desired behavior for non-string, non-null values.\n    // The previous check `if (in.peek() != JsonToken.STRING)` was too eager\n    // and threw JsonParseException, which was not expected by the tests for type mismatches.\n    Date date = deserializeToDate(in.nextString());\n    if (dateType == Date.class) {\n      return date;\n    } else if (dateType == Timestamp.class) {\n      return new Timestamp(date.getTime());\n    } else if (dateType == java.sql.Date.class) {\n      return new java.sql.Date(date.getTime());\n    } else {\n      // This must never happen: dateType is guarded in the primary constructor\n      throw new AssertionError();\n    }\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

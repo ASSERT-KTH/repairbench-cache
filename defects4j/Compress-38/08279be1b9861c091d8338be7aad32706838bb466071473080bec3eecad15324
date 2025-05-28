@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // POSIX.1-2001 specifies that LF_DIR indicates a directory.\n        // This is the most reliable indicator.\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // POSIX.1-2001 specifies that LF_NORMAL indicates a regular file.\n        // A regular file cannot be a directory.\n        if (linkFlag == LF_NORMAL) {\n            return false;\n        }\n\n        // For other link types (e.g., symlinks, devices) or if the linkFlag\n        // is undefined/legacy, fall back to the name convention.\n        // By convention, directory names in tar archives often end with a slash.\n        // This check should come after definitive linkFlag checks to avoid\n        // misclassifying normal files whose names might end with a slash\n        // due to PAX headers or malformed archives (COMPRESS-356).\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

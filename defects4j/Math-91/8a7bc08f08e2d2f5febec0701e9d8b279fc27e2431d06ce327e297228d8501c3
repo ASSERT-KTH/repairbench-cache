@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Compares this object to another based on size.\n     * @param object the object to compare to\n     * @return -1 if this is less than <tt>object</tt>, +1 if this is greater\n     *         than <tt>object</tt>, 0 if they are equal.\n     */\n    public int compareTo(Fraction object) {\n        // To compare fractions n1/d1 and n2/d2 precisely without floating-point issues,\n        // we compare n1 * d2 with n2 * d1.\n        // Numerator and denominator are ints, but their product might exceed int range,\n        // so we cast to long before multiplication to prevent overflow.\n        long n1 = getNumerator();\n        long d1 = getDenominator(); // Denominator is guaranteed to be positive in Commons Math Fraction\n        long n2 = object.getNumerator();\n        long d2 = object.getDenominator(); // Denominator is guaranteed to be positive\n\n        // Perform cross-multiplication\n        long value1 = n1 * d2;\n        long value2 = n2 * d1;\n\n        if (value1 < value2) {\n            return -1;\n        } else if (value1 > value2) {\n            return 1;\n        } else {\n            // value1 == value2, meaning the fractions are exactly equal\n            return 0;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

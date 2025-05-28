@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n\n        // Ensure the initial guess for sigma (parameter at index 2) is strictly positive.\n        // The NotStrictlyPositiveException occurs when sigma is non-positive.\n        // While the optimizer might try negative values during iteration,\n        // a robust initial guess helps prevent immediate failure or divergence into problematic regions.\n        // A small positive epsilon (e.g., 1e-8) is a common choice for minimum positive value.\n        if (guess[2] <= 0) {\n            guess[2] = 1e-8; \n        }\n        \n        return fit(new Gaussian.Parametric(), guess);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

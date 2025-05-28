@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Get a line with reversed direction.\n     * @return a new instance, with reversed direction\n     */\n    public Line revert() {\n        // The original line has its 'zero' point and 'direction'.\n        // To revert, we want the new line to pass through a point on the original line\n        // and have the opposite direction.\n        // The Line constructor takes two points (p1, p2) and computes its direction as (p2-p1).normalize().\n        // We want (p2-p1).normalize() to be equivalent to this.direction.negate().\n        //\n        // Original: p1 = zero, p2 = zero.subtract(direction)\n        // -> direction = (zero - direction) - zero = -direction\n        //\n        // Alternative: p1 = zero.add(direction), p2 = zero\n        // -> direction = zero - (zero + direction) = -direction\n        //\n        // Both are mathematically equivalent. The alternative might offer slightly different\n        // floating-point precision due to different calculation order for large numbers.\n        final Line reverted = new Line(zero.add(direction), zero);\n        return reverted;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

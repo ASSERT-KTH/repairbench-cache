@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Build a sparse matrix with the supplied row and column dimensions.\n     *\n     * @param rowDimension Number of rows of the matrix.\n     * @param columnDimension Number of columns of the matrix.\n     */\n    public OpenMapRealMatrix(int rowDimension, int columnDimension) {\n        super(rowDimension, columnDimension);\n        this.rows = rowDimension;\n        this.columns = columnDimension;\n\n        // The maximum possible index for a matrix cell is (rowDimension - 1) * columnDimension + (columnDimension - 1).\n        // This simplifies to (long)rowDimension * columnDimension - 1.\n        // For this index to fit into an int, (long)rowDimension * columnDimension - 1 <= Integer.MAX_VALUE.\n        // This implies (long)rowDimension * columnDimension <= Integer.MAX_VALUE + 1.\n        // If the product exceeds Integer.MAX_VALUE + 1, then at least one cell index will overflow an int.\n        // We use 1L to ensure the addition is performed using long arithmetic.\n        if ((long) rowDimension * columnDimension > (long) Integer.MAX_VALUE + 1L) {\n            throw new org.apache.commons.math.exception.NumberIsTooLargeException(\n                    (long) rowDimension * columnDimension, (long) Integer.MAX_VALUE + 1L, false);\n        }\n\n        this.entries = new OpenIntToDoubleHashMap(0.0);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Test if this element has an attribute.\n     * @param attributeKey The attribute key to check.\n     * @return true if the attribute exists, false if not.\n     */\n    public boolean hasAttr(String attributeKey) {\n        Validate.notNull(attributeKey);\n\n        if (attributeKey.startsWith(Attributes.ABS_KEY_PREFIX)) {\n            // Check for \"abs:\" prefix. For absolute attributes, existence implies a non-empty absolute URL.\n            // This relies on the behaviour of attr() and absUrl() which correctly resolve or return empty.\n            // The chain of calls: hasAttr(\"abs:key\") -> attr(\"abs:key\") -> absUrl(\"key\") -> hasAttr(\"key\").\n            // This is not an infinite recursion because absUrl(\"key\") calls hasAttr(\"key\") (without \"abs:\" prefix),\n            // which directly checks attributes.hasKey().\n            return !attr(attributeKey).isEmpty();\n        }\n        return attributes.hasKey(attributeKey);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

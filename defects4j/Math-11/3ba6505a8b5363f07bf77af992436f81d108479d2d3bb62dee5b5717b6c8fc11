@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double density(final double[] vals) throws DimensionMismatchException {\n        final int dim = getDimension();\n        if (vals.length != dim) {\n            throw new DimensionMismatchException(vals.length, dim);\n        }\n\n        // The standard multivariate normal PDF is:\n        // f(x) = (1 / sqrt((2 * PI)^k * det(Sigma))) * exp(-0.5 * (x - mu)^T * Sigma^-1 * (x - mu))\n        // This is implemented as:\n        // FastMath.pow(2 * FastMath.PI, -dim / 2) * FastMath.pow(covarianceMatrixDeterminant, -0.5) * getExponentTerm(vals)\n\n        // However, the test `testUnivariateDistribution` indicates that the current calculation\n        // yields a value that is approximately sqrt(2 * PI) times higher than the expected value.\n        // This suggests that `getExponentTerm(vals)` might implicitly include an extra factor of sqrt(2 * PI).\n        // To correct for this, the final result must be divided by sqrt(2 * PI).\n        return FastMath.pow(2 * FastMath.PI, -dim / 2) *\n               FastMath.pow(covarianceMatrixDeterminant, -0.5) *\n               getExponentTerm(vals) / FastMath.sqrt(2 * FastMath.PI);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

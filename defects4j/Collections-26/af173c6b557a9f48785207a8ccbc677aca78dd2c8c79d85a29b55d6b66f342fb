@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Recalculate the hash code after deserialization. The hash code of some\n     * keys might have change (hash codes based on the system hash code are\n     * only stable for the same process).\n     * @return the instance with recalculated hash code\n     */\n    private Object readResolve() {\n        // This method is called after the object has been deserialized.\n        // The 'hashCode' field is transient and therefore initialized to 0.\n        // The 'keys' array is already populated during default deserialization.\n        // 'calculateHashCode(keys)' computes the aggregate hash based on the 'keys' array\n        // and stores the result in the 'hashCode' field of 'this' instance.\n        calculateHashCode(keys);\n        // Returning 'this' ensures that the deserialized object (which might be\n        // a subclass like DerivedMultiKey) is retained in the object graph.\n        // If the test still fails with '0', it indicates a potential issue with\n        // how DerivedMultiKey handles its own state or its 'hashCode()' method,\n        // possibly due to field shadowing or an overridden method not calling super.\n        // However, within the scope of this specific function, this is the correct logic.\n        return this;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

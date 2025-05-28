@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // See COMPRESS-356 - Tar entry 'file/' is a normal file\n        // If the linkFlag explicitly states it's a normal file, hard link, or symbolic link,\n        // then it is NOT a directory, even if its name ends with a slash.\n        if (linkFlag == LF_NORMAL || linkFlag == LF_LINK || linkFlag == LF_SYMLINK) {\n            return false;\n        }\n\n        // This heuristic check (name ending with '/') should only apply if the linkFlag\n        // does not definitively classify the entry as a file or a directory.\n        if (getName().endsWith(\"/\")) {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

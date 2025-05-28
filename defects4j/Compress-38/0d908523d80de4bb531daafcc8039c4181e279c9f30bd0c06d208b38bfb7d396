@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // The linkFlag (tar type byte) is the authoritative indicator for the entry type.\n        // LF_DIR explicitly marks an entry as a directory.\n        // Other linkFlags (like LF_NORMAL for regular files) mean it's not a directory.\n        // The check for getName().endsWith(\"/\") is a heuristic that can be misleading\n        // if the name comes from a PAX header and conflicts with the definitive linkFlag,\n        // as demonstrated by COMPRESS-356.\n        return linkFlag == LF_DIR;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

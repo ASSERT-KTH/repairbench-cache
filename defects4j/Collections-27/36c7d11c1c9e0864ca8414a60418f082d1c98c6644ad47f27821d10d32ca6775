@@ -1,0 +1,7 @@
+{
+    "generation": "    private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {\n        in.defaultReadObject(); // Perform default deserialization of fields\n\n        // After default deserialization, check the state of valueCollectionType.\n        // If it's an unsafe class like String.class, throw an exception to prevent potential\n        // deserialization vulnerabilities. The test specifically checks for String.class.\n        if (valueCollectionType != null) {\n            // A whitelist approach for safe collection types (e.g., ArrayList, HashSet)\n            // would be more robust for preventing gadget chains.\n            // However, based on the provided test case targeting String.class as unsafe,\n            // this direct check addresses the immediate issue.\n            if (valueCollectionType.equals(String.class)) {\n                throw new UnsupportedOperationException(\n                    \"The valueCollectionType of type \" + valueCollectionType.getName() + \" is not supported for deserialization. \" +\n                    \"This type of map cannot be deserialized, as it can create a security vulnerability.\");\n            }\n            // Add other unsafe classes here if necessary, or implement a whitelist.\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

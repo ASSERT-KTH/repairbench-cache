@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Creates a period from the given millisecond duration with the standard period type\n     * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n     * <p>\n     * The calculation uses the hour, minute, second and millisecond fields.\n     *\n     * @param duration  the duration, in milliseconds\n     */\n    protected BasePeriod(long duration) {\n        // bug [3264409] - The original code 'this(duration, null, null)' implicitly defaults\n        // the PeriodType to 'standard()'. The Javadoc explicitly states that the calculation\n        // should be performed with the 'time-only period type'.\n        // By passing PeriodType.time(), we ensure that the duration is broken down\n        // into hours, minutes, seconds, and milliseconds only, setting years, months,\n        // weeks, and days to zero, which aligns with the test expectations for durations.\n        this(duration, org.joda.time.PeriodType.time(), null);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    // Cast to RecordType for easier access to its methods.\n    RecordType otherRecordType = that.toMaybeRecordType();\n\n    // Rule 1: If 'this' record type is a subtype of 'that' record type,\n    // then 'that' is the least supertype.\n    // Example: this = {a: number, b: string}, that = {b: string}\n    // In this case, {b: string} is the least supertype.\n    if (this.isSubtype(otherRecordType)) {\n      return otherRecordType;\n    }\n\n    // Rule 2: If 'that' record type is a subtype of 'this' record type,\n    // then 'this' is the least supertype.\n    // Example: this = {b: string}, that = {a: number, b: string}\n    // In this case, {b: string} is the least supertype.\n    if (otherRecordType.isSubtype(this)) {\n      return this;\n    }\n\n    // Rule 3: If neither record type is a subtype of the other (e.g.,\n    // they are unrelated or only partially overlapping without a direct\n    // subtyping relationship), the least supertype is a union of the two.\n    // Example: {a: number, b: string} and {e: number, b: string, c: string}\n    // The least supertype is ({a: number, b: string}|{e: number, b: string, c: string}).\n    return registry.createUnionType(this, otherRecordType);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

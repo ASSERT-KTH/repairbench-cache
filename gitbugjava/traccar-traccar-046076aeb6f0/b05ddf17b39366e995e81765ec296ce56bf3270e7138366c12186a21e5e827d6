@@ -1,0 +1,7 @@
+{
+    "generation": "} else if (type == MSG_LBS_MULTIPLE_1 || type == MSG_LBS_MULTIPLE_2 || type == MSG_LBS_MULTIPLE_3 // <-- Problematic inclusion\n        || type == MSG_LBS_EXTEND || type == MSG_LBS_WIFI || type == MSG_LBS_2\n        || type == MSG_WIFI_3 || type == MSG_WIFI_5) {\n\n    // ... date parsing ...\n    // ... variant check ...\n\n    int mcc = buf.readUnsignedShort();\n    int mnc = BitUtil.check(mcc, 15) ? buf.readUnsignedShort() : buf.readUnsignedByte();\n    Network network = new Network();\n\n    int cellCount = variant == Variant.WANWAY_S20 ? buf.readUnsignedByte() : type == MSG_WIFI_5 ? 6 : 7; // <-- hardcoded 7 for MSG_LBS_MULTIPLE_3\n    for (int i = 0; i < cellCount; i++) { // <-- Loop tries to read 7 towers\n        // ... reads 6 bytes per tower (2 for LAC, 3 for CID, 1 for RSSI)\n    }\n    // ... rest of the LBS/Wifi parsing ...\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

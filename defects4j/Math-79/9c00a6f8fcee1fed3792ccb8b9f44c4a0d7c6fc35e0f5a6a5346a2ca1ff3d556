@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Calculates the L<sub>2</sub> (Euclidean) distance between two points.\n     *\n     * @param p1 the first point\n     * @param p2 the second point\n     * @return the L<sub>2</sub> distance between the two points\n     */\n    public static double distance(int[] p1, int[] p2) {\n      // Check for null arguments to prevent NullPointerException\n      if (p1 == null || p2 == null) {\n          throw new IllegalArgumentException(\"Input points cannot be null.\");\n      }\n\n      // Check if points have the same dimension\n      if (p1.length != p2.length) {\n          throw new IllegalArgumentException(\"Input points must have the same dimension.\");\n      }\n\n      // Use long for sum and intermediate difference calculation to prevent\n      // potential integer overflow when squaring large differences.\n      // The maximum difference between two int values can be ~4*10^9,\n      // and its square can be ~16*10^18, which fits in a long but not an int.\n      long sum = 0;\n      for (int i = 0; i < p1.length; i++) {\n          final long dp = (long) p1[i] - p2[i];\n          sum += dp * dp;\n      }\n      return Math.sqrt(sum);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    if (shape.isNumeric()) { // THIS CHECK IS FIRST\n        return withFormat(Boolean.TRUE, null);\n    }\n    // ... then later ...\n    if (format.hasPattern()) { // THIS CHECK IS SECOND\n        // ... handle pattern ...\n    }\n    ```\n    Because the `isNumeric()` check comes *before* `hasPattern()`, the numeric serialization takes precedence, leading to the observed bug.\n\nThe fix involves reordering these checks. As per the comment `// 08-Jun-2017, tatu: With [databind#1648], this gets bit tricky.. First: custom pattern will override things`, the intention is for a custom pattern to take precedence over other serialization modes (like numeric timestamp). By placing the `if (format.hasPattern())` block before the `if (shape.isNumeric())` block, the explicit pattern will be honored first, ensuring string serialization when a pattern is provided.\n\nThe fixed code is as follows:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

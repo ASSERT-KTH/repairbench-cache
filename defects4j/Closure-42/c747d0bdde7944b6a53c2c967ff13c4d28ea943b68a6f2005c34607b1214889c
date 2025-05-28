@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // The 'for each' loop is an unsupported language extension in standard JavaScript.\n        // If this function is invoked with a ForEachStatementTree node, it means\n        // a 'for each' construct has been parsed.\n        // We need to report an error for such unsupported syntax.\n        if (loopNode instanceof com.google.javascript.jscomp.parsing.parser.trees.ForEachStatementTree) {\n            // Report the specific error message expected by the test.\n            // This assumes 'report' is an accessible method in the current class\n            // (e.g., in a Parser or AstFactory context).\n            report(loopNode.location, com.google.javascript.jscomp.parsing.ParserError.UNSUPPORTED_LANGUAGE_EXTENSION, \"for each\");\n\n            // Return a dummy node to allow parsing to continue after reporting the error,\n            // preventing potential NullPointerExceptions in subsequent processing stages.\n            return newNode(com.google.javascript.rhino.Token.EMPTY);\n        }\n\n        // For a standard 'for...in' loop, proceed with the original transformation\n        // to convert the ParseTree into a Rhino Node.\n      return newNode(\n          com.google.javascript.rhino.Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

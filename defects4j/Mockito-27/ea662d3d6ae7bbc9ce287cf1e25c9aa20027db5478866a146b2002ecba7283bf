@@ -1,0 +1,7 @@
+{
+    "generation": "    public <T> void resetMock(T mock) {\n        MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);\n        MockHandler<T> newMockHandler = new MockHandler<T>(oldMockHandler);\n        // The original code was passing a new, default MockSettingsImpl to the MethodInterceptorFilter,\n        // which caused custom settings like InvocationListeners to be lost after reset.\n        // The fix is to use the MockSettings from the newMockHandler, which should have\n        // inherited the original settings (including listeners) from the old handler.\n        MethodInterceptorFilter newFilter = new MethodInterceptorFilter(newMockHandler, (MockSettingsImpl) newMockHandler.getMockSettings());\n        ((Factory) mock).setCallback(0, newFilter);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

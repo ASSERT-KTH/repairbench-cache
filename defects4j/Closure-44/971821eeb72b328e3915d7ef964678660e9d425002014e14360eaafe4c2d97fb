@@ -1,0 +1,7 @@
+{
+    "generation": "  void add(String newcode) {\n    maybeEndStatement();\n\n    if (newcode.length() == 0) {\n      return;\n    }\n\n    char c = newcode.charAt(0);\n    if ((isWordChar(c) || c == '\\\\') &&\n        isWordChar(getLastChar())) {\n      // need space to separate. This is not pretty printing.\n      // For example: \"return foo;\"\n      append(\" \");\n      // Do not allow a forward slash to appear after a DIV.\n      // For example,\n      // REGEXP DIV REGEXP\n      // is valid and should print like\n      // / // / /\n    } else if (getLastChar() == '/' && c == ' ') {\n      // This handles the specific case from testIssue620 and similar.\n      // When the last character appended was a slash (e.g., from a DIV operator\n      // or a combined DIV/REGEXP_START forming `//`), and the new code starts with a space\n      // (as in the body of a regular expression literal like `/ /`),\n      // a space is needed to separate them for proper formatting.\n      append(\" \");\n    }\n\n    append(newcode);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  protected CompilerOptions createOptions() {\n    CompilerOptions options = new CompilerOptions();\n    options.setCodingConvention(new ClosureCodingConvention());\n    CompilationLevel level = flags.compilation_level;\n    level.setOptionsForCompilationLevel(options);\n    if (flags.debug) {\n      level.setDebugOptionsForCompilationLevel(options);\n    }\n\n    WarningLevel wLevel = flags.warning_level;\n    wLevel.setOptionsForWarningLevel(options);\n    for (FormattingOption formattingOption : flags.formatting) {\n      formattingOption.applyToOptions(options);\n    }\n    // The original code only sets options.closurePass to true if the flag is true.\n    // If options.closurePass defaults to true, or is set to true elsewhere (e.g., by initOptionsFromFlags\n    // if it's placed after this block or has a conflicting default), and the flag is false,\n    // then closurePass would remain true, leading to the observed bug.\n    // To correctly handle --process_closure_primitives=false, options.closurePass must be explicitly set to false.\n    // This line ensures options.closurePass directly reflects the value of the flag.\n    options.closurePass = flags.process_closure_primitives;\n\n    initOptionsFromFlags(options);\n    return options;\n  }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

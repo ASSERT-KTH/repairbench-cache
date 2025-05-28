@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * If the property contains a collection, then the length of that\n     * collection, otherwise - 1.\n     * @return int length\n     */\n    public int getLength() {\n        Object baseValue = getBaseValue();\n\n        // According to the Javadoc: \"If the property contains a collection, then the length of that\n        // collection, otherwise - 1.\"\n        // ValueUtils.getLength(Object) typically returns 0 for null and 1 for non-collection objects.\n        // To adhere to the \"otherwise - 1\" contract, we must explicitly check for null\n        // or non-collection/non-array types and return -1 in those cases.\n        if (baseValue == null || !(baseValue instanceof java.util.Collection || baseValue.getClass().isArray())) {\n            return -1;\n        }\n\n        // If it is a collection or an array, then delegate to ValueUtils.getLength\n        return org.apache.commons.jxpath.util.ValueUtils.getLength(baseValue);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

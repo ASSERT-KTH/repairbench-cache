@@ -1,0 +1,7 @@
+{
+    "generation": "    public BaseSettings withDateFormat(DateFormat df) {\n        if (_dateFormat == df) {\n            return this;\n        }\n        // When a new DateFormat is provided, the TimeZone of the BaseSettings object\n        // should NOT implicitly change to the TimeZone of the provided DateFormat.\n        // It should retain its current TimeZone (_timeZone).\n        // The original code: TimeZone tz = (df == null) ? _timeZone : df.getTimeZone();\n        // This line was causing the TimeZone to change, violating the test's expectation.\n        // We should always use the existing _timeZone for the new settings instance.\n        return new BaseSettings(_classIntrospector, _annotationIntrospector, _visibilityChecker, _propertyNamingStrategy, _typeFactory,\n                _typeResolverBuilder, df, _handlerInstantiator, _locale,\n                _timeZone, // Use the existing _timeZone, do not derive from the new DateFormat\n                _defaultBase64);\n    }",
+    "exact_match": false,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

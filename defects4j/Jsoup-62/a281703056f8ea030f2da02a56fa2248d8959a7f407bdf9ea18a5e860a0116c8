@@ -1,0 +1,7 @@
+{
+    "generation": "        boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {\n            String name = t.asEndTag().normalName();\n            ArrayList<Element> stack = tb.getStack();\n            for (int pos = stack.size() -1; pos >= 0; pos--) {\n                Element node = stack.get(pos);\n                if (node.nodeName().equals(name)) {\n                    tb.generateImpliedEndTags(name);\n                    if (!name.equals(tb.currentElement().nodeName()))\n                        tb.error(this);\n                    tb.popStackToClose(name);\n                    return true; // Successfully handled: found and popped the matching tag\n                } else {\n                    if (tb.isSpecial(node)) {\n                        tb.error(this);\n                        return false; // Cannot pop through a special node\n                    }\n                }\n            }\n            // If the loop completes, it means the matching tag 'name' was not found on the stack.\n            // In HTML5, if a matching end tag is not found, it's a parse error and the token should be ignored.\n            // Returning 'false' here will cause HtmlTreeBuilder.processEndTag() to ignore the token,\n            // which aligns with the HTML5 parsing algorithm.\n            return false;\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

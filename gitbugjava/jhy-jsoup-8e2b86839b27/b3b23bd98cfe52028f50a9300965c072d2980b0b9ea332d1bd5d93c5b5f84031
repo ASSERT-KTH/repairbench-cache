@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isFormatAsBlock(Document.OutputSettings out) {\n        // Check for explicit 'display:inline' style. If present, this element should be\n        // formatted as inline, overriding its default tag type or parent's influence.\n        String style = attributes().get(\"style\"); // 'this' refers to the Element for which this method is called.\n        if (style != null && style.contains(\"display:inline\")) {\n            return false;\n        }\n\n        // If the 'outline' setting is enabled, all elements are forced to be formatted as blocks.\n        if (out.outline()) {\n            return true;\n        }\n\n        // Otherwise, an element is formatted as a block if its tag is inherently a block-level tag.\n        // The previous logic included `parent().tag().formatAsBlock()`, which could force\n        // otherwise inline elements within block parents (e.g., <span> inside <div>) to be\n        // formatted as blocks. Removing this makes the pretty printer respect the element's\n        // own fundamental block/inline nature more closely, unless explicitly overridden by style.\n        return tag.formatAsBlock();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

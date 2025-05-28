@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @return Whether the Node is a DO or FUNCTION (with or without\n   * labels).\n   */\n  private boolean isOneExactlyFunctionOrDo(Node n) {\n    // This function is used to identify nodes that require special block\n    // wrapping for browser compatibility (e.g., IE for DO loops, Safari for FUNCTIONS)\n    // when they are the direct child of an IF or ELSE statement without a block.\n    // The check needs to account for labeled statements, as a LABEL node is the\n    // direct child, but its effective content is the labeled statement.\n\n    if (n.getType() == Token.FUNCTION || n.getType() == Token.DO) {\n      return true;\n    }\n    // If the node is a LABEL, check its second child (the labeled statement).\n    // A LABEL node has two children: the label name (first child) and\n    // the labeled statement (second child).\n    if (n.getType() == Token.LABEL) {\n      Node labeledStatement = n.getSecondChild();\n      if (labeledStatement != null) {\n        return (labeledStatement.getType() == Token.FUNCTION || labeledStatement.getType() == Token.DO);\n      }\n    }\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

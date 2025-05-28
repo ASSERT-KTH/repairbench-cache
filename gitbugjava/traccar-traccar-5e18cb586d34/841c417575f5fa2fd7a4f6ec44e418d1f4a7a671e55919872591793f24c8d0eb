@@ -1,0 +1,7 @@
+{
+    "generation": "    if (index < values.length) {\n        String value = values[index++]; // Get value and advance index\n        if (BitUtil.check(mask, bit) && !value.isEmpty()) {\n            // Process value\n        }\n    } else {\n        index++; // Advance index even if the field is out of bounds (to maintain parallelism if parsing continues)\n    }\n    ```\n    This ensures `index` always moves past the field.\n\n2.  **Empty String/Missing Value Checks:**\n    *   Before any `Integer.parseInt()`, `Double.parseDouble()`, or `Long.parseLong()`, a check `!value.isEmpty()` is added to prevent `NumberFormatException`.\n    *   For fields like `KEY_FUEL_CONSUMPTION` and `KEY_FUEL_LEVEL` that use `substring(1)`, an additional check `!parsedValue.isEmpty()` is added, as `substring(1)` on a single-character string (e.g., \"P\") can result in an empty string, which would then cause `NumberFormatException`.\n    *   `index < values.length` checks are added before any `values[index]` access to prevent `ArrayIndexOutOfBoundsException`.\n\n3.  **Initialization:** `reportMask` is initialized to `0` to ensure it always has a default value.\n\nThe revised `decodeCan` function is provided below:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean isJSIdentifier(String s) {\n      int length = s.length();\n\n      if (length == 0) {\n        return false;\n      }\n\n      // For the purpose of converting property names to dotted notation,\n      // Closure Compiler uses a very strict definition of a JS identifier,\n      // typically restricted to ASCII letters, '$', and '_',\n      // followed by ASCII letters, digits, '$', or '_'.\n      // This is based on the ECMA-262, 3rd Edition, 7.6 rules for identifiers,\n      // and specifically the implementation used in NodeUtil.isValidIdentifier.\n\n      char firstChar = s.charAt(0);\n      // Check if the first character is a valid JS identifier start character\n      if (! (('a' <= firstChar && firstChar <= 'z')\n          || ('A' <= firstChar && firstChar <= 'Z')\n          || (firstChar == '$')\n          || (firstChar == '_'))) {\n        return false;\n      }\n\n      // Check if the remaining characters are valid JS identifier part characters\n      for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (! ( (('a' <= c && c <= 'z')\n            || ('A' <= c && c <= 'Z')\n            || (c == '$')\n            || (c == '_'))\n            || ('0' <= c && c <= '9'))) {\n          return false;\n        }\n      }\n\n      return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

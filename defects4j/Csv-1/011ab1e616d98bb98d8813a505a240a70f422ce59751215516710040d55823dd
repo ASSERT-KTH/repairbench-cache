@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read();\n        // Check for line breaks based on the current character and the previously read character.\n        // This logic ensures that common line endings (\\n, \\r, \\r\\n) are counted as a single line.\n        if (current == '\\n') {\n            // If the current character is a newline, increment the line counter,\n            // UNLESS the previous character was a carriage return, indicating a CRLF sequence\n            // where the line was already counted when the carriage return was encountered.\n            if (lastChar != '\\r') {\n                lineCounter++;\n            }\n        } else if (current == '\\r') {\n            // If the current character is a carriage return, increment the line counter.\n            // This handles standalone CR line endings (e.g., Mac OS 9).\n            // If it's part of a CRLF sequence, the subsequent '\\n' will be ignored by the above logic.\n            lineCounter++;\n        }\n        // For any other character, or EOF (-1), the line counter does not change.\n\n        lastChar = current; // Store the current character for the next read operation's logic.\n        return lastChar; // Return the character just read.\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

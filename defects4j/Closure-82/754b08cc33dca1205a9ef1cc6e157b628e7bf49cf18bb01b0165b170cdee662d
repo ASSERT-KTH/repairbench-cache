@@ -1,0 +1,7 @@
+{
+    "generation": "  public final boolean isEmptyType() {\n    // This method identifies \"empty\" or \"bottom\" types that carry no specific\n    // type information. These typically include:\n    // 1. NoType: Represents the bottom type, often used for unknown or uninferable types.\n    // 2. NoObjectType: Represents an unknown object type.\n    // 3. NoResolvedType: Represents a type that could not be resolved.\n    //\n    // The failing test `FunctionTypeTest::testEmptyFunctionTypes` indicates that\n    // LEAST_FUNCTION_TYPE (which is the type of the global Function constructor)\n    // should also be considered an \"empty\" type. This is because the global\n    // Function constructor type represents the most general function, providing\n    // no specific signature (parameters, return type, etc.). In this sense, it\n    // provides no more specific information than a \"NoType\" for functions.\n    //\n    // GREATEST_FUNCTION_TYPE (Function.prototype) should NOT be considered empty.\n    //\n    // The added condition `isFunctionType() && ((FunctionType) this).isGlobalFunction()`\n    // checks if the current type is a function type and specifically the global\n    // Function constructor type.\n    return isNoType() || isNoObjectType() || isNoResolvedType() ||\n           (isFunctionType() && ((FunctionType) this).isGlobalFunction());\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

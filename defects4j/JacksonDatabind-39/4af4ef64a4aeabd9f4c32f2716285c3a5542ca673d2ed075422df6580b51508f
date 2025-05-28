@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n    {\n        // When this deserializer is called for an unknown polymorphic type,\n        // the parser might be positioned at:\n        // 1. START_OBJECT/START_ARRAY/VALUE_xxx: The start of the value to be skipped.\n        // 2. FIELD_NAME: If Jackson's polymorphic handler has already consumed the type ID\n        //    and passed control at the next field name within the object.\n        //\n        // p.skipChildren() has a nuance for FIELD_NAME where it skips the value but not the name itself.\n        // To ensure the entire value (including any starting FIELD_NAME that might have initiated\n        // this deserializer call) is consumed and the parser state is clean,\n        // we first advance past a FIELD_NAME if present, then read the entire value as a tree.\n\n        if (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n            p.nextToken(); // Advance to the value token (START_OBJECT, START_ARRAY, or VALUE_xxx)\n        }\n\n        // Now, the parser is at the start of the value we need to skip.\n        // ctxt.readTree(p) will consume the entire JSON value (object, array, or scalar)\n        // and position the parser to the token immediately after the consumed value.\n        // It also handles resetting JsonParser.getCurrentName().\n        ctxt.readTree(p);\n        \n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

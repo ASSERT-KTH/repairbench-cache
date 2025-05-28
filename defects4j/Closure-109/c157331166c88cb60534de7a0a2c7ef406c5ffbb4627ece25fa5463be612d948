@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?'\n   * For expressions on the right hand side of a this: or new:\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    // According to the JSDoc grammar for ContextTypeExpression, it can be a '?'\n    // token directly, indicating an unknown constructor/this type.\n    if (token == JsDocToken.QMARK) {\n      stream.next(); // Consume the '?' token\n      // Represent '?' as a QMARK node, similar to how '?' is used for nullable types.\n      return createJSDocNode(Token.QMARK);\n    }\n    // The tests also indicate that '*' (UNKNOWN type) should be handled explicitly\n    // in this context, preventing it from being misparsed by parseTypeName\n    // if parseTypeName expects a more specific BasicTypeExpression here.\n    else if (token == JsDocToken.STAR) {\n      stream.next(); // Consume the '*' token\n      // Represent '*' as a STAR node, which is the standard for UNKNOWN types.\n      return createJSDocNode(Token.STAR);\n    }\n    // For any other token, it is expected to be a BasicTypeExpression (e.g., a type name).\n    // parseTypeName is responsible for parsing these and also consumes the token.\n    return parseTypeName(token);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

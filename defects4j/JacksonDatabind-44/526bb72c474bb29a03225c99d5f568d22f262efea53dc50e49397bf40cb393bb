@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    @Deprecated\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        if (_class == subclass) {\n            return this;\n        }\n        // The original implementation incorrectly reused the super-class and super-interfaces\n        // from the 'this' type for the 'subclass', instead of correctly deriving them\n        // for the 'subclass' itself. This led to issues in type introspection.\n        //\n        // The fix (introduced in Jackson 2.8) is to delegate the type construction\n        // to TypeFactory, which correctly handles the specialization process,\n        // deriving the new type's hierarchy while preserving generic bindings and handlers.\n        return com.fasterxml.jackson.databind.type.TypeFactory.defaultInstance().constructSpecializedType(this, subclass);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

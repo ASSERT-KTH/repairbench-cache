@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public ObjectNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException\n        {\n            // As per 23-Sep-2015, tatu's comment, we may be given END_OBJECT as the\n            // current token if the caller has already advanced past START_OBJECT\n            // for an empty object. In this case, we should return an empty ObjectNode.\n            if (p.getCurrentToken() == JsonToken.END_OBJECT) {\n                return ctxt.getNodeFactory().objectNode();\n            }\n            if (p.getCurrentToken() == JsonToken.START_OBJECT) {\n                p.nextToken(); // Advance past START_OBJECT\n                // After advancing, the token could be FIELD_NAME or END_OBJECT (for empty object).\n                // deserializeObject is expected to handle both scenarios.\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // If the current token is FIELD_NAME, it means we are already inside an object\n            // and the parser is pointing to the first field name.\n            if (p.getCurrentToken() == JsonToken.FIELD_NAME) {\n                return deserializeObject(p, ctxt, ctxt.getNodeFactory());\n            }\n            // For any other token, it's an unexpected start token for an ObjectNode.\n            throw ctxt.mappingException(ObjectNode.class);\n         }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

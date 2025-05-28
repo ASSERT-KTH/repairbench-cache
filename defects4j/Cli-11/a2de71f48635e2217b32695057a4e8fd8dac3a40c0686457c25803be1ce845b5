@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Appends the usage clause for an Option to a StringBuffer.  \n     *\n     * @param buff the StringBuffer to append to\n     * @param option the Option to append\n     * @param required whether the Option is required or not\n     */\n    private static void appendOption(final StringBuffer buff, \n                                     final Option option, \n                                     final boolean required)\n    {\n        if (!required)\n        {\n            buff.append(\"[\");\n        }\n\n        if (option.getOpt() != null)\n        {\n            buff.append(\"-\").append(option.getOpt());\n        }\n        else\n        {\n            buff.append(\"--\").append(option.getLongOpt());\n        }\n\n        // if the Option has a value\n        // The original condition `option.getArgName() != null` would evaluate to true\n        // even if `getArgName()` returned an empty string (\"\"), leading to \"<>\" being appended.\n        // `option.hasArgName()` correctly checks if the argument name is non-null AND non-empty.\n        if (option.hasArg() && option.hasArgName())\n        {\n            buff.append(\" <\").append(option.getArgName()).append(\">\");\n        }\n\n        // if the Option is not a required option\n        if (!required)\n        {\n            buff.append(\"]\");\n        }\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

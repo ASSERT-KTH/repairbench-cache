@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Returns the remainder of the line.\n   */\n  private String getRemainingJSDocLine() {\n    String result = stream.getRemainingJSDocLine();\n    // After getting the remainder of the JSDoc line, the stream should be\n    // positioned at the newline character (if any) or '*/'.\n    // We need to consume the newline character if it's there,\n    // to ensure correct position tracking for the next line.\n    // If it's not a newline, it implies we hit '*/' or EOF, which\n    // would be handled by other parsing logic.\n    if (stream.peek() == '\\n') {\n      stream.next(); // Consume the newline character\n    } else if (stream.peek() == '\\r') { // Handle Windows-style newlines\n      stream.next(); // Consume carriage return\n      if (stream.peek() == '\\n') {\n        stream.next(); // Consume line feed\n      }\n    }\n    return result;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

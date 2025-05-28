@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Remove the leading and trailing quotes from <code>str</code>.\n     * E.g. if str is '\"one two\"', then 'one two' is returned.\n     *\n     * @param str The string from which the leading and trailing quotes\n     * should be removed.\n     *\n     * @return The string without the leading and trailing quotes.\n     */\n    static String stripLeadingAndTrailingQuotes(String str)\n    {\n        if (str == null || str.isEmpty()) {\n            return str;\n        }\n\n        // Special case handling for a single quote string as per test case:\n        // assertEquals(\"\\\"\", Util.stripLeadingAndTrailingQuotes(\"\\\"\"));\n        if (str.length() == 1 && str.charAt(0) == '\"') {\n            return str;\n        }\n\n        int begin = 0;\n        int end = str.length(); // exclusive end index\n\n        // Check and remove leading quote\n        if (str.charAt(begin) == '\"') {\n            begin++;\n        }\n\n        // Check and remove trailing quote\n        // The condition `end > begin` ensures that we don't try to access an invalid index\n        // if the string became empty or effectively empty after removing the leading quote,\n        // e.g., for input \"\\\"\\\"\" (empty string in quotes)\n        if (end > begin && str.charAt(end - 1) == '\"') {\n            end--;\n        }\n        \n        return str.substring(begin, end);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

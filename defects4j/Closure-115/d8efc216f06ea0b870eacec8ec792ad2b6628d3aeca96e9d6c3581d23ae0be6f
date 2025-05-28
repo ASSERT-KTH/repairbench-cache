@@ -1,0 +1,7 @@
+{
+    "generation": "      if (cArg != null) {\n        // Use NodeUtil.mayEffectMutableState for consistency with Javadoc Rule 1\n        // (arguments that \"effect mutable state\" are typically what's meant by \"side effects\").\n        if (NodeUtil.mayEffectMutableState(cArg, compiler)) {\n          // If cArg has side effects:\n          //   - If fnParam is null here, it means cArg is an extra argument (no matching parameter).\n          //     In this case, its side effect would be lost by inlining, so we must return NO.\n          //   - If fnParam is not null, it means cArg corresponds to a formal parameter.\n          //     The condition for this case (referenced more than once) was already\n          //     checked in the 'if (fnParam != null)' block (Check 2). If we reached\n          //     this point, it implies Check 2 passed, meaning the parameter is\n          //     referenced exactly once. So, it's safe to proceed.\n          if (fnParam == null) {\n            return CanInlineResult.NO;\n          }\n        }\n        cArg = cArg.getNext();\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

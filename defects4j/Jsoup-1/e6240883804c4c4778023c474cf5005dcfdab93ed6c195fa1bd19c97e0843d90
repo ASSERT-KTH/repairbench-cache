@@ -1,0 +1,7 @@
+{
+    "generation": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\nimport org.jsoup.nodes.Element;\nimport org.jsoup.nodes.Node;\nimport org.jsoup.nodes.TextNode;\n\n    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // To maintain the original order of the moved text nodes when prepending,\n        // iterate the list in reverse.\n        Collections.reverse(toMove);\n\n        for (Node node: toMove) {\n            element.removeChild(node);\n            // The original code appended a space and then the node to the body.\n            // To move to the start of the body and preserve text flow, we prepend.\n            // The explicit space node added previously is often unnecessary as\n            // Jsoup's text() extraction handles whitespace between elements.\n            body().prependChild(node);\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

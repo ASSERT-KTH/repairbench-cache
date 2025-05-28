@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\"))\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            else if (tq.matches(\"[\"))\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            else if (tq.matchesAny(Combinators)) {\n                if (sq.length() > 0) { // If we've already built part of the query, a combinator ends this sub-query segment.\n                    break;\n                } else { // If the sub-query starts with a combinator.\n                    if (tq.matches(\",\")) { // If it's a grouping combinator (comma), this sub-query segment is complete.\n                        break;\n                    }\n                    // Otherwise, it's a structural combinator (space, >, +, ~) that should be\n                    // part of the current sub-query segment. Append it.\n                    sq.append(tq.consume());\n                }\n            } else {\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

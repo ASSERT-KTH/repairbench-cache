@@ -1,0 +1,7 @@
+{
+    "generation": "// Inside com.fasterxml.jackson.databind.type.ResolvedRecursiveType\n@Override\npublic JavaType getSuperClass() {\n    // If the actual type has been resolved, delegate to it.\n    // This ensures that properties like superclass are correctly reported\n    // once the recursive type is no longer a placeholder.\n    if (_resolvedType != null) {\n        return _resolvedType.getSuperClass();\n    }\n    // If _resolvedType is still null, it means the recursive type\n    // has not yet been fully resolved. In this state, its _superClass\n    // field (initialized to null in the constructor) is returned.\n    // The test requires that by the time `getSuperClass()` is called on\n    // `baseTypeFromSub` (which is a ResolvedRecursiveType), its `_resolvedType`\n    // should have been set to the actual JavaType for Base.class.\n    return super.getSuperClass();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

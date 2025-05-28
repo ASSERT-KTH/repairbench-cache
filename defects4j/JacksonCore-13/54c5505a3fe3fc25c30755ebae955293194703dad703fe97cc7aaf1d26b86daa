@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected final void _writeFieldName(String name) throws IOException\n    {\n        // This method is called by JsonGenerator.writeFieldName(String)\n        // after context checks are done.\n\n        // If a pretty printer is configured, it has precedence for how to write\n        // the field name (quoted or unquoted, with spacing).\n        if (_cfgPrettyPrinter != null) {\n            _cfgPrettyPrinter.writeFieldName(this, name);\n            return;\n        }\n\n        // If no pretty printer, we decide based on the feature:\n        if (isEnabled(Feature.QUOTE_FIELD_NAMES)) {\n            // Feature enabled: write the field name with quotes.\n            // _writeString() is an internal method that handles adding quotes\n            // and escaping characters.\n            _writeString(name);\n        } else {\n            // Feature disabled: write the field name WITHOUT quotes.\n            // This is the common location for the bug: if _writeString() was\n            // mistakenly called here as well, it would always quote.\n            // _writeUnquotedString() (or a similar internal method like _writeRaw)\n            // is designed to write the string literal without enclosing quotes,\n            // while still handling necessary escaping for characters within the name itself.\n            _writeUnquotedString(name);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

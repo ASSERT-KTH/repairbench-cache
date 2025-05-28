@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean isFoldableExpressBlock(Node n) {\n    if (n.isExprResult()) { // 'n' is the single statement inside the block\n      // IE has a bug where event handlers behave differently when\n      // their return value is used vs. when their return value is in\n      // an EXPR_RESULT. It's pretty freaking weird. See:\n      // http://code.google.com/p/closure-compiler/issues/detail?id=291\n      // We try to detect this case, and not fold EXPR_RESULTs\n      // into other expressions.\n\n      // The child of EXPR_RESULT is the actual expression.\n      Node maybeExpr = n.getFirstChild();\n      if (NodeUtil.isEventHandlerCall(maybeExpr)) {\n        // If it's an event handler call within an EXPR_RESULT,\n        // do not fold it to prevent the IE bug.\n        return false;\n      }\n      // For all other EXPR_RESULTs (i.e., not problematic event handlers),\n      // the block is considered foldable.\n      return true;\n    }\n    // If the node is not an EXPR_RESULT (e.g., VAR, IF, RETURN),\n    // it's not an \"expression block\" in this context.\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

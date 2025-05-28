@@ -1,0 +1,7 @@
+{
+    "generation": "import org.apache.commons.math3.linear.DiagonalMatrix;\nimport org.apache.commons.math3.linear.EigenDecomposition;\nimport org.apache.commons.math3.linear.RealMatrix;\nimport org.apache.commons.math3.util.FastMath;\n\n    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        // Optimization: If the matrix is a DiagonalMatrix, compute its square root efficiently.\n        // This is crucial for large weight matrices which are often diagonal.\n        if (m instanceof DiagonalMatrix) {\n            DiagonalMatrix dm = (DiagonalMatrix) m;\n            final int dim = dm.getRowDimension();\n            double[] diagonal = new double[dim];\n            for (int i = 0; i < dim; ++i) {\n                // For a positive-definite weight matrix, diagonal elements should be positive.\n                diagonal[i] = FastMath.sqrt(dm.getEntry(i, i));\n            }\n            return new DiagonalMatrix(diagonal);\n        }\n\n        // Fallback to general EigenDecomposition for non-diagonal matrices.\n        // This path is correct for general symmetric, positive-definite matrices.\n        final EigenDecomposition dec = new EigenDecomposition(m);\n        return dec.getSquareRoot();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Closes the CPIO output stream as well as the stream being filtered.\n     *\n     * @throws IOException\n     *             if an I/O error has occurred or if a CPIO file error has\n     *             occurred\n     */\n    public void close() throws IOException {\n        if (!this.closed) {\n            // CPIO archives require a special \"TRAILER!!!\" entry at the end.\n            // This entry signifies the end of the archive.\n            // It must be written before the underlying stream is closed.\n            putArchiveEntry(new CpioArchiveEntry(CpioArchiveEntry.TRAILER_NAME, 0));\n            closeArchiveEntry(); // No data is written for the trailer entry, just the header.\n\n            super.close();\n            this.closed = true;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

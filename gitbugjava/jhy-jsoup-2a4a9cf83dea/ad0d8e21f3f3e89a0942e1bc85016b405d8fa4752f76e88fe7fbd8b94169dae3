@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                if (element == null)\n                    return false;\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n                \n                // Move to parent for the next evaluator in the chain (e.g., if checking \"A B\",\n                // we first check B against 'element', then A against 'element.parent()').\n                element = element.parent();\n\n                // If the element has gone above the root context, then it's not a match within this context.\n                // The root is the search context. If the current 'element' being checked for an ancestor\n                // relationship is no longer a descendant of the original 'root' (and is not 'root' itself),\n                // then the selector chain extends outside the root's scope.\n                if (element != null && element != root && !root.contains(element)) {\n                    return false;\n                }\n            }\n            return true;\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

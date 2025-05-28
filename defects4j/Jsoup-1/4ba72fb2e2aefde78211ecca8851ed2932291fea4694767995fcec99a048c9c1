@@ -1,0 +1,7 @@
+{
+    "generation": "    // does not recurse.\n    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node: element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank())\n                    toMove.add(tn);\n            }\n        }\n\n        // If 'toMove' contains multiple nodes (e.g., \"A\", \"B\", \"C\" in that order),\n        // and we want them to appear as \"A B C\" at the beginning of the body,\n        // using prependChild(node) on each in sequence (A, then B, then C)\n        // would result in the order \"C B A\" in the body.\n        // To maintain the original order, we must iterate the list in reverse\n        // when prepending.\n        Collections.reverse(toMove);\n\n        for (Node node: toMove) {\n            element.removeChild(node); // Remove the text node from its current parent (e.g., the Document itself)\n            // The goal is to move these nodes to the *start* of the body.\n            // The original code appended them and added an unnecessary space.\n            // Using prependChild inserts the node at the beginning of the body's children.\n            body().prependChild(node);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

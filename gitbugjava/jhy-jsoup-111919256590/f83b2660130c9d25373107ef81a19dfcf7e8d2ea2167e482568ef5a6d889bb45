@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline())\n            return false;\n\n        boolean inBlockParent = (parent() == null || parent().isBlock());\n\n        if (tag.name().equals(\"br\")) {\n            // For a <br> tag:\n            // It is inlineable (meaning, no newline before it) IF\n            // its parent is a block element AND it's the very first child of that parent.\n            // In all other cases, it will force a newline before itself.\n            return inBlockParent && siblingIndex() == 0 && !out.outline();\n        } else {\n            // For other inline tags:\n            // It is inlineable if its parent is a block element AND it's NOT effectively the first child\n            // (i.e., there's already inline content on this line that it should follow).\n            return inBlockParent && !isEffectivelyFirst() && !out.outline();\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

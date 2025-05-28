@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node == null || !(node instanceof Element)) {\n            return false;\n        }\n\n        Element el = (Element) node;\n\n        // Check current element and up to five levels of its ancestors\n        Node current = el;\n        // The loop runs for i = 0 (current element), i = 1 (parent), ..., i = 5 (5th ancestor).\n        // This effectively checks the current element and 5 levels up in the hierarchy.\n        for (int i = 0; i <= 5; i++) {\n            if (current == null || !(current instanceof Element)) {\n                // We've reached the root of the document or a non-element node in the ancestry,\n                // or have gone beyond the specified depth.\n                break;\n            }\n            if (((Element) current).tag.preserveWhitespace()) {\n                return true;\n            }\n            current = current.parent(); // Move up to the parent\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

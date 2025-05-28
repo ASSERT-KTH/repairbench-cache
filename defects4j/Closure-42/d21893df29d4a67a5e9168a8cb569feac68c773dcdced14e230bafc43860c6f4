@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // According to testForEach, \"for each\" is an unsupported language extension.\n        // We must throw a ParserException if we encounter a \"for each\" loop.\n        if (loopNode.isForEach()) {\n            throw new com.google.javascript.jscomp.parsing.Parser.ParserException(\n                \"unsupported language extension: for each\",\n                loopNode.getAstRoot().getSourceName(),\n                loopNode.getLineno(),\n                loopNode.getCharno());\n        }\n\n        // Return the bare minimum to put the AST in a valid state for a regular 'for...in' loop.\n      return newNode(\n          Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * Encodes {@code value}.\n   *\n   * @param value a finite value. May not be {@link Double#isNaN() NaNs} or\n   *     {@link Double#isInfinite() infinities}.\n   * @return this writer.\n   */\n  public JsonWriter value(double value) throws IOException {\n    writeDeferredName();\n    if (Double.isNaN(value) || Double.isInfinite(value)) {\n      // According to the test `testNonFiniteDoublesWhenLenient`, non-finite\n      // double values should be allowed if the writer is lenient.\n      // The `IllegalArgumentException` should only be thrown if the writer\n      // is not lenient.\n      if (!isLenient()) {\n        throw new IllegalArgumentException(\"Numeric values must be finite, but was \" + value);\n      }\n    }\n    beforeValue();\n    out.append(Double.toString(value));\n    return this;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

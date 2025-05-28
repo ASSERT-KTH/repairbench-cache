@@ -1,0 +1,7 @@
+{
+    "generation": "  private boolean hasExceptionHandler(Node cfgNode) {\n    // If the node itself is a CATCH or FINALLY block, it is an exception handler.\n    if (cfgNode.isCatch() || cfgNode.isFinally()) {\n      return true;\n    }\n\n    // Traverse up the parent chain to see if the node is enclosed within a TRY block\n    // that has an exception handler (i.e., a catch or finally clause).\n    Node current = cfgNode;\n    while (current != null) {\n      if (current.isTry()) {\n        // A TRY node's children structure is typically:\n        // 1. The BLOCK node for the 'try' clause.\n        // 2. (Optional) The CATCH node for the 'catch' clause.\n        // 3. (Optional) The BLOCK node for the 'finally' clause.\n        //\n        // If a TRY node has only one child (the 'try' BLOCK), it means it has no\n        // catch or finally handler (e.g., `try { doSomething(); }`).\n        // If it has more than one child, it indicates the presence of either\n        // a CATCH clause or a FINALLY clause (or both).\n        if (current.getChildCount() > 1) {\n          return true; // Found a TRY block with an associated handler.\n        }\n      }\n      current = current.getParent();\n    }\n\n    // No exception handler found for this node or any of its ancestors.\n    return false;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

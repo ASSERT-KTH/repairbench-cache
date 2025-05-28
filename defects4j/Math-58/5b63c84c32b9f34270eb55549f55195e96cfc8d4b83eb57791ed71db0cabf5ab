@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Fits a Gaussian function to the observed points.\n     *\n     * @return the parameters of the Gaussian function that best fits the\n     * observed points (in the same order as above).\n     */\n    public double[] fit() {\n        try {\n            final double[] guess = (new ParameterGuesser(getObservations())).guess();\n            return fit(new Gaussian.Parametric(), guess);\n        } catch (org.apache.commons.math.exception.NotStrictlyPositiveException e) {\n            // As per problem description, if sigma becomes non-positive,\n            // the fitter should return NaN values for all parameters.\n            // A Gaussian function has 3 parameters: amplitude, mean, and sigma.\n            final double[] nanParameters = new double[3];\n            java.util.Arrays.fill(nanParameters, Double.NaN);\n            return nanParameters;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

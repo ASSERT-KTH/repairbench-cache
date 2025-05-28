@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public DefaultPrettyPrinter createInstance() {\n        // [core#502]: Force sub-classes to reimplement `createInstance`\n        // If 'this' is not an instance of DefaultPrettyPrinter itself, but a subclass,\n        // it means the subclass has not overridden this method.\n        // In such a case, calling the base class's createInstance() would lead to\n        // incorrect behavior (e.g., returning a base class instance instead of a subclass instance).\n        // To enforce that subclasses must provide their own implementation, we throw an exception here.\n        if (getClass() != DefaultPrettyPrinter.class) {\n            throw new IllegalStateException(\"DefaultPrettyPrinter sub-class (\"+\n                    getClass().getName()+\") does not override createInstance() method\");\n        }\n        // For the DefaultPrettyPrinter itself, create a new instance based on this one.\n        return new DefaultPrettyPrinter(this);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

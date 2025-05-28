@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n      return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    //\n    // param constraint {{prop: (number|undefined)}}\n    // function f(constraint) {}\n    // f({});\n    //\n    // We want to modify the object literal to match the constraint, by\n    // taking any each property on the record and trying to match\n    // properties on this object.\n    if (constraint.isRecordType()) {\n      matchRecordTypeConstraint(constraint.toObjectType());\n    } else if (constraint.isUnionType()) {\n      // If the constraint is a union type, we need to apply the constraint\n      // for each alternative within the union that is relevant.\n      // Recursively calling matchConstraint on each alternate ensures that\n      // record types nested within unions are handled, and other types are\n      // correctly ignored by the existing logic.\n      for (JSType alternate : constraint.toUnionType().getAlternates()) {\n        matchConstraint(alternate);\n      }\n    }\n    // For other types (e.g., string, number, function, or non-record object types),\n    // no action is taken, which is generally appropriate for object literal inference\n    // as an object literal cannot become a primitive or function type by constraint.\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        Object[] actualArguments = i.getArguments(); // Get arguments once for efficiency and clarity\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Ensure that the current index 'k' is within the bounds of the actual arguments array.\n                // This prevents ArrayIndexOutOfBoundsException when matchers expect more arguments\n                // than provided in the actual invocation (e.g., when a vararg method is called with no arguments).\n                if (k < actualArguments.length) {\n                    ((CapturesArguments) m).captureFrom(actualArguments[k]);\n                }\n                // If k >= actualArguments.length, it means there are no more actual arguments\n                // to capture for this matcher. For matchers like AnyVararg that match an empty\n                // vararg, not calling captureFrom(Object) is the correct behavior as there's\n                // no single object to pass. For other CapturesArguments, it implies they are\n                // attempting to capture a non-existent argument.\n            }\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node == null || !(node instanceof Element)) {\n            return false;\n        }\n\n        Element el = (Element) node;\n\n        // Check if the current element itself preserves whitespace\n        if (el.tag.preserveWhitespace()) {\n            return true;\n        }\n\n        // Traverse up the parent hierarchy for a limited depth (five levels up)\n        // If 'el' is the current node, we need to check its parent (1 level up),\n        // its grandparent (2 levels up), and so on, up to 5 levels.\n        Node current = el;\n        for (int i = 0; i < 5; i++) { // Iterate up to 5 times for parents\n            if (current.parent() != null && current.parent() instanceof Element) {\n                current = current.parent(); // Move up to the parent node\n                Element parentEl = (Element) current;\n                if (parentEl.tag.preserveWhitespace()) {\n                    return true;\n                }\n            } else {\n                // Reached the Document root, or a parent that is not an Element\n                // (e.g., a Document node itself), so stop traversing up.\n                break;\n            }\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

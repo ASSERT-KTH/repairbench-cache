@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Tells if the token looks like a short option.\n     * \n     * @param token\n     */\n    private boolean isShortOption(String token)\n    {\n        // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n        if (!token.startsWith(\"-\") || token.length() == 1)\n        {\n            return false;\n        }\n\n        // remove leading \"-\" and \"=value\" if present\n        int pos = token.indexOf(\"=\");\n        String optName = pos == -1 ? token.substring(1) : token.substring(1, pos);\n\n        // Check if the extracted option name itself is a defined short option.\n        // This covers cases like \"-t1\" where \"t1\" is a multi-character short option,\n        // or \"-a\" where \"a\" is a single-character short option.\n        if (options.hasShortOption(optName))\n        {\n            return true;\n        }\n\n        // Check for several concatenated short options or short options with implicit values.\n        // For example, if token is \"-ab\" or \"-avalue\", and 'a' is a defined short option,\n        // then this token should be considered a short option (bundle or with implicit value).\n        // This is necessary because `optName` would be \"ab\" or \"avalue\", which are not themselves\n        // defined short options.\n        if (optName.length() > 0 && options.hasShortOption(String.valueOf(optName.charAt(0))))\n        {\n            return true;\n        }\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

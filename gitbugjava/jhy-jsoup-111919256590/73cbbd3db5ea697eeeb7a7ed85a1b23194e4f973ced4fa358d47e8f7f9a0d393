@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Issue 1911: <br> tags generally cause a line-break in pretty printing.\n        // If a <br> tag is in a block parent (or is the root), it should always be treated as non-inlineable\n        // for pretty printing purposes, causing a line break after it.\n        if (tag.getName().equals(\"br\") && (parent() == null || parent().isBlock())) {\n            return false;\n        }\n\n        if (!tag.isInline())\n            return false;\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private JavaType _mapType(Class<?> rawClass)\n    {\n        // 28-May-2015, tatu: Properties are special, as per [databind#810]\n        // Special handling for Properties: they are treated as Map<String, String>\n        // regardless of their declared generic types, as per Jackson's default behavior\n        // for this specific type.\n        if (rawClass == java.util.Properties.class) {\n            // Assuming 'this' refers to TypeFactory or a similar class\n            // that provides the 'constructType' method for resolving Class into JavaType instances.\n            // This ensures that Properties map keys and values are always String.\n            JavaType stringType = constructType(String.class);\n            return MapType.construct(rawClass, stringType, stringType);\n        }\n\n        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);\n        // ok to have no types (\"raw\")\n        if (typeParams == null) {\n            return MapType.construct(rawClass, _unknownType(), _unknownType());\n        }\n        // but exactly 2 types if any found\n        if (typeParams.length != 2) {\n            throw new IllegalArgumentException(\"Strange Map type \"+rawClass.getName()+\": can not determine type parameters\");\n        }\n        return MapType.construct(rawClass, typeParams[0], typeParams[1]);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

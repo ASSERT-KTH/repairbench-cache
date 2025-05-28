@@ -1,0 +1,7 @@
+{
+    "generation": "    private void fixupAfterRemove(final TrieEntry<K, V> current) {\n        if (current == root) {\n            return;\n        }\n\n        if (current.isEmpty()) {\n            // If the current entry is now empty (no value, no children),\n            // it can be removed from the trie.\n            TrieEntry<K, V> parent = current.parent;\n            TrieEntry<K, V> child = current.successor();\n\n            // Find the actual branch node whose child pointer needs to be updated.\n            // This might not be the direct parent if the current node is part of a\n            // chain of implicit nodes (nodes with only one child, representing a prefix).\n            TrieEntry<K, V> branch = parent;\n            while (branch.bitIndex > current.bitIndex) {\n                branch = branch.parent;\n            }\n\n            // Update the branch's child pointer to bypass the removed node.\n            // The bitIndex of the branch determines which child (left or right)\n            // corresponds to the path that led to 'current'.\n            if (branch.left == current) {\n                branch.left = child;\n            } else {\n                branch.right = child;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public final Object computeValue(EvalContext context) {\n        Object value1 = args[0].computeValue(context);\n        Object value2 = args[1].computeValue(context);\n\n        // According to XPath 1.0, comparison involving an empty node-set always evaluates to false.\n        // This rule applies to all comparison operators (e.g., =, !=, <, <=, >, >=).\n        // JXPath often represents node-sets as Iterators. An empty node-set would be an Iterator\n        // for which hasNext() immediately returns false.\n        boolean value1IsEmptyNodeSet = value1 instanceof java.util.Iterator && !((java.util.Iterator) value1).hasNext();\n        boolean value2IsEmptyNodeSet = value2 instanceof java.util.Iterator && !((java.util.Iterator) value2).hasNext();\n\n        if (value1IsEmptyNodeSet || value2IsEmptyNodeSet) {\n            // If either operand is an empty node set, the result of the comparison is FALSE.\n            return Boolean.FALSE;\n        }\n\n        // If neither operand is an empty node set, proceed with the specific core operation's\n        // compute method to perform the actual comparison logic (e.g., greater than or equal).\n        return compute(value1, value2)\n                ? Boolean.TRUE : Boolean.FALSE;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

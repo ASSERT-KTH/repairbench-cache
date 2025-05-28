@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        if (rangesList.isEmpty()) {\n            return \"\";\n        }\n\n        // If there's only one range group, we should omit the outer parentheses\n        // that `formatRanges` might implicitly add, as per the test case\n        // `shouldOmitOuterParentheses`.\n        if (rangesList.size() == 1) {\n            String formattedSingleRange = RangesList.formatRanges(rangesList.get(0));\n            // Check if the formatted string is wrapped in parentheses and remove them\n            // if it is, as these are typically for clarifying OR group boundaries\n            // when multiple groups are present.\n            if (formattedSingleRange.length() >= 2 && \n                formattedSingleRange.startsWith(\"(\") && \n                formattedSingleRange.endsWith(\")\")) {\n                return formattedSingleRange.substring(1, formattedSingleRange.length() - 1);\n            }\n            return formattedSingleRange;\n        }\n\n        // For multiple range groups, format each group (potentially with its own\n        // parentheses to clarify AND precedence) and join them with the OR_JOINER.\n        return rangesList.stream()\n            .map(RangesList::formatRanges)\n            .collect(joining(OR_JOINER));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Test if this element has an attribute.\n     * @param attributeKey The attribute key to check.\n     * @return true if the attribute exists, false if not.\n     */\n    public boolean hasAttr(String attributeKey) {\n        Validate.notNull(attributeKey);\n\n        if (attributeKey.startsWith(ABS_KEY_PREFIX)) {\n            // For \"abs:\" attributes, check if the base attribute exists and if its value can be resolved to a non-empty absolute URL.\n            String baseKey = attributeKey.substring(ABS_KEY_PREFIX.length());\n\n            // First, check if the base attribute exists in the attributes map.\n            // If it doesn't, or if its value is blank, it cannot resolve to a valid absolute URL.\n            if (!attributes.hasKey(baseKey)) {\n                return false;\n            }\n            String relUrl = attributes.get(baseKey);\n            if (StringUtil.isBlank(relUrl)) {\n                return false;\n            }\n\n            // Now, try to resolve the URL. If the resolved absolute URL is not blank, then the \"abs:\" attribute effectively exists.\n            String absUrl = StringUtil.resolve(baseUri(), relUrl);\n            return !StringUtil.isBlank(absUrl);\n        }\n\n        // For regular attributes, simply check if the key exists in the attributes map.\n        return attributes.hasKey(attributeKey);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

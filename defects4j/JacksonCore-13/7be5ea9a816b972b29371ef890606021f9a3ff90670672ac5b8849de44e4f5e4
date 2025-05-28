@@ -1,0 +1,7 @@
+{
+    "generation": "    // This method is typically found in concrete JsonGenerator implementations\n    // such as com.fasterxml.jackson.core.json.WriterBasedJsonGenerator\n    // or com.fasterxml.jackson.core.json.UTF8JsonGenerator.\n    // It's responsible for writing a field name when quoting is disabled.\n    // The assumed bug is that it might have incorrectly added '[' and ']'\n    // characters around the field name.\n    // The 'name' parameter is assumed to be `foo` in the failing test case.\n    protected final void _writeUnquotedFieldName(String name) throws java.io.IOException {\n        // The original buggy code is hypothesized to have been something like:\n        // _writer.write('['); // Erroneous start bracket\n        // _writer.write(name);\n        // _writer.write(']'); // Erroneous end bracket\n\n        // The fix is to simply write the field name as is, without any\n        // additional characters like quotes or brackets.\n        _writer.write(name);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

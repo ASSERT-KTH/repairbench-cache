@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * ContextTypeExpression := BasicTypeExpression | '?'\n   * For expressions on the right hand side of a this: or new:\n   */\n  private Node parseContextTypeExpression(JsDocToken token) {\n    // ContextTypeExpression can be a BasicTypeExpression, '?', or '*' (based on tests).\n    // The current parseTypeName() likely doesn't correctly handle '?' or '*' as standalone\n    // type expressions in this context, leading to a syntax error.\n    if (token.getTokenType() == JsDocToken.QMARK) {\n      // Represents the unknown type.\n      Node typeNode = new Node(Token.QMARK);\n      stream.next(); // Consume the '?' token\n      return typeNode;\n    } else if (token.getTokenType() == JsDocToken.STAR) {\n      // Represents the \"any\" type.\n      // This is not explicitly in the comment's grammar for ContextTypeExpression,\n      // but testStructuralConstructor3 expects it to be parsed correctly\n      // before a semantic error is reported.\n      Node typeNode = new Node(Token.STAR);\n      stream.next(); // Consume the '*' token\n      return typeNode;\n    } else {\n      // Otherwise, it's a BasicTypeExpression, which parseTypeName handles.\n      // parseTypeName is responsible for consuming the tokens it parses.\n      return parseTypeName(token);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

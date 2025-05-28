@@ -1,0 +1,7 @@
+{
+    "generation": "  private static boolean isReduceableFunctionExpression(Node n) {\n    // A function expression is \"reduceable\" if it's a FUNCTION node and\n    // it's not the body of a getter or setter definition.\n    // Getter and setter functions are special and usually not intended for\n    // general function rewriting/reduction, as they are intrinsically tied\n    // to property definitions and their transformation might break semantics.\n    if (!NodeUtil.isFunctionExpression(n)) {\n      return false;\n    }\n\n    Node parent = n.getParent();\n    // If the function's parent is a GETTER_DEF or SETTER_DEF, it's a getter/setter body.\n    // These should not be considered \"reduceable\" by the FunctionRewriter.\n    if (parent != null && (parent.isGetterDef() || parent.isSetterDef())) {\n      return false;\n    }\n\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

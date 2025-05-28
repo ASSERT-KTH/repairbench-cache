@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    Node processForInLoop(ForInLoop loopNode) {\n        // Rhino's ForInLoop node is used for both 'for...in' and 'for each...in'.\n        // 'for each...in' is an unsupported language extension (Mozilla specific).\n        // The Closure Compiler does not support it and should report an error.\n        if (loopNode.isForEach()) {\n            throw new RuntimeException(\"unsupported language extension: for each\");\n        }\n\n        // Standard for-in loops are processed as usual.\n        // Return the bare minimum to put the AST in a valid state.\n      return newNode(\n          Token.FOR,\n          transform(loopNode.getIterator()),\n          transform(loopNode.getIteratedObject()),\n          transformBlock(loopNode.getBody()));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

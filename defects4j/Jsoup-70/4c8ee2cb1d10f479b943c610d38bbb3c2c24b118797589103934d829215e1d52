@@ -1,0 +1,7 @@
+{
+    "generation": "    static boolean preserveWhitespace(Node node) {\n        // looks only at this element and five levels up, to prevent recursion & needless stack searches\n        if (node == null || !(node instanceof Element)) {\n            return false;\n        }\n\n        Element el = (Element) node;\n        // The original comment suggests checking up to five levels up.\n        // We iterate through the element and its ancestors up to a certain depth.\n        // This ensures that if a parent element like <pre> or <textarea> is found\n        // within the hierarchy, whitespace is preserved for its descendants.\n        int depth = 0;\n        final int maxDepth = 5; // Limit as per comment\n\n        do {\n            if (el.tag.preserveWhitespace()) {\n                return true;\n            }\n            el = el.parent();\n            depth++;\n        } while (el != null && depth <= maxDepth); // Continue as long as there's a parent and we haven't exceeded the depth limit\n\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

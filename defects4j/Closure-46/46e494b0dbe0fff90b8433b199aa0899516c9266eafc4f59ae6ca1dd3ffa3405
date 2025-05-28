@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // If 'that' is not a record type, delegate to the superclass which typically\n    // returns a UnionType of 'this' and 'that'.\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    RecordType otherRecordType = that.toMaybeRecordType();\n\n    // Case 1: If 'this' record type is a subtype of 'that' record type,\n    // then 'that' is the least supertype.\n    // Example: this={a: number, b: string}, that={a: number}.\n    // Result: {a: number} (which is 'that').\n    if (this.isSubtype(otherRecordType)) {\n      return otherRecordType;\n    }\n\n    // Case 2: If 'that' record type is a subtype of 'this' record type,\n    // then 'this' is the least supertype.\n    // Example: this={a: number}, that={a: number, b: string}.\n    // Result: {a: number} (which is 'this').\n    if (otherRecordType.isSubtype(this)) {\n      return this;\n    }\n\n    // Case 3: If there is no direct subtyping relationship between the two record types,\n    // the least supertype is typically their union. This aligns with the expectations\n    // of the failing tests.\n    return registry.createUnionType(this, that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "import org.w3c.dom.Attr;\nimport org.w3c.dom.Document;\nimport org.w3c.dom.Element;\nimport org.w3c.dom.Node;\n\npublic class DOMNodePointer { // Assuming this is part of the DOMNodePointer class\n\n    /**\n     * Get the ns uri of the specified node.\n     * @param node Node to check\n     * @return String ns uri\n     */\n    public static String getNamespaceURI(Node node) {\n        if (node == null) {\n            return null;\n        }\n\n        // If the node is a Document, get its document element to find its namespace.\n        // A Document node itself does not have a namespace URI relevant for XPath.\n        if (node.getNodeType() == Node.DOCUMENT_NODE) {\n            node = ((Document) node).getDocumentElement();\n            if (node == null) {\n                // Document might be empty (no document element)\n                return null;\n            }\n        }\n\n        // For Element, Attr, and EntityReference nodes, Node.getNamespaceURI()\n        // provides the correct namespace URI as per DOM Level 2 and higher.\n        // For other node types (e.g., Text, Comment, CDATASection), it correctly returns null.\n        // This is the standard and most robust way to get a node's namespace URI.\n        return node.getNamespaceURI();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

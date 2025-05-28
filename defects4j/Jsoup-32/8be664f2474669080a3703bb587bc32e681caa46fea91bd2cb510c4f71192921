@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Element clone() {\n        // Perform a shallow copy of the Element object.\n        // This includes copying primitive fields and references to other objects.\n        Element clone = (Element) super.clone();\n\n        // The problem description and test failure indicate that the class names (which are part of\n        // the 'attributes' field) are not being deep-copied. When `super.clone()` (which calls Node.clone()\n        // in Jsoup) is executed, it *should* deep copy the attributes. However, if the test is failing,\n        // it suggests that either Node.clone() in this specific environment is not deep-copying attributes,\n        // or there's an older Jsoup version where this was not the case, or some other subtle bug.\n        // To ensure the class names Set for the clone is independent from the original,\n        // the 'attributes' object itself must be a distinct, deep copy.\n        // This explicitly clones the attributes field.\n        if (this.attributes != null) {\n            clone.attributes = this.attributes.clone();\n        }\n\n        // The original line `clone.classNames();` was a no-op that didn't affect the cloning\n        // of the class names set itself. It has been removed as it's not needed.\n\n        return clone;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

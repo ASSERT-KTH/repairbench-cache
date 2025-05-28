@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Closes the CPIO output stream as well as the stream being filtered.\n     *\n     * @throws IOException\n     *             if an I/O error has occurred or if a CPIO file error has\n     *             occurred\n     */\n    public void close() throws IOException {\n        if (!this.closed) {\n            // Ensure any currently active archive entry is closed before writing the trailer.\n            // 'entry' is assumed to be a field representing the current active entry in CpioArchiveOutputStream.\n            // 'closeArchiveEntry()' is assumed to be a method that finalizes the current entry.\n            if (this.entry != null) {\n                closeArchiveEntry();\n            }\n            // Write the CPIO end-of-archive marker (trailer).\n            // This is crucial for a valid CPIO archive to be readable.\n            // 'writeTrailer()' is assumed to be a private method within this class\n            // responsible for writing the \"TRAILER!!!\" CPIO entry.\n            writeTrailer();\n            super.close(); // Close the underlying stream\n            this.closed = true;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

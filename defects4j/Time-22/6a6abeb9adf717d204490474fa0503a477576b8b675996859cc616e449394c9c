@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Creates a period from the given millisecond duration with the standard period type\n     * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n     * <p>\n     * The calculation uses the hour, minute, second and millisecond fields.\n     *\n     * @param duration  the duration, in milliseconds\n     */\n    protected BasePeriod(long duration) {\n        // The original intent was to break down the duration into only time fields (hours, minutes, seconds, milliseconds),\n        // as indicated by the description \"ensuring that the calculation is performed with the time-only period type\"\n        // and \"The calculation uses the hour, minute, second and millisecond fields.\"\n        // Passing null for the PeriodType defaults to PeriodType.standard(), which breaks down into years, months, days etc.,\n        // leading to incorrect results for tests expecting only time fields to be populated.\n        // The fix is to explicitly use PeriodType.time() for the calculation.\n        this(duration, PeriodType.time(), null);\n        // bug [3264409]\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

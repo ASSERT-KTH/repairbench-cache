@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public JSType getLeastSupertype(JSType that) {\n    // If 'that' is not a RecordType, delegate to the superclass implementation.\n    // This handles cases where 'that' is e.g., ObjectType, UnknownType, NoType,\n    // or a function/union/enum type.\n    if (!that.isRecordType()) {\n      return super.getLeastSupertype(that);\n    }\n\n    // Now we know 'that' is also a RecordType.\n    RecordType otherRecordType = that.toMaybeRecordType();\n\n    // Case 1: One record is a structural subtype of the other.\n    // If 'this' is a subtype of 'otherRecordType', then 'otherRecordType' is the LST.\n    // Example: {a: number, b: string} LST {a: number} should be {a: number}\n    if (this.isSubtype(otherRecordType)) {\n      return otherRecordType;\n    }\n    // If 'otherRecordType' is a subtype of 'this', then 'this' is the LST.\n    // Example: {a: number} LST {a: number, b: string} should be {a: number}\n    if (otherRecordType.isSubtype(this)) {\n      return this;\n    }\n\n    // Case 2: Neither record is a structural subtype of the other.\n    // In this scenario, the least supertype is generally their union type.\n    // This handles cases where records have partially overlapping or disjoint properties.\n    // Example: {a: number, b: string} LST {b: string, c: number} should be ({a: number, b: string}|{b: string, c: number})\n    return registry.createUnionType(this, that);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

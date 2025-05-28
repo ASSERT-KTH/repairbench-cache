@@ -1,0 +1,7 @@
+{
+    "generation": "    protected void replaceChild(Node out, Node in) {\n        Validate.isTrue(out.parentNode == this);\n        Validate.notNull(in);\n\n        // If the node is being replaced with itself, no action is needed.\n        // This prevents the node from being detached and then re-attached,\n        // which could lead to incorrect sibling indices or temporary parent issues.\n        if (out == in) {\n            return;\n        }\n\n        // If 'in' already has a parent, remove it from that parent's child list.\n        // Note: The `out.siblingIndex` is read *after* this step, which is important\n        // because if `in` was also a child of `this` and preceded `out`, removing `in`\n        // would shift `out`'s sibling index.\n        if (in.parentNode != null)\n            in.parentNode.removeChild(in);\n\n        final int index = out.siblingIndex; // Get the index of the node to be replaced ('out').\n        ensureChildNodes().set(index, in);   // Replace 'out' with 'in' at the determined index.\n\n        in.parentNode = this; // Set the parent of the new node 'in' to 'this'.\n        in.setSiblingIndex(index); // Set the sibling index of 'in' to match its new position.\n\n        out.parentNode = null; // Detach the old node 'out' from its parent.\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

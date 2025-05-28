@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        protected JSType caseTopType(JSType topType) {\n          // The original implementation returns `topType` itself, which means if the input\n          // `topType` is `ALL_TYPE` (representing an unknown or any type), it remains `ALL_TYPE`.\n          // The failing test `testGoogIsArray2` indicates that when `goog.isArray` is called\n          // with an `ALL_TYPE` expression, the type should be refined to `ARRAY_TYPE`\n          // if the check is successful.\n          //\n          // This `caseTopType` method is part of a JSTypeVisitor pattern within the\n          // ClosureReverseAbstractInterpreter. When the interpreter tries to infer a\n          // more specific type for an expression that was initially `ALL_TYPE` (a `TopType`),\n          // and the context implies it must be an array (like after a successful `goog.isArray` check),\n          // this method should return the `ARRAY_TYPE`.\n          //\n          // `getNativeType(JSTypeNative.ARRAY_TYPE)` is the standard way to retrieve\n          // the singleton instance of the native array type from the JSTypeRegistry,\n          // which is accessible within the ReverseAbstractInterpreter context.\n          return getNativeType(JSTypeNative.ARRAY_TYPE);\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

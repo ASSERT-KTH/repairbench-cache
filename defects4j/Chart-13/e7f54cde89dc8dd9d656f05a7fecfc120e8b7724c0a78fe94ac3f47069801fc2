@@ -1,0 +1,7 @@
+{
+    "generation": "    new Range(0.0, constraint.getHeight() - h[0])\n    ```\n    If `h[0]` (height of the top block) is greater than `constraint.getHeight()`, this calculation results in a negative value. While `topBlock.arrange` should ideally clamp `h[0]` to `constraint.getHeight()`, subtle floating-point issues or unexpected block behaviors could lead to `h[0]` being marginally larger, or a previous constraint itself being zero, leading to `0.0 - h[0] < 0.0`.\n\n2.  **For `rightBlock` (`c4`):**\n    ```java\n    new Range(0.0, constraint.getWidth() - w[2])\n    ```\n    Similarly, if `w[2]` (width of the left block) is greater than `constraint.getWidth()`, this calculation results in a negative value.\n\nAdditionally, the calculated `h[2]` (height for middle sections) and `w[4]` (width for center section) are used as fixed dimensions for subsequent `RectangleConstraint` and `Rectangle2D.Double` constructions. If these become negative, they could lead to logical errors in layout, even if not directly an `IllegalArgumentException` from `Range`.\n\nThe fix involves ensuring that these calculated dimensions, which represent available space, are never negative before being used in `Range` constructors or as fixed dimensions. This can be achieved by using `Math.max(0.0, ...)`.\n\nHere's the corrected `arrangeFF` function:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

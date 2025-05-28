@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Encodes binary data using the base64 algorithm into 76 character blocks separated by CRLF.\n     *\n     * @param binaryData\n     *            binary data to encode\n     * @return String containing Base64 characters.\n     * @since 1.4\n     */    \n    public static String encodeBase64String(byte[] binaryData) {\n        // The current implementation uses 'true' for the useChunking parameter,\n        // which causes the output to include CRLF characters every 76 characters.\n        // The failing test cases (testByteToStringVariations, testRfc4648Section10Encode)\n        // expect un-chunked Base64 strings, which do not contain CRLF characters.\n        // To align with the test expectations for a plain Base64 string encoding\n        // (as per RFC 4648 Section 10 examples), chunking should be disabled.\n        // This means changing 'true' to 'false' in the encodeBase64 call.\n        return StringUtils.newStringUtf8(encodeBase64(binaryData, false));\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

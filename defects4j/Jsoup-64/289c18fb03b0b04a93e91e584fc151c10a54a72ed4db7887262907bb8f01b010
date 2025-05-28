@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void handleRawtext(Token.StartTag startTag, HtmlTreeBuilder tb) {\n        if (startTag.isSelfClosing()) {\n            // If a rawtext element (like <style>, <script>, <textarea>) is self-closing,\n            // it means it has no raw text content. In this case, it should be treated\n            // as an empty element (e.g., <style></style>), and the tokeniser should\n            // not transition to Rawtext state.\n            tb.insertEmpty(startTag);\n        } else {\n            // For non-self-closing rawtext elements, proceed with normal rawtext handling:\n            // 1. Insert the start tag.\n            // 2. Transition the tokeniser to Rawtext state to collect raw text content.\n            // 3. Mark the current insertion mode (to return to it after the rawtext element closes).\n            // 4. Transition to Text insertion mode to process the raw text content.\n            tb.insert(startTag);\n            tb.tokeniser.transition(TokeniserState.Rawtext);\n            tb.markInsertionMode();\n            tb.transition(Text);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

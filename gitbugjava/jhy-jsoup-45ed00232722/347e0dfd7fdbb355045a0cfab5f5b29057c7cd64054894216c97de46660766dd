@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // Assume punyUrl correctly handles IDN and returns a new URL object if modified.\n        try {\n            // Extract components from the URL. The get* methods return decoded parts.\n            String scheme = u.getProtocol();\n            String userInfo = u.getUserInfo();\n            String host = u.getHost();\n            int port = u.getPort(); // -1 if default port\n            String path = u.getPath();\n            String query = u.getQuery();\n            String fragment = u.getRef(); // getRef() is for the fragment (part after #)\n\n            // Construct a URI using the components.\n            // The URI constructor automatically applies appropriate percent-encoding to path, query, and fragment.\n            final URI uri = new URI(scheme, userInfo, host, port, path, query, fragment);\n\n            // Convert the URI back to a URL. uri.toURL() creates a URL from the URI's ASCII string form.\n            return uri.toURL();\n        } catch (URISyntaxException | MalformedURLException e) {\n            // If encoding fails, return the original input URL as per the original behavior.\n            return u;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

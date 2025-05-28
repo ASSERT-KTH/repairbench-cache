@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Recalculate the hash code after deserialization. The hash code of some\n     * keys might have change (hash codes based on the system hash code are\n     * only stable for the same process).\n     * @return the instance with recalculated hash code\n     */\n    private Object readResolve() {\n        // The original implementation called calculateHashCode(keys).\n        // However, if calculateHashCode is overridden by a subclass in a way\n        // that doesn't properly update the MultiKey's 'hashCode' field (e.g.,\n        // if the subclass shadows the field or fails to call super.calculateHashCode),\n        // the transient 'hashCode' field of the MultiKey superclass will remain 0.\n        // To ensure MultiKey's own hashCode field is correctly calculated and set,\n        // we directly perform the calculation here, bypassing any potentially\n        // problematic subclass overrides of calculateHashCode.\n        int total = 0;\n        if (keys != null) {\n            for (final Object key : keys) {\n                if (key != null) {\n                    total ^= key.hashCode();\n                }\n            }\n        }\n        this.hashCode = total;\n        return this;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

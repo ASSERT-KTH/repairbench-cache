@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Get the current solution.\n     * <p>\n     * {@link #solve} should be called first for this to be the optimal solution.\n     * </p>\n     * @return current solution\n     */\n    protected RealPointValuePair getSolution() {\n        int numDecisionVariables = getOriginalNumDecisionVariables();\n        double[] coefficients = new double[numDecisionVariables];\n\n        for (int i = 0; i < numDecisionVariables; i++) {\n            // Get the tableau column index for the i-th decision variable\n            int colIndex = getNumObjectiveFunctions() + i;\n\n            // Find the row where this variable is basic (if it is basic)\n            Integer basicRow = getBasicRow(colIndex);\n\n            if (basicRow == null) {\n                // If getBasicRow returns null, this variable is non-basic.\n                // Non-basic variables have a value of 0.\n                coefficients[i] = 0;\n            } else {\n                // If getBasicRow returns a row, this variable is basic.\n                // Its value is the corresponding entry in the RHS column.\n                coefficients[i] = getEntry(basicRow, getRhsOffset());\n            }\n        }\n        // The objective function value is calculated using the original objective function\n        // and the extracted coefficients, which is generally robust.\n        return new RealPointValuePair(coefficients, f.getValue(coefficients));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

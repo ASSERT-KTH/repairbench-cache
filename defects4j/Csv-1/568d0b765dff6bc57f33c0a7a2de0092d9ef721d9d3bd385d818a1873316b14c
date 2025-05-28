@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public int read() throws IOException {\n        int current = super.read();\n        // Assuming 'lineSeparator' (char[]) and 'lastChar' (int) are fields in this class.\n        // This logic is adapted from Apache Commons CSV's LineReader to correctly increment\n        // the line counter based on the configured line separator.\n        if (lineSeparator.length == 1) {\n            if (current == lineSeparator[0]) {\n                lineCounter++;\n            }\n        } else if (lineSeparator.length == 2) {\n            // Only increment if the full two-character line separator is matched.\n            // This relies on 'lastChar' being correctly updated in the previous read.\n            if (lastChar == lineSeparator[0] && current == lineSeparator[1]) {\n                lineCounter++;\n            }\n        }\n        lastChar = current;\n        return lastChar;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

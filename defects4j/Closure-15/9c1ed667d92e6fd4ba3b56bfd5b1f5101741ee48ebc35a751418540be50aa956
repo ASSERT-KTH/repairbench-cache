@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // The original implementation checked specifically for CALL and NEW nodes\n        // that have side effects. However, other types of nodes, such as the DELETE\n        // operator, can also have side effects that must prevent inlining.\n        // NodeUtil.mayHaveSideEffects(n) provides a more comprehensive check\n        // for any potential side effect in the given node.\n        if (NodeUtil.mayHaveSideEffects(n)) {\n          return true;\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          // This condition `!ControlFlowGraph.isEnteringNewCfgNode(c)` is important\n          // to prevent traversing into separate control flow graph nodes (e.g., function bodies)\n          // where side effects might not affect the variable being inlined in the current scope.\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

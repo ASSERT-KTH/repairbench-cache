@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Checks if the locale specified is in the list of available locales.</p>\n     *\n     * @param locale the Locale object to check if it is available\n     * @return true if the locale is a known locale\n     */\n    public static boolean isAvailableLocale(Locale locale) {\n        // cAvailableLocaleSet is a static field assumed to be defined in the LocaleUtils class.\n        // It needs to be initialized before use.\n        if (cAvailableLocaleSet == null) {\n            // Double-checked locking for thread-safe lazy initialization of the static set.\n            synchronized (LocaleUtils.class) { // LocaleUtils.class is used for the lock\n                if (cAvailableLocaleSet == null) {\n                    // Initialize cAvailableLocaleSet with the available locales\n                    List<Locale> list = Arrays.asList(Locale.getAvailableLocales());\n                    cAvailableLocaleSet = Collections.unmodifiableSet(new HashSet<>(list));\n                    // Note: Other static fields like cAvailableLocaleList, cCountriesByLanguage,\n                    // and cLanguagesByCountry would ideally also be initialized here or\n                    // in a central static block if it existed.\n                    // However, we are restricted to fixing only this function.\n                }\n            }\n        }\n        return cAvailableLocaleSet.contains(locale);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

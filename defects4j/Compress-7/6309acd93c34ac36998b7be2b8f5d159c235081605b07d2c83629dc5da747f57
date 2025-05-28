@@ -1,0 +1,7 @@
+{
+    "generation": "import java.nio.charset.StandardCharsets;\n\n    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        int limit = offset + length;\n        int nulByteIndex = -1;\n\n        // Find the first NUL byte within the specified range\n        for (int i = offset; i < limit; ++i) {\n            if (buffer[i] == 0) {\n                nulByteIndex = i;\n                break;\n            }\n        }\n\n        int bytesToDecode;\n        if (nulByteIndex != -1) {\n            // NUL byte found: decode up to but not including the NUL byte\n            bytesToDecode = nulByteIndex - offset;\n        } else {\n            // No NUL byte found: decode the entire specified length\n            bytesToDecode = length;\n        }\n\n        // Use ISO_8859_1 for decoding, as it's the closest to byte-to-char mapping\n        // implied by the original code and often the default for tar headers.\n        return new String(buffer, offset, bytesToDecode, StandardCharsets.ISO_8859_1);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

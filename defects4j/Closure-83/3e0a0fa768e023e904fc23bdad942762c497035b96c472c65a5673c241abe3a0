@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public int parseArguments(Parameters params) throws CmdLineException {\n        String param = params.getParameter(0);\n\n        if (param == null) {\n          // Handles cases like --flag (no explicit value, defaults to true)\n          setter.addValue(true);\n          return 0; // Consumes 0 additional parameters\n        } else {\n          // Handles cases like --flag=true, --flag=false, or --flag=foo\n          String lowerParam = param.toLowerCase();\n          if (TRUES.contains(lowerParam)) {\n            setter.addValue(true);\n            return 1; // Consumes 1 additional parameter (the 'true'/'false' value)\n          } else if (FALSES.contains(lowerParam)) {\n            setter.addValue(false);\n            return 1; // Consumes 1 additional parameter (the 'true'/'false' value)\n          } else {\n            // Handles cases like --flag=foo (invalid explicit value).\n            // Based on existing logic, it defaults to true.\n            setter.addValue(true);\n            // BUG FIX: It *did* consume the 'foo' parameter, so it must return 1.\n            // Returning 0 would cause the 'foo' parameter to be re-interpreted.\n            return 1;\n          }\n        }\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

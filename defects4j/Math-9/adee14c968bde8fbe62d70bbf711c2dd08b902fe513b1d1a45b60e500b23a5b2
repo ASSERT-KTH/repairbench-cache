@@ -1,0 +1,7 @@
+{
+    "generation": "    /** Get a line with reversed direction.\n     * @return a new instance, with reversed direction\n     */\n    public Line revert() {\n        // A line is defined by a point 'zero' on the line and a normalized direction 'direction'.\n        // To revert the line, we can keep the same point 'zero' and simply negate the existing direction vector.\n        // The Line constructor taking (origin, direction) will ensure the new direction is normalized.\n        // This approach is more numerically stable than computing `new Line(zero, zero.subtract(direction))`\n        // because it avoids intermediate vector subtractions (like `zero.subtract(direction)` and then\n        // implicitly `(zero.subtract(direction)).subtract(zero)`) which can lead to\n        // precision loss due to catastrophic cancellation when large coordinate values are involved.\n        // Directly negating the already normalized direction vector is more robust.\n        final Line reverted = new Line(zero, direction.negate());\n        return reverted;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

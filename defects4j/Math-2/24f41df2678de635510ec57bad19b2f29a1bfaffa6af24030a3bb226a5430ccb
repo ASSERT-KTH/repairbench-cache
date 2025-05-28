@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * {@inheritDoc}\n     *\n     * For population size {@code N}, number of successes {@code m}, and sample\n     * size {@code n}, the mean is {@code n * m / N}.\n     */\n    public double getNumericalMean() {\n        // The mean of the hypergeometric distribution is n * m / N.\n        // The original calculation was (double) (getSampleSize() * getNumberOfSuccesses()) / (double) getPopulationSize().\n        // If getSampleSize() * getNumberOfSuccesses() results in a value that exceeds Integer.MAX_VALUE,\n        // an integer overflow would occur before the cast to double. This could lead to a\n        // negative intermediate product, and thus a negative mean, which is incorrect for this distribution.\n        // To prevent this potential integer overflow, one of the operands is cast to double\n        // before multiplication, ensuring the multiplication itself is performed using double precision.\n        return ((double) getSampleSize() * getNumberOfSuccesses()) / getPopulationSize();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

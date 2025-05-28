@@ -1,0 +1,7 @@
+{
+    "generation": "    System.arraycopy(x, signChangeIndex, x, signChangeIndex + 1, nbPoints - signChangeIndex);\n    x[signChangeIndex] = nextX;\n    System.arraycopy(y, signChangeIndex, y, signChangeIndex + 1, nbPoints - signChangeIndex);\n    y[signChangeIndex] = nextY;\n    ++nbPoints;\n    ```\n    With `nbPoints = 2` and `signChangeIndex = 1`, this becomes:\n    `System.arraycopy(x, 1, x, 2, 1);`\n    This line copies the element at `x[1]` to `x[2]`.\n    So, the value `30.0` (from `x[1]`) is copied to `x[2]`, overwriting the original value `15.0` (from `getMax()`). This means a potentially useful initial sampling point (`getMax()`) is lost prematurely.\n6.  While the `x` array *should* generally be kept sorted for efficient inverse polynomial interpolation, the initial unsorted `x` array combined with the `nbPoints` logic leads to the loss of data.\n\nThe fix involves ensuring that the initial three points (`getMin()`, `getStartValue()`, `getMax()`) are always sorted by their x-values and then loaded into the `x` and `y` arrays. All three points should then be considered part of the initial active set (`nbPoints = 3`), and the `signChangeIndex` should be determined based on their sorted positions. This ensures that the `x` array is always sorted (among its `nbPoints` active elements) and prevents the premature loss of initial data points.\n\nHere's the corrected `doSolve` method:\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

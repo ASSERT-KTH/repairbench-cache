@@ -1,0 +1,7 @@
+{
+    "generation": "    private void _verifySharing()\n    {\n        if (_hashShared) {\n            _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);\n            _names = Arrays.copyOf(_names, _names.length);\n            _hashShared = false;\n            // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure\n            //    we rehash as needed, as need-rehash flag is not copied from parent\n            // If this instance was shared (and now unshares), it means it inherited\n            // the _nSymbols and _hashSize from the parent. If the parent was already\n            // in a state requiring rehash, this child instance also requires it,\n            // even if its _needRehash flag is false (due to explicit setting in constructor).\n            // The condition below reflects the threshold used to determine if a rehash is needed.\n            if (_nSymbols >= (_hashSize - (_hashSize >> 3))) { // common rehash threshold (approx. 87.5% load factor)\n                rehash();\n            }\n        }\n        // This check handles cases where the current (non-shared) instance grew\n        // and its _needRehash flag was set. If rehash() was called in the block above,\n        // _needRehash will be reset to false by rehash() itself, preventing double rehash.\n        if (_needRehash) {\n            rehash();\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

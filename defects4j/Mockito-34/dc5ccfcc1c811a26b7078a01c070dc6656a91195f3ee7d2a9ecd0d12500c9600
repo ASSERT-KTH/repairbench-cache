@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        Object[] actualArguments = i.getArguments();\n        int k = 0;\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Check if the current matcher's expected argument index (k) is within\n                // the bounds of the actual arguments provided in the invocation.\n                if (k < actualArguments.length) {\n                    // If an actual argument exists at this index, capture it.\n                    ((CapturesArguments) m).captureFrom(actualArguments[k]);\n                } else {\n                    // If no actual argument exists at this index (e.g., the invocation\n                    // had fewer arguments than expected by the matchers, or zero arguments\n                    // when a captor was at index 0), capture null. This prevents\n                    // ArrayIndexOutOfBoundsException and is a common way for argument captors\n                    // to signify that no argument was available for capture.\n                    ((CapturesArguments) m).captureFrom(null);\n                }\n            }\n            // Increment k for the next matcher, as k tracks the position in the matchers list\n            // which conceptually corresponds to the argument index.\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

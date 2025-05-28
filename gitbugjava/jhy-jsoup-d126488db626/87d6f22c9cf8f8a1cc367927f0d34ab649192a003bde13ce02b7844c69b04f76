@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\"))\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            else if (tq.matches(\"[\"))\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            // Only break on space or comma. Other combinators (>, +, ~) are part of the subquery.\n            else if (tq.matches(\" \") || tq.matches(\",\")) { // These are the subquery terminators\n                if (sq.length() > 0) // If we have content, this is the end of the subquery\n                    break;\n                else // If it's a leading space or comma, consume it (e.g. leading space, or comma for new query part)\n                    tq.consume();\n            }\n            else // Any other character, including relational combinators (>, +, ~), tag name, id, class, etc.\n                sq.append(tq.consume());\n        }\n        return StringUtil.releaseBuilder(sq);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

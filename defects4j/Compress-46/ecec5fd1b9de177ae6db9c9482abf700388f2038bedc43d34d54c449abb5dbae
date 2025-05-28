@@ -1,0 +1,7 @@
+{
+    "generation": "    private static ZipLong unixTimeToZipLong(long l) {\n        // X5455 timestamps must fit in a signed 32 bit integer.\n        // The maximum positive value for a signed 32-bit integer is 2^31 - 1 (0x7FFFFFFF).\n        // Therefore, any value equal to or greater than 2^31 (0x80000000L) is too large.\n        final long MAX_TIMESTAMP_PLUS_ONE = 0x80000000L; // Represents 2^31\n\n        if (l >= MAX_TIMESTAMP_PLUS_ONE) {\n            throw new IllegalArgumentException(\"X5455 timestamps must fit in a signed 32 bit integer: \" + l);\n        }\n        // Unix timestamps are conventionally non-negative.\n        // Also, ZipLong implicitly handles its 4 bytes as an unsigned integer.\n        // A negative input would be incorrectly interpreted as a large positive unsigned value.\n        if (l < 0) {\n            throw new IllegalArgumentException(\"X5455 timestamps must be non-negative: \" + l);\n        }\n        return new ZipLong(l);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                // Ensure k is within the bounds of the actual arguments array.\n                // If k is out of bounds, it means there is no corresponding argument for this matcher.\n                // In such cases, null is passed to the captor, allowing it to handle missing arguments\n                // or empty varargs scenarios (e.g., when AnyVararg matches a method called with no arguments).\n                if (k < i.getArguments().length) {\n                    ((CapturesArguments) m).captureFrom(i.getArguments()[k]);\n                } else {\n                    ((CapturesArguments) m).captureFrom(null);\n                }\n            }\n            k++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

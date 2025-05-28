@@ -1,0 +1,7 @@
+{
+    "generation": "    public Object generateId(Object forPojo) {\n        // 04-Jun-2016, tatu: As per [databind#1255], need to consider possibility of\n        //    id being generated for \"alwaysAsId\", but not being written as POJO; regardless,\n        //    need to use existing id if there is one:\n\n        // If the 'id' field (which represents the existing ID in this writer's context\n        // for the current object being processed) is already set, reuse it.\n        // This ensures that an object always gets the same ID if it has been seen before\n        // in a context where its ID was established (e.g., as a forward reference).\n        if (id != null) {\n            return id;\n        }\n\n        // If 'id' is null, it means no existing ID has been established within this writer's\n        // context for 'forPojo'. Delegate to the actual ObjectIdGenerator to either retrieve\n        // an existing ID from its global scope or generate a new one.\n        // The result is then stored in the 'id' field for consistency within this writer.\n        id = generator.generateId(forPojo);\n        return id;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

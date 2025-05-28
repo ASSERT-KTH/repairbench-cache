@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String constructUrlFromEndpointPortDatabase(String endpoint, String port, String dbname) {\n        String url = \"jdbc:postgresql://\" + endpoint;\n        if (!StringUtils.isNullOrEmpty(port)) {\n            url += \":\" + port;\n        }\n        // PostgreSQL JDBC URL format requires a trailing slash for the database part,\n        // even if no specific database name is provided (connecting to default).\n        // The original code only added the slash if dbname was non-null/non-empty.\n        // This change ensures the trailing slash is always present before potentially appending the dbname.\n        url += \"/\";\n        if (!StringUtils.isNullOrEmpty(dbname)) {\n            url += dbname;\n        }\n        return url;\n    }",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

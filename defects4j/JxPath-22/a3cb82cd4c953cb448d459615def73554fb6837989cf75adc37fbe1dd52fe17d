@@ -1,0 +1,7 @@
+{
+    "generation": "import org.w3c.dom.Attr;\nimport org.w3c.dom.Document;\nimport org.w3c.dom.Element;\nimport org.w3c.dom.Node;\n\npublic class YourClassName { // Assuming the function is part of a class. The class name itself is not part of the fix.\n    /**\n     * Get the ns uri of the specified node.\n     * @param node Node to check\n     * @return String ns uri\n     */\n    public static String getNamespaceURI(Node node) {\n        if (node == null) {\n            return null;\n        }\n\n        // If the node is a Document, we want the namespace URI of its document element.\n        // If the document has no document element (e.g., it's an empty document), return null.\n        if (node instanceof Document) {\n            node = ((Document) node).getDocumentElement();\n            if (node == null) {\n                return null;\n            }\n        }\n\n        // For Element and Attr nodes, their namespace URI can be retrieved directly\n        // using Node.getNamespaceURI(). This is the standard DOM API.\n        // For other node types (e.g., Text, Comment, CDATASection), their namespace URI is always null.\n        if (node.getNodeType() == Node.ELEMENT_NODE || node.getNodeType() == Node.ATTRIBUTE_NODE) {\n            return node.getNamespaceURI();\n        }\n\n        // For all other node types, or if the node became null after document handling,\n        // the namespace URI is null.\n        return null;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

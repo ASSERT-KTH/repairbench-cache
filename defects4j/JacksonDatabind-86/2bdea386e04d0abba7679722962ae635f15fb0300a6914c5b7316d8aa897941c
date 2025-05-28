@@ -1,0 +1,7 @@
+{
+    "generation": "    public void _setReference(JavaType ref) {\n        if (_selfReferencedType != null) { // should not happen, but good check\n            throw new IllegalStateException(\"Already referenced a type\");\n        }\n        _selfReferencedType = ref;\n\n        // [databind#1647]: need to ensure ResolvedRecursiveType has proper\n        // super-class, since it's used to define properties\n        // and also 'valueType' if that's what it refers to.\n        // It is important that these fields are copied, because `ResolvedRecursiveType`\n        // itself may be part of the `superClass` chain or `valueType` of other types,\n        // and its structural properties need to be accessible even if it is not\n        // yet unwrapped.\n        _superClass = ref._superClass;\n        _interfaces = ref._interfaces;\n        _valueType = ref._valueType;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

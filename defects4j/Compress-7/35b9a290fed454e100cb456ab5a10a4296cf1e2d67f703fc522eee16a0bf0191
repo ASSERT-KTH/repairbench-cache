@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse an entry name from a buffer.\n     * Parsing stops when a NUL is found\n     * or the buffer length is reached.\n     *\n     * @param buffer The buffer from which to parse.\n     * @param offset The offset into the buffer from which to parse.\n     * @param length The maximum number of bytes to parse.\n     * @return The entry name.\n     */\n    public static String parseName(byte[] buffer, final int offset, final int length) {\n        StringBuffer result = new StringBuffer(length);\n        int          end = offset + length;\n\n        for (int i = offset; i < end; ++i) {\n            if (buffer[i] == 0) {\n                break;\n            }\n            // Fix: When converting a byte to a char, treat the byte as an unsigned value.\n            // This is crucial for handling characters whose byte representation is > 127 (or negative if interpreted as signed).\n            // For example, the byte value 0xB1 (decimal -79) should map to the character U+00B1 (\u00b1),\n            // but a direct cast to char without `& 0xFF` would sign-extend it and result in U+FFB1 (\uffb1).\n            // Tar entries typically use an encoding like ISO-8859-1 where byte values directly map to character codes.\n            result.append((char) (buffer[i] & 0xFF));\n        }\n\n        return result.toString();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    protected JavaType _narrow(Class<?> subclass)\n    {\n        if (_class == subclass) {\n            return this;\n        }\n        // 15-Jan-2015, tatu: The original comment \"Not correct; should really re-resolve...\"\n        // refers to the fact that simply copying the existing _bindings, _superClass,\n        // and _superInterfaces is often incorrect. When narrowing to a specific\n        // 'subclass', the TypeFactory is responsible for re-resolving the\n        // complete type hierarchy and generic bindings for that 'subclass' from scratch.\n        // This method should therefore return a \"clean\" SimpleType for the subclass,\n        // retaining only non-structural properties like value/type handlers.\n        return new SimpleType(subclass, com.fasterxml.jackson.databind.type.TypeBindings.emptyBindings(),\n                null, null, // Super type information will be re-resolved by TypeFactory\n                _valueHandler, _typeHandler, _asStatic);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

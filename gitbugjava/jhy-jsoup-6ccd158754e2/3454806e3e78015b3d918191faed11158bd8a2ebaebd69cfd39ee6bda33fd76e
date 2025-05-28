@@ -1,0 +1,7 @@
+{
+    "generation": "    private static void appendToAscii(String s, boolean spaceAsPlus, StringBuilder sb) throws UnsupportedEncodingException {\n        // minimal normalization of Unicode -> Ascii, and space normal. Existing escapes are left as-is.\n        // Fix: Correctly iterate over code points, handling supplementary characters.\n        for (int i = 0; i < s.length(); /* i is advanced inside the loop */) {\n            int c = s.codePointAt(i); // Get the code point at the current index\n            \n            if (c == ' ') {\n                sb.append(spaceAsPlus ? '+' : \"%20\");\n            } else if (c > 127) { // out of ascii range\n                // If the code point is a supplementary character (occupies two char units),\n                // Character.toChars(c) will return two chars.\n                // If it's a BMP character > 127 (e.g., \u00e9, \u00e4), it returns one char.\n                sb.append(URLEncoder.encode(new String(Character.toChars(c)), UTF_8.name()));\n                // ^^ is a bit heavy-handed - if perf critical, we could optimize\n            } else { // ASCII range <= 127, and not space\n                sb.append((char) c);\n            }\n            \n            // Advance the index by the number of char units this code point occupied.\n            // For BMP characters, this is 1. For supplementary characters, this is 2.\n            i += Character.charCount(c);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

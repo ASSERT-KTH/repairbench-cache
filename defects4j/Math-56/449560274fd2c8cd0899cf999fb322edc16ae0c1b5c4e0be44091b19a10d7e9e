@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Convert to multidimensional counter.\n     *\n     * @param index Index in unidimensional counter.\n     * @return the multidimensional counts.\n     * @throws OutOfRangeException if {@code index} is not between\n     * {@code 0} and the value returned by {@link #getSize()} (excluded).\n     */\n    public int[] getCounts(int index) {\n        if (index < 0 ||\n            index >= totalSize) {\n            throw new OutOfRangeException(index, 0, totalSize);\n        }\n\n        final int[] indices = new int[dimension];\n\n        // The unidimensional index is converted to multidimensional counts\n        // by repeatedly dividing by the respective uniCounterOffset and taking the remainder.\n        int currentRemainder = index;\n\n        // Iterate through each dimension (from 0 to dimension - 1)\n        for (int i = 0; i < dimension; i++) {\n            final int offset = uniCounterOffset[i];\n            indices[i] = currentRemainder / offset; // Calculate the count for the current dimension\n            currentRemainder %= offset;             // Update the remainder for the next dimension\n        }\n\n        return indices;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

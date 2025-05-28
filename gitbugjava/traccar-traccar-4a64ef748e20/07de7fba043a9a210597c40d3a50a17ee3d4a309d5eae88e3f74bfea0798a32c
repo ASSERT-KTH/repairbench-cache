@@ -1,0 +1,7 @@
+{
+    "generation": "                case 0xFE:\n                    if (length == 1) { // Example: FE 01 XX (XX is battery level)\n                        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n                    } else { // Example: FE L (mark, extended_data, final_battery_level)\n                        int mark = buf.readUnsignedByte(); // Reads the first byte of payload\n                        if (mark == 0x7C) {\n                            // This block processes nested extended data based on mark 0x7C\n                            while (buf.readerIndex() < endIndex) { // Note: endIndex is for the whole 0xFE block\n                                // ... process extended data ...\n                            }\n                        }\n                        // This line is executed after mark is read, and potentially after the 0x7C inner loop.\n                        // It reads the next available byte as the battery level.\n                        position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());\n                    }\n                    break;",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

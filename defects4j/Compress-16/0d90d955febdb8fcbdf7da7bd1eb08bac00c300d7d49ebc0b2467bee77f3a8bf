@@ -1,0 +1,7 @@
+{
+    "generation": "            // Tar needs an even bigger buffer to check the signature; read the first block\n            final byte[] tarheader = new byte[512];\n            in.mark(tarheader.length);\n            signatureLength = in.read(tarheader);\n            in.reset();\n            if (TarArchiveInputStream.matches(tarheader, signatureLength)) {\n                return new TarArchiveInputStream(in);\n            }\n            // COMPRESS-117 - improve auto-recognition\n            if (signatureLength >= 512) {\n                try {\n                    TarArchiveInputStream tais = new TarArchiveInputStream(new ByteArrayInputStream(tarheader));\n                    // COMPRESS-191 - verify the header checksum\n                    tais.getNextEntry(); // This line is the culprit\n                        return new TarArchiveInputStream(in);\n                } catch (Exception e) { // NOPMD\n                    // can generate IllegalArgumentException as well\n                    // as IOException\n                    // autodetection, simply not a TAR\n                    // ignored\n                }\n            }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "      @Override\n      public int parseArguments(Parameters params) throws CmdLineException {\n        String param = params.getParameter(0);\n\n        if (param == null) {\n          // If no explicit value is provided (e.g., just --myflag), default to true.\n          // This consumes 0 arguments after the flag itself.\n          setter.addValue(true);\n          return 0;\n        } else {\n          // An explicit value is provided (e.g., --myflag=true or --myflag true).\n          String lowerParam = param.toLowerCase();\n          if (TRUES.contains(lowerParam)) {\n            setter.addValue(true);\n          } else if (FALSES.contains(lowerParam)) {\n            setter.addValue(false);\n          } else {\n            // If the provided parameter is not a recognized boolean string,\n            // it indicates an invalid argument. Throw an exception to signal this error.\n            // Previously, it would set value to true and return 0, which meant the\n            // invalid parameter was re-parsed, leading to unexpected behavior.\n            throw new CmdLineException(\"Expected a boolean value for this option, but got: \" + param);\n          }\n          // Consumed 1 argument (the explicit boolean string).\n          return 1;\n        }\n      }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}
