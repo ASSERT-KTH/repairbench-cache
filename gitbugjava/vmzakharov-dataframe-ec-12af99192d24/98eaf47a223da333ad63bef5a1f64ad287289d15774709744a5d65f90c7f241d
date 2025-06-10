@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        boolean containsDoubleQuote = this.value.contains(\"\\\"\");\n        boolean containsSingleQuote = this.value.contains(\"'\");\n\n        if (containsDoubleQuote && !containsSingleQuote)\n        {\n            // If the string contains double quotes but no single quotes,\n            // wrap it in single quotes. No escaping of the content is needed\n            // because it's guaranteed not to contain single quotes.\n            return \"'\" + this.value + \"'\";\n        }\n        else\n        {\n            // In all other cases, use double quotes for wrapping.\n            // This includes:\n            // - String contains single quotes but no double quotes (e.g., \"wal'do\").\n            // - String contains both single and double quotes (e.g., \"a\\\"b'c\").\n            // - String contains neither single nor double quotes (e.g., \"foo\").\n            //\n            // Internal backslashes and double quotes must be escaped.\n            // Order of replacement is important: escape backslashes first, then quotes.\n            String escapedValue = this.value.replace(\"\\\\\", \"\\\\\\\\\").replace(\"\\\"\", \"\\\\\\\"\");\n            return \"\\\"\" + escapedValue + \"\\\"\";\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

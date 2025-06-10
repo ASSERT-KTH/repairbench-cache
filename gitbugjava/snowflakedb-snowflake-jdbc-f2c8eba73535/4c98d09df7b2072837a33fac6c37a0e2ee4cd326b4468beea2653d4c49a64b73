@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean isNonRetryableHTTPCode(CloseableHttpResponse response, boolean retryHTTP403) {\n    return response != null\n        && (response.getStatusLine().getStatusCode() < 500\n            || // service unavailable (codes 500-599 are generally retryable)\n            response.getStatusLine().getStatusCode() >= 600) // codes >= 600 are non-retryable\n        && // gateway timeout (408 is Request Timeout, which is retryable)\n        response.getStatusLine().getStatusCode() != 408\n        && // request timeout (429 is Too Many Requests, which is retryable)\n        response.getStatusLine().getStatusCode() != 429 // Added this condition for 429\n        && // Handle 403 based on retryHTTP403 flag\n        (!retryHTTP403 || response.getStatusLine().getStatusCode() != 403);\n  }\n",
+    "exact_match": true,
+    "ast_match": true,
+    "compile": true,
+    "test": true
+}

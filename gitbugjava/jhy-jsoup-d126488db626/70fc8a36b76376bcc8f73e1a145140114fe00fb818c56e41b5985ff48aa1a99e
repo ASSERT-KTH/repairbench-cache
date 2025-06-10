@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            // If the queue matches a closing parenthesis, this signifies the end of\n            // the subquery argument (e.g., in contexts like :pseudo(subquery) ).\n            // We should break and not consume the closing parenthesis, letting the caller handle it.\n            if (tq.matches(\")\")) {\n                break;\n            }\n\n            if (tq.matches(\"(\")) {\n                // Consume and append the entire balanced parenthetical group\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            } else if (tq.matches(\"[\")) {\n                // Consume and append the entire balanced bracket group (for attribute selectors)\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            } else {\n                // For any other token (including combinators like '>', '+', ' ', ',', etc.),\n                // consume it and append to the subquery string.\n                // The original logic mishandled combinators by either discarding them\n                // or prematurely breaking the loop.\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

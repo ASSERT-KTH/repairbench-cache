@@ -1,0 +1,7 @@
+{
+    "generation": "  public static Try<Done> registerCallContext(\n      final ActorRef<CallContextProviderMessage> callContextProvider,\n      final String callContext,\n      final AriCommand ariCommand) {\n\n    // If the command is a DELETE request, or if it's not a creation command,\n    // do not attempt to register a call context.\n    // We assume AriCommand has a getVerb() method returning the HTTP verb string.\n    if (\"DELETE\".equalsIgnoreCase(ariCommand.getVerb()) ||\n        !ariCommand.extractCommandType().isCreationCommand()) {\n      return Try.success(Done.done());\n    }\n\n    final Option<AriResource> maybeResource =\n        ariCommand\n            .extractResourceRelations()\n            .find(AriResourceRelation::isCreated)\n            .map(AriResourceRelation::getResource);\n\n    if (maybeResource.isEmpty()) {\n      return Try.failure(\n          new RuntimeException(\n              String.format(\n                  \"Failed to extract resourceId from command '%s'\", ariCommand.toString())));\n    }\n\n    final AriResource resource = maybeResource.get();\n\n    callContextProvider.tell(new RegisterCallContext(resource.getId(), callContext));\n    return Try.success(Done.done());\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

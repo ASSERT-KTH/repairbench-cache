@@ -1,0 +1,7 @@
+{
+    "generation": "        if (position.getFixTime() == null || (/* some other condition */)) {\n            position.setTime(readDate(buf, /* timezone */)); // Reads time from 'buf'\n        }\n        ```\n        Since `position.getFixTime()` would be `null`, it would attempt to read a new date from the current buffer `buf`. If `buf` at this point contains non-BCD data or data not intended to be a timestamp, parsing it as a BCD date could result in an invalid year (e.g., year 165 from `0xFF` as YY), causing the assertion failure.\n\nThe most robust fix for the second scenario is to check if the initial `time` object is `null`. If it is, it indicates a parsing failure for a critical piece of information, and the decoding for this message should be aborted, typically by returning `null`.\n\nAdding a null check for `time` immediately after it's read will prevent `null` from propagating and causing issues in `getLastLocation` or `decodeCoordinates`.\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

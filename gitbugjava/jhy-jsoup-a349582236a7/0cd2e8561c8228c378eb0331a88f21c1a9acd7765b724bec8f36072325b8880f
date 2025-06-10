@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Determine if the previous sibling check should apply.\n        // It should apply for non-formatting tags (like <html>, <tr>) to ensure they are not\n        // considered inlineable when they are the first child (mimicking block-like behavior).\n        // For formatting tags (like <a>, <b>), this check can lead to inconsistent inline behavior,\n        // so we skip it to treat all such instances uniformly as inlineable if other conditions met.\n        boolean checkPreviousSibling = !tag().isFormatting();\n\n        return tag().isInline()\n            && (parent() == null || parent().isBlock())\n            && (!checkPreviousSibling || previousSibling() != null) // Apply check conditionally\n            && !out.outline();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n     @param tags tag names to allow\n     @return this (for chaining)\n     */\n    public Safelist addTags(String... tags) {\n        Validate.notNull(tags);\n\n        for (String tagName : tags) {\n            Validate.notEmpty(tagName);\n            String trimmedTagName = tagName.trim(); // Trim whitespace for reliable comparison and processing\n\n            // Check if the tag is \"noscript\", case-insensitive\n            if (\"noscript\".equalsIgnoreCase(trimmedTagName)) {\n                // As per the test, adding \"noscript\" should throw a ValidationException\n                // with a message containing \"unsupported\".\n                throw new Validate.ValidationException(\n                    \"Tag <noscript> is unsupported and cannot be added to the safelist.\");\n            }\n            \n            // Add the tag using the trimmed name.\n            // TagName.valueOf itself will handle further normalization (e.g., to lowercase)\n            // and validation (e.g., if the trimmed name is empty).\n            tagNames.add(TagName.valueOf(trimmedTagName));\n        }\n        return this;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

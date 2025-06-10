@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\"))\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            else if (tq.matches(\"[\"))\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            else if (tq.matchesAny(Combinators)) {\n                // If a combinator is encountered (e.g., ',', '>', '+', '~', ' '),\n                // it signifies the end of the current sub-query part.\n                // We should break regardless of whether sq has content or is empty.\n                // If sq is empty, an empty string will be returned, indicating that\n                // the input started with a combinator, which should be handled by the caller.\n                break;\n            } else {\n                // Not '(', not '[', not a combinator. Consume as part of the selector.\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

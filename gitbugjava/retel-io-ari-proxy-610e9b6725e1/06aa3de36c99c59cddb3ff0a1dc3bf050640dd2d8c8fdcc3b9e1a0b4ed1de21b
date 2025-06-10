@@ -1,0 +1,7 @@
+{
+    "generation": "  public static Try<Done> registerCallContext(\n      final ActorRef<CallContextProviderMessage> callContextProvider,\n      final String callContext,\n      final AriCommand ariCommand) {\n\n    final CommandType commandType = ariCommand.extractCommandType();\n\n    // If it's not a creation command (original check),\n    // OR if the command type's name is \"DELETE\" (to specifically prevent registration for DELETE commands),\n    // then do not proceed with registration.\n    // This relies on CommandType typically being an enum where commandType.name() would return \"DELETE\"\n    // for a delete command type. Using \"DELETE\".equals() is a null-safe string comparison.\n    if (!commandType.isCreationCommand() || \"DELETE\".equals(commandType.name())) {\n      return Try.success(Done.done());\n    }\n\n    final Option<AriResource> maybeResource =\n        ariCommand\n            .extractResourceRelations()\n            .find(AriResourceRelation::isCreated)\n            .map(AriResourceRelation::getResource);\n\n    if (maybeResource.isEmpty()) {\n      return Try.failure(\n          new RuntimeException(\n              String.format(\n                  \"Failed to extract resourceId from command '%s'\", ariCommand.toString())));\n    }\n\n    final AriResource resource = maybeResource.get();\n\n    callContextProvider.tell(new RegisterCallContext(resource.getId(), callContext));\n    return Try.success(Done.done());\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

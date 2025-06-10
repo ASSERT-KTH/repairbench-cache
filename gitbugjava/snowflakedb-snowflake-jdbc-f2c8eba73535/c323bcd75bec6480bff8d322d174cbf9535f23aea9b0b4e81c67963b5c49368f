@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean isNonRetryableHTTPCode(CloseableHttpResponse response, boolean retryHTTP403) {\n    if (response == null) {\n      // If response is null, the original logic would evaluate (false && ...) which is false.\n      // False means \"retryable\". This behavior is preserved.\n      return false;\n    }\n    int statusCode = response.getStatusLine().getStatusCode();\n    return (statusCode < 500 // Codes < 500 (e.g., 1xx, 2xx, 3xx, 4xx)\n            || // OR\n            statusCode >= 600) // Codes >= 600\n        // The above condition means 5xx codes (500-599) make this part false,\n        // thus making the entire function return false (i.e., 5xx are retryable).\n        && // AND the code must NOT be one of the explicitly retryable 4xx codes:\n        statusCode != 408 // 408 (Request Timeout) is retryable.\n        && statusCode != 429 // 429 (Too Many Requests) is retryable.\n        && // AND special handling for 403 (Forbidden):\n        (!retryHTTP403 || statusCode != 403);\n    // The 403 condition means:\n    // - If retryHTTP403 is true AND statusCode is 403, this part is (false || false) = false.\n    //   So, if 403 is encountered and retryHTTP403 is true, the code is retryable.\n    // - Otherwise (retryHTTP403 is false, OR statusCode is not 403), this part is true\n    //   and does not by itself make the code retryable.\n  }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

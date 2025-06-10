@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        // If there's only one Range object in the list,\n        // we should use its direct string representation.\n        // Range.toString() handles multiple comparators with \" and \" correctly\n        // and does not add outer parentheses. This satisfies the test requirement\n        // to omit outer parentheses for a single complex range like \">=3.0.0 <=3.0.1\".\n        if (rangesList.size() == 1) {\n            return rangesList.get(0).toString();\n        } else {\n            // If there are multiple Range objects (implicitly OR-ed),\n            // or if the list is empty:\n            // - For multiple ranges: use the stream to format each one and join with OR_JOINER.\n            //   RangesList.formatRanges(range) will add parentheses around complex ranges\n            //   (e.g., \"(>=1.0.0 and <2.0.0)\") if they are part of this OR list.\n            //   Simple ranges (e.g., \">3.0.0\") will not be parenthesized by formatRanges.\n            // - For an empty rangesList: rangesList.stream().collect(joining(...))\n            //   will correctly return an empty string.\n            return rangesList.stream()\n                .map(RangesList::formatRanges)\n                .collect(joining(OR_JOINER));\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

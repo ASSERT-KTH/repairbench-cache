@@ -1,0 +1,7 @@
+{
+    "generation": "    private void printRow(final Help.TextTable table, final SearchResponse.Response.Doc doc) {\n        var lastUpdated = DATE_TIME_FORMATTER.format(\n                Instant.ofEpochMilli(doc.timestamp()).atZone(ZoneId.systemDefault())\n        );\n\n        // The original code only used doc.id(), which is typically \"groupId:artifactId\".\n        // The test expects \"groupId:artifactId:version\".\n        // The version is available in doc.v().\n        String coordinates = doc.id();\n        if (doc.v() != null && !doc.v().isEmpty()) {\n            coordinates += \":\" + doc.v();\n        }\n        // In the specific test case, doc.v() is \"3.4.1\", so it will be appended.\n        // If doc.v() were null or empty, this logic would print just doc.id().\n        // For the given test, doc.id() + \":\" + doc.v() is sufficient and correct.\n\n        table.addRowValues(coordinates, lastUpdated);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

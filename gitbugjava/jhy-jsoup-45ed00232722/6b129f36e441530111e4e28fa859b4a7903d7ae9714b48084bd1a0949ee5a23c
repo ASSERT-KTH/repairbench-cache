@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // Apply Punycode to the host if necessary\n        try {\n            // Convert the URL to a URI. This process involves extracting\n            // components (scheme, host, path, query, fragment) from the URL.\n            // URL component getters (like getPath(), getQuery()) return decoded values.\n            // The URI constructor then correctly re-encodes these components.\n            // For example, spaces in path/query become %20, '[' becomes %5B, etc.\n            URI uri = u.toURI();\n\n            // Convert the URI to its US-ASCII string form. This string is\n            // fully encoded and suitable for creating a new URL object.\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // If conversion fails, return the URL as it was after punyUrl\n            // (this matches the original behavior of the catch block).\n            return u;\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        // Elements that always format as a block (e.g. <br>, <p>, <h1>) are not inlineable.\n        // <br> is an inline tag but formats as block.\n        if (tag.formatAsBlock())\n            return false;\n\n        // Remaining elements are inline tags that do not format as block (e.g. <span>, <b>).\n        // These are inlineable if:\n        // 1. Their parent is a block (or they have no parent).\n        // 2. They are not the first significant element on their line.\n        // 3. Outline mode is off (outline mode may force block-like formatting).\n        return (parent() == null || parent().isBlock())\n            && !isEffectivelyFirst()\n            && !out.outline();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

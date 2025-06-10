@@ -1,0 +1,7 @@
+{
+    "generation": "        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n            // Node values are int, within [-10^9, 10^9].\n            // Direct comparisons p.val < root.val etc. are safe from overflow.\n\n            // If both p's value and q's value are less than root's value,\n            // then the LCA must be in the left subtree.\n            if (p.val < root.val && q.val < root.val) {\n                return lowestCommonAncestor(root.left, p, q);\n            }\n            // If both p's value and q's value are greater than root's value,\n            // then the LCA must be in the right subtree.\n            else if (p.val > root.val && q.val > root.val) {\n                return lowestCommonAncestor(root.right, p, q);\n            }\n            // Otherwise, the current root node is the LCA.\n            // This covers the cases where:\n            // 1. root is p (p.val == root.val), then p is an ancestor of q.\n            // 2. root is q (q.val == root.val), then q is an ancestor of p.\n            // 3. p is in the left subtree and q is in the right subtree (or vice-versa).\n            //    (p.val < root.val && q.val > root.val) or (p.val > root.val && q.val < root.val)\n            else {\n                return root;\n            }\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

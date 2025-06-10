@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // Assume punyUrl handles IDN for the host.\n                        // The URL object 'u' now has its components potentially modified by punyUrl.\n                        // Methods like u.getPath(), u.getQuery() provide decoded component strings.\n        try {\n            // Construct a new URI from the components of the (potentially punycoded) URL.\n            // This URI constructor (java.net.URI#URI(String, String, String, String, String))\n            // correctly percent-encodes illegal characters in the path, query, and fragment components.\n            // u.getAuthority() provides the authority part (userInfo, host, port), where host may already be punycoded.\n            final URI uri = new URI(u.getProtocol(), u.getAuthority(), u.getPath(), u.getQuery(), u.getRef());\n            \n            // Convert the URI to its ASCII string form (which will have components %-encoded)\n            // and then create a new URL from that string.\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // If any step of encoding fails, fall back to returning the URL instance we got from punyUrl.\n            // This retains the behavior of the original catch block.\n            return u;\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

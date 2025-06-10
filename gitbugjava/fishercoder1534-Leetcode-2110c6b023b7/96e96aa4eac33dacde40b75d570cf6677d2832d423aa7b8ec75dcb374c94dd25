@@ -1,0 +1,7 @@
+{
+    "generation": "        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n            if (root == null || p == root || q == root) {\n                return root;\n            }\n\n            int rootVal = root.val;\n            int pVal = p.val;\n            int qVal = q.val;\n\n            // If both p and q have values less than root's value,\n            // then the LCA must be in the left subtree.\n            if (pVal < rootVal && qVal < rootVal) {\n                return lowestCommonAncestor(root.left, p, q);\n            }\n            // If both p and q have values greater than root's value,\n            // then the LCA must be in the right subtree.\n            else if (pVal > rootVal && qVal > rootVal) {\n                return lowestCommonAncestor(root.right, p, q);\n            }\n            // Otherwise, root is the LCA. This occurs when:\n            // 1. p is in one subtree and q is in the other.\n            //    (e.g., pVal < rootVal < qVal or qVal < rootVal < pVal)\n            // 2. One of p or q has a value equal to rootVal. In this case,\n            //    since p != root and q != root (checked by the initial base case),\n            //    root is still the LCA because the other node must be in one of its subtrees\n            //    (as per BST properties and problem constraints that p,q are in the tree).\n            else {\n                return root;\n            }\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

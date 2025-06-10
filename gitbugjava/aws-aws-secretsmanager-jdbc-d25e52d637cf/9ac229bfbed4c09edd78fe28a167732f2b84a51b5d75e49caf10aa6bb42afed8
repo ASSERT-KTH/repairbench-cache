@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String constructUrlFromEndpointPortDatabase(String endpoint, String port, String dbname) {\n        String url = \"jdbc:postgresql://\" + endpoint;\n\n        boolean portProvided = !StringUtils.isNullOrEmpty(port);\n        if (portProvided) {\n            url += \":\" + port;\n        }\n\n        boolean dbnameProvided = !StringUtils.isNullOrEmpty(dbname);\n        if (dbnameProvided) {\n            // If dbname is provided, it's always preceded by a '/'\n            url += \"/\" + dbname;\n        } else {\n            // If dbname is not provided, but a port was, a trailing '/' is needed.\n            // This handles the case like \"jdbc:postgresql://host:port/\" for the default database.\n            if (portProvided) {\n                url += \"/\";\n            }\n        }\n        return url;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

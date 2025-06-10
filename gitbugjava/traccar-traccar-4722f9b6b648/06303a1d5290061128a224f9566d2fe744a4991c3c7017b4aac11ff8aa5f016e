@@ -1,0 +1,7 @@
+{
+    "generation": "    private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n        buf.readUnsignedShort(); // length - Changed from LE to BE (default) assuming SBD field\n\n        buf.skipBytes(3); // identification header\n        buf.readUnsignedInt(); // index - Changed from LE to BE (default) assuming SBD field (e.g., CDR)\n\n        DeviceSession deviceSession = getDeviceSession(\n                channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n        if (deviceSession == null) {\n            return null;\n        }\n\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        buf.readUnsignedByte(); // session status\n        buf.skipBytes(4); // reserved (e.g., MOMSN, MTMSN - SBD fields are BE)\n        buf.readUnsignedInt(); // date and time - Changed from LE to BE (default) assuming SBD Time of Session\n\n        buf.skipBytes(23); // coordinates block\n\n        buf.skipBytes(3); // data tag header\n        decodeMinimalDataSet(position, buf); // This is expected to decode Galileo-specific data,\n                                             // which may use Little Endian for its own fields.\n        return position;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

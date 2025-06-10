@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Sets the given lines for the provided path, overriding any previously existing comments for the path.\n     * An entry that is a sole new-line (i.e. \"\\n\") will result in an empty line without any comment marker.\n     * If comments for the path already exist, they are overridden, and an IllegalStateException is thrown\n     * to indicate that an override occurred.\n     *\n     * @param path the path to register the comment lines for\n     * @param commentLines the comment lines to set for the path\n     */\n    public void setComment(@NotNull String path, @NotNull String... commentLines) {\n        // The put operation will override if the key already exists,\n        // and it returns the previous value associated with the key.\n        List<String> previousCommentLines = comments.put(path, Collections.unmodifiableList(Arrays.asList(commentLines)));\n\n        // If previousCommentLines is not null, it means there were existing comments for this path,\n        // and an override occurred. The test expects an IllegalStateException in this case.\n        if (previousCommentLines != null) {\n            throw new IllegalStateException(\"Comment lines already exists for the path '\" + path + \"'\");\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String toString() {\n        String result = rangesList.stream()\n            .map(RangesList::formatRanges)\n            .collect(joining(OR_JOINER));\n\n        // If there's only one set of ranges (i.e., no \"||\" operators were involved in joining),\n        // and this single set was wrapped in parentheses by formatRanges,\n        // then omit these outer parentheses for a cleaner representation.\n        if (rangesList.size() == 1) {\n            if (result.length() > 1 && result.startsWith(\"(\") && result.endsWith(\")\")) {\n                // Strip the outer parentheses.\n                // For example, if formatRanges produced \"(>=3.0.0 and <=3.0.1)\",\n                // this will change it to \">=3.0.0 and <=3.0.1\".\n                // If formatRanges produced \"1.0.0\" (no parentheses), it remains \"1.0.0\".\n                return result.substring(1, result.length() - 1);\n            }\n        }\n\n        return result;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

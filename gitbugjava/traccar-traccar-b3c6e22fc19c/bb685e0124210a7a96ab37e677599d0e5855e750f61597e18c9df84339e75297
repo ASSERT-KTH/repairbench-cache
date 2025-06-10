@@ -1,0 +1,7 @@
+{
+    "generation": "            if (hasStatus(type)) {\n                decodeStatus(position, buf);\n                if (variant == Variant.OBD6) {\n                    // ... (OBD6 specific logic)\n                } else {\n                    position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte() * 100 / 6);\n                    position.set(Position.KEY_RSSI, buf.readUnsignedByte());\n                    // Original: position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));\n                    // Patched:\n                    byte alarmByte = buf.readUnsignedByte();\n                    if ((type == MSG_GPS_LBS_STATUS_1 || type == MSG_ALARM) && alarmByte == 0x62) { // MSG_GPS_LBS_STATUS_1 and MSG_ALARM can be 0x16\n                        position.set(Position.KEY_ALARM, Position.ALARM_SOS);\n                    } else {\n                        position.set(Position.KEY_ALARM, decodeAlarm(alarmByte));\n                    }\n                }\n            }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

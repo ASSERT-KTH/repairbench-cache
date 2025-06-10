@@ -1,0 +1,7 @@
+{
+    "generation": "    private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n        buf.readUnsignedShortLE(); // length\n\n        buf.skipBytes(3); // identification header\n        buf.readUnsignedIntLE(); // index\n\n        DeviceSession deviceSession = getDeviceSession(\n                channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n        if (deviceSession == null) {\n            return null;\n        }\n\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        buf.readUnsignedByte(); // session status\n        buf.skipBytes(4); // reserved\n\n        // Assuming this 4-byte field is not the primary GPS fix time,\n        // or that decodeMinimalDataSet will provide a more accurate one.\n        // Original behavior: read value and discard it.\n        buf.readUnsignedIntLE(); // date and time\n\n        // Assuming the \"coordinates block\" is correctly skipped as it's not what decodeMinimalDataSet parses in this context.\n        buf.skipBytes(23); // coordinates block\n\n        // FIX: decodeMinimalDataSet likely expects to read the tag header itself.\n        // Do not skip the 3-byte \"data tag header\" before calling it.\n        // buf.skipBytes(3); // data tag header // This line is removed.\n        \n        decodeMinimalDataSet(position, buf);\n\n        return position;\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public String asStringLiteral()\n    {\n        String value = this.value;\n        boolean containsDoubleQuote = value.contains(\"\\\"\");\n        boolean containsSingleQuote = value.contains(\"'\");\n\n        if (containsDoubleQuote && !containsSingleQuote)\n        {\n            // Value contains \" but not ', so use ' as delimiter.\n            // Escape \\ if present. ' is not present, so no need to escape it.\n            String escapedValue = value.replace(\"\\\\\", \"\\\\\\\\\");\n            return \"'\" + escapedValue + \"'\";\n        }\n        else\n        {\n            // Default to using \" as delimiter.\n            // This covers cases where:\n            // - Value contains only ' (e.g., \"wal'do\")\n            // - Value contains no quotes (e.g., \"foo\")\n            // - Value contains both ' and \" (e.g., \"a'b\\\"c\")\n            // In these cases, we escape \\ and \" as necessary.\n            String escapedValue = value.replace(\"\\\\\", \"\\\\\\\\\").replace(\"\\\"\", \"\\\\\\\"\");\n            return \"\\\"\" + escapedValue + \"\\\"\";\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

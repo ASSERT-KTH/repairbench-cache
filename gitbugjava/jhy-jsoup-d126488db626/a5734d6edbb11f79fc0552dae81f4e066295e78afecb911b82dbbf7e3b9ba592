@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\"))\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            else if (tq.matches(\"[\"))\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            else if (tq.matchesAny(Combinators)) // If any combinator (e.g., \",\", \">\", \" \", \"+\", \"~\") is found\n                break; // terminate the subquery; do not consume the combinator.\n            else\n                sq.append(tq.consume()); // Consume and append other characters (part of tag, id, class, etc.)\n        }\n        return StringUtil.releaseBuilder(sq);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

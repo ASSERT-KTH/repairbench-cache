@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                if (element == null)\n                    return false;\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n                \n                // If the element that just matched (against evaluators.get(i)) is the query root,\n                // and if there are more ancestor selectors in the chain to evaluate (i.e., i > 0),\n                // then this match is invalid. It would require matching elements above the query root,\n                // which means the selection is not properly restricted to the root's context.\n                if (element == root && i > 0) {\n                    return false;\n                }\n                \n                element = element.parent(); // Prepare for the next iteration (matching evaluators.get(i-1) against the parent)\n            }\n            return true;\n        }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

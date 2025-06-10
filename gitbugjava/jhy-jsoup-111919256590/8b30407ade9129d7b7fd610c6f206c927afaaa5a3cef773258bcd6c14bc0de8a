@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        if (!tag.isInline())\n            return false;\n        // from now on, tag.isInline() is true\n\n        if (out.outline()) // if outline mode, nothing is inlineable\n            return false;\n        // from now on, out.outline() is false\n\n        // Parent must be a block or null (root). If parent is inline, this element is not considered inlineable for indenting purposes.\n        if (!(parent() == null || parent().isBlock()))\n            return false;\n        // from now on, (parent() == null || parent().isBlock()) is true\n\n        // Special case for <br> tags: if the above conditions are met,\n        // <br> is considered inlineable regardless of isEffectivelyFirst().\n        // Newlines after <br> are handled by the parent's iteration logic (appendNewlineIfRequired).\n        if (tag.getName().equals(\"br\"))\n            return true;\n        else\n            // For other inline tags, they are inlineable if they are not the first effective child.\n            // If they are first, they are not inlineable (and may be indented).\n            return !isEffectivelyFirst();\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

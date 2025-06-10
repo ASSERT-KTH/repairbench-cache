@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isInlineable(Document.OutputSettings out) {\n        Node ps = previousSibling(); // Cache to avoid multiple calls & allow instanceof check\n        // A \"significant\" previous sibling is one that is not null and is not a TextNode that is blank.\n        boolean hasSignificantPreviousSibling = (ps != null && !(ps instanceof TextNode && ((TextNode) ps).isBlank()));\n        \n        return tag().isInline() // The element's tag must be inline.\n            && (parent() == null || parent().isBlock()) // Its parent must be a block-level element, or it has no parent.\n            && hasSignificantPreviousSibling // It must have a \"significant\" previous sibling.\n            && !out.outline(); // OutputSettings must not be in \"outline\" mode.\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

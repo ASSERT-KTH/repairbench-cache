@@ -1,0 +1,7 @@
+{
+    "generation": "    private String consumeSubQuery() {\n        StringBuilder sq = StringUtil.borrowBuilder();\n        while (!tq.isEmpty()) {\n            if (tq.matches(\"(\"))\n                sq.append(\"(\").append(tq.chompBalanced('(', ')')).append(\")\");\n            else if (tq.matches(\"[\"))\n                sq.append(\"[\").append(tq.chompBalanced('[', ']')).append(\"]\");\n            else if (tq.matchesAny(Combinators)) {\n                if (sq.length() > 0) {\n                    // If sq already has content, this combinator acts as a separator, so we break.\n                    break;\n                } else {\n                    // If sq is empty, this combinator is part of the subquery string (e.g., a regex starting with '>').\n                    // The original code had tq.consume() here, which discarded the character.\n                    // The fix is to append it.\n                    sq.append(tq.consume());\n                }\n            } else {\n                // Any other character is appended to the subquery string.\n                sq.append(tq.consume());\n            }\n        }\n        return StringUtil.releaseBuilder(sq);\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

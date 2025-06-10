@@ -1,0 +1,7 @@
+{
+    "generation": "public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    if (root == null || p == root || q == root) {\n        return root;\n    }\n\n    // Determine if p and q are to the left or right of root by comparing values.\n    boolean pIsLess = p.val < root.val;\n    boolean qIsLess = q.val < root.val;\n    boolean pIsGreater = p.val > root.val;\n    boolean qIsGreater = q.val > root.val;\n\n    // If both p and q are on the same side of root\n    if ((pIsLess && qIsLess) || (pIsGreater && qIsGreater)) {\n        // If p is less than root (and q is also less, due to the outer if),\n        // then LCA must be in the left subtree.\n        if (pIsLess) { // This implies (pIsLess && qIsLess) is true\n            return lowestCommonAncestor(root.left, p, q);\n        }\n        // Otherwise, p must be greater than root (and q is also greater),\n        // so LCA must be in the right subtree.\n        // This 'else' branch is taken if (pIsGreater && qIsGreater) is true.\n        else { \n            return lowestCommonAncestor(root.right, p, q);\n        }\n    }\n    // Otherwise, p and q are on different sides of root, or one of p.val/q.val equals root.val\n    // (and p/q are not the root object itself, as that's handled by the first if).\n    // In a BST, this means root is the LCA.\n    return root;\n}\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

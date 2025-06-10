@@ -1,0 +1,7 @@
+{
+    "generation": "    static URL encodeUrl(URL u) {\n\t    u = punyUrl(u); // punyUrl is expected to handle IDN in the host\n        try {\n            // The previous approach of u.toExternalForm().replace(\" \", \"%20\") and then new URI(String)\n            // fails because new URI(String) is strict and does not encode characters like '[' or ']'\n            // in the path, leading to a URISyntaxException for such inputs.\n\n            // The robust way to encode a URL is to decompose it into its components\n            // and then construct a URI from these components. The multi-argument URI constructor\n            // will correctly encode illegal characters in each component (path, query, etc.).\n            final URI uri = new URI(u.getProtocol(), u.getAuthority(), u.getPath(), u.getQuery(), u.getRef());\n            \n            // uri.toASCIIString() returns a fully encoded, ASCII-compatible string representation of the URI.\n            return new URL(uri.toASCIIString());\n        } catch (URISyntaxException | MalformedURLException e) {\n            // Fallback to the original URL (after punyUrl) if encoding fails.\n            // This matches the behavior of the original code on error.\n            // Ideally, this catch block should not be reached if 'u' is a valid URL.\n            return u;\n        }\n    }\n",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}
