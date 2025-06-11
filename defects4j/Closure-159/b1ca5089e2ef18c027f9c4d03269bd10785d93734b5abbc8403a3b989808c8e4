@@ -1,0 +1,7 @@
+{
+    "generation": "  /**\n   * @see #findCalledFunctions(Node)\n   */\n  private void findCalledFunctions(\n      Node node, Set<String> changed) {\n    Preconditions.checkArgument(changed != null);\n    // For each referenced function, add a new reference\n    if (node.getType() == Token.CALL) {\n      Node child = node.getFirstChild();\n      if (child.getType() == Token.GETPROP) {\n        // For method calls like object.method()\n        StringBuilder sb = new StringBuilder();\n        Node current = child.getFirstChild();\n        while (current != null) {\n          if (current.getType() == Token.NAME) {\n            sb.append(current.getString());\n          } else if (current.getType() == Token.GETPROP) {\n            Node prop = current.getLastChild();\n            if (prop.getType() == Token.STRING) {\n              sb.append \".\").append(prop.getString().substring(1, prop.getString().length()-1));\n            }\n          }\n          current = current.getNext();\n        }\n        if (sb.length() > 0) {\n          changed.add(sb.toString());\n        }\n      } else if (child.getType() == Token.NAME) {\n        changed.add(child.getString());\n      }\n    }\n\n    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {\n      findCalledFunctions(c, changed);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

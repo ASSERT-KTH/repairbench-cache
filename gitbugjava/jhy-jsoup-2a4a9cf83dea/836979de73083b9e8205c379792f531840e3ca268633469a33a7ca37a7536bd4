@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic boolean matches(Element root, Element element) {\n    // evaluate from last to first\n    for (int i = evaluators.size() -1; i >= 0; --i) {\n        if (element == null)\n            return false;\n        Evaluator eval = evaluators.get(i);\n        if (!eval.matches(root, element))\n            return false;\n        // For descendant combinators, we need to check all ancestors, not just immediate parent\n        if (i > 0 && evaluators.get(i-1).isAncestorCombinator()) {\n            // For descendant combinator (\" \"), find any ancestor that matches\n            element = findMatchingAncestor(root, element, i-1);\n            if (element == null) return false;\n        } else {\n            // For other combinators (like \">\"), just use parent\n            element = element.parent();\n        }\n    }\n    return true;\n}\n\nprivate Element findMatchingAncestor(Element root, Element start, int evalIndex) {\n    Element element = start.parent();\n    while (element != null) {\n        Evaluator eval = evaluators.get(evalIndex);\n        if (eval.matches(root, element)) {\n            return element;\n        }\n        element = element.parent();\n    }\n    return null;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

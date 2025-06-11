@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testFieldNameQuotingEnabled(JsonFactory f, boolean useQuoting, boolean expectQuotes, String expJson)\n    throws IOException\n{\n    StringWriter sw = new StringWriter();\n    JsonGenerator jg = f.createGenerator(sw);\n    // set the quoting setting\n    jg.setFeatures(new JsonGenerator.Feature[] {\n            JsonGenerator.Feature.QUOTE_FIELD_NAMES\n    });\n\n    // But actually, better to just configure via feature flags:\n    jg.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, useQuoting);\n\n    jg.writeStartObject();\n    jg.writeFieldName(\"foo\");\n    jg.writeNumber(1);\n    jg.writeEndObject();\n    jg.close();\n\n    String json = sw.toString();\n    if (expectQuotes) {\n        assertEquals(expJson, json);\n    } else {\n        assertEquals(expJson, json);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

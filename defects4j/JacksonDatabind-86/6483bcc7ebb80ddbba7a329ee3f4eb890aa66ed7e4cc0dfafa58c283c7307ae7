@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType getSuperClass() {\n    JavaType t = _superClass;\n    if (t == null) {\n        t = _resolveSuperClass();\n    }\n    return t;\n}\n\nprotected JavaType _resolveSuperClass() {\n    // Fixed implementation should properly handle recursive references\n    Class<?> superClass = _class.getSuperclass();\n    if (superClass == null || superClass == Object.class) {\n        return null;\n    }\n\n    // Important: we need to ensure we're properly resolving recursive types\n    return _typeFactory._fromClass(superClass,\n        _typeFactory._findSuperReferencedType(getRawClass(), superClass),\n        getValueHandler(), getTypeHandler(),\n        _superClassIsFullyResolved);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

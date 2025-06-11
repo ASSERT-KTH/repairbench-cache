@@ -1,0 +1,7 @@
+{
+    "generation": "public String chompBalanced(char open, char close) {\n    int start = -1;\n    int depth = 0;\n    char last = 0;\n    boolean inQuote = false;\n    char quoteChar = 0;\n\n    while (!isEmpty()) {\n        Character c = consume();\n        if (inQuote) {\n            if (c.equals(quoteChar)) {\n                inQuote = false;\n                quoteChar = 0;\n            } else if (c.equals('\\\\')) {\n                // skip the next character (it's escaped)\n                if (!isEmpty()) {\n                    consume();\n                }\n            }\n            continue;\n        }\n\n        if (c.equals('\\'') || c.equals('\"')) {\n            inQuote = true;\n            quoteChar = c;\n            continue;\n        }\n\n        if (last != '\\\\') {\n            if (c.equals(open)) {\n                depth++;\n                if (start == -1)\n                    start = pos - 1; // include the opener\n            }\n            else if (c.equals(close)) {\n                depth--;\n                if (depth == 0) {\n                    // found close match, break and include the closer\n                    return queue.substring(start, pos);\n                }\n            }\n        }\n        last = c.equals('\\\\') ? '\\\\' : 0; // track if last was backslash\n    }\n    return \"\";\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

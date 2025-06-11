@@ -1,0 +1,7 @@
+{
+    "generation": "    Element insert(Token.StartTag startTag) {\n        // handle empty unknown tags\n        // when the spec expects an empty tag, will directly hit insertEmpty, so won't generate this fake end tag.\n        Tag tag = Tag.valueOf(startTag.name());\n        boolean isSelfClosingV = startTag.isSelfClosing(); // original self-closing flag\n\n        // Only treat as truly self-closing if it's a known void element or an unknown tag\n        boolean trulySelfClosing = isSelfClosingV &&\n                (tag.isSelfClosing() || !tag.isKnownTag());\n\n        if (trulySelfClosing) {\n            Element el = insertEmpty(startTag);\n            stack.add(el);\n            if (!tag.isSelfClosing() && tag.isKnownTag()) { // for known but not void elements, ensure proper closing\n                tokeniser.emit(new Token.EndTag(el.tagName()));  // ensure we get out of whatever state we are in. emitted for yielded processing\n            }\n            return el;\n        }\n\n        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);\n        insert(el);\n        return el;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

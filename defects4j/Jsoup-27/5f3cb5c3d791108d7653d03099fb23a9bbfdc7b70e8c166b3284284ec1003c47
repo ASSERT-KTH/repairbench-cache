@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default\n     * will kick in.)\n     * @param contentType e.g. \"text/html; charset=EUC-JP\"\n     * @return The matched charset in lowercase if it was in lowercase in the original string (for known charsets),\n     *         or null if not found. Charset is trimmed and preserved in original case if unknown.\n     */\n    static String getCharsetFromContentType(String contentType) {\n        if (contentType == null) return null;\n        Matcher m = charsetPattern.matcher(contentType);\n        if (m.find()) {\n            String charset = m.group(1).trim();\n            // Check if the charset matches known patterns in lowercase first\n            if (charset.matches(\"(?i)utf[-_]?8\"))\n                return \"utf-8\";\n            if (charset.equalsIgnoreCase(\"ISO-8859-1\"))\n                return \"ISO-8859-1\";\n            // For other cases, return the original (but trimmed) charset, but also check if it's unsupported\n            try {\n                // This checks if the charset is supported\n                Charset.forName(charset);\n                return charset; // return original case if supported\n            } catch (Exception e) {\n                return null;\n            }\n        }\n        return null;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

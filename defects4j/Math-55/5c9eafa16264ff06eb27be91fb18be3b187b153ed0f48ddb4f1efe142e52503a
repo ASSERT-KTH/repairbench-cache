@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // compute the cross-product directly\n    double x = v1.y * v2.z - v1.z * v2.y;\n    double y = v1.z * v2.x - v1.x * v2.z;\n    double z = v1.x * v2.y - v1.y * v2.x;\n\n    // check for cancellation errors when vectors are parallel or nearly parallel\n    double max = FastMath.max(FastMath.max(FastMath.abs(x), FastMath.abs(y)), FastMath.abs(z));\n    if (max <= 1.0e-30) {\n      // fall back to extended precision computation\n      return crossProductExtendedPrecision(v1, v2);\n    }\n    return new Vector3D(x, y, z);\n  }\n\n  private static Vector3D crossProductExtendedPrecision(final Vector3D v1, final Vector3D v2) {\n    // Use Kahan's approach for better precision\n    double rho = (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z) /\n                 (v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);\n    double x1 = v1.x - rho * v2.x;\n    double y1 = v1.y - rho * v2.y;\n    double z1 = v1.z - rho * v2.z;\n\n    return new Vector3D(y1 * v2.z - z1 * v2.y,\n                        z1 * v2.x - x1 * v2.z,\n                        x1 * v2.y - y1 * v2.x);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

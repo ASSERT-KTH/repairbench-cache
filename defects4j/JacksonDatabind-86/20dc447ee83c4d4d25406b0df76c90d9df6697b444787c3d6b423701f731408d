@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    if (type == null) {\n        return null;\n    }\n    // First, check if we have it cached\n    JavaType result = _typeCache.get(type);\n    if (result != null) {\n        return result;\n    }\n\n    // Then try to build it, but avoid infinite recursion for recursive types\n    if (_inProgress.get() != null && _inProgress.get().contains(type)) {\n        // For recursive references, return a placeholder that will be resolved later\n        return new RecursiveType(type, this);\n    }\n\n    try {\n        _inProgress.get().add(type);\n        result = _constructType(type);\n        _typeCache.put(type, result);\n        // Ensure we resolve any recursive types\n        if (result instanceof RecursiveType) {\n            RecursiveType rt = (RecursiveType) result;\n            rt.setSelfReference(result);\n        }\n    } finally {\n        _inProgress.get().remove(type);\n    }\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

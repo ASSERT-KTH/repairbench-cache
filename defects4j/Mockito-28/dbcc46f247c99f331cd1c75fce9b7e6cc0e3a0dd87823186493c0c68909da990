@@ -1,0 +1,7 @@
+{
+    "generation": "private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n    // First collect all fields that might need injection\n    List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n\n    // Create a set to track which fields we've already processed to avoid duplicates\n    Set<Field> processedFields = new HashSet<>();\n\n    // First pass: inject exact type matches\n    for (Field field : fields) {\n        if (processedFields.contains(field)) continue;\n\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        processedFields.add(field);\n    }\n\n    // Second pass: inject ancestor type matches if no exact match was found\n    for (Field field : fields) {\n        if (processedFields.contains(field)) continue;\n\n        mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();\n        processedFields.add(field);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

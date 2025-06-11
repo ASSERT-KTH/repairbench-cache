@@ -1,0 +1,7 @@
+{
+    "generation": "    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n        for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {\n            Class<?> fieldType = field.getType();\n            Object bestMatch = null;\n            // Find the best matching mock based on type hierarchy\n            for (Object mock : mocks) {\n                if (fieldType.isInstance(mock)) {\n                    if (bestMatch == null || fieldType.equals(mock.getClass())) {\n                        // Prefer exact type matches over ancestors\n                        bestMatch = mock;\n                    }\n                }\n            }\n            // If we found a match, perform the injection\n            if (bestMatch != null) {\n                mockCandidateFilter.filterCandidate(Collections.singleton(bestMatch), field, fieldInstance).thenInject();\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

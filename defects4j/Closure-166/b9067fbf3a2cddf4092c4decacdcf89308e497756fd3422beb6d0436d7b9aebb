@@ -1,0 +1,7 @@
+{
+    "generation": "  @Override\n  public void matchConstraint(JSType constraint) {\n    // We only want to match constraints on anonymous types.\n    if (hasReferenceName()) {\n      return;\n    }\n\n    // Handle the case where the constraint object is a record type.\n    if (constraint.isRecordType()) {\n      ObjectType recordType = constraint.toObjectType();\n      if (isRecordType() || isUnknownType()) {\n        // If we're a record or unknown, take the union of all properties\n        for (String prop : recordType.getOwnPropertyNames()) {\n          JSType propType = recordType.getPropertyType(prop);\n          defineProperty(prop, propType, false);\n        }\n      }\n      // Also handle the case where we're an empty object and need to match the record\n      if (isEmptyRecord()) {\n        matchRecordTypeConstraint(recordType);\n      } else {\n        // Try to match properties from our type to the record constraint\n        matchRecordTypeConstraint(recordType);\n      }\n    } else {\n      // For non-record types, just do regular matching\n      super.matchConstraint(constraint);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

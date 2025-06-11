@@ -1,0 +1,7 @@
+{
+    "generation": "protected final Object _parsePrimitive(final DeserializationContext ctxt, final JsonParser p) throws IOException\n{\n    // Handle empty token (like empty String) as null\n    if (p.hasToken(JsonToken.VALUE_STRING) && p.getText().isEmpty()) {\n        return _coerceEmptyString(ctxt, p.getCurrentToken());\n    }\n    return _parsePrimitive(p, ctxt);\n}\n\nprotected Object _coerceEmptyString(final DeserializationContext ctxt, JsonToken t) throws IOException\n{\n    if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {\n        return null;\n    }\n\n    // For primitives, we can't return null, so we need to return a default value\n    // But according to the test, we should throw an exception (as the test expects it to fail)\n    throw ctxt.mappingException(\"Can't coerce empty String to %s (but could if coercion was enabled)\", handledType());\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

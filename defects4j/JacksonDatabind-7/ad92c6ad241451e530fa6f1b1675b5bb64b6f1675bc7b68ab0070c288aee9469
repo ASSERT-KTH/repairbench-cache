@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Helper method used by standard deserializer.\n *\n * @since 2.3\n */\npublic TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException\n{\n    /* 28-Oct-2014, tatu: As per #592, need to support a special case of starting from\n     *    FIELD_NAME, which is taken to mean that we are missing START_OBJECT, but need\n     *    to assume one did exist.\n     */\n    if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {\n        // we need to synthesize a START_OBJECT before the field name\n        jp.nextToken(); // move past FIELD_NAME to its value\n        copyCurrentStructure(jp);\n        // now prepend the START_OBJECT we assumed\n        writeStartObject();\n    } else {\n        copyCurrentStructure(jp);\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

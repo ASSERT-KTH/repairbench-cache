@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean isJSIdentifier(String s) {\n      int length = s.length();\n\n      if (length == 0 ||\n          !Character.isJavaIdentifierStart(s.charAt(0))) {\n        return false;\n      }\n\n      for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (!Character.isJavaIdentifierPart(c)) {\n          // Additional check for JS-specific identifier rules\n          if (c != '\\\\' || !isValidEscapeSequence(s, i)) {\n            return false;\n          }\n        }\n      }\n\n      return true;\n    }\n\n    private static boolean isValidEscapeSequence(String s, int startIndex) {\n      if (startIndex + 1 >= s.length()) {\n        return false;\n      }\n      char escapeChar = s.charAt(startIndex + 1);\n      return (Character.isUnicodeIdentifierStart(escapeChar) ||\n              Character.isUnicodeIdentifierPart(escapeChar));\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

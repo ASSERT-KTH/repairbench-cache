@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double density(final double[] vals) throws DimensionMismatchException {\n        final int dim = getDimension();\n        if (vals.length != dim) {\n            throw new DimensionMismatchException(vals.length, degim);\n        }\n\n        double coefficient = FastMath.pow(2 * FastMath.PI, -dim / 2.0) *\n            FastMath.pow(covarianceMatrixDeterminant, -0.5);\n        if (dim == 1) {\n            // Special case for univariate distribution where sigma is a 1x1 matrix\n            // The coefficient should be 1/sqrt(2*pi*sigma) = 1/sqrt(2*pi*covarianceMatrixDeterminant)\n            // But since covarianceMatrixDeterminant is sigma in 1D case,\n            // we need to adjust the formula to match the univariate normal distribution\n            final double sigma = covarianceMatrixDeterminant; // since determinant is equal to the variance in 1D\n            coefficient = 1.0 / FastMath.sqrt(2 * FastMath.PI * sigma);\n        }\n        return coefficient * getExponentTerm(vals);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

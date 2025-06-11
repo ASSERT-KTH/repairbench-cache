@@ -1,0 +1,7 @@
+{
+    "generation": "    private void popStackToClose(Token.EndTag endTag) {\n        String elName = endTag.name();\n        Element firstFound = null;\n\n        for (int pos = stack.size() -1; pos >= 0; pos--) {\n            Element next = stack.get(pos);\n            if (next.nodeName().equals(elName)) {\n                firstFound = next;\n                break;\n            }\n        }\n        if (firstFound == null)\n            return; // not found, skip\n\n        boolean found = false;\n        for (int pos = stack.size() -1; pos >= 0; pos--) {\n            Element next = stack.get(pos);\n            stack.remove(pos);\n            if (next == firstFound) {\n                found = true;\n                break;\n            }\n        }\n        if (!found) {\n            // If we didn't find it in the first pass (shouldn't happen as we found it earlier),\n            // try searching from the top again (in case of concurrent modification or other issues)\n            for (int pos = stack.size() -1; pos >= 0; pos--) {\n                Element next = stack.get(pos);\n                if (next.nodeName().equals(elName)) {\n                    stack.remove(pos);\n                    break;\n                }\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

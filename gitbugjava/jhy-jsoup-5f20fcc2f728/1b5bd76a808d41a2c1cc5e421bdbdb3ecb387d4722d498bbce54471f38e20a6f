@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n Add a list of allowed elements to a safelist. (If a tag is not allowed, it will be removed from the HTML.)\n\n @param tags tag names to allow\n @return this (for chaining)\n @throws ValidationException if a tag is not valid or not supported\n */\npublic Safelist addTags(String... tags) {\n    Validate.notNull(tags);\n\n    for (String tagName : tags) {\n        Validate.notEmpty(tagName);\n        String normalizedTag = tagName.trim().toLowerCase();\n        // Check if the tag is a noscript or another unsupported tag\n        if (normalizedTag.equals(\"noscript\")) {\n            throw new ValidationException(\"Tag noscript is not supported. See http://jsoup.org/cookbook/cleaning-html/whitelist-noscript\");\n        }\n        try {\n            tagNames.add(TagName.valueOf(tagName));\n        } catch (IllegalArgumentException e) {\n            throw new ValidationException(\"Tag '\" + tagName + \"' is not a known tag\", e);\n        }\n    }\n    return this;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

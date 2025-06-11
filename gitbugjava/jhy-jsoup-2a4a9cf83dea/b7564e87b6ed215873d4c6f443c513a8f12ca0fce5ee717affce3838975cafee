@@ -1,0 +1,7 @@
+{
+    "generation": "        @Override\n        public boolean matches(Element root, Element element) {\n            // evaluate from last to first\n            for (int i = evaluators.size() -1; i >= 0; --i) {\n                if (element == null)\n                    return false;\n                Evaluator eval = evaluators.get(i);\n                if (!eval.matches(root, element))\n                    return false;\n\n                // Prevent climbing above root element when evaluating\n                // Issue #2018: https://github.com/jhy/jsoup/issues/2018\n                Element parent = element.parent();\n                if (parent == root)\n                    return false; // stop at the root element for relative selects\n                element = parent;\n            }\n            return true;\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

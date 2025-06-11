@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Computes the square-root of the weight matrix.\n     *\n     * @param m Symmetric, positive-definite (weight) matrix.\n     * @return the square-root of the weight matrix.\n     */\n    private RealMatrix squareRoot(RealMatrix m) {\n        try {\n            final EigenDecomposition dec = new EigenDecomposition(m);\n            return dec.getSquareRoot();\n        } catch (OutOfMemoryError e) {\n            // Fallback method for large matrices\n            // Using Cholesky decomposition which is more memory efficient for large matrices\n            CholeskyDecomposition chol = new CholeskyDecomposition(m);\n            RealMatrix l = chol.getL(); // lower triangular matrix\n            return l.multiply(l.transpose()); // this should give us the original matrix since L*L^T = M\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

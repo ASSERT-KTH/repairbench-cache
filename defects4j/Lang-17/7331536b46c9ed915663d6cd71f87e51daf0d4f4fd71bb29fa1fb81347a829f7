@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Translate an input onto a Writer. This is intentionally final as its algorithm is\n     * tightly coupled with the abstract method of this class.\n     *\n     * @param input CharSequence that is being translated\n     * @param out Writer to translate the text to\n     * @throws IOException if and only if the Writer produces an IOException\n     */\n    public final void translate(CharSequence input, Writer out) throws IOException {\n        if (out == null) {\n            throw new IllegalArgumentException(\"The Writer must not be null\");\n        }\n        if (input == null) {\n            return;\n        }\n        int pos = 0;\n        int len = input.length();\n        while (pos < len) {\n            int consumed = translate(input, pos, out);\n            if (consumed == 0) {\n                char c = input.charAt(pos);\n                out.write(c);\n                pos++;\n            } else {\n                // contract with translators is that they have to understand codepoints\n                // and they just took care of a surrogate pair\n                pos += consumed;\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

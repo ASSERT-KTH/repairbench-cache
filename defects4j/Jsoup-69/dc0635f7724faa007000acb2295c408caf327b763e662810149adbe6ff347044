@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements inputs = this.getElementsByTag(\"input\");\n    for (Element input : inputs) {\n        // Only add elements that are still in the DOM (attached to parent)\n        if (input.parent() != null && !input.isRemovedFromTree()) {\n            String name = input.attr(\"name\");\n            if (name.length() > 0) {\n                String value = input.val();\n                String type = input.attr(\"type\");\n                if (\"password\".equalsIgnoreCase(type))\n                    value = \"\"; // don't send passwords (or sending empty will remove from session, etc.)\n                if (!input.hasAttr(\"disabled\"))\n                    data.add(Connection.KeyVal.create(name, value));\n            }\n        }\n    }\n    // Similar checks would be needed for selects, textareas, etc.\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

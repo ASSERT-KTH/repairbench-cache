@@ -1,0 +1,7 @@
+{
+    "generation": "public void captureArgumentsFrom(Invocation i) {\n    int k = 0;\n    Object[] args = i.getArguments();\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            if (k < args.length) {\n                ((CapturesArguments) m).captureFrom(args[k]);\n            } else if (m instanceof AnyVararg) {\n                // Handle varargs case where we might have fewer actual args than expected\n                ((CapturesArguments) m).captureFrom(args);\n            } else {\n                // Handle case where we don't have enough arguments\n                ((CapturesArguments) m).captureFrom(null);\n            }\n        }\n        k++;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

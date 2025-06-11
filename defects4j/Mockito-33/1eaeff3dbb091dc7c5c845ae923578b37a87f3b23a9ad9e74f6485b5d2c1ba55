@@ -1,0 +1,7 @@
+{
+    "generation": "    public boolean hasSameMethod(Invocation candidate) {\n        //not using method.equals() for 1 good reason:\n        //sometimes java generates forwarding methods when generics are in play see JavaGenericsForwardingMethodsTest\n        Method m1 = invocation.getMethod();\n        Method m2 = candidate.getMethod();\n\n        // Use getDeclaringClass() and getName() comparison\n        // Also compare parameter types since generic forwarding methods can differ\n        if (!m1.getName().equals(m2.getName())) {\n            return false;\n        }\n        if (!Arrays.equals(m1.getParameterTypes(), m2.getParameterTypes())) {\n            return false;\n        }\n        if (!m1.getDeclaringClass().equals(m2.getDeclaringClass())) {\n            return false;\n        }\n        if (!m1.getReturnType().equals(m2.getReturnType())) {\n            return false;\n        }\n        return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

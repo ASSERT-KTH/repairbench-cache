@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    if (len > 1 && s.charAt(0) == '0' && Character.toLowerCase(s.charAt(1)) == 'x') {\n      // Check for hex literal format\n      for (int index = 2; index < len; index++) {\n        char c = s.charAt(index);\n        if (!(c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F')) {\n          return false;\n        }\n      }\n      return true;\n    }\n    if (len == 0) {\n      return false;\n    }\n    boolean hasDecimal = false;\n    for (int index = 0; index < len; index++) {\n      char c = s.charAt(index);\n      if (c == '.') {\n        if (hasDecimal) return false; // More than one decimal point\n        hasDecimal = true;\n      } else if (c < '0' || c > '9') {\n        return false;\n      }\n    }\n    if (hasDecimal) {\n      // For decimal numbers, must have digits on both sides of the decimal point\n      if (s.charAt(0) == '.' || s.charAt(len-1) == '.') {\n        return false;\n      }\n    }\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

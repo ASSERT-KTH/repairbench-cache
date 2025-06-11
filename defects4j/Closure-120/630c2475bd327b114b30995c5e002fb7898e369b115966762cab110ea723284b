@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * @return Whether the variable is only assigned a value once for its\n     *     lifetime.\n     */\n    boolean isAssignedOnceInLifetime() {\n      Reference ref = getOneAndOnlyAssignment();\n      if (ref == null) {\n        return false;\n      }\n\n      // Make sure all references are dominated by the assignment\n      // and that the assignment is not in a loop.\n      for (Reference r : getReferences()) {\n        if (!isBlockingAssignment(r, ref)) {\n          return false;\n        }\n      }\n\n      for (BasicBlock block = ref.getBasicBlock();\n           block != null; block = block.getParent()) {\n        if (block.isFunction) {\n          break;\n        } else if (block.isLoop) {\n          return false;\n        }\n      }\n\n      return true;\n    }\n\n    private boolean isBlockingAssignment(Reference r, Reference assignment) {\n      if (r.isAssign() && !r.equals(assignment)) {\n        return false;\n      }\n      if (assignment.equals(r)) {\n        return true;\n      }\n      DominatorAnalysis dominationInfo = assignment.getBasicBlock().getCode().dominationInfo;\n      if (dominationInfo == null) {\n        return false;\n      }\n      return dominationInfo.isReachable(assignment.getBasicBlock().getLabel(),\n          r.getBasicBlock().getLabel());\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

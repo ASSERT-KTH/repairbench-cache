@@ -1,0 +1,7 @@
+{
+    "generation": "    public String chompBalanced(char open, char close) {\n        if (isEmpty())\n            return \"\";\n\n        int start = -1;\n        int end = -1;\n        int depth = 0;\n        char last = 0;\n\n        do {\n            if (isEmpty())\n                break;\n            Character c = consume();\n            if (last != ESC) {\n                if (c.equals(open) && (last == 0 || last == SPACE)) { // Handle case where open appears after space\n                    depth++;\n                    if (start == -1)\n                        start = pos - 1;\n                }\n                else if (c.equals(close))\n                    depth--;\n            }\n            if (depth > 0) {\n                if (end == -1 && start != -1)\n                    end = pos - 1;\n                else if (start != -1)\n                    end = pos;\n            }\n            last = c;\n        } while (depth > 0);\n\n        if (end >= 0 && start >= 0 && start < end)\n            return queue.substring(start, end);\n        else if (start >= 0) // Handle case where we have an opener but no closer (unbalanced)\n            return \"\"; // or perhaps return everything from start to end of queue?\n        else\n            return \"\";\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

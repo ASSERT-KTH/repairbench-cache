@@ -1,0 +1,7 @@
+{
+    "generation": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null || o2 == null) {\n        return o1 == null && o2 == null;\n    } else if (isArray(o1)) {\n        return isArray(o2) && areArraysEqual(o1, o2);\n    } else {\n        return o1.equals(o2);\n    }\n}\n\nprivate static boolean isArray(Object o) {\n    return o.getClass().isArray();\n}\n\nprivate static boolean areArraysEqual(Object array1, Object array2) {\n    int length1 = Array.getLength(array1);\n    int length2 = Array.getLength(array2);\n    if (length1 != length2) {\n        return false;\n    }\n\n    for (int i = 0; i < length1; i++) {\n        Object elem1 = Array.get(array1, i);\n        Object elem2 = Array.get(array2, i);\n\n        // Handle primitive arrays by converting to wrapper types if needed\n        if (elem1 != null && elem1.getClass().isPrimitive()) {\n            // This shouldn't happen since Array.get() returns wrappers for primitives\n        }\n        if (!areEqual(elem1, elem2)) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

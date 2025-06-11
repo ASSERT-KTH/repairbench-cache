@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object expected) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configOverride(type).setCoercion(CoercionInputShape.EmptyString, CoercionAction.AsNull);\n    Object result = mapper.readValue(\"\\\"\\\"\", type);\n    if (type.isPrimitive()) {\n        // For primitives, empty string should throw exception (can't be null)\n        try {\n            mapper.readValue(\"\\\"\\\"\", type);\n            fail(\"Should not have passed\");\n        } catch (JsonMappingException e) {\n            // Expected\n        }\n    } else {\n        assertEquals(expected, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

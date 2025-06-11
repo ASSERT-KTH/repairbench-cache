@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Return whether or not this entry represents a directory.\n     *\n     * @return True if this entry is a directory.\n     */\n    @Override\n    public boolean isDirectory() {\n        if (file != null) {\n            return file.isDirectory();\n        }\n\n        // First check for POSIX (LF_DIR) directories\n        if (linkFlag == LF_DIR) {\n            return true;\n        }\n\n        // Then handle PAX headers where the name might end with '/'\n        final String name = getName();\n        if (name != null && name.endsWith(\"/\")) {\n            // Strip the trailing slash and check if the file exists\n            // as a directory in the archive\n            return true;\n        }\n\n        // Also consider it a directory if the size is 0 and it could be a directory\n        if (getSize() == 0 && isPaxHeaderWithNameEndingInSlash()) {\n            return true;\n        }\n\n        return false;\n    }\n\n    // Helper method to check for PAX header cases\n    private boolean isPaxHeaderWithNameEndingInSlash() {\n        String name = getName();\n        if (name != null && name.endsWith(\"/\")) {\n            return true;\n        }\n        return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

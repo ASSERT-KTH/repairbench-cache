@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic synchronized void clear() {\n    if (prefix != null) {\n        // Need to remove all keys that match the prefix from the main trie\n        // First collect all keys to avoid concurrent modification\n        Set<String> keysToRemove = new HashSet<>();\n        for (String key : keySet()) {\n            if (key.startsWith(prefix)) {\n                keysToRemove.add(key);\n            }\n        }\n        // Remove them from the original trie\n        for (String key : keysToRemove) {\n            root = root.remove(key, 0);\n            size--;\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

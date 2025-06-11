@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Tells if the token looks like a short option.\n     *\n     * @param token\n     */\n    private boolean isShortOption(String token)\n    {\n        // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)\n        if (!token.startsWith(\"-\") || token.length() == 1)\n        {\n            return false;\n        }\n\n        // Handle concatenated short options (like -ab)\n        if (token.length() > 2 && !token.startsWith(\"--\") && token.charAt(1) != '=' && token.charAt(1) != ' ') {\n            // Check if all characters after '-' are valid short options\n            boolean allCharsAreOptions = true;\n            for (int i = 1; i < token.length() && token.charAt(i) != '=' && token.charAt(i) != ' '; i++) {\n                String charOpt = token.substring(i, i+1);\n                if (!options.hasShortOption(charOpt)) {\n                    allCharsAreOptions = false;\n                    break;\n                }\n            }\n            if (allCharsAreOptions) {\n                return true;\n            }\n        }\n\n        // remove leading \"-\" and \"=value\"\n        int pos = token.indexOf(\"=\");\n        String optName = pos == -1 ? token.substring(1) : token.substring(1, pos);\n        return options.hasShortOption(optName);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

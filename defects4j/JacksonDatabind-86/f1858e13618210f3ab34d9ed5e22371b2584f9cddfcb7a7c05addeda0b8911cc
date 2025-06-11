@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Class<?> clazz) {\n    // First check if we already have a type in cache\n    JavaType type = _typeCache.get(clazz);\n    if (type != null) {\n        return type;\n    }\n\n    // Handle recursive types by first creating a placeholder type\n    if (isRecursiveType(clazz)) {\n        type = new RecursiveType(clazz);\n        _typeCache.put(clazz, type);\n    }\n\n    // Now resolve the full type structure\n    if (type == null) {\n        type = _constructType(clazz);\n    }\n\n    // Ensure superclass types are properly resolved and cached\n    Class<?> superClass = clazz.getSuperclass();\n    if (superClass != null && !superClass.equals(Object.class)) {\n        JavaType superType = constructType(superClass);\n        type.setSuperClass(superType);\n    }\n\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

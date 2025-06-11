@@ -1,0 +1,7 @@
+{
+    "generation": "public List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements elements = this.getElementsByAttribute(\"name\");\n    for (Element el : elements) {\n        if (el.tagName().equals(\"input\") || el.tagName().equals(\"textarea\") || el.tagName().equals(\"select\")) {\n            String name = el.attr(\"name\");\n            if (name.length() > 0 && el.parent() != null) { // Check if element still has a parent (is attached)\n                String value = el.val();\n                if (value == null) value = \"\";\n                data.add(new Connection.KeyVal(name, value));\n            }\n        }\n    }\n    // Handle form itself if it has name and isn't submit input\n    if (this.hasAttr(\"name\") && !this.tagName().equals(\"input\")) {\n        data.add(new Connection.KeyVal(this.attr(\"name\"), \"\"));\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

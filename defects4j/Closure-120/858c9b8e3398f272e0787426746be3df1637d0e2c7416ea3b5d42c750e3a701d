@@ -1,0 +1,7 @@
+{
+    "generation": "boolean isAssignedOnceInLifetime() {\n  Reference ref = getOneAndOnlyAssignment();\n  if (ref == null) {\n    return false;\n  }\n\n  // Check all assignments (not just one) to see if any are in loops\n  for (Reference assignment : getReferences()) {\n    if (assignment.isAssignment()) {\n      for (BasicBlock block = assignment.getBasicBlock();\n           block != null; block = block.getParent()) {\n        if (block.isFunction) {\n          break;\n        } else if (block.isLoop) {\n          return false;\n        }\n      }\n    }\n  }\n\n  return true;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

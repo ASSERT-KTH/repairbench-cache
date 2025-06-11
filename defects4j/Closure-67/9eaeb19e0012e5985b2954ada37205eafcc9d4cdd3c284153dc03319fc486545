@@ -1,0 +1,7 @@
+{
+    "generation": "    private boolean isPrototypePropertyAssign(Node assign) {\n      Node n = assign.getFirstChild();\n      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)\n          && n.getType() == Token.GETPROP) {\n\n        // Check if it's a chained property like foo.prototype.bar\n        boolean isChainedProperty =\n            n.getFirstChild().getType() == Token.GETPROP;\n\n        if (isChainedProperty) {\n          Node child = n.getFirstChild();\n          while (child.getNext() != null) {\n            child = child.getNext();\n          }\n\n          if (child.getType() == Token.STRING &&\n              child.getString().equals(\"prototype\")) {\n            return true;\n          }\n        } else {\n          // Check direct prototype assignment like foo.prototype = ...\n          Node parent = n.getFirstChild();\n          if (parent.getType() == Token.GETELEM ||\n              parent.getType() == Token.GETPROP) {\n            Node grandparent = parent.getFirstChild();\n            while (grandparent.getNext() != null) {\n              grandparent = grandparent.getNext();\n            }\n\n            if (grandparent.getType() == Token.STRING &&\n                grandparent.getString().equals(\"prototype\")) {\n              return true;\n            }\n          }\n        }\n      }\n\n      return false;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

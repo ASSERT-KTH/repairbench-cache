@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\n@Deprecated\nprotected JavaType _narrow(Class<?> subclass)\n{\n    if (_class == subclass) {\n        return this;\n    }\n\n    // Verify subclass relationship (with special handling for placeholder classes)\n    if (!isAssignableFrom(subclass)) {\n        throw new IllegalArgumentException(\"Class \"+subclass.getName()+\" not sub-type of \"\n                +_class.getName());\n    }\n\n    return new SimpleType(subclass, _bindings, this, _superInterfaces,\n            _valueHandler, _typeHandler, _asStatic);\n}\n\nprivate boolean isAssignableFrom(Class<?> subclass) {\n    // Special handling for Void and NoClass (placeholder types)\n    if (_class == Void.class || _class == ClassUtils.NoClass.class) {\n        return true; // Assume compatibility for placeholder types\n    }\n    return _class.isAssignableFrom(subclass);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

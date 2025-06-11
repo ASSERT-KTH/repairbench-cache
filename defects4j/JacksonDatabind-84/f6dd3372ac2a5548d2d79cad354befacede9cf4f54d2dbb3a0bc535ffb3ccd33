@@ -1,0 +1,7 @@
+{
+    "generation": "// Fixed version of the relevant Jackson type handling code\n@Override\npublic JavaType constructType(Class<?> cls) {\n    // Ensure we properly handle the case where base type is loaded first\n    if (_typeCache != null) {\n        JavaType t = _typeCache.get(cls);\n        if (t != null) {\n            return t;\n        }\n    }\n\n    // Create the type, ensuring proper handling of inheritance\n    JavaType newType = _constructType(cls, null);\n    if (_typeCache != null && newType.getRawClass() == cls) {\n        _typeCache.put(cls, newType);\n    }\n    return newType;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

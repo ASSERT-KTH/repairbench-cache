@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testFieldNameQuotingEnabled(JsonFactory f, boolean enableQuoting, boolean expectQuotes,\n        String expected) throws IOException {\n    StringWriter sw = new StringWriter();\n    JsonGenerator g = f.createGenerator(sw);\n    if (enableQuoting) {\n        g.enable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    } else {\n        g.disable(JsonGenerator.Feature.QUOTE_FIELD_NAMES);\n    }\n    g.writeStartObject();\n    g.writeNumberField(\"foo\", 1);\n    g.writeEndObject();\n    g.close();\n    String result = sw.toString();\n    if (expectQuotes) {\n        // If we expect quotes, the field name should be quoted regardless of the enableQuoting parameter\n        // because the feature might be overridden by the generator's settings\n        assertEquals(expected, result);\n    } else {\n        // If we don't expect quotes, verify that's the case\n        // But the test expects \"{foo:1}\" for no quotes, but actual may differ\n        // Since the test is failing with both being {foo:1}, perhaps we need to properly handle quoting\n        assertEquals(expected, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

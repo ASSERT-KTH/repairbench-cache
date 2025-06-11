@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * Creates a period from the given millisecond duration with the standard period type\n     * and ISO rules, ensuring that the calculation is performed with the time-only period type.\n     * <p>\n     * The calculation uses the hour, minute, second and millisecond fields.\n     *\n     * @param duration  the duration, in milliseconds\n     */\n    protected BasePeriod(long duration) {\n        this(duration, null, null);\n        // Ensure we only use time fields (hours, minutes, seconds, millis)\n        // and ignore any date components that might have been calculated\n        if (getPeriodType() == null || getPeriodType().isSupported(DurationFieldType.years())) {\n            // Convert the millisecond duration to time fields only\n            long hours = duration / DateTimeConstants.MILLIS_PER_HOUR;\n            long remainder = duration % DateTimeConstants.MILLIS_PER_HOUR;\n            long minutes = remainder / DateTimeConstants.MILLIS_PER_MINUTE;\n            remainder %= DateTimeConstants.MILLIS_PER_MINUTE;\n            long seconds = remainder / DateTimeConstants.MILLIS_PER_SECOND;\n            long millis = remainder % DateTimeConstants.MILLIS_PER_SECOND;\n\n            // Update the internal state to use only time fields\n            setPeriod(0, 0, 0, 0, (int)hours, (int)minutes, (int)seconds, (int)millis);\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

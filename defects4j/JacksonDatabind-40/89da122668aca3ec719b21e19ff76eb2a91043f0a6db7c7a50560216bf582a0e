@@ -1,0 +1,7 @@
+{
+    "generation": "protected void _testEmptyToNullCoercion(Class<?> type, Object expectedValue) throws Exception\n{\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.configOverride(type).setCoercionConfig(CoercionConfig.forEmptyToNull());\n\n    // First verify that explicit null is handled properly\n    assertEquals(expectedValue, mapper.readValue(\"null\", type));\n\n    // But empty String -> coercion to null is only done for reference types!\n    // For primitives it should fail:\n\n    try {\n        mapper.readValue(\"\\\"\\\"\", type);\n        fail(\"Should not have passed\");\n    } catch (JsonParseException e) {\n        verifyException(e, \"Cannot coerce\");\n    }\n\n    // and similarly for missing node (if supported)\n    try {\n        mapper.readValue(\"{ }\", type);\n        fail(\"Should not have passed\");\n    } catch (JsonParseException e) {\n        verifyException(e, \"Cannot coerce\");\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Return whether or not this entry represents a directory.\n *\n * @return True if this entry is a directory.\n */\n@Override\npublic boolean isDirectory() {\n    if (file != null) {\n        return file.isDirectory();\n    }\n\n    if (linkFlag == LF_DIR) {\n        return true;\n    }\n\n    // Fix: Check for '/' ending after normalizing the name (removing any trailing '/')\n    String name = getName();\n    if (name.length() > 0 && name.charAt(name.length() - 1) == '/') {\n        // Check if the entry is actually a file (not a directory)\n        // by looking at its link flag or other attributes\n        if (linkFlag != LF_DIR && (file == null || !file.isDirectory())) {\n            return false;\n        }\n        return true;\n    }\n\n    return false;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

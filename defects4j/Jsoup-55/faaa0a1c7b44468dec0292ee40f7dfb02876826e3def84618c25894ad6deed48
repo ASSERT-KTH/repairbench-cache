@@ -1,0 +1,7 @@
+{
+    "generation": "        void read(Tokeniser t, CharacterReader r) {\n            char c = r.consume();\n            switch (c) {\n                case '>':\n                    t.tagPending.selfClosing = true;\n                    t.emitTagPending();\n                    t.transition(Data);\n                    break;\n                case eof:\n                    t.eofError(this);\n                    t.transition(Data);\n                    break;\n                default:\n                    // Don't treat slash as an error, but rather start an attribute name with it if needed\n                    if (c == '/') {\n                        // This is likely the start of an attribute, so transition to the attribute name state\n                        r.unconsume(); // put the slash back into the reader\n                        t.transition(BeforeAttributeName);\n                    } else {\n                        t.error(this);\n                        t.transition(BeforeAttributeName);\n                    }\n            }\n        }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    final Object clazzObj = in.readObject();\n    if (!(clazzObj instanceof Class)) {\n        throw new InvalidObjectException(\"Class must be instanceof Class\");\n    }\n    @SuppressWarnings(\"unchecked\")\n    final Class<?> clazz = (Class<?>) clazzObj;\n\n    // Add validation for the collection class\n    if (!Collection.class.isAssignableFrom(clazz)) {\n        throw new UnsupportedOperationException(\n            \"Specified class is not assignable from Collection: \" + clazz);\n    }\n\n    this.collectionClass = clazz;\n    final Object mapObj = in.readObject();\n    if (!(mapObj instanceof Map)) {\n        throw new InvalidObjectException(\"Map must be instanceof Map\");\n    }\n    @SuppressWarnings(\"unchecked\")\n    final Map<K, ? super Collection<V>> map = (Map<K, ? super Collection<V>>) mapObj;\n    this.map = map;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

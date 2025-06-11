@@ -1,0 +1,7 @@
+{
+    "generation": "  /** Compute the cross-product of two vectors.\n   * @param v1 first vector\n   * @param v2 second vector\n   * @return the cross product v1 ^ v2 as a new Vector\n   */\n  public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n      // rescale both vectors without losing precision,\n      // to ensure their norm are the same order of magnitude\n      double scale1 = FastMath.max(FastMath.abs(v1.x), FastMath.max(FastMath.abs(v1.y), FastMath.abs(v1.z)));\n      double scale2 = FastMath.max(FastMath.abs(v2.x), FastMath.max(FastMath.abs(v2.y), FastMath.abs(v2.z)));\n\n      double scaledX1 = scale1 == 0 ? v1.x : v1.x / scale1;\n      double scaledY1 = scale1 == 0 ? v1.y : v1.y / scale1;\n      double scaledZ1 = scale1 == 0 ? v1.z : v1.z / scale1;\n\n      double scaledX2 = scale2 == 0 ? v2.x : v2.x / scale2;\n      double scaledY2 = scale2 == 0 ? v2.y : v2.y / scale2;\n      double scaledZ2 = scale2 == 0 ? v2.z : v2.z / scale2;\n\n      // compute cross product from scaled vectors\n      double x = scaledY1 * scaledZ2 - scaledZ1 * scaledY2;\n      double y = scaledZ1 * scaledX2 - scaledX1 * scaledZ2;\n      double z = scaledX1 * scaledY2 - scaledY1 * scaledX2;\n\n      if (scale1 != 0 && scale2 != 0) {\n          x *= scale1 * scale2;\n          y *= scale1 * scale2;\n          z *= scale1 * scale2;\n      }\n\n      return new Vector3D(x, y, z);\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

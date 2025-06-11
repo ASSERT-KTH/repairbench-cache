@@ -1,0 +1,7 @@
+{
+    "generation": "    private Position decodeIridiumPosition(Channel channel, SocketAddress remoteAddress, ByteBuf buf) {\n\n        buf.readUnsignedShortLE(); // length\n\n        buf.skipBytes(3); // identification header\n        buf.readUnsignedIntLE(); // index\n\n        DeviceSession deviceSession = getDeviceSession(\n                channel, remoteAddress, buf.readSlice(15).toString(StandardCharsets.US_ASCII));\n        if (deviceSession == null) {\n            return null;\n        }\n\n        Position position = new Position(getProtocolName());\n        position.setDeviceId(deviceSession.getDeviceId());\n\n        buf.readUnsignedByte(); // session status\n        buf.skipBytes(4); // reserved\n        buf.readUnsignedIntLE(); // date and time\n        decodeCoordinates(buf);\n        buf.skipBytes(3); // data tag header\n        decodeMinimalDataSet(position, buf);\n\n        return position;\n    }\n\n    private void decodeCoordinates(ByteBuf buf) {\n        // Read coordinates block\n        byte[] coordinatesBlock = new byte[23];\n        buf.readBytes(coordinatesBlock);\n\n        // Parse date and time (if available in coordinates block)\n        // This is a simplified version, you may need to adjust it based on actual format\n\n        // Parse latitude and longitude\n        // You'll need to implement the actual parsing logic based on the protocol specification\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": null,
+    "test": false
+}

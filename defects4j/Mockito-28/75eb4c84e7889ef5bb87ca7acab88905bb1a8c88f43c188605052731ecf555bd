@@ -1,0 +1,7 @@
+{
+    "generation": "    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {\n        // First collect all fields that could potentially accept a mock\n        List<Field> fields = orderedInstanceFieldsFrom(awaitingInjectionClazz);\n\n        // Process each field, but keep track of which mocks have been injected\n        Set<Object> injectedMocks = new HashSet<>();\n\n        for (Field field : fields) {\n            // Create a new filtered set of mocks for each field, excluding already injected ones\n            Set<Object> availableMocks = new HashSet<>(mocks);\n            availableMocks.removeAll(injectedMocks);\n\n            // Filter and inject only if not already injected\n            Optional<Pair<Object, Field>> candidate = mockCandidateFilter.filterCandidate(availableMocks, field, fieldInstance);\n            if (candidate.isPresent()) {\n                Pair<Object, Field> injectionPair = candidate.get();\n                injectionPair.inject();\n                injectedMocks.add(injectionPair.getLeft());\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

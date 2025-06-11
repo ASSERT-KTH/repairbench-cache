@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type)\n{\n    // First try to find from cache\n    JavaType cached = _typeCache.get(type);\n    if (cached != null) {\n        return cached;\n    }\n\n    // If not found, construct and cache\n    JavaType t = _constructType(type);\n\n    // Important fix: ensure super class types are properly registered first if they exist\n    if (t.isJavaLangObject()) { // Skip for Object\n        return t;\n    }\n    Class<?> raw = t.getRawClass();\n    if (raw != null && raw.getSuperclass() != null && raw.getSuperclass() != Object.class) {\n        constructType(raw.getSuperclass()); // Ensure superclass is constructed first\n    }\n\n    _typeCache.put(type, t);\n    return t;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

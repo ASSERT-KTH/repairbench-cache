@@ -1,0 +1,7 @@
+{
+    "generation": "    public boolean equals(Object other) {\n        boolean ret;\n\n        if (this == other) {\n            ret = true;\n        } else if (other == null) {\n            ret = false;\n        } else {\n            try {\n                Complex rhs = (Complex)other;\n                if (rhs.isNaN()) {\n                    ret = this.isNaN();\n                } else {\n                    // Check both real and imaginary parts\n                    // Handle the special case of -0.0 vs 0.0\n                    if (Double.doubleToLongBits(real) == Double.doubleToLongBits(rhs.getReal()) &&\n                        Double.doubleToLongBits(imaginary) == Double.doubleToLongBits(rhs.getImaginary())) {\n                        ret = true;\n                    } else {\n                        // Handle the case where one is +0.0 and the other is -0.0\n                        ret = (Double.compare(real, rhs.getReal()) == 0) &&\n                              (Double.compare(imaginary, rhs.getImaginary()) == 0);\n                    }\n                }\n            } catch (ClassCastException ex) {\n                // ignore exception\n                ret = false;\n            }\n        }\n\n        return ret;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

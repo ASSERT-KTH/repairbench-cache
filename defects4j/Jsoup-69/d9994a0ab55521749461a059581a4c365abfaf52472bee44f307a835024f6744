@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic List<Connection.KeyVal> formData() {\n    List<Connection.KeyVal> data = new ArrayList<>();\n    Elements inputs = this.getElementsByTag(\"input\");\n    for (Element input : inputs) {\n        // Skip removed elements\n        if (!input.parent().equals(this)) continue;\n\n        String name = input.attr(\"name\");\n        if (name.length() > 0) {\n            String type = input.attr(\"type\");\n            if (\"password\".equalsIgnoreCase(type)) {\n                // Password fields are not included in form data by default for security\n                continue;\n            }\n            String value = input.val();\n            data.add(new Connection.KeyVal(name, value));\n        }\n    }\n    // Handle other form elements (selects, textareas, etc.)\n    // ... other element processing ...\n\n    // Add submit buttons\n    for (Element el : this.getElementsByAttributeValueMatching(\"type\", \"submit\")) {\n        String name = el.attr(\"name\");\n        if (name.length() > 0) {\n            String value = el.attr(\"value\");\n            if (value.length() == 0) value = \"Submit\";\n            data.add(new Connection.KeyVal(name, value));\n        }\n    }\n    return data;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

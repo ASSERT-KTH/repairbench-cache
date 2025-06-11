@@ -1,0 +1,7 @@
+{
+    "generation": "private VariableLiveness isVariableReadBeforeKill(\n    Node n, String variable) {\n  if (NodeUtil.isName(n) && variable.equals(n.getString())) {\n    if (NodeUtil.isLhs(n, n.getParent())) {\n      // This is a write/kill\n      return VariableLiveness.KILL;\n    } else {\n      // This is a read\n      return VariableLiveness.READ;\n    }\n  }\n\n  boolean hasKill = false;\n  boolean hasRead = false;\n\n  // Check children for variable references in evaluation order\n  for (Node child = n.getFirstChild();\n       child != null; child = child.getNext()) {\n    if (!ControlFlowGraph.isEnteringNewCfgNode(child)) { // Not a FUNCTION\n      VariableLiveness state = isVariableReadBeforeKill(child, variable);\n      if (state == VariableLiveness.KILL) {\n        hasKill = true;\n      } else if (state == VariableLiveness.READ) {\n        hasRead = true;\n        // We continue checking even if we find a read because we need to know if there's a kill before the first read\n      }\n    }\n  }\n\n  // If we found a read that comes before any kill, then it's a READ\n  if (hasRead && !hasKill) {\n    return VariableLiveness.READ;\n  }\n  // If we found a kill before any read, then it's a KILL\n  if (hasKill && !hasRead) {\n    return VariableLiveness.KILL;\n  }\n  // If we have both or neither in the children, we need to check evaluation order properly\n  return VariableLiveness.MAYBE_LIVE;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

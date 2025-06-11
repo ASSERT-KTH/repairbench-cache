@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n      return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n      // Handle ternary nodes specially to account for mixed type cases\n      if (n.isTokentype(Tokentype.TERNARY)) {\n        Node leftOp = n.getFirstChild();\n        Node trueCase = leftOp.getNext();\n        Node falseCase = trueCase.getNext();\n\n        if (mayBeStringHelper(trueCase) || mayBeStringHelper(falseCase)) {\n          return true;\n        }\n      }\n      return mayBeStringHelper(n);\n    }\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

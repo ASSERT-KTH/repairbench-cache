@@ -1,0 +1,7 @@
+{
+    "generation": "public SortedMap<K, V> prefixMap(K prefix) {\n    final PatriciaTrie<K, V> trie = this;\n    class PrefixMap extends AbstractSortedMap<K, V> {\n        @Override\n        public void clear() {\n            // Create a list of keys to remove to avoid ConcurrentModificationException\n            List<K> keysToRemove = new ArrayList<>(keySet());\n            for (K key : keysToRemove) {\n                trie.remove(key);\n            }\n        }\n\n        @Override\n        public Set<Entry<K, V>> entrySet() {\n            return trie.entrySet().stream()\n                .filter(e -> isPrefix(e.getKey()))\n                .collect(Collectors.toSet());\n        }\n\n        private boolean isPrefix(K key) {\n            return key.toString().startsWith(prefix.toString());\n        }\n    }\n    return new PrefixMap();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "// Fixed version of TypeFactory.constructType() or related logic\n\npublic JavaType constructType(Class<?> clazz) {\n    // First check if we already have the type in cache\n    JavaType type = _typeCache.get(clazz);\n    if (type != null) {\n        return type;\n    }\n    // If not, create it properly, ensuring base types are handled first\n    if (clazz.getSuperclass() != null && !clazz.getSuperclass().equals(Object.class)) {\n        // Make sure base type is processed first\n        JavaType superType = constructType(clazz.getSuperclass());\n    }\n    // Then build this type's information\n    type = _constructSimple(clazz);\n    return type;\n}\n\nprotected JavaType _constructSimple(Class<?> clazz) {\n    // Implementation that creates type without considering hierarchy yet\n    JavaType type = _fromClass(null, clazz);\n    // Important: must register in cache before doing anything else\n    // to prevent infinite recursion if the same type is encountered\n    _typeCache.put(clazz, type);\n\n    // Also ensure any supertypes are properly included\n    if (clazz.getSuperclass() != null && !clazz.getSuperclass().equals(Object.class)) {\n        JavaType superType = _fromClass(null, clazz.getSuperclass());\n        // Link the supertype properly\n        type.setSuperClass(superType);\n    }\n    return type;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

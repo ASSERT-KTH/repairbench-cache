@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JavaType getSuperClass() {\n    // Fix: Ensure super class resolution accounts for recursive types properly\n    if (_superClass != null) {\n        return _superClass;\n    }\n    // Need to properly resolve the super class type, even if it's recursive\n    Class<?> cls = boundType();\n    Class<?> superCls = cls.getSuperclass();\n    if (superCls == null || superCls == Object.class) {\n        return null;\n    }\n    // Here we need to ensure we properly construct the super type\n    // using the same type factory and context\n    if (_typeHandler != null) {\n        _superClass = _typeHandler.superType(getRawClass());\n    } else {\n        // Fallback handling for recursive cases\n        _superClass = getTypeFactory().constructSpecializedType(getRawClass(),\n            getSuperClass());\n    }\n    return _superClass;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

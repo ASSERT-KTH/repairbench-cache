@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {\n    ois.defaultReadObject();\n\n    // Validate the collection class during deserialization\n    if (collectionClass == null) {\n        throw new InvalidObjectException(\"Collection class cannot be null\");\n    }\n\n    // Check if the collection class is safe (not String.class for example)\n    if (collectionClass.equals(String.class)) {\n        throw new UnsupportedOperationException(\"Unsafe collection class during deserialization\");\n    }\n\n    // Reinitialize the map if needed\n    if (map == null) {\n        map = new HashMap<>();\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

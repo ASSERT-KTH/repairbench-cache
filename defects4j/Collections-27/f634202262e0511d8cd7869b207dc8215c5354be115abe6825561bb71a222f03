@@ -1,0 +1,7 @@
+{
+    "generation": "private void writeObject(ObjectOutputStream out) throws IOException {\n    out.defaultWriteObject();\n    // Write out the collection class\n    out.writeObject(collectionClass);\n}\n\nprivate void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n    // Read in the collection class and validate it\n    Class<?> clazz = (Class<?>) in.readObject();\n    if (clazz != null && !isValidCollectionClass(clazz)) {\n        throw new UnsupportedOperationException(\"Unsafe collection class during deserialization\");\n    }\n    this.collectionClass = clazz;\n    this.map = new HashMap<>();\n}\n\n// Helper method to validate collection class\nprivate boolean isValidCollectionClass(Class<?> clazz) {\n    // Add proper validation logic here\n    // For example, only allow known safe collection classes\n    return clazz.equals(ArrayList.class) ||\n           clazz.equals(LinkedList.class);\n    // Add other allowed collection classes as needed\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

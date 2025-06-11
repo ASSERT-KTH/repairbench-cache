@@ -1,0 +1,7 @@
+{
+    "generation": "protected <T> void _testEmptyToNullCoercion(Class<T> type, T expectedDefault) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.setCoercionConfig(CoercionConfig.forEmptyToNull());\n\n    // Create parser for empty value (like empty string or empty JSON)\n    JsonParser p = mapper.createParser(\"\");\n\n    try (JsonParser parser = p) {\n        DeserializationContext ctxt = mapper.getDeserializationContext();\n        JsonDeserializer<Object> deser = ctxt.findRootValueDeserializer(ctxt.constructType(type));\n        T result = (T) deser.deserialize(parser, ctxt);\n\n        // The fix: when empty string is encountered, primitive types should get default values\n        // but wrapper types should get null\n        assertNull(\"Should have returned null for empty string\", result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

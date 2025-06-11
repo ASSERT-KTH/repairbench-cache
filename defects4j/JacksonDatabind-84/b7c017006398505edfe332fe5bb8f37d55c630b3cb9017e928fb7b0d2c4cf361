@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type, JavaType epistemicBase)\n{\n    // First try to find from cache, if we have one\n    if (_typeCache != null) {\n        JavaType result = _typeCache.get(type);\n        if (result != null) {\n            return result;\n        }\n    }\n\n    // then try from type modifier?\n    if (type instanceof JavaType) {\n        // already constructed, just return as is\n        @SuppressWarnings(\"unchecked\")\n        JavaType t = (JavaType) type;\n        return t;\n    }\n    // Also, if we have already constructed full type\n    if (type == null) {\n        throw new IllegalArgumentException(\"Cannot construct JavaType from null Type\");\n    }\n\n    // Implementation that properly handles supertype/subtype relationships\n\n    // [1] First convert to basic JavaType, fully generic\n    JavaType result = _constructType(type, null);\n\n    // for Java types we can usually handle binding of more specific types\n    if (result.getClass() == SimpleType.class) {\n        // 27-Feb-2021, tatu: This kills use of generic return type of a supertype method,\n        //    to be precise, one with generic signature like `:T extends Sub<T>`\n        return result;\n    }\n    // work out actual type bindings if any are missing\n    return result.refine(type, _typeModifier, null, impls);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

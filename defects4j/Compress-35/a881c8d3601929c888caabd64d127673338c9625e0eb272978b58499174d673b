@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean verifyCheckSum(byte[] header) {\n        long storedSum = 0;\n        long unsignedSum = 0;\n        long signedSum = 0;\n\n        // Calculate the checksum of the header with checksum field set to spaces\n        for (int i = 0; i < header.length; i++) {\n            byte b = (CHKSUM_OFFSET <= i && i < CHKSUM_OFFSET + CHKSUMLEN) ? ' ' : header[i];\n            unsignedSum += 0xff & b;\n            signedSum += b;\n        }\n\n        // Parse the stored checksum from the header\n        long parsedSum = 0;\n        boolean checksumFound = false;\n        int checksumStart = CHKSUM_OFFSET;\n        int checksumEnd = checksumStart + CHKSUMLEN;\n\n        // Find the start of the checksum by skipping leading spaces\n        while (checksumStart < checksumEnd && header[checksumStart] == ' ') {\n            checksumStart++;\n        }\n\n        // Parse the first 6 digits of the checksum (octal)\n        for (int i = checksumStart, count = 0; i < checksumEnd && count < 6; i++, count++) {\n            byte b = header[i];\n            if (b >= '0' && b <= '7') {\n                parsedSum = parsedSum * 8 + (b - '0');\n                checksumFound = true;\n            } else if (checksumFound) {\n                break; // Stop if we've found digits but hit a non-digit\n            }\n        }\n\n        return parsedSum == unsignedSum || parsedSum == signedSum;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

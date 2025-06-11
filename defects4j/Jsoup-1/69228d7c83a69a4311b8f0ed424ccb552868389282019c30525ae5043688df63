@@ -1,0 +1,7 @@
+{
+    "generation": "    private void normalise(Element element) {\n        List<Node> toMove = new ArrayList<Node>();\n        for (Node node : element.childNodes) {\n            if (node instanceof TextNode) {\n                TextNode tn = (TextNode) node;\n                if (!tn.isBlank()) {\n                    toMove.add(tn);\n                }\n            }\n        }\n\n        // Move nodes in order to preserve their original sequence\n        int index = 0;\n        for (Node node : toMove) {\n            element.removeChild(node);\n            // Insert at the correct position (beginning) rather than appending\n            if (index == 0 && element.childNodeSize() > 0) {\n                element.insertChildren(0, Collections.singletonList(new TextNode(\" \", \"\")));\n                index++;\n            }\n            element.insertChildren(index, Collections.singletonList(node));\n            index++;\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

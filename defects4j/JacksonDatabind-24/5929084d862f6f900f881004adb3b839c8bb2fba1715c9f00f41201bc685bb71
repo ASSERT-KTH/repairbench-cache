@@ -1,0 +1,7 @@
+{
+    "generation": "    public BaseSettings withDateFormat(DateFormat df) {\n        if (_dateFormat == df) {\n            return this;\n        }\n        TimeZone tz = (df == null) ? _timeZone : df.getTimeZone();\n        // Preserve original timezone if the date format is being set\n        if (df != null) {\n            TimeZone originalTz = _timeZone;\n            SimpleDateFormat newDf = (df instanceof SimpleDateFormat) ?\n                (SimpleDateFormat) df.clone() : new SimpleDateFormat();\n            newDf.setTimeZone(originalTz);\n            df = newDf;\n            tz = originalTz;\n        }\n        return new BaseSettings(_classIntrospector, _annotationIntrospector, _visibilityChecker, _propertyNamingStrategy, _typeFactory,\n                _typeResolverBuilder, df, _handlerInstantiator, _locale,\n                tz, _defaultBase64);\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public JavaType constructType(Type type) {\n    // Check if we already have built this type before proceeding\n    JavaType result = _typeCache.get(type);\n    if (result != null) {\n        return result;\n    }\n\n    // First resolve the type\n    result = _constructType(type, null);\n\n    // Now ensure any referenced types are properly resolved\n    if (result instanceof ResolvedRecursiveType) {\n        ResolvedRecursiveType recursiveType = (ResolvedRecursiveType) result;\n        if (recursiveType.getSuperClass() != null) {\n            // Ensure super class is also properly resolved\n            recursiveType.getSuperClass().getSuperClass();\n        }\n    }\n\n    // Cache the result to avoid infinite recursion\n    _typeCache.put(type, result);\n    return result;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

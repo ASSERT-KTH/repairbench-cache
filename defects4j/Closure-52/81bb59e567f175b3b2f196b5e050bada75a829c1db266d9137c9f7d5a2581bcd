@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean isSimpleNumber(String s) {\n    if (s.length() == 0) return false;\n\n    // Check for hexadecimal (0x or 0X prefix)\n    if (s.startsWith(\"0x\") || s.startsWith(\"0X\")) {\n      if (s.length() < 3) return false; // Need at least \"0x\" + 1 digit\n      for (int i = 2; i < s.length(); i++) {\n        char c = s.charAt(i);\n        if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {\n          return false;\n        }\n      }\n      return true;\n    }\n\n    // Check for decimal (including possible leading/trailing decimal point)\n    boolean hasDecimalPoint = false;\n    boolean hasDigit = false;\n\n    for (int i = 0; i < s.length(); i++) {\n      char c = s.charAt(i);\n      if (c == '.') {\n        if (hasDecimalPoint) return false; // Multiple decimal points\n        hasDecimalPoint = true;\n      } else if (c >= '0' && c <= '9') {\n        hasDigit = true;\n      } else {\n        return false;\n      }\n    }\n\n    // Must have at least one digit\n    if (!hasDigit) return false;\n\n    // Leading zero is OK unless it would be interpreted as octal (which we skip here)\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

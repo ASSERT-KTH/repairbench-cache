@@ -1,0 +1,7 @@
+{
+    "generation": "public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {\n    // rescale both vectors without losing precision,\n    // to ensure their norm are the same order of magnitude\n\n    // we reduce cancellation errors by preconditioning,\n    // we replace v1 by v3 = v1 - rho v2 with rho chosen in order to compute\n    // v3 without loss of precision. See Kahan lecture\n    // \"Computing Cross-Products and Rotations in 2- and 3-Dimensional Euclidean Spaces\"\n    // available at http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf\n\n    // compute rho as an 8 bits approximation of v1.v2 / v2.v2\n    final double ax = v1.x;\n    final double ay = v1.y;\n    final double az = v1.z;\n    final double bx = v2.x;\n    final double by = v2.y;\n    final double bz = v2.z;\n\n    double v1Dotv2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;\n    double v2Dotv2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z;\n\n    double rho;\n    if (v2Dotv2 != 0) {\n        rho = v1Dotv2 / v2Dotv2;\n    } else {\n        rho = 0;\n    }\n\n    // compute v3 = v1 - rho * v2 (this should have lower magnitude than v1)\n    final double x3 = ax - rho * bx;\n    final double y3 = ay - rho * by;\n    final double z3 = az - rho * bz;\n\n    // compute cross product from v3 and v2 instead of v1 and v2\n    return new Vector3D(y3 * bz - z3 * by, z3 * bx - x3 * bz, x3 * by - y3 * bx);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

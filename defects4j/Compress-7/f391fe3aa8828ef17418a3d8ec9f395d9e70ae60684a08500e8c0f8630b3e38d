@@ -1,0 +1,7 @@
+{
+    "generation": "    public static String parseName(byte[] buffer, final int offset, final int length) {\n        int end = offset + length;\n        int nameLength = 0;\n\n        // First find the actual length of the name (up to NUL terminator)\n        for (int i = offset; i < end; ++i) {\n            if (buffer[i] == 0) {\n                break;\n            }\n            nameLength++;\n        }\n\n        // Create a new byte array with the actual name bytes\n        byte[] nameBytes = new byte[nameLength];\n        for (int i = 0; i < nameLength; ++i) {\n            nameBytes[i] = buffer[offset + i];\n        }\n\n        // Convert using platform's default charset (same as original) but this won't help with encoding issues\n        // Instead, we'll convert each byte to its unsigned value for display\n        StringBuilder result = new StringBuilder(nameLength);\n        for (byte b : nameBytes) {\n            if (b >= 0) {\n                result.append((char) b);\n            } else {\n                result.append((char) (b + 256));\n            }\n        }\n\n        return result.toString();\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

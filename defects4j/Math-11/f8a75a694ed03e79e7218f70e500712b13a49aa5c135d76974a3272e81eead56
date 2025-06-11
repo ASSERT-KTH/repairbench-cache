@@ -1,0 +1,7 @@
+{
+    "generation": "    /** {@inheritDoc} */\n    public double density(final double[] vals) throws DimensionMismatchException {\n        final int dim = getDimension();\n        if (vals.length != dim) {\n            throw new DimensionMismatchException(vals.length, dim);\n        }\n\n        double exponentTerm = getExponentTerm(vals);\n        // Handle underflow by clamping exponentTerm to a minimum value\n        if (Double.isInfinite(exponentTerm) || Double.isNaN(exponentTerm)) {\n            exponentTerm = Double.MIN_VALUE;\n        }\n\n        return FastMath.pow(2 * FastMath.PI, -dim / 2.0) *\n            FastMath.pow(covarianceMatrixDeterminant, -0.5) *\n            exponentTerm;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

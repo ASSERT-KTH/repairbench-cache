@@ -1,0 +1,7 @@
+{
+    "generation": "  static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    if (len == 0) {\n      return false;\n    }\n\n    // Check for numbers that start with 0 but aren't just \"0\"\n    if (len > 1 && s.charAt(0) == '0' && Character.isDigit(s.charAt(1))) {\n      return false;\n    }\n\n    // Check for regular decimal numbers\n    boolean isDecimal = true;\n    int dotCount = 0;\n    for (int index = 0; index < len; index++) {\n      char c = s.charAt(index);\n      if (c == '.') {\n        dotCount++;\n        if (dotCount > 1 || (index == 0 && index == len-1)) {\n          return false; // multiple dots or just a dot is invalid\n        }\n      } else if (c < '0' || c > '9') {\n        return false;\n      }\n    }\n\n    // If there's a dot and it's not at the start of end (handled above)\n    if (dotCount == 1) {\n      return len > 1; // must have digits before or after the dot\n    }\n\n    return true;\n  }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

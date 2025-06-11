@@ -1,0 +1,7 @@
+{
+    "generation": "@Override\npublic JSType getLeastSupertype(JSType that) {\n  if (!that.isRecordType()) {\n    return super.getLeastSupertype(that);\n  }\n\n  // For record types, the least supertype should be the union of both record types\n  RecordType otherRecord = that.toMaybeRecordType();\n\n  // If both records are the same, return the same type\n  if (isEquivalentTo(otherRecord)) {\n    return this;\n  }\n\n  // Otherwise return the union of the two record types\n  return registry.createUnionType(this, otherRecord);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

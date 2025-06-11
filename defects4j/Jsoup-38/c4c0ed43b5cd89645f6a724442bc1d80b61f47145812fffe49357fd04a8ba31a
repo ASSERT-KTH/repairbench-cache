@@ -1,0 +1,7 @@
+{
+    "generation": "// in the StartTag case, replace the image handling with this:\ncase \"image\": {\n    // check if we're in SVG context\n    boolean inSvg = false;\n    LinkedList<Element> stack = tb.getStack();\n    for (Element element : stack) {\n        if (element.nodeName().equals(\"svg\")) {\n            inSvg = true;\n            break;\n        }\n    }\n    if (inSvg) {\n        tb.reconstructFormattingElements();\n        tb.insert(startTag); // leave as <image> if in svg\n    } else {\n        return tb.process(startTag.name(\"img\")); // change to <img> otherwise\n    }\n    break;\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

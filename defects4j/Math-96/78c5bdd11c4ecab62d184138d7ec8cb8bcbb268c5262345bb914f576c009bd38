@@ -1,0 +1,7 @@
+{
+    "generation": "    public boolean equals(Object other) {\n        boolean ret;\n\n        if (this == other) {\n            ret = true;\n        } else if (other == null) {\n            ret = false;\n        } else {\n            try {\n                Complex rhs = (Complex)other;\n                if (rhs.isNaN()) {\n                    ret = this.isNaN();\n                } else {\n                    // Compare real and imaginary parts using Double.equals()\n                    // which handles NaNs and +0.0/-0.0 cases correctly\n                    ret = Double.compare(real, rhs.getReal()) == 0 &&\n                          Double.compare(imaginary, rhs.getImaginary()) == 0;\n                }\n            } catch (ClassCastException ex) {\n                // ignore exception\n                ret = false;\n            }\n        }\n\n        return ret;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

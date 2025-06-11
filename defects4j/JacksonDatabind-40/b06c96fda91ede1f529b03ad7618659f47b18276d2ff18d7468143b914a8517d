@@ -1,0 +1,7 @@
+{
+    "generation": "private void _testEmptyToNullCoercion(Class<?> type, Object expected) throws Exception {\n    ObjectMapper mapper = new ObjectMapper();\n    mapper.coercionConfigDefaults().setEmptyAsNull(true);\n\n    DeserializationContext ctxt = mapper.getDeserializationContext();\n    JsonParser p = mapper.createParser(\"\");\n\n    DefaultDeserializationContextImpl dc = (DefaultDeserializationContextImpl) ctxt;\n    JsonDeserializer<Object> deser = dc.findRootValueDeserializer(ctxt.getConfig(), type);\n    Object result = deser.deserialize(p, ctxt);\n\n    if (type.isPrimitive()) {\n        assertNull(result); // Primitives should get null when empty string is coerced to null\n    } else {\n        assertEquals(expected, result);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

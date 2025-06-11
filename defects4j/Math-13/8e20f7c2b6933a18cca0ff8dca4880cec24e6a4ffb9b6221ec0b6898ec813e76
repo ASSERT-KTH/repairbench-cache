@@ -1,0 +1,7 @@
+{
+    "generation": "/**\n * Computes the square-root of the weight matrix.\n *\n * @param m Symmetric, positive-definite (weight) matrix.\n * @return the square-root of the weight matrix.\n */\nprivate RealMatrix squareRoot(RealMatrix m) {\n    // Ensure matrix is symmetric\n    RealMatrix symmetricM = m.add(m.transpose()).scalarMultiply(0.5);\n\n    // Check if matrix is positive definite\n    try {\n        final EigenDecomposition dec = new EigenDecomposition(symmetricM);\n        return dec.getSquareRoot();\n    } catch (Exception e) {\n        // Fallback to Cholesky decomposition if EigenDecomposition fails\n        try {\n            return new CholeskyDecomposition(symmetricM).getL();\n        } catch (Exception ex) {\n            // If still failing, return identity matrix as fallback\n            return MatrixUtils.createRealIdentityMatrix(symmetricM.getRowDimension());\n        }\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "public void remove(SettableBeanProperty propToRm)\n{\n    ArrayList<SettableBeanProperty> props = new ArrayList<SettableBeanProperty>(_size);\n    String key = getPropertyName(propToRm);\n    boolean found = false;\n\n    for (int i = 1, end = _hashArea.length; i < end; i += 2) {\n        SettableBeanProperty prop = (SettableBeanProperty) _hashArea[i];\n        if (prop == null) {\n            continue;\n        }\n        // Changed condition to use key.equalsIgnoreCase when case-insensitive is enabled\n        if (!found) {\n            String propName = prop.getName();\n            boolean matches;\n            if (!_caseInsensitive) {\n                matches = key.equals(propName);\n            } else {\n                matches = key.equalsIgnoreCase(propName);\n            }\n            if (matches) {\n                // need to leave a hole here\n                _propsInOrder[_findFromOrdered(prop)] = null;\n                found = true;\n                continue;\n            }\n        }\n        props.add(prop);\n    }\n    if (!found) {\n        throw new NoSuchElementException(\"No entry '\"+propToRm.getName()+\"' found, can't remove\");\n    }\n    init(props);\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": true
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {\n    in.defaultReadObject();\n\n    // Validate the collectionClass during deserialization\n    if (collectionClass != null && !(Map.class.isAssignableFrom(collectionClass))) {\n        throw new UnsupportedOperationException(\"Cannot deserialize with non-Collection class: \" + collectionClass);\n    }\n\n    // If collectionClass is not Serializable, treat it as unsafe\n    if (collectionClass != null &&\n        !(Serializable.class.isAssignableFrom(collectionClass)) &&\n        !collectionClass.isPrimitive()) {\n        throw new UnsupportedOperationException(\"Unsafe collection class: \" + collectionClass);\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

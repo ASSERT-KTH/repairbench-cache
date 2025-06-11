@@ -1,0 +1,7 @@
+{
+    "generation": "    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {\n        // First try to get the class to deserialize into\n        Class<?> implClass = findImplClass(p, ctxt);\n\n        // If no specific implementation class found, use the default implementation class\n        if (implClass == null) {\n            // Skip the current token\n            p.skipChildren();\n            return null;\n        }\n\n        // Otherwise, use the standard deserialization for the implementation class\n        try {\n            return ctxt.findRootValueAndRODeserializer(p, ctxt.findClass(implClass.getName())).unwrap().deserialize(p, ctxt);\n        } catch (JsonMappingException e) {\n            throw e;\n        } catch (Exception e) {\n            throw ctxt.wrongTokenException(p, _baseType, \"Unable to deserialize into polymorphic type\");\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

@@ -1,0 +1,7 @@
+{
+    "generation": "protected Class<?> findSuperClass(Class<?> rawClass, MapperFeature[] from, JavaType superType)\n{\n    Class<?> current = rawClass;\n    // need to walk up super class hierarchy, but stop at either Object.class,\n    // or first class whose raw type is the same as type of super class, which\n    // should correspond to first \" :**\n    while (true) {\n        if (current == Object.class) {\n            return null;\n        }\n        Class<?> parent = current.getSuperclass();\n        if (parent == null) {\n            return null;\n        }\n        // If parent is the same as raw type of superType, we found our upper bound\n        if (parent == superType.getRawClass()) {\n            return current;\n        }\n        current = parent;\n    }\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

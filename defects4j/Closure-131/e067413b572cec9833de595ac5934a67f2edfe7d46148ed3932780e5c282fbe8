@@ -1,0 +1,7 @@
+{
+    "generation": "    public static boolean isJSIdentifier(String s) {\n      int length = s.length();\n      if (length == 0) {\n        return false;\n      }\n\n      // First character must be a valid identifier start or Unicode escape\n      char firstChar = s.charAt(0);\n      if (!(Character.isJavaIdentifierStart(firstChar) ||\n            (firstChar == '\\\\') ||\n            (firstChar == '$') ||\n            (firstChar == '_'))) {\n        return false;\n      }\n\n      // Check remaining characters\n      for (int i = 1; i < length; i++) {\n        char c = s.charAt(i);\n        if (!(Character.isJavaIdentifierPart(c) ||\n              (c == '\\\\') ||\n              (i > 0 && c == '-' && isJSIdentifierStart(s.charAt(i-1))) ||\n              (i > 0 && c == '-' && isJSIdentifierPart(s.charAt(i+1))))) {\n          return false;\n        }\n      }\n\n      // Additional checks for special cases\n      return true;\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}

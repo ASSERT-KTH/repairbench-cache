@@ -1,0 +1,7 @@
+{
+    "generation": "    /**\n     * <p>Throws a {@link MissingOptionException} if all of the\n     * required options are no present.</p>\n     *\n     * @throws MissingOptionException if any of the required Options\n     * are not present.\n     */\n    private void checkRequiredOptions()\n        throws MissingOptionException\n    {\n        // if there are required options that have not been\n        // processsed\n        if (requiredOptions.size() > 0)\n        {\n            Iterator iter = requiredOptions.iterator();\n            StringBuffer buff = new StringBuffer();\n            buff.append(\"Missing required option\");\n\n            // loop through the required options\n            while (iter.hasNext())\n            {\n                buff.append(\" \");\n                buff.append(iter.next());\n            }\n\n            // Make the error message more readable for multiple options\n            if (requiredOptions.size() > 1) {\n                // Replace \"option\" with \"options\" for plural\n                String msg = buff.toString().replaceFirst(\"option\", \"options\");\n                throw new MissingOptionException(msg);\n            } else {\n                // Ensure proper format for single option\n                String msg = buff.toString();\n                if (!msg.endsWith(\":\")) {\n                    msg += \":\";\n                }\n                throw new MissingOptionException(msg);\n            }\n        }\n    }",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": true,
+    "test": false
+}

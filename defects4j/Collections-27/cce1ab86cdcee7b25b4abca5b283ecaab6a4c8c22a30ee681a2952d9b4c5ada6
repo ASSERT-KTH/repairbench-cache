@@ -1,0 +1,7 @@
+{
+    "generation": "public Object deserialize(byte[] bytes) throws Exception {\n    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes)) {\n        @Override\n        protected ObjectStreamClass readClassDescriptor() throws IOException, ClassNotFoundException {\n            ObjectStreamClass desc = super.readClassDescriptor();\n            if (desc.getName().equals(\"org.apache.commons.collections4.map.MultiValueMap\")) {\n                // Add validation for the collectionClass type during deserialization\n                try {\n                    Field field = MultiValueMap.class.getDeclaredField(\"collectionClass\");\n                    field.setAccessible(true);\n                    Class<?> collectionClass = (Class<?>) field.get(this.currentObject);\n                    if (collectionClass != null && !Collection.class.isAssignableFrom(collectionClass)) {\n                        throw new UnsupportedOperationException(\n                            \"Unsafe collection class: \" + collectionClass.getName());\n                    }\n                } catch (Exception e) {\n                    // Handle reflection errors appropriately\n                    throw new UnsupportedOperationException(\"Error accessing collection class\", e);\n                }\n            }\n            return desc;\n        }\n    };\n    return ois.readObject();\n}",
+    "exact_match": false,
+    "ast_match": false,
+    "compile": false,
+    "test": false
+}
